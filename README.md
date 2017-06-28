@@ -18,9 +18,9 @@ Using a standalone widget toolkit would help making the Blender widget code more
 
 ### Introduction of Draw-Styles to Blender
 
-It is planned to make bWidgets support draw-styles. Such draw-styles would be presets that can greatly change look and feel of widgets.
+It is planned to make bWidgets support draw-styles. Such draw-styles would be presets that can greatly change look and feel of widgets. Not only modifying attributes like radius of rounded corners, they could completely override the drawing.
 
-In Blender we planned to support such a thing anyway (see [T45025](https://developer.blender.org/T45025)). However, bWidgets could go even further and support custom styles using style sheet or scripting languages (CSS, Python, JSON). Blender users would get huge amounts of control on how the application looks, and they could easily share the looks online.
+In Blender we planned to support such a thing anyway (see [T45025](https://developer.blender.org/T45025)). However, bWidgets could go even further and support custom styles using style sheet or scripting languages (CSS, Python, JSON, ...). Blender users would get huge amounts of control on how the application looks, and they could easily share the looks online.
 
 ### Reusing Blenders widget code for other apps
 
