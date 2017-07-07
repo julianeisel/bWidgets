@@ -8,6 +8,7 @@ namespace bWidgetDemo {
 
 class Stage {
 public:
+	Stage();
 	~Stage();
 
 	void draw(unsigned int width, unsigned int height);

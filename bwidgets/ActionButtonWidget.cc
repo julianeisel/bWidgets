@@ -29,7 +29,7 @@ void ActionButtonWidget::draw()
 	};
 	Polygon poly(rect);
 
-	poly.draw();
+	Polygon::draw(poly);
 }
 
 void ActionButtonWidget::onClick()

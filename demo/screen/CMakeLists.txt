@@ -13,6 +13,7 @@ set(SRC
 
 set(LIB
 	bWidgets
+	bw_gpu
 )
 
 add_library(bw_screen ${SRC})

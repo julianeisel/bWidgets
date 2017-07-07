@@ -10,7 +10,9 @@ public:
 	Polygon(std::vector<class Point>& vertices);
 
 	void addVertex(class Point& vertex);
-	void draw();
+	const std::vector<Point>& getVertices() const;
+
+	static void (*draw)(Polygon& poly);
 
 private:
 	std::vector<class Point>* vertices;

@@ -11,8 +11,6 @@ extern "C" {
 
 #include "ShaderProgram.h"
 
-using namespace bWidgets;
-
 
 typedef enum ShaderTypeID {
 	SHADER_TYPE_VERTEX,
@@ -21,12 +19,10 @@ typedef enum ShaderTypeID {
 	SHADER_TYPE_TOT
 } ShaderTypeID;
 
-namespace bWidgets {
 typedef struct ShaderType {
 	ShaderTypeID id;
 	GLuint gl_id;
 } ShaderType;
-}
 
 static ShaderType shader_types[SHADER_TYPE_TOT] = {
 	[SHADER_TYPE_VERTEX] = {.id = SHADER_TYPE_VERTEX, .gl_id = GL_VERTEX_SHADER},

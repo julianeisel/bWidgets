@@ -1,6 +1,17 @@
 #include <iostream>
+#include <vector>
 
+// drawing
+extern "C" {
+#include "../../extern/gawain/gawain/immediate.h"
+}
+#include "GLFW/glfw3.h"
+#include "../gpu/ShaderProgram.h"
+
+// bWidgets lib
 #include "Widget.h"
+#include "util/Polygon.h"
+#include "util/Point.h"
 
 #include "GPU.h"
 
@@ -10,6 +21,30 @@
 
 
 using namespace bWidgetDemo;
+
+/**
+ * The main polygon draw callback which is used to draw all geometry of widgets.
+ */
+static void stage_polygon_draw_cb(bWidgets::Polygon& poly)
+{
+	ShaderProgram shader_program(ShaderProgram::SHADER_PROGRAM_ID_UNIFORM_COLOR);
+	unsigned int pos = VertexFormat_add_attrib(immVertexFormat(), "pos", COMP_F32, 2, KEEP_FLOAT);
+
+	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
+	immUniformColor3f(0.8f, 0.8f, 0.8f);
+
+	immBegin(PRIM_TRIANGLE_FAN, 4);
+	for (const bWidgets::Point& vertex : poly.getVertices()) {
+		immVertex2f(pos, vertex.x, vertex.y);
+	}
+	immEnd();
+}
+
+Stage::Stage()
+{
+	// Initialize drawing callbacks for the stage
+	bWidgets::Polygon::draw = stage_polygon_draw_cb;
+}
 
 Stage::~Stage()
 {
