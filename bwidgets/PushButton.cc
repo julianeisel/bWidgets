@@ -4,12 +4,12 @@
 #include "util/Polygon.h"
 #include "util/Point.h"
 
-#include "ActionButtonWidget.h"
+#include "PushButton.h"
 
 using namespace bWidgets;
 
 
-ActionButtonWidget::ActionButtonWidget(
+PushButton::PushButton(
         const std::string& _text, int position_x, int position_y, int _width, int _height) :
     text(_text)
 {
@@ -19,7 +19,7 @@ ActionButtonWidget::ActionButtonWidget(
 	height = _height;
 }
 
-void ActionButtonWidget::draw()
+void PushButton::draw()
 {
 	std::vector<Point> rect = {
 		Point(pos_x, pos_y),
@@ -32,7 +32,7 @@ void ActionButtonWidget::draw()
 	Polygon::draw(poly);
 }
 
-void ActionButtonWidget::onClick()
+void PushButton::onClick()
 {
 	std::cout << text << std::endl;
 }

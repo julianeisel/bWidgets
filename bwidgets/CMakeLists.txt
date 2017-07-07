@@ -2,12 +2,12 @@ set(INC
 )
 
 set(SRC
-	ActionButtonWidget.cc
+	PushButton.cc
 	util/Polygon.cc
 	util/Point.cc
 	Widget.cc
 
-	ActionButtonWidget.h
+	PushButton.h
 	util/Polygon.h
 	util/Point.h
 	Widget.h

@@ -1,4 +1,4 @@
-#include "ActionButtonWidget.h"
+#include "PushButton.h"
 #include "Stage.h"
 
 #include "default_stage.h"
@@ -16,7 +16,7 @@ Stage* SCR_default_stage_add()
 	for (int i = 0; i < 10; i++) {
 		const int xmin = pad + (i * (pad + but_width));
 		const int ymin = pad;
-		bWidgets::ActionButtonWidget* widget = new bWidgets::ActionButtonWidget("Widget " + std::to_string(i),
+		bWidgets::PushButton* widget = new bWidgets::PushButton("Widget " + std::to_string(i),
 		                                                                        xmin, ymin, but_width, but_height);
 		stage->widgetAdd(widget);
 	}
