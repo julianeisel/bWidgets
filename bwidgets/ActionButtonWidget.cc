@@ -1,12 +1,9 @@
 #include <iostream>
 #include <string>
 
-extern "C" {
-#include "../extern/gawain/gawain/immediate.h"
-}
-#include "GLFW/glfw3.h"
+#include "util/Polygon.h"
+#include "util/Point.h"
 
-#include "ShaderProgram.h"
 #include "ActionButtonWidget.h"
 
 using namespace bWidgets;
@@ -24,18 +21,15 @@ ActionButtonWidget::ActionButtonWidget(
 
 void ActionButtonWidget::draw()
 {
-	ShaderProgram shader_program(ShaderProgram::SHADER_PROGRAM_ID_UNIFORM_COLOR);
-	unsigned int pos = VertexFormat_add_attrib(immVertexFormat(), "pos", COMP_F32, 2, KEEP_FLOAT);
+	std::vector<Point> rect = {
+		Point(pos_x, pos_y),
+		Point(pos_x + width, pos_y),
+		Point(pos_x + width, pos_y + height),
+		Point(pos_x, pos_y + height)
+	};
+	Polygon poly(rect);
 
-	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
-	immUniformColor3f(0.8f, 0.8f, 0.8f);
-
-	immBegin(PRIM_TRIANGLE_FAN, 4);
-	immVertex2f(pos, pos_x, pos_y);
-	immVertex2f(pos, pos_x + width, pos_y);
-	immVertex2f(pos, pos_x + width, pos_y + height);
-	immVertex2f(pos, pos_x, pos_y + height);
-	immEnd();
+	poly.draw();
 }
 
 void ActionButtonWidget::onClick()
