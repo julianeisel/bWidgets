@@ -10,8 +10,8 @@ extern "C" {
 
 // bWidgets lib
 #include "Widget.h"
-#include "util/Polygon.h"
-#include "util/Point.h"
+#include "Polygon.h"
+#include "Point.h"
 
 #include "GPU.h"
 

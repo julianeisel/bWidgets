@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "util/Polygon.h"
-#include "util/Point.h"
+#include "Polygon.h"
+#include "Point.h"
 
 #include "PushButton.h"
 
