@@ -3,8 +3,6 @@
 
 using namespace bWidgets;
 
-void (*Polygon::draw)(Polygon&) = 0;
-
 Polygon::Polygon()
 {
 }

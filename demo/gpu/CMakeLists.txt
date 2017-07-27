@@ -11,6 +11,11 @@ set(SRC
 	GPU.h
 	gpu_intern.h
 	ShaderProgram.h
+
+	shaders/bitmap_texture_uniform_color_frag.glsl
+	shaders/texture_vert.glsl
+	shaders/uniform_color_frag.glsl
+	shaders/uniform_color_vert.glsl
 )
 
 set(LIB
@@ -25,16 +30,27 @@ target_link_libraries(bw_gpu ${LIB})
 
 # ----- shaders -----
 
-set(SHADERS
-	uniform_color_vert.glsl
-	uniform_color_frag.glsl
-)
+if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
+	set(SHADERS
+		bitmap_texture_uniform_color_frag.glsl
+		texture_vert.glsl
+		uniform_color_vert.glsl
+		uniform_color_frag.glsl
+	)
 
-set(SHADER_PATH ${CMAKE_BINARY_DIR}/bin/shaders)
-add_definitions(-DSHADER_PATH_STR="${SHADER_PATH}")
+	set(SHADERS_PATH ${CMAKE_CURRENT_BINARY_DIR}/shaders)
+	foreach(SHADER ${SHADERS})
+		# copy shader files to build
+		add_custom_command(
+			TARGET bw_gpu PRE_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy
+					${CMAKE_CURRENT_SOURCE_DIR}/shaders/${SHADER}
+					${SHADERS_PATH}/${SHADER}
+		)
+	endforeach()
+else()
+	set(SHADERS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/shaders)
+endif()
+add_definitions(-DSHADERS_PATH_STR="${SHADERS_PATH}")
 
-foreach(SHADER ${SHADERS})
-	# copy shaders files to build (${CMAKE_BINEARY_DIR}/bin/shaders)
-	configure_file(shaders/${SHADER} SHADER_PATH/${SHADER} COPYONLY)
-endforeach()
 #set_target_properties(bw_gpu PROPERTIES LINKER_LANGUAGE CXX)

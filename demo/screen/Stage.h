@@ -18,6 +18,9 @@ public:
 
 private:
 	std::list<bWidgets::Widget*> widgets;
+	class Font* font;
+
+	void initFonts();
 };
 
 } // namespace bWidgetDemo

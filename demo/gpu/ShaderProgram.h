@@ -8,7 +8,8 @@ class ShaderProgram
 {
 public:
 	typedef enum {
-		SHADER_PROGRAM_ID_UNIFORM_COLOR,
+		ID_UNIFORM_COLOR,
+		ID_BITMAP_TEXTURE_UNIFORM_COLOR,
 
 		SHADER_PROGRAM_ID_TOT
 	} ShaderProgramID;

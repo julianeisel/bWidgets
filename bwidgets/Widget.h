@@ -9,8 +9,8 @@ public:
 
 	virtual void draw() = 0;
 	virtual void onClick() = 0;
+	bool is_clicked = false;
 
-protected:
 	int pos_x, pos_y;
 	int width, height;
 };

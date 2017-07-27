@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "Painter.h"
 #include "Polygon.h"
 #include "Point.h"
 
@@ -29,10 +30,12 @@ void PushButton::draw()
 	};
 	Polygon poly(rect);
 
-	Polygon::draw(poly);
+	Painter::drawPolygon(poly, is_clicked);
+	Painter::drawText(text, *this, Painter::text_draw_arg);
 }
 
 void PushButton::onClick()
 {
 	std::cout << text << std::endl;
+	is_clicked = !is_clicked;
 }

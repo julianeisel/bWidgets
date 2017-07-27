@@ -4,14 +4,16 @@ set(INC
 
 set(SRC
 	PushButton.cc
+	Widget.cc
 	util/Polygon.cc
 	util/Point.cc
-	Widget.cc
+	Painter.cc
 
 	PushButton.h
+	Widget.h
 	util/Polygon.h
 	util/Point.h
-	Widget.h
+	Painter.h
 )
 
 add_library(bWidgets ${SRC})

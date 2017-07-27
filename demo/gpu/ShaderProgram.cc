@@ -34,13 +34,14 @@ typedef struct ShaderProgramType {
 } ShaderProgramType;
 
 static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_TOT] = {
-	[ShaderProgram::SHADER_PROGRAM_ID_UNIFORM_COLOR] = {"uniform_color_vert.glsl", "uniform_color_frag.glsl"},
+	[ShaderProgram::ID_UNIFORM_COLOR] = {"uniform_color_vert.glsl", "uniform_color_frag.glsl"},
+	[ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR] = {"texture_vert.glsl", "bitmap_texture_uniform_color_frag.glsl"},
 };
 
 
 std::string ShaderProgram::parseShader(const std::string& shader_name)
 {
-	std::string path(std::string(SHADER_PATH_STR) + "/" + shader_name);
+	std::string path(std::string(SHADERS_PATH_STR) + "/" + shader_name);
 	std::ifstream shader_stream(path, std::ios::in);
 	std::string shader_string = "";
 
@@ -69,6 +70,13 @@ unsigned int ShaderProgram::compileShader(const std::string& shader_str, const S
 #ifndef NDEBUG
 	GLint success = GL_FALSE;
 	glGetShaderiv(shader_id, GL_COMPILE_STATUS, &success);
+	if (success != GL_TRUE) {
+		int len;
+		char log[568];
+
+		glGetShaderInfoLog(shader_id, 568, &len, log);
+		std::cout << log << std::endl;
+	}
 	assert(success == GL_TRUE);
 #endif
 

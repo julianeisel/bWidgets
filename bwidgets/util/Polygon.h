@@ -12,8 +12,6 @@ public:
 	void addVertex(class Point& vertex);
 	const std::vector<Point>& getVertices() const;
 
-	static void (*draw)(Polygon& poly);
-
 private:
 	std::vector<class Point>* vertices;
 };
