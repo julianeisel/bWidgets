@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "default_stage.h"
+#include "DefaultStage.h"
 #include "WindowManager.h"
 
 using namespace bWidgetDemo;
@@ -16,7 +16,7 @@ void Application::setup()
 	WindowManager& _wm = WindowManager::CreateWindowManager();
 	Window* win = _wm.addWindow("bWidgets Demo");
 
-	win->stage = SCR_default_stage_add();
+	win->stage = new DefaultStage(win->getWidth(), win->getHeight());
 	wm = &_wm;
 }
 

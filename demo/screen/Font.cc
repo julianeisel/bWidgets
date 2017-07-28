@@ -44,7 +44,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	VertexFormat* format = immVertexFormat();
 	unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
 	unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
-	const float col[3] = {0.0f, 0.0f, 0.0f};
+	const float* col = active_color.getColor();
 	float render_pos_x = pos_x;
 
 	cache.ensureUpdated(*this);
@@ -60,7 +60,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
-	immUniformColor3fv(col);
+	immUniformColor4fv(col);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -115,6 +115,16 @@ void Font::setSize(const float _size)
 int Font::getSize() const
 {
 	return size;
+}
+
+const bWidgets::Color& Font::getActiveColor() const
+{
+	return active_color;
+}
+
+void Font::setActiveColor(const bWidgets::Color &value)
+{
+	active_color = value;
 }
 
 int Font::calculateStringWidth(const std::string& text)

@@ -6,11 +6,11 @@ set(INC
 )
 
 set(SRC
-	default_stage.cc
+	DefaultStage.cc
 	Font.cc
 	Stage.cc
 
-	default_stage.h
+	DefaultStage.h
 	Font.h
 	Stage.h
 )

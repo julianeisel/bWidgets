@@ -22,6 +22,13 @@ PushButton::PushButton(
 
 void PushButton::draw()
 {
+	Color col_regular(0.6f, 0.6f, 0.6f);
+	Color col_clicked(0.353f, 0.353f, 0.353f);
+	Color col_text_regular(0.0f, 0.0f, 0.0f);
+	Color col_text_clicked(1.0f, 1.0f, 1.0f);
+	Color outline(0.0f, 0.0f, 0.0f);
+	Painter painter;
+
 	std::vector<Point> rect = {
 		Point(pos_x, pos_y),
 		Point(pos_x + width, pos_y),
@@ -30,8 +37,17 @@ void PushButton::draw()
 	};
 	Polygon poly(rect);
 
-	Painter::drawPolygon(poly, is_clicked);
-	Painter::drawText(text, *this, Painter::text_draw_arg);
+	// Inner
+	painter.setActiveColor(is_clicked ? col_clicked : col_regular);
+	painter.drawPolygon(painter, poly);
+	// Outline
+	painter.setActiveColor(outline);
+	painter.active_drawtype = Painter::DrawType::DRAW_TYPE_OUTLINE;
+	painter.drawPolygon(painter, poly);
+
+	// Text
+	painter.setActiveColor(is_clicked ? col_text_clicked : col_text_regular);
+	painter.drawText(painter, text, *this, Painter::text_draw_arg);
 }
 
 void PushButton::onClick()

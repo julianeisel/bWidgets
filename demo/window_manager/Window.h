@@ -19,12 +19,20 @@ public:
 	void draw();
 
 	void getCursorPosition(int r_position[2]);
+	void handleResizeEvent(const int new_win_x, const int new_win_y);
 
 	class Stage* stage;
+
+	class GLFWwindow *getGlfwWindow() const;
+
+	int getWidth() const;
+	int getHeight() const;
 
 private:
 	class GLFWwindow* glfw_window;
 	unsigned int VertexArrayID;
+
+	int width, height;
 };
 
 } // namespace bWidgetDemo
