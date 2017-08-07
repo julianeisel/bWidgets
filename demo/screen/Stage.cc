@@ -23,13 +23,23 @@ extern "C" {
 
 using namespace bWidgetDemo;
 
+#define WIDGET_AA_JITTER 8
+
+static const float jit[WIDGET_AA_JITTER][2] = {
+	{ 0.468813, -0.481430}, {-0.155755, -0.352820},
+	{ 0.219306, -0.238501}, {-0.393286, -0.110949},
+	{-0.024699,  0.013908}, { 0.343805,  0.147431},
+	{-0.272855,  0.269918}, { 0.095909,  0.388710}
+};
+
+
 static PrimitiveType stage_polygon_drawtype_convert(const bWidgets::Painter::DrawType& drawtype)
 {
 	switch (drawtype) {
-		case bWidgets::Painter::DrawType::DRAW_TYPE_FILLED:
+		case bWidgets::Painter::DRAW_TYPE_FILLED:
 			return PRIM_TRIANGLE_FAN;
-		case bWidgets::Painter::DrawType::DRAW_TYPE_OUTLINE:
-			return PRIM_LINE_LOOP;
+		case bWidgets::Painter::DRAW_TYPE_OUTLINE:
+			return PRIM_TRIANGLE_STRIP;
 	}
 }
 
@@ -37,8 +47,7 @@ static void stage_polygon_draw(
         const bWidgets::Polygon& poly, const bWidgets::Color& color,
         const PrimitiveType type, const unsigned int attr_pos)
 {
-	glLineWidth(3.0f);
-	immUniformColor4fv(color.getColor());
+	immUniformColor4fv(color);
 
 	immBegin(type, poly.getVertices().size());
 	for (const bWidgets::Point& vertex : poly.getVertices()) {
@@ -53,11 +62,32 @@ static void stage_polygon_draw(
 static void stage_polygon_draw_cb(const bWidgets::Painter& painter, const bWidgets::Polygon& poly)
 {
 	ShaderProgram shader_program(ShaderProgram::ID_UNIFORM_COLOR);
+	bWidgets::Color color = painter.getActiveColor();
+	PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype);
 	unsigned int pos = VertexFormat_add_attrib(immVertexFormat(), "pos", COMP_F32, 2, KEEP_FLOAT);
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+
 	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
-	stage_polygon_draw(poly, painter.getActiveColor(), stage_polygon_drawtype_convert(painter.active_drawtype), pos);
+
+	if (painter.active_drawtype == bWidgets::Painter::DRAW_TYPE_OUTLINE) {
+		bWidgets::Color drawcolor = color;
+
+		drawcolor[3] /= WIDGET_AA_JITTER;
+
+		for (int i = 0; i < WIDGET_AA_JITTER; i++) {
+			gpuTranslate2f(jit[i]);
+			stage_polygon_draw(poly, drawcolor, prim_type, pos);
+			gpuTranslate2f(-jit[i][0], -jit[i][1]);
+		}
+	}
+	else {
+		stage_polygon_draw(poly, color, prim_type, pos);
+	}
+
 	immUnbindProgram();
+	glDisable(GL_BLEND);
 }
 
 /**
@@ -81,8 +111,8 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
     width(width), height(height)
 {
 	// Initialize drawing callbacks for the stage
-	bWidgets::Painter::drawPolygon = stage_polygon_draw_cb;
-	bWidgets::Painter::drawText = stage_text_draw_cb;
+	bWidgets::Painter::drawPolygonCb = stage_polygon_draw_cb;
+	bWidgets::Painter::drawTextCb = stage_text_draw_cb;
 
 	initFonts();
 	bWidgets::Painter::text_draw_arg = font;

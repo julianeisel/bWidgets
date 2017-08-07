@@ -44,7 +44,6 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	VertexFormat* format = immVertexFormat();
 	unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
 	unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
-	const float* col = active_color.getColor();
 	float render_pos_x = pos_x;
 
 	cache.ensureUpdated(*this);
@@ -60,7 +59,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
-	immUniformColor4fv(col);
+	immUniformColor4fv(active_color);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

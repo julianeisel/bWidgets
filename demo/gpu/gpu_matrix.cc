@@ -153,6 +153,27 @@ bool gpuMatricesDirty(void)
 	return state.dirty;
 }
 
+static void gpuMultMatrix(const glm::mat4& m)
+{
+	ModelView *= m;
+	state.dirty = true;
+}
+
+void gpuTranslate2f(const float x, const float y)
+{
+	glm::mat4 m;
+
+	m[3][0] = x;
+	m[3][1] = y;
+
+	gpuMultMatrix(m);
+}
+
+void gpuTranslate2f(const float vec[2])
+{
+	gpuTranslate2f(vec[0], vec[1]);
+}
+
 static void mat4_ortho_set(
         glm::mat4& m,
         float left, float right,

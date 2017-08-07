@@ -4,9 +4,9 @@ namespace bWidgets {
 
 class Point {
 public:
-	Point(int x = 0, int y = 0);
+	Point(float x = 0, float y = 0);
 
-	int x, y;
+	float x, y;
 };
 
 } // namepsace bWidgets

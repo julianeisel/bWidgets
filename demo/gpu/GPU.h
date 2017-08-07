@@ -11,6 +11,9 @@ typedef enum GPUShaderID {
 void GPU_init(void);
 void GPU_exit(void);
 
+void gpuTranslate2f(const float x, const float y);
+void gpuTranslate2f(const float vec[2]);
+
 void gpuOrtho(
         float left, float right,
         float bottom, float top);

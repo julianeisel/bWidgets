@@ -8,14 +8,13 @@ Color::Color(float red, float green, float blue, float alpha)
 	setColor(red, green, blue, alpha);
 }
 
-
-void bWidgets::Color::setColor(float red, float green, float blue, float alpha)
+void Color::setColor(float red, float green, float blue, float alpha)
 {
 	float rgba[4] = {red, green, blue, alpha};
 	setColor(rgba);
 }
 
-void bWidgets::Color::setColor(const float _rgba[])
+void Color::setColor(const float _rgba[])
 {
 	rgba[0] = _rgba[0];
 	rgba[1] = _rgba[1];
@@ -24,6 +23,16 @@ void bWidgets::Color::setColor(const float _rgba[])
 }
 
 const float* Color::getColor() const
+{
+	return rgba;
+}
+
+float& Color::operator[](unsigned int index)
+{
+	return rgba[index];
+}
+
+Color::operator const float*() const
 {
 	return rgba;
 }

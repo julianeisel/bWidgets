@@ -2,7 +2,7 @@
 
 using namespace bWidgets;
 
-Point::Point(int x, int y) :
+Point::Point(float x, float y) :
     x(x), y(y)
 {
 	
