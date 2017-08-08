@@ -13,6 +13,8 @@ extern "C" {
 #include "Polygon.h"
 #include "Point.h"
 #include "Rectangle.h"
+#include "Style.h"
+#include "StyleBlenderClassic.h"
 #include "Widget.h"
 
 #include "Font.h"
@@ -112,7 +114,7 @@ static void stage_text_draw_cb(
 }
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
-    width(width), height(height)
+    style(new bWidgets::StyleBlenderClassic()), width(width), height(height)
 {
 	// Initialize drawing callbacks for the stage
 	bWidgets::Painter::drawPolygonCb = stage_polygon_draw_cb;
@@ -146,7 +148,7 @@ void Stage::draw(unsigned int width, unsigned int height)
 	gpuOrtho(0.0f, width, 0.0f, height);
 
 	for (bWidgets::Widget* widget : widgets) {
-		widget->draw();
+		widget->draw(*style);
 	}
 }
 

@@ -9,7 +9,8 @@ public:
 
 	void shade(const float rgb_shade, float alpha_shade = 0.0f);
 
-	void setColor(float red, float green, float blue, float alpha);
+	void setColor(float red, float green, float blue, float alpha = 1.0f);
+	void setColor(float rgb, float alpha = 1.0f);
 	void setColor(const float rgba[4]);
 	const float* getColor() const;
 

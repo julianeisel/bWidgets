@@ -12,12 +12,12 @@ public:
 
 	bool isCoordinateInside(int x, int y);
 
-	virtual void draw() = 0;
+	virtual void draw(class Style& style) = 0;
 	virtual void onClick();
 	virtual void mouseEnter();
 	virtual void mouseLeave();
 
-	enum {
+	enum WidgetState {
 		STATE_NORMAL      = 0,
 		STATE_HIGHLIGHTED = 1,
 		STATE_SUNKEN      = 2,

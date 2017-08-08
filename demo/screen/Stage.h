@@ -1,6 +1,9 @@
 #pragma once
 
 #include <list>
+#include <memory>
+
+#include "Style.h"
 #include "Widget.h"
 
 
@@ -26,6 +29,7 @@ public:
 
 private:
 	std::list<bWidgets::Widget*> widgets;
+	std::unique_ptr<bWidgets::Style> style;
 	class Font* font;
 
 	unsigned int width, height;

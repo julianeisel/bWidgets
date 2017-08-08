@@ -3,6 +3,7 @@ set(INC
 	${FREETYPE_INCLUDE_DIRS}
 	../gpu
 	../../bwidgets/util
+	../../bwidgets/styles
 )
 
 set(SRC

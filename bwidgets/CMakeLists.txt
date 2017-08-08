@@ -1,11 +1,14 @@
 set(INC
+	.
 	util
 )
 
 set(SRC
 	Painter.cc
 	PushButton.cc
+	Style.cc
 	Widget.cc
+	styles/StyleBlenderClassic.cc
 	util/Color.cc
 	util/Polygon.cc
 	util/Point.cc
@@ -13,7 +16,9 @@ set(SRC
 
 	Painter.h
 	PushButton.h
+	Style.h
 	Widget.h
+	styles/StyleBlenderClassic.h
 	util/Color.h
 	util/Polygon.h
 	util/Point.h

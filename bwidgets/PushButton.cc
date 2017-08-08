@@ -3,6 +3,7 @@
 
 #include "Painter.h"
 #include "Polygon.h"
+#include "Style.h"
 
 #include "PushButton.h"
 
@@ -17,34 +18,24 @@ PushButton::PushButton(
 	
 }
 
-void PushButton::draw()
+void PushButton::draw(Style& style)
 {
-	Color col_regular(0.6f, 0.6f, 0.6f);
-	Color col_clicked(0.353f, 0.353f, 0.353f);
-	Color col_text_regular(0.0f, 0.0f, 0.0f);
-	Color col_text_clicked(1.0f, 1.0f, 1.0f);
-	Color outline(0.098f, 0.098f, 0.098f);
-	Painter painter;
-	const float roundbox_radius = 5.0f;
-	const unsigned int roundbox_corners = RoundboxCorner::ALL;
-	const bool draw_sunken = state == STATE_SUNKEN;
-
+	Style::WidgetStyle& widget_style = style.widget_style;
 	Rectangle<unsigned int> inner_rect = rectangle;
+	Painter painter;
 
-	if (state == STATE_HIGHLIGHTED) {
-		col_regular.shade(0.06f);
-	}
+	style.setWidgetStyle(*this);
 
 	// Inner - "inside" of outline, so scale down
 	inner_rect.resize(-1);
-	painter.setActiveColor(draw_sunken ? col_clicked : col_regular);
-	painter.drawRoundbox(inner_rect, roundbox_corners, roundbox_radius - 1.0f);
+	painter.setActiveColor(widget_style.fill_color);
+	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, widget_style.roundbox_radius - 1.0f);
 	// Outline
-	painter.setActiveColor(outline);
+	painter.setActiveColor(widget_style.outline_color);
 	painter.active_drawtype = Painter::DrawType::DRAW_TYPE_OUTLINE;
-	painter.drawRoundbox(rectangle, roundbox_corners, roundbox_radius);
+	painter.drawRoundbox(rectangle, widget_style.roundbox_corners, widget_style.roundbox_radius);
 
 	// Text
-	painter.setActiveColor(draw_sunken ? col_text_clicked : col_text_regular);
+	painter.setActiveColor(widget_style.text_color);
 	painter.drawText(text, rectangle, Painter::text_draw_arg);
 }

@@ -20,7 +20,13 @@ void Color::shade(const float rgb_shade, float alpha_shade)
 
 void Color::setColor(float red, float green, float blue, float alpha)
 {
-	float rgba[4] = {red, green, blue, alpha};
+	const float rgba[4] = {red, green, blue, alpha};
+	setColor(rgba);
+}
+
+void Color::setColor(float rgb, float alpha)
+{
+	const float rgba[4] = {rgb, rgb, rgb, alpha};
 	setColor(rgba);
 }
 
