@@ -50,14 +50,24 @@ void EventManager::setupWindowHandlers(Window& window)
 	GLFWwindow* glfw_window = window.getGlfwWindow();
 
 	glfwSetWindowUserPointer(glfw_window, &window);
-	glfwSetMouseButtonCallback(glfw_window, handleMouseButtonEvent);
 	glfwSetWindowSizeCallback(glfw_window, handleWindowResizeEvent);
+	glfwSetCursorPosCallback(glfw_window, handleMouseMovementEvent);
+	glfwSetMouseButtonCallback(glfw_window, handleMouseButtonEvent);
 }
 
 void EventManager::handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, int new_win_y)
 {
 	Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
 	win->handleResizeEvent(new_win_x, new_win_y);
+}
+
+void EventManager::handleMouseMovementEvent(GLFWwindow* glfw_win, double /*x*/, double /*y*/)
+{
+	Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+	int mouse_xy[2];
+
+	win->getCursorPosition(mouse_xy);
+	win->stage->handleMouseMovementEvent(mouse_xy);
 }
 
 void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int button, int action, int mods)

@@ -16,6 +16,7 @@ public:
 	void widgetAdd(bWidgets::Widget* widget);
 	bWidgets::Widget* getWidgetAt(const unsigned int index);
 
+	void handleMouseMovementEvent(const int mouse_xy[]);
 	void handleMouseButtonEvent(const class Window& win, const int mouse_xy[], int button, int action, int mods);
 
 	virtual void handleResizeEvent(const class Window& win);

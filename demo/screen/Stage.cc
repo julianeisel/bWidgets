@@ -165,6 +165,22 @@ bWidgets::Widget* Stage::getWidgetAt(const unsigned int index)
 	return nullptr;
 }
 
+void Stage::handleMouseMovementEvent(const int mouse_xy[])
+{
+	for (bWidgets::Widget* widget : widgets) {
+		const bool is_hovered = widget->isCoordinateInside(mouse_xy[0], mouse_xy[1]);
+
+		if (widget->state == bWidgets::Widget::STATE_HIGHLIGHTED) {
+			if (!is_hovered) {
+				widget->mouseLeave();
+			}
+		}
+		else if (is_hovered) {
+			widget->mouseEnter();
+		}
+	}
+}
+
 void Stage::handleMouseButtonEvent(
         const Window& /*win*/, const int mouse_xy[2],
         int /*button*/, int /*action*/, int /*mods*/)

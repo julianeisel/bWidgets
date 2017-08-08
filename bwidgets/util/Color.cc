@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "Color.h"
 
 
@@ -6,6 +8,14 @@ using namespace bWidgets;
 Color::Color(float red, float green, float blue, float alpha)
 {
 	setColor(red, green, blue, alpha);
+}
+
+void Color::shade(const float rgb_shade, float alpha_shade)
+{
+	for (int i = 0; i < 3; i++) {
+		rgba[i] = fmin(rgba[i] + rgb_shade, 1.0);
+	}
+	rgba[3] = fmin(rgba[3] + alpha_shade, 1.0);
 }
 
 void Color::setColor(float red, float green, float blue, float alpha)

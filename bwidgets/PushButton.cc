@@ -29,13 +29,18 @@ void PushButton::draw()
 	Painter painter;
 	const float roundbox_radius = 5.0f;
 	const unsigned int roundbox_corners = RoundboxCorner::ALL;
+	const bool draw_sunken = state == STATE_SUNKEN;
 
 	const Rectangle<unsigned int> rect(pos_x, pos_x + width, pos_y, pos_y + height);
 	Rectangle<unsigned int> inner_rect = rect;
 
+	if (state == STATE_HIGHLIGHTED) {
+		col_regular.shade(0.06f);
+	}
+
 	// Inner - "inside" of outline, so scale down
 	inner_rect.resize(-1);
-	painter.setActiveColor(is_clicked ? col_clicked : col_regular);
+	painter.setActiveColor(draw_sunken ? col_clicked : col_regular);
 	painter.drawRoundbox(inner_rect, roundbox_corners, roundbox_radius - 1.0f);
 	// Outline
 	painter.setActiveColor(outline);
@@ -43,12 +48,6 @@ void PushButton::draw()
 	painter.drawRoundbox(rect, roundbox_corners, roundbox_radius);
 
 	// Text
-	painter.setActiveColor(is_clicked ? col_text_clicked : col_text_regular);
+	painter.setActiveColor(draw_sunken ? col_text_clicked : col_text_regular);
 	painter.drawText(text, *this, Painter::text_draw_arg);
-}
-
-void PushButton::onClick()
-{
-	std::cout << text << std::endl;
-	is_clicked = !is_clicked;
 }

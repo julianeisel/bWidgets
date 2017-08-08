@@ -22,6 +22,7 @@ private:
 	void operator=(EventManager const&) = delete;
 
 	static void handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, int new_win_y);
+	static void handleMouseMovementEvent(GLFWwindow* glfw_win, double x, double y);
 	static void handleMouseButtonEvent(GLFWwindow* glfw_win, int button, int action, int mods);
 };
 
