@@ -19,5 +19,5 @@ set(LIB
 )
 
 add_library(bw_window_manager ${SRC})
-include_directories(bw_window_manager ${INC})
+include_directories(${INC})
 target_link_libraries(bw_window_manager ${LIB})

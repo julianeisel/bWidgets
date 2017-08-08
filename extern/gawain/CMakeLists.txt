@@ -36,5 +36,5 @@ set(LIB
 add_definitions(-DWITH_GL_PROFILE_CORE)
 
 add_library(extern_gawain ${SRC})
-include_directories(extern_gawain ${INC})
+include_directories(${INC})
 target_link_libraries(extern_gawain ${LIB})

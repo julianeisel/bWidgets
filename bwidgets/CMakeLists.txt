@@ -21,4 +21,4 @@ set(SRC
 )
 
 add_library(bWidgets ${SRC})
-include_directories(bWidgets ${INC})
+include_directories(${INC})

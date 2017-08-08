@@ -26,7 +26,7 @@ set(GPU_INC
 find_package(Freetype REQUIRED)
 
 add_executable(bWidgetsDemo ${SRC})
-include_directories(bWidgetsDemo ${INC})
+include_directories(${INC})
 target_link_libraries(bWidgetsDemo LINK_PUBLIC ${LIB})
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lGL")

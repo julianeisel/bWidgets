@@ -12,10 +12,10 @@
 #pragma once
 
 #if defined(NDEBUG)
-  #define TRUST_NO_ONE 1
+  #define TRUST_NO_ONE 0
   // strict error checking, enabled for debug builds during early development
 #else
-  #define TRUST_NO_ONE 0
+  #define TRUST_NO_ONE 1
 #endif
 
 #include <GL/glew.h>

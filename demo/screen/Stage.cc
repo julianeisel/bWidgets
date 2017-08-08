@@ -41,6 +41,8 @@ static PrimitiveType stage_polygon_drawtype_convert(const bWidgets::Painter::Dra
 		case bWidgets::Painter::DRAW_TYPE_OUTLINE:
 			return PRIM_TRIANGLE_STRIP;
 	}
+
+	return PRIM_NONE;
 }
 
 static void stage_polygon_draw(
@@ -151,14 +153,16 @@ void Stage::widgetAdd(bWidgets::Widget* widget)
 	widgets.push_front(widget);
 }
 
-bWidgets::Widget& Stage::getWidgetAt(const unsigned int index)
+bWidgets::Widget* Stage::getWidgetAt(const unsigned int index)
 {
 	unsigned int i = 0;
 	for (bWidgets::Widget* widget : widgets) {
 		if (i++ == index) {
-			return *widget;
+			return widget;
 		}
 	}
+
+	return nullptr;
 }
 
 void Stage::handleMouseButtonEvent(

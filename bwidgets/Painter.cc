@@ -1,5 +1,3 @@
-#include <cassert>
-
 #include "Point.h"
 #include "Polygon.h"
 

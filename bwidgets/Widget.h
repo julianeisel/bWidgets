@@ -5,6 +5,8 @@ namespace bWidgets {
 class Widget
 {
 public:
+	virtual ~Widget() {}
+
 	bool isCoordinateInside(int x, int y);
 
 	virtual void draw() = 0;

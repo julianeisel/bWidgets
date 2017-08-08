@@ -78,13 +78,6 @@ static glm::mat4 gpuGetNormalMatrix()
 	return normal_mat;
 }
 
-static glm::mat4 gpuGetNormalMatrixInverse()
-{
-	glm::mat4 inverse_normal_mat = gpuGetNormalMatrix();
-	glm::inverse(inverse_normal_mat);
-	return inverse_normal_mat;
-}
-
 void gpuBindMatrices(const ShaderInterface* shaderface)
 {
 	/* set uniform values to matrix stack values

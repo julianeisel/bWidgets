@@ -66,7 +66,7 @@ void DefaultStage::updateWidgetPositionCb(
         const unsigned int xmin, const unsigned int ymin,
         const unsigned int width, const unsigned int height)
 {
-	bWidgets::Widget& widget = stage.getWidgetAt(index);
+	bWidgets::Widget& widget = *stage.getWidgetAt(index);
 
 	widget.pos_x = xmin;
 	widget.pos_y = ymin;

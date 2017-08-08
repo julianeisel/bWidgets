@@ -1,5 +1,4 @@
 set(INC
-#	../../extern/gawain/gawain
 	${GPU_INC}
 )
 
@@ -25,7 +24,7 @@ set(LIB
 )
 
 add_library(bw_gpu ${SRC})
-include_directories(bw_gpu ${INC})
+include_directories(${INC})
 target_link_libraries(bw_gpu ${LIB})
 
 # ----- shaders -----

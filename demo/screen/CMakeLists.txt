@@ -22,5 +22,5 @@ set(LIB
 )
 
 add_library(bw_screen ${SRC})
-include_directories(bw_screen ${INC})
+include_directories(${INC})
 target_link_libraries(bw_screen ${LIB})
