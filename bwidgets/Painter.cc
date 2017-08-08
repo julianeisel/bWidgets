@@ -7,7 +7,7 @@ using namespace bWidgets;
 
 
 void (*Painter::drawPolygonCb)(const class Painter&, const class Polygon&) = 0;
-void (*Painter::drawTextCb)(const class Painter &, const std::string&, const class Widget&, void*) = 0;
+void (*Painter::drawTextCb)(const class Painter &, const std::string&, const Rectangle<unsigned int>&, void*) = 0;
 void* Painter::text_draw_arg = NULL;
 
 Painter::Painter() :
@@ -23,10 +23,10 @@ void Painter::drawPolygon(const Polygon& poly) const
 	}
 }
 
-void Painter::drawText(const std::string& text, const Widget& widget, void* text_draw_arg) const
+void Painter::drawText(const std::string& text, const Rectangle<unsigned int>& rectangle, void* text_draw_arg) const
 {
 	if (text.size() > 0) {
-		drawTextCb(*this, text, widget, text_draw_arg);
+		drawTextCb(*this, text, rectangle, text_draw_arg);
 	}
 }
 

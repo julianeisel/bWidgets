@@ -68,8 +68,8 @@ void DefaultStage::updateWidgetPositionCb(
 {
 	bWidgets::Widget& widget = *stage.getWidgetAt(index);
 
-	widget.pos_x = xmin;
-	widget.pos_y = ymin;
-	widget.width = width;
-	widget.height = height;
+	widget.rectangle.xmin = xmin;
+	widget.rectangle.xmax = xmin + width;
+	widget.rectangle.ymin = ymin;
+	widget.rectangle.ymax = ymin + height;
 }

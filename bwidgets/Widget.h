@@ -1,10 +1,13 @@
 #pragma once
 
+#include "Rectangle.h"
+
 namespace bWidgets {
 
 class Widget
 {
 public:
+	Widget(const Rectangle<unsigned int>& rectangle);
 	virtual ~Widget() {}
 
 	bool isCoordinateInside(int x, int y);
@@ -20,8 +23,7 @@ public:
 		STATE_SUNKEN      = 2,
 	} state;
 
-	int pos_x, pos_y;
-	int width, height;
+	Rectangle<unsigned int> rectangle;
 };
 
 } // namespace bWidgets

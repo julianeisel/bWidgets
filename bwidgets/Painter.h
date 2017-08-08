@@ -11,14 +11,15 @@ class Painter
 {
 public:
 	static void (*drawPolygonCb)(const class Painter& painter, const class Polygon& poly);
-	static void (*drawTextCb)(const class Painter& painter, const std::string& text,
-	                          const class Widget& widget, void* text_draw_arg);
+	static void (*drawTextCb)(
+	        const class Painter& painter, const std::string& text,
+	        const Rectangle<unsigned int>& rectangle, void* text_draw_arg);
 	static void* text_draw_arg;
 
 	Painter();
 
 	void drawPolygon(const class Polygon& poly) const;
-	void drawText(const std::string& text, const class Widget& widget, void* text_draw_arg) const;
+	void drawText(const std::string& text, const Rectangle<unsigned int>& rectangle, void* text_draw_arg) const;
 
 	void setActiveColor(const Color& color);
 	const Color& getActiveColor() const;

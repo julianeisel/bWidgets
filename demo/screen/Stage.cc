@@ -9,10 +9,11 @@ extern "C" {
 
 // bWidgets lib
 #include "Color.h"
-#include "Widget.h"
 #include "Painter.h"
 #include "Polygon.h"
 #include "Point.h"
+#include "Rectangle.h"
+#include "Widget.h"
 
 #include "Font.h"
 #include "GPU.h"
@@ -95,15 +96,16 @@ static void stage_polygon_draw_cb(const bWidgets::Painter& painter, const bWidge
 /**
  * The main text draw callback which is used to draw all text of widgets.
  */
-static void stage_text_draw_cb(const bWidgets::Painter &painter, const std::string& text,
-                               const bWidgets::Widget& widget, void* text_draw_arg)
+static void stage_text_draw_cb(
+        const bWidgets::Painter &painter, const std::string& text,
+        const bWidgets::Rectangle<unsigned int>& rectangle, void* text_draw_arg)
 {
 	Font* font = reinterpret_cast<Font*>(text_draw_arg);
-	const float height = font->getSize();
-//	const float width = font->calculateStringWidth(text);
-//	const float draw_pos_x = widget.pos_x + ((widget.width - width) / 2.0f);
-	const float draw_pos_x = widget.pos_x + 10.0f;
-	const float draw_pos_y = widget.pos_y + ((widget.height - height) / 2.0f) + 1.0f;
+	const float font_height = font->getSize();
+//	const float font_width = font->calculateStringWidth(text);
+//	const float draw_pos_x = widget.rectangle.centerX() - (font_width / 2.0f);
+	const float draw_pos_x = rectangle.xmin + 10.0f;
+	const float draw_pos_y = rectangle.centerY() - (font_height / 2.0f) + 1.0f;
 
 	font->setActiveColor(painter.getActiveColor());
 	font->render(text, draw_pos_x, draw_pos_y);

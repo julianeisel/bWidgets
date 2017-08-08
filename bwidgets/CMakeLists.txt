@@ -17,7 +17,7 @@ set(SRC
 	util/Color.h
 	util/Polygon.h
 	util/Point.h
-	util/Rectangle.cc
+	util/Rectangle.h
 )
 
 add_library(bWidgets ${SRC})

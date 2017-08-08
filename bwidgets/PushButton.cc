@@ -10,13 +10,11 @@ using namespace bWidgets;
 
 
 PushButton::PushButton(
-        const std::string& _text, int position_x, int position_y, int _width, int _height) :
+        const std::string& _text, unsigned int position_x, unsigned int position_y, unsigned int _width, unsigned int _height) :
+    Widget(Rectangle<unsigned int>(position_x, position_x + _width, position_y, position_y + _height)),
     text(_text)
 {
-	pos_x = position_x;
-	pos_y = position_y;
-	width = _width;
-	height = _height;
+	
 }
 
 void PushButton::draw()
@@ -31,8 +29,7 @@ void PushButton::draw()
 	const unsigned int roundbox_corners = RoundboxCorner::ALL;
 	const bool draw_sunken = state == STATE_SUNKEN;
 
-	const Rectangle<unsigned int> rect(pos_x, pos_x + width, pos_y, pos_y + height);
-	Rectangle<unsigned int> inner_rect = rect;
+	Rectangle<unsigned int> inner_rect = rectangle;
 
 	if (state == STATE_HIGHLIGHTED) {
 		col_regular.shade(0.06f);
@@ -45,9 +42,9 @@ void PushButton::draw()
 	// Outline
 	painter.setActiveColor(outline);
 	painter.active_drawtype = Painter::DrawType::DRAW_TYPE_OUTLINE;
-	painter.drawRoundbox(rect, roundbox_corners, roundbox_radius);
+	painter.drawRoundbox(rectangle, roundbox_corners, roundbox_radius);
 
 	// Text
 	painter.setActiveColor(draw_sunken ? col_text_clicked : col_text_regular);
-	painter.drawText(text, *this, Painter::text_draw_arg);
+	painter.drawText(text, rectangle, Painter::text_draw_arg);
 }

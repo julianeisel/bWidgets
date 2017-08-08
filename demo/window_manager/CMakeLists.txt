@@ -1,6 +1,7 @@
 set(INC
 	${GPU_INC}
 	../gpu
+	../../bwidgets/util
 )
 
 set(SRC
