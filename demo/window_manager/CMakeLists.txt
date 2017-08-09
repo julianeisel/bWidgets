@@ -1,7 +1,6 @@
 set(INC
 	${GPU_INC}
 	../gpu
-	../../bwidgets/util
 )
 
 set(SRC
@@ -15,10 +14,10 @@ set(SRC
 )
 
 set(LIB
-	bw_gpu
+	bwd_gpu
 	extern_glew
 )
 
-add_library(bw_window_manager ${SRC})
+add_library(bwd_window_manager ${SRC})
 include_directories(${INC})
-target_link_libraries(bw_window_manager ${LIB})
+target_link_libraries(bwd_window_manager ${LIB})

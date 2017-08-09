@@ -2,7 +2,6 @@ set(INC
 	${GPU_INC}
 	${FREETYPE_INCLUDE_DIRS}
 	../gpu
-	../../bwidgets/util
 	../../bwidgets/styles
 )
 
@@ -19,9 +18,10 @@ set(SRC
 set(LIB
 	${FREETYPE_LIBRARIES}
 	bWidgets
-	bw_gpu
+
+	bwd_gpu
 )
 
-add_library(bw_screen ${SRC})
+add_library(bwd_screen ${SRC})
 include_directories(${INC})
-target_link_libraries(bw_screen ${LIB})
+target_link_libraries(bwd_screen ${LIB})

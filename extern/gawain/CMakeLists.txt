@@ -30,7 +30,7 @@ set(SRC
 
 set(LIB
 	extern_glew
-	bw_gpu
+	bwd_gpu
 )
 
 add_definitions(-DWITH_GL_PROFILE_CORE)

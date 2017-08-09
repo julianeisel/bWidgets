@@ -1,6 +1,6 @@
 set(INC
 	.
-	util
+	generics
 )
 
 set(SRC
@@ -9,23 +9,20 @@ set(SRC
 	Style.cc
 	Widget.cc
 	styles/StyleBlenderClassic.cc
-	util/Color.cc
-	util/Gradient.cc
-	util/Polygon.cc
-	util/Point.cc
-	util/Rectangle.cc
 
 	Painter.h
 	PushButton.h
 	Style.h
 	Widget.h
 	styles/StyleBlenderClassic.h
-	util/Color.h
-	util/Gradient.h
-	util/Polygon.h
-	util/Point.h
-	util/Rectangle.h
+)
+
+set(LIB
+	bw_generics
 )
 
 add_library(bWidgets ${SRC})
 include_directories(${INC})
+target_link_libraries(bWidgets ${LIB})
+
+add_subdirectory(generics)

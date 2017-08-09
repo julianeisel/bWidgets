@@ -1,6 +1,6 @@
 set(INC
 	../bwidgets
-	../bwidgets/util
+	../bwidgets/generics
 	screen
 	window_manager
 )
@@ -13,9 +13,9 @@ set(SRC
 )
 
 set(LIB
-	bw_gpu
-	bw_window_manager
-	bw_screen
+	bwd_gpu
+	bwd_window_manager
+	bwd_screen
 )
 
 set(GPU_INC
