@@ -30,13 +30,22 @@ struct Rectangle
 		return (x >= xmin) && (x <= xmax) && (y >= ymin) && (y <= ymax);
 	}
 
+	inline T width() const
+	{
+		return xmax - xmin;
+	}
+	inline T height() const
+	{
+		return ymax - ymin;
+	}
+
 	inline T centerX() const
 	{
-		return xmin + ((xmax - xmin) / (T)2);
+		return xmin + (width() / (T)2);
 	}
 	inline T centerY() const
 	{
-		return ymin + ((ymax - ymin) / (T)2);
+		return ymin + (height() / (T)2);
 	}
 
 	T xmin, xmax;

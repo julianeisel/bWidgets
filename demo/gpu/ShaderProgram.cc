@@ -35,6 +35,7 @@ typedef struct ShaderProgramType {
 
 static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_TOT] = {
 	[ShaderProgram::ID_UNIFORM_COLOR] = {"uniform_color_vert.glsl", "uniform_color_frag.glsl"},
+	[ShaderProgram::ID_SMOOTH_COLOR] = {"smooth_color_vert.glsl", "smooth_color_frag.glsl"},
 	[ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR] = {"texture_vert.glsl", "bitmap_texture_uniform_color_frag.glsl"},
 };
 

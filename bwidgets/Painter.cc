@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "Point.h"
 #include "Polygon.h"
 
@@ -11,7 +13,8 @@ void (*Painter::drawTextCb)(const class Painter &, const std::string&, const Rec
 void* Painter::text_draw_arg = NULL;
 
 Painter::Painter() :
-    active_drawtype(DRAW_TYPE_FILLED)
+    active_drawtype(DRAW_TYPE_FILLED),
+    active_gradient(nullptr)
 {
 	
 }
@@ -33,11 +36,38 @@ void Painter::drawText(const std::string& text, const Rectangle<unsigned int>& r
 void Painter::setActiveColor(const Color& color)
 {
 	active_color = color;
+	active_gradient = nullptr;
 }
 
 const Color& Painter::getActiveColor() const
 {
 	return active_color;
+}
+
+const std::vector<Color> Painter::getVertexColors() const
+{
+	return vert_colors;
+}
+
+void Painter::enableGradient(
+        const Color& base_color,
+        const float shade_begin, const float shade_end,
+        const Gradient::Direction direction)
+{
+	if (!active_gradient) {
+		active_gradient = std::unique_ptr<Gradient>(new Gradient());
+	}
+
+	active_gradient->begin = base_color;
+	active_gradient->begin.shade(shade_begin);
+	active_gradient->end = base_color;
+	active_gradient->end.shade(shade_end);
+	active_gradient->direction = direction;
+}
+
+bool Painter::isGradientEnabled() const
+{
+	return active_gradient != nullptr;
 }
 
 // ------------------ Primitives ------------------
@@ -160,5 +190,24 @@ void Painter::drawRoundbox(
 	Polygon polygon;
 
 	PolygonRoundboxAddVerts(polygon, rect, corners, radius, active_drawtype == DRAW_TYPE_OUTLINE);
+	if (isGradientEnabled()) {
+		fillVertexColorsWithGradient(polygon, rect);
+		assert(vert_colors.size() == polygon.getVertices().size());
+	}
 	drawPolygon(polygon);
+}
+
+/**
+ * \param rect: The bounding box of the polygon based on which the gradient is drawn. It could be calculated just
+ *              now since there's access to \a polygon, but it's usually available when calling this function anyway.
+ */
+void Painter::fillVertexColorsWithGradient(
+        const Polygon& polygon, const Rectangle<unsigned int>& bounding_box)
+{
+	assert(isGradientEnabled());
+
+	vert_colors.reserve(polygon.getVertices().size());
+	for (const Point& vertex : polygon.getVertices()) {
+		vert_colors.push_back(active_gradient->calcPointColor(vertex, bounding_box));
+	}
 }

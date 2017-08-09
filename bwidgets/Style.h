@@ -15,6 +15,8 @@ struct Style
 
 		float roundbox_radius;
 		unsigned int roundbox_corners;
+
+		signed char shade_top, shade_bottom;
 	} widget_style;
 };
 

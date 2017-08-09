@@ -13,6 +13,8 @@ set(SRC
 
 	shaders/bitmap_texture_uniform_color_frag.glsl
 	shaders/texture_vert.glsl
+	shaders/smooth_color_frag.glsl
+	shaders/smooth_color_vert.glsl
 	shaders/uniform_color_frag.glsl
 	shaders/uniform_color_vert.glsl
 )
@@ -33,6 +35,8 @@ if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
 	set(SHADERS
 		bitmap_texture_uniform_color_frag.glsl
 		texture_vert.glsl
+		smooth_color_frag.glsl
+		smooth_color_vert.glsl
 		uniform_color_vert.glsl
 		uniform_color_frag.glsl
 	)

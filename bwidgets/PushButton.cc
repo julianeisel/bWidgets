@@ -28,7 +28,10 @@ void PushButton::draw(Style& style)
 
 	// Inner - "inside" of outline, so scale down
 	inner_rect.resize(-1);
-	painter.setActiveColor(widget_style.fill_color);
+	painter.enableGradient(
+	            widget_style.fill_color,
+	            widget_style.shade_top / 255.0f, widget_style.shade_bottom / 255.0f,
+	            Gradient::DIRECTION_TOP_BOTTOM);
 	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, widget_style.roundbox_radius - 1.0f);
 	// Outline
 	painter.setActiveColor(widget_style.outline_color);

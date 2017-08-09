@@ -13,6 +13,8 @@ void StyleBlenderClassic::setWidgetStyle(const Widget& widget)
 	if (widget.state == Widget::STATE_NORMAL || widget.state == Widget::STATE_HIGHLIGHTED) {
 		widget_style.fill_color.setColor(0.6f);
 		widget_style.text_color.setColor(0.0f);
+		widget_style.shade_top = 15;
+		widget_style.shade_bottom = -15;
 
 		if (widget.state == Widget::STATE_HIGHLIGHTED) {
 			widget_style.fill_color.shade(0.06f);
@@ -21,6 +23,8 @@ void StyleBlenderClassic::setWidgetStyle(const Widget& widget)
 	else if (widget.state == Widget::STATE_SUNKEN) {
 		widget_style.fill_color.setColor(0.353f);
 		widget_style.text_color.setColor(1.0f);
+		widget_style.shade_top = -15;
+		widget_style.shade_bottom = 15;
 	}
 
 	widget_style.roundbox_radius = 5.0f;

@@ -48,17 +48,45 @@ static PrimitiveType stage_polygon_drawtype_convert(const bWidgets::Painter::Dra
 	return PRIM_NONE;
 }
 
-static void stage_polygon_draw(
+static void stage_polygon_draw_uniform_color(
         const bWidgets::Polygon& poly, const bWidgets::Color& color,
         const PrimitiveType type, const unsigned int attr_pos)
 {
+	const std::vector<bWidgets::Point>& vertices = poly.getVertices();
+
 	immUniformColor4fv(color);
 
-	immBegin(type, poly.getVertices().size());
-	for (const bWidgets::Point& vertex : poly.getVertices()) {
+	immBegin(type, vertices.size());
+	for (const bWidgets::Point& vertex : vertices) {
 		immVertex2f(attr_pos, vertex.x, vertex.y);
 	}
 	immEnd();
+}
+static void stage_polygon_draw_shaded(
+        const bWidgets::Painter& painter, const bWidgets::Polygon& poly, const PrimitiveType type,
+        const unsigned int attr_pos, const unsigned int attr_color)
+{
+	const std::vector<bWidgets::Point>& vertices = poly.getVertices();
+	const std::vector<bWidgets::Color>& colors = painter.getVertexColors();
+
+	immBegin(type, vertices.size());
+	for (int i = 0; i < vertices.size(); i++) {
+		immAttrib4fv(attr_color, colors[i]);
+		immVertex2f(attr_pos, vertices[i].x, vertices[i].y);
+	}
+	immEnd();
+}
+static void stage_polygon_draw(
+        const bWidgets::Painter& painter, const bWidgets::Polygon& poly,
+        const bWidgets::Color& color, const PrimitiveType type,
+        const unsigned int attr_pos, const unsigned int attr_color)
+{
+	if (painter.isGradientEnabled()) {
+		stage_polygon_draw_shaded(painter, poly, type, attr_pos, attr_color);
+	}
+	else {
+		stage_polygon_draw_uniform_color(poly, color, type, attr_pos);
+	}
 }
 
 /**
@@ -66,10 +94,17 @@ static void stage_polygon_draw(
  */
 static void stage_polygon_draw_cb(const bWidgets::Painter& painter, const bWidgets::Polygon& poly)
 {
-	ShaderProgram shader_program(ShaderProgram::ID_UNIFORM_COLOR);
+	const bool is_shaded = painter.isGradientEnabled();
+	ShaderProgram shader_program(is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
 	bWidgets::Color color = painter.getActiveColor();
 	PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype);
-	unsigned int pos = VertexFormat_add_attrib(immVertexFormat(), "pos", COMP_F32, 2, KEEP_FLOAT);
+	VertexFormat* format = immVertexFormat();
+	unsigned int attr_pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
+	unsigned int attr_color;
+
+	if (is_shaded) {
+		attr_color = VertexFormat_add_attrib(format, "color", COMP_F32, 4, KEEP_FLOAT);
+	}
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -83,12 +118,12 @@ static void stage_polygon_draw_cb(const bWidgets::Painter& painter, const bWidge
 
 		for (int i = 0; i < WIDGET_AA_JITTER; i++) {
 			gpuTranslate2f(jit[i]);
-			stage_polygon_draw(poly, drawcolor, prim_type, pos);
+			stage_polygon_draw(painter, poly, drawcolor, prim_type, attr_pos, attr_color);
 			gpuTranslate2f(-jit[i][0], -jit[i][1]);
 		}
 	}
 	else {
-		stage_polygon_draw(poly, color, prim_type, pos);
+		stage_polygon_draw(painter, poly, color, prim_type, attr_pos, attr_color);
 	}
 
 	immUnbindProgram();

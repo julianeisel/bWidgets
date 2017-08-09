@@ -10,6 +10,7 @@ set(SRC
 	Widget.cc
 	styles/StyleBlenderClassic.cc
 	util/Color.cc
+	util/Gradient.cc
 	util/Polygon.cc
 	util/Point.cc
 	util/Rectangle.cc
@@ -20,6 +21,7 @@ set(SRC
 	Widget.h
 	styles/StyleBlenderClassic.h
 	util/Color.h
+	util/Gradient.h
 	util/Polygon.h
 	util/Point.h
 	util/Rectangle.h

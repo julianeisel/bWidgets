@@ -1,8 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "Color.h"
+#include "Gradient.h"
 #include "Rectangle.h"
 
 namespace bWidgets {
@@ -23,6 +26,13 @@ public:
 
 	void setActiveColor(const Color& color);
 	const Color& getActiveColor() const;
+	const std::vector<Color> getVertexColors() const;
+
+	void enableGradient(
+	        const Color& base_color,
+	        const float shade_begin, const float shade_end,
+	        const Gradient::Direction direction);
+	bool isGradientEnabled() const;
 
 	enum DrawType {
 		DRAW_TYPE_FILLED,
@@ -36,6 +46,11 @@ public:
 
 private:
 	Color active_color;
+	std::vector<Color> vert_colors;
+	std::unique_ptr<Gradient> active_gradient;
+
+	void fillVertexColorsWithGradient(
+	        const Polygon& polygon, const Rectangle<unsigned int>& bounding_box);
 };
 
 enum RoundboxCorner {
