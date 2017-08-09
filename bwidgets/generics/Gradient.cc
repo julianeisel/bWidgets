@@ -1,4 +1,5 @@
 #include <cassert>
+
 #include "Point.h"
 
 #include "Gradient.h"
