@@ -1,26 +1,23 @@
-#include <iostream>
-#include <string>
-
 #include "Painter.h"
-#include "Polygon.h"
 #include "Style.h"
 
-#include "PushButton.h"
+#include "RadioButton.h"
 
 using namespace bWidgets;
 
-
-PushButton::PushButton(
-        const std::string& _text, unsigned int position_x, unsigned int position_y, unsigned int _width, unsigned int _height) :
+RadioButton::RadioButton(
+        const std::string& text,
+        unsigned int position_x, unsigned int position_y,
+        unsigned int width, unsigned int height) :
     Widget(
-        Widget::WIDGET_TYPE_PUSH_BUTTON,
-        Rectangle<unsigned int>(position_x, position_x + _width, position_y, position_y + _height)),
-    text(_text)
+        Widget::WIDGET_TYPE_RADIO_BUTTON,
+        Rectangle<unsigned int>(position_x, position_x + width, position_y, position_y + height)),
+    text(text)
 {
 	
 }
 
-void PushButton::draw(Style& style)
+void RadioButton::draw(Style& style)
 {
 	Style::WidgetStyle& widget_style = style.widget_style;
 	Rectangle<unsigned int> inner_rect = rectangle;
@@ -43,4 +40,9 @@ void PushButton::draw(Style& style)
 	// Text
 	painter.setActiveColor(widget_style.text_color);
 	painter.drawText(text, rectangle, Painter::text_draw_arg);
+}
+
+void RadioButton::onClick()
+{
+	state = STATE_SUNKEN;
 }

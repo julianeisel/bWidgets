@@ -2,8 +2,8 @@
 
 using namespace bWidgets;
 
-Widget::Widget(const Rectangle<unsigned int>& rectangle) :
-    rectangle(rectangle)
+Widget::Widget(const WidgetType type, const Rectangle<unsigned int>& rectangle) :
+    type(type), rectangle(rectangle)
 {
 	
 }

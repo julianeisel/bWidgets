@@ -1,5 +1,6 @@
 #include "Label.h"
 #include "PushButton.h"
+#include "RadioButton.h"
 #include "Stage.h"
 
 #include "DefaultStage.h"
@@ -10,12 +11,34 @@ using namespace bWidgetDemo;
 DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
     Stage(width, height)
 {
-	iterWidgetPositions(widgetAddCb);
+	const unsigned int stage_height = getHeight();
+	const unsigned int button_width = 80;
+	const unsigned int button_height = 20;
+	unsigned int offset_top = 0;
+
+	for (int i = 0; i < 1; i++) {
+		const unsigned int ymin = stage_height - padding - button_height;
+		bWidgets::Widget* style_button = new bWidgets::RadioButton(
+		                                     "Temp", padding, ymin,
+		                                     button_width, button_height);
+
+		offset_top += button_height + padding;
+		widgetAdd(style_button);
+	}
+
+	iterWidgetPositions(offset_top, widgetAddCb);
 }
 
 void DefaultStage::updateButtonPositions()
 {
-	iterWidgetPositions(updateWidgetPositionCb);
+	const unsigned int button_width = 20;
+	unsigned int offset_top = 0;
+
+	for (int i = 0; i < 1; i++) {
+		offset_top += padding + button_width;
+	}
+
+	iterWidgetPositions(offset_top, updateWidgetPositionCb);
 }
 
 void DefaultStage::handleResizeEvent(const Window &win)
@@ -25,6 +48,7 @@ void DefaultStage::handleResizeEvent(const Window &win)
 }
 
 void DefaultStage::iterWidgetPositions(
+        const unsigned int offset_top,
         void (*callback)(Stage& stage, const unsigned int index,
                          const unsigned int xmin, const unsigned int ymin,
                          const unsigned int width, const unsigned int height))
@@ -33,23 +57,22 @@ void DefaultStage::iterWidgetPositions(
 	const unsigned int but_height = 20;
 	const unsigned int stage_width = getWidth();
 	const unsigned int stage_height = getHeight();
-	const unsigned int pad = 10;
 	int ofs_left = 0;
-	int ofs_top = 0;
+	int ofs_top = offset_top;
 
 	for (unsigned int i = 0; i < 20; i++) {
 //		const int xmin = pad + (i * (pad + but_width));
-		const int xmin = pad + ofs_left;
-		const int ymin = stage_height - pad - but_height - ofs_top;
+		const int xmin = padding + ofs_left;
+		const int ymin = stage_height - padding - but_height - ofs_top;
 
 		callback(*this, i, xmin, ymin, but_width, but_height);
 
 		if (i == 9) {
-			ofs_left += stage_width - (2 * pad) - but_width;
-			ofs_top = 0;
+			ofs_left += stage_width - (2 * padding) - but_width;
+			ofs_top = offset_top;
 		}
 		else {
-			ofs_top += but_height + pad;
+			ofs_top += but_height + padding;
 		}
 	}
 }

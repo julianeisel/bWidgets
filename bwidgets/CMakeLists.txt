@@ -7,6 +7,7 @@ set(SRC
 	Label.cc
 	Painter.cc
 	PushButton.cc
+	RadioButton.cc
 	Style.cc
 	Widget.cc
 	styles/StyleBlenderClassic.cc
@@ -14,6 +15,7 @@ set(SRC
 	Label.h
 	Painter.h
 	PushButton.h
+	RadioButton.h
 	Style.h
 	Widget.h
 	styles/StyleBlenderClassic.h

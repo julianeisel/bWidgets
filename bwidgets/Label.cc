@@ -8,7 +8,8 @@ Label::Label(
         const std::string& text,
         unsigned int position_x, unsigned int position_y,
         unsigned int width, unsigned int height) :
-    Widget(Rectangle<unsigned int>(position_x, position_x + width, position_y, position_y + height)),
+    Widget(Widget::WIDGET_TYPE_LABEL,
+           Rectangle<unsigned int>(position_x, position_x + width, position_y, position_y + height)),
     text(text)
 {
 	

@@ -14,6 +14,7 @@ public:
 private:
 	void updateButtonPositions();
 	void iterWidgetPositions(
+	        const unsigned int offset_top,
 	        void (*callback)(Stage&, const unsigned int, const unsigned int,
 	                         const unsigned int, const unsigned int, const unsigned int));
 	static void widgetAddCb(
@@ -24,6 +25,8 @@ private:
 	        Stage&, const unsigned int,
 	        const unsigned int, const unsigned int,
 	        const unsigned int, const unsigned int);
+
+	const unsigned int padding = 10;
 };
 
 } // namespace bWidgetDemo
