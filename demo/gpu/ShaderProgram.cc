@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "GL/glew.h"
+#include "GPU.h"
 extern "C" {
 #include "../extern/gawain/gawain/shader_interface.h"
 }

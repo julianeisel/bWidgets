@@ -169,11 +169,11 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 		}
 		else {
 			const FT_GlyphSlot freetype_glyph = font.face->glyph;
-			std::unique_ptr<CachedGlyph> glyph = std::make_unique<CachedGlyph>(
+			std::unique_ptr<CachedGlyph> glyph(new CachedGlyph(
 			                                         freetype_glyph->bitmap.width, freetype_glyph->bitmap.rows,
 			                                         freetype_glyph->bitmap_left, freetype_glyph->bitmap_top,
 			                                         (int)freetype_glyph->advance.x,
-			                                         freetype_glyph->bitmap.buffer);
+			                                         freetype_glyph->bitmap.buffer));
 
 			cached_glyphs[glyph_index] = std::move(glyph);
 		}

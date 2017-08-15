@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 2.8.12)
 # Avoid having emtpy build type
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
+enable_language(CXX)
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+
 #-----------------------------------------------------------------------------
 # Set default warnings
 
