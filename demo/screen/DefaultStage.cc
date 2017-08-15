@@ -1,3 +1,4 @@
+#include "Label.h"
 #include "PushButton.h"
 #include "Stage.h"
 
@@ -58,7 +59,15 @@ void DefaultStage::widgetAddCb(
         const unsigned int xmin, const unsigned int ymin,
         const unsigned int width, const unsigned int height)
 {
-	stage.widgetAdd(new bWidgets::PushButton("Widget " + std::to_string(index), xmin, ymin, width, height));
+	bWidgets::Widget* widget;
+
+	if (index < 5) {
+		widget = new bWidgets::Label("Label " + std::to_string(index), xmin, ymin, width, height);
+	}
+	else {
+		widget = new bWidgets::PushButton("Push Button " + std::to_string(index - 5), xmin, ymin, width, height);
+	}
+	stage.widgetAdd(widget);
 }
 
 void DefaultStage::updateWidgetPositionCb(

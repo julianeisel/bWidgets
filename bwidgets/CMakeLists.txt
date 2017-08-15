@@ -4,12 +4,14 @@ set(INC
 )
 
 set(SRC
+	Label.cc
 	Painter.cc
 	PushButton.cc
 	Style.cc
 	Widget.cc
 	styles/StyleBlenderClassic.cc
 
+	Label.h
 	Painter.h
 	PushButton.h
 	Style.h
