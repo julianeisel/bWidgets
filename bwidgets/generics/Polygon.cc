@@ -14,7 +14,7 @@ Polygon::Polygon(const Polygon &poly) :
 	
 }
 
-Polygon::Polygon(std::vector<Point> &vertices) :
+Polygon::Polygon(std::vector<Point>& vertices) :
     vertices(vertices), vert_count(vertices.size())
 {
 	

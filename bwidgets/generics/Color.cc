@@ -30,7 +30,7 @@ void Color::setColor(float rgb, float alpha)
 	setColor(rgba);
 }
 
-void Color::setColor(const float _rgba[])
+void Color::setColor(const float _rgba[4])
 {
 	rgba[0] = _rgba[0];
 	rgba[1] = _rgba[1];

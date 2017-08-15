@@ -58,4 +58,5 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(bwidgets)
 add_subdirectory(demo)
+add_subdirectory(doc)
 add_subdirectory(extern)
