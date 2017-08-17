@@ -1,61 +1,61 @@
 #include <cassert>
 
-#include "Point.h"
-#include "Polygon.h"
+#include "bwPoint.h"
+#include "bwPolygon.h"
 
-#include "Painter.h"
+#include "bwPainter.h"
 
 using namespace bWidgets;
 
 
-void (*Painter::drawPolygonCb)(const class Painter&, const class Polygon&) = 0;
-void (*Painter::drawTextCb)(const class Painter &, const std::string&, const Rectangle<unsigned int>&, void*) = 0;
-void* Painter::text_draw_arg = NULL;
+void (*bwPainter::drawPolygonCb)(const class bwPainter&, const class bwPolygon&) = 0;
+void (*bwPainter::drawTextCb)(const class bwPainter &, const std::string&, const bwRectangle<unsigned int>&, void*) = 0;
+void* bwPainter::text_draw_arg = NULL;
 
-Painter::Painter() :
+bwPainter::bwPainter() :
     active_drawtype(DRAW_TYPE_FILLED),
     active_gradient(nullptr)
 {
 	
 }
 
-void Painter::drawPolygon(const Polygon& poly) const
+void bwPainter::drawPolygon(const bwPolygon& poly) const
 {
 	if (poly.isDrawable()) {
 		drawPolygonCb(*this, poly);
 	}
 }
 
-void Painter::drawText(const std::string& text, const Rectangle<unsigned int>& rectangle, void* text_draw_arg) const
+void bwPainter::drawText(const std::string& text, const bwRectangle<unsigned int>& rectangle, void* text_draw_arg) const
 {
 	if (text.size() > 0) {
 		drawTextCb(*this, text, rectangle, text_draw_arg);
 	}
 }
 
-void Painter::setActiveColor(const Color& color)
+void bwPainter::setActiveColor(const bwColor& color)
 {
 	active_color = color;
 	active_gradient = nullptr;
 }
 
-const Color& Painter::getActiveColor() const
+const bwColor& bwPainter::getActiveColor() const
 {
 	return active_color;
 }
 
-const std::vector<Color> Painter::getVertexColors() const
+const std::vector<bwColor> bwPainter::getVertexColors() const
 {
 	return vert_colors;
 }
 
-void Painter::enableGradient(
-        const Color& base_color,
+void bwPainter::enableGradient(
+        const bwColor& base_color,
         const float shade_begin, const float shade_end,
-        const Gradient::Direction direction)
+        const bwGradient::Direction direction)
 {
 	if (!active_gradient) {
-		active_gradient = std::unique_ptr<Gradient>(new Gradient());
+		active_gradient = std::unique_ptr<bwGradient>(new bwGradient());
 	}
 
 	active_gradient->begin = base_color;
@@ -65,7 +65,7 @@ void Painter::enableGradient(
 	active_gradient->direction = direction;
 }
 
-bool Painter::isGradientEnabled() const
+bool bwPainter::isGradientEnabled() const
 {
 	return active_gradient != nullptr;
 }
@@ -87,10 +87,10 @@ static const float cornervec[WIDGET_CURVE_RESOLU][2] = {
 };
 
 static void PolygonRoundboxAddVerts(
-        Polygon& polygon, const Rectangle<unsigned int>& rect,
+        bwPolygon& polygon, const bwRectangle<unsigned int>& rect,
         unsigned int corners, const float radius, const bool is_outline)
 {
-	Rectangle<unsigned int> rect_inner = rect;
+	bwRectangle<unsigned int> rect_inner = rect;
 	const float radius_inner = radius - 1.0f;
 	float vec_outer[WIDGET_CURVE_RESOLU][2];
 	float vec_inner[WIDGET_CURVE_RESOLU][2];
@@ -183,11 +183,11 @@ static void PolygonRoundboxAddVerts(
 	}
 }
 
-void Painter::drawRoundbox(
-        const Rectangle<unsigned int>& rect,
+void bwPainter::drawRoundbox(
+        const bwRectangle<unsigned int>& rect,
         unsigned int corners, const float radius)
 {
-	Polygon polygon;
+	bwPolygon polygon;
 
 	PolygonRoundboxAddVerts(polygon, rect, corners, radius, active_drawtype == DRAW_TYPE_OUTLINE);
 	if (isGradientEnabled()) {
@@ -201,13 +201,13 @@ void Painter::drawRoundbox(
  * \param rect: The bounding box of the polygon based on which the gradient is drawn. It could be calculated just
  *              now since there's access to \a polygon, but it's usually available when calling this function anyway.
  */
-void Painter::fillVertexColorsWithGradient(
-        const Polygon& polygon, const Rectangle<unsigned int>& bounding_box)
+void bwPainter::fillVertexColorsWithGradient(
+        const bwPolygon& polygon, const bwRectangle<unsigned int>& bounding_box)
 {
 	assert(isGradientEnabled());
 
 	vert_colors.reserve(polygon.getVertices().size());
-	for (const Point& vertex : polygon.getVertices()) {
+	for (const bwPoint& vertex : polygon.getVertices()) {
 		vert_colors.push_back(active_gradient->calcPointColor(vertex, bounding_box));
 	}
 }

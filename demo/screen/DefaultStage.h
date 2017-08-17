@@ -26,7 +26,7 @@ private:
 	        Stage&, const unsigned int,
 	        const unsigned int, const unsigned int,
 	        const unsigned int, const unsigned int);
-	static void StyleApplyButtonCb(bWidgets::Widget& widget);
+	static void StyleApplyButtonCb(bWidgets::bwWidget& widget);
 
 	const unsigned int padding = 10;
 };

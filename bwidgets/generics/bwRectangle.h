@@ -3,15 +3,15 @@
 namespace bWidgets {
 
 template <typename T>
-struct Rectangle
+struct bwRectangle
 {
-	inline Rectangle(const T xmin, const T xmax, const T ymin, const T ymax) :
+	inline bwRectangle(const T xmin, const T xmax, const T ymin, const T ymax) :
 	    xmin(xmin), xmax(xmax), ymin(ymin), ymax(ymax)
 	{
 		
 	}
 	template <typename U>
-	inline Rectangle(const Rectangle<U>& rect) :
+	inline bwRectangle(const bwRectangle<U>& rect) :
 	    xmin(rect.xmin), xmax(rect.xmax), ymin(rect.ymin), ymax(rect.ymax)
 	{
 		

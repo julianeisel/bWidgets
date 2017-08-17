@@ -2,11 +2,11 @@
 #include "Stage.h"
 
 // bWidgets
-#include "Label.h"
-#include "PushButton.h"
-#include "RadioButton.h"
-#include "Style.h"
-#include "StyleManager.h"
+#include "bwLabel.h"
+#include "bwPushButton.h"
+#include "bwRadioButton.h"
+#include "bwStyle.h"
+#include "bwStyleManager.h"
 
 #include "DefaultStage.h"
 
@@ -23,15 +23,15 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 	const unsigned int xmin = padding;
 	unsigned int offset_xmin = 0;
 
-	bWidgets::Widget* prev_button = nullptr;
+	bWidgets::bwWidget* prev_button = nullptr;
 
 	const std::string& style_str = "Style: ";
 	const unsigned int str_width = font->calculateStringWidth(style_str);
-	widgetAdd(new bWidgets::Label(style_str, xmin, ymin, str_width + padding, button_height));
+	widgetAdd(new bWidgets::bwLabel(style_str, xmin, ymin, str_width + padding, button_height));
 	offset_xmin += str_width + padding;
 
-	for (bWidgets::Style::StyleType type : bWidgets::StyleManager::getStyleManager().getBuiltinStyleTypes()) {
-		bWidgets::RadioButton* style_button = new bWidgets::RadioButton(
+	for (bWidgets::bwStyle::StyleType type : bWidgets::bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
+		bWidgets::bwRadioButton* style_button = new bWidgets::bwRadioButton(
 		                                          type.name, xmin + offset_xmin - (prev_button ? 1 : 0), ymin,
 		                                          button_width, button_height);
 
@@ -40,7 +40,7 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 		style_button->apply = StyleApplyButtonCb;
 
 		if (type.type_id == style->type_id) {
-			style_button->state = bWidgets::Widget::STATE_SUNKEN;
+			style_button->state = bWidgets::bwWidget::STATE_SUNKEN;
 		}
 
 		widgetAdd(style_button);
@@ -103,21 +103,21 @@ void DefaultStage::iterWidgetPositions(
 	}
 }
 
-void DefaultStage::StyleApplyButtonCb(bWidgets::Widget& widget)
+void DefaultStage::StyleApplyButtonCb(bWidgets::bwWidget& widget)
 {
-	bWidgets::RadioButton& radio_but = static_cast<bWidgets::RadioButton&>(widget);
+	bWidgets::bwRadioButton& radio_but = static_cast<bWidgets::bwRadioButton&>(widget);
 	DefaultStage* stage = reinterpret_cast<DefaultStage*>(radio_but.custom_data);
 
-	stage->activateStyleID((bWidgets::Style::StyleTypeID)radio_but.valueID);
+	stage->activateStyleID((bWidgets::bwStyle::StyleTypeID)radio_but.valueID);
 
 	// Deactivate other style radio buttons
-	for (bWidgets::Widget* widget_iter : stage->widgets) {
+	for (bWidgets::bwWidget* widget_iter : stage->widgets) {
 		if ((widget_iter != &widget) &&
-		    (widget_iter->type == bWidgets::Widget::WIDGET_TYPE_RADIO_BUTTON))
+		    (widget_iter->type == bWidgets::bwWidget::WIDGET_TYPE_RADIO_BUTTON))
 		{
-			bWidgets::RadioButton* radio_iter = reinterpret_cast<bWidgets::RadioButton*>(widget_iter);
+			bWidgets::bwRadioButton* radio_iter = reinterpret_cast<bWidgets::bwRadioButton*>(widget_iter);
 			if (radio_iter->custom_data == radio_but.custom_data) {
-				radio_iter->state = bWidgets::Widget::STATE_NORMAL;
+				radio_iter->state = bWidgets::bwWidget::STATE_NORMAL;
 			}
 		}
 	}
@@ -128,13 +128,13 @@ void DefaultStage::widgetAddCb(
         const unsigned int xmin, const unsigned int ymin,
         const unsigned int width, const unsigned int height)
 {
-	bWidgets::Widget* widget;
+	bWidgets::bwWidget* widget;
 
 	if (index < 5) {
-		widget = new bWidgets::Label("Label " + std::to_string(index), xmin, ymin, width, height);
+		widget = new bWidgets::bwLabel("Label " + std::to_string(index), xmin, ymin, width, height);
 	}
 	else {
-		widget = new bWidgets::PushButton("Push Button " + std::to_string(index - 5), xmin, ymin, width, height);
+		widget = new bWidgets::bwPushButton("Push Button " + std::to_string(index - 5), xmin, ymin, width, height);
 	}
 	stage.widgetAdd(widget);
 }
@@ -144,7 +144,7 @@ void DefaultStage::updateWidgetPositionCb(
         const unsigned int xmin, const unsigned int ymin,
         const unsigned int width, const unsigned int height)
 {
-	bWidgets::Widget& widget = *stage.getWidgetAt(index);
+	bWidgets::bwWidget& widget = *stage.getWidgetAt(index);
 
 	widget.rectangle.xmin = xmin;
 	widget.rectangle.xmax = xmin + width;

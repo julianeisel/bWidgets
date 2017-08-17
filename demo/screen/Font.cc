@@ -116,12 +116,12 @@ int Font::getSize() const
 	return size;
 }
 
-const bWidgets::Color& Font::getActiveColor() const
+const bWidgets::bwColor& Font::getActiveColor() const
 {
 	return active_color;
 }
 
-void Font::setActiveColor(const bWidgets::Color &value)
+void Font::setActiveColor(const bWidgets::bwColor &value)
 {
 	active_color = value;
 }

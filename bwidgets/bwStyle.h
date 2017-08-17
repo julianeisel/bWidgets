@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include "Color.h"
+#include "bwColor.h"
 
 namespace bWidgets {
 
-struct Style
+struct bwStyle
 {
 	enum StyleTypeID {
 		STYLE_BLENDER_CLASSIC,
@@ -18,9 +18,9 @@ struct Style
 	} type_id;
 
 	struct WidgetStyle {
-		Color fill_color;
-		Color text_color;
-		Color outline_color;
+		bwColor fill_color;
+		bwColor text_color;
+		bwColor outline_color;
 
 		float roundbox_radius;
 		unsigned int roundbox_corners;
@@ -34,8 +34,8 @@ struct Style
 		std::string name;
 	};
 
-	Style(StyleTypeID type_id);
-	virtual void setWidgetStyle(const class Widget& widget) = 0;
+	bwStyle(StyleTypeID type_id);
+	virtual void setWidgetStyle(const class bwWidget& widget) = 0;
 };
 
 } // namespace bWidgets

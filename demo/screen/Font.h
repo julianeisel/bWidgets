@@ -7,7 +7,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include "Color.h"
+#include "bwColor.h"
 
 
 namespace bWidgetDemo {
@@ -27,8 +27,8 @@ public:
 	void setSize(const float size);
 	int getSize() const;
 
-	const bWidgets::Color& getActiveColor() const;
-	void setActiveColor(const bWidgets::Color &value);
+	const bWidgets::bwColor& getActiveColor() const;
+	void setActiveColor(const bWidgets::bwColor &value);
 
 private:
 	Font() {}
@@ -41,7 +41,7 @@ private:
 	// Height in pixels.
 	int size;
 
-	bWidgets::Color active_color;
+	bWidgets::bwColor active_color;
 
 
 	class FontGlyphCache {

@@ -5,25 +5,25 @@ set(INC
 )
 
 set(SRC
-	Label.cc
-	Painter.cc
-	PushButton.cc
-	RadioButton.cc
-	Style.cc
-	StyleManager.cc
-	Widget.cc
-	styles/StyleBlenderClassic.cc
-	styles/StyleBlenderFlat.cc
+	bwLabel.cc
+	bwPainter.cc
+	bwPushButton.cc
+	bwRadioButton.cc
+	bwStyle.cc
+	bwStyleManager.cc
+	bwWidget.cc
+	styles/bwStyleBlenderClassic.cc
+	styles/bwStyleBlenderFlat.cc
 
-	Label.h
-	Painter.h
-	PushButton.h
-	RadioButton.h
-	Style.h
-	StyleManager.h
-	Widget.h
-	styles/StyleBlenderClassic.h
-	styles/StyleBlenderFlat.h
+	bwLabel.h
+	bwPainter.h
+	bwPushButton.h
+	bwRadioButton.h
+	bwStyle.h
+	bwStyleManager.h
+	bwWidget.h
+	styles/bwStyleBlenderClassic.h
+	styles/bwStyleBlenderFlat.h
 )
 
 set(LIB

@@ -1,20 +1,20 @@
-#include "Widget.h"
+#include "bwWidget.h"
 
 using namespace bWidgets;
 
-Widget::Widget(const WidgetType type, const Rectangle<unsigned int>& rectangle) :
+bwWidget::bwWidget(const WidgetType type, const bwRectangle<unsigned int>& rectangle) :
     type(type), state(STATE_NORMAL),
     rectangle(rectangle), rounded_corners(RoundboxCorner::ALL)
 {
 	
 }
 
-bool Widget::isCoordinateInside(int x, int y)
+bool bwWidget::isCoordinateInside(int x, int y)
 {
 	return rectangle.isCoordinateInside(x, y);
 }
 
-void Widget::onClick()
+void bwWidget::onClick()
 {
 	if (state == STATE_SUNKEN) {
 		state = STATE_NORMAL;
@@ -24,14 +24,14 @@ void Widget::onClick()
 	}
 }
 
-void Widget::mouseEnter()
+void bwWidget::mouseEnter()
 {
 	if (state == STATE_NORMAL) {
 		state = STATE_HIGHLIGHTED;
 	}
 }
 
-void Widget::mouseLeave()
+void bwWidget::mouseLeave()
 {
 	if (state == STATE_HIGHLIGHTED) {
 		state = STATE_NORMAL;

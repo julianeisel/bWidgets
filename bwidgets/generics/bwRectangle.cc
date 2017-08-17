@@ -1,4 +1,4 @@
-#include "Rectangle.h"
+#include "bwRectangle.h"
 
 using namespace bWidgets;
 

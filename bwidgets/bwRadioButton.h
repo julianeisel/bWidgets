@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Widget.h"
+#include "bwWidget.h"
 
 namespace bWidgets {
 
@@ -17,15 +17,15 @@ namespace bWidgets {
  * In future, there should be a group-widget that ensures the exclusive behavior within bWidgets. We need to
  * make Blender ready for it first, though (or make it optional).
  */
-class RadioButton : public Widget
+class bwRadioButton : public bwWidget
 {
 public:
-	RadioButton(
+	bwRadioButton(
 	        const std::string& text,
 	        unsigned int position_x = 0, unsigned int position_y = 0,
 	        unsigned int width = 10, unsigned int height = 10);
 
-	void draw(class Style &style);
+	void draw(class bwStyle &style);
 	void onClick();
 
 	// XXX Not that pretty.

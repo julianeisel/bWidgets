@@ -1,30 +1,30 @@
 #include <iostream>
 #include <string>
 
-#include "Painter.h"
-#include "Polygon.h"
-#include "Style.h"
+#include "bwPainter.h"
+#include "bwPolygon.h"
+#include "bwStyle.h"
 
-#include "PushButton.h"
+#include "bwPushButton.h"
 
 using namespace bWidgets;
 
 
-PushButton::PushButton(
+bwPushButton::bwPushButton(
         const std::string& _text, unsigned int position_x, unsigned int position_y, unsigned int _width, unsigned int _height) :
-    Widget(
-        Widget::WIDGET_TYPE_PUSH_BUTTON,
-        Rectangle<unsigned int>(position_x, position_x + _width, position_y, position_y + _height)),
+    bwWidget(
+        bwWidget::WIDGET_TYPE_PUSH_BUTTON,
+        bwRectangle<unsigned int>(position_x, position_x + _width, position_y, position_y + _height)),
     text(_text)
 {
 	
 }
 
-void PushButton::draw(Style& style)
+void bwPushButton::draw(bwStyle& style)
 {
-	Style::WidgetStyle& widget_style = style.widget_style;
-	Rectangle<unsigned int> inner_rect = rectangle;
-	Painter painter;
+	bwStyle::WidgetStyle& widget_style = style.widget_style;
+	bwRectangle<unsigned int> inner_rect = rectangle;
+	bwPainter painter;
 
 	style.setWidgetStyle(*this);
 
@@ -33,14 +33,14 @@ void PushButton::draw(Style& style)
 	painter.enableGradient(
 	            widget_style.fill_color,
 	            widget_style.shade_top / 255.0f, widget_style.shade_bottom / 255.0f,
-	            Gradient::DIRECTION_TOP_BOTTOM);
+	            bwGradient::DIRECTION_TOP_BOTTOM);
 	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, widget_style.roundbox_radius - 1.0f);
 	// Outline
 	painter.setActiveColor(widget_style.outline_color);
-	painter.active_drawtype = Painter::DrawType::DRAW_TYPE_OUTLINE;
+	painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
 	painter.drawRoundbox(rectangle, widget_style.roundbox_corners, widget_style.roundbox_radius);
 
 	// Text
 	painter.setActiveColor(widget_style.text_color);
-	painter.drawText(text, rectangle, Painter::text_draw_arg);
+	painter.drawText(text, rectangle, bwPainter::text_draw_arg);
 }

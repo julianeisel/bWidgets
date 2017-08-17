@@ -1,15 +1,15 @@
 set(SRC
-	Color.cc
-	Gradient.cc
-	Polygon.cc
-	Point.cc
-	Rectangle.cc
+	bwColor.cc
+	bwGradient.cc
+	bwPolygon.cc
+	bwPoint.cc
+	bwRectangle.cc
 
-	Color.h
-	Gradient.h
-	Polygon.h
-	Point.h
-	Rectangle.h
+	bwColor.h
+	bwGradient.h
+	bwPolygon.h
+	bwPoint.h
+	bwRectangle.h
 )
 
 add_library(bw_generics ${SRC})

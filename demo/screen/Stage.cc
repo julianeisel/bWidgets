@@ -9,14 +9,14 @@ extern "C" {
 #include "../gpu/ShaderProgram.h"
 
 // bWidgets lib
-#include "Color.h"
-#include "Painter.h"
-#include "Polygon.h"
-#include "Point.h"
-#include "Rectangle.h"
-#include "Style.h"
-#include "StyleManager.h"
-#include "Widget.h"
+#include "bwColor.h"
+#include "bwPainter.h"
+#include "bwPolygon.h"
+#include "bwPoint.h"
+#include "bwRectangle.h"
+#include "bwStyle.h"
+#include "bwStyleManager.h"
+#include "bwWidget.h"
 
 #include "Font.h"
 #include "GPU.h"
@@ -37,12 +37,12 @@ static const float jit[WIDGET_AA_JITTER][2] = {
 };
 
 
-static PrimitiveType stage_polygon_drawtype_convert(const bWidgets::Painter::DrawType& drawtype)
+static PrimitiveType stage_polygon_drawtype_convert(const bWidgets::bwPainter::DrawType& drawtype)
 {
 	switch (drawtype) {
-		case bWidgets::Painter::DRAW_TYPE_FILLED:
+		case bWidgets::bwPainter::DRAW_TYPE_FILLED:
 			return PRIM_TRIANGLE_FAN;
-		case bWidgets::Painter::DRAW_TYPE_OUTLINE:
+		case bWidgets::bwPainter::DRAW_TYPE_OUTLINE:
 			return PRIM_TRIANGLE_STRIP;
 	}
 
@@ -50,25 +50,25 @@ static PrimitiveType stage_polygon_drawtype_convert(const bWidgets::Painter::Dra
 }
 
 static void stage_polygon_draw_uniform_color(
-        const bWidgets::Polygon& poly, const bWidgets::Color& color,
+        const bWidgets::bwPolygon& poly, const bWidgets::bwColor& color,
         const PrimitiveType type, const unsigned int attr_pos)
 {
-	const std::vector<bWidgets::Point>& vertices = poly.getVertices();
+	const std::vector<bWidgets::bwPoint>& vertices = poly.getVertices();
 
 	immUniformColor4fv(color);
 
 	immBegin(type, vertices.size());
-	for (const bWidgets::Point& vertex : vertices) {
+	for (const bWidgets::bwPoint& vertex : vertices) {
 		immVertex2f(attr_pos, vertex.x, vertex.y);
 	}
 	immEnd();
 }
 static void stage_polygon_draw_shaded(
-        const bWidgets::Painter& painter, const bWidgets::Polygon& poly, const PrimitiveType type,
+        const bWidgets::bwPainter& painter, const bWidgets::bwPolygon& poly, const PrimitiveType type,
         const unsigned int attr_pos, const unsigned int attr_color)
 {
-	const std::vector<bWidgets::Point>& vertices = poly.getVertices();
-	const std::vector<bWidgets::Color>& colors = painter.getVertexColors();
+	const std::vector<bWidgets::bwPoint>& vertices = poly.getVertices();
+	const std::vector<bWidgets::bwColor>& colors = painter.getVertexColors();
 
 	immBegin(type, vertices.size());
 	for (int i = 0; i < vertices.size(); i++) {
@@ -78,8 +78,8 @@ static void stage_polygon_draw_shaded(
 	immEnd();
 }
 static void stage_polygon_draw(
-        const bWidgets::Painter& painter, const bWidgets::Polygon& poly,
-        const bWidgets::Color& color, const PrimitiveType type,
+        const bWidgets::bwPainter& painter, const bWidgets::bwPolygon& poly,
+        const bWidgets::bwColor& color, const PrimitiveType type,
         const unsigned int attr_pos, const unsigned int attr_color)
 {
 	if (painter.isGradientEnabled()) {
@@ -93,11 +93,11 @@ static void stage_polygon_draw(
 /**
  * The main polygon draw callback which is used to draw all geometry of widgets.
  */
-static void stage_polygon_draw_cb(const bWidgets::Painter& painter, const bWidgets::Polygon& poly)
+static void stage_polygon_draw_cb(const bWidgets::bwPainter& painter, const bWidgets::bwPolygon& poly)
 {
 	const bool is_shaded = painter.isGradientEnabled();
 	ShaderProgram shader_program(is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
-	bWidgets::Color color = painter.getActiveColor();
+	bWidgets::bwColor color = painter.getActiveColor();
 	PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype);
 	VertexFormat* format = immVertexFormat();
 	unsigned int attr_pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
@@ -112,8 +112,8 @@ static void stage_polygon_draw_cb(const bWidgets::Painter& painter, const bWidge
 
 	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
 
-	if (painter.active_drawtype == bWidgets::Painter::DRAW_TYPE_OUTLINE) {
-		bWidgets::Color drawcolor = color;
+	if (painter.active_drawtype == bWidgets::bwPainter::DRAW_TYPE_OUTLINE) {
+		bWidgets::bwColor drawcolor = color;
 
 		drawcolor[3] /= WIDGET_AA_JITTER;
 
@@ -135,8 +135,8 @@ static void stage_polygon_draw_cb(const bWidgets::Painter& painter, const bWidge
  * The main text draw callback which is used to draw all text of widgets.
  */
 static void stage_text_draw_cb(
-        const bWidgets::Painter &painter, const std::string& text,
-        const bWidgets::Rectangle<unsigned int>& rectangle, void* text_draw_arg)
+        const bWidgets::bwPainter &painter, const std::string& text,
+        const bWidgets::bwRectangle<unsigned int>& rectangle, void* text_draw_arg)
 {
 	Font* font = reinterpret_cast<Font*>(text_draw_arg);
 	const float font_height = font->getSize();
@@ -153,20 +153,20 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
     width(width), height(height)
 {
 	// Initialize drawing callbacks for the stage
-	bWidgets::Painter::drawPolygonCb = stage_polygon_draw_cb;
-	bWidgets::Painter::drawTextCb = stage_text_draw_cb;
+	bWidgets::bwPainter::drawPolygonCb = stage_polygon_draw_cb;
+	bWidgets::bwPainter::drawTextCb = stage_text_draw_cb;
 
 	initFonts();
-	bWidgets::Painter::text_draw_arg = font;
+	bWidgets::bwPainter::text_draw_arg = font;
 
-	bWidgets::StyleManager& style_manager = bWidgets::StyleManager::getStyleManager();
+	bWidgets::bwStyleManager& style_manager = bWidgets::bwStyleManager::getStyleManager();
 	style_manager.registerDefaultStyleTypes();
-	activateStyleID(bWidgets::Style::STYLE_BLENDER_CLASSIC);
+	activateStyleID(bWidgets::bwStyle::STYLE_BLENDER_CLASSIC);
 }
 
 Stage::~Stage()
 {
-	for (bWidgets::Widget* widget : widgets) {
+	for (bWidgets::bwWidget* widget : widgets) {
 		delete widget;
 	}
 
@@ -183,30 +183,30 @@ void Stage::initFonts()
 	font->setSize(11.0f);
 }
 
-void Stage::activateStyleID(bWidgets::Style::StyleTypeID type_id)
+void Stage::activateStyleID(bWidgets::bwStyle::StyleTypeID type_id)
 {
-	bWidgets::StyleManager& style_manager = bWidgets::StyleManager::getStyleManager();
-	style = std::unique_ptr<bWidgets::Style>(style_manager.createStyleFromTypeID(type_id));
+	bWidgets::bwStyleManager& style_manager = bWidgets::bwStyleManager::getStyleManager();
+	style = std::unique_ptr<bWidgets::bwStyle>(style_manager.createStyleFromTypeID(type_id));
 }
 
 void Stage::draw(unsigned int width, unsigned int height)
 {
 	gpuOrtho(0.0f, width, 0.0f, height);
 
-	for (bWidgets::Widget* widget : widgets) {
+	for (bWidgets::bwWidget* widget : widgets) {
 		widget->draw(*style);
 	}
 }
 
-void Stage::widgetAdd(bWidgets::Widget* widget)
+void Stage::widgetAdd(bWidgets::bwWidget* widget)
 {
 	widgets.push_front(widget);
 }
 
-bWidgets::Widget* Stage::getWidgetAt(const unsigned int index)
+bWidgets::bwWidget* Stage::getWidgetAt(const unsigned int index)
 {
 	unsigned int i = 0;
-	for (bWidgets::Widget* widget : widgets) {
+	for (bWidgets::bwWidget* widget : widgets) {
 		if (i++ == index) {
 			return widget;
 		}
@@ -217,10 +217,10 @@ bWidgets::Widget* Stage::getWidgetAt(const unsigned int index)
 
 void Stage::handleMouseMovementEvent(const int mouse_xy[])
 {
-	for (bWidgets::Widget* widget : widgets) {
+	for (bWidgets::bwWidget* widget : widgets) {
 		const bool is_hovered = widget->isCoordinateInside(mouse_xy[0], mouse_xy[1]);
 
-		if (widget->state == bWidgets::Widget::STATE_HIGHLIGHTED) {
+		if (widget->state == bWidgets::bwWidget::STATE_HIGHLIGHTED) {
 			if (!is_hovered) {
 				widget->mouseLeave();
 			}
@@ -235,7 +235,7 @@ void Stage::handleMouseButtonEvent(
         const Window& /*win*/, const int mouse_xy[2],
         int /*button*/, int /*action*/, int /*mods*/)
 {
-	for (bWidgets::Widget* widget : widgets) {
+	for (bWidgets::bwWidget* widget : widgets) {
 		if (widget->isCoordinateInside(mouse_xy[0], mouse_xy[1])) {
 			widget->onClick();
 		}

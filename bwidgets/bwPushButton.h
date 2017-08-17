@@ -2,20 +2,20 @@
 
 #include <string>
 
-#include "Widget.h"
+#include "bwWidget.h"
 
 
 namespace bWidgets {
 
-class PushButton : public Widget
+class bwPushButton : public bwWidget
 {
 public:
-	PushButton(
+	bwPushButton(
 	        const std::string& _text,
 	        unsigned int position_x = 0, unsigned int position_y = 0,
 	        unsigned int width = 10, unsigned int height = 10);
 
-	void draw(class Style& style);
+	void draw(class bwStyle& style);
 
 private:
 	const std::string text;

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Painter.h"
-#include "Rectangle.h"
+#include "bwPainter.h"
+#include "bwRectangle.h"
 
 namespace bWidgets {
 
 /**
  * \brief Abstract base class that all widgets derive from.
  */
-struct Widget
+struct bwWidget
 {
 	enum WidgetType {
 		WIDGET_TYPE_LABEL,
@@ -22,19 +22,19 @@ struct Widget
 		STATE_SUNKEN,
 	} state;
 
-	Widget(const WidgetType type, const Rectangle<unsigned int>& rectangle);
-	virtual ~Widget() {}
+	bwWidget(const WidgetType type, const bwRectangle<unsigned int>& rectangle);
+	virtual ~bwWidget() {}
 
 	virtual bool isCoordinateInside(int x, int y);
 
-	virtual void draw(class Style& style) = 0;
+	virtual void draw(class bwStyle& style) = 0;
 	virtual void onClick();
 	virtual void mouseEnter();
 	virtual void mouseLeave();
 
-	void (*apply)(Widget& widget);
+	void (*apply)(bwWidget& widget);
 
-	Rectangle<unsigned int> rectangle;
+	bwRectangle<unsigned int> rectangle;
 	unsigned int rounded_corners;
 };
 

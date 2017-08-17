@@ -3,8 +3,8 @@
 #include <list>
 #include <memory>
 
-#include "Style.h"
-#include "Widget.h"
+#include "bwStyle.h"
+#include "bwWidget.h"
 
 
 namespace bWidgetDemo {
@@ -16,10 +16,10 @@ public:
 
 	void draw(unsigned int width, unsigned int height);
 
-	void activateStyleID(bWidgets::Style::StyleTypeID type_id);
+	void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
 
-	void widgetAdd(bWidgets::Widget* widget);
-	bWidgets::Widget* getWidgetAt(const unsigned int index);
+	void widgetAdd(bWidgets::bwWidget* widget);
+	bWidgets::bwWidget* getWidgetAt(const unsigned int index);
 
 	void handleMouseMovementEvent(const int mouse_xy[]);
 	void handleMouseButtonEvent(const class Window& win, const int mouse_xy[], int button, int action, int mods);
@@ -29,8 +29,8 @@ public:
 	unsigned int getWidth() const; unsigned int getHeight() const;
 
 protected:
-	std::unique_ptr<bWidgets::Style> style;
-	std::list<bWidgets::Widget*> widgets;
+	std::unique_ptr<bWidgets::bwStyle> style;
+	std::list<bWidgets::bwWidget*> widgets;
 	class Font* font;
 
 private:
