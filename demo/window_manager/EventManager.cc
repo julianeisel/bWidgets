@@ -7,7 +7,7 @@
 #include "EventManager.h"
 #include "WindowManager.h"
 
-using namespace bWidgetDemo;
+using namespace bWidgetsDemo;
 
 
 EventManager& EventManager::CreateEventManager()

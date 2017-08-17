@@ -5,7 +5,7 @@
 #include "Window.h"
 
 
-namespace bWidgetDemo {
+namespace bWidgetsDemo {
 
 class WindowManager
 {
@@ -37,4 +37,4 @@ private:
 	Window* main_win;
 };
 
-} // namespace bWidgetDemo
+} // namespace bWidgetsDemo

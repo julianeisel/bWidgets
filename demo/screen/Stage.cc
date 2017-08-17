@@ -25,7 +25,7 @@ extern "C" {
 #include "Stage.h"
 
 
-using namespace bWidgetDemo;
+using namespace bWidgetsDemo;
 
 #define WIDGET_AA_JITTER 8
 

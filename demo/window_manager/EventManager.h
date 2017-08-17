@@ -2,7 +2,7 @@
 
 #include <list>
 
-namespace bWidgetDemo {
+namespace bWidgetsDemo {
 
 class EventManager
 {
@@ -26,4 +26,4 @@ private:
 	static void handleMouseButtonEvent(GLFWwindow* glfw_win, int button, int action, int mods);
 };
 
-} // namespace bWidgetDemo
+} // namespace bWidgetsDemo

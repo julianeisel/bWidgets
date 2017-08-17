@@ -2,7 +2,7 @@
 
 #include "Stage.h"
 
-namespace bWidgetDemo {
+namespace bWidgetsDemo {
 
 class DefaultStage : public Stage
 {
@@ -31,4 +31,4 @@ private:
 	const unsigned int padding = 10;
 };
 
-} // namespace bWidgetDemo
+} // namespace bWidgetsDemo

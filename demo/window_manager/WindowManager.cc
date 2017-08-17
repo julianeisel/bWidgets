@@ -8,7 +8,7 @@
 #include "EventManager.h"
 #include "WindowManager.h"
 
-using namespace bWidgetDemo;
+using namespace bWidgetsDemo;
 
 
 static void wm_glfw_error_callback(int /* error */, const char* description)

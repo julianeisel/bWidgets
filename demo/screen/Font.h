@@ -10,7 +10,7 @@
 #include "bwColor.h"
 
 
-namespace bWidgetDemo {
+namespace bWidgetsDemo {
 
 class Font {
 public:
@@ -69,4 +69,4 @@ private:
 	} cache;
 };
 
-} // namespace bWidgetDemo
+} // namespace bWidgetsDemo

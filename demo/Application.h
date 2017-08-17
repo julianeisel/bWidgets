@@ -1,6 +1,6 @@
 #pragma once
 
-namespace bWidgetDemo {
+namespace bWidgetsDemo {
 
 /**
  * Singleton class for general data of the bWidget Demo Application.
@@ -23,4 +23,4 @@ private:
 	class WindowManager* wm;
 };
 
-} // namespace bWidgetDemo
+} // namespace bWidgetsDemo

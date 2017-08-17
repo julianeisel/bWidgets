@@ -3,7 +3,7 @@
 #include <string>
 
 
-namespace bWidgetDemo {
+namespace bWidgetsDemo {
 
 class Window
 {
@@ -35,4 +35,4 @@ private:
 	int width, height;
 };
 
-} // namespace bWidgetDemo
+} // namespace bWidgetsDemo

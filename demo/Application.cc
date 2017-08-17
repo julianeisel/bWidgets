@@ -2,7 +2,7 @@
 #include "DefaultStage.h"
 #include "WindowManager.h"
 
-using namespace bWidgetDemo;
+using namespace bWidgetsDemo;
 
 
 Application& Application::CreateApplication()

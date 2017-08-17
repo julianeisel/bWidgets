@@ -12,7 +12,7 @@ extern "C" {
 #include "Font.h"
 
 
-using namespace bWidgetDemo;
+using namespace bWidgetsDemo;
 
 FT_Library Font::ft_library = nullptr;
 

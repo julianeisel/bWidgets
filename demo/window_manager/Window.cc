@@ -8,7 +8,7 @@
 #include "EventManager.h"
 #include "Window.h"
 
-using namespace bWidgetDemo;
+using namespace bWidgetsDemo;
 
 
 Window::Window(std::string name, float size_x, float size_y) :

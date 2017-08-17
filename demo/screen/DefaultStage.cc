@@ -10,7 +10,7 @@
 
 #include "DefaultStage.h"
 
-using namespace bWidgetDemo;
+using namespace bWidgetsDemo;
 
 
 DefaultStage::DefaultStage(unsigned int width, unsigned int height) :

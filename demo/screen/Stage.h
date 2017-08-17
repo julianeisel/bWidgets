@@ -7,7 +7,7 @@
 #include "bwWidget.h"
 
 
-namespace bWidgetDemo {
+namespace bWidgetsDemo {
 
 class Stage {
 public:
@@ -40,4 +40,4 @@ private:
 	void initFonts();
 };
 
-} // namespace bWidgetDemo
+} // namespace bWidgetsDemo

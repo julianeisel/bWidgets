@@ -1,6 +1,6 @@
 #include "Application.h"
 
-using namespace bWidgetDemo;
+using namespace bWidgetsDemo;
 
 
 int main(int /*argc*/, char** /*argv*/)
