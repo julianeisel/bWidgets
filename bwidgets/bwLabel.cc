@@ -15,19 +15,6 @@ bwLabel::bwLabel(
 	
 }
 
-void bwLabel::onClick()
-{
-	/* nothing */
-}
-void bwLabel::mouseEnter()
-{
-	/* nothing */
-}
-void bwLabel::mouseLeave()
-{
-	/* nothing */
-}
-
 void bwLabel::draw(bwStyle& style)
 {
 	bwStyle::WidgetStyle& widget_style = style.widget_style;

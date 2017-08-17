@@ -16,26 +16,38 @@ struct bwWidget
 		WIDGET_TYPE_RADIO_BUTTON,
 	} type;
 
-	enum WidgetState {
-		STATE_NORMAL,
-		STATE_HIGHLIGHTED,
-		STATE_SUNKEN,
-	} state;
-
 	bwWidget(const WidgetType type, const bwRectanglePixel& rectangle);
 	virtual ~bwWidget() {}
 
 	virtual bool isCoordinateInside(int x, int y);
-
 	virtual void draw(class bwStyle& style) = 0;
-	virtual void onClick();
-	virtual void mouseEnter();
-	virtual void mouseLeave();
-
-	void (*apply)(bwWidget& widget);
 
 	bwRectanglePixel rectangle;
-	unsigned int rounded_corners;
 };
+
+/**
+ * Performs a conditional widget cast from bwWidget to derived class if valid.
+ * \return the derrived widget class of type T or nullptr if cast is not valid.
+ */
+template<class T>
+inline T widget_cast(bwWidget* widget)
+{
+	return dynamic_cast<T>(widget);
+}
+template<class T>
+inline T widget_cast(const bwWidget* widget)
+{
+	return dynamic_cast<T>(widget);
+}
+template<class T>
+inline T widget_cast(bwWidget& widget)
+{
+	return dynamic_cast<T>(widget);
+}
+template<class T>
+inline T widget_cast(const bwWidget& widget)
+{
+	return dynamic_cast<T>(widget);
+}
 
 } // namespace bWidgets

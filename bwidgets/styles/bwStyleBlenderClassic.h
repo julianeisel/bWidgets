@@ -13,8 +13,8 @@ public:
 
 private:
 	void setWidgetStyleDefault(const class bwWidget& widget);
-	void setWidgetStyleLabel();
 	void setWidgetStyleRadioButton(const class bwWidget& widget);
+	void setWidgetStyleLabel();
 };
 
 } // namespace bWidgets

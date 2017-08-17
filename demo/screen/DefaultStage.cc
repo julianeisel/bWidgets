@@ -24,7 +24,7 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 	const unsigned int xmin = padding;
 	unsigned int offset_xmin = 0;
 
-	bwWidget* prev_button = nullptr;
+	bwAbstractButton* prev_button = nullptr;
 
 	const std::string& style_str = "Style: ";
 	const unsigned int str_width = font->calculateStringWidth(style_str);
@@ -41,7 +41,7 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 		style_button->apply = StyleApplyButtonCb;
 
 		if (type.type_id == style->type_id) {
-			style_button->state = bwWidget::STATE_SUNKEN;
+			style_button->state = bwAbstractButton::STATE_SUNKEN;
 		}
 
 		widgetAdd(style_button);
@@ -106,7 +106,7 @@ void DefaultStage::iterWidgetPositions(
 
 void DefaultStage::StyleApplyButtonCb(bwWidget& widget)
 {
-	bwRadioButton& radio_but = static_cast<bwRadioButton&>(widget);
+	bwRadioButton& radio_but = widget_cast<bwRadioButton&>(widget);
 	DefaultStage* stage = reinterpret_cast<DefaultStage*>(radio_but.custom_data);
 
 	stage->activateStyleID((bwStyle::StyleTypeID)radio_but.valueID);
@@ -116,9 +116,9 @@ void DefaultStage::StyleApplyButtonCb(bwWidget& widget)
 		if ((widget_iter != &widget) &&
 		    (widget_iter->type == bwWidget::WIDGET_TYPE_RADIO_BUTTON))
 		{
-			bwRadioButton* radio_iter = reinterpret_cast<bwRadioButton*>(widget_iter);
+			bwRadioButton* radio_iter = widget_cast<bwRadioButton*>(widget_iter);
 			if (radio_iter->custom_data == radio_but.custom_data) {
-				radio_iter->state = bwWidget::STATE_NORMAL;
+				radio_iter->state = bwAbstractButton::STATE_NORMAL;
 			}
 		}
 	}

@@ -2,12 +2,12 @@
 
 #include <string>
 
-#include "bwWidget.h"
+#include "bwAbstractButton.h"
 
 
 namespace bWidgets {
 
-class bwPushButton : public bwWidget
+class bwPushButton : public bwAbstractButton
 {
 public:
 	bwPushButton(

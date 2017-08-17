@@ -9,6 +9,7 @@ extern "C" {
 #include "../gpu/ShaderProgram.h"
 
 // bWidgets lib
+#include "bwAbstractButton.h"
 #include "bwColor.h"
 #include "bwPainter.h"
 #include "bwPolygon.h"
@@ -219,14 +220,18 @@ void Stage::handleMouseMovementEvent(const int mouse_xy[])
 {
 	for (bwWidget* widget : widgets) {
 		const bool is_hovered = widget->isCoordinateInside(mouse_xy[0], mouse_xy[1]);
+		bwAbstractButton* button = widget_cast<bwAbstractButton*>(widget);
 
-		if (widget->state == bwWidget::STATE_HIGHLIGHTED) {
+		if (!button) {
+			// skip
+		}
+		else if (button->state == bwAbstractButton::STATE_HIGHLIGHTED) {
 			if (!is_hovered) {
-				widget->mouseLeave();
+				button->mouseLeave();
 			}
 		}
 		else if (is_hovered) {
-			widget->mouseEnter();
+			button->mouseEnter();
 		}
 	}
 }
@@ -236,8 +241,10 @@ void Stage::handleMouseButtonEvent(
         int /*button*/, int /*action*/, int /*mods*/)
 {
 	for (bwWidget* widget : widgets) {
-		if (widget->isCoordinateInside(mouse_xy[0], mouse_xy[1])) {
-			widget->onClick();
+		bwAbstractButton* button = widget_cast<bwAbstractButton*>(widget);
+
+		if (button && button->isCoordinateInside(mouse_xy[0], mouse_xy[1])) {
+			button->onClick();
 		}
 	}
 }

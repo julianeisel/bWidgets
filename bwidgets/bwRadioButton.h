@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "bwWidget.h"
+#include "bwAbstractButton.h"
 
 namespace bWidgets {
 
@@ -17,7 +17,7 @@ namespace bWidgets {
  * In future, there should be a group-widget that ensures the exclusive behavior within bWidgets. We need to
  * make Blender ready for it first, though (or make it optional).
  */
-class bwRadioButton : public bwWidget
+class bwRadioButton : public bwAbstractButton
 {
 public:
 	bwRadioButton(

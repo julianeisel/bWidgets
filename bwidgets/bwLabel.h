@@ -15,9 +15,6 @@ public:
 	        unsigned int width = 10, unsigned int height = 10);
 
 	void draw(class bwStyle& style);
-	void onClick();
-	void mouseEnter();
-	void mouseLeave();
 
 private:
 	const std::string text;

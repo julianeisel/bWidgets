@@ -9,8 +9,8 @@ bwRadioButton::bwRadioButton(
         const std::string& text,
         unsigned int position_x, unsigned int position_y,
         unsigned int width, unsigned int height) :
-    bwWidget(
-        bwWidget::WIDGET_TYPE_RADIO_BUTTON,
+    bwAbstractButton(
+        WIDGET_TYPE_RADIO_BUTTON,
         bwRectanglePixel(position_x, position_x + width, position_y, position_y + height)),
     text(text)
 {

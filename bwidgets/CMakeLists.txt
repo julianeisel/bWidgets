@@ -5,6 +5,7 @@ set(INC
 )
 
 set(SRC
+	bwAbstractButton.cc
 	bwLabel.cc
 	bwPainter.cc
 	bwPushButton.cc
@@ -15,6 +16,7 @@ set(SRC
 	styles/bwStyleBlenderClassic.cc
 	styles/bwStyleBlenderFlat.cc
 
+	bwAbstractButton.h
 	bwLabel.h
 	bwPainter.h
 	bwPushButton.h
