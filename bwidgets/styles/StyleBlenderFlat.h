@@ -4,11 +4,10 @@
 
 namespace bWidgets {
 
-class StyleBlenderClassic : public Style
+class StyleBlenderFlat : public Style
 {
 public:
-	StyleBlenderClassic();
-
+	StyleBlenderFlat();
 	void setWidgetStyle(const class Widget& widget);
 
 private:

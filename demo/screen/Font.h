@@ -22,7 +22,7 @@ public:
 	        unsigned char character,
 	        const unsigned int attr_pos, const unsigned int attr_texcoord,
 	        const int pos_x, const int pos_y) const;
-	int calculateStringWidth(const std::string &text);
+	unsigned int calculateStringWidth(const std::string &text);
 
 	void setSize(const float size);
 	int getSize() const;

@@ -1,6 +1,7 @@
 set(INC
 	.
 	generics
+	styles
 )
 
 set(SRC
@@ -9,16 +10,20 @@ set(SRC
 	PushButton.cc
 	RadioButton.cc
 	Style.cc
+	StyleManager.cc
 	Widget.cc
 	styles/StyleBlenderClassic.cc
+	styles/StyleBlenderFlat.cc
 
 	Label.h
 	Painter.h
 	PushButton.h
 	RadioButton.h
 	Style.h
+	StyleManager.h
 	Widget.h
 	styles/StyleBlenderClassic.h
+	styles/StyleBlenderFlat.h
 )
 
 set(LIB

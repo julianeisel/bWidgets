@@ -17,6 +17,7 @@ private:
 	        const unsigned int offset_top,
 	        void (*callback)(Stage&, const unsigned int, const unsigned int,
 	                         const unsigned int, const unsigned int, const unsigned int));
+
 	static void widgetAddCb(
 	        Stage&, const unsigned int,
 	        const unsigned int, const unsigned int,
@@ -25,6 +26,7 @@ private:
 	        Stage&, const unsigned int,
 	        const unsigned int, const unsigned int,
 	        const unsigned int, const unsigned int);
+	static void StyleApplyButtonCb(bWidgets::Widget& widget);
 
 	const unsigned int padding = 10;
 };

@@ -126,7 +126,7 @@ void Font::setActiveColor(const bWidgets::Color &value)
 	active_color = value;
 }
 
-int Font::calculateStringWidth(const std::string& text)
+unsigned int Font::calculateStringWidth(const std::string& text)
 {
 	unsigned int width = 0;
 
@@ -134,7 +134,7 @@ int Font::calculateStringWidth(const std::string& text)
 
 	for (unsigned char character : text) {
 		const FontGlyphCache::CachedGlyph& glyph = cache.getCachedGlyph(*this, character);
-		width += glyph.advance_width;
+		width += glyph.advance_width + glyph.offset_left;
 	}
 
 	return width;

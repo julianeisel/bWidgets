@@ -45,4 +45,5 @@ void RadioButton::draw(Style& style)
 void RadioButton::onClick()
 {
 	state = STATE_SUNKEN;
+	apply(*this);
 }

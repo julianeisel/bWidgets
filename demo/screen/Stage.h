@@ -16,6 +16,8 @@ public:
 
 	void draw(unsigned int width, unsigned int height);
 
+	void activateStyleID(bWidgets::Style::StyleTypeID type_id);
+
 	void widgetAdd(bWidgets::Widget* widget);
 	bWidgets::Widget* getWidgetAt(const unsigned int index);
 
@@ -24,13 +26,14 @@ public:
 
 	virtual void handleResizeEvent(const class Window& win);
 
-	unsigned int getWidth() const;
-	unsigned int getHeight() const;
+	unsigned int getWidth() const; unsigned int getHeight() const;
+
+protected:
+	std::unique_ptr<bWidgets::Style> style;
+	std::list<bWidgets::Widget*> widgets;
+	class Font* font;
 
 private:
-	std::list<bWidgets::Widget*> widgets;
-	std::unique_ptr<bWidgets::Style> style;
-	class Font* font;
 
 	unsigned int width, height;
 

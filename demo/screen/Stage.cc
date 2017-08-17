@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <memory>
 
 // drawing
 extern "C" {
@@ -14,7 +15,7 @@ extern "C" {
 #include "Point.h"
 #include "Rectangle.h"
 #include "Style.h"
-#include "StyleBlenderClassic.h"
+#include "StyleManager.h"
 #include "Widget.h"
 
 #include "Font.h"
@@ -149,7 +150,7 @@ static void stage_text_draw_cb(
 }
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
-    style(new bWidgets::StyleBlenderClassic()), width(width), height(height)
+    width(width), height(height)
 {
 	// Initialize drawing callbacks for the stage
 	bWidgets::Painter::drawPolygonCb = stage_polygon_draw_cb;
@@ -157,6 +158,10 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 
 	initFonts();
 	bWidgets::Painter::text_draw_arg = font;
+
+	bWidgets::StyleManager& style_manager = bWidgets::StyleManager::getStyleManager();
+	style_manager.registerDefaultStyleTypes();
+	activateStyleID(bWidgets::Style::STYLE_BLENDER_CLASSIC);
 }
 
 Stage::~Stage()
@@ -176,6 +181,12 @@ void Stage::initFonts()
 	// Initialize default font
 	font = Font::loadFont("bfont.ttf", RESOURCES_PATH_STR);
 	font->setSize(11.0f);
+}
+
+void Stage::activateStyleID(bWidgets::Style::StyleTypeID type_id)
+{
+	bWidgets::StyleManager& style_manager = bWidgets::StyleManager::getStyleManager();
+	style = std::unique_ptr<bWidgets::Style>(style_manager.createStyleFromTypeID(type_id));
 }
 
 void Stage::draw(unsigned int width, unsigned int height)

@@ -3,7 +3,7 @@
 using namespace bWidgets;
 
 Widget::Widget(const WidgetType type, const Rectangle<unsigned int>& rectangle) :
-    type(type), rectangle(rectangle)
+    type(type), rectangle(rectangle), rounded_corners(RoundboxCorner::ALL)
 {
 	
 }
