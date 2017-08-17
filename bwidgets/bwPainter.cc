@@ -9,7 +9,7 @@ using namespace bWidgets;
 
 
 void (*bwPainter::drawPolygonCb)(const class bwPainter&, const class bwPolygon&) = 0;
-void (*bwPainter::drawTextCb)(const class bwPainter &, const std::string&, const bwRectangle<unsigned int>&, void*) = 0;
+void (*bwPainter::drawTextCb)(const class bwPainter &, const std::string&, const bwRectanglePixel&, void*) = 0;
 void* bwPainter::text_draw_arg = NULL;
 
 bwPainter::bwPainter() :
@@ -26,7 +26,7 @@ void bwPainter::drawPolygon(const bwPolygon& poly) const
 	}
 }
 
-void bwPainter::drawText(const std::string& text, const bwRectangle<unsigned int>& rectangle, void* text_draw_arg) const
+void bwPainter::drawText(const std::string& text, const bwRectanglePixel& rectangle, void* text_draw_arg) const
 {
 	if (text.size() > 0) {
 		drawTextCb(*this, text, rectangle, text_draw_arg);
@@ -44,9 +44,9 @@ const bwColor& bwPainter::getActiveColor() const
 	return active_color;
 }
 
-const std::vector<bwColor> bwPainter::getVertexColors() const
+const bwColor& bwPainter::getVertexColor(const size_t vertex_index) const
 {
-	return vert_colors;
+	return vert_colors[vertex_index];
 }
 
 void bwPainter::enableGradient(
@@ -87,10 +87,10 @@ static const float cornervec[WIDGET_CURVE_RESOLU][2] = {
 };
 
 static void PolygonRoundboxAddVerts(
-        bwPolygon& polygon, const bwRectangle<unsigned int>& rect,
+        bwPolygon& polygon, const bwRectanglePixel& rect,
         unsigned int corners, const float radius, const bool is_outline)
 {
-	bwRectangle<unsigned int> rect_inner = rect;
+	bwRectanglePixel rect_inner = rect;
 	const float radius_inner = radius - 1.0f;
 	float vec_outer[WIDGET_CURVE_RESOLU][2];
 	float vec_inner[WIDGET_CURVE_RESOLU][2];
@@ -184,7 +184,7 @@ static void PolygonRoundboxAddVerts(
 }
 
 void bwPainter::drawRoundbox(
-        const bwRectangle<unsigned int>& rect,
+        const bwRectanglePixel& rect,
         unsigned int corners, const float radius)
 {
 	bwPolygon polygon;
@@ -202,7 +202,7 @@ void bwPainter::drawRoundbox(
  *              now since there's access to \a polygon, but it's usually available when calling this function anyway.
  */
 void bwPainter::fillVertexColorsWithGradient(
-        const bwPolygon& polygon, const bwRectangle<unsigned int>& bounding_box)
+        const bwPolygon& polygon, const bwRectanglePixel& bounding_box)
 {
 	assert(isGradientEnabled());
 

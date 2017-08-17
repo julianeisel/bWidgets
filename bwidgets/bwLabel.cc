@@ -9,7 +9,7 @@ bwLabel::bwLabel(
         unsigned int position_x, unsigned int position_y,
         unsigned int width, unsigned int height) :
     bwWidget(bwWidget::WIDGET_TYPE_LABEL,
-           bwRectangle<unsigned int>(position_x, position_x + width, position_y, position_y + height)),
+           bwRectanglePixel(position_x, position_x + width, position_y, position_y + height)),
     text(text)
 {
 	

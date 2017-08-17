@@ -8,7 +8,7 @@ using namespace bWidgets;
 
 
 bwColor bwGradient::calcPointColor(
-        const bwPoint& point, const bwRectangle<unsigned int>& bounding_box) const
+        const bwPoint& point, const bwRectanglePixel& bounding_box) const
 {
 	const float pos_fac = (direction == bwGradient::DIRECTION_TOP_BOTTOM) ?
 	                          ((float)(point.y - bounding_box.ymin) / (float)bounding_box.height()) :
@@ -18,7 +18,7 @@ bwColor bwGradient::calcPointColor(
 	assert((pos_fac >= 0.0f) && (pos_fac <= 1.0f));
 
 	return bwColor((begin[0] * pos_fac) + (end[0] * pos_fac_inv),
-	             (begin[1] * pos_fac) + (end[1] * pos_fac_inv),
-	             (begin[2] * pos_fac) + (end[2] * pos_fac_inv),
-	             (begin[3] * pos_fac) + (end[3] * pos_fac_inv));
+	               (begin[1] * pos_fac) + (end[1] * pos_fac_inv),
+	               (begin[2] * pos_fac) + (end[2] * pos_fac_inv),
+	               (begin[3] * pos_fac) + (end[3] * pos_fac_inv));
 }

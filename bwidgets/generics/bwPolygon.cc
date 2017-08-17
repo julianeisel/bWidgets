@@ -14,7 +14,7 @@ bwPolygon::bwPolygon(const bwPolygon &poly) :
 	
 }
 
-bwPolygon::bwPolygon(std::vector<bwPoint>& vertices) :
+bwPolygon::bwPolygon(bwPointVec& vertices) :
     vertices(vertices), vert_count(vertices.size())
 {
 	
@@ -41,7 +41,7 @@ void bwPolygon::reserve(const unsigned int count)
 	vertices.reserve(count);
 }
 
-const std::vector<bwPoint>& bwPolygon::getVertices() const
+const bwPointVec& bwPolygon::getVertices() const
 {
 	return vertices;
 }

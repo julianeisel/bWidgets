@@ -16,17 +16,17 @@ public:
 	static void (*drawPolygonCb)(const class bwPainter& painter, const class bwPolygon& poly);
 	static void (*drawTextCb)(
 	        const class bwPainter& painter, const std::string& text,
-	        const bwRectangle<unsigned int>& rectangle, void* text_draw_arg);
+	        const bwRectanglePixel& rectangle, void* text_draw_arg);
 	static void* text_draw_arg;
 
 	bwPainter();
 
 	void drawPolygon(const class bwPolygon& poly) const;
-	void drawText(const std::string& text, const bwRectangle<unsigned int>& rectangle, void* text_draw_arg) const;
+	void drawText(const std::string& text, const bwRectanglePixel& rectangle, void* text_draw_arg) const;
 
 	void setActiveColor(const bwColor& color);
 	const bwColor& getActiveColor() const;
-	const std::vector<bwColor> getVertexColors() const;
+	const bwColor& getVertexColor(const size_t vertex_index) const;
 
 	void enableGradient(
 	        const bwColor& base_color,
@@ -41,7 +41,7 @@ public:
 
 	// Primitives
 	void drawRoundbox(
-	        const bwRectangle<unsigned int>& rect,
+	        const bwRectanglePixel& rect,
 	        unsigned int corners, const float radius);
 
 private:
@@ -50,7 +50,7 @@ private:
 	std::unique_ptr<bwGradient> active_gradient;
 
 	void fillVertexColorsWithGradient(
-	        const bwPolygon& polygon, const bwRectangle<unsigned int>& bounding_box);
+	        const bwPolygon& polygon, const bwRectanglePixel& bounding_box);
 };
 
 enum RoundboxCorner {

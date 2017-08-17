@@ -14,7 +14,7 @@ bwPushButton::bwPushButton(
         const std::string& _text, unsigned int position_x, unsigned int position_y, unsigned int _width, unsigned int _height) :
     bwWidget(
         bwWidget::WIDGET_TYPE_PUSH_BUTTON,
-        bwRectangle<unsigned int>(position_x, position_x + _width, position_y, position_y + _height)),
+        bwRectanglePixel(position_x, position_x + _width, position_y, position_y + _height)),
     text(_text)
 {
 	
@@ -23,7 +23,7 @@ bwPushButton::bwPushButton(
 void bwPushButton::draw(bwStyle& style)
 {
 	bwStyle::WidgetStyle& widget_style = style.widget_style;
-	bwRectangle<unsigned int> inner_rect = rectangle;
+	bwRectanglePixel inner_rect = rectangle;
 	bwPainter painter;
 
 	style.setWidgetStyle(*this);

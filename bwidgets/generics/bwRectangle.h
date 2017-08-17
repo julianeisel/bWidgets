@@ -52,4 +52,7 @@ struct bwRectangle
 	T ymin, ymax;
 };
 
+// useful typedefs
+typedef bwRectangle<unsigned int> bwRectanglePixel;
+
 } // namespace bWidgets

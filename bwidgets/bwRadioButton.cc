@@ -11,7 +11,7 @@ bwRadioButton::bwRadioButton(
         unsigned int width, unsigned int height) :
     bwWidget(
         bwWidget::WIDGET_TYPE_RADIO_BUTTON,
-        bwRectangle<unsigned int>(position_x, position_x + width, position_y, position_y + height)),
+        bwRectanglePixel(position_x, position_x + width, position_y, position_y + height)),
     text(text)
 {
 	
@@ -20,7 +20,7 @@ bwRadioButton::bwRadioButton(
 void bwRadioButton::draw(bwStyle& style)
 {
 	bwStyle::WidgetStyle& widget_style = style.widget_style;
-	bwRectangle<unsigned int> inner_rect = rectangle;
+	bwRectanglePixel inner_rect = rectangle;
 	bwPainter painter;
 
 	style.setWidgetStyle(*this);

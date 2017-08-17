@@ -54,7 +54,7 @@ static void stage_polygon_draw_uniform_color(
         const bwPolygon& poly, const bwColor& color,
         const PrimitiveType type, const unsigned int attr_pos)
 {
-	const std::vector<bwPoint>& vertices = poly.getVertices();
+	const bwPointVec& vertices = poly.getVertices();
 
 	immUniformColor4fv(color);
 
@@ -68,12 +68,11 @@ static void stage_polygon_draw_shaded(
         const bwPainter& painter, const bwPolygon& poly, const PrimitiveType type,
         const unsigned int attr_pos, const unsigned int attr_color)
 {
-	const std::vector<bwPoint>& vertices = poly.getVertices();
-	const std::vector<bwColor>& colors = painter.getVertexColors();
+	const bwPointVec& vertices = poly.getVertices();
 
 	immBegin(type, vertices.size());
 	for (int i = 0; i < vertices.size(); i++) {
-		immAttrib4fv(attr_color, colors[i]);
+		immAttrib4fv(attr_color, painter.getVertexColor(i));
 		immVertex2f(attr_pos, vertices[i].x, vertices[i].y);
 	}
 	immEnd();
@@ -137,7 +136,7 @@ static void stage_polygon_draw_cb(const bwPainter& painter, const bwPolygon& pol
  */
 static void stage_text_draw_cb(
         const bwPainter &painter, const std::string& text,
-        const bwRectangle<unsigned int>& rectangle, void* text_draw_arg)
+        const bwRectanglePixel& rectangle, void* text_draw_arg)
 {
 	Font* font = reinterpret_cast<Font*>(text_draw_arg);
 	const float font_height = font->getSize();

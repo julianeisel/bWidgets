@@ -22,7 +22,7 @@ struct bwWidget
 		STATE_SUNKEN,
 	} state;
 
-	bwWidget(const WidgetType type, const bwRectangle<unsigned int>& rectangle);
+	bwWidget(const WidgetType type, const bwRectanglePixel& rectangle);
 	virtual ~bwWidget() {}
 
 	virtual bool isCoordinateInside(int x, int y);
@@ -34,7 +34,7 @@ struct bwWidget
 
 	void (*apply)(bwWidget& widget);
 
-	bwRectangle<unsigned int> rectangle;
+	bwRectanglePixel rectangle;
 	unsigned int rounded_corners;
 };
 

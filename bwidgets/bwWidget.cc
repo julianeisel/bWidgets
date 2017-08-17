@@ -2,7 +2,7 @@
 
 using namespace bWidgets;
 
-bwWidget::bwWidget(const WidgetType type, const bwRectangle<unsigned int>& rectangle) :
+bwWidget::bwWidget(const WidgetType type, const bwRectanglePixel& rectangle) :
     type(type), state(STATE_NORMAL),
     rectangle(rectangle), rounded_corners(RoundboxCorner::ALL)
 {
