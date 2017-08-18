@@ -64,8 +64,8 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	for (unsigned char character : text) {
-		pen_x += renderCharacter(character, pos, texcoord, pen_x, pos_y);
+	for (int i = 0; i < text.size(); i++) {
+		pen_x += renderCharacter(text[i], (i > 0) ? text[i - 1] : 0, pos, texcoord, pen_x, pos_y);
 	}
 
 	glDisable(GL_BLEND);
@@ -76,17 +76,24 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
  * \return The offset at which the next character should be drawn.
  */
 float Font::renderCharacter(
-        unsigned char character,
+        unsigned char character, unsigned char previous_character,
         const unsigned int attr_pos, const unsigned int attr_texcoord,
         const int pos_x, const int pos_y) const
 {
 	const FontGlyphCache::CachedGlyph& glyph = cache.getCachedGlyph(*this, character);
 	const float w = glyph.width;
 	const float h = glyph.height;
-	const float pen_x = pos_x + glyph.offset_left;
-	const float pen_y = -pos_y - glyph.offset_top;
+	const bool use_kerning = previous_character != 0;
+	float pen_x = pos_x + glyph.offset_left;
+	float pen_y = -pos_y - glyph.offset_top;
+	float kerning_dist_x = 0;
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, glyph.bitmap);
+
+	if (use_kerning) {
+		kerning_dist_x = getKerningDistance(cache.getCachedGlyph(*this, previous_character), glyph);
+		pen_x += kerning_dist_x;
+	}
 
 	immBegin(PRIM_TRIANGLE_STRIP, 4);
 	immAttrib2f(attr_texcoord, 0.0f, .0f);
@@ -99,7 +106,7 @@ float Font::renderCharacter(
 	immVertex2f(attr_pos, pen_x + w, -pen_y - h);
 	immEnd();
 
-	return glyph.advance_width;
+	return glyph.advance_width + kerning_dist_x;
 }
 
 void Font::setSize(const float _size)
@@ -126,15 +133,31 @@ void Font::setActiveColor(const bWidgets::bwColor &value)
 	active_color = value;
 }
 
+float Font::getKerningDistance(
+        const FontGlyphCache::CachedGlyph& left,
+        const FontGlyphCache::CachedGlyph& right) const
+{
+	FT_Vector kerning_dist_xy;
+	FT_Get_Kerning(face, left.index, right.index, FT_KERNING_DEFAULT, &kerning_dist_xy);
+	return kerning_dist_xy.x / 64.0f;
+}
+
 unsigned int Font::calculateStringWidth(const std::string& text)
 {
 	unsigned int width = 0;
 
 	cache.ensureUpdated(*this);
 
-	for (unsigned char character : text) {
-		const FontGlyphCache::CachedGlyph& glyph = cache.getCachedGlyph(*this, character);
+	const FontGlyphCache::CachedGlyph* prev_glyph = nullptr;
+	for (int i = 0; i < text.size(); i++) {
+		const FontGlyphCache::CachedGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
+
+		if (prev_glyph) {
+			width += getKerningDistance(*prev_glyph, glyph);
+		}
+
 		width += glyph.advance_width;
+		prev_glyph = &glyph;
 	}
 
 	return width;
@@ -164,16 +187,17 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 	     glyph_index != 0;
 	     charcode = FT_Get_Next_Char(font.face, charcode, &glyph_index))
 	{
-		if (FT_Load_Glyph(font.face, glyph_index, FT_LOAD_RENDER)) {
+		if (FT_Load_Glyph(font.face, glyph_index, FT_LOAD_TARGET_NORMAL | FT_LOAD_NO_HINTING | FT_LOAD_RENDER)) {
 			std::cout << "Error: Failed to render character at index '" << glyph_index << "' into cache" << std::endl;
 		}
 		else {
 			const FT_GlyphSlot freetype_glyph = font.face->glyph;
 			std::unique_ptr<CachedGlyph> glyph(new CachedGlyph(
-			                                         freetype_glyph->bitmap.width, freetype_glyph->bitmap.rows,
-			                                         freetype_glyph->bitmap_left, freetype_glyph->bitmap_top,
-			                                         (int)freetype_glyph->advance.x,
-			                                         freetype_glyph->bitmap.buffer));
+			                                       glyph_index,
+			                                       freetype_glyph->bitmap.width, freetype_glyph->bitmap.rows,
+			                                       freetype_glyph->bitmap_left, freetype_glyph->bitmap_top,
+			                                       freetype_glyph->advance.x >> 6,
+			                                       freetype_glyph->bitmap.buffer));
 
 			cached_glyphs[glyph_index] = std::move(glyph);
 		}
@@ -189,13 +213,15 @@ const Font::FontGlyphCache::CachedGlyph& Font::FontGlyphCache::getCachedGlyph(
 }
 
 Font::FontGlyphCache::CachedGlyph::CachedGlyph(
+        const unsigned int index,
         const unsigned int width, const unsigned int height,
         const int offset_left, const int offset_top,
         const int advance_width,
         const unsigned char* bitmap_buffer) :
+    index(index),
     width(width), height(height),
     offset_left(offset_left), offset_top(offset_top),
-    advance_width(advance_width / 64.0f)
+    advance_width(advance_width)
 {
 	bitmap = new unsigned char[width * height];
 	memcpy(bitmap, bitmap_buffer, width * height);

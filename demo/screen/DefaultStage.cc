@@ -26,10 +26,10 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 
 	bwAbstractButton* prev_button = nullptr;
 
-	const std::string& style_str = "Style: ";
+	const std::string& style_str = "Style:";
 	const unsigned int str_width = font->calculateStringWidth(style_str);
-	widgetAdd(new bwLabel(style_str, xmin, ymin, str_width + padding, button_height));
-	offset_xmin += str_width + padding;
+	widgetAdd(new bwLabel(style_str, xmin, ymin, str_width + padding + 10, button_height)); // +10 because text is drawn offset
+	offset_xmin += str_width + padding + 10;
 
 	for (bwStyle::StyleType type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
 		bwRadioButton* style_button = new bwRadioButton(

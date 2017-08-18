@@ -137,7 +137,7 @@ static float stage_text_xpos_calc(
         const bwRectanglePixel& rectangle, const TextAlignment alignment)
 {
 	return (alignment == TEXT_ALIGN_CENTER) ?
-	            (rectangle.centerX() - (font.calculateStringWidth(text) / 2.0f)) : (rectangle.xmin + 10.0f);
+	            (rectangle.centerX() - (font.calculateStringWidth(text) / 2.0f)) : (rectangle.xmin + 10.0f); // XXX +10 is ugly. Goes out of widget rectangle even.
 }
 
 /**
