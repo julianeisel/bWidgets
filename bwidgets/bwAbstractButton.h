@@ -16,6 +16,7 @@ public:
 		STATE_SUNKEN,
 	} state;
 
+	virtual void draw(class bwStyle &style);
 	virtual void onClick();
 	virtual void mouseEnter();
 	virtual void mouseLeave();
@@ -26,7 +27,10 @@ public:
 
 protected:
 	// Protected constructor to force calling through inherited class (pseudo abstract).
-	bwAbstractButton(const WidgetType type, const bwRectanglePixel& rectangle);
+	bwAbstractButton(const std::string& text, const WidgetType type, const bwRectanglePixel& rectangle);
+
+private:
+	const std::string text;
 };
 
 } // namespace bWidgets

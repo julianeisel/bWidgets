@@ -25,15 +25,11 @@ public:
 	        unsigned int position_x = 0, unsigned int position_y = 0,
 	        unsigned int width = 10, unsigned int height = 10);
 
-	void draw(class bwStyle &style);
 	void onClick();
 
 	// XXX Not that pretty.
 	void* custom_data;
 	unsigned int valueID;
-
-private:
-	const std::string text;
 };
 
 } // bWidgets
