@@ -12,6 +12,8 @@
 
 namespace bWidgetsDemo {
 
+class FontGlyph;
+
 class Font {
 public:
 	static void initFontReading();
@@ -31,39 +33,9 @@ public:
 	void setActiveColor(const bWidgets::bwColor &value);
 
 private:
-	class FontGlyphCache {
-	// Everything public, this nested class is private to Font anyway.
-	public:
-		FontGlyphCache();
-
-		void ensureUpdated(Font&);
-
-		class CachedGlyph {
-		public:
-			CachedGlyph(
-			        const unsigned int, const unsigned int, const unsigned int,
-			        const int, const int, const int, const unsigned char*);
-			~CachedGlyph();
-
-			unsigned int index; // Same as freetype index
-
-			unsigned int width, height;  // width, rows
-			int offset_left, offset_top; // bitmap_left, bitmap_top
-			int advance_width; // advance.x
-
-			unsigned char* bitmap;
-		};
-		const CachedGlyph& getCachedGlyph(const Font&, const unsigned char) const;
-
-		bool is_dirty;
-		std::vector<std::unique_ptr<CachedGlyph>> cached_glyphs;
-	} cache;
-
 	Font() {}
 
-	float getKerningDistance(
-	        const FontGlyphCache::CachedGlyph& left,
-	        const FontGlyphCache::CachedGlyph& right) const;
+	float getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
 
 	// The freetype library handle.
 	static FT_Library ft_library;
@@ -74,6 +46,35 @@ private:
 	int size;
 
 	bWidgets::bwColor active_color;
+
+
+	class FontGlyphCache {
+	// Everything public, this nested class is private to Font anyway.
+	public:
+		FontGlyphCache();
+
+		void ensureUpdated(Font&);
+		const FontGlyph& getCachedGlyph(const Font&, const unsigned char) const;
+
+		bool is_dirty;
+		std::vector<std::unique_ptr<FontGlyph>> cached_glyphs;
+	} cache;
+};
+
+class FontGlyph {
+public:
+	FontGlyph(
+	        const unsigned int, const unsigned int, const unsigned int,
+	        const int, const int, const int, const unsigned char*);
+	~FontGlyph();
+
+	unsigned int index; // Same as freetype index
+
+	unsigned int width, height;  // width, rows
+	int offset_left, offset_top; // bitmap_left, bitmap_top
+	int advance_width; // advance.x
+
+	unsigned char* bitmap;
 };
 
 } // namespace bWidgetsDemo

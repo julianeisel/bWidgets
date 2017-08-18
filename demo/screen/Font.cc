@@ -80,7 +80,7 @@ float Font::renderCharacter(
         const unsigned int attr_pos, const unsigned int attr_texcoord,
         const int pos_x, const int pos_y) const
 {
-	const FontGlyphCache::CachedGlyph& glyph = cache.getCachedGlyph(*this, character);
+	const FontGlyph& glyph = cache.getCachedGlyph(*this, character);
 	const float w = glyph.width;
 	const float h = glyph.height;
 	const bool use_kerning = previous_character != 0;
@@ -133,9 +133,7 @@ void Font::setActiveColor(const bWidgets::bwColor &value)
 	active_color = value;
 }
 
-float Font::getKerningDistance(
-        const FontGlyphCache::CachedGlyph& left,
-        const FontGlyphCache::CachedGlyph& right) const
+float Font::getKerningDistance(const FontGlyph& left, const FontGlyph& right) const
 {
 	FT_Vector kerning_dist_xy;
 	FT_Get_Kerning(face, left.index, right.index, FT_KERNING_DEFAULT, &kerning_dist_xy);
@@ -148,9 +146,9 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 
 	cache.ensureUpdated(*this);
 
-	const FontGlyphCache::CachedGlyph* prev_glyph = nullptr;
+	const FontGlyph* prev_glyph = nullptr;
 	for (int i = 0; i < text.size(); i++) {
-		const FontGlyphCache::CachedGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
+		const FontGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
 
 		if (prev_glyph) {
 			width += getKerningDistance(*prev_glyph, glyph);
@@ -192,7 +190,7 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 		}
 		else {
 			const FT_GlyphSlot freetype_glyph = font.face->glyph;
-			std::unique_ptr<CachedGlyph> glyph(new CachedGlyph(
+			std::unique_ptr<FontGlyph> glyph(new FontGlyph(
 			                                       glyph_index,
 			                                       freetype_glyph->bitmap.width, freetype_glyph->bitmap.rows,
 			                                       freetype_glyph->bitmap_left, freetype_glyph->bitmap_top,
@@ -206,13 +204,12 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 	is_dirty = false;
 }
 
-const Font::FontGlyphCache::CachedGlyph& Font::FontGlyphCache::getCachedGlyph(
-        const Font& font, const unsigned char character) const
+const FontGlyph& Font::FontGlyphCache::getCachedGlyph(const Font& font, const unsigned char character) const
 {
 	return *cached_glyphs[FT_Get_Char_Index(font.face, character)];
 }
 
-Font::FontGlyphCache::CachedGlyph::CachedGlyph(
+FontGlyph::FontGlyph(
         const unsigned int index,
         const unsigned int width, const unsigned int height,
         const int offset_left, const int offset_top,
@@ -227,7 +224,7 @@ Font::FontGlyphCache::CachedGlyph::CachedGlyph(
 	memcpy(bitmap, bitmap_buffer, width * height);
 }
 
-Font::FontGlyphCache::CachedGlyph::~CachedGlyph()
+FontGlyph::~FontGlyph()
 {
 	delete[] bitmap;
 }
