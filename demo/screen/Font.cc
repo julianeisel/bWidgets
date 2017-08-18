@@ -44,7 +44,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	VertexFormat* format = immVertexFormat();
 	unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
 	unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
-	float render_pos_x = pos_x;
+	float pen_x = pos_x;
 
 	cache.ensureUpdated(*this);
 
@@ -65,7 +65,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	for (unsigned char character : text) {
-		render_pos_x += renderCharacter(character, pos, texcoord, render_pos_x, pos_y);
+		pen_x += renderCharacter(character, pos, texcoord, pen_x, pos_y);
 	}
 
 	glDisable(GL_BLEND);
@@ -83,20 +83,20 @@ float Font::renderCharacter(
 	const FontGlyphCache::CachedGlyph& glyph = cache.getCachedGlyph(*this, character);
 	const float w = glyph.width;
 	const float h = glyph.height;
-	const float x = pos_x + glyph.offset_left;
-	const float y = -pos_y - glyph.offset_top;
+	const float pen_x = pos_x + glyph.offset_left;
+	const float pen_y = -pos_y - glyph.offset_top;
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, glyph.bitmap);
 
 	immBegin(PRIM_TRIANGLE_STRIP, 4);
 	immAttrib2f(attr_texcoord, 0.0f, .0f);
-	immVertex2f(attr_pos, x, -y);
+	immVertex2f(attr_pos, pen_x, -pen_y);
 	immAttrib2f(attr_texcoord, 1.0f, 0.0f);
-	immVertex2f(attr_pos, x + w, -y);
+	immVertex2f(attr_pos, pen_x + w, -pen_y);
 	immAttrib2f(attr_texcoord, 0.0f, 1.0f);
-	immVertex2f(attr_pos, x, -y - h);
+	immVertex2f(attr_pos, pen_x, -pen_y - h);
 	immAttrib2f(attr_texcoord, 1.0f, 1.0f);
-	immVertex2f(attr_pos, x + w, -y - h);
+	immVertex2f(attr_pos, pen_x + w, -pen_y - h);
 	immEnd();
 
 	return glyph.advance_width;
@@ -134,7 +134,7 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 
 	for (unsigned char character : text) {
 		const FontGlyphCache::CachedGlyph& glyph = cache.getCachedGlyph(*this, character);
-		width += glyph.advance_width + glyph.offset_left;
+		width += glyph.advance_width;
 	}
 
 	return width;

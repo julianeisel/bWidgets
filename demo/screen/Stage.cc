@@ -132,18 +132,25 @@ static void stage_polygon_draw_cb(const bwPainter& painter, const bwPolygon& pol
 	glDisable(GL_BLEND);
 }
 
+static float stage_text_xpos_calc(
+        Font& font, const std::string& text,
+        const bwRectanglePixel& rectangle, const TextAlignment alignment)
+{
+	return (alignment == TEXT_ALIGN_CENTER) ?
+	            (rectangle.centerX() - (font.calculateStringWidth(text) / 2.0f)) : (rectangle.xmin + 10.0f);
+}
+
 /**
  * The main text draw callback which is used to draw all text of widgets.
  */
 static void stage_text_draw_cb(
         const bwPainter &painter, const std::string& text,
-        const bwRectanglePixel& rectangle, void* text_draw_arg)
+        const bwRectanglePixel& rectangle, const TextAlignment alignment,
+        void* text_draw_arg)
 {
 	Font* font = reinterpret_cast<Font*>(text_draw_arg);
 	const float font_height = font->getSize();
-//	const float font_width = font->calculateStringWidth(text);
-//	const float draw_pos_x = widget.rectangle.centerX() - (font_width / 2.0f);
-	const float draw_pos_x = rectangle.xmin + 10.0f;
+	const float draw_pos_x = stage_text_xpos_calc(*font, text, rectangle, alignment);
 	const float draw_pos_y = rectangle.centerY() - (font_height / 2.0f) + 1.0f;
 
 	font->setActiveColor(painter.getActiveColor());

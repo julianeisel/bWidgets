@@ -39,7 +39,7 @@ void bwRadioButton::draw(bwStyle& style)
 
 	// Text
 	painter.setActiveColor(widget_style.text_color);
-	painter.drawText(text, rectangle, bwPainter::text_draw_arg);
+	painter.drawText(text, rectangle, widget_style.text_alignment, bwPainter::text_draw_arg);
 }
 
 void bwRadioButton::onClick()

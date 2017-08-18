@@ -3,6 +3,7 @@
 #include <string>
 
 #include "bwColor.h"
+#include "bwPainter.h"
 
 namespace bWidgets {
 
@@ -17,7 +18,8 @@ struct bwStyle
 //		STYLE_CUSTOM, // For the future
 	} type_id;
 
-	struct WidgetStyle {
+	struct WidgetStyle
+	{
 		bwColor fill_color;
 		bwColor text_color;
 		bwColor outline_color;
@@ -26,6 +28,8 @@ struct bwStyle
 		unsigned int roundbox_corners;
 
 		signed char shade_top, shade_bottom;
+
+		TextAlignment text_alignment;
 	} widget_style;
 
 	struct StyleType

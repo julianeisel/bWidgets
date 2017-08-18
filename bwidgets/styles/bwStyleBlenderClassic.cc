@@ -37,6 +37,7 @@ void bwStyleBlenderClassic::setWidgetStyleDefault(const bwWidget& widget)
 
 	widget_style.roundbox_radius = 5.0f;
 	widget_style.roundbox_corners = button.rounded_corners;
+	widget_style.text_alignment = TEXT_ALIGN_LEFT;
 }
 
 void bwStyleBlenderClassic::setWidgetStyleRadioButton(const bwWidget& widget)
@@ -64,11 +65,13 @@ void bwStyleBlenderClassic::setWidgetStyleRadioButton(const bwWidget& widget)
 
 	widget_style.roundbox_radius = 4.0f;
 	widget_style.roundbox_corners = button.rounded_corners;
+	widget_style.text_alignment = TEXT_ALIGN_CENTER;
 }
 
 void bwStyleBlenderClassic::setWidgetStyleLabel()
 {
 	widget_style.text_color.setColor(0.0f);
+	widget_style.text_alignment = TEXT_ALIGN_LEFT;
 }
 
 void bwStyleBlenderClassic::setWidgetStyle(const bwWidget& widget)
