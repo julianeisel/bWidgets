@@ -8,19 +8,30 @@ namespace bWidgets {
 /**
  * \brief Abstract base class that all widgets derive from.
  */
-struct bwWidget
+class bwWidget
 {
+public:
 	enum WidgetType {
 		WIDGET_TYPE_LABEL,
 		WIDGET_TYPE_PUSH_BUTTON,
 		WIDGET_TYPE_RADIO_BUTTON,
+		WIDGET_TYPE_TEXT_BOX,
 	} type;
+
+	// XXX temporarily placed here.
+	enum MouseButton {
+		MOUSE_BUTTON_LEFT,
+		MOUSE_BUTTON_RIGHT,
+	};
 
 	bwWidget(const WidgetType type, const bwRectanglePixel& rectangle);
 	virtual ~bwWidget() {}
 
 	virtual bool isCoordinateInside(int x, int y);
 	virtual void draw(class bwStyle& style) = 0;
+	virtual void onClick(const MouseButton button);
+	virtual void mouseEnter();
+	virtual void mouseLeave();
 
 	bwRectanglePixel rectangle;
 };

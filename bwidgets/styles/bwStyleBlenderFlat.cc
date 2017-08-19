@@ -1,4 +1,7 @@
+#include <cassert>
+
 #include "bwAbstractButton.h"
+#include "bwTextBox.h"
 
 #include "bwStyleBlenderFlat.h"
 
@@ -30,6 +33,7 @@ void bwStyleBlenderFlat::setWidgetStyleDefault(const bwWidget& widget)
 		widget_style.text_color.setColor(1.0f);
 	}
 
+	widget_style.shade_top = widget_style.shade_bottom = 0;
 	widget_style.roundbox_radius = 3.0f;
 	widget_style.roundbox_corners = button.rounded_corners;
 	widget_style.text_alignment = TEXT_ALIGN_LEFT;
@@ -54,6 +58,7 @@ void bwStyleBlenderFlat::setWidgetStyleRadioButton(const bwWidget& widget)
 		widget_style.text_color.setColor(0.0f);
 	}
 
+	widget_style.shade_top = widget_style.shade_bottom = 0;
 	widget_style.roundbox_radius = 2.0f;
 	widget_style.roundbox_corners = button.rounded_corners;
 	widget_style.text_alignment = TEXT_ALIGN_CENTER;
@@ -61,7 +66,29 @@ void bwStyleBlenderFlat::setWidgetStyleRadioButton(const bwWidget& widget)
 
 void bwStyleBlenderFlat::setWidgetStyleLabel()
 {
+	widget_style.shade_top = widget_style.shade_bottom = 0;
 	widget_style.text_color.setColor(0.0f);
+	widget_style.text_alignment = TEXT_ALIGN_LEFT;
+}
+
+void bwStyleBlenderFlat::setWidgetStyleTextBox(const bwWidget& widget)
+{
+	const bwTextBox& text_box = widget_cast<const bwTextBox&>(widget);
+
+	widget_style.outline_color.setColor(0.6f);
+	widget_style.fill_color.setColor(0.6f);
+	widget_style.text_color.setColor(0.0f);
+	widget_style.highlight.setColor(0.353f);
+	if (text_box.state == bwTextBox::STATE_HIGHLIGHTED) {
+		widget_style.fill_color.shade(0.06f);
+	}
+	else if (text_box.state == bwTextBox::STATE_TEXT_EDITING) {
+		widget_style.text_color.setColor(1.0f);
+	}
+
+	widget_style.shade_top = widget_style.shade_bottom = 0;
+	widget_style.roundbox_radius = 4.0f;
+	widget_style.roundbox_corners = RoundboxCorner::ALL;
 	widget_style.text_alignment = TEXT_ALIGN_LEFT;
 }
 
@@ -76,6 +103,12 @@ void bwStyleBlenderFlat::setWidgetStyle(const bwWidget& widget)
 			break;
 		case bwWidget::WIDGET_TYPE_LABEL:
 			setWidgetStyleLabel();
+			break;
+		case bwWidget::WIDGET_TYPE_TEXT_BOX:
+			setWidgetStyleTextBox(widget);
+			break;
+		default:
+			assert(0);
 			break;
 	}
 }

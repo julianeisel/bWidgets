@@ -23,6 +23,7 @@ struct bwStyle
 		bwColor fill_color;
 		bwColor text_color;
 		bwColor outline_color;
+		bwColor highlight;
 
 		float roundbox_radius;
 		unsigned int roundbox_corners;

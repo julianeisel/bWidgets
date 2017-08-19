@@ -28,6 +28,11 @@ enum TextAlignment {
 class bwPainter
 {
 public:
+	enum DrawType {
+		DRAW_TYPE_FILLED,
+		DRAW_TYPE_OUTLINE,
+	} active_drawtype;
+
 	static void (*drawPolygonCb)(const class bwPainter& painter, const class bwPolygon& poly);
 	static void (*drawTextCb)(
 	        const class bwPainter& painter, const std::string& text,
@@ -52,15 +57,12 @@ public:
 	        const bwGradient::Direction direction);
 	bool isGradientEnabled() const;
 
-	enum DrawType {
-		DRAW_TYPE_FILLED,
-		DRAW_TYPE_OUTLINE,
-	} active_drawtype;
-
 	// Primitives
 	void drawRoundbox(
 	        const bwRectanglePixel& rect,
 	        unsigned int corners, const float radius);
+	void drawRectangle(
+	        const bwRectanglePixel& rect);
 
 private:
 	bwColor active_color;

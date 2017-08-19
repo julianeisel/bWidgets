@@ -1,12 +1,12 @@
 #include "Font.h"
 #include "Stage.h"
 
-// bWidgets
 #include "bwLabel.h"
 #include "bwPushButton.h"
 #include "bwRadioButton.h"
 #include "bwStyle.h"
 #include "bwStyleManager.h"
+#include "bwTextBox.h"
 
 #include "DefaultStage.h"
 
@@ -54,7 +54,19 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 		prev_button = style_button;
 	}
 
-	iterWidgetPositions(button_height + padding, widgetAddCb);
+	const float ofs_top = iterWidgetPositions(button_height + padding, widgetAddCb);
+
+	bwTextBox* text_box = new bwTextBox(xmin, stage_height - ofs_top - button_height - padding,
+	                                    button_width, button_height);
+	bwRectanglePixel selection_rect;
+
+	text_box->setText("Some Test String");
+	selection_rect.xmin = text_box->rectangle.xmin + 8;
+	selection_rect.xmax = selection_rect.xmin + font->calculateStringWidth(text_box->getText()) + 4;
+	selection_rect.ymin = text_box->rectangle.ymin + 2;
+	selection_rect.ymax = text_box->rectangle.ymax - 2;
+	text_box->selection_rectangle = selection_rect;
+	widgetAdd(text_box);
 }
 
 void DefaultStage::updateButtonPositions()
@@ -74,7 +86,7 @@ void DefaultStage::handleResizeEvent(const Window &win)
 	updateButtonPositions();
 }
 
-void DefaultStage::iterWidgetPositions(
+float DefaultStage::iterWidgetPositions(
         const unsigned int offset_top,
         void (*callback)(Stage& stage, const unsigned int index,
                          const unsigned int xmin, const unsigned int ymin,
@@ -102,6 +114,8 @@ void DefaultStage::iterWidgetPositions(
 			ofs_top += but_height + padding;
 		}
 	}
+
+	return ofs_top;
 }
 
 void DefaultStage::StyleApplyButtonCb(bwWidget& widget)

@@ -16,8 +16,10 @@ bwRadioButton::bwRadioButton(
 	
 }
 
-void bwRadioButton::onClick()
+void bwRadioButton::onClick(const MouseButton mouse_button)
 {
-	state = STATE_SUNKEN;
-	apply(*this);
+	if (mouse_button == MOUSE_BUTTON_LEFT) {
+		state = STATE_SUNKEN;
+		apply(*this);
+	}
 }

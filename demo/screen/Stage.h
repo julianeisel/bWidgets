@@ -23,6 +23,7 @@ public:
 
 	void handleMouseMovementEvent(const int mouse_xy[]);
 	void handleMouseButtonEvent(const class Window& win, const int mouse_xy[], int button, int action, int mods);
+	bWidgets::bwWidget::MouseButton convertGlfwMouseButton(int glfw_button);
 
 	virtual void handleResizeEvent(const class Window& win);
 
@@ -34,8 +35,9 @@ protected:
 	class Font* font;
 
 private:
-
 	unsigned int width, height;
+	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.
+	bWidgets::bwWidget* last_hovered;
 
 	void initFonts();
 };

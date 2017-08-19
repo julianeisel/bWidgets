@@ -25,7 +25,7 @@ public:
 	        unsigned int position_x = 0, unsigned int position_y = 0,
 	        unsigned int width = 10, unsigned int height = 10);
 
-	void onClick();
+	void onClick(const MouseButton mouse_button);
 
 	// XXX Not that pretty.
 	void* custom_data;

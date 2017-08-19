@@ -1,19 +1,20 @@
 #include "bwStyle.h"
 
-#include "bwAbstractButton.h"
+#include "bwTextBox.h"
 
 using namespace bWidgets;
 
 
-bwAbstractButton::bwAbstractButton(
-        const std::string& text, const WidgetType type,
-        const bwRectanglePixel& rectangle) :
-    bwWidget(type, rectangle), state(STATE_NORMAL), rounded_corners(RoundboxCorner::ALL), text(text)
+bwTextBox::bwTextBox(
+        unsigned int position_x, unsigned int position_y,
+        unsigned int width, unsigned int height) :
+    bwWidget(WIDGET_TYPE_TEXT_BOX, bwRectanglePixel(position_x, position_x + width, position_y, position_y + height)),
+    state(STATE_NORMAL), selection_rectangle(bwRectanglePixel())
 {
 	
 }
 
-void bwAbstractButton::draw(bwStyle& style)
+void bwTextBox::draw(bwStyle& style)
 {
 	bwStyle::WidgetStyle& widget_style = style.widget_style;
 	bwRectanglePixel inner_rect = rectangle;
@@ -34,33 +35,48 @@ void bwAbstractButton::draw(bwStyle& style)
 	painter.drawRoundbox(rectangle, widget_style.roundbox_corners, widget_style.roundbox_radius);
 
 	// Text
+	if ((state == STATE_TEXT_EDITING) && (selection_rectangle.isEmpty() == false)) {
+		// Selection drawing
+		painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
+		painter.setActiveColor(widget_style.highlight);
+		painter.drawRectangle(selection_rectangle);
+	}
 	painter.setActiveColor(widget_style.text_color);
 	painter.drawText(text, rectangle, widget_style.text_alignment, bwPainter::text_draw_arg);
 }
 
-void bwAbstractButton::onClick(const MouseButton button)
+void bwTextBox::onClick(const MouseButton mouse_button)
 {
-	if (button == MOUSE_BUTTON_RIGHT) {
-		// skip
+	if (mouse_button == MOUSE_BUTTON_LEFT) {
+		state = STATE_TEXT_EDITING;
 	}
-	else if (state == STATE_SUNKEN) {
-		state = STATE_NORMAL;
-	}
-	else {
-		state = STATE_SUNKEN;
+	else if (mouse_button == MOUSE_BUTTON_RIGHT) {
+		if (state == STATE_TEXT_EDITING) {
+			state = STATE_NORMAL;
+		}
 	}
 }
 
-void bwAbstractButton::mouseEnter()
+void bwTextBox::mouseEnter()
 {
 	if (state == STATE_NORMAL) {
 		state = STATE_HIGHLIGHTED;
 	}
 }
 
-void bwAbstractButton::mouseLeave()
+void bwTextBox::mouseLeave()
 {
 	if (state == STATE_HIGHLIGHTED) {
 		state = STATE_NORMAL;
 	}
+}
+
+void bwTextBox::setText(const std::string& value)
+{
+	text = value;
+}
+
+const std::string&bwTextBox::getText() const
+{
+	return text;
 }

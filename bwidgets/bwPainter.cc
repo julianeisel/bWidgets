@@ -196,8 +196,23 @@ void bwPainter::drawRoundbox(
 	PolygonRoundboxAddVerts(polygon, rect, corners, radius, active_drawtype == DRAW_TYPE_OUTLINE);
 	if (isGradientEnabled()) {
 		fillVertexColorsWithGradient(polygon, rect);
-		assert(vert_colors.size() == polygon.getVertices().size());
 	}
+	drawPolygon(polygon);
+}
+
+void bwPainter::drawRectangle(const bwRectanglePixel& rect)
+{
+	bwPolygon polygon;
+
+	polygon.addVertex(rect.xmin, rect.ymin);
+	polygon.addVertex(rect.xmax, rect.ymin);
+	polygon.addVertex(rect.xmax, rect.ymax);
+	polygon.addVertex(rect.xmin, rect.ymax);
+
+	if (isGradientEnabled()) {
+		fillVertexColorsWithGradient(polygon, rect);
+	}
+
 	drawPolygon(polygon);
 }
 
@@ -214,4 +229,6 @@ void bwPainter::fillVertexColorsWithGradient(
 	for (const bwPoint& vertex : polygon.getVertices()) {
 		vert_colors.push_back(active_gradient->calcPointColor(vertex, bounding_box));
 	}
+
+	assert(vert_colors.size() == polygon.getVertices().size());
 }

@@ -17,6 +17,7 @@ extern "C" {
 #include "bwRectangle.h"
 #include "bwStyle.h"
 #include "bwStyleManager.h"
+#include "bwTextBox.h"
 #include "bwWidget.h"
 
 #include "Font.h"
@@ -158,7 +159,7 @@ static void stage_text_draw_cb(
 }
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
-    width(width), height(height)
+    width(width), height(height), last_hovered(nullptr)
 {
 	// Initialize drawing callbacks for the stage
 	bwPainter::drawPolygonCb = stage_polygon_draw_cb;
@@ -226,34 +227,46 @@ bwWidget* Stage::getWidgetAt(const unsigned int index)
 void Stage::handleMouseMovementEvent(const int mouse_xy[])
 {
 	for (bwWidget* widget : widgets) {
-		const bool is_hovered = widget->isCoordinateInside(mouse_xy[0], mouse_xy[1]);
-		bwAbstractButton* button = widget_cast<bwAbstractButton*>(widget);
-
-		if (!button) {
-			// skip
-		}
-		else if (button->state == bwAbstractButton::STATE_HIGHLIGHTED) {
-			if (!is_hovered) {
-				button->mouseLeave();
+		if (widget->isCoordinateInside(mouse_xy[0], mouse_xy[1])) {
+			if (widget != last_hovered) {
+				if (last_hovered) {
+					last_hovered->mouseLeave();
+				}
+				widget->mouseEnter();
+				last_hovered = widget;
 			}
 		}
-		else if (is_hovered) {
-			button->mouseEnter();
+		else if (widget == last_hovered) {
+			widget->mouseLeave();
+			last_hovered = nullptr;
 		}
 	}
 }
 
 void Stage::handleMouseButtonEvent(
         const Window& /*win*/, const int mouse_xy[2],
-        int /*button*/, int /*action*/, int /*mods*/)
+        int button, int /*action*/, int /*mods*/)
 {
-	for (bwWidget* widget : widgets) {
-		bwAbstractButton* button = widget_cast<bwAbstractButton*>(widget);
+	bwWidget::MouseButton bw_mouse_button = convertGlfwMouseButton(button);
 
-		if (button && button->isCoordinateInside(mouse_xy[0], mouse_xy[1])) {
-			button->onClick();
+	for (bwWidget* widget : widgets) {
+		if (widget->isCoordinateInside(mouse_xy[0], mouse_xy[1])) {
+			widget->onClick(bw_mouse_button);
 		}
 	}
+}
+
+bwWidget::MouseButton Stage::convertGlfwMouseButton(int glfw_button)
+{
+	switch (glfw_button) {
+		case GLFW_MOUSE_BUTTON_LEFT:
+			return bwWidget::MOUSE_BUTTON_LEFT;
+		case GLFW_MOUSE_BUTTON_RIGHT:
+			return bwWidget::MOUSE_BUTTON_RIGHT;
+	}
+
+	// XXX randomish default value
+	return bwWidget::MOUSE_BUTTON_LEFT;
 }
 
 void Stage::handleResizeEvent(const Window& win)

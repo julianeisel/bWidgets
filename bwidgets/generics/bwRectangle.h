@@ -5,7 +5,7 @@ namespace bWidgets {
 template <typename T>
 struct bwRectangle
 {
-	inline bwRectangle(const T xmin, const T xmax, const T ymin, const T ymax) :
+	inline bwRectangle(const T xmin = 0, const T xmax = 0, const T ymin = 0, const T ymax = 0) :
 	    xmin(xmin), xmax(xmax), ymin(ymin), ymax(ymax)
 	{
 		
@@ -28,6 +28,11 @@ struct bwRectangle
 	inline bool isCoordinateInside(const T x, const T y) const
 	{
 		return (x >= xmin) && (x <= xmax) && (y >= ymin) && (y <= ymax);
+	}
+
+	inline bool isEmpty() const
+	{
+		return (xmin == xmax) || (ymin == ymax);
 	}
 
 	inline T width() const

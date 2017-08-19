@@ -12,6 +12,7 @@ set(SRC
 	bwRadioButton.cc
 	bwStyle.cc
 	bwStyleManager.cc
+	bwTextBox.cc
 	bwWidget.cc
 	styles/bwStyleBlenderClassic.cc
 	styles/bwStyleBlenderFlat.cc
@@ -23,6 +24,7 @@ set(SRC
 	bwRadioButton.h
 	bwStyle.h
 	bwStyleManager.h
+	bwTextBox.h
 	bwWidget.h
 	styles/bwStyleBlenderClassic.h
 	styles/bwStyleBlenderFlat.h

@@ -13,7 +13,7 @@ public:
 
 private:
 	void updateButtonPositions();
-	void iterWidgetPositions(
+	float iterWidgetPositions(
 	        const unsigned int offset_top,
 	        void (*callback)(Stage&, const unsigned int, const unsigned int,
 	                         const unsigned int, const unsigned int, const unsigned int));
