@@ -16,10 +16,10 @@ public:
 		STATE_SUNKEN,
 	} state;
 
-	virtual void draw(class bwStyle &style);
-	virtual void onClick(const MouseButton button);
-	virtual void mouseEnter();
-	virtual void mouseLeave();
+	virtual void draw(class bwStyle &style) override;
+	virtual void onClick(const MouseButton button) override;
+	virtual void mouseEnter() override;
+	virtual void mouseLeave() override;
 
 	void (*apply)(bwWidget& widget);
 

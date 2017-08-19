@@ -18,10 +18,10 @@ public:
 	        unsigned int position_x = 0, unsigned int position_y = 0,
 	        unsigned int width = 10, unsigned int height = 10);
 
-	void draw(class bwStyle &style);
-	void onClick(const MouseButton mouse_button);
-	void mouseEnter();
-	void mouseLeave();
+	void draw(class bwStyle &style) override;
+	void onClick(const MouseButton mouse_button) override;
+	void mouseEnter() override;
+	void mouseLeave() override;
 
 	void setText(const std::string& value);
 	const std::string& getText() const;
