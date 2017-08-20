@@ -12,6 +12,8 @@ extern "C" {
 #include "ShaderProgram.h"
 
 
+namespace bWidgetsDemo {
+
 typedef enum ShaderTypeID {
 	SHADER_TYPE_VERTEX,
 	SHADER_TYPE_FRAGMENT,
@@ -38,6 +40,10 @@ static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_T
 	[ShaderProgram::ID_SMOOTH_COLOR] = {"smooth_color_vert.glsl", "smooth_color_frag.glsl"},
 	[ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR] = {"texture_vert.glsl", "bitmap_texture_uniform_color_frag.glsl"},
 };
+
+} // namespace bWidgetsDemo
+
+using namespace bWidgetsDemo;
 
 
 std::string ShaderProgram::parseShader(const std::string& shader_name)

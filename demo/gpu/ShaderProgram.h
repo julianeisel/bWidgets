@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+namespace bWidgetsDemo {
 
 class ShaderProgram
 {
@@ -31,3 +32,5 @@ private:
 	unsigned int linkProgram(const std::vector<unsigned int>&);
 	void cleanupAfterCreation(const std::vector<unsigned int>&);
 };
+
+} // namespace bWidgetsDemo

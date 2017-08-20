@@ -15,6 +15,8 @@ extern "C" {
 
 #define MATRIX_STACK_DEPTH 32
 
+namespace bWidgetsDemo {
+
 typedef struct MatrixStack {
 	glm::mat4 stack[MATRIX_STACK_DEPTH];
 	unsigned int top;
@@ -45,6 +47,8 @@ static MatrixState state = {
 	.dirty = true
 };
 
+} // namespace bWidgetsDemo
+
 #undef MATRIX_4X4_IDENTITY
 
 #define ModelViewStack state.model_view_stack
@@ -52,6 +56,9 @@ static MatrixState state = {
 
 #define ProjectionStack state.projection_stack
 #define Projection ProjectionStack.stack[ProjectionStack.top]
+
+using namespace bWidgetsDemo;
+
 
 static glm::mat4 gpuGetModelViewMatrix()
 {
