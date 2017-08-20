@@ -1,6 +1,7 @@
 set(INC
 	../bwidgets
 	../bwidgets/generics
+	../bwidgets/widgets
 	screen
 	window_manager
 )
