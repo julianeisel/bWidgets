@@ -15,7 +15,7 @@ bwLabel::bwLabel(
 	
 }
 
-void bwLabel::draw(bwStyle& style)
+void bwLabel::draw(bwStyle& style) const
 {
 	bwStyle::WidgetStyle& widget_style = style.widget_style;
 	bwPainter painter;

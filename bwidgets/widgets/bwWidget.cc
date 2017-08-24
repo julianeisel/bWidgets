@@ -9,7 +9,7 @@ bwWidget::bwWidget(const WidgetType type, const bwRectanglePixel& rectangle) :
 	
 }
 
-bool bwWidget::isCoordinateInside(int x, int y)
+bool bwWidget::isCoordinateInside(int x, int y) const
 {
 	return rectangle.isCoordinateInside(x, y);
 }

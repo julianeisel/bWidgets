@@ -1,5 +1,7 @@
 #pragma once
 
+#include "bwRadioButton.h"
+
 #include "Stage.h"
 
 namespace bWidgetsDemo {
@@ -9,24 +11,14 @@ class DefaultStage : public Stage
 public:
 	DefaultStage(unsigned int width, unsigned int height);
 
-	void handleResizeEvent(const Window& win);
-
 private:
-	void updateButtonPositions();
-	float iterWidgetPositions(
-	        const unsigned int offset_top,
-	        void (*callback)(Stage&, const unsigned int, const unsigned int,
-	                         const unsigned int, const unsigned int, const unsigned int));
+	void addStyleSelector(class LayoutItem& parent_layout);
 
-	static void widgetAddCb(
-	        Stage&, const unsigned int,
-	        const unsigned int, const unsigned int,
-	        const unsigned int, const unsigned int);
-	static void updateWidgetPositionCb(
-	        Stage&, const unsigned int,
-	        const unsigned int, const unsigned int,
-	        const unsigned int, const unsigned int);
-	static void StyleApplyButtonCb(bWidgets::bwWidget& widget);
+	static void StyleApplyButtonCb(
+	        bWidgets::bwWidget& widget);
+	static bool StyleButtonsUpdateCb(
+	        bWidgets::bwWidget& widget_iter,
+	        void* custom_data);
 
 	const unsigned int padding = 10;
 };

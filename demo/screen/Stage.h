@@ -27,19 +27,21 @@ public:
 
 	virtual void handleResizeEvent(const class Window& win);
 
-	unsigned int getWidth() const; unsigned int getHeight() const;
-
 protected:
 	std::unique_ptr<bWidgets::bwStyle> style;
 	std::list<bWidgets::bwWidget*> widgets;
+	class RootLayout* layout;
 	class Font* font;
 
-private:
 	unsigned int width, height;
+
+private:
 	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.
 	bWidgets::bwWidget* last_hovered;
 
 	void initFonts();
+	static bool handleMouseMovementWidgetCb(bWidgets::bwWidget&, void*);
+	static bool handleMouseEventWidgetCb(bWidgets::bwWidget&, void*);
 };
 
 } // namespace bWidgetsDemo

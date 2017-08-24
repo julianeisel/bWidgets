@@ -17,7 +17,7 @@ bwStyleBlenderClassic::bwStyleBlenderClassic() :
 
 void bwStyleBlenderClassic::setWidgetStyleDefault(const bwWidget& widget)
 {
-	const bwAbstractButton& button = widget_cast<const bwAbstractButton&>(widget);
+	const bwAbstractButton& button = *widget_cast<const bwAbstractButton*>(&widget);
 
 	widget_style.outline_color.setColor(0.098f);
 
@@ -45,7 +45,7 @@ void bwStyleBlenderClassic::setWidgetStyleDefault(const bwWidget& widget)
 
 void bwStyleBlenderClassic::setWidgetStyleRadioButton(const bwWidget& widget)
 {
-	const bwAbstractButton& button = widget_cast<const bwAbstractButton&>(widget);
+	const bwAbstractButton& button = *widget_cast<const bwAbstractButton*>(&widget);
 
 	widget_style.outline_color.setColor(0.0f);
 
@@ -79,7 +79,7 @@ void bwStyleBlenderClassic::setWidgetStyleLabel()
 
 void bwStyleBlenderClassic::setWidgetStyleTextBox(const bwWidget& widget)
 {
-	const bwTextBox& text_box = widget_cast<const bwTextBox&>(widget);
+	const bwTextBox& text_box = *widget_cast<const bwTextBox*>(&widget);
 
 	widget_style.outline_color.setColor(0.098f);
 	widget_style.fill_color.setColor(0.6f);

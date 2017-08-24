@@ -16,7 +16,7 @@ bwStyleBlenderFlat::bwStyleBlenderFlat() :
 
 void bwStyleBlenderFlat::setWidgetStyleDefault(const bwWidget& widget)
 {
-	const bwAbstractButton& button = widget_cast<const bwAbstractButton&>(widget);
+	const bwAbstractButton& button = *widget_cast<const bwAbstractButton*>(&widget);
 
 	if (button.state == bwAbstractButton::STATE_NORMAL || button.state == bwAbstractButton::STATE_HIGHLIGHTED) {
 		widget_style.fill_color.setColor(0.6f);
@@ -41,7 +41,7 @@ void bwStyleBlenderFlat::setWidgetStyleDefault(const bwWidget& widget)
 
 void bwStyleBlenderFlat::setWidgetStyleRadioButton(const bwWidget& widget)
 {
-	const bwAbstractButton& button = widget_cast<const bwAbstractButton&>(widget);
+	const bwAbstractButton& button = *widget_cast<const bwAbstractButton*>(&widget);
 
 	if (button.state == bwAbstractButton::STATE_NORMAL || button.state == bwAbstractButton::STATE_HIGHLIGHTED) {
 		widget_style.fill_color.setColor(0.27451f);
@@ -73,7 +73,7 @@ void bwStyleBlenderFlat::setWidgetStyleLabel()
 
 void bwStyleBlenderFlat::setWidgetStyleTextBox(const bwWidget& widget)
 {
-	const bwTextBox& text_box = widget_cast<const bwTextBox&>(widget);
+	const bwTextBox& text_box = *widget_cast<const bwTextBox*>(&widget);
 
 	widget_style.outline_color.setColor(0.6f);
 	widget_style.fill_color.setColor(0.6f);

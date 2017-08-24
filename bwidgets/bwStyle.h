@@ -40,6 +40,8 @@ struct bwStyle
 	};
 
 	bwStyle(StyleTypeID type_id);
+	virtual ~bwStyle() {}
+
 	virtual void setWidgetStyle(const class bwWidget& widget) = 0;
 };
 

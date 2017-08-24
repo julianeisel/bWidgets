@@ -13,7 +13,7 @@ bwAbstractButton::bwAbstractButton(
 	
 }
 
-void bwAbstractButton::draw(bwStyle& style)
+void bwAbstractButton::draw(bwStyle& style) const
 {
 	bwStyle::WidgetStyle& widget_style = style.widget_style;
 	bwRectanglePixel inner_rect = rectangle;

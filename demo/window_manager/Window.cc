@@ -11,11 +11,11 @@
 using namespace bWidgetsDemo;
 
 
-Window::Window(std::string name, float size_x, float size_y) :
+Window::Window(std::string name, unsigned int size_x, unsigned int size_y) :
     stage(NULL), width(size_x), height(size_y)
 {
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+//	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+//	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
 //	glfwWindowHint(GLFW_SAMPLES, 4); // antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -24,10 +24,10 @@ Window::Window(std::string name, float size_x, float size_y) :
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	if (width == 0) {
-		width = 0.8f * mode->width;
+//		width = 0.8f * mode->width;
 	}
 	if (height == 0) {
-		height = 0.8 * mode->height;
+//		height = 0.8 * mode->height;
 	}
 
 	glfw_window = glfwCreateWindow(width, height, name.data(), NULL, NULL);

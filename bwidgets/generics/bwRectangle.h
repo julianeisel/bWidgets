@@ -17,6 +17,9 @@ struct bwRectangle
 		
 	}
 
+	/**
+	 * Resize the rectangle by adding \a pixel to each side.
+	 */
 	inline void resize(const T pixel)
 	{
 		xmin -= pixel;

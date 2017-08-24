@@ -16,7 +16,7 @@ public:
 		STATE_SUNKEN,
 	} state;
 
-	virtual void draw(class bwStyle &style) override;
+	virtual void draw(class bwStyle &style) const override;
 	virtual void onClick(const MouseButton button) override;
 	virtual void mouseEnter() override;
 	virtual void mouseLeave() override;

@@ -14,7 +14,7 @@ bwTextBox::bwTextBox(
 	
 }
 
-void bwTextBox::draw(bwStyle& style)
+void bwTextBox::draw(bwStyle& style) const
 {
 	bwStyle::WidgetStyle& widget_style = style.widget_style;
 	bwRectanglePixel inner_rect = rectangle;

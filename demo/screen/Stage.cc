@@ -22,6 +22,7 @@ extern "C" {
 
 #include "Font.h"
 #include "GPU.h"
+#include "Layout.h"
 #include "Window.h"
 
 #include "Stage.h"
@@ -99,7 +100,7 @@ static void stage_polygon_draw_cb(const bwPainter& painter, const bwPolygon& pol
 {
 	const bool is_shaded = painter.isGradientEnabled();
 	ShaderProgram shader_program(is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
-	bwColor color = painter.getActiveColor();
+	const bwColor& color = painter.getActiveColor();
 	PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype);
 	VertexFormat* format = immVertexFormat();
 	unsigned int attr_pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
@@ -171,10 +172,16 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
 	style_manager.registerDefaultStyleTypes();
 	activateStyleID(bwStyle::STYLE_BLENDER_CLASSIC);
+
+	layout = new RootLayout(height, width);
+	layout->padding = 7;
+	layout->item_margin = 5;
 }
 
 Stage::~Stage()
 {
+	delete layout;
+
 	for (bwWidget* widget : widgets) {
 		delete widget;
 	}
@@ -202,6 +209,9 @@ void Stage::draw(unsigned int width, unsigned int height)
 {
 	gpuOrtho(0.0f, width, 0.0f, height);
 
+	layout->resolve();
+	layout->draw(*style);
+
 	for (bwWidget* widget : widgets) {
 		widget->draw(*style);
 	}
@@ -224,36 +234,60 @@ bwWidget* Stage::getWidgetAt(const unsigned int index)
 	return nullptr;
 }
 
-void Stage::handleMouseMovementEvent(const int mouse_xy[])
+struct MouseMoveEventWidgetIter {
+	Stage& stage;
+	int mouse_xy[2];
+};
+
+bool Stage::handleMouseMovementWidgetCb(bwWidget& widget, void* custom_data)
 {
-	for (bwWidget* widget : widgets) {
-		if (widget->isCoordinateInside(mouse_xy[0], mouse_xy[1])) {
-			if (widget != last_hovered) {
-				if (last_hovered) {
-					last_hovered->mouseLeave();
-				}
-				widget->mouseEnter();
-				last_hovered = widget;
+	MouseMoveEventWidgetIter& data = *(MouseMoveEventWidgetIter*)custom_data;
+
+	if (widget.isCoordinateInside(data.mouse_xy[0], data.mouse_xy[1])) {
+		if (&widget != data.stage.last_hovered) {
+			if (data.stage.last_hovered) {
+				data.stage.last_hovered->mouseLeave();
 			}
-		}
-		else if (widget == last_hovered) {
-			widget->mouseLeave();
-			last_hovered = nullptr;
+			widget.mouseEnter();
+			data.stage.last_hovered = &widget;
 		}
 	}
+	else if (&widget == data.stage.last_hovered) {
+		widget.mouseLeave();
+		data.stage.last_hovered = nullptr;
+	}
+
+	return true;
+}
+
+void Stage::handleMouseMovementEvent(const int mouse_xy[2])
+{
+	MouseMoveEventWidgetIter data = {*this, {mouse_xy[0], mouse_xy[1]}};
+	layout->iterateWidgets(handleMouseMovementWidgetCb, &data);
+}
+
+struct MouseButtonEventWidgetIter {
+	bwWidget::MouseButton bw_mouse_button;
+	int mouse_xy[2];
+};
+
+bool Stage::handleMouseEventWidgetCb(bwWidget& widget, void* custom_data)
+{
+	MouseButtonEventWidgetIter& data = *(MouseButtonEventWidgetIter*)custom_data;
+	if (widget.isCoordinateInside(data.mouse_xy[0], data.mouse_xy[1])) {
+		widget.onClick(data.bw_mouse_button);
+		return false;
+	}
+
+	return true;
 }
 
 void Stage::handleMouseButtonEvent(
         const Window& /*win*/, const int mouse_xy[2],
         int button, int /*action*/, int /*mods*/)
 {
-	bwWidget::MouseButton bw_mouse_button = convertGlfwMouseButton(button);
-
-	for (bwWidget* widget : widgets) {
-		if (widget->isCoordinateInside(mouse_xy[0], mouse_xy[1])) {
-			widget->onClick(bw_mouse_button);
-		}
-	}
+	MouseButtonEventWidgetIter data = {convertGlfwMouseButton(button), {mouse_xy[0], mouse_xy[1]}};
+	layout->iterateWidgets(handleMouseEventWidgetCb, &data);
 }
 
 bwWidget::MouseButton Stage::convertGlfwMouseButton(int glfw_button)
@@ -273,14 +307,6 @@ void Stage::handleResizeEvent(const Window& win)
 {
 	width = win.getWidth();
 	height = win.getHeight();
-}
-
-unsigned int Stage::getWidth() const
-{
-	return width;
-}
-
-unsigned int Stage::getHeight() const
-{
-	return height;
+	layout->setMaxSize(width);
+	layout->setYmax(height);
 }

@@ -8,10 +8,12 @@ set(INC
 set(SRC
 	DefaultStage.cc
 	Font.cc
+	Layout.cc
 	Stage.cc
 
 	DefaultStage.h
 	Font.h
+	Layout.h
 	Stage.h
 )
 

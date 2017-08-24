@@ -27,8 +27,8 @@ public:
 	bwWidget(const WidgetType type, const bwRectanglePixel& rectangle);
 	virtual ~bwWidget() {}
 
-	virtual bool isCoordinateInside(int x, int y);
-	virtual void draw(class bwStyle& style) = 0;
+	virtual bool isCoordinateInside(int x, int y) const;
+	virtual void draw(class bwStyle& style) const = 0;
 	virtual void onClick(const MouseButton button);
 	virtual void mouseEnter();
 	virtual void mouseLeave();
@@ -43,22 +43,22 @@ public:
 template<class T>
 inline T widget_cast(bwWidget* widget)
 {
-	return dynamic_cast<T>(widget);
+	try {
+		return dynamic_cast<T>(widget);
+	}
+	catch (const std::bad_cast&) {
+		return nullptr;
+	}
 }
 template<class T>
 inline T widget_cast(const bwWidget* widget)
 {
-	return dynamic_cast<T>(widget);
-}
-template<class T>
-inline T widget_cast(bwWidget& widget)
-{
-	return dynamic_cast<T>(widget);
-}
-template<class T>
-inline T widget_cast(const bwWidget& widget)
-{
-	return dynamic_cast<T>(widget);
+	try {
+		return dynamic_cast<T>(widget);
+	}
+	catch (const std::bad_cast&) {
+		return nullptr;
+	}
 }
 
 } // namespace bWidgets
