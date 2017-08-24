@@ -8,6 +8,7 @@
 #include FT_FREETYPE_H
 
 #include "bwColor.h"
+#include "bwRectangle.h"
 
 
 namespace bWidgetsDemo {
@@ -20,8 +21,8 @@ public:
 	static Font* loadFont(const std::string& name, const std::string& path);
 
 	void render(const std::string& text, const int pos_x, const int pos_y);
-	float renderCharacter(
-	        unsigned char character, unsigned char previous_character,
+	float renderGlyph(
+	        const FontGlyph& glyph, const FontGlyph* previous_glyph,
 	        const unsigned int attr_pos, const unsigned int attr_texcoord,
 	        const int pos_x, const int pos_y) const;
 	unsigned int calculateStringWidth(const std::string &text);
@@ -31,6 +32,9 @@ public:
 
 	const bWidgets::bwColor& getActiveColor() const;
 	void setActiveColor(const bWidgets::bwColor &value);
+
+	const bWidgets::bwRectanglePixel& getMask() const;
+	void setMask(const bWidgets::bwRectanglePixel& value);
 
 private:
 	Font() {}
@@ -46,6 +50,7 @@ private:
 	int size;
 
 	bWidgets::bwColor active_color;
+	bWidgets::bwRectanglePixel mask;
 
 
 	class FontGlyphCache {

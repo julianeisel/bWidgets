@@ -53,6 +53,16 @@ const bwColor& bwPainter::getVertexColor(const size_t vertex_index) const
 	return vert_colors[vertex_index];
 }
 
+void bwPainter::setContentMask(const bwRectanglePixel& value)
+{
+	content_mask = value;
+}
+
+const bwRectanglePixel& bwPainter::getContentMask() const
+{
+	return content_mask;
+}
+
 void bwPainter::enableGradient(
         const bwColor& base_color,
         const float shade_begin, const float shade_end,

@@ -20,10 +20,12 @@ void bwTextBox::draw(bwStyle& style) const
 	bwRectanglePixel inner_rect = rectangle;
 	bwPainter painter;
 
-	style.setWidgetStyle(*this);
-
 	// Inner - "inside" of outline, so scale down
 	inner_rect.resize(-1);
+
+	style.setWidgetStyle(*this);
+	painter.setContentMask(inner_rect);
+
 	painter.enableGradient(
 	            widget_style.fill_color,
 	            widget_style.shade_top / 255.0f, widget_style.shade_bottom / 255.0f,

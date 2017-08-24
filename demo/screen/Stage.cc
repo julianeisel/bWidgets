@@ -156,6 +156,7 @@ static void stage_text_draw_cb(
 	const float draw_pos_y = rectangle.centerY() - (font_height / 2.0f) + 1.0f;
 
 	font->setActiveColor(painter.getActiveColor());
+	font->setMask(painter.getContentMask());
 	font->render(text, draw_pos_x, draw_pos_y);
 }
 

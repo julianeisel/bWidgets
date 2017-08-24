@@ -51,6 +51,9 @@ public:
 	const bwColor& getActiveColor() const;
 	const bwColor& getVertexColor(const size_t vertex_index) const;
 
+	void setContentMask(const bwRectanglePixel& value);
+	const bwRectanglePixel& getContentMask() const;
+
 	void enableGradient(
 	        const bwColor& base_color,
 	        const float shade_begin, const float shade_end,
@@ -68,6 +71,7 @@ private:
 	bwColor active_color;
 	std::vector<bwColor> vert_colors;
 	std::unique_ptr<bwGradient> active_gradient;
+	bwRectanglePixel content_mask;
 
 	void fillVertexColorsWithGradient(
 	        const bwPolygon& polygon, const bwRectanglePixel& bounding_box);

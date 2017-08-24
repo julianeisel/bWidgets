@@ -44,7 +44,9 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	VertexFormat* format = immVertexFormat();
 	unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
 	unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
+	const FontGlyph* previous_glyph = nullptr;
 	float pen_x = pos_x;
+	int old_scissor[4];
 
 	cache.ensureUpdated(*this);
 
@@ -64,8 +66,23 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	if (!mask.isEmpty()) {
+		glGetIntegerv(GL_SCISSOR_BOX, old_scissor);
+		glScissor(mask.xmin, mask.ymin, mask.width(), mask.height());
+	}
+
 	for (int i = 0; i < text.size(); i++) {
-		pen_x += renderCharacter(text[i], (i > 0) ? text[i - 1] : 0, pos, texcoord, pen_x, pos_y);
+		const FontGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
+
+		if (!mask.isEmpty() && ((pen_x + glyph.advance_width) > mask.xmax)) {
+			break;
+		}
+		pen_x += renderGlyph(glyph, previous_glyph, pos, texcoord, pen_x, pos_y);
+		previous_glyph = &glyph;
+	}
+
+	if (!mask.isEmpty()) {
+		glScissor(old_scissor[0], old_scissor[1], old_scissor[2], old_scissor[3]);
 	}
 
 	glDisable(GL_BLEND);
@@ -75,15 +92,14 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 /**
  * \return The offset at which the next character should be drawn.
  */
-float Font::renderCharacter(
-        unsigned char character, unsigned char previous_character,
+float Font::renderGlyph(
+        const FontGlyph& glyph, const FontGlyph* previous_glyph,
         const unsigned int attr_pos, const unsigned int attr_texcoord,
         const int pos_x, const int pos_y) const
 {
-	const FontGlyph& glyph = cache.getCachedGlyph(*this, character);
 	const float w = glyph.width;
 	const float h = glyph.height;
-	const bool use_kerning = previous_character != 0;
+	const bool use_kerning = previous_glyph != nullptr;
 	float pen_x = pos_x + glyph.offset_left;
 	float pen_y = -pos_y - glyph.offset_top;
 	float kerning_dist_x = 0;
@@ -91,7 +107,7 @@ float Font::renderCharacter(
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, glyph.bitmap);
 
 	if (use_kerning) {
-		kerning_dist_x = getKerningDistance(cache.getCachedGlyph(*this, previous_character), glyph);
+		kerning_dist_x = getKerningDistance(*previous_glyph, glyph);
 		pen_x += kerning_dist_x;
 	}
 
@@ -131,6 +147,16 @@ const bWidgets::bwColor& Font::getActiveColor() const
 void Font::setActiveColor(const bWidgets::bwColor &value)
 {
 	active_color = value;
+}
+
+const bWidgets::bwRectanglePixel& Font::getMask() const
+{
+	return mask;
+}
+
+void Font::setMask(const bWidgets::bwRectanglePixel& value)
+{
+	mask = value;
 }
 
 float Font::getKerningDistance(const FontGlyph& left, const FontGlyph& right) const

@@ -33,6 +33,8 @@ Window::Window(std::string name, unsigned int size_x, unsigned int size_y) :
 	glfw_window = glfwCreateWindow(width, height, name.data(), NULL, NULL);
 	glfwMakeContextCurrent(glfw_window);
 
+	glEnable(GL_SCISSOR_TEST);
+
 	GPU_init();
 
 	EventManager::setupWindowHandlers(*this);
@@ -52,6 +54,7 @@ void Window::draw()
 
 	glfwGetFramebufferSize(glfw_window, &width, &height);
 	glViewport(0, 0, width, height);
+	glScissor(0, 0, width, height);
 	glClearColor(0.447f, 0.447f, 0.447f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
