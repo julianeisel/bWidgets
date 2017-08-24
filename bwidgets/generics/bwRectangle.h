@@ -61,6 +61,6 @@ struct bwRectangle
 };
 
 // useful typedefs
-typedef bwRectangle<unsigned int> bwRectanglePixel;
+typedef bwRectangle<int> bwRectanglePixel;
 
 } // namespace bWidgets
