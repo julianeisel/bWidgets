@@ -4,7 +4,7 @@ using namespace bWidgets;
 
 
 bwWidget::bwWidget(const WidgetType type, const bwRectanglePixel& rectangle) :
-    type(type), rectangle(rectangle)
+    type(type), state(STATE_NORMAL), rectangle(rectangle)
 {
 	
 }

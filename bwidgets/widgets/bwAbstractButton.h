@@ -10,12 +10,6 @@ namespace bWidgets {
 class bwAbstractButton : public bwWidget
 {
 public:
-	enum ButtonState {
-		STATE_NORMAL,
-		STATE_HIGHLIGHTED,
-		STATE_SUNKEN,
-	} state;
-
 	virtual void draw(class bwStyle &style) const override;
 	virtual void onClick(const MouseButton button) override;
 	virtual void mouseEnter() override;

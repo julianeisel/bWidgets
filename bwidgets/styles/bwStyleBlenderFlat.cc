@@ -7,108 +7,109 @@
 
 using namespace bWidgets;
 
+const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
+	[bwWidget::WIDGET_TYPE_LABEL] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 0.0f,
+			},
+		},
+	},
+
+	[bwWidget::WIDGET_TYPE_PUSH_BUTTON] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+				.normal = 0.6f,
+				.highlighted = bwColor(0.6f).shade(0.06f),
+				.sunken = 0.353f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 0.0f,
+				.highlighted = 0.0f,
+				.sunken = 1.0f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
+				.normal = 0.3f,
+				.highlighted = 0.3f,
+				.sunken = 0.3f,
+			},
+		},
+		.shade_top = 0,
+		.shade_bottom = 0,
+		.text_alignment = TEXT_ALIGN_LEFT,
+		.roundbox_radius = 8.0f,
+	},
+
+	[bwWidget::WIDGET_TYPE_RADIO_BUTTON] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+				.normal = 0.27451f,
+				.highlighted = bwColor(0.27451f).shade(0.06f),
+				.sunken = bwColor(0.337255f, 0.501961f, 0.760784f),
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 1.0f,
+				.highlighted = 1.0f,
+				.sunken = 0.0f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
+				.normal = 0.1f,
+				.highlighted = 0.1f,
+				.sunken = 0.1f,
+			},
+		},
+		.shade_top = 0,
+		.shade_bottom = 0,
+		.text_alignment = TEXT_ALIGN_CENTER,
+		.roundbox_radius = 6.0f,
+	},
+
+	[bwWidget::WIDGET_TYPE_TEXT_BOX] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+				.normal = 0.6f,
+				.highlighted = bwColor(0.6f).shade(0.06f),
+				.sunken = 0.6f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 0.0f,
+				.highlighted = 0.0f,
+				.sunken = 1.0f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
+				.normal = 0.2f,
+				.highlighted = 0.2f,
+				.sunken = 0.2f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION] = {
+				.normal = 0.353f,
+				.highlighted = 0.353f,
+				.sunken = 0.353f,
+			},
+		},
+		.shade_top = 0,
+		.shade_bottom = 0,
+		.text_alignment = TEXT_ALIGN_LEFT,
+		.roundbox_radius = 4.0f,
+	},
+};
 
 bwStyleBlenderFlat::bwStyleBlenderFlat() :
-    bwStyle(STYLE_BLENDER_FLAT)
+    bwStyle(STYLE_BLENDER_FLAT, static_widget_styles)
 {
 	
 }
 
-void bwStyleBlenderFlat::setWidgetStyleDefault(const bwWidget& widget)
-{
-	const bwAbstractButton& button = *widget_cast<const bwAbstractButton*>(&widget);
-
-	if (button.state == bwAbstractButton::STATE_NORMAL || button.state == bwAbstractButton::STATE_HIGHLIGHTED) {
-		widget_style.fill_color.setColor(0.6f);
-		widget_style.outline_color.setColor(0.6f);
-		widget_style.text_color.setColor(0.0f);
-
-		if (button.state == bwAbstractButton::STATE_HIGHLIGHTED) {
-			widget_style.fill_color.shade(0.06f);
-		}
-	}
-	else if (button.state == bwAbstractButton::STATE_SUNKEN) {
-		widget_style.fill_color.setColor(0.353f);
-		widget_style.outline_color.setColor(0.353f);
-		widget_style.text_color.setColor(1.0f);
-	}
-
-	widget_style.shade_top = widget_style.shade_bottom = 0;
-	widget_style.roundbox_radius = 3.0f;
-	widget_style.roundbox_corners = button.rounded_corners;
-	widget_style.text_alignment = TEXT_ALIGN_LEFT;
-}
-
-void bwStyleBlenderFlat::setWidgetStyleRadioButton(const bwWidget& widget)
-{
-	const bwAbstractButton& button = *widget_cast<const bwAbstractButton*>(&widget);
-
-	if (button.state == bwAbstractButton::STATE_NORMAL || button.state == bwAbstractButton::STATE_HIGHLIGHTED) {
-		widget_style.fill_color.setColor(0.27451f);
-		widget_style.outline_color.setColor(0.27451f);
-		widget_style.text_color.setColor(1.0f);
-
-		if (button.state == bwAbstractButton::STATE_HIGHLIGHTED) {
-			widget_style.fill_color.shade(0.06f);
-		}
-	}
-	else if (button.state == bwAbstractButton::STATE_SUNKEN) {
-		widget_style.fill_color.setColor(0.337255f, 0.501961f, 0.760784f);
-		widget_style.outline_color.setColor(0.337255f, 0.501961f, 0.760784f);
-		widget_style.text_color.setColor(0.0f);
-	}
-
-	widget_style.shade_top = widget_style.shade_bottom = 0;
-	widget_style.roundbox_radius = 2.0f;
-	widget_style.roundbox_corners = button.rounded_corners;
-	widget_style.text_alignment = TEXT_ALIGN_CENTER;
-}
-
-void bwStyleBlenderFlat::setWidgetStyleLabel()
-{
-	widget_style.shade_top = widget_style.shade_bottom = 0;
-	widget_style.text_color.setColor(0.0f);
-	widget_style.text_alignment = TEXT_ALIGN_LEFT;
-}
-
-void bwStyleBlenderFlat::setWidgetStyleTextBox(const bwWidget& widget)
-{
-	const bwTextBox& text_box = *widget_cast<const bwTextBox*>(&widget);
-
-	widget_style.outline_color.setColor(0.6f);
-	widget_style.fill_color.setColor(0.6f);
-	widget_style.text_color.setColor(0.0f);
-	widget_style.highlight.setColor(0.353f);
-	if (text_box.state == bwTextBox::STATE_HIGHLIGHTED) {
-		widget_style.fill_color.shade(0.06f);
-	}
-	else if (text_box.state == bwTextBox::STATE_TEXT_EDITING) {
-		widget_style.text_color.setColor(1.0f);
-	}
-
-	widget_style.shade_top = widget_style.shade_bottom = 0;
-	widget_style.roundbox_radius = 4.0f;
-	widget_style.roundbox_corners = RoundboxCorner::ALL;
-	widget_style.text_alignment = TEXT_ALIGN_LEFT;
-}
-
 void bwStyleBlenderFlat::setWidgetStyle(const bwWidget& widget)
 {
-	switch (widget.type) {
-		case bwWidget::WIDGET_TYPE_PUSH_BUTTON:
-			setWidgetStyleDefault(widget);
-			break;
-		case bwWidget::WIDGET_TYPE_RADIO_BUTTON:
-			setWidgetStyleRadioButton(widget);
-			break;
-		case bwWidget::WIDGET_TYPE_LABEL:
-			setWidgetStyleLabel();
-			break;
-		case bwWidget::WIDGET_TYPE_TEXT_BOX:
-			setWidgetStyleTextBox(widget);
-			break;
-		default:
-			assert(0);
-			break;
+	const bwAbstractButton* button = widget_cast<const bwAbstractButton*>(&widget);
+
+	if (button) {
+		widget_styles[widget.type].roundbox_corners = button->rounded_corners;
+	}
+	else if (widget.type == bwWidget::WIDGET_TYPE_TEXT_BOX) {
+		widget_styles[widget.type].roundbox_corners = RoundboxCorner::ALL;
 	}
 }

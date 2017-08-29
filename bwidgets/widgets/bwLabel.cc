@@ -17,12 +17,12 @@ bwLabel::bwLabel(
 
 void bwLabel::draw(bwStyle& style) const
 {
-	bwStyle::WidgetStyle& widget_style = style.widget_style;
+	bwWidgetStyle& widget_style = style.widget_styles[type];
 	bwPainter painter;
 
 	style.setWidgetStyle(*this);
 	painter.setContentMask(rectangle);
 
-	painter.setActiveColor(widget_style.text_color);
+	painter.setActiveColor(widget_style.textColor(state));
 	painter.drawText(text, rectangle, widget_style.text_alignment, bwPainter::text_draw_arg);
 }

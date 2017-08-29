@@ -8,14 +8,14 @@ using namespace bWidgets;
 bwAbstractButton::bwAbstractButton(
         const std::string& text, const WidgetType type,
         const bwRectanglePixel& rectangle) :
-    bwWidget(type, rectangle), state(STATE_NORMAL), rounded_corners(RoundboxCorner::ALL), text(text)
+    bwWidget(type, rectangle), rounded_corners(RoundboxCorner::ALL), text(text)
 {
 	
 }
 
 void bwAbstractButton::draw(bwStyle& style) const
 {
-	bwStyle::WidgetStyle& widget_style = style.widget_style;
+	bwWidgetStyle& widget_style = style.widget_styles[type];
 	bwRectanglePixel inner_rect = rectangle;
 	bwPainter painter;
 
@@ -26,17 +26,17 @@ void bwAbstractButton::draw(bwStyle& style) const
 	painter.setContentMask(inner_rect);
 
 	painter.enableGradient(
-	            widget_style.fill_color,
-	            widget_style.shade_top / 255.0f, widget_style.shade_bottom / 255.0f,
+	            widget_style.backgroundColor(state),
+	            widget_style.shadeTop(state, true), widget_style.shadeBottom(state, true),
 	            bwGradient::DIRECTION_TOP_BOTTOM);
 	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, widget_style.roundbox_radius - 1.0f);
 	// Outline
-	painter.setActiveColor(widget_style.outline_color);
+	painter.setActiveColor(widget_style.outlineColor(state));
 	painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
 	painter.drawRoundbox(rectangle, widget_style.roundbox_corners, widget_style.roundbox_radius);
 
 	// Text
-	painter.setActiveColor(widget_style.text_color);
+	painter.setActiveColor(widget_style.textColor(state));
 	painter.drawText(text, rectangle, widget_style.text_alignment, bwPainter::text_draw_arg);
 }
 

@@ -16,7 +16,18 @@ public:
 		WIDGET_TYPE_PUSH_BUTTON,
 		WIDGET_TYPE_RADIO_BUTTON,
 		WIDGET_TYPE_TEXT_BOX,
+
+		WIDGET_TYPE_TOT
 	} type;
+
+	enum WidgetState {
+		STATE_NORMAL,
+		STATE_HIGHLIGHTED,
+		STATE_SUNKEN,
+
+		STATE_TOT
+	} state;
+
 
 	// XXX temporarily placed here.
 	enum MouseButton {

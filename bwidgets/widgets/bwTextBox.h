@@ -8,12 +8,6 @@ namespace bWidgets {
 class bwTextBox : public bwWidget
 {
 public:
-	enum TextBoxState {
-		STATE_NORMAL,
-		STATE_HIGHLIGHTED,
-		STATE_TEXT_EDITING,
-	} state;
-
 	bwTextBox(
 	        unsigned int position_x = 0, unsigned int position_y = 0,
 	        unsigned int width = 10, unsigned int height = 10);

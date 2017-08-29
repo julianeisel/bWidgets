@@ -10,12 +10,19 @@ bwColor::bwColor(float red, float green, float blue, float alpha)
 	setColor(red, green, blue, alpha);
 }
 
-void bwColor::shade(const float rgb_shade, float alpha_shade)
+bwColor::bwColor(float rgb, float alpha)
+{
+	setColor(rgb, alpha);
+}
+
+bwColor& bwColor::shade(const float rgb_shade, float alpha_shade)
 {
 	for (int i = 0; i < 3; i++) {
 		rgba[i] = fmin(rgba[i] + rgb_shade, 1.0);
 	}
 	rgba[3] = fmin(rgba[3] + alpha_shade, 1.0);
+
+	return *this;
 }
 
 void bwColor::setColor(float red, float green, float blue, float alpha)
@@ -41,6 +48,11 @@ void bwColor::setColor(const float _rgba[4])
 const float* bwColor::getColor() const
 {
 	return rgba;
+}
+
+void bwColor::operator=(const float rgb)
+{
+	setColor(rgb);
 }
 
 float& bwColor::operator[](unsigned int index)

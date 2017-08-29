@@ -67,10 +67,10 @@ bool DefaultStage::StyleButtonsUpdateCb(bwWidget& widget_iter, void* custom_data
 		bwRadioButton* radio_iter = widget_cast<bwRadioButton*>(&widget_iter);
 		if (radio_iter->custom_data == lookup_radio_button->custom_data) {
 			if (radio_iter->valueID == lookup_radio_button->valueID) {
-				radio_iter->state = bwAbstractButton::STATE_SUNKEN;
+				radio_iter->state = bwWidget::STATE_SUNKEN;
 			}
 			else {
-				radio_iter->state = bwAbstractButton::STATE_NORMAL;
+				radio_iter->state = bwWidget::STATE_NORMAL;
 			}
 		}
 	}
