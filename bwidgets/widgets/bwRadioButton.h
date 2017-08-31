@@ -25,7 +25,10 @@ public:
 	        unsigned int position_x = 0, unsigned int position_y = 0,
 	        unsigned int width = 10, unsigned int height = 10);
 
-	void onClick(const MouseButton mouse_button) override;
+	void mousePressEvent(const MouseButton button) override;
+	void mouseReleaseEvent(const MouseButton button) override;
+	void mouseEnter() override;
+	void mouseLeave() override;
 
 	// XXX Not that pretty.
 	void* custom_data;

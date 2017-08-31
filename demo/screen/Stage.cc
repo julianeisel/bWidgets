@@ -20,6 +20,7 @@ extern "C" {
 #include "bwTextBox.h"
 #include "bwWidget.h"
 
+#include "Event.h"
 #include "Font.h"
 #include "GPU.h"
 #include "Layout.h"
@@ -138,8 +139,21 @@ static float stage_text_xpos_calc(
         Font& font, const std::string& text,
         const bwRectanglePixel& rectangle, const TextAlignment alignment)
 {
-	return (alignment == TEXT_ALIGN_CENTER) ?
-	            (rectangle.centerX() - (font.calculateStringWidth(text) / 2.0f)) : (rectangle.xmin + 10.0f); // XXX +10 is ugly. Goes out of widget rectangle even.
+	int value = 0;
+
+	switch (alignment) {
+		case TEXT_ALIGN_LEFT:
+			value = rectangle.xmin + 10; // XXX +10 is ugly. Goes out of widget rectangle even.
+			break;
+		case TEXT_ALIGN_CENTER:
+			value = rectangle.centerX() - (font.calculateStringWidth(text) / 2.0f);
+			break;
+		case TEXT_ALIGN_RIGHT:
+			value = rectangle.xmax - font.calculateStringWidth(text) - 10; // XXX -10 is ugly. Goes out of widget rectangle even.
+			break;
+	}
+
+	return value;
 }
 
 /**
@@ -161,7 +175,7 @@ static void stage_text_draw_cb(
 }
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
-    width(width), height(height), last_hovered(nullptr)
+    width(width), height(height), last_hovered(nullptr), dragged_widget(nullptr)
 {
 	// Initialize drawing callbacks for the stage
 	bwPainter::drawPolygonCb = stage_polygon_draw_cb;
@@ -235,16 +249,16 @@ bwWidget* Stage::getWidgetAt(const unsigned int index)
 	return nullptr;
 }
 
-struct MouseMoveEventWidgetIter {
+struct MouseEventStageWrapper {
 	Stage& stage;
-	int mouse_xy[2];
+	const MouseEvent& event;
 };
 
 bool Stage::handleMouseMovementWidgetCb(bwWidget& widget, void* custom_data)
 {
-	MouseMoveEventWidgetIter& data = *(MouseMoveEventWidgetIter*)custom_data;
+	MouseEventStageWrapper& data = *(MouseEventStageWrapper*)custom_data;
 
-	if (widget.isCoordinateInside(data.mouse_xy[0], data.mouse_xy[1])) {
+	if (widget.isCoordinateInside(data.event.getMouseLocation())) {
 		if (&widget != data.stage.last_hovered) {
 			if (data.stage.last_hovered) {
 				data.stage.last_hovered->mouseLeave();
@@ -261,47 +275,66 @@ bool Stage::handleMouseMovementWidgetCb(bwWidget& widget, void* custom_data)
 	return true;
 }
 
-void Stage::handleMouseMovementEvent(const int mouse_xy[2])
+void Stage::handleMouseMovementEvent(const MouseEvent& event)
 {
-	MouseMoveEventWidgetIter data = {*this, {mouse_xy[0], mouse_xy[1]}};
+	MouseEventStageWrapper data = {*this, event};
 	layout->iterateWidgets(handleMouseMovementWidgetCb, &data);
 }
 
-struct MouseButtonEventWidgetIter {
-	bwWidget::MouseButton bw_mouse_button;
-	int mouse_xy[2];
-};
-
 bool Stage::handleMouseEventWidgetCb(bwWidget& widget, void* custom_data)
 {
-	MouseButtonEventWidgetIter& data = *(MouseButtonEventWidgetIter*)custom_data;
-	if (widget.isCoordinateInside(data.mouse_xy[0], data.mouse_xy[1])) {
-		widget.onClick(data.bw_mouse_button);
+	MouseEventStageWrapper& data = *(MouseEventStageWrapper*)custom_data;
+	const MouseEvent& event = data.event;
+
+	if (widget.isCoordinateInside(event.getMouseLocation())) {
+		if (event.isClick()) {
+			widget.mouseClickEvent(event.getButton());
+			// TODO handlers should return value to pass on or block event.
+		}
+
+		switch (event.getType()) {
+			case MouseEvent::MOUSE_EVENT_PRESS:
+				widget.mousePressEvent(event.getButton());
+				data.stage.dragged_widget = &widget;
+				break;
+			case MouseEvent::MOUSE_EVENT_RELEASE:
+				widget.mouseReleaseEvent(event.getButton());
+				break;
+			default:
+				return true;
+		}
+
 		return false;
 	}
 
 	return true;
 }
 
-void Stage::handleMouseButtonEvent(
-        const Window& /*win*/, const int mouse_xy[2],
-        int button, int /*action*/, int /*mods*/)
+void Stage::handleMouseButtonEvent(const MouseEvent& event)
 {
-	MouseButtonEventWidgetIter data = {convertGlfwMouseButton(button), {mouse_xy[0], mouse_xy[1]}};
+	MouseEventStageWrapper data = {*this, event};
 	layout->iterateWidgets(handleMouseEventWidgetCb, &data);
+	if (event.getType() == MouseEvent::MOUSE_EVENT_RELEASE) {
+		dragged_widget = nullptr;
+	}
 }
 
-bwWidget::MouseButton Stage::convertGlfwMouseButton(int glfw_button)
+bool Stage::handleMouseDragWidgetCb(bwWidget& widget, void* custom_data)
 {
-	switch (glfw_button) {
-		case GLFW_MOUSE_BUTTON_LEFT:
-			return bwWidget::MOUSE_BUTTON_LEFT;
-		case GLFW_MOUSE_BUTTON_RIGHT:
-			return bwWidget::MOUSE_BUTTON_RIGHT;
+	MouseEventStageWrapper& data = *(MouseEventStageWrapper*)custom_data;
+
+	if (&widget == data.stage.dragged_widget) {
+		widget.mouseDragEvent(data.event.getButton(), data.event.getHorizontalDragDistance());
+		return false;
 	}
 
-	// XXX randomish default value
-	return bwWidget::MOUSE_BUTTON_LEFT;
+	return true;
+}
+
+void Stage::handleMouseDragEvent(const MouseEvent& event)
+{
+	MouseEventStageWrapper data = {*this, event};
+	layout->iterateWidgets(handleMouseDragWidgetCb, &data);
 }
 
 void Stage::handleResizeEvent(const Window& win)

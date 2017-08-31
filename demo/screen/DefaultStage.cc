@@ -3,6 +3,7 @@
 #include "Stage.h"
 
 #include "bwLabel.h"
+#include "bwNumberSlider.h"
 #include "bwPushButton.h"
 #include "bwRadioButton.h"
 #include "bwStyle.h"
@@ -24,18 +25,26 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 
 	addStyleSelector(*layout);
 
+	addFakeSpacer(*layout);
+
 	layout->addLayout(col);
 	col->addWidget(new bwPushButton("Translate", 0, 0, 0, BUTTON_HEIGHT));
 	col->addWidget(new bwPushButton("Rotate", 0, 0, 0, BUTTON_HEIGHT));
 	col->addWidget(new bwPushButton("Scale", 0, 0, 0, BUTTON_HEIGHT));
 
 	layout->addWidget(new bwPushButton("Mirror", 0, 0, 0, BUTTON_HEIGHT));
-	// Just some extra space. No spacer widgets yet.
-	layout->addWidget(new bwLabel("", 0, 0, 0, 7));
+
+	addFakeSpacer(*layout);
 
 	bwTextBox* text_box = new bwTextBox(0, 0, 0, BUTTON_HEIGHT);
 	text_box->setText("Some Text...");
 	layout->addWidget(text_box);
+
+	bwNumberSlider* slider = new bwNumberSlider(0, 0, 0, BUTTON_HEIGHT);
+	slider->setText("Value: ");
+	slider->setMinMax(0.0f, 1.0f);
+	slider->setValue(0.3f);
+	layout->addWidget(slider);
 }
 
 void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
@@ -57,6 +66,12 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 
 		row_layout->addWidget(style_button);
 	}
+}
+
+void DefaultStage::addFakeSpacer(LayoutItem& layout)
+{
+	// Just some extra space. No spacer widgets yet.
+	layout.addWidget(new bwLabel("", 0, 0, 0, 7));
 }
 
 bool DefaultStage::StyleButtonsUpdateCb(bwWidget& widget_iter, void* custom_data)

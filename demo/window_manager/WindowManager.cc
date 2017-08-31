@@ -17,7 +17,7 @@ static void wm_glfw_error_callback(int /* error */, const char* description)
 }
 
 WindowManager::WindowManager() :
-    event_manager(EventManager::CreateEventManager())
+    event_manager(EventManager::ensureEventManager())
 {
 	if (!glfwInit()) {
 		assert(0);

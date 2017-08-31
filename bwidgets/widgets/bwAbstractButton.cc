@@ -15,54 +15,38 @@ bwAbstractButton::bwAbstractButton(
 
 void bwAbstractButton::draw(bwStyle& style) const
 {
-	bwWidgetStyle& widget_style = style.widget_styles[type];
-	bwRectanglePixel inner_rect = rectangle;
+	const bwWidgetStyle& widget_style = style.widget_styles[type];
 	bwPainter painter;
 
-	// Inner - "inside" of outline, so scale down
-	inner_rect.resize(-1);
-
 	style.setWidgetStyle(*this);
-	painter.setContentMask(inner_rect);
 
-	painter.enableGradient(
-	            widget_style.backgroundColor(state),
-	            widget_style.shadeTop(state, true), widget_style.shadeBottom(state, true),
-	            bwGradient::DIRECTION_TOP_BOTTOM);
-	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, widget_style.roundbox_radius - 1.0f);
-	// Outline
-	painter.setActiveColor(widget_style.outlineColor(state));
-	painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
-	painter.drawRoundbox(rectangle, widget_style.roundbox_corners, widget_style.roundbox_radius);
+	painter.drawRoundboxWidgetBase(*this, style);
 
 	// Text
 	painter.setActiveColor(widget_style.textColor(state));
-	painter.drawText(text, rectangle, widget_style.text_alignment, bwPainter::text_draw_arg);
+	painter.drawText(text, rectangle, widget_style.text_alignment);
 }
 
-void bwAbstractButton::onClick(const MouseButton button)
+void bwAbstractButton::mousePressEvent(const bwWidget::MouseButton button)
 {
-	if (button == MOUSE_BUTTON_RIGHT) {
-		// skip
-	}
-	else if (state == STATE_SUNKEN) {
-		state = STATE_NORMAL;
-	}
-	else {
+	if (button == MOUSE_BUTTON_LEFT) {
 		state = STATE_SUNKEN;
+	}
+}
+
+void bwAbstractButton::mouseReleaseEvent(const bwWidget::MouseButton button)
+{
+	if ((button == MOUSE_BUTTON_LEFT) && (state == STATE_SUNKEN)) {
+		state = STATE_NORMAL;
 	}
 }
 
 void bwAbstractButton::mouseEnter()
 {
-	if (state == STATE_NORMAL) {
-		state = STATE_HIGHLIGHTED;
-	}
+	state = STATE_HIGHLIGHTED;
 }
 
 void bwAbstractButton::mouseLeave()
 {
-	if (state == STATE_HIGHLIGHTED) {
-		state = STATE_NORMAL;
-	}
+	state = STATE_NORMAL;
 }

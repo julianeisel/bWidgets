@@ -2,6 +2,7 @@
 
 #include "bwPoint.h"
 #include "bwPolygon.h"
+#include "bwStyle.h"
 
 #include "bwPainter.h"
 
@@ -21,16 +22,21 @@ bwPainter::bwPainter() :
 	
 }
 
-void bwPainter::drawPolygon(const bwPolygon& poly) const
+void bwPainter::drawPolygon(
+        const bwPolygon& poly)
 {
 	if (poly.isDrawable()) {
 		drawPolygonCb(*this, poly);
 	}
+	if (isGradientEnabled()) {
+		vert_colors.clear();
+	}
 }
 
 void bwPainter::drawText(
-        const std::string& text, const bwRectanglePixel& rectangle,
-        const TextAlignment alignment, void* text_draw_arg) const
+        const std::string& text,
+        const bwRectanglePixel& rectangle,
+        const TextAlignment alignment) const
 {
 	if (text.size() > 0) {
 		drawTextCb(*this, text, rectangle, alignment, text_draw_arg);
@@ -233,12 +239,37 @@ void bwPainter::drawRectangle(const bwRectanglePixel& rect)
 void bwPainter::fillVertexColorsWithGradient(
         const bwPolygon& polygon, const bwRectanglePixel& bounding_box)
 {
+	const bwPointVec& vertices = polygon.getVertices();
 	assert(isGradientEnabled());
 
-	vert_colors.reserve(polygon.getVertices().size());
-	for (const bwPoint& vertex : polygon.getVertices()) {
+	vert_colors.reserve(vertices.size());
+	for (const bwPoint& vertex : vertices) {
 		vert_colors.push_back(active_gradient->calcPointColor(vertex, bounding_box));
 	}
 
-	assert(vert_colors.size() == polygon.getVertices().size());
+	assert(vert_colors.size() == vertices.size());
+}
+
+void bwPainter::drawRoundboxWidgetBase(
+        const bwWidget& widget,
+        const bwStyle& style)
+{
+	const bwWidgetStyle& widget_style = style.widget_styles[widget.type];
+	bwRectanglePixel inner_rect = widget.rectangle;
+
+	// Inner - "inside" of outline, so scale down
+	inner_rect.resize(-1);
+
+	setContentMask(inner_rect); // Not sure if we should set this here.
+
+	enableGradient(
+	            widget_style.backgroundColor(widget.state),
+	            widget_style.shadeTop(widget.state), widget_style.shadeBottom(widget.state),
+	            bwGradient::DIRECTION_TOP_BOTTOM);
+	drawRoundbox(inner_rect, widget_style.roundbox_corners, widget_style.roundbox_radius - 1.0f);
+
+	// Outline
+	setActiveColor(widget_style.outlineColor(widget.state));
+	active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
+	drawRoundbox(widget.rectangle, widget_style.roundbox_corners, widget_style.roundbox_radius);
 }

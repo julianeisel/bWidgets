@@ -1,3 +1,4 @@
+#include "bwPoint.h"
 #include "bwWidget.h"
 
 using namespace bWidgets;
@@ -9,12 +10,27 @@ bwWidget::bwWidget(const WidgetType type, const bwRectanglePixel& rectangle) :
 	
 }
 
-bool bwWidget::isCoordinateInside(int x, int y) const
+bool bwWidget::isCoordinateInside(const bwPoint& point) const
 {
-	return rectangle.isCoordinateInside(x, y);
+	return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-void bwWidget::onClick(const MouseButton /*button*/)
+void bwWidget::mousePressEvent(const MouseButton /*button*/)
+{
+	
+}
+
+void bwWidget::mouseReleaseEvent(const MouseButton /*button*/)
+{
+	
+}
+
+void bwWidget::mouseClickEvent(const MouseButton /*button*/)
+{
+	
+}
+
+void bwWidget::mouseDragEvent(const MouseButton /*button*/, const int /*drag_distance*/)
 {
 	
 }

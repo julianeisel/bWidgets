@@ -40,6 +40,7 @@ const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
 		},
 		.shade_top = 15,
 		.shade_bottom = -15,
+		.invert_shade_on_sunken = true,
 		.text_alignment = TEXT_ALIGN_LEFT,
 		.roundbox_radius = 5.0f,
 	},
@@ -64,6 +65,7 @@ const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
 		},
 		.shade_top = 15,
 		.shade_bottom = -15,
+		.invert_shade_on_sunken = true,
 		.text_alignment = TEXT_ALIGN_CENTER,
 		.roundbox_radius = 4.0f,
 	},
@@ -93,8 +95,39 @@ const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
 		},
 		.shade_top = 0,
 		.shade_bottom = 25,
+		.invert_shade_on_sunken = false,
 		.text_alignment = TEXT_ALIGN_LEFT,
 		.roundbox_radius = 4.0f,
+	},
+
+	[bwWidget::WIDGET_TYPE_NUMBER_SLIDER] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+				.normal = 0.6f,
+				.highlighted = bwColor(0.6f).shade(0.06f),
+				.sunken = 0.6f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 0.0f,
+				.highlighted = 0.0f,
+				.sunken = 1.0f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
+				.normal = 0.098f,
+				.highlighted = 0.098f,
+				.sunken = 0.098f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION] = {
+				.normal = 0.353f,
+				.highlighted = 0.353f,
+				.sunken = 0.353f,
+			},
+		},
+		.shade_top = 0,
+		.shade_bottom = 25,
+		.invert_shade_on_sunken = false,
+		.text_alignment = TEXT_ALIGN_LEFT,
+		.roundbox_radius = 10.0f,
 	},
 };
 
@@ -111,7 +144,7 @@ void bwStyleBlenderClassic::setWidgetStyle(const bwWidget& widget)
 	if (button) {
 		widget_styles[widget.type].roundbox_corners = button->rounded_corners;
 	}
-	else if (widget.type == bwWidget::WIDGET_TYPE_TEXT_BOX) {
+	else {
 		widget_styles[widget.type].roundbox_corners = RoundboxCorner::ALL;
 	}
 }

@@ -4,10 +4,12 @@ set(INC
 )
 
 set(SRC
+	Event.cc
 	EventManager.cc
 	Window.cc
 	WindowManager.cc
 
+	Event.h
 	EventManager.h
 	Window.h
 	WindowManager.h

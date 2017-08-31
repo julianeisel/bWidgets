@@ -16,10 +16,29 @@ bwRadioButton::bwRadioButton(
 	
 }
 
-void bwRadioButton::onClick(const MouseButton mouse_button)
+void bwRadioButton::mousePressEvent(const bwWidget::MouseButton button)
 {
-	if (mouse_button == MOUSE_BUTTON_LEFT) {
+	if (button == bwWidget::MOUSE_BUTTON_LEFT) {
 		state = STATE_SUNKEN;
 		apply(*this);
+	}
+}
+
+void bwRadioButton::mouseReleaseEvent(const bwWidget::MouseButton /*button*/)
+{
+	
+}
+
+void bwRadioButton::mouseEnter()
+{
+	if (state != STATE_SUNKEN) {
+		state = STATE_HIGHLIGHTED;
+	}
+}
+
+void bwRadioButton::mouseLeave()
+{
+	if (state != STATE_SUNKEN) {
+		state = STATE_NORMAL;
 	}
 }

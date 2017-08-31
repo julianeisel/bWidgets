@@ -31,14 +31,14 @@ const bwColor&bwWidgetStyle::decorationColor(const bwWidget::WidgetState state) 
 	return getColor(WIDGET_STYLE_COLOR_DECORATION, state);
 }
 
-float bwWidgetStyle::shadeTop(const bwWidget::WidgetState state, const bool inverse_on_sunken) const
+float bwWidgetStyle::shadeTop(const bwWidget::WidgetState state) const
 {
-	return ((inverse_on_sunken && (state == bwWidget::STATE_SUNKEN)) ? shade_bottom : shade_top) / 255.0f;
+	return ((invert_shade_on_sunken && (state == bwWidget::STATE_SUNKEN)) ? shade_bottom : shade_top) / 255.0f;
 }
 
-float bwWidgetStyle::shadeBottom(const bwWidget::WidgetState state, const bool inverse_on_sunken) const
+float bwWidgetStyle::shadeBottom(const bwWidget::WidgetState state) const
 {
-	return ((inverse_on_sunken && (state == bwWidget::STATE_SUNKEN)) ? shade_top : shade_bottom) / 255.0f;
+	return ((invert_shade_on_sunken && (state == bwWidget::STATE_SUNKEN)) ? shade_top : shade_bottom) / 255.0f;
 }
 
 const bwColor& bwWidgetStyle::getColor(

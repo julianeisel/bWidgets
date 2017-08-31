@@ -24,5 +24,5 @@ void bwLabel::draw(bwStyle& style) const
 	painter.setContentMask(rectangle);
 
 	painter.setActiveColor(widget_style.textColor(state));
-	painter.drawText(text, rectangle, widget_style.text_alignment, bwPainter::text_draw_arg);
+	painter.drawText(text, rectangle, widget_style.text_alignment);
 }

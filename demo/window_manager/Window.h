@@ -2,6 +2,10 @@
 
 #include <string>
 
+#include "bwPoint.h"
+
+
+struct GLFWwindow;
 
 namespace bWidgetsDemo {
 
@@ -18,18 +22,18 @@ public:
 	WindowAction processEvents();
 	void draw();
 
-	void getCursorPosition(int r_position[2]);
+	const bWidgets::bwPoint getCursorPosition() const;
 	void handleResizeEvent(const int new_win_x, const int new_win_y);
 
 	class Stage* stage;
 
-	class GLFWwindow *getGlfwWindow() const;
+	GLFWwindow* getGlfwWindow() const;
 
 	int getWidth() const;
 	int getHeight() const;
 
 private:
-	class GLFWwindow* glfw_window;
+	GLFWwindow* glfw_window;
 	unsigned int VertexArrayID;
 
 	int width, height;

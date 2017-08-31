@@ -1,16 +1,19 @@
 #include <list>
 
+#include "Event.h"
 #include "GPU.h"
-
 #include "Stage.h"
-
-#include "EventManager.h"
 #include "WindowManager.h"
 
+#include "EventManager.h"
+
 using namespace bWidgetsDemo;
+using namespace bWidgets; // Less verbose
 
 
-EventManager& EventManager::CreateEventManager()
+bool EventManager::is_dragging = false;
+
+EventManager& EventManager::ensureEventManager()
 {
 	static EventManager instance;
 	return instance;
@@ -55,26 +58,75 @@ void EventManager::setupWindowHandlers(Window& window)
 	glfwSetMouseButtonCallback(glfw_window, handleMouseButtonEvent);
 }
 
+bool EventManager::isDragging()
+{
+	return is_dragging;
+}
+
 void EventManager::handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, int new_win_y)
 {
 	Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
 	win->handleResizeEvent(new_win_x, new_win_y);
 }
 
-void EventManager::handleMouseMovementEvent(GLFWwindow* glfw_win, double /*x*/, double /*y*/)
+bwWidget::MouseButton EventManager::convertGlfwMouseButton(int glfw_button)
 {
-	Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
-	int mouse_xy[2];
+	switch (glfw_button) {
+		case GLFW_MOUSE_BUTTON_LEFT:
+			return bwWidget::MOUSE_BUTTON_LEFT;
+		case GLFW_MOUSE_BUTTON_RIGHT:
+			return bwWidget::MOUSE_BUTTON_RIGHT;
+	}
 
-	win->getCursorPosition(mouse_xy);
-	win->stage->handleMouseMovementEvent(mouse_xy);
+	return bwWidget::MOUSE_BUTTON_UNKNOWN;
 }
 
-void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int button, int action, int mods)
+MouseEvent::MouseEventType EventManager::convertGlfwMouseButtonAction(int glfw_action)
 {
-	Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
-	int mouse_xy[2];
+	switch (glfw_action) {
+		case GLFW_PRESS:
+			return MouseEvent::MOUSE_EVENT_PRESS;
+		case GLFW_RELEASE:
+			return MouseEvent::MOUSE_EVENT_RELEASE;
+	}
 
-	win->getCursorPosition(mouse_xy);
-	win->stage->handleMouseButtonEvent(*win, mouse_xy, button, action, mods);
+	return MouseEvent::MOUSE_EVENT_UNKNOWN;
+}
+
+void EventManager::handleMouseMovementEvent(GLFWwindow* glfw_win, double /*x*/, double /*y*/)
+{
+	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+	const bwPoint& position = win->getCursorPosition();
+	MouseEvent* event;
+
+	event = new MouseEvent(MouseEvent::MOUSE_EVENT_MOVE, bwWidget::MOUSE_BUTTON_UNKNOWN, position);
+	if (is_dragging) {
+		win->stage->handleMouseDragEvent(*event);
+	}
+	else {
+		win->stage->handleMouseMovementEvent(*event);
+	}
+
+	delete event;
+}
+
+void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int glfw_button, int glfw_action, int /*glfw_mods*/)
+{
+	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+	const bwPoint& position = win->getCursorPosition();
+	const MouseEvent::MouseEventType action_type = convertGlfwMouseButtonAction(glfw_action);
+	const bwWidget::MouseButton mouse_button = convertGlfwMouseButton(glfw_button);
+	MouseEvent* event;
+
+	if (action_type == MouseEvent::MOUSE_EVENT_PRESS) {
+		is_dragging = true;
+	}
+	else if (action_type == MouseEvent::MOUSE_EVENT_RELEASE) {
+		is_dragging = false;
+	}
+
+	event = new MouseEvent(action_type, mouse_button, position);
+	win->stage->handleMouseButtonEvent(*event);
+
+	delete event;
 }

@@ -11,7 +11,9 @@ class bwAbstractButton : public bwWidget
 {
 public:
 	virtual void draw(class bwStyle &style) const override;
-	virtual void onClick(const MouseButton button) override;
+
+	virtual void mousePressEvent(const MouseButton button) override;
+	virtual void mouseReleaseEvent(const MouseButton button) override;
 	virtual void mouseEnter() override;
 	virtual void mouseLeave() override;
 

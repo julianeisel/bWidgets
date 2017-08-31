@@ -13,6 +13,7 @@ public:
 
 private:
 	void addStyleSelector(class LayoutItem& parent_layout);
+	void addFakeSpacer(class LayoutItem& layout);
 
 	static void StyleApplyButtonCb(
 	        bWidgets::bwWidget& widget);

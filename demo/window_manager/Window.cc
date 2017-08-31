@@ -1,11 +1,12 @@
 #include <iostream>
 #include <string>
 
-#include "GPU.h"
-
-#include "Stage.h"
+#include "bwPoint.h"
 
 #include "EventManager.h"
+#include "GPU.h"
+#include "Stage.h"
+
 #include "Window.h"
 
 using namespace bWidgetsDemo;
@@ -74,7 +75,7 @@ Window::WindowAction Window::processEvents()
 	return WINDOW_ACTION_CONTINUE;
 }
 
-void Window::getCursorPosition(int r_position[2])
+const bWidgets::bwPoint Window::getCursorPosition() const
 {
 	int win_size_y;
 	double x, y;
@@ -82,8 +83,7 @@ void Window::getCursorPosition(int r_position[2])
 	glfwGetCursorPos(glfw_window, &x, &y);
 	glfwGetWindowSize(glfw_window, nullptr, &win_size_y);
 
-	r_position[0] = (int)x;
-	r_position[1] = win_size_y - (int)y;
+	return bWidgets::bwPoint(x, win_size_y - y);
 }
 
 void Window::handleResizeEvent(const int new_win_x, const int new_win_y)

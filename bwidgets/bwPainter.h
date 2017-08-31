@@ -23,6 +23,7 @@ enum RoundboxCorner {
 enum TextAlignment {
 	TEXT_ALIGN_LEFT,
 	TEXT_ALIGN_CENTER,
+	TEXT_ALIGN_RIGHT,
 };
 
 class bwPainter
@@ -42,10 +43,12 @@ public:
 
 	bwPainter();
 
-	void drawPolygon(const class bwPolygon& poly) const;
+	void drawPolygon(
+	        const class bwPolygon& poly);
 	void drawText(
-	        const std::string& text, const bwRectanglePixel& rectangle,
-	        const TextAlignment align, void* text_draw_arg) const;
+	        const std::string& text,
+	        const bwRectanglePixel& rectangle,
+	        const TextAlignment align) const;
 
 	void setActiveColor(const bwColor& color);
 	const bwColor& getActiveColor() const;
@@ -66,6 +69,9 @@ public:
 	        unsigned int corners, const float radius);
 	void drawRectangle(
 	        const bwRectanglePixel& rect);
+	void drawRoundboxWidgetBase(
+	        const class bwWidget& widget,
+	        const class bwStyle& style);
 
 private:
 	bwColor active_color;

@@ -16,6 +16,7 @@ public:
 		WIDGET_TYPE_PUSH_BUTTON,
 		WIDGET_TYPE_RADIO_BUTTON,
 		WIDGET_TYPE_TEXT_BOX,
+		WIDGET_TYPE_NUMBER_SLIDER,
 
 		WIDGET_TYPE_TOT
 	} type;
@@ -33,14 +34,22 @@ public:
 	enum MouseButton {
 		MOUSE_BUTTON_LEFT,
 		MOUSE_BUTTON_RIGHT,
+
+		MOUSE_BUTTON_UNKNOWN,
 	};
 
 	bwWidget(const WidgetType type, const bwRectanglePixel& rectangle);
 	virtual ~bwWidget() {}
 
-	virtual bool isCoordinateInside(int x, int y) const;
+	virtual bool isCoordinateInside(const bwPoint& point) const;
+
 	virtual void draw(class bwStyle& style) const = 0;
-	virtual void onClick(const MouseButton button);
+
+	// Events
+	virtual void mousePressEvent(const MouseButton button);
+	virtual void mouseReleaseEvent(const MouseButton button);
+	virtual void mouseClickEvent(const MouseButton button);
+	virtual void mouseDragEvent(const MouseButton button, const int drag_distance);
 	virtual void mouseEnter();
 	virtual void mouseLeave();
 

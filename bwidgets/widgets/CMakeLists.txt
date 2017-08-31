@@ -4,6 +4,7 @@ set(INC
 set(SRC
 	bwAbstractButton.cc
 	bwLabel.cc
+	bwNumberSlider.cc
 	bwPushButton.cc
 	bwRadioButton.cc
 	bwTextBox.cc
@@ -11,6 +12,7 @@ set(SRC
 
 	bwAbstractButton.h
 	bwLabel.h
+	bwNumberSlider.h
 	bwPushButton.h
 	bwRadioButton.h
 	bwTextBox.h

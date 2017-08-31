@@ -30,11 +30,12 @@ public:
 	const bwColor& textColor(const bwWidget::WidgetState state) const;
 	const bwColor& outlineColor(const bwWidget::WidgetState state) const;
 	const bwColor& decorationColor(const bwWidget::WidgetState state) const;
-	float shadeTop(const bwWidget::WidgetState state, const bool inverse_on_sunken) const;
-	float shadeBottom(const bwWidget::WidgetState state, const bool inverse_on_sunken) const;
+	float shadeTop(const bwWidget::WidgetState state) const;
+	float shadeBottom(const bwWidget::WidgetState state) const;
 
 	bwWidgetStateColors state_colors[WIDGET_STYLE_COLOR_TOT];
 	signed char shade_top, shade_bottom;
+	bool invert_shade_on_sunken;
 	TextAlignment text_alignment;
 	float roundbox_radius;
 	unsigned int roundbox_corners;
