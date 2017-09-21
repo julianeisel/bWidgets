@@ -55,6 +55,14 @@ void bwColor::operator=(const float rgb)
 	setColor(rgb);
 }
 
+bool bwColor::operator==(const bwColor& compare_color) const
+{
+	return ((rgba[0] == compare_color[0]) &&
+	        (rgba[1] == compare_color[1]) &&
+	        (rgba[2] == compare_color[2]) &&
+	        (rgba[3] == compare_color[3]));
+}
+
 float& bwColor::operator[](unsigned int index)
 {
 	return rgba[index];

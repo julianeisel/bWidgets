@@ -23,7 +23,10 @@ public:
 
 protected:
 	// Protected constructor to force calling through inherited class (pseudo abstract).
-	bwAbstractButton(const std::string& text, const WidgetType type, const bwRectanglePixel& rectangle);
+	bwAbstractButton(
+	        const std::string& text,
+	        const WidgetType type,
+	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
 
 private:
 	const std::string text;

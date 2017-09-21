@@ -20,6 +20,8 @@ private:
 	static bool StyleButtonsUpdateCb(
 	        bWidgets::bwWidget& widget_iter,
 	        void* custom_data);
+	static void applyUIScaleValueButtonCb(
+	        bWidgets::bwWidget& widget);
 
 	const unsigned int padding = 10;
 };

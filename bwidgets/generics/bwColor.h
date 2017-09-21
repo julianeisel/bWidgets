@@ -16,6 +16,7 @@ public:
 	const float* getColor() const;
 	void operator=(const float rgb);
 
+	bool operator==(const bwColor& compare_color) const;
 	float& operator[](unsigned int index);
 	// Implicit conversion to float*
 	operator const float*() const;

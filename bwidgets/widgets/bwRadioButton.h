@@ -22,8 +22,7 @@ class bwRadioButton : public bwAbstractButton
 public:
 	bwRadioButton(
 	        const std::string& text,
-	        unsigned int position_x = 0, unsigned int position_y = 0,
-	        unsigned int width = 10, unsigned int height = 10);
+	        unsigned int width_hint = 0, unsigned int height_hint = 0);
 
 	void mousePressEvent(const MouseButton button) override;
 	void mouseReleaseEvent(const MouseButton button) override;

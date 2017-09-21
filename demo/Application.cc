@@ -5,7 +5,7 @@
 using namespace bWidgetsDemo;
 
 
-Application& Application::CreateApplication()
+Application& Application::ensureApplication()
 {
 	static Application app;
 	return app;

@@ -1,6 +1,7 @@
 set(INC
 	${GPU_INC}
 	${FREETYPE_INCLUDE_DIRS}
+	..
 	../gpu
 	../../bwidgets/styles
 )

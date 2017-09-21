@@ -28,12 +28,17 @@ public:
 	virtual void handleResizeEvent(const class Window& win);
 
 protected:
-	std::unique_ptr<bWidgets::bwStyle> style;
 	std::list<bWidgets::bwWidget*> widgets;
 	class RootLayout* layout;
-	class Font* font;
+
+	// Static members, for all stages
+	static std::unique_ptr<bWidgets::bwStyle> style;
+	static class Font* font;
+	static float interface_scale;
 
 	unsigned int width, height;
+
+	static void setInterfaceScale(const float value);
 
 private:
 	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.

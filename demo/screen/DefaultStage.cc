@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "Font.h"
 #include "Layout.h"
 #include "Stage.h"
@@ -25,36 +26,37 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 
 	addStyleSelector(*layout);
 
+	bwNumberSlider* slider = new bwNumberSlider(0, BUTTON_HEIGHT);
+	slider->apply = applyUIScaleValueButtonCb;
+	slider->setText("Interface Scale: ");
+	slider->setMinMax(0.5f, 2.0f);
+	slider->setValue(1.0f);
+	layout->addWidget(slider);
+
 	addFakeSpacer(*layout);
 
 	layout->addLayout(col);
-	col->addWidget(new bwPushButton("Translate", 0, 0, 0, BUTTON_HEIGHT));
-	col->addWidget(new bwPushButton("Rotate", 0, 0, 0, BUTTON_HEIGHT));
-	col->addWidget(new bwPushButton("Scale", 0, 0, 0, BUTTON_HEIGHT));
+	col->addWidget(new bwPushButton("Translate", 0, BUTTON_HEIGHT));
+	col->addWidget(new bwPushButton("Rotate", 0, BUTTON_HEIGHT));
+	col->addWidget(new bwPushButton("Scale", 0, BUTTON_HEIGHT));
 
-	layout->addWidget(new bwPushButton("Mirror", 0, 0, 0, BUTTON_HEIGHT));
+	layout->addWidget(new bwPushButton("Mirror", 0, BUTTON_HEIGHT));
 
 	addFakeSpacer(*layout);
 
-	bwTextBox* text_box = new bwTextBox(0, 0, 0, BUTTON_HEIGHT);
+	bwTextBox* text_box = new bwTextBox(0, BUTTON_HEIGHT);
 	text_box->setText("Some Text...");
 	layout->addWidget(text_box);
-
-	bwNumberSlider* slider = new bwNumberSlider(0, 0, 0, BUTTON_HEIGHT);
-	slider->setText("Value: ");
-	slider->setMinMax(0.0f, 1.0f);
-	slider->setValue(0.3f);
-	layout->addWidget(slider);
 }
 
 void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 {
 	RowLayout* row_layout = new RowLayout(true, &parent_layout);
 
-	row_layout->addWidget(new bwLabel("Style :", 0, 0, 0, BUTTON_HEIGHT));
+	row_layout->addWidget(new bwLabel("Style:", 0, BUTTON_HEIGHT));
 
 	for (bwStyle::StyleType type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
-		bwRadioButton* style_button = new bwRadioButton(type.name, 0, 0, 0, BUTTON_HEIGHT);
+		bwRadioButton* style_button = new bwRadioButton(type.name, 0, BUTTON_HEIGHT);
 
 		style_button->valueID = type.type_id;
 		style_button->custom_data = this;
@@ -71,7 +73,7 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 void DefaultStage::addFakeSpacer(LayoutItem& layout)
 {
 	// Just some extra space. No spacer widgets yet.
-	layout.addWidget(new bwLabel("", 0, 0, 0, 7));
+	layout.addWidget(new bwLabel("", 0, 7));
 }
 
 bool DefaultStage::StyleButtonsUpdateCb(bwWidget& widget_iter, void* custom_data)
@@ -91,6 +93,12 @@ bool DefaultStage::StyleButtonsUpdateCb(bwWidget& widget_iter, void* custom_data
 	}
 
 	return true;
+}
+
+void DefaultStage::applyUIScaleValueButtonCb(bwWidget& widget)
+{
+	bwNumberSlider& slider = *widget_cast<bwNumberSlider*>(&widget);
+	setInterfaceScale(slider.getValue());
 }
 
 void DefaultStage::StyleApplyButtonCb(bwWidget& widget)

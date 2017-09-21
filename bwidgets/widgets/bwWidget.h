@@ -38,7 +38,9 @@ public:
 		MOUSE_BUTTON_UNKNOWN,
 	};
 
-	bwWidget(const WidgetType type, const bwRectanglePixel& rectangle);
+	bwWidget(
+	        const WidgetType type,
+	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
 	virtual ~bwWidget() {}
 
 	virtual bool isCoordinateInside(const bwPoint& point) const;
@@ -53,7 +55,18 @@ public:
 	virtual void mouseEnter();
 	virtual void mouseLeave();
 
+	/**
+	 * Final rectangle defining the widget bounding-box.
+	 * \note This really is assumed to be the final bounding-box, bwStyle.dpi_fac will not get applied to it.
+	 */
 	bwRectanglePixel rectangle;
+
+	/**
+	 * Define size hints for the widget. bWidgets itself doesn't do anything with it. The actual
+	 * application can use it for its layout calculations or simply ignore it. For bWidgets all
+	 * that matters is the final \a rectangle. Like the name suggests it's really just a hint.
+	 */
+	unsigned int width_hint, height_hint;
 };
 
 /**

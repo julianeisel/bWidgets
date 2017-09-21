@@ -8,11 +8,13 @@ namespace bWidgetsDemo {
 class Application
 {
 public:
-	static Application& CreateApplication();
+	static Application& ensureApplication();
 
 	void setup();
 	void mainLoop();
 	void exit();
+
+	static float interfaceScale();
 
 private:
 	Application() {}

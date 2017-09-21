@@ -15,6 +15,7 @@ extern "C" {
 using namespace bWidgetsDemo;
 
 FT_Library Font::ft_library = nullptr;
+bool Font::changed = false;
 
 
 void Font::initFontReading()
@@ -29,9 +30,13 @@ Font* Font::loadFont(const std::string& name, const std::string& path)
 {
 	std::string file_path(path + "/" + name);
 	Font* font = new Font();
+	FT_Face old_face = font->face;
 
 	if (FT_New_Face(ft_library, file_path.c_str(), 0, &font->face)) {
 		std::cout << "Error: Failed to load font at " << file_path << "!" << std::endl;
+	}
+	if (font->face != old_face) {
+		font->changed = true;
 	}
 
 	return font;
@@ -87,6 +92,8 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 
 	glDisable(GL_BLEND);
 	immUnbindProgram();
+
+	changed = false;
 }
 
 /**
@@ -196,6 +203,8 @@ Font::FontGlyphCache::FontGlyphCache() :
 void Font::FontGlyphCache::ensureUpdated(Font& font)
 {
 	FT_UInt glyph_index;
+	// Only print errors on first caching of a font. Don't keep printing same errors when re-caching.
+	bool print_errors = font.changed;
 
 	if (is_dirty == false) {
 		return;
@@ -212,7 +221,10 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 	     charcode = FT_Get_Next_Char(font.face, charcode, &glyph_index))
 	{
 		if (FT_Load_Glyph(font.face, glyph_index, FT_LOAD_TARGET_NORMAL | FT_LOAD_NO_HINTING | FT_LOAD_RENDER)) {
-			std::cout << "Error: Failed to render character at index '" << glyph_index << "' into cache" << std::endl;
+			if (print_errors) {
+				std::cout << "Error: Failed to render character at index '" <<
+				             glyph_index << "' into cache" << std::endl;
+			}
 		}
 		else {
 			const FT_GlyphSlot freetype_glyph = font.face->glyph;

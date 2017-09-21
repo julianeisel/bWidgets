@@ -2,6 +2,7 @@
 #include <cassert>
 
 #include "bwAbstractButton.h"
+#include "bwPoint.h"
 
 #include "Layout.h"
 
@@ -112,10 +113,12 @@ bool LayoutItem::hasChild(const LayoutItem& potential_child) const
 }
 
 void LayoutItem::resolve(
-        const int xpos_layout, const int ypos_layout, const unsigned int item_margin)
+        const bWidgets::bwPoint& layout_pos,
+        const unsigned int item_margin,
+        const float scale_fac)
 {
-	int xpos = xpos_layout;
-	int ypos = ypos_layout;
+	int xpos = layout_pos.x;
+	int ypos = layout_pos.y;
 	unsigned int item_width = 0;
 	// Width calculations may have imprecisions so widths don't add up to full layout width. We 'fix' this
 	// by adding a pixel to each layout-item until the remainder is 0, meaning total width matches parent
@@ -152,12 +155,12 @@ void LayoutItem::resolve(
 			WidgetLayoutItem& widget_item = *static_cast<WidgetLayoutItem*>(item);
 			bwWidget& widget = widget_item.widget;
 
-			widget_item.height = widget.rectangle.height();
+			widget_item.height = widget.height_hint * scale_fac;
 			widget_item.fitWidgetToItem(xpos, ypos);
 			widget_item.alignWidgetItem(*this);
 		}
 		else {
-			item->resolve(xpos, ypos, item_margin);
+			item->resolve(bwPoint(xpos, ypos), item_margin, scale_fac);
 		}
 
 		if (flow_direction == FLOW_DIRECTION_VERTICAL) {
@@ -185,7 +188,7 @@ void LayoutItem::resolve(
 		}
 	}
 	// xpos should match right side of layout precisely now.
-	assert((flow_direction != FLOW_DIRECTION_HORIZONTAL) || (xpos == xpos_layout + width));
+	assert((flow_direction != FLOW_DIRECTION_HORIZONTAL) || (xpos == layout_pos.x + width));
 }
 
 bool LayoutItem::needsMarginBeforeNext(const LayoutItem& parent) const
@@ -283,15 +286,12 @@ RootLayout::RootLayout(
 	
 }
 
-void RootLayout::resolve()
+void RootLayout::resolve(const float scale_fac)
 {
-	int ypos = ymax - padding;
-	int xpos = padding;
-
 	// Could check if layout actually needs to be updated.
 
 	width = max_size - (padding * 2);
-	LayoutItem::resolve(xpos, ypos, item_margin);
+	LayoutItem::resolve(bwPoint(padding, ymax - padding), item_margin, scale_fac);
 }
 
 void RootLayout::setMaxSize(const unsigned int _max_size)

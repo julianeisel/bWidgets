@@ -6,9 +6,8 @@ using namespace bWidgets;
 
 
 bwTextBox::bwTextBox(
-        unsigned int position_x, unsigned int position_y,
-        unsigned int width, unsigned int height) :
-    bwWidget(WIDGET_TYPE_TEXT_BOX, bwRectanglePixel(position_x, position_x + width, position_y, position_y + height)),
+        unsigned int width_hint, unsigned int height_hint) :
+    bwWidget(WIDGET_TYPE_TEXT_BOX, width_hint, height_hint),
     selection_rectangle(bwRectanglePixel()), is_text_editing(false)
 {
 	

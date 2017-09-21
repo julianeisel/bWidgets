@@ -203,13 +203,33 @@ static void PolygonRoundboxAddVerts(
 	}
 }
 
+unsigned int getRoundboxMinsize(
+        const bwRectanglePixel& rect,
+        unsigned int corners)
+{
+	const int hnum = ((corners & (TOP_LEFT | TOP_RIGHT)) == (TOP_LEFT | TOP_RIGHT) ||
+	                  (corners & (BOTTOM_RIGHT | BOTTOM_LEFT)) == (BOTTOM_RIGHT | BOTTOM_LEFT)) ?
+	                     1 : 2;
+	const int vnum = ((corners & (TOP_LEFT | BOTTOM_LEFT)) == (TOP_LEFT | BOTTOM_LEFT) ||
+	                  (corners & (TOP_RIGHT | BOTTOM_RIGHT)) == (TOP_RIGHT | BOTTOM_RIGHT)) ?
+	                     1 : 2;
+
+	return std::min(rect.width() * hnum, rect.height() * vnum);
+}
+
 void bwPainter::drawRoundbox(
         const bwRectanglePixel& rect,
         unsigned int corners, const float radius)
 {
 	bwPolygon polygon;
+	const unsigned int minsize = getRoundboxMinsize(rect, corners);
+	float validated_radius = radius;
 
-	PolygonRoundboxAddVerts(polygon, rect, corners, radius, active_drawtype == DRAW_TYPE_OUTLINE);
+	if (2.0f * radius > minsize) {
+		validated_radius = 0.5f * minsize;
+	}
+
+	PolygonRoundboxAddVerts(polygon, rect, corners, validated_radius, active_drawtype == DRAW_TYPE_OUTLINE);
 	if (isGradientEnabled()) {
 		fillVertexColorsWithGradient(polygon, rect);
 	}
@@ -236,15 +256,20 @@ void bwPainter::drawRectangle(const bwRectanglePixel& rect)
  * \param rect: The bounding box of the polygon based on which the gradient is drawn. It could be calculated just
  *              now since there's access to \a polygon, but it's usually available when calling this function anyway.
  */
-void bwPainter::fillVertexColorsWithGradient(
-        const bwPolygon& polygon, const bwRectanglePixel& bounding_box)
+void bwPainter::fillVertexColorsWithGradient(const bwPolygon& polygon, const bwRectanglePixel& bounding_box)
 {
 	const bwPointVec& vertices = polygon.getVertices();
+	const bool is_single_color = active_gradient->begin == active_gradient->end;
+
 	assert(isGradientEnabled());
 
 	vert_colors.reserve(vertices.size());
 	for (const bwPoint& vertex : vertices) {
-		vert_colors.push_back(active_gradient->calcPointColor(vertex, bounding_box));
+		const bwColor& col = is_single_color ?
+		                         active_gradient->begin :
+		                         active_gradient->calcPointColor(vertex, bounding_box);
+
+		vert_colors.push_back(col);
 	}
 
 	assert(vert_colors.size() == vertices.size());
@@ -256,6 +281,7 @@ void bwPainter::drawRoundboxWidgetBase(
 {
 	const bwWidgetStyle& widget_style = style.widget_styles[widget.type];
 	bwRectanglePixel inner_rect = widget.rectangle;
+	const float radius = widget_style.roundbox_radius * style.dpi_fac;
 
 	// Inner - "inside" of outline, so scale down
 	inner_rect.resize(-1);
@@ -266,10 +292,10 @@ void bwPainter::drawRoundboxWidgetBase(
 	            widget_style.backgroundColor(widget.state),
 	            widget_style.shadeTop(widget.state), widget_style.shadeBottom(widget.state),
 	            bwGradient::DIRECTION_TOP_BOTTOM);
-	drawRoundbox(inner_rect, widget_style.roundbox_corners, widget_style.roundbox_radius - 1.0f);
+	drawRoundbox(inner_rect, widget_style.roundbox_corners, radius - 1.0f);
 
 	// Outline
 	setActiveColor(widget_style.outlineColor(widget.state));
 	active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
-	drawRoundbox(widget.rectangle, widget_style.roundbox_corners, widget_style.roundbox_radius);
+	drawRoundbox(widget.rectangle, widget_style.roundbox_corners, radius);
 }

@@ -20,6 +20,7 @@ extern "C" {
 #include "bwTextBox.h"
 #include "bwWidget.h"
 
+#include "Application.h"
 #include "Event.h"
 #include "Font.h"
 #include "GPU.h"
@@ -174,6 +175,11 @@ static void stage_text_draw_cb(
 	font->render(text, draw_pos_x, draw_pos_y);
 }
 
+
+std::unique_ptr<bWidgets::bwStyle> Stage::style = nullptr;
+Font* Stage::font = nullptr;
+float Stage::interface_scale = 1.0f;
+
 Stage::Stage(const unsigned int width, const unsigned int height) :
     width(width), height(height), last_hovered(nullptr), dragged_widget(nullptr)
 {
@@ -211,25 +217,33 @@ void Stage::initFonts()
 
 	// Initialize default font
 	font = Font::loadFont("bfont.ttf", RESOURCES_PATH_STR);
-	font->setSize(11.0f);
+	font->setSize(11.0f * interface_scale);
 }
 
 void Stage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
 	style = std::unique_ptr<bwStyle>(style_manager.createStyleFromTypeID(type_id));
+	style->dpi_fac = interface_scale;
 }
 
 void Stage::draw(unsigned int width, unsigned int height)
 {
 	gpuOrtho(0.0f, width, 0.0f, height);
 
-	layout->resolve();
+	layout->resolve(interface_scale);
 	layout->draw(*style);
 
 	for (bwWidget* widget : widgets) {
 		widget->draw(*style);
 	}
+}
+
+void Stage::setInterfaceScale(const float value)
+{
+	interface_scale = value;
+	font->setSize(11.0f * value);
+	style->dpi_fac = value;
 }
 
 void Stage::widgetAdd(bwWidget* widget)

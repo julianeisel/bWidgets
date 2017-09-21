@@ -1,5 +1,6 @@
 #include <cassert>
 #include <iomanip>
+#include <math.h>
 #include <sstream>
 
 #include "bwStyle.h"
@@ -10,9 +11,8 @@ using namespace bWidgets;
 
 
 bwNumberSlider::bwNumberSlider(
-        unsigned int position_x, unsigned int position_y,
-        unsigned int width, unsigned int height) :
-    bwTextBox(position_x, position_y, width, height)
+        const unsigned int width_hint, const unsigned int height_hint) :
+    bwTextBox(width_hint, height_hint), precision(2)
 {
 	type = WIDGET_TYPE_NUMBER_SLIDER;
 }
@@ -22,6 +22,7 @@ void bwNumberSlider::draw(bwStyle& style) const
 	bwWidgetStyle& widget_style = style.widget_styles[type];
 	bwRectanglePixel inner_rect = rectangle;
 	bwPainter painter;
+	const float radius = widget_style.roundbox_radius * style.dpi_fac;
 
 	// Inner - "inside" of outline, so scale down
 	inner_rect.resize(-1);
@@ -34,7 +35,7 @@ void bwNumberSlider::draw(bwStyle& style) const
 	            widget_style.backgroundColor(state),
 	            widget_style.shadeTop(state), widget_style.shadeBottom(state),
 	            bwGradient::DIRECTION_TOP_BOTTOM);
-	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, widget_style.roundbox_radius - 1.0f);
+	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, radius - 1.0f);
 
 	painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
 
@@ -49,7 +50,7 @@ void bwNumberSlider::draw(bwStyle& style) const
 		bwRectanglePixel indicator_offset_rect = rectangle;
 		bwRectanglePixel indicator_rect = rectangle;
 		unsigned int roundbox_corners = widget_style.roundbox_corners;
-		float right_side_radius = widget_style.roundbox_radius;
+		float right_side_radius = radius;
 
 		indicator_offset_rect.xmax = indicator_offset_rect.xmin + right_side_radius;
 
@@ -70,7 +71,7 @@ void bwNumberSlider::draw(bwStyle& style) const
 		painter.drawRoundbox(
 		            indicator_offset_rect,
 		            roundbox_corners & ~(TOP_RIGHT | BOTTOM_RIGHT),
-		            widget_style.roundbox_radius);
+		            radius);
 		painter.drawRoundbox(indicator_rect,
 		                     roundbox_corners & ~(TOP_LEFT | BOTTOM_LEFT),
 		                     right_side_radius);
@@ -79,13 +80,13 @@ void bwNumberSlider::draw(bwStyle& style) const
 	// Outline
 	painter.setActiveColor(widget_style.outlineColor(state));
 	painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
-	painter.drawRoundbox(rectangle, widget_style.roundbox_corners, widget_style.roundbox_radius);
+	painter.drawRoundbox(rectangle, widget_style.roundbox_corners, radius);
 
 	painter.setActiveColor(widget_style.textColor(state));
 	if (!is_text_editing) {
 		painter.drawText(text, rectangle, widget_style.text_alignment);
 	}
-	painter.drawText(valueToString(2), rectangle, is_text_editing ? TEXT_ALIGN_LEFT : TEXT_ALIGN_RIGHT);
+	painter.drawText(valueToString(precision), rectangle, is_text_editing ? TEXT_ALIGN_LEFT : TEXT_ALIGN_RIGHT);
 }
 
 void bwNumberSlider::mousePressEvent(const MouseButton button)
@@ -120,12 +121,21 @@ void bwNumberSlider::mouseDragEvent(const MouseButton button, const int drag_dis
 {
 	if (button == MOUSE_BUTTON_LEFT) {
 		setValue(initial_value + (drag_distance / (float)rectangle.width()));
+		apply(*this);
 	}
 }
 
 void bwNumberSlider::setValue(float _value)
 {
-	value = std::max(min, std::min(max, _value));
+	const int precision_fac = std::pow(10, precision);
+	const float unclamped_value = std::max(min, std::min(max, _value));
+
+	value = std::roundf(unclamped_value * precision_fac) / precision_fac;
+}
+
+float bwNumberSlider::getValue() const
+{
+	return value;
 }
 
 void bwNumberSlider::setMinMax(float _min, float _max)
@@ -146,5 +156,5 @@ float bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const
 	const float range = max - min;
 
 	assert(max > min);
-	return ((value - min) * (rectangle.width() - style.widget_styles[type].roundbox_radius)) / range;
+	return ((value - min) * (rectangle.width() - (style.widget_styles[type].roundbox_radius * style.dpi_fac))) / range;
 }

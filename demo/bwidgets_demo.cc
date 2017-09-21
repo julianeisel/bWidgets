@@ -5,7 +5,7 @@ using namespace bWidgetsDemo;
 
 int main(int /*argc*/, char** /*argv*/)
 {
-	Application& app = Application::CreateApplication();
+	Application& app = Application::ensureApplication();
 
 	app.setup();
 	app.mainLoop();

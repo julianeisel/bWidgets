@@ -6,7 +6,7 @@ using namespace bWidgets;
 
 
 bwStyle::bwStyle(StyleTypeID type_id, const bwWidgetStyle (&widget_styles)[bwWidget::WIDGET_TYPE_TOT]) :
-    type_id(type_id), widget_styles(widget_styles)
+    type_id(type_id), widget_styles(widget_styles), dpi_fac(1.0f)
 {
 	
 }

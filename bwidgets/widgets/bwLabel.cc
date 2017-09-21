@@ -6,10 +6,8 @@ using namespace bWidgets;
 
 bwLabel::bwLabel(
         const std::string& text,
-        unsigned int position_x, unsigned int position_y,
-        unsigned int width, unsigned int height) :
-    bwWidget(bwWidget::WIDGET_TYPE_LABEL,
-           bwRectanglePixel(position_x, position_x + width, position_y, position_y + height)),
+        unsigned int width_hint, unsigned int height_hint) :
+    bwWidget(bwWidget::WIDGET_TYPE_LABEL, width_hint, height_hint),
     text(text)
 {
 	

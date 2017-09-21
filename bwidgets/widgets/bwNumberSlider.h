@@ -8,8 +8,7 @@ class bwNumberSlider : public bwTextBox
 {
 public:
 	bwNumberSlider(
-	        unsigned int position_x = 0, unsigned int position_y = 0,
-	        unsigned int width = 10, unsigned int height = 10);
+	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
 
 	void draw(class bwStyle &style) const override;
 
@@ -19,7 +18,10 @@ public:
 	void mouseDragEvent(const MouseButton button, const int drag_distance) override;
 
 	void setValue(float value);
+	float getValue() const;
 	void setMinMax(float min, float max);
+
+	void (*apply)(bwWidget& widget);
 
 private:
 	std::string valueToString(unsigned int precision) const;
@@ -31,6 +33,7 @@ private:
 			float min, max;
 			// Initial value before starting to edit.
 			float initial_value;
+			float precision;
 		};
 		// int value;
 		// char value;

@@ -12,11 +12,8 @@ using namespace bWidgets;
 
 bwPushButton::bwPushButton(
         const std::string& text,
-        unsigned int position_x, unsigned int position_y,
-        unsigned int _width, unsigned int _height) :
-    bwAbstractButton(
-        text, WIDGET_TYPE_PUSH_BUTTON,
-        bwRectanglePixel(position_x, position_x + _width, position_y, position_y + _height))
+        unsigned int width_hint, unsigned int height_hint) :
+    bwAbstractButton(text, WIDGET_TYPE_PUSH_BUTTON, width_hint, height_hint)
 {
 	
 }

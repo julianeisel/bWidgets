@@ -62,6 +62,8 @@ public:
 
 	bwWidgetStyle widget_styles[bwWidget::WIDGET_TYPE_TOT];
 
+	float dpi_fac;
+
 	struct StyleType
 	{
 		StyleTypeID type_id;

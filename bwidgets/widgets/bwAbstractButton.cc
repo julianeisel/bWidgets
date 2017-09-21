@@ -7,8 +7,10 @@ using namespace bWidgets;
 
 bwAbstractButton::bwAbstractButton(
         const std::string& text, const WidgetType type,
-        const bwRectanglePixel& rectangle) :
-    bwWidget(type, rectangle), rounded_corners(RoundboxCorner::ALL), text(text)
+        const unsigned int width_hint, const unsigned int height_hint) :
+    bwWidget(type, width_hint, height_hint),
+    rounded_corners(RoundboxCorner::ALL),
+    text(text)
 {
 	
 }

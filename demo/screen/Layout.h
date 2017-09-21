@@ -43,7 +43,10 @@ public:
 
 	virtual ~LayoutItem();
 
-	void resolve(const int xpos_layout, const int ypos_layout, const unsigned int item_margin);
+	void resolve(
+	        const bWidgets::bwPoint& layout_pos,
+	        const unsigned int item_margin,
+	        const float scale_fac);
 	void draw(bWidgets::bwStyle& style);
 	bool iterateWidgets(bool (*callback)(bWidgets::bwWidget& widget, void* custom_data), void* custom_data);
 
@@ -100,7 +103,7 @@ public:
 //	        FlowDirection direction,
 	        const int ymax, const unsigned int max_size,
 	        const bool align = false);
-	void resolve();
+	void resolve(const float scale_fac);
 	void setMaxSize(const unsigned int max_size);
 	void setYmax(const int value);
 

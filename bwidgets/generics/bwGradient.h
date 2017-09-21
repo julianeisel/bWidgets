@@ -22,7 +22,8 @@ struct bwGradient
 	Direction direction;
 
 	bwColor calcPointColor(
-	        const class bwPoint& point, const bwRectanglePixel& bounding_box) const;
+	        const class bwPoint& point,
+	        const bwRectanglePixel& bounding_box) const;
 };
 
 } // namespace bWidgets
