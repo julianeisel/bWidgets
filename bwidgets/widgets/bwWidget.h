@@ -1,6 +1,8 @@
 #pragma once
 
-#include "bwPainter.h"
+#include <typeinfo>
+
+#include "bwPoint.h"
 #include "bwRectangle.h"
 
 namespace bWidgets {

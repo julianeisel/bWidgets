@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bwWidget.h"
-#include "bwPoint.h"
 
 namespace bWidgetsDemo {
 

@@ -18,9 +18,6 @@ public:
 
 	void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
 
-	void widgetAdd(bWidgets::bwWidget* widget);
-	bWidgets::bwWidget* getWidgetAt(const unsigned int index);
-
 	void handleMouseMovementEvent(const class MouseEvent& event);
 	void handleMouseButtonEvent(const class MouseEvent& event);
 	void handleMouseDragEvent(const MouseEvent& event);
@@ -28,15 +25,23 @@ public:
 	virtual void handleResizeEvent(const class Window& win);
 
 protected:
-	std::list<bWidgets::bwWidget*> widgets;
 	class RootLayout* layout;
 
-	// Static members, for all stages
+	// Static members, global UI data for all stages
 	static std::unique_ptr<bWidgets::bwStyle> style;
-	static class Font* font;
+	static std::unique_ptr<class Font> font;
 	static float interface_scale;
 
 	unsigned int width, height;
+
+	static void TextDrawCb(
+	        const bWidgets::bwPainter &painter,
+	        const std::string& text,
+	        const bWidgets::bwRectanglePixel& rectangle,
+	        const bWidgets::TextAlignment alignment);
+	static void PolygonDrawCb(
+	        const bWidgets::bwPainter& painter,
+	        const bWidgets::bwPolygon& poly);
 
 	static void setInterfaceScale(const float value);
 

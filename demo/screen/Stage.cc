@@ -1,26 +1,13 @@
-#include <iostream>
-#include <list>
-#include <memory>
-
 // drawing
 extern "C" {
 #include "../../extern/gawain/gawain/immediate.h"
 }
-#include "../gpu/ShaderProgram.h"
+#include "ShaderProgram.h"
 
 // bWidgets lib
-#include "bwAbstractButton.h"
-#include "bwColor.h"
-#include "bwPainter.h"
 #include "bwPolygon.h"
-#include "bwPoint.h"
-#include "bwRectangle.h"
-#include "bwStyle.h"
 #include "bwStyleManager.h"
-#include "bwTextBox.h"
-#include "bwWidget.h"
 
-#include "Application.h"
 #include "Event.h"
 #include "Font.h"
 #include "GPU.h"
@@ -98,7 +85,9 @@ static void stage_polygon_draw(
 /**
  * The main polygon draw callback which is used to draw all geometry of widgets.
  */
-static void stage_polygon_draw_cb(const bwPainter& painter, const bwPolygon& poly)
+void Stage::PolygonDrawCb(
+        const bwPainter& painter,
+        const bwPolygon& poly)
 {
 	const bool is_shaded = painter.isGradientEnabled();
 	ShaderProgram shader_program(is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
@@ -160,12 +149,12 @@ static float stage_text_xpos_calc(
 /**
  * The main text draw callback which is used to draw all text of widgets.
  */
-static void stage_text_draw_cb(
-        const bwPainter &painter, const std::string& text,
-        const bwRectanglePixel& rectangle, const TextAlignment alignment,
-        void* text_draw_arg)
+void Stage::TextDrawCb(
+        const bwPainter &painter,
+        const std::string& text,
+        const bwRectanglePixel& rectangle,
+        const TextAlignment alignment)
 {
-	Font* font = reinterpret_cast<Font*>(text_draw_arg);
 	const float font_height = font->getSize();
 	const float draw_pos_x = stage_text_xpos_calc(*font, text, rectangle, alignment);
 	const float draw_pos_y = rectangle.centerY() - (font_height / 2.0f) + 1.0f;
@@ -177,18 +166,17 @@ static void stage_text_draw_cb(
 
 
 std::unique_ptr<bWidgets::bwStyle> Stage::style = nullptr;
-Font* Stage::font = nullptr;
+std::unique_ptr<Font> Stage::font = nullptr;
 float Stage::interface_scale = 1.0f;
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
     width(width), height(height), last_hovered(nullptr), dragged_widget(nullptr)
 {
 	// Initialize drawing callbacks for the stage
-	bwPainter::drawPolygonCb = stage_polygon_draw_cb;
-	bwPainter::drawTextCb = stage_text_draw_cb;
+	bwPainter::drawPolygonCb = Stage::PolygonDrawCb;
+	bwPainter::drawTextCb = Stage::TextDrawCb;
 
 	initFonts();
-	bwPainter::text_draw_arg = font;
 
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
 	style_manager.registerDefaultStyleTypes();
@@ -202,12 +190,6 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 Stage::~Stage()
 {
 	delete layout;
-
-	for (bwWidget* widget : widgets) {
-		delete widget;
-	}
-
-	delete font;
 }
 
 void Stage::initFonts()
@@ -216,7 +198,7 @@ void Stage::initFonts()
 	Font::initFontReading();
 
 	// Initialize default font
-	font = Font::loadFont("bfont.ttf", RESOURCES_PATH_STR);
+	font = std::unique_ptr<Font>(Font::loadFont("bfont.ttf", RESOURCES_PATH_STR));
 	font->setSize(11.0f * interface_scale);
 }
 
@@ -233,10 +215,6 @@ void Stage::draw(unsigned int width, unsigned int height)
 
 	layout->resolve(interface_scale);
 	layout->draw(*style);
-
-	for (bwWidget* widget : widgets) {
-		widget->draw(*style);
-	}
 }
 
 void Stage::setInterfaceScale(const float value)
@@ -244,23 +222,6 @@ void Stage::setInterfaceScale(const float value)
 	interface_scale = value;
 	font->setSize(11.0f * value);
 	style->dpi_fac = value;
-}
-
-void Stage::widgetAdd(bwWidget* widget)
-{
-	widgets.push_front(widget);
-}
-
-bwWidget* Stage::getWidgetAt(const unsigned int index)
-{
-	unsigned int i = 0;
-	for (bwWidget* widget : widgets) {
-		if (i++ == index) {
-			return widget;
-		}
-	}
-
-	return nullptr;
 }
 
 struct MouseEventStageWrapper {

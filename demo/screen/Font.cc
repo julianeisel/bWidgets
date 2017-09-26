@@ -7,7 +7,7 @@
 extern "C" {
 #include "../../extern/gawain/gawain/immediate.h"
 }
-#include "../gpu/ShaderProgram.h"
+#include "ShaderProgram.h"
 
 #include "Font.h"
 

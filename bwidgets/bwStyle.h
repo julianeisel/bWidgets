@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-
+#include "bwPainter.h"
 #include "bwWidget.h"
 
 namespace bWidgets {

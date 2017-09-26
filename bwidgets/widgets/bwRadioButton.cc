@@ -1,6 +1,3 @@
-#include "bwPainter.h"
-#include "bwStyle.h"
-
 #include "bwRadioButton.h"
 
 using namespace bWidgets;

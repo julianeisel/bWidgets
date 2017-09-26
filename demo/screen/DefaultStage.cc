@@ -1,15 +1,9 @@
-#include "Application.h"
-#include "Font.h"
 #include "Layout.h"
-#include "Stage.h"
 
 #include "bwLabel.h"
 #include "bwNumberSlider.h"
 #include "bwPushButton.h"
-#include "bwRadioButton.h"
-#include "bwStyle.h"
 #include "bwStyleManager.h"
-#include "bwTextBox.h"
 
 #include "DefaultStage.h"
 
@@ -22,8 +16,6 @@ using namespace bWidgets; // Less verbose
 DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
     Stage(width, height)
 {
-	ColumnLayout* col = new ColumnLayout(true);
-
 	addStyleSelector(*layout);
 
 	bwNumberSlider* slider = new bwNumberSlider(0, BUTTON_HEIGHT);
@@ -35,7 +27,7 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 
 	addFakeSpacer(*layout);
 
-	layout->addLayout(col);
+	ColumnLayout* col = new ColumnLayout(true, layout);
 	col->addWidget(new bwPushButton("Translate", 0, BUTTON_HEIGHT));
 	col->addWidget(new bwPushButton("Rotate", 0, BUTTON_HEIGHT));
 	col->addWidget(new bwPushButton("Scale", 0, BUTTON_HEIGHT));

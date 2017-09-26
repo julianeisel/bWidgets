@@ -1,9 +1,7 @@
 #include <cassert>
 
-#include "bwStyle.h"
 #include "bwStyleBlenderClassic.h"
 #include "bwStyleBlenderFlat.h"
-
 
 #include "bwStyleManager.h"
 

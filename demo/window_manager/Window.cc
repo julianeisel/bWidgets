@@ -1,8 +1,3 @@
-#include <iostream>
-#include <string>
-
-#include "bwPoint.h"
-
 #include "EventManager.h"
 #include "GPU.h"
 #include "Stage.h"

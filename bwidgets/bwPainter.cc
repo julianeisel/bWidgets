@@ -9,11 +9,11 @@
 using namespace bWidgets;
 
 
-void (*bwPainter::drawPolygonCb)(const class bwPainter&, const class bwPolygon&) = 0;
+void (*bwPainter::drawPolygonCb)(
+        const class bwPainter&, const class bwPolygon&) = 0;
 void (*bwPainter::drawTextCb)(
         const class bwPainter &, const std::string&,
-        const bwRectanglePixel&, const TextAlignment, void*) = 0;
-void* bwPainter::text_draw_arg = NULL;
+        const bwRectanglePixel&, const TextAlignment) = 0;
 
 bwPainter::bwPainter() :
     active_drawtype(DRAW_TYPE_FILLED),
@@ -39,7 +39,7 @@ void bwPainter::drawText(
         const TextAlignment alignment) const
 {
 	if (text.size() > 0) {
-		drawTextCb(*this, text, rectangle, alignment, text_draw_arg);
+		drawTextCb(*this, text, rectangle, alignment);
 	}
 }
 

@@ -1,7 +1,4 @@
-#include <cassert>
 #include <iostream>
-#include <math.h>
-#include <string>
 
 #include "GPU.h"
 

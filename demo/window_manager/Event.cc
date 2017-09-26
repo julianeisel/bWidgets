@@ -1,6 +1,5 @@
 #include "glm.hpp"
 
-#include "Event.h"
 #include "EventManager.h"
 
 using namespace bWidgetsDemo;

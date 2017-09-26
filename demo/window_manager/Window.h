@@ -1,10 +1,5 @@
 #pragma once
 
-#include <string>
-
-#include "bwPoint.h"
-
-
 struct GLFWwindow;
 
 namespace bWidgetsDemo {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "bwRectangle.h"
 #include "bwWidget.h"
 
 namespace bWidgets {

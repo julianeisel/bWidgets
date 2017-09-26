@@ -2,6 +2,7 @@
 #include <cassert>
 
 #include "bwAbstractButton.h"
+#include "bwPainter.h"
 #include "bwPoint.h"
 
 #include "Layout.h"
@@ -40,6 +41,7 @@ LayoutItem::LayoutItem(
     type(item_type), flow_direction(flow_direction), align(align)
 {
 	if (parent) {
+		assert(parent->hasChild(*this) == false);
 		parent->addLayoutItem(this);
 	}
 }

@@ -1,12 +1,9 @@
 #pragma once
 
 #include <memory>
-#include <string>
 #include <vector>
 
-#include "bwColor.h"
 #include "bwGradient.h"
-#include "bwRectangle.h"
 
 namespace bWidgets {
 
@@ -34,12 +31,14 @@ public:
 		DRAW_TYPE_OUTLINE,
 	} active_drawtype;
 
-	static void (*drawPolygonCb)(const class bwPainter& painter, const class bwPolygon& poly);
+	static void (*drawPolygonCb)(
+	        const class bwPainter& painter,
+	        const class bwPolygon& poly);
 	static void (*drawTextCb)(
-	        const class bwPainter& painter, const std::string& text,
-	        const bwRectanglePixel& rectangle,  const TextAlignment alignment,
-	        void* text_draw_arg);
-	static void* text_draw_arg;
+	        const class bwPainter& painter,
+	        const std::string& text,
+	        const bwRectanglePixel& rectangle,
+	        const TextAlignment alignment);
 
 	bwPainter();
 

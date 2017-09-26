@@ -1,10 +1,3 @@
-#include <iostream>
-#include <string>
-
-#include "bwPainter.h"
-#include "bwPolygon.h"
-#include "bwStyle.h"
-
 #include "bwPushButton.h"
 
 using namespace bWidgets;

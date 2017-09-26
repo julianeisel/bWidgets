@@ -1,8 +1,9 @@
-#include "bwLabel.h"
-#include "bwPainter.h"
 #include "bwStyle.h"
 
+#include "bwLabel.h"
+
 using namespace bWidgets;
+
 
 bwLabel::bwLabel(
         const std::string& text,
