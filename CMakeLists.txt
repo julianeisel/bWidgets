@@ -6,6 +6,23 @@ set(CMAKE_BUILD_TYPE_INIT "Release")
 enable_language(CXX)
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
+macro(remove_cc_flag _flag)
+	foreach(flag ${ARGV})
+		string(REGEX REPLACE ${flag} "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+		string(REGEX REPLACE ${flag} "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+		string(REGEX REPLACE ${flag} "" CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+		string(REGEX REPLACE ${flag} "" CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL}")
+		string(REGEX REPLACE ${flag} "" CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+
+		string(REGEX REPLACE ${flag} "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+		string(REGEX REPLACE ${flag} "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+		string(REGEX REPLACE ${flag} "" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+		string(REGEX REPLACE ${flag} "" CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL}")
+		string(REGEX REPLACE ${flag} "" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+	endforeach()
+	unset(flag)
+endmacro()
+
 #-----------------------------------------------------------------------------
 # Set default warnings
 
@@ -51,10 +68,17 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} ${CXX_WARNINGS}")
 
 project(bWidgets)
 
+enable_testing()
+
 #-----------------------------------------------------------------------------
 # Redirect output files
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
+
+#-----------------------------------------------------------------------------
+# Compile options
+
+option(WITH_GTESTS "Compile bWidgets with GTest unit tests" OFF)
 
 #-----------------------------------------------------------------------------
 # Sub-directories
@@ -63,3 +87,6 @@ add_subdirectory(bwidgets)
 add_subdirectory(demo)
 add_subdirectory(doc)
 add_subdirectory(extern)
+if (WITH_GTESTS)
+	add_subdirectory(tests)
+endif()

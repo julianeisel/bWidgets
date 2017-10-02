@@ -7,3 +7,8 @@ bwPoint::bwPoint(float x, float y) :
 {
 	
 }
+
+bool bwPoint::operator==(const bwPoint& rhs) const
+{
+	return (x == rhs.x) && (y == rhs.y);
+}

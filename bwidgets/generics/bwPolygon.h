@@ -11,7 +11,7 @@ class bwPolygon
 public:
 	bwPolygon();
 	bwPolygon(const bwPolygon& poly);
-	bwPolygon(bwPointVec& vertices);
+	bwPolygon(const bwPointVec& vertices);
 	explicit bwPolygon(const unsigned int reserve_vertex_count);
 
 	void addVertex(class bwPoint vertex);
