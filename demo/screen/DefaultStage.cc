@@ -1,5 +1,6 @@
 #include "Layout.h"
 
+#include "bwCheckbox.h"
 #include "bwLabel.h"
 #include "bwNumberSlider.h"
 #include "bwPushButton.h"
@@ -35,6 +36,10 @@ DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
 	layout->addWidget(new bwPushButton("Mirror", 0, BUTTON_HEIGHT));
 
 	addFakeSpacer(*layout);
+
+	RowLayout* row = new RowLayout(true, layout);
+	row->addWidget(new bwCheckbox("Make Awesome", 0, BUTTON_HEIGHT));
+	row->addWidget(new bwCheckbox("Wireframes", 0, BUTTON_HEIGHT));
 
 	bwTextBox* text_box = new bwTextBox(0, BUTTON_HEIGHT);
 	text_box->setText("Some Text...");

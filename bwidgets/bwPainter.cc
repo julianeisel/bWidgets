@@ -92,6 +92,34 @@ bool bwPainter::isGradientEnabled() const
 
 // ------------------ Primitives ------------------
 
+static const std::vector<bwPoint> check_mark_verts = {
+	{-0.578579f, 0.253369f},
+	{-0.392773f, 0.412794f},
+	{-0.004241f, -0.328551f},
+	{-0.003001f, 0.034320f},
+	{1.055313f, 0.864744f},
+	{0.866408f, 1.026895f}
+};
+
+void bwPainter::drawCheckMark(
+        const bwRectanglePixel& rect)
+{
+	const bwPoint center{(float)rect.centerX(), (float)rect.centerY()};
+	const float size = 0.5f * rect.height();
+	bwPolygon polygon;
+
+	for (const bwPoint& point : check_mark_verts) {
+		polygon.addVertex(size * point + center);
+	}
+
+	if (isGradientEnabled()) {
+		fillVertexColorsWithGradient(polygon, rect);
+	}
+
+	drawPolygon(polygon);
+}
+
+
 #define WIDGET_CURVE_RESOLU 9
 
 static const float cornervec[WIDGET_CURVE_RESOLU][2] = {
@@ -277,10 +305,11 @@ void bwPainter::fillVertexColorsWithGradient(const bwPolygon& polygon, const bwR
 
 void bwPainter::drawRoundboxWidgetBase(
         const bwWidget& widget,
-        const bwStyle& style)
+        const bwStyle& style,
+        const bwRectanglePixel rectangle)
 {
 	const bwWidgetStyle& widget_style = style.widget_styles[widget.type];
-	bwRectanglePixel inner_rect = widget.rectangle;
+	bwRectanglePixel inner_rect = rectangle;
 	const float radius = widget_style.roundbox_radius * style.dpi_fac;
 
 	// Inner - "inside" of outline, so scale down
@@ -297,5 +326,5 @@ void bwPainter::drawRoundboxWidgetBase(
 	// Outline
 	setActiveColor(widget_style.outlineColor(widget.state));
 	active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
-	drawRoundbox(widget.rectangle, widget_style.roundbox_corners, radius);
+	drawRoundbox(rectangle, widget_style.roundbox_corners, radius);
 }

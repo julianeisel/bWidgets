@@ -21,22 +21,30 @@ bool bwWidget::isCoordinateInside(const bwPoint& point) const
 	return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-void bwWidget::mousePressEvent(const MouseButton /*button*/)
+void bwWidget::mousePressEvent(
+        const MouseButton /*button*/,
+        const bwPoint& /*location*/)
 {
 	
 }
 
-void bwWidget::mouseReleaseEvent(const MouseButton /*button*/)
+void bwWidget::mouseReleaseEvent(
+        const MouseButton /*button*/,
+        const bwPoint& /*location*/)
 {
 	
 }
 
-void bwWidget::mouseClickEvent(const MouseButton /*button*/)
+void bwWidget::mouseClickEvent(
+        const MouseButton /*button*/,
+        const bwPoint& /*location*/)
 {
 	
 }
 
-void bwWidget::mouseDragEvent(const MouseButton /*button*/, const int /*drag_distance*/)
+void bwWidget::mouseDragEvent(
+        const MouseButton /*button*/,
+        const int /*drag_distance*/)
 {
 	
 }

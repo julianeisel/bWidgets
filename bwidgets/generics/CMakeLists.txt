@@ -1,14 +1,14 @@
 set(SRC
 	bwColor.cc
 	bwGradient.cc
-	bwPolygon.cc
 	bwPoint.cc
+	bwPolygon.cc
 	bwRectangle.cc
 
 	bwColor.h
 	bwGradient.h
-	bwPolygon.h
 	bwPoint.h
+	bwPolygon.h
 	bwRectangle.h
 )
 

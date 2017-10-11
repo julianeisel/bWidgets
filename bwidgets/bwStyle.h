@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bwColor.h"
 #include "bwPainter.h"
 #include "bwWidget.h"
 

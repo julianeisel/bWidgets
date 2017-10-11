@@ -19,12 +19,9 @@ void bwTextBox::draw(bwStyle& style) const
 	bwRectanglePixel inner_rect = rectangle;
 	bwPainter painter;
 
-	// Inner - "inside" of outline, so scale down
-	inner_rect.resize(-1);
-
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(*this, style);
+	painter.drawRoundboxWidgetBase(*this, style, inner_rect);
 
 	// Text editing
 	if (is_text_editing && (selection_rectangle.isEmpty() == false)) {
@@ -37,7 +34,9 @@ void bwTextBox::draw(bwStyle& style) const
 	painter.drawText(text, rectangle, widget_style.text_alignment);
 }
 
-void bwTextBox::mousePressEvent(const MouseButton button)
+void bwTextBox::mousePressEvent(
+        const MouseButton button,
+        const bwPoint& /*location*/)
 {
 	if (button == MOUSE_BUTTON_LEFT) {
 		startTextEditing();

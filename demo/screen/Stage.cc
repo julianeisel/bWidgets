@@ -260,20 +260,21 @@ bool Stage::handleMouseEventWidgetCb(bwWidget& widget, void* custom_data)
 {
 	MouseEventStageWrapper& data = *(MouseEventStageWrapper*)custom_data;
 	const MouseEvent& event = data.event;
+	const bwPoint& location = event.getMouseLocation();
 
-	if (widget.isCoordinateInside(event.getMouseLocation())) {
+	if (widget.isCoordinateInside(location)) {
 		if (event.isClick()) {
-			widget.mouseClickEvent(event.getButton());
+			widget.mouseClickEvent(event.getButton(), location);
 			// TODO handlers should return value to pass on or block event.
 		}
 
 		switch (event.getType()) {
 			case MouseEvent::MOUSE_EVENT_PRESS:
-				widget.mousePressEvent(event.getButton());
+				widget.mousePressEvent(event.getButton(), location);
 				data.stage.dragged_widget = &widget;
 				break;
 			case MouseEvent::MOUSE_EVENT_RELEASE:
-				widget.mouseReleaseEvent(event.getButton());
+				widget.mouseReleaseEvent(event.getButton(), location);
 				break;
 			default:
 				return true;

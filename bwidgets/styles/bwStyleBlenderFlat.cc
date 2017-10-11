@@ -8,6 +8,36 @@
 using namespace bWidgets;
 
 const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
+	[bwWidget::WIDGET_TYPE_CHECKBOX] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+				.normal = 0.27451f,
+				.highlighted = bwColor(0.27451f).shade(0.06f),
+				.sunken = 0.27451f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 0.0f,
+				.highlighted = 0.0f,
+				.sunken = 1.0f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
+				.normal = 0.1f,
+				.highlighted = 0.1f,
+				.sunken = 0.1f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION] = {
+				.normal = 1.0f,
+				.highlighted = 1.0f,
+				.sunken = 1.0f,
+			},
+		},
+		.shade_top = 0,
+		.shade_bottom = 0,
+		.invert_shade_on_sunken = true,
+		.text_alignment = TEXT_ALIGN_LEFT,
+		.roundbox_radius = 7.0f,
+	},
+
 	[bwWidget::WIDGET_TYPE_LABEL] = {
 		.state_colors = {
 			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
@@ -16,6 +46,36 @@ const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
 				.normal = 0.0f,
 			},
 		},
+	},
+
+	[bwWidget::WIDGET_TYPE_NUMBER_SLIDER] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+				.normal = 0.6f,
+				.highlighted = bwColor(0.6f).shade(0.06f),
+				.sunken = 0.6f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 0.0f,
+				.highlighted = 0.0f,
+				.sunken = 1.0f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
+				.normal = 0.2f,
+				.highlighted = 0.2f,
+				.sunken = 0.2f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION] = {
+				.normal = 0.353f,
+				.highlighted = 0.353f,
+				.sunken = 0.353f,
+			},
+		},
+		.shade_top = 0,
+		.shade_bottom = 0,
+		.invert_shade_on_sunken = false,
+		.text_alignment = TEXT_ALIGN_LEFT,
+		.roundbox_radius = 4.0f,
 	},
 
 	[bwWidget::WIDGET_TYPE_PUSH_BUTTON] = {
@@ -69,36 +129,6 @@ const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
 	},
 
 	[bwWidget::WIDGET_TYPE_TEXT_BOX] = {
-		.state_colors = {
-			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
-				.normal = 0.6f,
-				.highlighted = bwColor(0.6f).shade(0.06f),
-				.sunken = 0.6f,
-			},
-			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
-				.normal = 0.0f,
-				.highlighted = 0.0f,
-				.sunken = 1.0f,
-			},
-			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
-				.normal = 0.2f,
-				.highlighted = 0.2f,
-				.sunken = 0.2f,
-			},
-			[bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION] = {
-				.normal = 0.353f,
-				.highlighted = 0.353f,
-				.sunken = 0.353f,
-			},
-		},
-		.shade_top = 0,
-		.shade_bottom = 0,
-		.invert_shade_on_sunken = false,
-		.text_alignment = TEXT_ALIGN_LEFT,
-		.roundbox_radius = 4.0f,
-	},
-
-	[bwWidget::WIDGET_TYPE_NUMBER_SLIDER] = {
 		.state_colors = {
 			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
 				.normal = 0.6f,

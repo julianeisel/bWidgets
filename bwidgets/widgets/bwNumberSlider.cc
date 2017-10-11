@@ -90,7 +90,9 @@ void bwNumberSlider::draw(bwStyle& style) const
 	painter.drawText(valueToString(precision), rectangle, is_text_editing ? TEXT_ALIGN_LEFT : TEXT_ALIGN_RIGHT);
 }
 
-void bwNumberSlider::mousePressEvent(const MouseButton button)
+void bwNumberSlider::mousePressEvent(
+        const MouseButton button,
+        const bwPoint& /*location*/)
 {
 	if (button == MOUSE_BUTTON_LEFT) {
 		initial_value = value;
@@ -106,12 +108,16 @@ void bwNumberSlider::mousePressEvent(const MouseButton button)
 	is_dragging = true;
 }
 
-void bwNumberSlider::mouseReleaseEvent(const MouseButton /*button*/)
+void bwNumberSlider::mouseReleaseEvent(
+        const MouseButton /*button*/,
+        const bwPoint& /*location*/)
 {
 	is_dragging = false;
 }
 
-void bwNumberSlider::mouseClickEvent(const MouseButton button)
+void bwNumberSlider::mouseClickEvent(
+        const MouseButton button,
+        const bwPoint& /*location*/)
 {
 	if (button == MOUSE_BUTTON_LEFT) {
 		startTextEditing();

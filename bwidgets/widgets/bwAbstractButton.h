@@ -14,8 +14,12 @@ class bwAbstractButton : public bwWidget
 public:
 	virtual void draw(class bwStyle &style) const override;
 
-	virtual void mousePressEvent(const MouseButton button) override;
-	virtual void mouseReleaseEvent(const MouseButton button) override;
+	virtual void mousePressEvent(
+	        const MouseButton button,
+	        const bwPoint& location) override;
+	virtual void mouseReleaseEvent(
+	        const MouseButton button,
+	        const bwPoint& location) override;
 	virtual void mouseEnter() override;
 	virtual void mouseLeave() override;
 
@@ -30,7 +34,6 @@ protected:
 	        const WidgetType type,
 	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
 
-private:
 	const std::string text;
 };
 

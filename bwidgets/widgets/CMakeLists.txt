@@ -3,6 +3,7 @@ set(INC
 
 set(SRC
 	bwAbstractButton.cc
+	bwCheckbox.cc
 	bwLabel.cc
 	bwNumberSlider.cc
 	bwPushButton.cc
@@ -11,6 +12,7 @@ set(SRC
 	bwWidget.cc
 
 	bwAbstractButton.h
+	bwCheckbox.h
 	bwLabel.h
 	bwNumberSlider.h
 	bwPushButton.h

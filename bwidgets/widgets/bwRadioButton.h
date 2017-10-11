@@ -24,10 +24,12 @@ public:
 	        const std::string& text,
 	        unsigned int width_hint = 0, unsigned int height_hint = 0);
 
-	void mousePressEvent(const MouseButton button) override;
-	void mouseReleaseEvent(const MouseButton button) override;
-	void mouseEnter() override;
-	void mouseLeave() override;
+	void mousePressEvent(
+	        const MouseButton button,
+	        const bwPoint& location) override;
+	void mouseReleaseEvent(
+	        const MouseButton button,
+	        const bwPoint& location) override;
 
 	// XXX Not that pretty.
 	void* custom_data;

@@ -14,11 +14,12 @@ class bwWidget
 {
 public:
 	enum WidgetType {
+		WIDGET_TYPE_CHECKBOX,
 		WIDGET_TYPE_LABEL,
+		WIDGET_TYPE_NUMBER_SLIDER,
 		WIDGET_TYPE_PUSH_BUTTON,
 		WIDGET_TYPE_RADIO_BUTTON,
 		WIDGET_TYPE_TEXT_BOX,
-		WIDGET_TYPE_NUMBER_SLIDER,
 
 		WIDGET_TYPE_TOT
 	} type;
@@ -50,10 +51,18 @@ public:
 	virtual void draw(class bwStyle& style) const = 0;
 
 	// Events
-	virtual void mousePressEvent(const MouseButton button);
-	virtual void mouseReleaseEvent(const MouseButton button);
-	virtual void mouseClickEvent(const MouseButton button);
-	virtual void mouseDragEvent(const MouseButton button, const int drag_distance);
+	virtual void mousePressEvent(
+	        const MouseButton button,
+	        const bwPoint& location);
+	virtual void mouseReleaseEvent(
+	        const MouseButton button,
+	        const bwPoint& location);
+	virtual void mouseClickEvent(
+	        const MouseButton button,
+	        const bwPoint& location);
+	virtual void mouseDragEvent(
+	        const MouseButton button,
+	        const int drag_distance);
 	virtual void mouseEnter();
 	virtual void mouseLeave();
 

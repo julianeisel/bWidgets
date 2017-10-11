@@ -22,21 +22,25 @@ void bwAbstractButton::draw(bwStyle& style) const
 
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(*this, style);
+	painter.drawRoundboxWidgetBase(*this, style, rectangle);
 
 	// Text
 	painter.setActiveColor(widget_style.textColor(state));
 	painter.drawText(text, rectangle, widget_style.text_alignment);
 }
 
-void bwAbstractButton::mousePressEvent(const bwWidget::MouseButton button)
+void bwAbstractButton::mousePressEvent(
+        const bwWidget::MouseButton button,
+        const bwPoint& /*location*/)
 {
 	if (button == MOUSE_BUTTON_LEFT) {
 		state = STATE_SUNKEN;
 	}
 }
 
-void bwAbstractButton::mouseReleaseEvent(const bwWidget::MouseButton button)
+void bwAbstractButton::mouseReleaseEvent(
+        const bwWidget::MouseButton button,
+        const bwPoint& /*location*/)
 {
 	if ((button == MOUSE_BUTTON_LEFT) && (state == STATE_SUNKEN)) {
 		state = STATE_NORMAL;
@@ -45,10 +49,14 @@ void bwAbstractButton::mouseReleaseEvent(const bwWidget::MouseButton button)
 
 void bwAbstractButton::mouseEnter()
 {
-	state = STATE_HIGHLIGHTED;
+	if (state == STATE_NORMAL) {
+		state = STATE_HIGHLIGHTED;
+	}
 }
 
 void bwAbstractButton::mouseLeave()
 {
-	state = STATE_NORMAL;
+	if (state == STATE_HIGHLIGHTED) {
+		state = STATE_NORMAL;
+	}
 }

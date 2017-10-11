@@ -11,7 +11,10 @@ public:
 	        unsigned int width_hint = 0, unsigned int height_hint = 0);
 
 	void draw(class bwStyle &style) const override;
-	void mousePressEvent(const MouseButton button) override;
+
+	void mousePressEvent(
+	        const MouseButton button,
+	        const bwPoint& location) override;
 	void mouseEnter() override;
 	void mouseLeave() override;
 

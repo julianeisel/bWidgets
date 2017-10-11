@@ -12,10 +12,18 @@ public:
 
 	void draw(class bwStyle &style) const override;
 
-	void mousePressEvent(const MouseButton button) override;
-	void mouseReleaseEvent(const MouseButton button) override;
-	void mouseClickEvent(const MouseButton button) override;
-	void mouseDragEvent(const MouseButton button, const int drag_distance) override;
+	void mousePressEvent(
+	        const MouseButton button,
+	        const bwPoint& location) override;
+	void mouseReleaseEvent(
+	        const MouseButton button,
+	        const bwPoint& location) override;
+	void mouseClickEvent(
+	        const MouseButton button,
+	        const bwPoint& location) override;
+	void mouseDragEvent(
+	        const MouseButton button,
+	        const int drag_distance) override;
 
 	void setValue(float value);
 	float getValue() const;

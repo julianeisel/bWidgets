@@ -70,7 +70,10 @@ public:
 	        const bwRectanglePixel& rect);
 	void drawRoundboxWidgetBase(
 	        const class bwWidget& widget,
-	        const class bwStyle& style);
+	        const class bwStyle& style,
+	        const bwRectanglePixel rectangle);
+	void drawCheckMark(
+	        const bwRectanglePixel& rect);
 
 private:
 	bwColor active_color;
