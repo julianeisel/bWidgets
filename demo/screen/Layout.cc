@@ -114,6 +114,11 @@ bool LayoutItem::hasChild(const LayoutItem& potential_child) const
 	return std::find(child_items.begin(), child_items.end(), &potential_child) != child_items.end();
 }
 
+unsigned int LayoutItem::getHeight() const
+{
+	return height;
+}
+
 void LayoutItem::resolve(
         const bWidgets::bwPoint& layout_pos,
         const unsigned int item_margin,
@@ -274,6 +279,7 @@ LayoutItem* LayoutItem::getNext(const LayoutItem& parent) const
 }
 
 
+
 /**
  * \param max_size: If \a direction is #FLOW_DIRECTION_VERTICAL, this defines the max-width of the layout.
  */
@@ -288,12 +294,14 @@ RootLayout::RootLayout(
 	
 }
 
-void RootLayout::resolve(const float scale_fac)
+void RootLayout::resolve(
+        const float vertical_scroll,
+        const float scale_fac)
 {
 	// Could check if layout actually needs to be updated.
 
 	width = max_size - (padding * 2);
-	LayoutItem::resolve(bwPoint(padding, ymax - padding), item_margin, scale_fac);
+	LayoutItem::resolve(bwPoint(padding, ymax - padding - vertical_scroll), item_margin, scale_fac);
 }
 
 void RootLayout::setMaxSize(const unsigned int _max_size)
@@ -305,6 +313,7 @@ void RootLayout::setYmax(const int value)
 {
 	ymax = value;
 }
+
 
 ColumnLayout::ColumnLayout(
         const bool align,

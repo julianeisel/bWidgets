@@ -56,6 +56,8 @@ public:
 
 	bool hasChild(const LayoutItem& potential_child) const;
 
+	unsigned int getHeight() const;
+
 	const LayoutItemType type;
 	const FlowDirection flow_direction;
 	const bool align;
@@ -103,7 +105,10 @@ public:
 //	        FlowDirection direction,
 	        const int ymax, const unsigned int max_size,
 	        const bool align = false);
-	void resolve(const float scale_fac);
+
+	void resolve(
+	        const float vertical_scroll,
+	        const float scale_fac);
 	void setMaxSize(const unsigned int max_size);
 	void setYmax(const int value);
 

@@ -56,6 +56,7 @@ void EventManager::setupWindowHandlers(Window& window)
 	glfwSetWindowSizeCallback(glfw_window, handleWindowResizeEvent);
 	glfwSetCursorPosCallback(glfw_window, handleMouseMovementEvent);
 	glfwSetMouseButtonCallback(glfw_window, handleMouseButtonEvent);
+	glfwSetScrollCallback(glfw_window, handleMouseScrollEvent);
 }
 
 bool EventManager::isDragging()
@@ -129,4 +130,19 @@ void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int glfw_button,
 	win->stage->handleMouseButtonEvent(*event);
 
 	delete event;
+}
+
+void EventManager::handleMouseScrollEvent(
+        GLFWwindow* glfw_win,
+        double /*value_x*/, double value_y)
+{
+	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+	const MouseEvent::MouseEventType event_type = (value_y > 0) ?
+	                                                    MouseEvent::MOUSE_EVENT_SCROLL_UP :
+	                                                    MouseEvent::MOUSE_EVENT_SCROLL_DOWN;
+	const bwPoint& position = win->getCursorPosition();
+	std::unique_ptr<MouseEvent> event;
+
+	event = std::unique_ptr<MouseEvent>(new MouseEvent(event_type, bwWidget::MOUSE_BUTTON_WHEEL, position));
+	win->stage->handleMouseScrollEvent(*event);
 }

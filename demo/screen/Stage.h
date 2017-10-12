@@ -18,9 +18,14 @@ public:
 
 	void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
 
-	void handleMouseMovementEvent(const class MouseEvent& event);
-	void handleMouseButtonEvent(const class MouseEvent& event);
-	void handleMouseDragEvent(const MouseEvent& event);
+	void handleMouseMovementEvent(
+	        const class MouseEvent& event);
+	void handleMouseButtonEvent(
+	        const class MouseEvent& event);
+	void handleMouseDragEvent(
+	        const class MouseEvent& event);
+	void handleMouseScrollEvent(
+	        const class MouseEvent& event);
 
 	virtual void handleResizeEvent(const class Window& win);
 
@@ -33,6 +38,7 @@ protected:
 	static float interface_scale;
 
 	unsigned int width, height;
+	int vert_scroll = 0;
 
 	static void TextDrawCb(
 	        const bWidgets::bwPainter &painter,
@@ -51,9 +57,13 @@ private:
 	bWidgets::bwWidget* dragged_widget;
 
 	void initFonts();
+
 	static bool handleMouseMovementWidgetCb(bWidgets::bwWidget&, void*);
 	static bool handleMouseEventWidgetCb(bWidgets::bwWidget&, void*);
 	static bool handleMouseDragWidgetCb(bWidgets::bwWidget&, void*);
+
+	bool isScrollable() const;
+	unsigned int getContentHeight() const;
 };
 
 } // namespace bWidgetsDemo

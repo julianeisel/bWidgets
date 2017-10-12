@@ -6,6 +6,7 @@ extern "C" {
 
 // bWidgets lib
 #include "bwPolygon.h"
+#include "bwRange.h"
 #include "bwStyleManager.h"
 
 #include "Event.h"
@@ -213,7 +214,7 @@ void Stage::draw(unsigned int width, unsigned int height)
 {
 	gpuOrtho(0.0f, width, 0.0f, height);
 
-	layout->resolve(interface_scale);
+	layout->resolve(vert_scroll, interface_scale);
 	layout->draw(*style);
 }
 
@@ -250,7 +251,8 @@ bool Stage::handleMouseMovementWidgetCb(bwWidget& widget, void* custom_data)
 	return true;
 }
 
-void Stage::handleMouseMovementEvent(const MouseEvent& event)
+void Stage::handleMouseMovementEvent(
+        const MouseEvent& event)
 {
 	MouseEventStageWrapper data = {*this, event};
 	layout->iterateWidgets(handleMouseMovementWidgetCb, &data);
@@ -286,7 +288,8 @@ bool Stage::handleMouseEventWidgetCb(bwWidget& widget, void* custom_data)
 	return true;
 }
 
-void Stage::handleMouseButtonEvent(const MouseEvent& event)
+void Stage::handleMouseButtonEvent(
+        const MouseEvent& event)
 {
 	MouseEventStageWrapper data = {*this, event};
 	layout->iterateWidgets(handleMouseEventWidgetCb, &data);
@@ -307,10 +310,39 @@ bool Stage::handleMouseDragWidgetCb(bwWidget& widget, void* custom_data)
 	return true;
 }
 
-void Stage::handleMouseDragEvent(const MouseEvent& event)
+unsigned int Stage::getContentHeight() const
+{
+	return layout->getHeight() + (2 * layout->padding);
+}
+
+bool Stage::isScrollable() const
+{
+	return height < getContentHeight();
+}
+
+void Stage::handleMouseDragEvent(
+        const MouseEvent& event)
 {
 	MouseEventStageWrapper data = {*this, event};
 	layout->iterateWidgets(handleMouseDragWidgetCb, &data);
+}
+
+void Stage::handleMouseScrollEvent(
+        const MouseEvent& event)
+{
+	if (isScrollable()) {
+		char direction_fac = 0;
+
+		if (event.getType() == MouseEvent::MOUSE_EVENT_SCROLL_DOWN) {
+			direction_fac = -1;
+		}
+		else if (event.getType() == MouseEvent::MOUSE_EVENT_SCROLL_UP) {
+			direction_fac = 1;
+		}
+
+		vert_scroll += direction_fac * 40;
+		bwRange<int>::clampValue(vert_scroll, height - getContentHeight(), 0);
+	}
 }
 
 void Stage::handleResizeEvent(const Window& win)
