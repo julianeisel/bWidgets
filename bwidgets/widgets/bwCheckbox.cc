@@ -1,3 +1,4 @@
+#include "bwPainter.h"
 #include "bwStyle.h"
 
 #include "bwCheckbox.h"
@@ -22,7 +23,7 @@ void bwCheckbox::draw(bwStyle& style) const
 
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(*this, style, checkbox_rect);
+	painter.drawRoundboxWidgetBase(widget_style, state, style, checkbox_rect);
 
 	if (state == STATE_SUNKEN) {
 		painter.active_drawtype = bwPainter::DRAW_TYPE_OUTLINE;

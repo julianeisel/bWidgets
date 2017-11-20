@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "bwGradient.h"
+#include "bwStyle.h"
 
 namespace bWidgets {
 
@@ -17,11 +18,12 @@ enum RoundboxCorner {
 	ALL = (BOTTOM_LEFT | BOTTOM_RIGHT | TOP_LEFT | TOP_RIGHT),
 };
 
-enum TextAlignment {
+enum TextAlignment: unsigned int {
 	TEXT_ALIGN_LEFT,
 	TEXT_ALIGN_CENTER,
 	TEXT_ALIGN_RIGHT,
 };
+
 
 class bwPainter
 {
@@ -69,9 +71,12 @@ public:
 	void drawRectangle(
 	        const bwRectanglePixel& rect);
 	void drawRoundboxWidgetBase(
-	        const class bwWidget& widget,
+	        const bwWidgetStyle& widget_style,
+	        const bwWidget::WidgetState widget,
 	        const class bwStyle& style,
-	        const bwRectanglePixel rectangle);
+	        const bwRectanglePixel rectangle,
+	        bwGradient::Direction direction = bwGradient::DIRECTION_TOP_BOTTOM,
+	        bwWidgetStyle::WidgetStyleColorID background_color_id = bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND);
 	void drawCheckMark(
 	        const bwRectanglePixel& rect);
 

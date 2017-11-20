@@ -44,7 +44,7 @@ void bwWidget::mouseClickEvent(
 
 void bwWidget::mouseDragEvent(
         const MouseButton /*button*/,
-        const int /*drag_distance*/)
+        const bwDistance /*drag_distance*/)
 {
 	
 }

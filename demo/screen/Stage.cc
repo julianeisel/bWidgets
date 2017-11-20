@@ -5,6 +5,7 @@ extern "C" {
 #include "ShaderProgram.h"
 
 // bWidgets lib
+#include "bwPainter.h"
 #include "bwPolygon.h"
 #include "bwRange.h"
 #include "bwStyleManager.h"
@@ -171,7 +172,7 @@ std::unique_ptr<Font> Stage::font = nullptr;
 float Stage::interface_scale = 1.0f;
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
-    width(width), height(height), last_hovered(nullptr), dragged_widget(nullptr)
+    mask_width(width), mask_height(height), last_hovered(nullptr), dragged_widget(nullptr)
 {
 	// Initialize drawing callbacks for the stage
 	bwPainter::drawPolygonCb = Stage::PolygonDrawCb;
@@ -210,121 +211,175 @@ void Stage::activateStyleID(bwStyle::StyleTypeID type_id)
 	style->dpi_fac = interface_scale;
 }
 
-void Stage::draw(unsigned int width, unsigned int height)
+void Stage::applyScrollbarValueCb(bwWidget& widget)
 {
-	gpuOrtho(0.0f, width, 0.0f, height);
+	bwScrollBar& scrollbar = *widget_cast<bwScrollBar*>(&widget);
+	Stage& stage = *static_cast<Stage*>(scrollbar.custom_data);
+	stage.setScrollValue(scrollbar.scroll_offset);
+}
+
+void Stage::drawScrollbars()
+{
+	if (isScrollable()) {
+		const unsigned int padding = (unsigned int)(4 * interface_scale);
+
+		if (!scrollbar) {
+			scrollbar = std::unique_ptr<bwScrollBar>(new bwScrollBar(getScrollbarWidth(), mask_height));
+			scrollbar->apply = applyScrollbarValueCb;
+			scrollbar->custom_data = this;
+		}
+
+		scrollbar->rectangle = bwRectanglePixel(
+		                           getContentWidth(), mask_width - padding,
+		                           padding, mask_height - padding);
+		scrollbar->ratio = mask_height / (float)getContentHeight();
+		scrollbar->scroll_offset = vert_scroll;
+		scrollbar->draw(*style);
+	}
+	else if (scrollbar) {
+		scrollbar = nullptr;
+	}
+}
+
+void Stage::draw()
+{
+	gpuOrtho(0.0f, mask_width, 0.0f, mask_height);
+
+	updateContentBounds();
 
 	layout->resolve(vert_scroll, interface_scale);
 	layout->draw(*style);
+	drawScrollbars();
 }
 
 void Stage::setInterfaceScale(const float value)
 {
-	interface_scale = value;
-	font->setSize(11.0f * value);
-	style->dpi_fac = value;
+	if (value != interface_scale) {
+		interface_scale = value;
+		font->setSize(11.0f * value);
+		style->dpi_fac = value;
+	}
 }
 
-struct MouseEventStageWrapper {
-	Stage& stage;
-	const MouseEvent& event;
-};
-
-bool Stage::handleMouseMovementWidgetCb(bwWidget& widget, void* custom_data)
+void Stage::updateContentBounds()
 {
-	MouseEventStageWrapper& data = *(MouseEventStageWrapper*)custom_data;
+	layout->setMaxSize(getContentWidth());
+	layout->setYmax(mask_height);
+}
 
-	if (widget.isCoordinateInside(data.event.getMouseLocation())) {
-		if (&widget != data.stage.last_hovered) {
-			if (data.stage.last_hovered) {
-				data.stage.last_hovered->mouseLeave();
+void Stage::validizeScrollValue()
+{
+	if (isScrollable()) {
+		bwRange<int>::clampValue(vert_scroll, mask_height - getContentHeight(), 0);
+	}
+}
+
+void Stage::setScrollValue(int value)
+{
+	vert_scroll = value;
+	validizeScrollValue();
+}
+
+bwWidget* Stage::findWidgetAt(const bwPoint& coordinate)
+{
+	if (coordinate.x > getContentWidth()) {
+		if (scrollbar) {
+			return static_cast<bwWidget*>(scrollbar.get());
+		}
+		return nullptr;
+	}
+
+	struct WidgetLookupData {
+		bwPoint coordinate;
+		bwWidget* result = nullptr;
+	} lookup_data;
+
+	lookup_data.coordinate = coordinate;
+
+	layout->iterateWidgets([](bwWidget& widget, void* customdata){
+		WidgetLookupData* lookup_data = static_cast<WidgetLookupData*>(customdata);
+		return widget.isCoordinateInside(lookup_data->coordinate) ? (lookup_data->result = &widget, false) : true;
+	}, &lookup_data);
+
+	return lookup_data.result;
+}
+
+void Stage::updateWidgetHovering(
+        const MouseEvent& event,
+        bwWidget& widget)
+{
+	if (widget.isCoordinateInside(event.getMouseLocation())) {
+		if (&widget != last_hovered) {
+			if (last_hovered) {
+				last_hovered->mouseLeave();
 			}
 			widget.mouseEnter();
-			data.stage.last_hovered = &widget;
+			last_hovered = &widget;
 		}
 	}
-	else if (&widget == data.stage.last_hovered) {
+	else if (&widget == last_hovered) {
 		widget.mouseLeave();
-		data.stage.last_hovered = nullptr;
+		last_hovered = nullptr;
+	}
+}
+
+/**
+ * \return True if handled successfully.
+ */
+bool Stage::handleWidgetMouseButtonEvent(
+        const MouseEvent& event,
+        bwWidget& widget)
+{
+	const bwPoint& location = event.getMouseLocation();
+
+	if (event.isClick()) {
+		widget.mouseClickEvent(event.getButton(), location);
+		// TODO handlers should return value to pass on or block event.
 	}
 
-	return true;
+	switch (event.getType()) {
+		case MouseEvent::MOUSE_EVENT_PRESS:
+			assert(widget.isCoordinateInside(location));
+			widget.mousePressEvent(event.getButton(), location);
+			dragged_widget = &widget;
+			break;
+		case MouseEvent::MOUSE_EVENT_RELEASE:
+			widget.mouseReleaseEvent(event.getButton(), location);
+			dragged_widget = nullptr;
+			break;
+		default:
+			return false;
+	}
+
+	return false;
 }
 
 void Stage::handleMouseMovementEvent(
         const MouseEvent& event)
 {
-	MouseEventStageWrapper data = {*this, event};
-	layout->iterateWidgets(handleMouseMovementWidgetCb, &data);
-}
+	const bwPoint& mouse_location = event.getMouseLocation();
 
-bool Stage::handleMouseEventWidgetCb(bwWidget& widget, void* custom_data)
-{
-	MouseEventStageWrapper& data = *(MouseEventStageWrapper*)custom_data;
-	const MouseEvent& event = data.event;
-	const bwPoint& location = event.getMouseLocation();
-
-	if (widget.isCoordinateInside(location)) {
-		if (event.isClick()) {
-			widget.mouseClickEvent(event.getButton(), location);
-			// TODO handlers should return value to pass on or block event.
-		}
-
-		switch (event.getType()) {
-			case MouseEvent::MOUSE_EVENT_PRESS:
-				widget.mousePressEvent(event.getButton(), location);
-				data.stage.dragged_widget = &widget;
-				break;
-			case MouseEvent::MOUSE_EVENT_RELEASE:
-				widget.mouseReleaseEvent(event.getButton(), location);
-				break;
-			default:
-				return true;
-		}
-
-		return false;
+	if (bwWidget* hovered = findWidgetAt(mouse_location)) {
+		updateWidgetHovering(event, *hovered);
 	}
-
-	return true;
 }
 
 void Stage::handleMouseButtonEvent(
         const MouseEvent& event)
 {
-	MouseEventStageWrapper data = {*this, event};
-	layout->iterateWidgets(handleMouseEventWidgetCb, &data);
-	if (event.getType() == MouseEvent::MOUSE_EVENT_RELEASE) {
-		dragged_widget = nullptr;
+	// Dragged widget has priority.
+	bwWidget* widget = dragged_widget ? dragged_widget : findWidgetAt(event.getMouseLocation());
+	if (widget) {
+		handleWidgetMouseButtonEvent(event, *widget);
 	}
-}
-
-bool Stage::handleMouseDragWidgetCb(bwWidget& widget, void* custom_data)
-{
-	MouseEventStageWrapper& data = *(MouseEventStageWrapper*)custom_data;
-
-	if (&widget == data.stage.dragged_widget) {
-		widget.mouseDragEvent(data.event.getButton(), data.event.getHorizontalDragDistance());
-		return false;
-	}
-
-	return true;
-}
-
-unsigned int Stage::getContentHeight() const
-{
-	return layout->getHeight() + (2 * layout->padding);
-}
-
-bool Stage::isScrollable() const
-{
-	return height < getContentHeight();
 }
 
 void Stage::handleMouseDragEvent(
         const MouseEvent& event)
 {
-	MouseEventStageWrapper data = {*this, event};
-	layout->iterateWidgets(handleMouseDragWidgetCb, &data);
+	if (dragged_widget) {
+		dragged_widget->mouseDragEvent(event.getButton(), event.getDragDistance());
+	}
 }
 
 void Stage::handleMouseScrollEvent(
@@ -340,15 +395,34 @@ void Stage::handleMouseScrollEvent(
 			direction_fac = 1;
 		}
 
-		vert_scroll += direction_fac * 40;
-		bwRange<int>::clampValue(vert_scroll, height - getContentHeight(), 0);
+		setScrollValue(vert_scroll + (direction_fac * 40));
 	}
 }
 
-void Stage::handleResizeEvent(const Window& win)
+void Stage::handleWindowResizeEvent(const Window& win)
 {
-	width = win.getWidth();
-	height = win.getHeight();
-	layout->setMaxSize(width);
-	layout->setYmax(height);
+	mask_width = win.getWidth();
+	mask_height = win.getHeight();
+	validizeScrollValue();
+}
+
+unsigned int Stage::getScrollbarWidth() const
+{
+	return std::round(17 * interface_scale);
+}
+
+unsigned int Stage::getContentWidth() const
+{
+	const bool has_scrollbars = isScrollable();
+	return std::max(mask_width - (has_scrollbars ? getScrollbarWidth() : 0), 0u);
+}
+
+unsigned int Stage::getContentHeight() const
+{
+	return layout->getHeight() + (2 * layout->padding); // TODO Padding should actually be added to layout width/height
+}
+
+bool Stage::isScrollable() const
+{
+	return mask_height < getContentHeight();
 }

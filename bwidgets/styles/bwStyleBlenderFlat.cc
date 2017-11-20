@@ -1,6 +1,7 @@
 #include <cassert>
 
 #include "bwAbstractButton.h"
+#include "bwPainter.h"
 #include "bwTextBox.h"
 
 #include "bwStyleBlenderFlat.h"
@@ -126,6 +127,36 @@ const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
 		.invert_shade_on_sunken = true,
 		.text_alignment = TEXT_ALIGN_CENTER,
 		.roundbox_radius = 6.0f,
+	},
+
+	[bwWidget::WIDGET_TYPE_SCROLL_BAR] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+				.normal = bwColor(80u, 180u),
+				.highlighted = bwColor(80u, 180u).shade(0.06f),
+				.sunken = bwColor(100u, 180u),
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 0.0f,
+				.highlighted = 0.0f,
+				.sunken = 1.0f,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
+				.normal = 50u,
+				.highlighted = 50u,
+				.sunken = 50u,
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION] = {
+				.normal = 128u,
+				.highlighted = 128u,
+				.sunken = 128u,
+			},
+		},
+		.shade_top = 0,
+		.shade_bottom = 0,
+		.invert_shade_on_sunken = false,
+		.text_alignment = TEXT_ALIGN_LEFT,
+		.roundbox_radius = 6.5f,
 	},
 
 	[bwWidget::WIDGET_TYPE_TEXT_BOX] = {

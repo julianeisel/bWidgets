@@ -1,6 +1,9 @@
 #pragma once
 
+#include <array>
+
 #include "bwStyle.h"
+
 
 namespace bWidgets {
 

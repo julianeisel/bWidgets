@@ -1,5 +1,7 @@
 #include "glm.hpp"
 
+#include "bwDistance.h"
+
 #include "EventManager.h"
 
 using namespace bWidgetsDemo;
@@ -49,10 +51,10 @@ MouseEvent::MouseEventType MouseEvent::getType() const
 	return type;
 }
 
-int MouseEvent::getHorizontalDragDistance() const
+bWidgets::bwDistance MouseEvent::getDragDistance() const
 {
 	EventManager& manager = EventManager::ensureEventManager();
-	return manager.isDragging() ? (location.x - last_down_location.x) : 0;
+	return manager.isDragging() ? location - last_down_location : 0;
 }
 
 const bWidgets::bwPoint& MouseEvent::getMouseLocation()

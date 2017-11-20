@@ -1,6 +1,8 @@
 #pragma once
 
+#include "bwDistance.h"
 #include "bwWidget.h"
+
 
 namespace bWidgetsDemo {
 
@@ -34,7 +36,7 @@ public:
 
 	bWidgets::bwWidget::MouseButton getButton() const;
 	MouseEventType getType() const;
-	int getHorizontalDragDistance() const;
+	bWidgets::bwDistance getDragDistance() const;
 
 	static const bWidgets::bwPoint& getMouseLocation();
 

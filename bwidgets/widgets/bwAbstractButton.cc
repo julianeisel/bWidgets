@@ -1,3 +1,4 @@
+#include "bwPainter.h"
 #include "bwStyle.h"
 
 #include "bwAbstractButton.h"
@@ -22,7 +23,7 @@ void bwAbstractButton::draw(bwStyle& style) const
 
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(*this, style, rectangle);
+	painter.drawRoundboxWidgetBase(widget_style, state, style, rectangle);
 
 	// Text
 	painter.setActiveColor(widget_style.textColor(state));

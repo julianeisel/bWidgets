@@ -28,5 +28,9 @@ inline bwPoint operator+(const bwPoint& lhs, const bwPoint& rhs)
 {
 	return bwPoint(lhs.x + rhs.x, lhs.y + rhs.y);
 }
+inline bwPoint operator-(const bwPoint& lhs, const bwPoint& rhs)
+{
+	return bwPoint(lhs.x - rhs.x, lhs.y - rhs.y);
+}
 
 } // namepsace bWidgets

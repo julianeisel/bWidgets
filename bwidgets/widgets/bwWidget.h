@@ -3,6 +3,7 @@
 #include <typeinfo>
 
 #include "bwPoint.h"
+#include "bwDistance.h"
 #include "bwRectangle.h"
 
 namespace bWidgets {
@@ -19,6 +20,7 @@ public:
 		WIDGET_TYPE_NUMBER_SLIDER,
 		WIDGET_TYPE_PUSH_BUTTON,
 		WIDGET_TYPE_RADIO_BUTTON,
+		WIDGET_TYPE_SCROLL_BAR,
 		WIDGET_TYPE_TEXT_BOX,
 
 		WIDGET_TYPE_TOT
@@ -63,7 +65,7 @@ public:
 	        const bwPoint& location);
 	virtual void mouseDragEvent(
 	        const MouseButton button,
-	        const int drag_distance);
+	        const bwDistance drag_distance);
 	virtual void mouseEnter();
 	virtual void mouseLeave();
 

@@ -1,10 +1,14 @@
 #pragma once
 
+#include <string>
+
 #include "bwColor.h"
-#include "bwPainter.h"
 #include "bwWidget.h"
 
+
 namespace bWidgets {
+
+enum TextAlignment: unsigned int;
 
 class bwWidgetStyle
 {
@@ -26,6 +30,7 @@ public:
 		WIDGET_STYLE_COLOR_TOT
 	};
 
+	const bwColor& getColor(const WidgetStyleColorID, const bwWidget::WidgetState) const;
 	const bwColor& backgroundColor(const bwWidget::WidgetState state) const;
 	const bwColor& textColor(const bwWidget::WidgetState state) const;
 	const bwColor& outlineColor(const bwWidget::WidgetState state) const;
@@ -34,14 +39,11 @@ public:
 	float shadeBottom(const bwWidget::WidgetState state) const;
 
 	bwWidgetStateColors state_colors[WIDGET_STYLE_COLOR_TOT];
-	signed char shade_top, shade_bottom;
+	char shade_top, shade_bottom;
 	bool invert_shade_on_sunken;
 	TextAlignment text_alignment;
 	float roundbox_radius;
 	unsigned int roundbox_corners;
-
-private:
-	const bwColor& getColor(const WidgetStyleColorID, const bwWidget::WidgetState) const;
 };
 
 class bwStyle

@@ -304,11 +304,13 @@ void bwPainter::fillVertexColorsWithGradient(const bwPolygon& polygon, const bwR
 }
 
 void bwPainter::drawRoundboxWidgetBase(
-        const bwWidget& widget,
+        const bwWidgetStyle& widget_style,
+        const bwWidget::WidgetState state,
         const bwStyle& style,
-        const bwRectanglePixel rectangle)
+        const bwRectanglePixel rectangle,
+        bwGradient::Direction direction,
+        bwWidgetStyle::WidgetStyleColorID background_color_id)
 {
-	const bwWidgetStyle& widget_style = style.widget_styles[widget.type];
 	bwRectanglePixel inner_rect = rectangle;
 	const float radius = widget_style.roundbox_radius * style.dpi_fac;
 
@@ -317,14 +319,15 @@ void bwPainter::drawRoundboxWidgetBase(
 
 	setContentMask(inner_rect); // Not sure if we should set this here.
 
+	active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
 	enableGradient(
-	            widget_style.backgroundColor(widget.state),
-	            widget_style.shadeTop(widget.state), widget_style.shadeBottom(widget.state),
-	            bwGradient::DIRECTION_TOP_BOTTOM);
+	            widget_style.getColor(background_color_id, state),
+	            widget_style.shadeTop(state), widget_style.shadeBottom(state),
+	            direction);
 	drawRoundbox(inner_rect, widget_style.roundbox_corners, radius - 1.0f);
 
 	// Outline
-	setActiveColor(widget_style.outlineColor(widget.state));
 	active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
+	setActiveColor(widget_style.outlineColor(state));
 	drawRoundbox(rectangle, widget_style.roundbox_corners, radius);
 }

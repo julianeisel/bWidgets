@@ -14,8 +14,8 @@ using namespace bWidgets; // Less verbose
 
 #define BUTTON_HEIGHT 20
 
-DefaultStage::DefaultStage(unsigned int width, unsigned int height) :
-    Stage(width, height)
+DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
+    Stage(mask_width, mask_height)
 {
 	addStyleSelector(*layout);
 

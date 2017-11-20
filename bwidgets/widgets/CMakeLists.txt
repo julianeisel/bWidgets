@@ -8,6 +8,7 @@ set(SRC
 	bwNumberSlider.cc
 	bwPushButton.cc
 	bwRadioButton.cc
+	bwScrollBar.cc
 	bwTextBox.cc
 	bwWidget.cc
 
@@ -17,6 +18,7 @@ set(SRC
 	bwNumberSlider.h
 	bwPushButton.h
 	bwRadioButton.h
+	bwScrollBar.h
 	bwTextBox.h
 	bwWidget.h
 )

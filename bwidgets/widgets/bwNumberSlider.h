@@ -23,7 +23,7 @@ public:
 	        const bwPoint& location) override;
 	void mouseDragEvent(
 	        const MouseButton button,
-	        const int drag_distance) override;
+	        const bwDistance drag_distance) override;
 
 	void setValue(float value);
 	float getValue() const;

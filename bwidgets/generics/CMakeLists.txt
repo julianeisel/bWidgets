@@ -7,6 +7,7 @@ set(SRC
 	bwRectangle.cc
 
 	bwColor.h
+	bwDistance.h
 	bwGradient.h
 	bwPoint.h
 	bwPolygon.h

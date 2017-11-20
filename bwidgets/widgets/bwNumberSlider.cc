@@ -4,6 +4,7 @@
 #include <math.h>
 #include <sstream>
 
+#include "bwPainter.h"
 #include "bwStyle.h"
 
 #include "bwNumberSlider.h"
@@ -124,10 +125,12 @@ void bwNumberSlider::mouseClickEvent(
 	}
 }
 
-void bwNumberSlider::mouseDragEvent(const MouseButton button, const int drag_distance)
+void bwNumberSlider::mouseDragEvent(
+        const MouseButton button,
+        const bwDistance drag_distance)
 {
 	if (button == MOUSE_BUTTON_LEFT) {
-		setValue(initial_value + (drag_distance / (float)rectangle.width()));
+		setValue(initial_value + (drag_distance.x / (float)rectangle.width()));
 		apply(*this);
 	}
 }

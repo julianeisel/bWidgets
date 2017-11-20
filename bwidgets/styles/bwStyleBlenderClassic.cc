@@ -1,6 +1,7 @@
 #include <assert.h>
 
 #include "bwAbstractButton.h"
+#include "bwPainter.h"
 #include "bwStyleManager.h"
 #include "bwTextBox.h"
 
@@ -75,7 +76,7 @@ const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
 		},
 		.shade_top = 0,
 		.shade_bottom = 25,
-		.invert_shade_on_sunken = false,
+		.invert_shade_on_sunken = true,
 		.text_alignment = TEXT_ALIGN_LEFT,
 		.roundbox_radius = 10.0f,
 	},
@@ -128,6 +129,36 @@ const static bwWidgetStyle static_widget_styles[bwWidget::WIDGET_TYPE_TOT] = {
 		.invert_shade_on_sunken = true,
 		.text_alignment = TEXT_ALIGN_CENTER,
 		.roundbox_radius = 4.0f,
+	},
+
+	[bwWidget::WIDGET_TYPE_SCROLL_BAR] = {
+		.state_colors = {
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {
+				.normal = bwColor(80u, 180u),
+				.highlighted = bwColor(80u, 180u).shade(0.06f),
+				.sunken = bwColor(100u, 180u),
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_TEXT] = {
+				.normal = 0u,
+				.highlighted = 0u,
+				.sunken = 255u
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE] = {
+				.normal = bwColor(50u, 180u),
+				.highlighted = 50u,
+				.sunken = bwColor(50u, 180u),
+			},
+			[bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION] = {
+				.normal = 128u,
+				.highlighted = 128u,
+				.sunken = bwColor(128u).shade(0.06f),
+			},
+		},
+		.shade_top = 5,
+		.shade_bottom = -5,
+		.invert_shade_on_sunken = false,
+		.text_alignment = TEXT_ALIGN_LEFT,
+		.roundbox_radius = 6.5f,
 	},
 
 	[bwWidget::WIDGET_TYPE_TEXT_BOX] = {

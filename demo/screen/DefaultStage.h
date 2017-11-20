@@ -9,7 +9,7 @@ namespace bWidgetsDemo {
 class DefaultStage : public Stage
 {
 public:
-	DefaultStage(unsigned int width, unsigned int height);
+	DefaultStage(unsigned int mask_width, unsigned int mask_height);
 
 private:
 	void addStyleSelector(class LayoutItem& parent_layout);

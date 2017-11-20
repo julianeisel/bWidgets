@@ -15,7 +15,7 @@ struct bwGradient
 {
 	enum Direction {
 		DIRECTION_TOP_BOTTOM,
-		DIRECTION_LEFT_RIGHT, // Unused and maybe not needed. Should work fine though.
+		DIRECTION_LEFT_RIGHT,
 	};
 
 	bwColor begin, end;

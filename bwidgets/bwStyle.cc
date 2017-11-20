@@ -11,6 +11,23 @@ bwStyle::bwStyle(StyleTypeID type_id, const bwWidgetStyle (&widget_styles)[bwWid
 	
 }
 
+const bwColor& bwWidgetStyle::getColor(
+        const WidgetStyleColorID color_id,
+        const bwWidget::WidgetState state) const
+{
+	const bwWidgetStateColors& colors = state_colors[color_id];
+
+	if (state == bwWidget::STATE_NORMAL) {
+		return colors.normal;
+	}
+	else if (state == bwWidget::STATE_HIGHLIGHTED) {
+		return colors.highlighted;
+	}
+
+	assert(state == bwWidget::STATE_SUNKEN);
+	return colors.sunken;
+}
+
 const bwColor&bwWidgetStyle::backgroundColor(const bwWidget::WidgetState state) const
 {
 	return getColor(WIDGET_STYLE_COLOR_BACKGROUND, state);
@@ -39,21 +56,4 @@ float bwWidgetStyle::shadeTop(const bwWidget::WidgetState state) const
 float bwWidgetStyle::shadeBottom(const bwWidget::WidgetState state) const
 {
 	return ((invert_shade_on_sunken && (state == bwWidget::STATE_SUNKEN)) ? shade_top : shade_bottom) / 255.0f;
-}
-
-const bwColor& bwWidgetStyle::getColor(
-        const bwWidgetStyle::WidgetStyleColorID color_id,
-        const bwWidget::WidgetState state) const
-{
-	const bwWidgetStateColors& colors = state_colors[color_id];
-
-	if (state == bwWidget::STATE_NORMAL) {
-		return colors.normal;
-	}
-	else if (state == bwWidget::STATE_HIGHLIGHTED) {
-		return colors.highlighted;
-	}
-
-	assert(state == bwWidget::STATE_SUNKEN);
-	return colors.sunken;
 }

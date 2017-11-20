@@ -1,3 +1,4 @@
+#include "bwPainter.h"
 #include "bwStyle.h"
 
 #include "bwTextBox.h"
@@ -21,7 +22,7 @@ void bwTextBox::draw(bwStyle& style) const
 
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(*this, style, inner_rect);
+	painter.drawRoundboxWidgetBase(widget_style, state, style, inner_rect);
 
 	// Text editing
 	if (is_text_editing && (selection_rectangle.isEmpty() == false)) {

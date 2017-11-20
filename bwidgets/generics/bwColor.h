@@ -6,7 +6,10 @@ class bwColor
 {
 public:
 	bwColor(float red, float green, float blue, float alpha = 1.0f);
-	bwColor(float rgb = 0.0f, float alpha = 1.0f);
+	bwColor(float rgb, float alpha = 1.0f);
+	bwColor(unsigned int red, unsigned int green, unsigned int blue, unsigned int alpha = 255);
+	bwColor(unsigned int rgb, unsigned int alpha = 255);
+	bwColor();
 
 	bwColor& shade(const float rgb_shade, float alpha_shade = 0.0f);
 
@@ -22,7 +25,7 @@ public:
 	operator const float*() const;
 
 private:
-	float rgba[4];
+	float rgba[4]{0};
 };
 
 } // bWidgets

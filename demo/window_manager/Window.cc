@@ -55,7 +55,7 @@ void Window::draw()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	if (stage) {
-		stage->draw(width, height);
+		stage->draw();
 	}
 
 	glfwSwapBuffers(glfw_window);
@@ -85,7 +85,7 @@ void Window::handleResizeEvent(const int new_win_x, const int new_win_y)
 {
 	width = new_win_x;
 	height = new_win_y;
-	stage->handleResizeEvent(*this);
+	stage->handleWindowResizeEvent(*this);
 }
 
 GLFWwindow *Window::getGlfwWindow() const

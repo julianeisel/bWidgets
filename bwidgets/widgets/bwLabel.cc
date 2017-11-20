@@ -1,3 +1,4 @@
+#include "bwPainter.h"
 #include "bwStyle.h"
 
 #include "bwLabel.h"
