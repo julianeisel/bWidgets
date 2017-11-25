@@ -1,8 +1,0 @@
-/** \mainpage bWidgets Code Documentation
- *
- * \section intro Introduction
- *
- * bWidgets is a **cross-platform widget toolkit**, designed specifically **for the Blender project**, but reusable as a **standalone library**.
- *
- * A *b*-prefix is a common convention in Blender's source code to mark internal Blender C-structs. The name *bWidgets* refers to this. It's fine to pronounce bWidgets as "Blender-widgets".
- */

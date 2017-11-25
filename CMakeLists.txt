@@ -85,7 +85,6 @@ option(WITH_GTESTS "Compile bWidgets with GTest unit tests" OFF)
 
 add_subdirectory(bwidgets)
 add_subdirectory(demo)
-add_subdirectory(doc)
 add_subdirectory(extern)
 if (WITH_GTESTS)
 	add_subdirectory(tests)
