@@ -29,13 +29,18 @@ public:
 	float getValue() const;
 	void setMinMax(float min, float max);
 
-	void (*apply)(bwWidget& widget);
+	std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
 
 private:
 	std::string valueToString(unsigned int precision) const;
 	float calcValueIndicatorWidth(class bwStyle& style) const;
 
+	/**
+	 * Support multiple numeric types. bwNumberSlider could be made
+	 * a template class for this, but using union is just fine.
+	 */
 	union {
+		// float
 		struct {
 			float value;
 			float min, max;
@@ -43,8 +48,8 @@ private:
 			float initial_value;
 			float precision;
 		};
-		// int value;
-		// char value;
+		// struct { int value; ...}
+		// struct { char value; ...}
 		// ...
 	};
 };

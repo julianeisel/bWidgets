@@ -211,12 +211,23 @@ void Stage::activateStyleID(bwStyle::StyleTypeID type_id)
 	style->dpi_fac = interface_scale;
 }
 
-void Stage::applyScrollbarValueCb(bwWidget& widget)
+namespace bWidgetsDemo {
+
+class ScrollbarApplyValueFunctor : public bwFunctorInterface
 {
-	bwScrollBar& scrollbar = *widget_cast<bwScrollBar*>(&widget);
-	Stage& stage = *static_cast<Stage*>(scrollbar.custom_data);
-	stage.setScrollValue(scrollbar.scroll_offset);
-}
+	Stage& stage;
+	const bwScrollBar& scrollbar;
+
+public:
+	ScrollbarApplyValueFunctor(Stage& stage, const bwScrollBar& scrollbar) : stage(stage), scrollbar(scrollbar) {}
+	inline void operator()() override
+	{
+		stage.setScrollValue(scrollbar.scroll_offset);
+	}
+};
+
+} // namespace bWidgetsDemo
+
 
 void Stage::drawScrollbars()
 {
@@ -225,8 +236,8 @@ void Stage::drawScrollbars()
 
 		if (!scrollbar) {
 			scrollbar = std::unique_ptr<bwScrollBar>(new bwScrollBar(getScrollbarWidth(), mask_height));
-			scrollbar->apply = applyScrollbarValueCb;
-			scrollbar->custom_data = this;
+			scrollbar->apply_functor = std::unique_ptr<ScrollbarApplyValueFunctor>(
+			                               new ScrollbarApplyValueFunctor(*this, *scrollbar));
 		}
 
 		scrollbar->rectangle = bwRectanglePixel(

@@ -61,3 +61,10 @@ void bwAbstractButton::mouseLeave()
 		state = STATE_NORMAL;
 	}
 }
+
+void bwAbstractButton::apply()
+{
+	if (apply_functor) {
+		(*apply_functor)();
+	}
+}

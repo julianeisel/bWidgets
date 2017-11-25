@@ -13,6 +13,9 @@ using namespace bWidgets;
 namespace bWidgetsDemo {
 
 class Stage {
+	friend class ScrollbarApplyValueFunctor;
+	friend class StyleSetter;
+
 public:
 	Stage(const unsigned int mask_width, const unsigned int mask_height);
 	virtual ~Stage();
@@ -71,8 +74,6 @@ private:
 	bool handleWidgetMouseButtonEvent(
 	        const MouseEvent&,
 	        bwWidget&);
-
-	static void applyScrollbarValueCb(bwWidget& widget);
 
 	bool isScrollable() const;
 	unsigned int getScrollbarWidth() const;

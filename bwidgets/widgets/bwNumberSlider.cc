@@ -131,7 +131,9 @@ void bwNumberSlider::mouseDragEvent(
 {
 	if (button == MOUSE_BUTTON_LEFT) {
 		setValue(initial_value + (drag_distance.x / (float)rectangle.width()));
-		apply(*this);
+		if (apply_functor) {
+			(*apply_functor)();
+		}
 	}
 }
 

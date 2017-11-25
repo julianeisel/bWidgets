@@ -21,9 +21,6 @@ public:
 	        const MouseButton button,
 	        const bwDistance drag_distance) override;
 
-	/* For bwAbstractButton::apply() callback. */
-	static void *custom_data;
-
 	float ratio; // Ration between content and area height (max 1.0f).
 	int scroll_offset;
 

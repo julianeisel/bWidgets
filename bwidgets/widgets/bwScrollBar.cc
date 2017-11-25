@@ -6,8 +6,6 @@
 using namespace bWidgets;
 
 
-void *bwScrollBar::custom_data = nullptr;
-
 bwScrollBar::bwScrollBar(
         unsigned int width_hint, unsigned int height_hint) :
     bwAbstractButton("", WIDGET_TYPE_SCROLL_BAR, width_hint, height_hint)
@@ -81,5 +79,5 @@ void bwScrollBar::mouseDragEvent(
 void bwScrollBar::setScrollOffset(int value)
 {
 	scroll_offset = value;
-	apply(*this);
+	apply();
 }

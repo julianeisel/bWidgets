@@ -16,7 +16,7 @@ void bwRadioButton::mousePressEvent(
 {
 	if (button == bwWidget::MOUSE_BUTTON_LEFT) {
 		state = STATE_SUNKEN;
-		apply(*this);
+		apply();
 	}
 }
 

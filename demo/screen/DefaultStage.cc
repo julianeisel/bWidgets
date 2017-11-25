@@ -14,13 +14,42 @@ using namespace bWidgets; // Less verbose
 
 #define BUTTON_HEIGHT 20
 
+namespace bWidgetsDemo {
+
+class ScaleSetter : public bwFunctorInterface
+{
+public:
+	ScaleSetter(const bwNumberSlider&);
+	void operator()() override;
+
+private:
+	const bwNumberSlider& numslider;
+};
+
+class StyleSetter : public bwFunctorInterface
+{
+public:
+	StyleSetter(Stage& stage, const bwStyle::StyleType& style_type);
+	static bool StyleButtonsUpdateCb(bwWidget&, void*);
+	void operator()() override;
+
+private:
+	Stage& stage;
+	const bwStyle::StyleType& style_type;
+};
+
+} // namespace bWidgetsDemo
+
+
+// --------------------------------------------------------------------
+
 DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
     Stage(mask_width, mask_height)
 {
 	addStyleSelector(*layout);
 
 	bwNumberSlider* slider = new bwNumberSlider(0, BUTTON_HEIGHT);
-	slider->apply = applyUIScaleValueButtonCb;
+	slider->apply_functor = std::unique_ptr<ScaleSetter>(new ScaleSetter(*slider));
 	slider->setText("Interface Scale: ");
 	slider->setMinMax(0.5f, 2.0f);
 	slider->setValue(1.0f);
@@ -52,12 +81,10 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 
 	row_layout->addWidget(new bwLabel("Style:", 0, BUTTON_HEIGHT));
 
-	for (bwStyle::StyleType type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
+	for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
 		bwRadioButton* style_button = new bwRadioButton(type.name, 0, BUTTON_HEIGHT);
 
-		style_button->valueID = type.type_id;
-		style_button->custom_data = this;
-		style_button->apply = StyleApplyButtonCb;
+		style_button->apply_functor = std::unique_ptr<StyleSetter>(new StyleSetter(*this, type));
 
 		if (type.type_id == style->type_id) {
 			style_button->state = bwAbstractButton::STATE_SUNKEN;
@@ -73,14 +100,35 @@ void DefaultStage::addFakeSpacer(LayoutItem& layout)
 	layout.addWidget(new bwLabel("", 0, 7));
 }
 
-bool DefaultStage::StyleButtonsUpdateCb(bwWidget& widget_iter, void* custom_data)
-{
-	bwRadioButton* lookup_radio_button = (bwRadioButton*)custom_data;
+// --------------------------------------------------------------------
+// Functor definitions
 
-	if ((&widget_iter != lookup_radio_button) && (widget_iter.type == bwWidget::WIDGET_TYPE_RADIO_BUTTON)) {
-		bwRadioButton* radio_iter = widget_cast<bwRadioButton*>(&widget_iter);
-		if (radio_iter->custom_data == lookup_radio_button->custom_data) {
-			if (radio_iter->valueID == lookup_radio_button->valueID) {
+ScaleSetter::ScaleSetter(const bwNumberSlider& numslider) :
+    numslider(numslider)
+{
+	
+}
+
+void ScaleSetter::operator()()
+{
+	Stage::setInterfaceScale(numslider.getValue());
+}
+
+StyleSetter::StyleSetter(Stage& stage, const bwStyle::StyleType& style_type) :
+    stage(stage), style_type(style_type)
+{
+	
+}
+
+bool StyleSetter::StyleButtonsUpdateCb(bwWidget& widget_iter, void* _active_style_id)
+{
+	auto active_style_id = *static_cast<bwStyle::StyleTypeID*>(_active_style_id);
+	auto radio_iter = widget_cast<bwRadioButton*>(&widget_iter);
+
+	if (radio_iter && radio_iter->apply_functor) {
+		// Using dynamic_cast to check if apply_functor is a StyleSetter. Then we assume it's a style button.
+		if (auto iter_style_setter = dynamic_cast<StyleSetter*>(radio_iter->apply_functor.get())) {
+			if (iter_style_setter->style_type.type_id == active_style_id) {
 				radio_iter->state = bwWidget::STATE_SUNKEN;
 			}
 			else {
@@ -92,19 +140,10 @@ bool DefaultStage::StyleButtonsUpdateCb(bwWidget& widget_iter, void* custom_data
 	return true;
 }
 
-void DefaultStage::applyUIScaleValueButtonCb(bwWidget& widget)
+void StyleSetter::operator()()
 {
-	bwNumberSlider& slider = *widget_cast<bwNumberSlider*>(&widget);
-	setInterfaceScale(slider.getValue());
-}
-
-void DefaultStage::StyleApplyButtonCb(bwWidget& widget)
-{
-	bwRadioButton& radio_but = *widget_cast<bwRadioButton*>(&widget);
-	DefaultStage* stage = reinterpret_cast<DefaultStage*>(radio_but.custom_data);
-
-	stage->activateStyleID((bwStyle::StyleTypeID)radio_but.valueID);
-
+	bwStyle::StyleTypeID style_type_id = style_type.type_id;
+	stage.activateStyleID(style_type_id);
 	// Deactivate other style radio buttons
-	stage->layout->iterateWidgets(StyleButtonsUpdateCb, &radio_but);
+	stage.layout->iterateWidgets(StyleButtonsUpdateCb, &style_type_id);
 }

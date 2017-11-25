@@ -9,6 +9,7 @@ set(SRC
 	bwColor.h
 	bwDistance.h
 	bwGradient.h
+	bwFunctorInterface.h
 	bwPoint.h
 	bwPolygon.h
 	bwRange.h

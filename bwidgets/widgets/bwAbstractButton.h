@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "bwWidget.h"
@@ -23,7 +24,10 @@ public:
 	virtual void mouseEnter() override;
 	virtual void mouseLeave() override;
 
-	void (*apply)(bwWidget& widget);
+	/**
+	 * Function object called when applying changes to widget.
+	 */
+	std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
 
 	unsigned int rounded_corners;
 
@@ -33,6 +37,7 @@ protected:
 	        const std::string& text,
 	        const WidgetType type,
 	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
+	void apply();
 
 	const std::string text;
 };

@@ -30,10 +30,6 @@ public:
 	void mouseReleaseEvent(
 	        const MouseButton button,
 	        const bwPoint& location) override;
-
-	// XXX Not that pretty.
-	void* custom_data;
-	unsigned int valueID;
 };
 
 } // bWidgets
