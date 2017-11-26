@@ -3,8 +3,6 @@ set(SRC
 	bwGradient.cc
 	bwPoint.cc
 	bwPolygon.cc
-	bwRange.cc
-	bwRectangle.cc
 
 	bwColor.h
 	bwDistance.h

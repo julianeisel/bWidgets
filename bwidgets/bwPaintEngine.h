@@ -21,6 +21,10 @@ enum TextAlignment: unsigned int;
  *
  * Creating a paint-engine is done by subclassing this class and
  * implementing the abstract functions.
+ *
+ * \note Even though the name may suggest this is the equivalent to Qt's
+ *       QPaintEngine, this is more of a combination of both, QPaintEngine
+ *       and QPaintDevice.
  */
 class bwPaintEngine
 {
