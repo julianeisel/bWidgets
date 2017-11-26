@@ -1,5 +1,7 @@
 #include <cassert>
+#include <iostream>
 
+#include "bwPaintEngine.h"
 #include "bwPoint.h"
 #include "bwPolygon.h"
 #include "bwStyle.h"
@@ -9,11 +11,7 @@
 using namespace bWidgets;
 
 
-void (*bwPainter::drawPolygonCb)(
-        const class bwPainter&, const class bwPolygon&) = 0;
-void (*bwPainter::drawTextCb)(
-        const class bwPainter &, const std::string&,
-        const bwRectanglePixel&, const TextAlignment) = 0;
+std::unique_ptr<bwPaintEngine> bwPainter::paint_engine = nullptr;
 
 bwPainter::bwPainter() :
     active_drawtype(DRAW_TYPE_FILLED),
@@ -22,11 +20,25 @@ bwPainter::bwPainter() :
 	
 }
 
+static bool painter_check_paint_engine(const bwPainter& painter)
+{
+	if (painter.paint_engine == nullptr) {
+		std::cout << __PRETTY_FUNCTION__ << "-- Error: No paint-engine set!" << std::endl;
+		return false;
+	}
+
+	return true;
+}
+
 void bwPainter::drawPolygon(
         const bwPolygon& poly)
 {
+	if (!painter_check_paint_engine(*this)) {
+		return;
+	}
+
 	if (poly.isDrawable()) {
-		drawPolygonCb(*this, poly);
+		paint_engine->drawPolygon(*this, poly);
 	}
 	if (isGradientEnabled()) {
 		vert_colors.clear();
@@ -38,8 +50,12 @@ void bwPainter::drawText(
         const bwRectanglePixel& rectangle,
         const TextAlignment alignment) const
 {
+	if (!painter_check_paint_engine(*this)) {
+		return;
+	}
+
 	if (text.size() > 0) {
-		drawTextCb(*this, text, rectangle, alignment);
+		paint_engine->drawText(*this, text, rectangle, alignment);
 	}
 }
 

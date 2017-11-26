@@ -44,15 +44,6 @@ protected:
 	unsigned int mask_width, mask_height;
 	int vert_scroll = 0;
 
-	static void TextDrawCb(
-	        const class bwPainter& painter,
-	        const std::string& text,
-	        const bwRectanglePixel& rectangle,
-	        const TextAlignment alignment);
-	static void PolygonDrawCb(
-	        const class bwPainter& painter,
-	        const class bwPolygon& poly);
-
 	void activateStyleID(bwStyle::StyleTypeID type_id);
 	static void setInterfaceScale(const float value);
 

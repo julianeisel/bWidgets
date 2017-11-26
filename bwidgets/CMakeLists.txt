@@ -12,6 +12,7 @@ set(SRC
 	styles/bwStyleBlenderClassic.cc
 	styles/bwStyleBlenderFlat.cc
 
+	bwPaintEngine.h
 	bwPainter.h
 	bwStyle.h
 	bwStyleManager.h

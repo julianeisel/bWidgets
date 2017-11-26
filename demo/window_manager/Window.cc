@@ -46,14 +46,6 @@ Window::~Window()
 
 void Window::draw()
 {
-	int width, height;
-
-	glfwGetFramebufferSize(glfw_window, &width, &height);
-	glViewport(0, 0, width, height);
-	glScissor(0, 0, width, height);
-	glClearColor(0.447f, 0.447f, 0.447f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	if (stage) {
 		stage->draw();
 	}

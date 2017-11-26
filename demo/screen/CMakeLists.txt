@@ -9,11 +9,13 @@ set(INC
 set(SRC
 	DefaultStage.cc
 	Font.cc
+	GawainPaintEngine.cc
 	Layout.cc
 	Stage.cc
 
 	DefaultStage.h
 	Font.h
+	GawainPaintEngine.h
 	Layout.h
 	Stage.h
 )

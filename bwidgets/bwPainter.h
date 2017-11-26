@@ -33,14 +33,7 @@ public:
 		DRAW_TYPE_OUTLINE,
 	} active_drawtype;
 
-	static void (*drawPolygonCb)(
-	        const class bwPainter& painter,
-	        const class bwPolygon& poly);
-	static void (*drawTextCb)(
-	        const class bwPainter& painter,
-	        const std::string& text,
-	        const bwRectanglePixel& rectangle,
-	        const TextAlignment alignment);
+	static std::unique_ptr<class bwPaintEngine> paint_engine;
 
 	bwPainter();
 
