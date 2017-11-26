@@ -5,6 +5,7 @@
 
 #include "bwGradient.h"
 #include "bwStyle.h"
+#include "bwUtil.h"
 
 namespace bWidgets {
 
@@ -33,7 +34,7 @@ public:
 		DRAW_TYPE_OUTLINE,
 	} active_drawtype;
 
-	static std::unique_ptr<class bwPaintEngine> paint_engine;
+	static bwPointer<class bwPaintEngine> paint_engine;
 
 	bwPainter();
 
@@ -76,7 +77,7 @@ public:
 private:
 	bwColor active_color;
 	std::vector<bwColor> vert_colors;
-	std::unique_ptr<bwGradient> active_gradient;
+	bwPointer<bwGradient> active_gradient;
 	bwRectanglePixel content_mask;
 
 	void fillVertexColorsWithGradient(

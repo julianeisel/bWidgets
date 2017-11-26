@@ -5,13 +5,14 @@
 #include "bwPoint.h"
 #include "bwPolygon.h"
 #include "bwStyle.h"
+#include "bwUtil.h"
 
 #include "bwPainter.h"
 
 using namespace bWidgets;
 
 
-std::unique_ptr<bwPaintEngine> bwPainter::paint_engine = nullptr;
+bwPointer<bwPaintEngine> bwPainter::paint_engine = nullptr;
 
 bwPainter::bwPainter() :
     active_drawtype(DRAW_TYPE_FILLED),
@@ -91,7 +92,7 @@ void bwPainter::enableGradient(
         const bwGradient::Direction direction)
 {
 	if (!active_gradient) {
-		active_gradient = std::unique_ptr<bwGradient>(new bwGradient());
+		active_gradient = bwPointer_new<bwGradient>();
 	}
 
 	active_gradient->begin = base_color;

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "bwWidget.h"
+#include "bwUtil.h"
 
 namespace bWidgets {
 
@@ -27,7 +28,7 @@ public:
 	/**
 	 * Function object called when applying changes to widget.
 	 */
-	std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
+	bwPointer<bwFunctorInterface> apply_functor{nullptr};
 
 	unsigned int rounded_corners;
 

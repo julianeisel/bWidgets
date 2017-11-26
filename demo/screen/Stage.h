@@ -37,8 +37,8 @@ protected:
 	class RootLayout* layout;
 
 	// Static members, global UI data for all stages
-	static std::unique_ptr<bwStyle> style;
-	static std::unique_ptr<class Font> font;
+	static bwPointer<bwStyle> style;
+	static bwPointer<class Font> font;
 	static float interface_scale;
 
 	unsigned int mask_width, mask_height;
@@ -49,7 +49,7 @@ protected:
 
 private:
 	// Not part of the layout yet. We'd need to support horizontal root layouts first.
-	std::unique_ptr<bwScrollBar> scrollbar;
+	bwPointer<bwScrollBar> scrollbar;
 	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.
 	bwWidget* last_hovered;
 	bwWidget* dragged_widget;

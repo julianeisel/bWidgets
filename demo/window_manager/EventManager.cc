@@ -141,8 +141,7 @@ void EventManager::handleMouseScrollEvent(
 	                                                    MouseEvent::MOUSE_EVENT_SCROLL_UP :
 	                                                    MouseEvent::MOUSE_EVENT_SCROLL_DOWN;
 	const bwPoint& position = win->getCursorPosition();
-	std::unique_ptr<MouseEvent> event;
+	auto event = bwPointer_new<MouseEvent>(event_type, bwWidget::MOUSE_BUTTON_WHEEL, position);
 
-	event = std::unique_ptr<MouseEvent>(new MouseEvent(event_type, bwWidget::MOUSE_BUTTON_WHEEL, position));
 	win->stage->handleMouseScrollEvent(*event);
 }

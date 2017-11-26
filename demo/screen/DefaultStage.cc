@@ -49,7 +49,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	addStyleSelector(*layout);
 
 	bwNumberSlider* slider = new bwNumberSlider(0, BUTTON_HEIGHT);
-	slider->apply_functor = std::unique_ptr<ScaleSetter>(new ScaleSetter(*slider));
+	slider->apply_functor = bwPointer_new<ScaleSetter>(*slider);
 	slider->setText("Interface Scale: ");
 	slider->setMinMax(0.5f, 2.0f);
 	slider->setValue(1.0f);
@@ -84,7 +84,7 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 	for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
 		bwRadioButton* style_button = new bwRadioButton(type.name, 0, BUTTON_HEIGHT);
 
-		style_button->apply_functor = std::unique_ptr<StyleSetter>(new StyleSetter(*this, type));
+		style_button->apply_functor = bwPointer_new<StyleSetter>(*this, type);
 
 		if (type.type_id == style->type_id) {
 			style_button->state = bwAbstractButton::STATE_SUNKEN;

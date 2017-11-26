@@ -5,6 +5,7 @@
 #include "bwPainter.h"
 #include "bwRange.h"
 #include "bwStyleManager.h"
+#include "bwUtil.h"
 
 #include "Event.h"
 #include "Font.h"
@@ -18,8 +19,8 @@
 using namespace bWidgetsDemo;
 using namespace bWidgets; // Less verbose
 
-std::unique_ptr<bWidgets::bwStyle> Stage::style = nullptr;
-std::unique_ptr<Font> Stage::font = nullptr;
+bwPointer<bwStyle> Stage::style = nullptr;
+bwPointer<Font> Stage::font = nullptr;
 float Stage::interface_scale = 1.0f;
 
 
@@ -29,7 +30,7 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 	initFonts();
 
 	// After font-init!
-	bwPainter::paint_engine = std::unique_ptr<GawainPaintEngine>(new GawainPaintEngine(*font));
+	bwPainter::paint_engine = bwPointer_new<GawainPaintEngine>(*font);
 
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
 	style_manager.registerDefaultStyleTypes();
@@ -51,14 +52,14 @@ void Stage::initFonts()
 	Font::initFontReading();
 
 	// Initialize default font
-	font = std::unique_ptr<Font>(Font::loadFont("bfont.ttf", RESOURCES_PATH_STR));
+	font = bwPointer<Font>(Font::loadFont("bfont.ttf", RESOURCES_PATH_STR));
 	font->setSize(11.0f * interface_scale);
 }
 
 void Stage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
-	style = std::unique_ptr<bwStyle>(style_manager.createStyleFromTypeID(type_id));
+	style = bwPointer<bwStyle>(style_manager.createStyleFromTypeID(type_id));
 	style->dpi_fac = interface_scale;
 }
 
@@ -86,9 +87,8 @@ void Stage::drawScrollbars()
 		const unsigned int padding = (unsigned int)(4 * interface_scale);
 
 		if (!scrollbar) {
-			scrollbar = std::unique_ptr<bwScrollBar>(new bwScrollBar(getScrollbarWidth(), mask_height));
-			scrollbar->apply_functor = std::unique_ptr<ScrollbarApplyValueFunctor>(
-			                               new ScrollbarApplyValueFunctor(*this, *scrollbar));
+			scrollbar = bwPointer_new<bwScrollBar>(getScrollbarWidth(), mask_height);
+			scrollbar->apply_functor = bwPointer_new<ScrollbarApplyValueFunctor>(*this, *scrollbar);
 		}
 
 		scrollbar->rectangle = bwRectanglePixel(

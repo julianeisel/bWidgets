@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bwTextBox.h"
+#include "bwUtil.h"
 
 namespace bWidgets {
 
@@ -29,7 +30,7 @@ public:
 	float getValue() const;
 	void setMinMax(float min, float max);
 
-	std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
+	bwPointer<bwFunctorInterface> apply_functor{nullptr};
 
 private:
 	std::string valueToString(unsigned int precision) const;
