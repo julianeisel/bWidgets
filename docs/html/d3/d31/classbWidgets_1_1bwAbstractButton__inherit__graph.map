@@ -1,0 +1,7 @@
+<map id="bWidgets::bwAbstractButton" name="bWidgets::bwAbstractButton">
+<area shape="rect" id="node3" href="$dc/d5e/classbWidgets_1_1bwCheckbox.html" title="bWidgets::bwCheckbox" alt="" coords="440,5,601,32"/>
+<area shape="rect" id="node4" href="$df/d81/classbWidgets_1_1bwPushButton.html" title="bWidgets::bwPushButton" alt="" coords="435,56,606,83"/>
+<area shape="rect" id="node5" href="$d0/d76/classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed. " alt="" coords="433,107,608,133"/>
+<area shape="rect" id="node6" href="$df/d33/classbWidgets_1_1bwScrollBar.html" title="bWidgets::bwScrollBar" alt="" coords="443,157,598,184"/>
+<area shape="rect" id="node2" href="$db/d59/classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="5,81,148,108"/>
+</map>

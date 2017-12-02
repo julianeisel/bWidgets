@@ -1,0 +1,5 @@
+<map id="bWidgets::bwRadioButton" name="bWidgets::bwRadioButton">
+<area shape="rect" id="node2" href="$dc/d96/classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="5,185,195,212"/>
+<area shape="rect" id="node3" href="$db/d59/classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="29,109,171,136"/>
+<area shape="rect" id="node4" href="$d1/d9e/structbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="19,5,181,47"/>
+</map>
