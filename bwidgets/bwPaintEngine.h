@@ -8,7 +8,7 @@ enum TextAlignment: unsigned int;
 
 /**
  * \class bwPaintEngine
- * \brief Abstract class for drawing of geometry and text.
+ * \brief Main interface to implement any drawing of geometry or text.
  *
  * bwPaintEngine mainly gives us two benefits:
  * * Abstracting away any drawing to the application, out of bWidgets.
