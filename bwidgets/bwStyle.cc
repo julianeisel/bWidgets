@@ -15,7 +15,6 @@ bwStyle::bwStyle(StyleTypeID type_id, bwWidgetStyleArray& widget_styles) :
 
 bwWidgetStyle::bwWidgetStyle() :
 	text_alignment(TEXT_ALIGN_LEFT), roundbox_corners(NONE)
-
 {
 
 }
@@ -37,22 +36,22 @@ const bwColor& bwWidgetStyle::getColor(
 	return colors.sunken;
 }
 
-const bwColor&bwWidgetStyle::backgroundColor(const bwWidget::WidgetState state) const
+const bwColor& bwWidgetStyle::backgroundColor(const bwWidget::WidgetState state) const
 {
 	return getColor(WIDGET_STYLE_COLOR_BACKGROUND, state);
 }
 
-const bwColor&bwWidgetStyle::textColor(const bwWidget::WidgetState state) const
+const bwColor& bwWidgetStyle::textColor(const bwWidget::WidgetState state) const
 {
 	return getColor(WIDGET_STYLE_COLOR_TEXT, state);
 }
 
-const bwColor&bwWidgetStyle::outlineColor(const bwWidget::WidgetState state) const
+const bwColor& bwWidgetStyle::outlineColor(const bwWidget::WidgetState state) const
 {
 	return getColor(WIDGET_STYLE_COLOR_OUTLINE, state);
 }
 
-const bwColor&bwWidgetStyle::decorationColor(const bwWidget::WidgetState state) const
+const bwColor& bwWidgetStyle::decorationColor(const bwWidget::WidgetState state) const
 {
 	return getColor(WIDGET_STYLE_COLOR_DECORATION, state);
 }
