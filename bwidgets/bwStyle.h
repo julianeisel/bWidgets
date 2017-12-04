@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <string>
 
 #include "bwColor.h"
@@ -30,6 +31,8 @@ public:
 		WIDGET_STYLE_COLOR_TOT
 	};
 
+	bwWidgetStyle();
+
 	const bwColor& getColor(const WidgetStyleColorID, const bwWidget::WidgetState) const;
 	const bwColor& backgroundColor(const bwWidget::WidgetState state) const;
 	const bwColor& textColor(const bwWidget::WidgetState state) const;
@@ -39,11 +42,11 @@ public:
 	float shadeBottom(const bwWidget::WidgetState state) const;
 
 	bwWidgetStateColors state_colors[WIDGET_STYLE_COLOR_TOT];
-	char shade_top, shade_bottom;
-	bool invert_shade_on_sunken;
-	TextAlignment text_alignment;
-	float roundbox_radius;
-	unsigned int roundbox_corners;
+	char shade_top{0}, shade_bottom{0};
+	bool invert_shade_on_sunken{false};
+	TextAlignment text_alignment; // Default value set in constructor.
+	float roundbox_radius{0.0f};
+	unsigned int roundbox_corners; // Default value set in constructor.
 };
 
 class bwStyle
@@ -62,7 +65,8 @@ public:
 
 	virtual void setWidgetStyle(const class bwWidget& widget) = 0;
 
-	bwWidgetStyle widget_styles[bwWidget::WIDGET_TYPE_TOT];
+	using bwWidgetStyleArray = std::array<bwWidgetStyle, bwWidget::WIDGET_TYPE_TOT>;
+	bwWidgetStyleArray& widget_styles;
 
 	float dpi_fac;
 
@@ -73,7 +77,7 @@ public:
 	};
 
 protected:
-	bwStyle(StyleTypeID type_id, const bwWidgetStyle (&widget_styles)[bwWidget::WIDGET_TYPE_TOT]);
+	bwStyle(StyleTypeID type_id, bwWidgetStyleArray& widget_styles);
 };
 
 } // namespace bWidgets

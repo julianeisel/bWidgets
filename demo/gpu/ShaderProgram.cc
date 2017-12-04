@@ -1,3 +1,4 @@
+#include <array>
 #include <cassert>
 #include <fstream>
 #include <iostream>
@@ -21,24 +22,39 @@ typedef enum ShaderTypeID {
 	SHADER_TYPE_TOT
 } ShaderTypeID;
 
-typedef struct ShaderType {
+class ShaderType
+{
+public:
+	ShaderType(ShaderTypeID id, GLuint gl_id) :
+		id(id), gl_id(gl_id)
+	{
+
+	}
+
 	ShaderTypeID id;
 	GLuint gl_id;
-} ShaderType;
-
-static ShaderType shader_types[SHADER_TYPE_TOT] = {
-	[SHADER_TYPE_VERTEX] = {.id = SHADER_TYPE_VERTEX, .gl_id = GL_VERTEX_SHADER},
-	[SHADER_TYPE_FRAGMENT] = {.id = SHADER_TYPE_FRAGMENT, .gl_id = GL_FRAGMENT_SHADER},
 };
 
-typedef struct ShaderProgramType {
-	const std::string shader_names[SHADER_TYPE_TOT];
-} ShaderProgramType;
+static ShaderType shader_types[SHADER_TYPE_TOT] = {
+	ShaderType{SHADER_TYPE_VERTEX, GL_VERTEX_SHADER},
+	ShaderType{SHADER_TYPE_FRAGMENT, GL_FRAGMENT_SHADER},
+};
+
+class ShaderProgramType
+{
+public:
+	ShaderProgramType(const std::array<std::string, SHADER_TYPE_TOT>& names) :
+		shader_names(names)
+	{
+
+	}
+	std::array<std::string, SHADER_TYPE_TOT> shader_names;
+};
 
 static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_TOT] = {
-	[ShaderProgram::ID_UNIFORM_COLOR] = {"uniform_color_vert.glsl", "uniform_color_frag.glsl"},
-	[ShaderProgram::ID_SMOOTH_COLOR] = {"smooth_color_vert.glsl", "smooth_color_frag.glsl"},
-	[ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR] = {"texture_vert.glsl", "bitmap_texture_uniform_color_frag.glsl"},
+	ShaderProgramType{{"uniform_color_vert.glsl", "uniform_color_frag.glsl"}},
+	ShaderProgramType{{"smooth_color_vert.glsl", "smooth_color_frag.glsl"}},
+	ShaderProgramType{{"texture_vert.glsl", "bitmap_texture_uniform_color_frag.glsl"}},
 };
 
 } // namespace bWidgetsDemo

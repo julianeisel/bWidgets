@@ -20,7 +20,7 @@ public:
 	void operator=(const float rgb);
 
 	bool operator==(const bwColor& compare_color) const;
-	float& operator[](unsigned int index);
+	float& operator[](int index);
 	// Implicit conversion to float*
 	operator const float*() const;
 

@@ -352,7 +352,7 @@ void WidgetLayoutItem::fitWidgetToItem(
 
 void WidgetLayoutItem::alignmentSanityCheck(const LayoutItem& parent) const
 {
-	assert(iterator_item != IteratorItem(nullptr));
+	assert(*iterator_item != nullptr);
 	assert(parent.hasChild(*this));
 	assert(static_cast<const WidgetLayoutItem*>(this)->canAlignWidgetItem());
 

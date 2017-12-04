@@ -47,7 +47,7 @@ private:
 			float min, max;
 			// Initial value before starting to edit.
 			float initial_value;
-			float precision;
+			unsigned int precision;
 		};
 		// struct { int value; ...}
 		// struct { char value; ...}

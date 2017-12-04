@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 
@@ -24,7 +25,7 @@ bwPainter::bwPainter() :
 static bool painter_check_paint_engine(const bwPainter& painter)
 {
 	if (painter.paint_engine == nullptr) {
-		std::cout << __PRETTY_FUNCTION__ << "-- Error: No paint-engine set!" << std::endl;
+		std::cout << PRETTY_FUNCTION << "-- Error: No paint-engine set!" << std::endl;
 		return false;
 	}
 

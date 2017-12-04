@@ -6,6 +6,15 @@
 namespace bWidgets {
 
 /**
+ * Portable version of __PRETTY_FUNCTION__.
+ */
+#ifdef _MSC_VER
+#  define PRETTY_FUNCTION __FUNCSIG__
+#else
+#  define PRETTY_FUNCTION __PRETTY_FUNCTION__
+#endif
+
+/**
  * \brief Alias for `std::unique_ptr()`.
  *
  * With this,`std::unique_ptr()` follows our naming conventions.

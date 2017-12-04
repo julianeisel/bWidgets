@@ -1,14 +1,23 @@
 #include <cassert>
 
+#include "bwPainter.h"
+
 #include "bwStyle.h"
 
 using namespace bWidgets;
 
 
-bwStyle::bwStyle(StyleTypeID type_id, const bwWidgetStyle (&widget_styles)[bwWidget::WIDGET_TYPE_TOT]) :
+bwStyle::bwStyle(StyleTypeID type_id, bwWidgetStyleArray& widget_styles) :
     type_id(type_id), widget_styles(widget_styles), dpi_fac(1.0f)
 {
 	
+}
+
+bwWidgetStyle::bwWidgetStyle() :
+	text_alignment(TEXT_ALIGN_LEFT), roundbox_corners(NONE)
+
+{
+
 }
 
 const bwColor& bwWidgetStyle::getColor(

@@ -1,3 +1,4 @@
+#include <array>
 #include <iostream>
 #include <cstring>
 
@@ -17,12 +18,27 @@ extern "C" {
 
 namespace bWidgetsDemo {
 
-typedef struct MatrixStack {
-	glm::mat4 stack[MATRIX_STACK_DEPTH];
-	unsigned int top;
-} MatrixStack;
+class MatrixStack
+{
+public:
+	MatrixStack(const glm::mat4& top_mat = glm::mat4{})
+	{
+		stack[top] = top_mat;
+	}
 
-typedef struct {
+	glm::mat4 stack[MATRIX_STACK_DEPTH];
+	unsigned int top{0};
+};
+
+class MatrixState
+{
+public:
+	MatrixState(MatrixStack model_view_stack, MatrixStack projection_stack) :
+		model_view_stack(model_view_stack), projection_stack(projection_stack), dirty(true)
+	{
+
+	}
+
 	MatrixStack model_view_stack;
 	MatrixStack projection_stack;
 
@@ -34,22 +50,11 @@ typedef struct {
 	 * TODO: separate Model from View transform? Batches/objects have model,
 	 * camera/eye has view & projection
 	 */
-} MatrixState;
-
-#define MATRIX_4X4_IDENTITY {{1.0f, 0.0f, 0.0f, 0.0f}, \
-                             {0.0f, 1.0f, 0.0f, 0.0f}, \
-                             {0.0f, 0.0f, 1.0f, 0.0f}, \
-                             {0.0f, 0.0f, 0.0f, 1.0f}}
-
-static MatrixState state = {
-	.model_view_stack = {{MATRIX_4X4_IDENTITY}, 0},
-	.projection_stack = {{MATRIX_4X4_IDENTITY}, 0},
-	.dirty = true
 };
 
-} // namespace bWidgetsDemo
+static MatrixState state{MatrixStack{}, MatrixStack{}};
 
-#undef MATRIX_4X4_IDENTITY
+} // namespace bWidgetsDemo
 
 #define ModelViewStack state.model_view_stack
 #define ModelView ModelViewStack.stack[ModelViewStack.top]

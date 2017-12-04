@@ -26,12 +26,12 @@ set(GPU_INC
 )
 
 find_package(Freetype REQUIRED)
+find_package(OpenGL REQUIRED)
+list(APPEND LIB ${OPENGL_LIBRARIES})
 
 add_executable(bWidgetsDemo ${SRC})
 include_directories(${INC})
 target_link_libraries(bWidgetsDemo LINK_PUBLIC ${LIB})
-
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lGL")
 
 # --- Resource files ---
 
