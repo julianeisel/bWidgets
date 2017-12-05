@@ -11,5 +11,5 @@ set(SRC
 	include/GL/wglew.h
 )
 
-add_library(extern_glew ${SRC})
-include_directories(extern_glew ${INC})
+add_library(bwd_extern_glew ${SRC})
+include_directories(bwd_extern_glew ${INC})

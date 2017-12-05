@@ -2,7 +2,7 @@
 #include <iostream>
 
 extern "C" {
-#include "../../extern/gawain/gawain/immediate.h"
+#include "../extern/gawain/gawain/immediate.h"
 }
 
 #include "GPU.h"

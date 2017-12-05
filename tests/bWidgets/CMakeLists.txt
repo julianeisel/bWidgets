@@ -10,7 +10,7 @@ endif()
 
 set(INC
 	../../bwidgets/generics
-	../../extern/gtest/include
+	../gtest/include
 )
 
 set(SRC
@@ -19,8 +19,8 @@ set(SRC
 
 set(LIB
 	bw_generics
+	testing_gtest
 	testing_main
-	extern_gtest
 )
 
 set(SYS_LIB

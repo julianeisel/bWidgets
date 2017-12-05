@@ -20,8 +20,8 @@ set(SRC
 )
 
 set(LIB
-	extern_gawain
-	extern_glew
+	bwd_extern_gawain
+	bwd_extern_glew
 	glfw
 )
 

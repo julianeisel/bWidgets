@@ -45,5 +45,5 @@ set(SRC
 	include/gtest/internal/gtest-type-util.h
 )
 
-add_library(extern_gtest ${SRC})
+add_library(testing_gtest ${SRC})
 include_directories(${INC})

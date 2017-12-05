@@ -3,7 +3,7 @@
 #include <cstring>
 
 extern "C" {
-#include "../../extern/gawain/gawain/shader_interface.h"
+#include "../extern/gawain/gawain/shader_interface.h"
 }
 
 #include "gpu_intern.h"

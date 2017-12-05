@@ -17,7 +17,7 @@ set(SRC
 
 set(LIB
 	bwd_gpu
-	extern_glew
+	bwd_extern_glew
 )
 
 add_library(bwd_window_manager ${SRC})

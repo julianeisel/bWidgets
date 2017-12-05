@@ -29,12 +29,12 @@ set(SRC
 )
 
 set(LIB
-	extern_glew
+	bwd_extern_glew
 	bwd_gpu
 )
 
 add_definitions(-DWITH_GL_PROFILE_CORE)
 
-add_library(extern_gawain ${SRC})
+add_library(bwd_extern_gawain ${SRC})
 include_directories(${INC})
-target_link_libraries(extern_gawain ${LIB})
+target_link_libraries(bwd_extern_gawain ${LIB})

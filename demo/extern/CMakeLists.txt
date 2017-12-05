@@ -6,7 +6,3 @@ add_subdirectory(gawain)
 add_subdirectory(glew)
 add_subdirectory(glfw)
 add_subdirectory(glm)
-
-if(WITH_GTESTS)
-	add_subdirectory(gtest)
-endif()

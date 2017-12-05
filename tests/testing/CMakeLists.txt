@@ -5,7 +5,7 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 set(INC
-	../../extern/gtest/include
+	../gtest/include
 )
 
 set(SRC

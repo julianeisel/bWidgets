@@ -20,9 +20,9 @@ set(LIB
 )
 
 set(GPU_INC
-	../../extern/glfw/include
-	../../extern/glew/include
-	../../extern/glm
+	../extern/glfw/include
+	../extern/glew/include
+	../extern/glm
 )
 
 find_package(Freetype REQUIRED)
@@ -58,6 +58,7 @@ add_definitions(-DRESOURCES_PATH_STR="${RESOURCES_PATH}")
 
 # --- subdirectories ---
 
-add_subdirectory(window_manager)
-add_subdirectory(screen)
+add_subdirectory(extern)
 add_subdirectory(gpu)
+add_subdirectory(screen)
+add_subdirectory(window_manager)
