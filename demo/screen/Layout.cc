@@ -11,6 +11,7 @@ using namespace bWidgetsDemo;
 using namespace bWidgets; // Less verbose
 
 
+namespace bWidgetsDemo {
 /**
  * \brief Layout-item wrapping a widget to place it within a parent layout.
  */
@@ -31,6 +32,7 @@ public:
 
 	bwWidget& widget;
 };
+} // namespace bWidgetsDemo
 
 
 LayoutItem::LayoutItem(

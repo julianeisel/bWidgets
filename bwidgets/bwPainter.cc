@@ -130,7 +130,7 @@ void bwPainter::drawCheckMark(
 	drawPolygon(polygon);
 }
 
-
+namespace bWidgets {
 class PolygonRoundboxCreator
 {
 public:
@@ -175,6 +175,7 @@ private:
 	float radius_inner;
 	bool is_outline;
 };
+} // namespace bWidgets
 constexpr float PolygonRoundboxCreator::cornervec[ROUNDCORNER_RESOLUTION][2];
 
 void PolygonRoundboxCreator::addVertsBottomLeft(bwPolygon& polygon) const
