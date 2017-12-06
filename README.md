@@ -49,8 +49,6 @@ The demo application has basic features like a primitive layout system, font dra
   <img src="https://julianeisel.github.io/bWidgets/images/bwidgets_demo_screenshot.png">
 </p>
 
-
-
 Further, there is a documentation and unit testing framework for both bWidgets and its demo application.
 
 ## Future Plans
