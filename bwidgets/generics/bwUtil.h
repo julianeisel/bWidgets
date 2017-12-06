@@ -55,6 +55,17 @@ inline bwPointer<_PointerType> bwPointer_new(_Args&&... args)
 	return bwPointer<_PointerType>(new _PointerType(std::forward<_Args>(args)...));
 }
 
+/**
+ * \overload
+ * Technically not needed since overloaded version also accepts no arguments.
+ * Doing so confuses some IDE's however, which this overload fixes.
+ */
+template<typename _PointerType>
+inline bwPointer<_PointerType> bwPointer_new()
+{
+	return bwPointer<_PointerType>(new _PointerType());
+}
+
 } // namespace bWidgets
 
 /**

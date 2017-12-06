@@ -11,19 +11,26 @@ namespace bWidgets {
  * The implementation is currently pretty simple and limited, it's however all we need for
  * now. More features like unlimited stops at custom positions could be added if needed.
  */
-struct bwGradient
+class bwGradient
 {
+public:
 	enum Direction {
 		DIRECTION_TOP_BOTTOM,
 		DIRECTION_LEFT_RIGHT,
 	};
 
-	bwColor begin, end;
-	Direction direction;
+	bwGradient() = default;
+	explicit bwGradient(
+	        bwColor base_color,
+	        float shade_begin, float shade_end,
+	        Direction direction = DIRECTION_TOP_BOTTOM);
 
 	bwColor calcPointColor(
 	        const class bwPoint& point,
 	        const bwRectanglePixel& bounding_box) const;
+
+	bwColor begin, end;
+	Direction direction{DIRECTION_TOP_BOTTOM};
 };
 
 } // namespace bWidgets

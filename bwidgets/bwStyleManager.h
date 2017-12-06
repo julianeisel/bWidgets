@@ -18,7 +18,7 @@ public:
 
 	void registerDefaultStyleTypes();
 
-	typedef std::array<bwStyle::StyleType, bwStyle::STYLE_BUILTIN_TOT> StyleTypeArray;
+	using StyleTypeArray = std::array<bwStyle::StyleType, bwStyle::STYLE_BUILTIN_TOT>;
 	const StyleTypeArray& getBuiltinStyleTypes() const;
 
 private:

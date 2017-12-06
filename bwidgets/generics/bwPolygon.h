@@ -4,7 +4,7 @@
 
 namespace bWidgets {
 
-typedef std::vector<class bwPoint> bwPointVec;
+using bwPointVec = std::vector<class bwPoint>;
 
 class bwPolygon
 {

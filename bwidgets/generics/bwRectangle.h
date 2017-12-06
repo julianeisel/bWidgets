@@ -60,7 +60,7 @@ struct bwRectangle
 	T ymin, ymax;
 };
 
-// useful typedefs
-typedef bwRectangle<int> bwRectanglePixel;
+// useful aliases
+using bwRectanglePixel = bwRectangle<int>;
 
 } // namespace bWidgets

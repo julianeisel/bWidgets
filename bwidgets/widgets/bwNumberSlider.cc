@@ -35,9 +35,9 @@ void bwNumberSlider::draw(bwStyle& style) const
 	painter.setContentMask(inner_rect); // Not sure if we should set this here.
 
 	painter.enableGradient(
-	            widget_style.backgroundColor(state),
-	            widget_style.shadeTop(state), widget_style.shadeBottom(state),
-	            bwGradient::DIRECTION_TOP_BOTTOM);
+	            bwGradient(widget_style.backgroundColor(state),
+	                       widget_style.shadeTop(state),
+	                       widget_style.shadeBottom(state)));
 	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, radius - 1.0f);
 
 	painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
@@ -49,35 +49,7 @@ void bwNumberSlider::draw(bwStyle& style) const
 		painter.drawRectangle(selection_rectangle);
 	}
 	else {
-		// Value indicator
-		bwRectanglePixel indicator_offset_rect = rectangle;
-		bwRectanglePixel indicator_rect = rectangle;
-		unsigned int roundbox_corners = widget_style.roundbox_corners;
-		float right_side_radius = radius;
-
-		indicator_offset_rect.xmax = indicator_offset_rect.xmin + right_side_radius;
-
-		indicator_rect.xmin = indicator_offset_rect.xmax;
-		indicator_rect.xmax = indicator_rect.xmin + calcValueIndicatorWidth(style);
-		if (indicator_rect.xmax > (rectangle.xmax - right_side_radius)) {
-			right_side_radius *= (indicator_rect.xmax + right_side_radius - rectangle.xmax) / right_side_radius;
-		}
-		else {
-			roundbox_corners &= ~(TOP_RIGHT | BOTTOM_RIGHT);
-		}
-
-		painter.enableGradient(
-		            widget_style.decorationColor(state),
-		            // shadeTop/Bottom intentionally inverted
-		            widget_style.shadeBottom(state), widget_style.shadeTop(state),
-		            bwGradient::DIRECTION_TOP_BOTTOM);
-		painter.drawRoundbox(
-		            indicator_offset_rect,
-		            roundbox_corners & ~(TOP_RIGHT | BOTTOM_RIGHT),
-		            radius);
-		painter.drawRoundbox(indicator_rect,
-		                     roundbox_corners & ~(TOP_LEFT | BOTTOM_LEFT),
-		                     right_side_radius);
+		drawValueIndicator(painter, style);
 	}
 
 	// Outline
@@ -90,6 +62,43 @@ void bwNumberSlider::draw(bwStyle& style) const
 		painter.drawText(text, rectangle, widget_style.text_alignment);
 	}
 	painter.drawText(valueToString(precision), rectangle, is_text_editing ? TEXT_ALIGN_LEFT : TEXT_ALIGN_RIGHT);
+}
+
+void bwNumberSlider::drawValueIndicator(
+        bwPainter& painter,
+        bwStyle& style) const
+{
+	bwWidgetStyle& widget_style = style.widget_styles[type];
+	bwGradient gradient = bwGradient(
+	                widget_style.decorationColor(state),
+	                // shadeTop/Bottom intentionally inverted
+	                widget_style.shadeBottom(state), widget_style.shadeTop(state));
+	bwRectanglePixel indicator_offset_rect = rectangle;
+	bwRectanglePixel indicator_rect = rectangle;
+	unsigned int roundbox_corners = widget_style.roundbox_corners;
+	const float radius = widget_style.roundbox_radius * style.dpi_fac;
+	float right_side_radius = radius;
+
+	indicator_offset_rect.xmax = indicator_offset_rect.xmin + right_side_radius;
+
+	indicator_rect.xmin = indicator_offset_rect.xmax;
+	indicator_rect.xmax = indicator_rect.xmin + calcValueIndicatorWidth(style);
+	if (indicator_rect.xmax > (rectangle.xmax - right_side_radius)) {
+		right_side_radius *= (indicator_rect.xmax + right_side_radius - rectangle.xmax) / right_side_radius;
+	}
+	else {
+		roundbox_corners &= ~(TOP_RIGHT | BOTTOM_RIGHT);
+	}
+
+	painter.enableGradient(gradient);
+	painter.drawRoundbox(
+	            indicator_offset_rect,
+	            roundbox_corners & ~(TOP_RIGHT | BOTTOM_RIGHT),
+	            radius);
+	painter.drawRoundbox(
+	            indicator_rect,
+	            roundbox_corners & ~(TOP_LEFT | BOTTOM_LEFT),
+	            right_side_radius);
 }
 
 void bwNumberSlider::mousePressEvent(

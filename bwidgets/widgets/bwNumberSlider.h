@@ -34,6 +34,9 @@ public:
 
 private:
 	std::string valueToString(unsigned int precision) const;
+	void drawValueIndicator(
+	        class bwPainter& painter,
+	        class bwStyle& style) const;
 	float calcValueIndicatorWidth(class bwStyle& style) const;
 
 	/**

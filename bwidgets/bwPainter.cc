@@ -87,20 +87,13 @@ const bwRectanglePixel& bwPainter::getContentMask() const
 	return content_mask;
 }
 
-void bwPainter::enableGradient(
-        const bwColor& base_color,
-        const float shade_begin, const float shade_end,
-        const bwGradient::Direction direction)
+void bwPainter::enableGradient(const bwGradient gradient)
 {
 	if (!active_gradient) {
 		active_gradient = bwPointer_new<bwGradient>();
 	}
 
-	active_gradient->begin = base_color;
-	active_gradient->begin.shade(shade_begin);
-	active_gradient->end = base_color;
-	active_gradient->end.shade(shade_end);
-	active_gradient->direction = direction;
+	*active_gradient = gradient;
 }
 
 bool bwPainter::isGradientEnabled() const
@@ -138,45 +131,58 @@ void bwPainter::drawCheckMark(
 }
 
 
-#define WIDGET_CURVE_RESOLU 9
-
-static const float cornervec[WIDGET_CURVE_RESOLU][2] = {
-	{0.0, 0.0},
-	{0.195, 0.02},
-	{0.383, 0.067},
-	{0.55, 0.169},
-	{0.707, 0.293},
-	{0.831, 0.45},
-	{0.924, 0.617},
-	{0.98, 0.805},
-	{1.0, 1.0}
-};
-
-static void PolygonRoundboxAddVerts(
-        bwPolygon& polygon, const bwRectanglePixel& rect,
-        unsigned int corners, const float radius, const bool is_outline)
+class PolygonRoundboxCreator
 {
-	bwRectanglePixel rect_inner = rect;
-	const float radius_inner = radius - 1.0f;
-	float vec_outer[WIDGET_CURVE_RESOLU][2];
-	float vec_inner[WIDGET_CURVE_RESOLU][2];
-	int i;
+public:
+	PolygonRoundboxCreator(
+	        const bwRectanglePixel& rect,
+	        const unsigned int corners,
+	        const float radius,
+	        const bool is_outline);
 
-	for (i = 0; i < WIDGET_CURVE_RESOLU; i++) {
-		vec_outer[i][0] = radius * cornervec[i][0];
-		vec_outer[i][1] = radius * cornervec[i][1];
+	void addVerts(bwPolygon& polygon);
 
-		vec_inner[i][0] = radius_inner * cornervec[i][0];
-		vec_inner[i][1] = radius_inner * cornervec[i][1];
-	}
-	rect_inner.resize(-1);
+private:
+	void startRoundbox(const bwPolygon& polygon);
+	void endRoundbox(bwPolygon& polygon) const;
+	void addVertsBottomLeft(bwPolygon& polygon) const;
+	void addVertsBottomRight(bwPolygon& polygon) const;
+	void addVertsTopRight(bwPolygon& polygon) const;
+	void addVertsTopLeft(bwPolygon& polygon) const;
 
-	// Assumes all corners are rounded so may reserve more than needed. That's fine though.
-	polygon.reserve((WIDGET_CURVE_RESOLU * 4 + 1) * (is_outline ? 2 : 1));
+	static const int ROUNDCORNER_RESOLUTION = 9;
+	static constexpr float cornervec[ROUNDCORNER_RESOLUTION][2] = {
+		{0.0, 0.0},
+		{0.195, 0.02},
+		{0.383, 0.067},
+		{0.55, 0.169},
+		{0.707, 0.293},
+		{0.831, 0.45},
+		{0.924, 0.617},
+		{0.98, 0.805},
+		{1.0, 1.0}
+	};
 
+	bwRectanglePixel rect;
+	bwRectanglePixel rect_inner;
+
+	float vec_outer[ROUNDCORNER_RESOLUTION][2];
+	float vec_inner[ROUNDCORNER_RESOLUTION][2];
+
+	int start_vertex_count;
+	unsigned int corners;
+	float radius;
+	float radius_inner;
+	bool is_outline;
+};
+constexpr float PolygonRoundboxCreator::cornervec[ROUNDCORNER_RESOLUTION][2];
+
+void PolygonRoundboxCreator::addVertsBottomLeft(bwPolygon& polygon) const
+{
 	if (corners & BOTTOM_LEFT) {
-		for (i = 0; i < WIDGET_CURVE_RESOLU; i++) {
+		for (int i = 0; i < ROUNDCORNER_RESOLUTION; i++) {
 			polygon.addVertex(rect.xmin + vec_outer[i][1], rect.ymin + radius - vec_outer[i][0]);
+
 			if (is_outline) {
 				polygon.addVertex(rect_inner.xmin + vec_inner[i][1], rect_inner.ymin + radius_inner - vec_inner[i][0]);
 			}
@@ -188,9 +194,12 @@ static void PolygonRoundboxAddVerts(
 			polygon.addVertex(rect_inner.xmin, rect_inner.ymin);
 		}
 	}
+}
 
+void PolygonRoundboxCreator::addVertsBottomRight(bwPolygon& polygon) const
+{
 	if (corners & BOTTOM_RIGHT) {
-		for (i = 0; i < WIDGET_CURVE_RESOLU; i++) {
+		for (int i = 0; i < ROUNDCORNER_RESOLUTION; i++) {
 			polygon.addVertex(rect.xmax - radius + vec_outer[i][0], rect.ymin + vec_outer[i][1]);
 			if (is_outline) {
 				polygon.addVertex(rect_inner.xmax - radius_inner + vec_inner[i][0], rect_inner.ymin + vec_inner[i][1]);
@@ -203,9 +212,12 @@ static void PolygonRoundboxAddVerts(
 			polygon.addVertex(rect_inner.xmax, rect_inner.ymin);
 		}
 	}
+}
 
+void PolygonRoundboxCreator::addVertsTopRight(bwPolygon& polygon) const
+{
 	if (corners & TOP_RIGHT) {
-		for (i = 0; i < WIDGET_CURVE_RESOLU; i++) {
+		for (int i = 0; i < ROUNDCORNER_RESOLUTION; i++) {
 			polygon.addVertex(rect.xmax - vec_outer[i][1], rect.ymax - radius + vec_outer[i][0]);
 			if (is_outline) {
 				polygon.addVertex(rect_inner.xmax - vec_inner[i][1], rect_inner.ymax - radius_inner + vec_inner[i][0]);
@@ -218,9 +230,12 @@ static void PolygonRoundboxAddVerts(
 			polygon.addVertex(rect_inner.xmax, rect_inner.ymax);
 		}
 	}
+}
 
+void PolygonRoundboxCreator::addVertsTopLeft(bwPolygon& polygon) const
+{
 	if (corners & TOP_LEFT) {
-		for (i = 0; i < WIDGET_CURVE_RESOLU; i++) {
+		for (int i = 0; i < ROUNDCORNER_RESOLUTION; i++) {
 			polygon.addVertex(rect.xmin + radius - vec_outer[i][0], rect.ymax - vec_outer[i][1]);
 			if (is_outline) {
 				polygon.addVertex(rect_inner.xmin + radius_inner - vec_inner[i][0], rect_inner.ymax - vec_inner[i][1]);
@@ -233,20 +248,56 @@ static void PolygonRoundboxAddVerts(
 			polygon.addVertex(rect_inner.xmin, rect_inner.ymax);
 		}
 	}
+}
 
+PolygonRoundboxCreator::PolygonRoundboxCreator(
+        const bwRectanglePixel& rect,
+        const unsigned int corners,
+        const float _radius,
+        const bool is_outline) :
+    rect(rect), rect_inner(rect),
+    corners(corners),
+    radius(_radius), radius_inner(_radius - 1.0f),
+    is_outline(is_outline)
+{
+	for (int i = 0; i < ROUNDCORNER_RESOLUTION; i++) {
+		vec_outer[i][0] = radius * cornervec[i][0];
+		vec_outer[i][1] = radius * cornervec[i][1];
+
+		vec_inner[i][0] = radius_inner * cornervec[i][0];
+		vec_inner[i][1] = radius_inner * cornervec[i][1];
+	}
+	rect_inner.resize(-1);
+}
+
+void PolygonRoundboxCreator::startRoundbox(const bwPolygon& polygon)
+{
+	start_vertex_count = polygon.getVertices().size();
+}
+
+void PolygonRoundboxCreator::endRoundbox(bwPolygon& polygon) const
+{
+	unsigned int first_vert_index = std::max(0, start_vertex_count - 1);
 	// Back to start
-	if (corners & BOTTOM_LEFT) {
-		polygon.addVertex(rect.xmin, rect.ymin + radius);
-		if (is_outline) {
-			polygon.addVertex(rect_inner.xmin, rect_inner.ymin + radius_inner);
-		}
+	polygon.addVertex(polygon[first_vert_index]);
+	if (is_outline) {
+		polygon.addVertex(polygon[first_vert_index + 1]);
 	}
-	else {
-		polygon.addVertex(rect.xmin, rect.ymin);
-		if (is_outline) {
-			polygon.addVertex(rect_inner.xmin, rect_inner.ymin);
-		}
-	}
+}
+
+void PolygonRoundboxCreator::addVerts(bwPolygon& polygon)
+{
+	// Assumes all corners are rounded so may reserve more than needed. That's fine though.
+	polygon.reserve((ROUNDCORNER_RESOLUTION * 4 + 1) * (is_outline ? 2 : 1));
+
+	startRoundbox(polygon);
+
+	addVertsBottomLeft(polygon);
+	addVertsBottomRight(polygon);
+	addVertsTopRight(polygon);
+	addVertsTopLeft(polygon);
+
+	endRoundbox(polygon);
 }
 
 unsigned int getRoundboxMinsize(
@@ -275,7 +326,9 @@ void bwPainter::drawRoundbox(
 		validated_radius = 0.5f * minsize;
 	}
 
-	PolygonRoundboxAddVerts(polygon, rect, corners, validated_radius, active_drawtype == DRAW_TYPE_OUTLINE);
+	PolygonRoundboxCreator roundbox_creator{rect, corners, validated_radius, active_drawtype == DRAW_TYPE_OUTLINE};
+	roundbox_creator.addVerts(polygon);
+
 	if (isGradientEnabled()) {
 		fillVertexColorsWithGradient(polygon, rect);
 	}
@@ -326,9 +379,14 @@ void bwPainter::drawRoundboxWidgetBase(
         const bwWidget::WidgetState state,
         const bwStyle& style,
         const bwRectanglePixel rectangle,
-        bwGradient::Direction direction,
+        bwGradient::Direction gradient_direction,
         bwWidgetStyle::WidgetStyleColorID background_color_id)
 {
+	bwGradient gradient{
+	        widget_style.getColor(background_color_id, state),
+	        widget_style.shadeTop(state), widget_style.shadeBottom(state),
+	        gradient_direction
+	};
 	bwRectanglePixel inner_rect = rectangle;
 	const float radius = widget_style.roundbox_radius * style.dpi_fac;
 
@@ -338,10 +396,7 @@ void bwPainter::drawRoundboxWidgetBase(
 	setContentMask(inner_rect); // Not sure if we should set this here.
 
 	active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
-	enableGradient(
-	            widget_style.getColor(background_color_id, state),
-	            widget_style.shadeTop(state), widget_style.shadeBottom(state),
-	            direction);
+	enableGradient(gradient);
 	drawRoundbox(inner_rect, widget_style.roundbox_corners, radius - 1.0f);
 
 	// Outline

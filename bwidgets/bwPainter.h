@@ -52,10 +52,7 @@ public:
 	void setContentMask(const bwRectanglePixel& value);
 	const bwRectanglePixel& getContentMask() const;
 
-	void enableGradient(
-	        const bwColor& base_color,
-	        const float shade_begin, const float shade_end,
-	        const bwGradient::Direction direction);
+	void enableGradient(const bwGradient gradient);
 	bool isGradientEnabled() const;
 
 	// Primitives
@@ -69,7 +66,7 @@ public:
 	        const bwWidget::WidgetState widget,
 	        const class bwStyle& style,
 	        const bwRectanglePixel rectangle,
-	        bwGradient::Direction direction = bwGradient::DIRECTION_TOP_BOTTOM,
+	        bwGradient::Direction gradient_direction = bwGradient::DIRECTION_TOP_BOTTOM,
 	        bwWidgetStyle::WidgetStyleColorID background_color_id = bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND);
 	void drawCheckMark(
 	        const bwRectanglePixel& rect);

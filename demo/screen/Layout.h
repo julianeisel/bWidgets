@@ -73,7 +73,7 @@ protected:
 	LayoutItem* getPrevious(const LayoutItem& parent) const;
 	LayoutItem* getNext(const LayoutItem& parent) const;
 
-	typedef std::list<LayoutItem*>::const_iterator IteratorItem;
+	using IteratorItem = std::list<LayoutItem*>::const_iterator;
 
 	// The iterator-wrapper for this item, stored to avoid lookups.
 	// Only valid when item was assigned to a parent using addLayout.

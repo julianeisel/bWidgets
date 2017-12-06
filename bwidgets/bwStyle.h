@@ -45,7 +45,7 @@ public:
 	char shade_top{0}, shade_bottom{0};
 	bool invert_shade_on_sunken{false};
 	TextAlignment text_alignment; // Default value set in constructor.
-	float roundbox_radius{0.0f};
+	float roundbox_radius{0.0f};  // TODO Utility function for calculating final radius (roundbox_radius * dpi_fac).
 	unsigned int roundbox_corners; // Default value set in constructor.
 };
 
@@ -66,7 +66,7 @@ public:
 	virtual void setWidgetStyle(const class bwWidget& widget) = 0;
 
 	using bwWidgetStyleArray = std::array<bwWidgetStyle, bwWidget::WIDGET_TYPE_TOT>;
-	bwWidgetStyleArray& widget_styles;
+	bwWidgetStyleArray& widget_styles; // TODO Utility function for getting widget_style for widget.
 
 	float dpi_fac;
 
