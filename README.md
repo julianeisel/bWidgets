@@ -44,7 +44,12 @@ As of now, bWidgets basically contains a few widget definitions with simple draw
 * Primitive (and hacky) anti-aliasing for widget outlines.
 
 The demo application has basic features like a primitive layout system, font drawing using FreeType2, GLSL shader support, scrolling and DPI scaling. Most buttons are dummies showing off the bWidgets feature set.
-![bWidgets Demo screenshot not found!](docs/images/bwidgets_demo_screenshot.png "bWidgets demo application screenshot")
+
+<p align="center">
+  <img src="https://julianeisel.github.io/bWidgets/images/bwidgets_demo_screenshot.png">
+</p>
+
+
 
 Further, there is a documentation and unit testing framework for both bWidgets and its demo application.
 
