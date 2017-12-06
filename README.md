@@ -12,7 +12,8 @@ The motivation for bWidgets mainly comes from Blender, but is not limited to it.
 
 * Refactor of Blender's widget code
 
-  A rather major refactor of Blender's widget code is really needed. Although some parts were refactored during the 2.5 project, most code is still from the nineties.
+  A rather major refactor of Blender's widget code is really needed. Although some parts were refactored during the 2.5 project, most code is still from the nineties.<br/>
+  bWidgets would be the base of such a major refactor. Its [design principles](https://julianeisel.github.io/bWidgets/html/d9/d88/md_bwidgets_doc_design_principles.html) and usage as a standalone module would be a huge improvement to the Blender UI code.
 
 * Support for "GUI Styles" in Blender
 
@@ -54,13 +55,13 @@ Like mentioned earlier, it's planned to replace big parts of Blender's widget pi
 1. Make Blender use bWidgets for the widget drawing. Basically replace Blender's [`interface_widgets.c`](https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_widgets.c).
 2. Port basic widget interaction handling from Blender to bWidgets.
 
-   That is, code that controls how push-buttons change their state on mouse clicks, how scrollbars react to dragging, etc. At this point we might want to add some text-editing API to bWidgets.
+   That is, code that controls how push-buttons change their state on mouse clicks, how scrollbars react to dragging, etc. At this point we might want to add some text-editing API to bWidgets.<br/>
 Eventually, all code in Blender's giant [`interface_handlers.c`](https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_handlers.c) that does not depend on Blender data should be replaced by bWidgets.
 3. Add a layout-system to bWidgets
 
-   Qt shows an interesting approach to this that bWidgets could follow: Instead of a linear list of widgets, there is a widget hierarchy where widgets can contain child-widgets. Each parent widget is then responsible for the layout of its childs, optionally connecting to a layout-engine.
+   Qt shows an interesting approach to this which bWidgets could follow: Instead of a linear list of widgets, there is a widget hierarchy where widgets can contain child-widgets. Each parent widget is then responsible for the layout of its childs, optionally connecting to a layout-engine.
 
-  For Blender, this would replace the need for the uiBlock struct which only allows linear widget storage. It would further integrate the layout system much better with the widget storage. The layout system usage via the BPY should stay compatible.
+   For Blender, this would replace the need for the uiBlock struct which only allows linear widget storage. It would further integrate the layout system much better with the widget storage. The layout system usage via the BPY should stay compatible.
 
 ## Further Documentation
 

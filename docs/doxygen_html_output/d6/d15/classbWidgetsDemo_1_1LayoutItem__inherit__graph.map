@@ -1,0 +1,6 @@
+<map id="bWidgetsDemo::LayoutItem" name="bWidgetsDemo::LayoutItem">
+<area shape="rect" id="node2" href="$d4/d93/classbWidgetsDemo_1_1ColumnLayout.html" title="bWidgetsDemo::ColumnLayout" alt="" coords="250,5,454,32"/>
+<area shape="rect" id="node3" href="$df/d75/classbWidgetsDemo_1_1RootLayout.html" title="The layout item at the root of the layout&#45;item tree. " alt="" coords="259,56,445,83"/>
+<area shape="rect" id="node4" href="$dd/dd1/classbWidgetsDemo_1_1RowLayout.html" title="bWidgetsDemo::RowLayout" alt="" coords="259,107,445,133"/>
+<area shape="rect" id="node5" href="$d4/d03/classbWidgetsDemo_1_1WidgetLayoutItem.html" title="Layout&#45;item wrapping a widget to place it within a parent layout. " alt="" coords="239,157,465,184"/>
+</map>

@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$de/db1/classbWidgetsDemo_1_1LayoutItem.html" title="An abstract class for defining items that form the layout. " alt="" coords="5,81,191,108"/>
-<area shape="rect" id="node2" href="$d4/d93/classbWidgetsDemo_1_1ColumnLayout.html" title="bWidgetsDemo::ColumnLayout" alt="" coords="239,5,443,32"/>
-<area shape="rect" id="node3" href="$df/d75/classbWidgetsDemo_1_1RootLayout.html" title="The layout item at the root of the layout&#45;item tree. " alt="" coords="247,56,434,83"/>
-<area shape="rect" id="node4" href="$dd/dd1/classbWidgetsDemo_1_1RowLayout.html" title="bWidgetsDemo::RowLayout" alt="" coords="247,107,434,133"/>
-<area shape="rect" id="node5" href="$dd/dc2/classWidgetLayoutItem.html" title="Layout&#45;item wrapping a widget to place it within a parent layout. " alt="" coords="277,157,405,184"/>
-</map>
