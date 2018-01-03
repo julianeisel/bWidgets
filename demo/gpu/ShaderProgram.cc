@@ -62,7 +62,7 @@ static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_T
 using namespace bWidgetsDemo;
 
 
-std::string ShaderProgram::parseShader(const std::string& shader_name)
+static std::string shaderprog_parseShader(const std::string& shader_name)
 {
 	std::string path(std::string(SHADERS_PATH_STR) + "/" + shader_name);
 	std::ifstream shader_stream(path, std::ios::in);
@@ -82,7 +82,7 @@ std::string ShaderProgram::parseShader(const std::string& shader_name)
 	return shader_string;
 }
 
-unsigned int ShaderProgram::compileShader(const std::string& shader_str, const ShaderType& shader_type)
+static unsigned int shaderprog_compileShader(const std::string& shader_str, const ShaderType& shader_type)
 {
 	GLuint shader_id = glCreateShader(shader_type.gl_id);
 	const char* shader_c_str = shader_str.c_str();
@@ -106,7 +106,7 @@ unsigned int ShaderProgram::compileShader(const std::string& shader_str, const S
 	return shader_id;
 }
 
-unsigned int ShaderProgram::linkProgram(const std::vector<unsigned int>& shader_ids)
+static unsigned int shaderprog_linkProgram(const std::array<unsigned int, SHADER_TYPE_TOT>& shader_ids)
 {
 	unsigned int program_id = glCreateProgram();
 
@@ -124,10 +124,12 @@ unsigned int ShaderProgram::linkProgram(const std::vector<unsigned int>& shader_
 	return program_id;
 }
 
-void ShaderProgram::cleanupAfterCreation(const std::vector<unsigned int>& shader_ids)
+static void shaderprog_cleanupAfterCreation(
+        unsigned int program_id,
+        const std::array<unsigned int, SHADER_TYPE_TOT>& shader_ids)
 {
 	for (unsigned int shader_id : shader_ids) {
-		glDetachShader(programID, shader_id);
+		glDetachShader(program_id, shader_id);
 		glDeleteShader(shader_id);
 	}
 }
@@ -135,19 +137,17 @@ void ShaderProgram::cleanupAfterCreation(const std::vector<unsigned int>& shader
 ShaderProgram::ShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 {
 	ShaderProgramType& type = shader_program_types[shader_program_id];
-	std::vector<unsigned int> shader_ids;
+	std::array<unsigned int, SHADER_TYPE_TOT> shader_ids;
 
-	shader_ids.reserve(SHADER_TYPE_TOT);
-
-	for (int i = 0; i < SHADER_TYPE_TOT; i++) {
-		std::string shader_str = parseShader(type.shader_names[i]);
-		unsigned int shader_id = compileShader(shader_str, shader_types[i]);
-		shader_ids.push_back(shader_id);
+	for (int i = 0; i < shader_ids.size(); i++) {
+		std::string shader_str{shaderprog_parseShader(type.shader_names[i])};
+		unsigned int shader_id = shaderprog_compileShader(shader_str, shader_types[i]);
+		shader_ids[i] = shader_id;
 	}
-	programID = linkProgram(shader_ids);
+	programID = shaderprog_linkProgram(shader_ids);
 	interface = ShaderInterface_create(programID);
 
-	cleanupAfterCreation(shader_ids);
+	shaderprog_cleanupAfterCreation(programID, shader_ids);
 }
 
 ShaderProgram::~ShaderProgram()

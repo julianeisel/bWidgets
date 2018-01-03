@@ -17,6 +17,8 @@ class FontGlyph;
 
 class Font {
 public:
+	~Font();
+
 	static void initFontReading();
 	static Font* loadFont(const std::string& name, const std::string& path);
 
@@ -37,14 +39,14 @@ public:
 	void setMask(const bWidgets::bwRectanglePixel& value);
 
 private:
-	Font() {}
+	Font() = default;
 
 	float getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
 
 	// The freetype library handle.
 	static FT_Library ft_library;
 	// The freetype font handle.
-	FT_Face face{0};
+	FT_Face face;
 	// Was font type (face) changed since last draw?
 	static bool changed;
 
@@ -58,12 +60,10 @@ private:
 	class FontGlyphCache {
 	// Everything public, this nested class is private to Font anyway.
 	public:
-		FontGlyphCache();
-
 		void ensureUpdated(Font&);
 		const FontGlyph& getCachedGlyph(const Font&, const unsigned char) const;
 
-		bool is_dirty;
+		bool is_dirty{true};
 		std::vector<std::unique_ptr<FontGlyph>> cached_glyphs;
 	} cache;
 };

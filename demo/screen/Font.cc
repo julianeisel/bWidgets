@@ -18,6 +18,12 @@ FT_Library Font::ft_library = nullptr;
 bool Font::changed = false;
 
 
+Font::~Font()
+{
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft_library);
+}
+
 void Font::initFontReading()
 {
 	if (FT_Init_FreeType(&ft_library)) {
@@ -32,6 +38,9 @@ Font* Font::loadFont(const std::string& name, const std::string& path)
 	Font* font = new Font();
 	FT_Face old_face = font->face;
 
+	if (old_face) {
+		FT_Done_Face(old_face);
+	}
 	if (FT_New_Face(ft_library, file_path.c_str(), 0, &font->face)) {
 		std::cout << "Error: Failed to load font at " << file_path << "!" << std::endl;
 	}
@@ -194,12 +203,6 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 	return width;
 }
 
-Font::FontGlyphCache::FontGlyphCache() :
-    is_dirty(true)
-{
-	
-}
-
 void Font::FontGlyphCache::ensureUpdated(Font& font)
 {
 	FT_UInt glyph_index;
@@ -210,6 +213,7 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 		return;
 	}
 
+	cached_glyphs.clear();
 	cached_glyphs.reserve(font.face->num_glyphs);
 	/* make sure vector size matches num_glyphs and fill all entries with nullptr */
 	for (int i = 0; i < font.face->num_glyphs; i++) {

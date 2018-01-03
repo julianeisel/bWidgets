@@ -26,11 +26,6 @@ public:
 private:
 	unsigned int programID;
 	ShaderInterface* interface;
-
-	std::string parseShader(const std::string&);
-	unsigned int compileShader(const std::string&, const class ShaderType&);
-	unsigned int linkProgram(const std::vector<unsigned int>&);
-	void cleanupAfterCreation(const std::vector<unsigned int>&);
 };
 
 } // namespace bWidgetsDemo
