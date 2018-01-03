@@ -1,9 +1,7 @@
-#include <array>
 #include <cassert>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
 
 #include "GPU.h"
 extern "C" {
@@ -14,13 +12,6 @@ extern "C" {
 
 
 namespace bWidgetsDemo {
-
-typedef enum ShaderTypeID {
-	SHADER_TYPE_VERTEX,
-	SHADER_TYPE_FRAGMENT,
-
-	SHADER_TYPE_TOT
-} ShaderTypeID;
 
 class ShaderType
 {
@@ -124,20 +115,9 @@ static unsigned int shaderprog_linkProgram(const std::array<unsigned int, SHADER
 	return program_id;
 }
 
-static void shaderprog_cleanupAfterCreation(
-        unsigned int program_id,
-        const std::array<unsigned int, SHADER_TYPE_TOT>& shader_ids)
-{
-	for (unsigned int shader_id : shader_ids) {
-		glDetachShader(program_id, shader_id);
-		glDeleteShader(shader_id);
-	}
-}
-
 ShaderProgram::ShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 {
 	ShaderProgramType& type = shader_program_types[shader_program_id];
-	std::array<unsigned int, SHADER_TYPE_TOT> shader_ids;
 
 	for (int i = 0; i < shader_ids.size(); i++) {
 		std::string shader_str{shaderprog_parseShader(type.shader_names[i])};
@@ -146,13 +126,15 @@ ShaderProgram::ShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 	}
 	programID = shaderprog_linkProgram(shader_ids);
 	interface = ShaderInterface_create(programID);
-
-	shaderprog_cleanupAfterCreation(programID, shader_ids);
 }
 
 ShaderProgram::~ShaderProgram()
 {
 	ShaderInterface_discard(interface);
+	for (unsigned int shader_id : shader_ids) {
+		glDeleteShader(shader_id);
+	}
+	glDeleteProgram(programID);
 }
 
 unsigned int ShaderProgram::ProgramID() const

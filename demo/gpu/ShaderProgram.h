@@ -1,9 +1,16 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <array>
 
 namespace bWidgetsDemo {
+
+typedef enum ShaderTypeID {
+	SHADER_TYPE_VERTEX,
+	SHADER_TYPE_FRAGMENT,
+
+	SHADER_TYPE_TOT
+} ShaderTypeID;
 
 class ShaderProgram
 {
@@ -24,6 +31,7 @@ public:
 	ShaderInterface* getInterface() const;
 
 private:
+	std::array<unsigned int, SHADER_TYPE_TOT> shader_ids;
 	unsigned int programID;
 	ShaderInterface* interface;
 };

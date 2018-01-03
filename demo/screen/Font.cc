@@ -100,6 +100,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	}
 
 	glDisable(GL_BLEND);
+	glDeleteTextures(1, &tex);
 	immUnbindProgram();
 
 	changed = false;
