@@ -18,7 +18,7 @@ namespace bWidgetsDemo {
 class WidgetLayoutItem : public LayoutItem
 {
 public:
-	WidgetLayoutItem(bwWidget& widget, LayoutItem* parent = nullptr);
+	WidgetLayoutItem(bwWidget* widget, LayoutItem* parent = nullptr);
 
 	void fitWidgetToItem(
 	        const int xmin, const int ymax) const;
@@ -30,7 +30,7 @@ public:
 	bool isAlignedtoPrevious(const LayoutItem& parent) const;
 	bool isAlignedtoNext(const LayoutItem& parent) const;
 
-	bwWidget& widget;
+	bwWidget* widget;
 };
 } // namespace bWidgetsDemo
 
@@ -51,6 +51,10 @@ LayoutItem::LayoutItem(
 LayoutItem::~LayoutItem()
 {
 	for (LayoutItem* item : child_items) {
+		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
+			WidgetLayoutItem* widget_item = static_cast<WidgetLayoutItem*>(item);
+			delete widget_item->widget;
+		}
 		delete item;
 	}
 }
@@ -61,8 +65,8 @@ void LayoutItem::draw(bwStyle& style)
 		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
 			WidgetLayoutItem& widget_item = *static_cast<WidgetLayoutItem*>(item);
 
-			if (!widget_item.widget.rectangle.isEmpty()) {
-				widget_item.widget.draw(style);
+			if (!widget_item.widget->rectangle.isEmpty()) {
+				widget_item.widget->draw(style);
 			}
 		}
 		else {
@@ -77,7 +81,7 @@ bool LayoutItem::iterateWidgets(bool (*callback)(bwWidget&, void*), void* custom
 		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
 			WidgetLayoutItem& widget_item = *static_cast<WidgetLayoutItem*>(item);
 
-			if (!callback(widget_item.widget, custom_data)) {
+			if (!callback(*widget_item.widget, custom_data)) {
 				return false;
 			}
 		}
@@ -91,7 +95,7 @@ bool LayoutItem::iterateWidgets(bool (*callback)(bwWidget&, void*), void* custom
 
 void LayoutItem::addWidget(bwWidget* widget)
 {
-	WidgetLayoutItem* widget_item = new WidgetLayoutItem(*widget);
+	WidgetLayoutItem* widget_item = new WidgetLayoutItem(widget);
 	addLayoutItem(widget_item);
 }
 
@@ -162,7 +166,7 @@ void LayoutItem::resolve(
 
 		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
 			WidgetLayoutItem& widget_item = *static_cast<WidgetLayoutItem*>(item);
-			bwWidget& widget = widget_item.widget;
+			bwWidget& widget = *widget_item.widget;
 
 			widget_item.height = widget.height_hint * scale_fac;
 			widget_item.fitWidgetToItem(xpos, ypos);
@@ -336,7 +340,7 @@ RowLayout::RowLayout(
 
 
 WidgetLayoutItem::WidgetLayoutItem(
-        bwWidget& widget,
+        bwWidget* widget,
         LayoutItem* parent) :
     LayoutItem(LAYOUT_ITEM_TYPE_WIDGET, false, parent), widget(widget)
 {
@@ -346,10 +350,10 @@ WidgetLayoutItem::WidgetLayoutItem(
 void WidgetLayoutItem::fitWidgetToItem(
         const int xmin, const int ymax) const
 {
-	widget.rectangle.xmin = xmin;
-	widget.rectangle.xmax = widget.rectangle.xmin + width;
-	widget.rectangle.ymax = ymax;
-	widget.rectangle.ymin = widget.rectangle.ymax - height;
+	widget->rectangle.xmin = xmin;
+	widget->rectangle.xmax = widget->rectangle.xmin + width;
+	widget->rectangle.ymax = ymax;
+	widget->rectangle.ymin = widget->rectangle.ymax - height;
 }
 
 void WidgetLayoutItem::alignmentSanityCheck(const LayoutItem& parent) const
@@ -363,9 +367,9 @@ void WidgetLayoutItem::alignmentSanityCheck(const LayoutItem& parent) const
 
 bool WidgetLayoutItem::canAlignWidgetItem() const
 {
-	return (widget.type == bwWidget::WIDGET_TYPE_PUSH_BUTTON) ||
-	       (widget.type == bwWidget::WIDGET_TYPE_RADIO_BUTTON) ||
-	       (widget.type == bwWidget::WIDGET_TYPE_TEXT_BOX);
+	return (widget->type == bwWidget::WIDGET_TYPE_PUSH_BUTTON) ||
+	       (widget->type == bwWidget::WIDGET_TYPE_RADIO_BUTTON) ||
+	       (widget->type == bwWidget::WIDGET_TYPE_TEXT_BOX);
 }
 
 bool WidgetLayoutItem::isAlignedtoPrevious(const LayoutItem& parent) const
@@ -411,7 +415,7 @@ void WidgetLayoutItem::alignWidgetItem(const LayoutItem& parent)
 {
 	bwAbstractButton* abstract_button;
 
-	if (!canAlignWidgetItem() || !(abstract_button = widget_cast<bwAbstractButton*>(&widget))) {
+	if (!canAlignWidgetItem() || !(abstract_button = widget_cast<bwAbstractButton*>(widget))) {
 		return;
 	}
 	abstract_button->rounded_corners = 0;

@@ -44,12 +44,12 @@ private:
 	// The freetype library handle.
 	static FT_Library ft_library;
 	// The freetype font handle.
-	FT_Face face;
+	FT_Face face{0};
 	// Was font type (face) changed since last draw?
 	static bool changed;
 
 	// Height in pixels.
-	int size;
+	int size{0};
 
 	bWidgets::bwColor active_color;
 	bWidgets::bwRectanglePixel mask;

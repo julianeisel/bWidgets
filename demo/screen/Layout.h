@@ -78,7 +78,7 @@ protected:
 	// Only valid when item was assigned to a parent using addLayout.
 	IteratorItem iterator_item;
 
-	unsigned int width, height;
+	unsigned int width{0}, height{0};
 	// Properties defined on layout-item creation, not meant to be modified later on.
 	std::list<LayoutItem*> child_items;
 
