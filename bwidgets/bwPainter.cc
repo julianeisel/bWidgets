@@ -152,15 +152,15 @@ private:
 
 	static const int ROUNDCORNER_RESOLUTION = 9;
 	static constexpr float cornervec[ROUNDCORNER_RESOLUTION][2] = {
-		{0.0, 0.0},
-		{0.195, 0.02},
-		{0.383, 0.067},
-		{0.55, 0.169},
-		{0.707, 0.293},
-		{0.831, 0.45},
-		{0.924, 0.617},
-		{0.98, 0.805},
-		{1.0, 1.0}
+		{0.0f, 0.0f},
+		{0.195f, 0.02f},
+		{0.383f, 0.067f},
+		{0.55f, 0.169f},
+		{0.707f, 0.293f},
+		{0.831f, 0.45f},
+		{0.924f, 0.617f},
+		{0.98f, 0.805f},
+		{1.0f, 1.0f}
 	};
 
 	bwRectanglePixel rect;

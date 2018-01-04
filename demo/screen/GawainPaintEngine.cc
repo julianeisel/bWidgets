@@ -115,11 +115,8 @@ void GawainPaintEngine::drawPolygon(
 	PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype);
 	VertexFormat* format = immVertexFormat();
 	unsigned int attr_pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
-	unsigned int attr_color;
+	unsigned int attr_color = is_shaded ? VertexFormat_add_attrib(format, "color", COMP_F32, 4, KEEP_FLOAT) : 0;
 
-	if (is_shaded) {
-		attr_color = VertexFormat_add_attrib(format, "color", COMP_F32, 4, KEEP_FLOAT);
-	}
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
