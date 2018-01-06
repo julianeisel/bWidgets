@@ -82,12 +82,16 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 # Compile options
 
 option(WITH_GTESTS "Compile bWidgets with GTest unit tests" OFF)
+option(WITH_BWIDGETS_DEMO "Compile the demo application for bWidgets alongside bWidgets itself" ON)
 
 #-----------------------------------------------------------------------------
 # Sub-directories
 
 add_subdirectory(bwidgets)
-add_subdirectory(demo)
+
+if(WITH_BWIDGETS_DEMO)
+	add_subdirectory(demo)
+endif()
 if(WITH_GTESTS)
 	add_subdirectory(tests)
 endif()
