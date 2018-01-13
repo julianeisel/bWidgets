@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['defaultstage',['DefaultStage',['../classbWidgetsDemo_1_1DefaultStage.html',1,'bWidgetsDemo']]]
+  ['styletype',['StyleType',['../structbWidgets_1_1bwStyle_1_1StyleType.html',1,'bWidgets::bwStyle']]]
 ];

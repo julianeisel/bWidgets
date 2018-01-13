@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['make_5funique',['make_unique',['../namespacestd.html#a7a786f4c081743da2f7f09500b393ae4',1,'std']]],
-  ['matrixstack',['MatrixStack',['../classbWidgetsDemo_1_1MatrixStack.html',1,'bWidgetsDemo']]],
-  ['matrixstate',['MatrixState',['../classbWidgetsDemo_1_1MatrixState.html',1,'bWidgetsDemo']]],
-  ['mouseevent',['MouseEvent',['../classbWidgetsDemo_1_1MouseEvent.html',1,'bWidgetsDemo']]]
+  ['width_5fhint',['width_hint',['../classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc',1,'bWidgets::bwWidget']]]
 ];

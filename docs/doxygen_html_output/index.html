@@ -77,67 +77,88 @@ $(function() {
 <div class="title">bWidgets </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>bWidgets is a cross-platform widget toolkit, designed specifically for the Blender project, but reusable as a standalone library.</p>
-<p>Plan is to replace big parts of Blender's widget code with bWidgets. In short, doing so will greatly improve Blender's interface code while opening doors for new features.</p>
-<p>A "b"-prefix is a common convention in Blender's source code to mark internal Blender C-structs. The name "bWidgets" refers to this. It's fine to pronounce bWidgets as "Blender-widgets" too.</p>
-<h2>Motivation</h2>
-<p>The motivation for bWidgets mainly comes from Blender, but is not limited to it. The main motivations are:</p>
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#role_of_bwidgets">Role of bWidgets</a></li>
+<li class="level1"><a href="#motivation">Motivation</a></li>
+<li class="level1"><a href="#current_features">Current Features</a></li>
+<li class="level1"><a href="#future_plans">Future Plans</a></li>
+</ul>
+</div>
+<div class="textblock"><p>bWidgets is a cross-platform widget toolkit, designed specifically for <a href="https://www.blender.org/">Blender</a>, but reusable as a standalone library.</p>
+<p>On the long run, big parts of Blender's widget code should be replaced by bWidgets. In short, this will greatly improve the Blender interface code while opening doors for many new features.</p>
+<p>The bWidgets source code <a href="https://github.com/julianeisel/bWidgets">can be found on GitHub</a>.</p>
+<hr/>
+<p><em>A "b"-prefix is a common convention in Blender's source code to mark internal Blender C-structs. The name "bWidgets" refers to this. It's fine to pronounce bWidgets as "Blender-widgets" too.</em> </p><hr/>
+<h1><a class="anchor" id="role_of_bwidgets"></a>
+Role of bWidgets</h1>
+<p>bWidgets is purely about widgets. Everything that is not directly related to widgets is out of scope and not part of bWidgets. For example it does <b>not</b> contain a window-manager, a drawing-backend (like OpenGL) or an event-system.</p>
+<p>As of now, bWidgets actually only does widget drawing with some proof-of-concept state changing on user input.</p>
+<h1><a class="anchor" id="motivation"></a>
+Motivation</h1>
+<p>Main motivations for bWidgets come from Blender, namely:</p>
 <ul>
-<li><p class="startli">Refactor of Blender's widget code</p>
-<p class="startli">A rather major refactor of Blender's widget code is really needed. Although some parts were refactored during the 2.5 project, most code is still from the nineties.<br />
- bWidgets would be the base of such a major refactor. Its <a href="https://julianeisel.github.io/bWidgets/html/d9/d88/md_bwidgets_doc_design_principles.html">design principles</a> and usage as a standalone module would be a huge improvement to the Blender UI code.</p>
+<li><p class="startli"><b>Support for "GUI Styles" in Blender</b></p>
+<p class="startli">Every user has a different tast when it comes to visual style of UI elements. While some like a modern "flat" style, others can't stand it and prefer more classic ones.<br />
+ The proposal was made to address this by supporting multiple style presets that go further than themes, see <a href="https://developer.blender.org/T45025">T45025</a>.<br />
+ Support for such style presets is a core feature of bWidgets. It even supports CSS defined styles (WIP in <a href="https://github.com/julianeisel/bWidgets/tree/css_styles">css_styles</a>), which Blender users could create, customize and share.</p>
 </li>
-<li><p class="startli">Support for "GUI Styles" in Blender</p>
-<p class="startli">It was an idea to allow users to choose from multiple visual style presets in Blender, see <a href="https://developer.blender.org/T45025">T45025</a>.<br />
- Support for such style presets is built into bWidgets. However, bWidgets could go even further by supporting CSS-like editing of styles. Most modern widget toolkits do this to allow changing their look &amp; feel, with great success. Plus, Blender users could create and share their own styles.</p>
+<li><p class="startli"><b>Simplify Theme Options in Blender</b></p>
+<p class="startli">It is a known issue that Blender has a huge amount of theming options, far more than practical (see <a href="https://developer.blender.org/T45352">T45352</a>). There are cases where extreme control is useful, but a much simpler solution would work better for most users.<br />
+</p>
+<p class="startli">Previously mentioned "GUI Styles" already go a long way, especially considering the CSS support. For the majority of users, having such a style option plus a rather small color-palette for the theming would be more than enough. For other cases, the CSS files give maximum control.</p>
 </li>
-<li><p class="startli">Sharing Blender's widget code with other apps</p>
-<p class="startli">Various applications could use bWidgets to get the look and feel of Blender's widgets (without having to mimic it manually). The Blender Animation Player or the Cycles standalone could make good use of this.</p>
-<p class="startli">Another use-case would be building a UI protoyping app for Blender. Users, script-authors and Blender developers could use it for testing and communicating ideas. This could be really helpful.</p>
+<li><p class="startli"><b>Refactor of Blender's widget code</b></p>
+<p class="startli">A rather major refactor of Blender's widget code is really needed. It is a prime time example of spaghetti code produced over decades.</p>
+<p class="startli">bWidgets would be the base of such a major refactor. It was carefully designed with current needs and <a class="el" href="index.html#future_plans">long-term plans</a> in mind.</p>
 </li>
-<li><p class="startli">Getting closer to Qt (and similar toolkits)</p>
+<li><p class="startli"><b>Sharing Blender's widget code with other apps</b></p>
+<p class="startli">Various applications could use bWidgets to get the look and feel of Blender's widgets (without mimicing it manually). The Blender Animation Player or the Cycles standalone are good examples.</p>
+<p class="startli">Another use-case would be a UI protoyping and mockup app for Blender.</p>
+</li>
+<li><p class="startli"><b>Getting closer to Qt (and similar toolkits)</b></p>
 <p class="startli">Qt is a (the most?) popular widget toolkit. It is incredibly powerful and flexible, developers are familiar with it. While there are no concrete plans to switch to Qt, bWidgets helps finding out if such a switch would make sense and how feasible it is.</p>
-<p class="startli">bWidgets is in fact designed similar to Qt. Partially because they try to address similar requirements, partially because Qt is purposely being used as reference.</p>
+<p class="startli">bWidgets is in fact designed similar to Qt. Partially because they try to address similar requirements, partially because Qt is purposely being used as reference here and there.</p>
 </li>
 </ul>
-<h2>Current Features</h2>
+<h1><a class="anchor" id="current_features"></a>
+Current Features</h1>
 <p>As of now, bWidgets basically contains a few widget definitions with simple drawing and handling mimicking Blender. It further supports:</p><ul>
 <li>A primitive style preset system (only supporting the current built-in styles)</li>
 <li><p class="startli">A drawing system via a graphics framework independent drawing interface</p>
-<p class="startli">Basically a <em>painter</em> object defines geometry as <em>polygons</em> and draws them through a <em>paint-engine</em>. The paint-engine is created by the application that uses bWidgets. It can be a paint-engine for OpenGL drawing, Vulcan drawing, HTML/CSS export, etc.</p>
+<p class="startli">Basically a <em>painter</em> object defines geometry as <em>polygons</em> and draws them through a <em>paint-engine</em>. The paint-engine is created by the application that uses bWidgets. It can be a paint-engine for OpenGL drawing, Vulcan drawing, rendering to an image, HTML/CSS export, etc.</p>
 </li>
 <li>Scaling</li>
 <li>Primitive gradient drawing</li>
-<li>Primitive (and hacky) anti-aliasing for widget outlines.</li>
+<li>Anti-aliasing for widget outlines.</li>
 </ul>
 <p>The demo application has basic features like a primitive layout system, font drawing using FreeType2, GLSL shader support, scrolling and DPI scaling. Most buttons are dummies showing off the bWidgets feature set.</p>
 <div class="image">
-<img src="https://julianeisel.github.io/bWidgets/images/bwidgets_demo_screenshot.png"/>
+<img src="bwidgets_demo_screenshot.png" alt="img def"/>
 </div>
- <p>Further, there is a documentation and unit testing framework for both bWidgets and its demo application.</p>
-<h2>Future Plans</h2>
-<p>Like mentioned earlier, it's planned to replace big parts of Blender's widget pipeline by bWidgets. This is a major undertaking and we plan to do it step-by-ste:</p>
+<p>Further, there is a documentation and unit testing framework for both bWidgets and its demo application.</p>
+<h1><a class="anchor" id="future_plans"></a>
+Future Plans</h1>
+<p>Like mentioned earlier, it's planned to replace big parts of Blender's widget pipeline by bWidgets. This is a major undertaking and we plan to do it step-by-step:</p>
 <ol type="1">
-<li>Make Blender use bWidgets for the widget drawing. Basically replace Blender's <a href="https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_widgets.c"><code>interface_widgets.c</code></a>.</li>
-<li><p class="startli">Port basic widget interaction handling from Blender to bWidgets.</p>
+<li><p class="startli"><b>Make Blender use bWidgets for the widget drawing</b></p>
+<p class="startli">Basically replace Blender's <a href="https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_widgets.c"><code>interface_widgets.c</code></a>.</p>
+</li>
+<li><p class="startli"><b>Port basic widget interaction handling from Blender to bWidgets</b></p>
 <p class="startli">That is, code that controls how push-buttons change their state on mouse clicks, how scrollbars react to dragging, etc. At this point we might want to add some text-editing API to bWidgets.<br />
  Eventually, all code in Blender's giant <a href="https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_handlers.c"><code>interface_handlers.c</code></a> that does not depend on Blender data should be replaced by bWidgets.</p>
 </li>
-<li><p class="startli">Add a layout-system to bWidgets</p>
-<p class="startli">Qt shows an interesting approach to this which bWidgets could follow: Instead of a linear list of widgets, there is a widget hierarchy where widgets can contain child-widgets. Each parent widget is then responsible for the layout of its childs, optionally connecting to a layout-engine.</p>
-<p class="startli">For Blender, this would replace the need for the uiBlock struct which only allows linear widget storage. It would further integrate the layout system much better with the widget storage. The layout system usage via the BPY should stay compatible.</p>
+<li><p class="startli"><b>Add an initial layout-system to bWidgets</b></p>
+<p class="startli">With this initial layout-system, Blender's <a href="https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_layout.c"><code>interface_layout.c</code></a> would be replaced. It should be compatible with the old system.</p>
+<p class="startli">Eventually, we may want to have a layout-system similar to Qt's: Instead of a linear list of widgets, they would be in a hierarchy, whereby parent widgets manage the layout of their children (optionally via a layout-engine).</p>
+</li>
+<li><p class="startli"><b>Add pop-up management to bWidgets</b></p>
+<p class="startli">Mainly replacing most of <a href="https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_regions.c"><code>interface_regions.c</code></a>.</p>
+</li>
+<li><p class="startli"><b>Replace Blender's interface definition API</b></p>
+<p class="startli">That would be parts of <a href="https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface.c"><code>interface.c</code></a>, for example the <code>uiDefBut</code> functions. The <code>uiBlock</code> struct could be replaced by the layout hierarchy by then.</p>
 </li>
 </ol>
-<h2>Further Documentation</h2>
-<p>Further documentation, like general code design overviews and detailed code documentation, can be found here: <a href="https://julianeisel.github.io/bWidgets/">https://julianeisel.github.io/bWidgets/</a>.</p>
-<h2>Supported Platforms</h2>
-<p>bWidgets itself only requires a compiler supporting the C++11 ABI.<br />
- The demo application however requires Freetype2 and OpenGL 3.3 to compile and run.</p>
-<p>bWidgets and its demo application have successfully been built on following platforms:</p><ul>
-<li>Linux Debian 9, GCC 6.3</li>
-<li>Windows 7, MSVC 2017 (only compiled, couldn't launch due to OpenGL driver issues)</li>
-</ul>
-<p>More platforms/compilers should be tested. </p>
+<p>These are ambitious plans for sure, but they are for the long term. </p>
 </div></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->

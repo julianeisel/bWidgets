@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['event',['Event',['../classbWidgetsDemo_1_1Event.html',1,'bWidgetsDemo']]],
-  ['eventmanager',['EventManager',['../classbWidgetsDemo_1_1EventManager.html',1,'bWidgetsDemo']]]
+  ['make_5funique',['make_unique',['../namespacestd.html#a7a786f4c081743da2f7f09500b393ae4',1,'std']]]
 ];

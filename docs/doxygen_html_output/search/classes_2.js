@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['columnlayout',['ColumnLayout',['../classbWidgetsDemo_1_1ColumnLayout.html',1,'bWidgetsDemo']]]
+  ['polygonroundboxcreator',['PolygonRoundboxCreator',['../classbWidgets_1_1PolygonRoundboxCreator.html',1,'bWidgets']]]
 ];

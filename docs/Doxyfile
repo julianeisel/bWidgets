@@ -790,10 +790,10 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = README.md \
-                         bwidgets \
-                         demo \
+INPUT                  = bwidgets \
                          docs/README.md \
+                         docs/mainpage.md \
+                         docs/build_instructions.md \
                          docs/bWidgets
 
 # This tag can be used to specify the character encoding of the source files
@@ -960,7 +960,7 @@ FILTER_SOURCE_PATTERNS =
 # (index.html). This can be useful if you have a project on for instance GitHub
 # and want to reuse the introduction page also for the doxygen output.
 
-USE_MDFILE_AS_MAINPAGE = ./README.md
+USE_MDFILE_AS_MAINPAGE =
 
 #---------------------------------------------------------------------------
 # Configuration options related to source browsing
@@ -1184,7 +1184,8 @@ HTML_EXTRA_STYLESHEET  = docs/resources/customdoxygen.css \
 HTML_EXTRA_FILES       = docs/resources/doxy-boot.js \
                          docs/resources/jquery.smartmenus.js \
                          docs/resources/addons/bootstrap/jquery.smartmenus.bootstrap.js \
-                         docs/resources/addons/bootstrap/jquery.smartmenus.bootstrap.css
+                         docs/resources/addons/bootstrap/jquery.smartmenus.bootstrap.css \
+                         docs/resources/images/bwidgets_demo_screenshot.png
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the style sheet and background images according to
