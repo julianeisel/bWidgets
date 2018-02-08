@@ -73,7 +73,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="md_docs_bWidgets_about.html">bWidgets Source Code</a></li>  </ul>
+<li class="navelem"><a class="el" href="md_docs_bWidgets_about.html">bWidgets Source Code Documentation</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -82,7 +82,17 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>High level overview on the bWidgets design.</p>
-<p>Core of the design are the widgets. As of now, these only have functions for simple drawing and simple event based state changing. Drawing attributes of widget types, such as colors, text alignment or corner radii are set through styles, represented by the <code>bwStyle</code> class.</p>
+<h2>Model-View-Controller (MVC)</h2>
+<dl class="section note"><dt>Note</dt><dd>This section bla bla.</dd></dl>
+<p><b>Note:</b> <em>This section describes the planned long-term design and is not fully valid yet.</em></p>
+<p>bWidgets is designed to take over the widgets related <em>view</em> component in an <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> based application. MVC has gained great popularity and Blender's code follows this pattern too (rather loosely though).</p>
+<div class="image">
+<img src="bwidgets_mvc.png" alt="bwidgets_mvc.png"/>
+</div>
+<p>Communication between bWidgets and any other component is supposed to happen through the controller. If the application receives an external event (e.g mouse clicks or timer ticks), the controller is responsible for converting them to the higher-level events that bWidgets uses (<em>onKeyPress</em>, <em>onMousePress</em>, etc.) and passing them on to bWidgets. Depending on the context (e.g. which widget is hovered or which widget currently is in text editing mode), bWidgets can then decide on how to react to the event, change the context if needed and notify the controller about any changes. bWidgets will also inform the controller if the event was "consumed" or if it's allowed to pass it on to other handlers.</p>
+<p>The most important part of the MVC <em>view</em> component is the representation of data. bWidgets does this by defining geometry and text to be drawn on screen (or other media if wanted). The look of geometry and text can be controlled with styles.<br />
+ We also consider any layout management to be a part of the <em>view</em> component. However, bWidgets doesn't handle that part yet, so it's still job of the application.</p>
+<p><b>Note:</b> <em>There may be versions of the MVC pattern that better resemble the design of bWidgets. Given the early state of the project, we keep it general though.</em></p>
 <h2>Defining Widget Types</h2>
 <p>C++ object-oriented programming and inheritance plays an important role for widgets. All widgets derive from the abstract <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> class and implement its abstract functions. They also typically override virtual functions of <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> to customize their behavior.<br />
  Since many widgets have some similar behavior and properties, in-between classes can be useful, such as <a class="el" href="classbWidgets_1_1bwAbstractButton.html">bwAbstractButton</a>. Instead of inheriting from <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> directly, widgets can inherit from those to get a more practical starting point.</p>

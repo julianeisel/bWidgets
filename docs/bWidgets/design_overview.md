@@ -2,10 +2,39 @@
 
 \brief High level overview on the bWidgets design.
 
-Core of the design are the widgets. As of now, these only have functions for
-simple drawing and simple event based state changing. Drawing attributes of
-widget types, such as colors, text alignment or corner radii are set through
-styles, represented by the `bwStyle` class.
+## Model-View-Controller (MVC)
+
+**Note:** _This section describes the planned long-term design and is not fully
+valid yet._
+
+bWidgets is designed to take over the widgets related _view_ component in an
+[MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
+based application. MVC has gained great popularity and Blender's code follows
+this pattern too (rather loosely though).
+
+![](bwidgets_mvc.png)
+
+Communication between bWidgets and any other component is supposed to happen
+through the controller. If the application receives an external event (e.g mouse
+clicks or timer ticks), the controller is responsible for converting them to the
+higher-level events that bWidgets uses (_onKeyPress_, _onMousePress_, etc.) and
+passing them on to bWidgets. Depending on the context (e.g. which widget is
+hovered or which widget currently is in text editing mode), bWidgets can then
+decide on how to react to the event, change the context if needed and notify the
+controller about any changes. bWidgets will also inform the controller if the
+event was "consumed" or if it's allowed to pass it on to other handlers.
+
+The most important part of the MVC _view_ component is the representation of
+data. bWidgets does this by defining geometry and text to be drawn on screen (or
+other media if wanted). The look of geometry and text can be controlled with
+styles.<br/>
+We also consider any layout management to be a part of the _view_ component.
+However, bWidgets doesn't handle that part yet, so it's still job of the
+application.
+
+**Note:**
+_There may be versions of the MVC pattern that better resemble the design of
+bWidgets. Given the early state of the project, we keep it general though._
 
 ## Defining Widget Types
 

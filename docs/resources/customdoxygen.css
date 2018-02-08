@@ -170,6 +170,9 @@ font-size: 1.15em !important;
     margin: 0;
 }
 
+.contents img {
+    margin: 20px 0;
+}
 /*
  ===========================
  */

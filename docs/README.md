@@ -1,4 +1,4 @@
-# bWidgets Documentation
+# Documenting bWidgets
 
 \brief Instructions for the bWidgets doxygen documentation.
 

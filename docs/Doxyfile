@@ -791,9 +791,12 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = bwidgets \
-                         docs/README.md \
-                         docs/mainpage.md \
                          docs/build_instructions.md \
+                         docs/bwidgets_vs_existing_toolkits.md \
+                         docs/current_ui_code_vs_bwidgets.md \
+                         docs/future_plans.md \
+                         docs/mainpage.md \
+                         docs/README.md \
                          docs/bWidgets
 
 # This tag can be used to specify the character encoding of the source files
@@ -904,7 +907,7 @@ EXAMPLE_RECURSIVE      = NO
 # that contain images that are to be included in the documentation (see the
 # \image command).
 
-IMAGE_PATH             = resources/images
+IMAGE_PATH             = docs/resources/images
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
@@ -1184,8 +1187,7 @@ HTML_EXTRA_STYLESHEET  = docs/resources/customdoxygen.css \
 HTML_EXTRA_FILES       = docs/resources/doxy-boot.js \
                          docs/resources/jquery.smartmenus.js \
                          docs/resources/addons/bootstrap/jquery.smartmenus.bootstrap.js \
-                         docs/resources/addons/bootstrap/jquery.smartmenus.bootstrap.css \
-                         docs/resources/images/bwidgets_demo_screenshot.png
+                         docs/resources/addons/bootstrap/jquery.smartmenus.bootstrap.css
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the style sheet and background images according to

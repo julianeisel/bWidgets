@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['setupviewport',['setupViewport',['../classbWidgets_1_1bwPaintEngine.html#a6671b452be046504e8866d678dadaf21',1,'bWidgets::bwPaintEngine']]],
-  ['std',['std',['../namespacestd.html',1,'']]],
-  ['styletype',['StyleType',['../structbWidgets_1_1bwStyle_1_1StyleType.html',1,'bWidgets::bwStyle']]]
+  ['rectangle',['rectangle',['../classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c',1,'bWidgets::bwWidget']]],
+  ['resize',['resize',['../structbWidgets_1_1bwRectangle.html#aeb71cba1ab48a950ce37be49840bd68c',1,'bWidgets::bwRectangle']]]
 ];
