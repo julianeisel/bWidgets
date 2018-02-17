@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 #include "bwAbstractButton.h"
 #include "bwPainter.h"
@@ -141,15 +142,17 @@ void LayoutItem::resolve(
 	height = 0;
 
 	if (flow_direction == FLOW_DIRECTION_HORIZONTAL) {
+		const unsigned int margin_count = countNeededMargins();
+		const unsigned int width_no_margins = width - (margin_count * item_margin);
 		// The max-width of each item is the max-width of the parent, divided by the count of its
 		// horizontally placed sub-items. In other words, each item has the same max-width that
 		// add up to the parent's max-width. From this max-width, the item margins are subtracted.
 		unsigned int tot_row_cols = countRowColumns();
 
 		if (tot_row_cols != 0) {
-			item_width = (width - (countNeededMargins() * item_margin)) / tot_row_cols;
+			item_width = width_no_margins / tot_row_cols;
 		}
-		additional_remainder_x = width - ((item_width * tot_row_cols) + (countNeededMargins() * item_margin));
+		additional_remainder_x = width_no_margins % tot_row_cols;
 		assert(additional_remainder_x >= 0);
 	}
 	else {
@@ -157,11 +160,23 @@ void LayoutItem::resolve(
 	}
 
 	for (LayoutItem* item : child_items) {
+		LayoutItem* next = item->getNext(*this);
+
 		item->width = item_width;
 		// Simple correction for precision issues.
 		if (additional_remainder_x > 0) {
-			item->width++;
-			additional_remainder_x--;
+			if (next) {
+				item->width++;
+				additional_remainder_x--;
+			}
+			else {
+				// For the last button in a row, additional_remainder_x may be
+				// larger than 1 (pretty sure it can't ever be more than two
+				// though), so add all that is left to it.
+				assert(additional_remainder_x <= 2);
+				item->width += additional_remainder_x;
+				additional_remainder_x = 0;
+			}
 		}
 
 		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
@@ -181,7 +196,7 @@ void LayoutItem::resolve(
 				ypos -= item_margin;
 				height += item_margin;
 			}
-			else if (item->getNext(*this)) {
+			else if (next) {
 				ypos += 1;
 				height -= 1;
 			}
@@ -192,7 +207,7 @@ void LayoutItem::resolve(
 			if (item->needsMarginBeforeNext(*this)) {
 				xpos += item_margin;
 			}
-			else if (item->getNext(*this)) {
+			else if (next) {
 				xpos -= 1;
 				additional_remainder_x += 1;
 			}
