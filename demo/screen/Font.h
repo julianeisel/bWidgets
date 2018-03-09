@@ -73,7 +73,10 @@ public:
 	FontGlyph(
 	        const unsigned int, const unsigned int, const unsigned int,
 	        const int, const int, const int, const unsigned char*);
+	FontGlyph();
 	~FontGlyph();
+
+	bool is_valid;
 
 	unsigned int index; // Same as freetype index
 

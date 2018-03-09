@@ -3,6 +3,8 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "bwUtil.h"
+
 // drawing
 extern "C" {
 #include "../../extern/gawain/gawain/immediate.h"
@@ -90,6 +92,9 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 
 		if (!mask.isEmpty() && ((pen_x + glyph.advance_width) > mask.xmax)) {
 			break;
+		}
+		if (glyph.is_valid == false) {
+			std::cout << "Error: Trying to render invalid character" << std::endl;
 		}
 		pen_x += renderGlyph(glyph, previous_glyph, pos, texcoord, pen_x, pos_y);
 		previous_glyph = &glyph;
@@ -207,8 +212,7 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 void Font::FontGlyphCache::ensureUpdated(Font& font)
 {
 	FT_UInt glyph_index;
-	// Only print errors on first caching of a font. Don't keep printing same errors when re-caching.
-	bool print_errors = font.changed;
+	bWidgets::bwPointer<FontGlyph> glyph;
 
 	if (is_dirty == false) {
 		return;
@@ -225,23 +229,24 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 	     glyph_index != 0;
 	     charcode = FT_Get_Next_Char(font.face, charcode, &glyph_index))
 	{
-		if (FT_Load_Glyph(font.face, glyph_index, FT_LOAD_TARGET_NORMAL | FT_LOAD_NO_HINTING | FT_LOAD_RENDER)) {
-			if (print_errors) {
-				std::cout << "Error: Failed to render character at index '" <<
-				             glyph_index << "' into cache" << std::endl;
-			}
+		FT_Int32 load_flags = FT_LOAD_TARGET_NORMAL | FT_LOAD_NO_HINTING | FT_LOAD_RENDER;
+		FT_Error error = FT_Load_Glyph(font.face, glyph_index, load_flags);
+
+		if (error != 0) {
+			// This constructor marks glyph as invalid.
+			glyph = bWidgets::bwPointer_new<FontGlyph>();
 		}
 		else {
 			const FT_GlyphSlot freetype_glyph = font.face->glyph;
-			std::unique_ptr<FontGlyph> glyph(new FontGlyph(
-			                                       glyph_index,
-			                                       freetype_glyph->bitmap.width, freetype_glyph->bitmap.rows,
-			                                       freetype_glyph->bitmap_left, freetype_glyph->bitmap_top,
-			                                       freetype_glyph->advance.x >> 6,
-			                                       freetype_glyph->bitmap.buffer));
 
-			cached_glyphs[glyph_index] = std::move(glyph);
+			glyph = bWidgets::bwPointer_new<FontGlyph>(
+			            glyph_index,
+			            freetype_glyph->bitmap.width, freetype_glyph->bitmap.rows,
+			            freetype_glyph->bitmap_left, freetype_glyph->bitmap_top,
+			            freetype_glyph->advance.x >> 6,
+			            freetype_glyph->bitmap.buffer);
 		}
+		cached_glyphs[glyph_index] = std::move(glyph);
 	}
 
 	is_dirty = false;
@@ -258,6 +263,7 @@ FontGlyph::FontGlyph(
         const int offset_left, const int offset_top,
         const int advance_width,
         const unsigned char* bitmap_buffer) :
+    is_valid(true),
     index(index),
     width(width), height(height),
     offset_left(offset_left), offset_top(offset_top),
@@ -267,7 +273,15 @@ FontGlyph::FontGlyph(
 	memcpy(bitmap, bitmap_buffer, width * height);
 }
 
+FontGlyph::FontGlyph() :
+    is_valid(false)
+{
+	
+}
+
 FontGlyph::~FontGlyph()
 {
-	delete[] bitmap;
+	if (is_valid) {
+		delete[] bitmap;
+	}
 }
