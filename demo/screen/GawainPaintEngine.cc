@@ -54,6 +54,8 @@ static PrimitiveType stage_polygon_drawtype_convert(
 			return PRIM_TRIANGLE_FAN;
 		case bwPainter::DRAW_TYPE_OUTLINE:
 			return PRIM_TRIANGLE_STRIP;
+		case bwPainter::DRAW_TYPE_LINE:
+			return PRIM_LINE_STRIP;
 	}
 
 	return PRIM_NONE;
@@ -123,7 +125,7 @@ void GawainPaintEngine::drawPolygon(
 
 	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
 
-	if (painter.active_drawtype == bwPainter::DRAW_TYPE_OUTLINE) {
+	if (painter.active_drawtype == bwPainter::DRAW_TYPE_OUTLINE || painter.use_antialiasing) {
 		bwColor drawcolor = color;
 
 		drawcolor[3] /= WIDGET_AA_JITTER;

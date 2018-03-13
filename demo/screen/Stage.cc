@@ -3,6 +3,7 @@
 
 // bWidgets lib
 #include "bwPainter.h"
+#include "bwPanel.h"
 #include "bwRange.h"
 #include "bwStyleManager.h"
 #include "bwUtil.h"
@@ -106,7 +107,7 @@ void Stage::drawScrollbars()
 void Stage::draw()
 {
 	bwRectanglePixel rect{0, (int)mask_width, 0, (int)mask_height};
-	bwColor clear_color{0.447f, 0.447f, 0.447f};
+	bwColor clear_color{114u};
 
 	bwPainter::paint_engine->setupViewport(rect, clear_color);
 
@@ -163,8 +164,18 @@ bwWidget* Stage::findWidgetAt(const bwPoint& coordinate)
 
 	layout->iterateWidgets([](bwWidget& widget, void* customdata){
 		WidgetLookupData* lookup_data = static_cast<WidgetLookupData*>(customdata);
-		return widget.isCoordinateInside(lookup_data->coordinate) ? (lookup_data->result = &widget, false) : true;
-	}, &lookup_data);
+
+		if (widget.type == bwWidget::WIDGET_TYPE_PANEL) {
+			// Temporary exception for until we have proper event handling with event bubbling and breaking
+			bwPanel& panel = *widget_cast<bwPanel*>(&widget);
+			return panel.isCoordinateInsideHeader(lookup_data->coordinate) ?
+			            (lookup_data->result = &widget, false) : true;
+		}
+		else {
+			return widget.isCoordinateInside(lookup_data->coordinate) ?
+			            (lookup_data->result = &widget, false) : true;
+		}
+	}, &lookup_data, true);
 
 	return lookup_data.result;
 }

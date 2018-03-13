@@ -25,6 +25,12 @@ enum TextAlignment: unsigned int {
 	TEXT_ALIGN_RIGHT,
 };
 
+enum Direction {
+	DIRECTION_UP,
+	DIRECTION_DOWN,
+	DIRECTION_LEFT,
+	DIRECTION_RIGHT,
+};
 
 class bwPainter
 {
@@ -32,6 +38,7 @@ public:
 	enum DrawType {
 		DRAW_TYPE_FILLED,
 		DRAW_TYPE_OUTLINE,
+		DRAW_TYPE_LINE,
 	} active_drawtype;
 
 	static bwPointer<class bwPaintEngine> paint_engine;
@@ -70,6 +77,14 @@ public:
 	        bwWidgetStyle::WidgetStyleColorID background_color_id = bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND);
 	void drawCheckMark(
 	        const bwRectanglePixel& rect);
+	void drawTriangle(
+	        const bwRectanglePixel& rect,
+	        Direction direction);
+	void drawLine(
+	        const bwPoint& from,
+	        const bwPoint& to);
+
+	bool use_antialiasing{false};
 
 private:
 	bwColor active_color;

@@ -69,6 +69,7 @@ public:
 	bwWidgetStyleArray& widget_styles; // TODO Utility function for getting widget_style for widget.
 
 	float dpi_fac;
+	bool draw_panel_separators{false};
 
 	struct StyleType
 	{

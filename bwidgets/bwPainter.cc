@@ -130,6 +130,54 @@ void bwPainter::drawCheckMark(
 	drawPolygon(polygon);
 }
 
+void bwPainter::drawTriangle(
+        const bwRectanglePixel& rect,
+        Direction direction)
+{
+	bwPolygon polygon{3};
+
+	switch (direction) {
+		case DIRECTION_UP:
+			polygon.addVertex(rect.xmin, rect.ymin);
+			polygon.addVertex(rect.xmin + (rect.width() * 0.5f), rect.ymax);
+			polygon.addVertex(rect.xmax, rect.ymin);
+			break;
+		case DIRECTION_DOWN:
+			polygon.addVertex(rect.xmin, rect.ymax);
+			polygon.addVertex(rect.xmin + (rect.width() * 0.5f), rect.ymin);
+			polygon.addVertex(rect.xmax, rect.ymax);
+			break;
+		case DIRECTION_LEFT:
+			polygon.addVertex(rect.xmax, rect.ymax);
+			polygon.addVertex(rect.xmin, rect.ymin + (rect.height() * 0.5f));
+			polygon.addVertex(rect.xmax, rect.ymin);
+			break;
+		case DIRECTION_RIGHT:
+			polygon.addVertex(rect.xmin, rect.ymax);
+			polygon.addVertex(rect.xmax, rect.ymin + (rect.height() * 0.5f));
+			polygon.addVertex(rect.xmin, rect.ymin);
+			break;
+	}
+
+	if (isGradientEnabled()) {
+		fillVertexColorsWithGradient(polygon, rect);
+	}
+
+	drawPolygon(polygon);
+}
+
+void bwPainter::drawLine(
+        const bwPoint& from,
+        const bwPoint& to)
+{
+	bwPolygon polygon{2};
+
+	active_drawtype = bwPainter::DRAW_TYPE_LINE;
+	polygon.addVertex(from.x, from.y);
+	polygon.addVertex(to.x, to.y);
+	drawPolygon(polygon);
+}
+
 namespace bWidgets {
 class PolygonRoundboxCreator
 {

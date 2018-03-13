@@ -73,19 +73,22 @@ static void initWidgetStyles(bwStyleBlenderClassic& style)
 	widget_style->shade_top = 0;
 	widget_style->shade_bottom = 25;
 	widget_style->roundbox_radius = 4.0f;
+
+	widget_style = &style.widget_styles[bwWidget::WIDGET_TYPE_PANEL];
+	widget_style->state_colors[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {114u};
+	widget_style->state_colors[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE]    = {114u};
 }
 
 bwStyleBlenderClassic::bwStyleBlenderClassic() :
     bwStyle(STYLE_BLENDER_CLASSIC, static_widget_styles)
 {
+	draw_panel_separators = true;
 	initWidgetStyles(*this);
 }
 
 void bwStyleBlenderClassic::setWidgetStyle(const bwWidget& widget)
 {
-	const bwAbstractButton* button = widget_cast<const bwAbstractButton*>(&widget);
-
-	if (button) {
+	if (const bwAbstractButton* button = widget_cast<const bwAbstractButton*>(&widget)) {
 		widget_styles[widget.type].roundbox_corners = button->rounded_corners;
 	}
 	else {

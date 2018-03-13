@@ -1,8 +1,14 @@
 #pragma once
 
 #include <list>
+
+#include "bwUtil.h"
 #include "bwWidget.h"
 
+
+namespace bWidgets {
+	class bwPanel;
+}
 
 namespace bWidgetsDemo {
 
@@ -30,6 +36,7 @@ public:
 		LAYOUT_ITEM_TYPE_ROOT,
 		LAYOUT_ITEM_TYPE_ROW,
 		LAYOUT_ITEM_TYPE_COLUMN,
+		LAYOUT_ITEM_TYPE_PANEL,
 		LAYOUT_ITEM_TYPE_WIDGET,
 	};
 
@@ -42,12 +49,19 @@ public:
 
 	virtual ~LayoutItem();
 
-	void resolve(
+	bool iterateWidgets(
+	        bool (*callback)(bWidgets::bwWidget& widget, void* custom_data),
+	        void* custom_data,
+	        bool skip_hidden = false);
+
+	virtual void draw(bWidgets::bwStyle& style) const;
+	virtual void resolve(
 	        const bWidgets::bwPoint& layout_pos,
 	        const unsigned int item_margin,
-	        const float scale_fac);
-	void draw(bWidgets::bwStyle& style);
-	bool iterateWidgets(bool (*callback)(bWidgets::bwWidget& widget, void* custom_data), void* custom_data);
+	        const float scale_fac,
+	        const LayoutItem& parent);
+	virtual bWidgets::bwWidget* getWidget() const;
+	virtual bool areChildrenHidden() const;
 
 	void addWidget(bWidgets::bwWidget* widget);
 	void addLayout(class RowLayout* layout);
@@ -135,6 +149,34 @@ public:
 	explicit RowLayout(
 	        const bool align = false,
 	        LayoutItem *parent = nullptr);
+};
+
+
+class PanelLayout : public LayoutItem
+{
+public:
+	explicit PanelLayout(
+	        const std::string& label,
+	        unsigned int header_height_hint,
+	        LayoutItem* parent = nullptr);
+
+	void draw(bWidgets::bwStyle &style) const override;
+	void resolve(
+	        const bWidgets::bwPoint& layout_pos,
+	        const unsigned int item_margin,
+	        const float scale_fac,
+	        const LayoutItem& parent) override;
+	bWidgets::bwWidget* getWidget() const override;
+	bool areChildrenHidden() const override;
+
+private:
+	void resolveContent(
+	        const bWidgets::bwPoint& panel_pos,
+	        const unsigned int padding,
+	        const unsigned int item_margin,
+	        const float scale_fac);
+
+	bWidgets::bwPointer<class bWidgets::bwPanel> panel;
 };
 
 } // namespace bWidgetsDemo

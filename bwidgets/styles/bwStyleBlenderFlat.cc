@@ -59,6 +59,10 @@ static void initWidgetStyles(bwStyleBlenderFlat& style)
 	widget_style->state_colors[bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION] = {0.353f, 0.353f, 0.353f};
 	widget_style->text_alignment = TEXT_ALIGN_LEFT,
 	widget_style->roundbox_radius = 4.0f;
+
+	widget_style = &style.widget_styles[bwWidget::WIDGET_TYPE_PANEL];
+	widget_style->state_colors[bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND] = {134u};
+	widget_style->state_colors[bwWidgetStyle::WIDGET_STYLE_COLOR_OUTLINE]    = {134u};
 }
 
 bwStyleBlenderFlat::bwStyleBlenderFlat() :

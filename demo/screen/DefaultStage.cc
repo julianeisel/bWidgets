@@ -12,7 +12,8 @@ using namespace bWidgetsDemo;
 using namespace bWidgets; // Less verbose
 
 
-#define BUTTON_HEIGHT 20
+#define BUTTON_HEIGHT       20
+#define PANEL_HEADER_HEIGHT 24
 
 namespace bWidgetsDemo {
 
@@ -57,22 +58,25 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 
 	addFakeSpacer(*layout);
 
-	ColumnLayout* col = new ColumnLayout(true, layout);
+
+	PanelLayout* panel = new PanelLayout("Some Testing Widgets", PANEL_HEADER_HEIGHT, layout);
+
+	ColumnLayout* col = new ColumnLayout(true, panel);
 	col->addWidget(new bwPushButton("Translate", 0, BUTTON_HEIGHT));
 	col->addWidget(new bwPushButton("Rotate", 0, BUTTON_HEIGHT));
 	col->addWidget(new bwPushButton("Scale", 0, BUTTON_HEIGHT));
 
-	layout->addWidget(new bwPushButton("Mirror", 0, BUTTON_HEIGHT));
+	panel->addWidget(new bwPushButton("Mirror", 0, BUTTON_HEIGHT));
 
-	addFakeSpacer(*layout);
 
-	RowLayout* row = new RowLayout(true, layout);
+	panel = new PanelLayout("More Testing...", PANEL_HEADER_HEIGHT, layout);
+	RowLayout* row = new RowLayout(true, panel);
 	row->addWidget(new bwCheckbox("Make Awesome", 0, BUTTON_HEIGHT));
 	row->addWidget(new bwCheckbox("Wireframes", 0, BUTTON_HEIGHT));
 
 	bwTextBox* text_box = new bwTextBox(0, BUTTON_HEIGHT);
 	text_box->setText("Some Text...");
-	layout->addWidget(text_box);
+	panel->addWidget(text_box);
 }
 
 void DefaultStage::addStyleSelector(LayoutItem& parent_layout)

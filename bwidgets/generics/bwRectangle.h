@@ -17,6 +17,16 @@ struct bwRectangle
 		
 	}
 
+	inline void set(
+	        const T _xmin, const T width,
+	        const T _ymin, const T height)
+	{
+		xmin = _xmin;
+		xmax = xmin + width;
+		ymin = _ymin;
+		ymax = ymin + height;
+	}
+
 	/**
 	 * Resize the rectangle by adding \a pixel to each side.
 	 */
@@ -54,6 +64,18 @@ struct bwRectangle
 	inline T centerY() const
 	{
 		return ymin + (height() / (T)2);
+	}
+
+	inline void scale(float scale)
+	{
+		const T cent_x = centerX();
+		const T cent_y = centerY();
+		const T size_x_half = width() * (scale * 0.5f);
+		const T size_y_half = height() * (scale * 0.5f);
+		xmin = cent_x - size_x_half;
+		ymin = cent_y - size_y_half;
+		xmax = cent_x + size_x_half;
+		ymax = cent_y + size_y_half;
 	}
 
 	T xmin, xmax;

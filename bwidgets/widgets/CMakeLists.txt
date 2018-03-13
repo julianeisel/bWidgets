@@ -6,6 +6,7 @@ set(SRC
 	bwCheckbox.cc
 	bwLabel.cc
 	bwNumberSlider.cc
+	bwPanel.cc
 	bwPushButton.cc
 	bwRadioButton.cc
 	bwScrollBar.cc
@@ -16,6 +17,7 @@ set(SRC
 	bwCheckbox.h
 	bwLabel.h
 	bwNumberSlider.h
+	bwPanel.h
 	bwPushButton.h
 	bwRadioButton.h
 	bwScrollBar.h

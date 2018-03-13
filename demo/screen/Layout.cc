@@ -4,6 +4,7 @@
 
 #include "bwAbstractButton.h"
 #include "bwPainter.h"
+#include "bwPanel.h"
 #include "bwPoint.h"
 
 #include "Layout.h"
@@ -21,8 +22,13 @@ class WidgetLayoutItem : public LayoutItem
 public:
 	WidgetLayoutItem(bwWidget* widget, LayoutItem* parent = nullptr);
 
-	void fitWidgetToItem(
-	        const int xmin, const int ymax) const;
+	void draw(bwStyle &style) const override;
+	void resolve(
+	        const bWidgets::bwPoint& layout_pos,
+	        const unsigned int item_margin,
+	        const float scale_fac,
+	        const LayoutItem& parent) override;
+	bwWidget* getWidget() const override;
 
 	void alignWidgetItem(const LayoutItem& parent);
 	bool canAlignWidgetItem() const;
@@ -33,13 +39,14 @@ public:
 
 	bwWidget* widget;
 };
+
 } // namespace bWidgetsDemo
 
 
 LayoutItem::LayoutItem(
         LayoutItemType item_type,
         const bool align,
-        LayoutItem *parent,
+        LayoutItem* parent,
         FlowDirection flow_direction) :
     type(item_type), flow_direction(flow_direction), align(align)
 {
@@ -60,33 +67,28 @@ LayoutItem::~LayoutItem()
 	}
 }
 
-void LayoutItem::draw(bwStyle& style)
+void LayoutItem::draw(bwStyle& style) const
 {
 	for (LayoutItem* item : child_items) {
-		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
-			WidgetLayoutItem& widget_item = *static_cast<WidgetLayoutItem*>(item);
-
-			if (!widget_item.widget->rectangle.isEmpty()) {
-				widget_item.widget->draw(style);
-			}
-		}
-		else {
-			item->draw(style);
-		}
+		item->draw(style);
 	}
 }
 
-bool LayoutItem::iterateWidgets(bool (*callback)(bwWidget&, void*), void* custom_data)
+bool LayoutItem::iterateWidgets(
+        bool (*callback)(bwWidget&, void*),
+        void* custom_data,
+        bool skip_hidden)
 {
 	for (LayoutItem* item : child_items) {
-		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
-			WidgetLayoutItem& widget_item = *static_cast<WidgetLayoutItem*>(item);
+		bwWidget* widget = item->getWidget();
 
-			if (!callback(*widget_item.widget, custom_data)) {
-				return false;
-			}
+		if (widget && !callback(*widget, custom_data)) {
+			return false;
 		}
-		else if (!item->iterateWidgets(callback, custom_data)) {
+		else if (skip_hidden && areChildrenHidden()) {
+			// skip
+		}
+		else if (!item->iterateWidgets(callback, custom_data, skip_hidden)) {
 			return false;
 		}
 	}
@@ -121,15 +123,26 @@ bool LayoutItem::hasChild(const LayoutItem& potential_child) const
 	return std::find(child_items.begin(), child_items.end(), &potential_child) != child_items.end();
 }
 
+bwWidget* LayoutItem::getWidget() const
+{
+	return nullptr;
+}
+
+bool LayoutItem::areChildrenHidden() const
+{
+	return false;
+}
+
 unsigned int LayoutItem::getHeight() const
 {
 	return height;
 }
 
 void LayoutItem::resolve(
-        const bWidgets::bwPoint& layout_pos,
+        const bwPoint& layout_pos,
         const unsigned int item_margin,
-        const float scale_fac)
+        const float scale_fac,
+        const LayoutItem& /*parent*/)
 {
 	int xpos = layout_pos.x;
 	int ypos = layout_pos.y;
@@ -179,17 +192,7 @@ void LayoutItem::resolve(
 			}
 		}
 
-		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
-			WidgetLayoutItem& widget_item = *static_cast<WidgetLayoutItem*>(item);
-			bwWidget& widget = *widget_item.widget;
-
-			widget_item.height = widget.height_hint * scale_fac;
-			widget_item.fitWidgetToItem(xpos, ypos);
-			widget_item.alignWidgetItem(*this);
-		}
-		else {
-			item->resolve(bwPoint(xpos, ypos), item_margin, scale_fac);
-		}
+		item->resolve(bwPoint(xpos, ypos), item_margin, scale_fac, *this);
 
 		if (flow_direction == FLOW_DIRECTION_VERTICAL) {
 			if (item->needsMarginBeforeNext(*this)) {
@@ -249,6 +252,7 @@ unsigned int LayoutItem::countRowColumns() const
 		switch (item->type) {
 			case LAYOUT_ITEM_TYPE_WIDGET:
 			case LAYOUT_ITEM_TYPE_COLUMN:
+			case LAYOUT_ITEM_TYPE_PANEL:
 				count_child_cols++;
 				break;
 			case LAYOUT_ITEM_TYPE_ROW:
@@ -321,8 +325,10 @@ void RootLayout::resolve(
 {
 	// Could check if layout actually needs to be updated.
 
+	bwPoint layout_position{(float)padding, ymax - padding - vertical_scroll};
+
 	width = max_size - (padding * 2);
-	LayoutItem::resolve(bwPoint(padding, ymax - padding - vertical_scroll), item_margin, scale_fac);
+	LayoutItem::resolve(layout_position, item_margin, scale_fac, *this);
 }
 
 void RootLayout::setMaxSize(const unsigned int _max_size)
@@ -338,7 +344,7 @@ void RootLayout::setYmax(const int value)
 
 ColumnLayout::ColumnLayout(
         const bool align,
-        LayoutItem *parent) :
+        LayoutItem* parent) :
     LayoutItem(LAYOUT_ITEM_TYPE_COLUMN, align, parent, FLOW_DIRECTION_VERTICAL)
 {
 	
@@ -347,10 +353,85 @@ ColumnLayout::ColumnLayout(
 
 RowLayout::RowLayout(
         const bool align,
-        LayoutItem *parent) :
+        LayoutItem* parent) :
     LayoutItem(LAYOUT_ITEM_TYPE_ROW, align, parent, FLOW_DIRECTION_HORIZONTAL)
 {
 	
+}
+
+
+PanelLayout::PanelLayout(
+        const std::string& label,
+        unsigned int header_height_hint,
+        LayoutItem* parent) :
+    LayoutItem(LAYOUT_ITEM_TYPE_PANEL, false, parent, FLOW_DIRECTION_VERTICAL),
+    panel(bwPointer_new<bwPanel>(label, header_height_hint))
+{
+	
+}
+
+void PanelLayout::draw(bwStyle &style) const
+{
+	// Draw panel background
+	if (!panel->rectangle.isEmpty()) {
+		panel->draw(style);
+	}
+
+	if (panel->panel_state == bwPanel::PANEL_OPEN) {
+		// Draw children
+		LayoutItem::draw(style);
+	}
+}
+
+
+void PanelLayout::resolve(
+        const bwPoint& layout_pos,
+        const unsigned int item_margin,
+        const float scale_fac,
+        const LayoutItem& /*parent*/)
+{
+	const float width_panel = width;
+	const unsigned int padding = item_margin; // XXX Using item_margin as padding...
+
+	panel->header_height = panel->getHeaderHeightHint() * scale_fac;
+
+	height = 0;
+	if (panel->panel_state == bwPanel::PANEL_OPEN) {
+		resolveContent(layout_pos, padding, item_margin, scale_fac);
+		height += 3 * padding;
+	}
+
+	height += panel->header_height;
+	panel->rectangle.set(layout_pos.x, width_panel, layout_pos.y - height, height);
+}
+
+void PanelLayout::resolveContent(
+        const bwPoint& panel_pos,
+        const unsigned int padding,
+        const unsigned int item_margin,
+        const float scale_fac)
+{
+	const unsigned int initial_width = width;
+	bwPoint panel_items_pos = panel_pos;
+
+	panel_items_pos.x += padding;
+	panel_items_pos.y -= padding + panel->header_height + padding;
+
+	width -= 2.0f * padding;
+
+	LayoutItem::resolve(panel_items_pos, item_margin, scale_fac, *this);
+
+	width = initial_width;
+}
+
+bwWidget* PanelLayout::getWidget() const
+{
+	return panel.get();
+}
+
+bool PanelLayout::areChildrenHidden() const
+{
+	return (panel->panel_state == bwPanel::PANEL_CLOSED);
 }
 
 
@@ -362,13 +443,27 @@ WidgetLayoutItem::WidgetLayoutItem(
 	
 }
 
-void WidgetLayoutItem::fitWidgetToItem(
-        const int xmin, const int ymax) const
+void WidgetLayoutItem::draw(bwStyle &style) const
 {
-	widget->rectangle.xmin = xmin;
-	widget->rectangle.xmax = widget->rectangle.xmin + width;
-	widget->rectangle.ymax = ymax;
-	widget->rectangle.ymin = widget->rectangle.ymax - height;
+	if (!widget->rectangle.isEmpty()) {
+		widget->draw(style);
+	}
+}
+
+void WidgetLayoutItem::resolve(
+        const bwPoint &layout_pos,
+        const unsigned int /*item_margin*/,
+        const float scale_fac,
+        const LayoutItem& parent)
+{
+	height = widget->height_hint * scale_fac;
+	widget->rectangle.set(layout_pos.x, width, layout_pos.y - height, height);
+	alignWidgetItem(parent);
+}
+
+bwWidget* WidgetLayoutItem::getWidget() const
+{
+	return widget;
 }
 
 void WidgetLayoutItem::alignmentSanityCheck(const LayoutItem& parent) const
