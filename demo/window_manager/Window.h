@@ -7,7 +7,7 @@ namespace bWidgetsDemo {
 class Window
 {
 public:
-	Window(std::string name, unsigned int size_x = 500, unsigned int size_y = 300);
+	Window(std::string name, unsigned int size_x = 600, unsigned int size_y = 350);
 	~Window();
 
 	enum WindowAction {
