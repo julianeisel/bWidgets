@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['setupviewport',['setupViewport',['../classbWidgets_1_1bwPaintEngine.html#a6671b452be046504e8866d678dadaf21',1,'bWidgets::bwPaintEngine']]]
+  ['make_5funique',['make_unique',['../namespacestd.html#a7a786f4c081743da2f7f09500b393ae4',1,'std']]]
 ];

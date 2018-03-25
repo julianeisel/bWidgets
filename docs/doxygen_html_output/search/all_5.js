@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['make_5funique',['make_unique',['../namespacestd.html#a7a786f4c081743da2f7f09500b393ae4',1,'std']]]
+  ['hidden',['hidden',['../classbWidgets_1_1bwWidget.html#ac0e79a199d830d4df1c54861dc9b2673',1,'bWidgets::bwWidget']]]
 ];

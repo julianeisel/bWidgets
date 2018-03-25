@@ -61,6 +61,7 @@ public:
 	        const float scale_fac,
 	        const LayoutItem& parent);
 	virtual bWidgets::bwWidget* getWidget() const;
+	virtual bool isHidden() const;
 	virtual bool areChildrenHidden() const;
 
 	void addWidget(bWidgets::bwWidget* widget);
@@ -83,8 +84,12 @@ protected:
 	        LayoutItem *parent = nullptr,
 	        FlowDirection flow_direction = FLOW_DIRECTION_HORIZONTAL);
 
-	LayoutItem* getPrevious(const LayoutItem& parent) const;
-	LayoutItem* getNext(const LayoutItem& parent) const;
+	LayoutItem* getPrevious(
+	        const LayoutItem& parent,
+	        const bool skip_hidden) const;
+	LayoutItem* getNext(
+	        const LayoutItem& parent,
+	        const bool skip_hidden) const;
 
 	using IteratorItem = std::list<LayoutItem*>::const_iterator;
 

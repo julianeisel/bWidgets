@@ -9,8 +9,10 @@ set(INC
 set(SRC
 	Application.cc
 	bwidgets_demo.cc
+	File.cc
 
 	Application.h
+	File.h
 )
 
 set(LIB
@@ -39,6 +41,9 @@ if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
 	set(RESOURCES
 		bfont.ttf
 		LICENSE-bfont.ttf.txt
+		classic_style.css
+		flat_light.css
+		flat_dark.css
 	)
 
 	set(RESOURCES_PATH ${CMAKE_CURRENT_BINARY_DIR}/resources)

@@ -3,8 +3,10 @@
 #include <memory>
 #include <string>
 
-#include "bwWidget.h"
+#include "bwColor.h"
 #include "bwUtil.h"
+#include "bwWidget.h"
+#include "bwWidgetBaseStyle.h"
 
 namespace bWidgets {
 
@@ -14,7 +16,8 @@ namespace bWidgets {
 class bwAbstractButton : public bwWidget
 {
 public:
-	virtual void draw(class bwStyle &style) const override;
+	virtual void draw(class bwStyle &style) override;
+	virtual void registerProperties() override;
 
 	virtual void mousePressEvent(
 	        const MouseButton button,
@@ -36,11 +39,13 @@ protected:
 	// Protected constructor to force calling through inherited class (pseudo abstract).
 	bwAbstractButton(
 	        const std::string& text,
-	        const WidgetType type,
+	        const WidgetType type, const std::string& identifier,
 	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
 	void apply();
 
 	const std::string text;
+
+public: bwWidgetBaseStyle base_style; // XXX public for setWidgetStyle. Should only be temporarily needed.
 };
 
 } // namespace bWidgets

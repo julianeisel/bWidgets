@@ -6,6 +6,7 @@
 #include "bwDistance.h"
 #include "bwFunctorInterface.h"
 #include "bwRectangle.h"
+#include "bwStyleProperties.h"
 
 namespace bWidgets {
 
@@ -30,7 +31,7 @@ public:
 	} type;
 
 	enum WidgetState {
-		STATE_NORMAL,
+		STATE_NORMAL = 0,
 		STATE_HIGHLIGHTED,
 		STATE_SUNKEN,
 
@@ -48,13 +49,13 @@ public:
 	};
 
 	bwWidget(
-	        const WidgetType type,
+	        const WidgetType type, const std::string& identifier,
 	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
-	virtual ~bwWidget() {}
+	virtual ~bwWidget() = default;
 
 	virtual bool isCoordinateInside(const bwPoint& point) const;
 
-	virtual void draw(class bwStyle& style) const = 0;
+	virtual void draw(class bwStyle& style) = 0;
 
 	// Events
 	virtual void mousePressEvent(
@@ -72,6 +73,8 @@ public:
 	virtual void mouseEnter();
 	virtual void mouseLeave();
 
+	const std::string& getIdentifier() const;
+
 	/**
 	 * Final rectangle defining the widget bounding-box.
 	 * \note This really is assumed to be the final bounding-box, bwStyle.dpi_fac will not get applied to it.
@@ -84,6 +87,25 @@ public:
 	 * that matters is the final \a rectangle. Like the name suggests it's really just a hint.
 	 */
 	unsigned int width_hint, height_hint;
+	/**
+	 * Hint if widget was explicitly hidden. bWidgets itself doesn't do
+	 * anything with it (yet). The actual application can use it for its layout
+	 * calculations or simply ignore it.
+	 * \note This should not be used to mark a widget as not visible (e.g.
+	 *       because it's scrolled out of view). Only use it to hide a widget
+	 *       after an explicit user action that makes the button irrelevant or
+	 *       inappropriate (e.g. a usage hint that should only be shown if a
+	 *       specific option is enabled).
+	 */
+	bool hidden{false};
+
+	bwStyleProperties style_properties;
+
+protected:
+	std::string identifier;
+
+	void initialize();
+	virtual void registerProperties();
 };
 
 /**

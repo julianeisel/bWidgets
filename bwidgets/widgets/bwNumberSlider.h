@@ -11,7 +11,7 @@ public:
 	bwNumberSlider(
 	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
 
-	void draw(class bwStyle &style) const override;
+	void draw(class bwStyle &style) override;
 
 	void mousePressEvent(
 	        const MouseButton button,

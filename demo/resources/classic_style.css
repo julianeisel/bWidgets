@@ -1,0 +1,133 @@
+Stage {
+    background-color: rgb(114, 114, 114);
+}
+
+bwCheckbox
+{
+    border-color: rgb(0, 0, 0);
+    background-color: rgb(70, 70, 70);
+    decoration-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    shade-top: 15;
+    shade-bottom: -15;
+    border-radius: 4px;
+}
+bwCheckbox:hover
+{
+    background-color: rgb(85, 85, 85);
+}
+bwCheckbox:active
+{
+    color: rgb(255, 255, 255);
+    shade-top: -15;
+    shade-bottom: 15;
+}
+
+bwLabel
+{
+    color: rgb(0, 0, 0);
+}
+
+bwNumberSlider
+{
+    border-color: rgb(25, 25, 25);
+    background-color: rgb(180, 180, 180);
+    decoration-color: rgb(128, 128, 128);
+    color: rgb(0, 0, 0);
+    shade-top: -20;
+    shade-bottom: 0;
+    border-radius: 10px;
+}
+bwNumberSlider:hover
+{
+    background-color: rgb(195, 195, 195);
+}
+bwNumberSlider:active
+{
+    background-color: rgb(153, 153, 153);
+    color: rgb(255, 255, 255);
+}
+
+bwPanel
+{
+    background-color: rgb(114, 114, 114);
+    border-color: rgb(114, 114, 114);
+    draw-separator: true;
+}
+
+bwPushButton
+{
+    border-color: rgb(25, 25, 25);
+    background-color: rgb(153, 153, 153);
+    color: rgb(0, 0, 0);
+    shade-top: 15;
+    shade-bottom: -15;
+    border-radius: 5px;
+}
+bwPushButton:hover
+{
+    background-color: rgb(168, 168, 168);
+}
+bwPushButton:active
+{
+    background-color: rgb(100, 100, 100);
+    color: rgb(255, 255, 255);
+    shade-top: -15;
+    shade-bottom: 15;
+}
+
+bwRadioButton
+{
+    border-color: rgb(0, 0, 0);
+    background-color: rgb(70, 70, 70);
+    color: rgb(255, 255, 255);
+    shade-top: 15;
+    shade-bottom: -15;
+    border-radius: 4px;
+}
+bwRadioButton:hover
+{
+    background-color: rgb(85, 85, 85);
+}
+bwRadioButton:active
+{
+    background-color: rgb(86, 128, 194);
+    color: rgb(0, 0, 0);
+    shade-top: -15;
+    shade-bottom: 15;
+}
+
+bwScrollBar
+{
+    border-color: rgb(50, 50, 50, 180);
+    background-color: rgba(80, 80, 80, 180);
+    decoration-color: rgb(128, 128, 128);
+    color: rgb(0, 0, 0);
+    shade-top: 5;
+    shade-bottom: -5;
+    border-radius: 6.5px;
+}
+bwScrollBar:active
+{
+    decoration-color: rgb(133, 133, 133);
+    color: rgb(255, 255, 255);
+}
+
+bwTextBox
+{
+    border-color: rgb(25, 25, 25);
+    background-color: rgb(153, 153, 153);
+    decoration-color: rgb(90, 90, 90);
+    color: rgb(0, 0, 0);
+    shade-top: 0;
+    shade-bottom: 25;
+    border-radius: 4px;
+}
+bwTextBox:hover
+{
+    background-color: rgb(168, 168, 168);
+}
+bwTextBox:active
+{
+    color: rgb(255, 255, 255);
+}

@@ -6,6 +6,7 @@
 #include "bwGradient.h"
 #include "bwStyle.h"
 #include "bwUtil.h"
+#include "bwWidgetBaseStyle.h"
 
 namespace bWidgets {
 
@@ -69,12 +70,11 @@ public:
 	void drawRectangle(
 	        const bwRectanglePixel& rect);
 	void drawRoundboxWidgetBase(
-	        const bwWidgetStyle& widget_style,
-	        const bwWidget::WidgetState widget,
+	        const bwWidgetBaseStyle& base_style,
 	        const class bwStyle& style,
 	        const bwRectanglePixel rectangle,
-	        bwGradient::Direction gradient_direction = bwGradient::DIRECTION_TOP_BOTTOM,
-	        bwWidgetStyle::WidgetStyleColorID background_color_id = bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND);
+	        const bwGradient& gradient,
+	        const float radius);
 	void drawCheckMark(
 	        const bwRectanglePixel& rect);
 	void drawTriangle(

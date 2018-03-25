@@ -3,6 +3,7 @@ set(INC
 	${FREETYPE_INCLUDE_DIRS}
 	..
 	../gpu
+	../extern/katana-parser/src
 	../../bwidgets/styles
 )
 
@@ -12,17 +13,22 @@ set(SRC
 	GawainPaintEngine.cc
 	Layout.cc
 	Stage.cc
+	StyleSheet.cc
+	StyleSheetTree.cc
 
 	DefaultStage.h
 	Font.h
 	GawainPaintEngine.h
 	Layout.h
 	Stage.h
+	StyleSheet.h
+	StyleSheetTree.h
 )
 
 set(LIB
 	${FREETYPE_LIBRARIES}
 	bWidgets
+	extern_katana
 
 	bwd_gpu
 )

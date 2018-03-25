@@ -9,16 +9,18 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 set(INC
+	../../bwidgets
 	../../bwidgets/generics
 	../gtest/include
 )
 
 set(SRC
 	bwPolygon_test.cc
+	bwStyleProperties_test.cc
 )
 
 set(LIB
-	bw_generics
+	bWidgets
 	testing_gtest
 	testing_main
 )

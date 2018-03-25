@@ -24,8 +24,8 @@ public:
 	bool isDrawable() const;
 
 protected:
-	bwPointVec vertices;
-	unsigned int vert_count;
+	bwPointVec vertices{};
+	unsigned int vert_count{0};
 };
 
 } // namespace bWidgets

@@ -15,6 +15,7 @@ namespace bWidgetsDemo {
 class Stage {
 	friend class ScrollbarApplyValueFunctor;
 	friend class StyleSetter;
+	friend class UseCSSVersionToggleSetter;
 
 public:
 	Stage(const unsigned int mask_width, const unsigned int mask_height);
@@ -30,8 +31,8 @@ public:
 	        const class MouseEvent& event);
 	void handleMouseScrollEvent(
 	        const class MouseEvent& event);
-
-	virtual void handleWindowResizeEvent(const class Window& win);
+	void handleWindowResizeEvent(
+	        const class Window& win);
 
 protected:
 	class RootLayout* layout;
@@ -39,12 +40,14 @@ protected:
 	// Static members, global UI data for all stages
 	static bwPointer<bwStyle> style;
 	static bwPointer<class Font> font;
+	static bwPointer<class StyleSheet> style_sheet;
 	static float interface_scale;
 
 	unsigned int mask_width, mask_height;
 	int vert_scroll = 0;
 
-	void activateStyleID(bwStyle::StyleTypeID type_id);
+	virtual void activateStyleID(bwStyle::StyleTypeID type_id);
+
 	static void setInterfaceScale(const float value);
 
 private:
@@ -54,6 +57,9 @@ private:
 	bwWidget* last_hovered;
 	bwWidget* dragged_widget;
 
+	static void StyleSheetPolish(bwWidget& widget);
+
+	void setStyleSheet(const std::string& filepath);
 	void initFonts();
 	void drawScrollbars();
 	void updateContentBounds();

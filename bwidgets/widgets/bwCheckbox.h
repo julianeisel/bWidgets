@@ -12,7 +12,7 @@ public:
 	        const std::string& text,
 	        unsigned int width_hint, unsigned int height_hint);
 
-	void draw(class bwStyle &style) const override;
+	void draw(class bwStyle &style) override;
 
 	void mousePressEvent(
 	        const MouseButton button,

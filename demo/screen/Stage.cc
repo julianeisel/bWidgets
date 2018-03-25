@@ -5,6 +5,8 @@
 #include "bwPainter.h"
 #include "bwPanel.h"
 #include "bwRange.h"
+#include "bwStyleCSS.h"
+#include "bwStyleFlatDark.h"
 #include "bwStyleManager.h"
 #include "bwUtil.h"
 
@@ -12,6 +14,7 @@
 #include "Font.h"
 #include "GawainPaintEngine.h"
 #include "Layout.h"
+#include "StyleSheet.h"
 #include "Window.h"
 
 #include "Stage.h"
@@ -21,9 +24,19 @@ using namespace bWidgetsDemo;
 using namespace bWidgets; // Less verbose
 
 bwPointer<bwStyle> Stage::style = nullptr;
+bwPointer<StyleSheet> Stage::style_sheet = nullptr;
 bwPointer<Font> Stage::font = nullptr;
 float Stage::interface_scale = 1.0f;
 
+
+void Stage::StyleSheetPolish(bwWidget& widget)
+{
+	StyleSheet& stylesheet = *Stage::style_sheet;
+
+	for (const bwPointer<bwStyleProperty>& property : widget.style_properties) {
+		stylesheet.resolveValue(widget.getIdentifier(), widget.state, *property);
+	}
+}
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
     mask_width(width), mask_height(height), last_hovered(nullptr), dragged_widget(nullptr)
@@ -32,10 +45,11 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 
 	// After font-init!
 	bwPainter::paint_engine = bwPointer_new<GawainPaintEngine>(*font);
+	bwStyleCSS::polish_cb = Stage::StyleSheetPolish;
 
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
 	style_manager.registerDefaultStyleTypes();
-	activateStyleID(bwStyle::STYLE_BLENDER_CLASSIC);
+	activateStyleID(bwStyle::STYLE_CLASSIC);
 
 	layout = new RootLayout(height, width);
 	layout->padding = 7;
@@ -107,7 +121,26 @@ void Stage::drawScrollbars()
 void Stage::draw()
 {
 	bwRectanglePixel rect{0, (int)mask_width, 0, (int)mask_height};
+	bwStyleProperties properties;
 	bwColor clear_color{114u};
+
+	if (style->type_id == bwStyle::STYLE_CLASSIC_CSS) {
+		setStyleSheet(std::string(RESOURCES_PATH_STR) + "/" + "classic_style.css");
+	}
+	else if (style->type_id == bwStyle::STYLE_FLAT_LIGHT) {
+		setStyleSheet(std::string(RESOURCES_PATH_STR) + "/" + "flat_light.css");
+	}
+	else if (style->type_id == bwStyle::STYLE_FLAT_DARK) {
+		setStyleSheet(std::string(RESOURCES_PATH_STR) + "/" + "flat_dark.css");
+	}
+	else {
+		style_sheet = nullptr;
+	}
+
+	bwStyleProperty& property = properties.addColor("background-color", clear_color);
+	if (style_sheet) {
+		style_sheet->resolveValue("Stage", bwWidget::STATE_NORMAL, property);
+	}
 
 	bwPainter::paint_engine->setupViewport(rect, clear_color);
 
@@ -124,6 +157,17 @@ void Stage::setInterfaceScale(const float value)
 		interface_scale = value;
 		font->setSize(11.0f * value);
 		style->dpi_fac = value;
+	}
+}
+
+void Stage::setStyleSheet(const std::string& filepath)
+{
+	if (!style_sheet || (style_sheet->getFilepath() != filepath)) {
+		style_sheet = bwPointer_new<StyleSheet>(filepath);
+	}
+	else {
+		/* TODO skip if file didn't change. */
+		style_sheet->reload();
 	}
 }
 

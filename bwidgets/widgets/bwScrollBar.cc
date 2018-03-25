@@ -8,48 +8,50 @@ using namespace bWidgets;
 
 bwScrollBar::bwScrollBar(
         unsigned int width_hint, unsigned int height_hint) :
-    bwAbstractButton("", WIDGET_TYPE_SCROLL_BAR, width_hint, height_hint)
+    bwAbstractButton("", WIDGET_TYPE_SCROLL_BAR, "bwScrollBar", width_hint, height_hint)
 {
 	
 }
 
-void bwScrollBar::draw(bwStyle& style) const
+void bwScrollBar::draw(bwStyle& style)
 {
-	bwWidgetStyle& widget_style = style.widget_styles[type];
+	style.setWidgetStyle(*this);
+
 	bwRectanglePixel rect_inner{rectangle};
 	/* TODO maybe a wrapper could ensure old style is unchanged after drawing (by resetting it) */
-	const char old_shade_top = widget_style.shade_top;
-	const char old_shade_bottom = widget_style.shade_bottom;
+	const char old_shade_top = base_style.shade_top;
+	const char old_shade_bottom = base_style.shade_bottom;
+	const bwGradient gradient_outer{
+	        base_style.backgroundColor(),
+	        base_style.shadeBottom(), base_style.shadeTop(),
+	        bwGradient::DIRECTION_LEFT_RIGHT
+	};
 	bwPainter painter;
 
 	rect_inner.ymax += (ratio * scroll_offset);
 	rect_inner.ymin = rect_inner.ymax - (ratio * rectangle.height());
 
-	style.setWidgetStyle(*this);
+	painter.drawRoundboxWidgetBase(base_style, style, rectangle, gradient_outer, base_style.corner_radius);
 
-	std::swap(widget_style.shade_top, widget_style.shade_bottom);
-	painter.drawRoundboxWidgetBase(
-	            widget_style, bwWidget::STATE_NORMAL, style, rectangle,
-	            bwGradient::DIRECTION_LEFT_RIGHT);
-
-	std::swap(widget_style.shade_top, widget_style.shade_bottom);
-	if (widget_style.shade_bottom == widget_style.shade_top) {
+	if (base_style.shadeTop() == base_style.shadeBottom()) {
 		// no shading, skip
 	}
-	else if (widget_style.shade_top > widget_style.shade_bottom) {
-		widget_style.shade_top += 20;
+	else if (base_style.shadeTop() > base_style.shadeBottom()) {
+		base_style.shade_top += 20;
 	}
 	else {
-		widget_style.shade_bottom += 20;
+		base_style.shade_bottom += 20;
 	}
 
-	painter.drawRoundboxWidgetBase(
-	            widget_style, state, style, rect_inner,
-	            bwGradient::DIRECTION_LEFT_RIGHT,
-	            bwWidgetStyle::WIDGET_STYLE_COLOR_DECORATION);
+	const bwGradient gradient_inner{
+	        base_style.decorationColor(),
+	        base_style.shadeTop(), base_style.shadeBottom(),
+	        bwGradient::DIRECTION_LEFT_RIGHT
+	};
+	painter.drawRoundboxWidgetBase(base_style, style, rect_inner, gradient_inner, base_style.corner_radius);
 
-	widget_style.shade_top = old_shade_top;
-	widget_style.shade_bottom = old_shade_bottom;
+	base_style.shade_top = old_shade_top;
+	base_style.shade_bottom = old_shade_bottom;
 }
 
 void bwScrollBar::mousePressEvent(

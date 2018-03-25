@@ -29,6 +29,7 @@ public:
 	        const float scale_fac,
 	        const LayoutItem& parent) override;
 	bwWidget* getWidget() const override;
+	bool isHidden() const override;
 
 	void alignWidgetItem(const LayoutItem& parent);
 	bool canAlignWidgetItem() const;
@@ -70,7 +71,9 @@ LayoutItem::~LayoutItem()
 void LayoutItem::draw(bwStyle& style) const
 {
 	for (LayoutItem* item : child_items) {
-		item->draw(style);
+		if (!item->isHidden()) {
+			item->draw(style);
+		}
 	}
 }
 
@@ -82,7 +85,10 @@ bool LayoutItem::iterateWidgets(
 	for (LayoutItem* item : child_items) {
 		bwWidget* widget = item->getWidget();
 
-		if (widget && !callback(*widget, custom_data)) {
+		if (skip_hidden && item->isHidden()) {
+			// skip
+		}
+		else if (widget && !callback(*widget, custom_data)) {
 			return false;
 		}
 		else if (skip_hidden && areChildrenHidden()) {
@@ -128,6 +134,11 @@ bwWidget* LayoutItem::getWidget() const
 	return nullptr;
 }
 
+bool LayoutItem::isHidden() const
+{
+	return false;
+}
+
 bool LayoutItem::areChildrenHidden() const
 {
 	return false;
@@ -162,10 +173,13 @@ void LayoutItem::resolve(
 		// add up to the parent's max-width. From this max-width, the item margins are subtracted.
 		unsigned int tot_row_cols = countRowColumns();
 
-		if (tot_row_cols != 0) {
-			item_width = width_no_margins / tot_row_cols;
+		if (tot_row_cols == 0) {
+			width = 0;
 		}
-		additional_remainder_x = width_no_margins % tot_row_cols;
+		else {
+			item_width = width_no_margins / tot_row_cols;
+			additional_remainder_x = width_no_margins % tot_row_cols;
+		}
 		assert(additional_remainder_x >= 0);
 	}
 	else {
@@ -173,7 +187,11 @@ void LayoutItem::resolve(
 	}
 
 	for (LayoutItem* item : child_items) {
-		LayoutItem* next = item->getNext(*this);
+		if (item->isHidden()) {
+			continue;
+		}
+
+		LayoutItem* next = item->getNext(*this, true);
 
 		item->width = item_width;
 		// Simple correction for precision issues.
@@ -184,9 +202,8 @@ void LayoutItem::resolve(
 			}
 			else {
 				// For the last button in a row, additional_remainder_x may be
-				// larger than 1 (pretty sure it can't ever be more than two
-				// though), so add all that is left to it.
-				assert(additional_remainder_x <= 2);
+				// larger than 1, so add all that is left to it.
+//				assert(additional_remainder_x <= 2);
 				item->width += additional_remainder_x;
 				additional_remainder_x = 0;
 			}
@@ -224,7 +241,7 @@ void LayoutItem::resolve(
 
 bool LayoutItem::needsMarginBeforeNext(const LayoutItem& parent) const
 {
-	const LayoutItem* next = getNext(parent);
+	const LayoutItem* next = getNext(parent, true);
 
 	if (!next) {
 		return false;
@@ -233,7 +250,6 @@ bool LayoutItem::needsMarginBeforeNext(const LayoutItem& parent) const
 		const WidgetLayoutItem& widget_item = static_cast<const WidgetLayoutItem&>(*this);
 		const WidgetLayoutItem& next_widget_item = static_cast<const WidgetLayoutItem&>(*next);
 
-		assert(*std::next(iterator_item) == next);
 		if (widget_item.canAlignWidgetItem() && next_widget_item.canAlignWidgetItem()) {
 			return false;
 		}
@@ -249,6 +265,9 @@ unsigned int LayoutItem::countRowColumns() const
 	assert(type == LAYOUT_ITEM_TYPE_ROW);
 
 	for (LayoutItem* item : child_items) {
+		if (item->isHidden()) {
+			continue;
+		}
 		switch (item->type) {
 			case LAYOUT_ITEM_TYPE_WIDGET:
 			case LAYOUT_ITEM_TYPE_COLUMN:
@@ -274,6 +293,9 @@ unsigned int LayoutItem::countNeededMargins() const
 	unsigned int tot_margins = 0;
 
 	for (LayoutItem* item : child_items) {
+		if (item->isHidden()) {
+			continue;
+		}
 		if (item->needsMarginBeforeNext(*this)) {
 			tot_margins++;
 		}
@@ -282,25 +304,39 @@ unsigned int LayoutItem::countNeededMargins() const
 	return tot_margins;
 }
 
-LayoutItem* LayoutItem::getPrevious(const LayoutItem& parent) const
+LayoutItem* LayoutItem::getPrevious(
+        const LayoutItem& parent,
+        const bool skip_hidden) const
 {
 	if (iterator_item == parent.child_items.begin()) {
 		return nullptr;
 	}
-	else {
-		IteratorItem iterator_item_prev = std::prev(iterator_item);
-		return *iterator_item_prev;
+
+	for (IteratorItem iterator_item_prev = std::prev(iterator_item);
+	     std::next(iterator_item_prev) != parent.child_items.begin();
+	     iterator_item_prev = std::prev(iterator_item_prev))
+	{
+		if (!skip_hidden || ((*iterator_item_prev)->isHidden() == false)) {
+			return *iterator_item_prev;
+		}
 	}
+
+	return nullptr;
 }
-LayoutItem* LayoutItem::getNext(const LayoutItem& parent) const
+LayoutItem* LayoutItem::getNext(
+        const LayoutItem& parent,
+        const bool skip_hidden) const
 {
-	if (iterator_item == parent.child_items.end()) {
-		return nullptr;
+	for (IteratorItem iterator_item_next = std::next(iterator_item);
+	     iterator_item_next != parent.child_items.end();
+	     iterator_item_next = std::next(iterator_item_next))
+	{
+		if (!skip_hidden || ((*iterator_item_next)->isHidden() == false)) {
+			return *iterator_item_next;
+		}
 	}
-	else {
-		const IteratorItem iterator_item_next = std::next(iterator_item);
-		return (iterator_item_next == parent.child_items.end()) ? nullptr : *iterator_item_next;
-	}
+
+	return nullptr;
 }
 
 
@@ -445,6 +481,7 @@ WidgetLayoutItem::WidgetLayoutItem(
 
 void WidgetLayoutItem::draw(bwStyle &style) const
 {
+	assert(widget->hidden == false);
 	if (!widget->rectangle.isEmpty()) {
 		widget->draw(style);
 	}
@@ -464,6 +501,11 @@ void WidgetLayoutItem::resolve(
 bwWidget* WidgetLayoutItem::getWidget() const
 {
 	return widget;
+}
+
+bool WidgetLayoutItem::isHidden() const
+{
+	return widget->hidden;
 }
 
 void WidgetLayoutItem::alignmentSanityCheck(const LayoutItem& parent) const
@@ -491,7 +533,7 @@ bool WidgetLayoutItem::isAlignedtoPrevious(const LayoutItem& parent) const
 	if (!parent.align) {
 		return false;
 	}
-	if (!(item_prev = getPrevious(parent)) ||
+	if (!(item_prev = getPrevious(parent, true)) ||
 	    (item_prev->type != LAYOUT_ITEM_TYPE_WIDGET) ||
 	    (!(static_cast<WidgetLayoutItem*>(item_prev)->canAlignWidgetItem())))
 	{
@@ -509,7 +551,7 @@ bool WidgetLayoutItem::isAlignedtoNext(const LayoutItem& parent) const
 	if (!parent.align) {
 		return false;
 	}
-	if (!(item_next = getNext(parent)) || (item_next->type != LAYOUT_ITEM_TYPE_WIDGET)) {
+	if (!(item_next = getNext(parent, true)) || (item_next->type != LAYOUT_ITEM_TYPE_WIDGET)) {
 		return false;
 	}
 	else if ((item_next->type == LAYOUT_ITEM_TYPE_WIDGET) &&

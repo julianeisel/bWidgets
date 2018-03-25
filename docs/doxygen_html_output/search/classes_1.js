@@ -9,6 +9,7 @@ var searchData=
   ['bwnumberslider',['bwNumberSlider',['../classbWidgets_1_1bwNumberSlider.html',1,'bWidgets']]],
   ['bwpaintengine',['bwPaintEngine',['../classbWidgets_1_1bwPaintEngine.html',1,'bWidgets']]],
   ['bwpainter',['bwPainter',['../classbWidgets_1_1bwPainter.html',1,'bWidgets']]],
+  ['bwpanel',['bwPanel',['../classbWidgets_1_1bwPanel.html',1,'bWidgets']]],
   ['bwpoint',['bwPoint',['../classbWidgets_1_1bwPoint.html',1,'bWidgets']]],
   ['bwpolygon',['bwPolygon',['../classbWidgets_1_1bwPolygon.html',1,'bWidgets']]],
   ['bwpushbutton',['bwPushButton',['../classbWidgets_1_1bwPushButton.html',1,'bWidgets']]],
@@ -18,10 +19,16 @@ var searchData=
   ['bwrectangle_3c_20int_20_3e',['bwRectangle&lt; int &gt;',['../structbWidgets_1_1bwRectangle.html',1,'bWidgets']]],
   ['bwscrollbar',['bwScrollBar',['../classbWidgets_1_1bwScrollBar.html',1,'bWidgets']]],
   ['bwstyle',['bwStyle',['../classbWidgets_1_1bwStyle.html',1,'bWidgets']]],
-  ['bwstyleblenderclassic',['bwStyleBlenderClassic',['../classbWidgets_1_1bwStyleBlenderClassic.html',1,'bWidgets']]],
-  ['bwstyleblenderflat',['bwStyleBlenderFlat',['../classbWidgets_1_1bwStyleBlenderFlat.html',1,'bWidgets']]],
+  ['bwstyleclassic',['bwStyleClassic',['../classbWidgets_1_1bwStyleClassic.html',1,'bWidgets']]],
+  ['bwstylecss',['bwStyleCSS',['../classbWidgets_1_1bwStyleCSS.html',1,'bWidgets']]],
+  ['bwstyleflat',['bwStyleFlat',['../classbWidgets_1_1bwStyleFlat.html',1,'bWidgets']]],
+  ['bwstyleflatdark',['bwStyleFlatDark',['../classbWidgets_1_1bwStyleFlatDark.html',1,'bWidgets']]],
+  ['bwstyleflatlight',['bwStyleFlatLight',['../classbWidgets_1_1bwStyleFlatLight.html',1,'bWidgets']]],
   ['bwstylemanager',['bwStyleManager',['../classbWidgets_1_1bwStyleManager.html',1,'bWidgets']]],
+  ['bwstyleproperties',['bwStyleProperties',['../classbWidgets_1_1bwStyleProperties.html',1,'bWidgets']]],
+  ['bwstyleproperty',['bwStyleProperty',['../classbWidgets_1_1bwStyleProperty.html',1,'bWidgets']]],
+  ['bwstylepropertyinternal',['bwStylePropertyInternal',['../classbWidgets_1_1bwStylePropertyInternal.html',1,'bWidgets']]],
   ['bwtextbox',['bwTextBox',['../classbWidgets_1_1bwTextBox.html',1,'bWidgets']]],
   ['bwwidget',['bwWidget',['../classbWidgets_1_1bwWidget.html',1,'bWidgets']]],
-  ['bwwidgetstyle',['bwWidgetStyle',['../classbWidgets_1_1bwWidgetStyle.html',1,'bWidgets']]]
+  ['bwwidgetbasestyle',['bwWidgetBaseStyle',['../classbWidgets_1_1bwWidgetBaseStyle.html',1,'bWidgets']]]
 ];

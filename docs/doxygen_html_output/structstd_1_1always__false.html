@@ -97,7 +97,7 @@ static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>valu
 <div class="textblock"><h3>template&lt;typename... T&gt;<br />
 struct std::always_false&lt; T &gt;</h3>
 
-<p>Helper to ensure <a class="el" href="namespacestd.html#a7a786f4c081743da2f7f09500b393ae4">make_unique()</a> implementation below only causes an error when it's actually called. <code>static_assert(false)</code> would fail at template definition time, <code>static_assert(<a class="el" href="structstd_1_1always__false.html">always_false</a>&lt;T&gt;::value)</code> only fails at template instantiation time. </p>
+<p>Helper to ensure make_unique() implementation below only causes an error when it's actually called. <code>static_assert(false)</code> would fail at template definition time, <code>static_assert(always_false&lt;T&gt;value)</code> only fails at template instantiation time. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>bwidgets/generics/<a class="el" href="bwUtil_8h_source.html">bwUtil.h</a></li>
 </ul>

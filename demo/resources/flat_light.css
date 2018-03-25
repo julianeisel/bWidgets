@@ -1,0 +1,120 @@
+/* Trying to realize https://ui.pablovazquez.art/. */
+
+Stage
+{
+    background-color: rgb(191, 191, 191);
+}
+
+bwCheckbox
+{
+    border-color: rgb(85, 85, 85);
+    background-color: rgb(85, 85, 85);
+    decoration-color: rgb(255, 255, 255);
+    color: rgb(51, 51, 51);
+    border-radius: 3px;
+}
+bwCheckbox:hover
+{
+    color: rgb(102, 102, 102);
+}
+bwCheckbox:active
+{
+    border-color: rgb(102, 151, 230);
+    background-color: rgb(102, 151, 230);
+    color: rgb(0, 0, 0);
+}
+
+bwLabel
+{
+    color: rgb(51, 51, 51);
+}
+
+bwNumberSlider
+{
+    background-color: rgb(179, 179, 179);
+    border-color: rgb(85, 85, 85);
+    decoration-color: rgb(102, 151, 230);
+    color: rgb(51, 51, 51);
+    border-radius: 3px;
+}
+bwNumberSlider:hover
+{
+    background-color: rgb(191, 191, 191);
+}
+bwNumberSlider:active
+{
+    border-color: rgb(85, 85, 85);
+}
+
+bwPanel
+{
+    background-color: rgb(204, 204, 204);
+    border-color: rgb(204, 204, 204);
+    color: rgb(51, 51, 51);
+    border-radius: 3px;
+}
+
+bwPushButton
+{
+    border-color: rgb(215, 215, 215);
+    background-color: rgb(240, 240, 240);
+    color: rgb(0, 0, 0);
+    border-radius: 3px;
+}
+bwPushButton:hover
+{
+    background-color: rgb(253, 253, 253);
+}
+bwPushButton:active
+{
+    border-color: rgb(102, 151, 230);
+    background-color: rgb(102, 151, 230);
+    color: rgb(255, 255, 255);
+}
+
+bwRadioButton
+{
+    border-color: rgb(191, 191, 191, 51);
+    background-color: rgb(85, 85, 85);
+    color: rgb(230, 230, 230);
+    border-radius: 3px;
+}
+bwRadioButton:hover
+{
+    background-color: rgb(98, 98, 98);
+}
+bwRadioButton:active
+{
+    border-color: rgb(102, 151, 230);
+    background-color: rgb(102, 151, 230);
+    color: rgb(255, 255, 255);
+}
+
+bwScrollBar
+{
+    border-color: rgb(0, 0, 0, 0);
+    decoration-color: rgb(133, 133, 133, 127);
+    background-color: rgb(165, 165, 165);
+    border-radius: 6.5px;
+}
+bwScrollBar:active
+{
+    decoration-color: rgb(150, 150, 150);
+}
+
+bwTextBox
+{
+    border-color: rgba(51, 51, 51, 127);
+    background-color: rgb(204, 204, 204);
+    decoration-color: rgb(90, 90, 90);
+    color: rgb(51, 51, 51);
+    border-radius: 3px;
+}
+bwTextBox:hover
+{
+    background-color: rgb(215, 215, 215);
+}
+bwTextBox:active
+{
+    background-color: rgb(184, 184, 184);
+}

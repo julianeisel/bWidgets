@@ -33,9 +33,7 @@ Main motivations for bWidgets come from Blender, namely:
   that go further than themes, see
   [T45025](https://developer.blender.org/T45025).<br/>
   Support for such style presets is a core feature of bWidgets. It even supports
-  CSS defined styles (WIP in
-  [css_styles](https://github.com/julianeisel/bWidgets/tree/css_styles)), which
-  Blender users could create, customize and share.
+  CSS defined styles, which Blender users could create, customize and share.
   
 * __Simplify Theme Options in Blender__
 
@@ -110,7 +108,8 @@ state changing on user input.
 
 As of now, bWidgets basically contains a few widget definitions with simple
 drawing and handling mimicking Blender. It further supports:
-* A primitive style preset system (only supporting the current built-in styles)
+* A primitive style preset system designed to work with CSS (only supporting the
+  current built-in styles)
 * A drawing system via a graphics framework independent drawing interface
 
   Basically a _painter_ object defines geometry as _polygons_ and draws them
@@ -121,7 +120,7 @@ drawing and handling mimicking Blender. It further supports:
 * Primitive gradient drawing
 * Anti-aliasing for widget outlines
 
-The demo application has basic features like a primitive layout system, font
+The demo application has basic CSS support, a primitive layout system, font
 drawing using FreeType2, GLSL shader support, scrolling and DPI scaling. Most
 buttons are dummies showing off the bWidgets feature set.
 

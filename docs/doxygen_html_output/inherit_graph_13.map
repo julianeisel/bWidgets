@@ -1,11 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="5,157,148,184"/>
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="196,107,385,133"/>
-<area shape="rect" id="node7" href="$classbWidgets_1_1bwLabel.html" title="bWidgets::bwLabel" alt="" coords="224,157,357,184"/>
-<area shape="rect" id="node8" href="$classbWidgets_1_1bwTextBox.html" title="bWidgets::bwTextBox" alt="" coords="215,208,366,235"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwCheckbox.html" title="bWidgets::bwCheckbox" alt="" coords="443,5,605,32"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwPushButton.html" title="bWidgets::bwPushButton" alt="" coords="439,56,609,83"/>
-<area shape="rect" id="node5" href="$classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed. " alt="" coords="437,107,611,133"/>
-<area shape="rect" id="node6" href="$classbWidgets_1_1bwScrollBar.html" title="bWidgets::bwScrollBar" alt="" coords="447,157,601,184"/>
-<area shape="rect" id="node9" href="$classbWidgets_1_1bwNumberSlider.html" title="bWidgets::bwNumberSlider" alt="" coords="433,208,615,235"/>
+<area shape="rect" id="node1" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="5,5,196,32"/>
 </map>

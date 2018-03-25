@@ -73,7 +73,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>bWidgets</b></li><li class="navelem"><a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacebWidgets.html">bWidgets</a></li><li class="navelem"><a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -81,6 +81,8 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classbWidgets_1_1bwWidget-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">bWidgets::bwWidget Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -98,14 +100,15 @@ $(function() {
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classbWidgets_1_1bwWidget__inherit__graph.png" border="0" usemap="#bWidgets_1_1bwWidget_inherit__map" alt="Inheritance graph"/></div>
 <map name="bWidgets_1_1bwWidget_inherit__map" id="bWidgets_1_1bwWidget_inherit__map">
-<area shape="rect" id="node2" href="classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="196,107,385,133"/>
-<area shape="rect" id="node7" href="classbWidgets_1_1bwLabel.html" title="bWidgets::bwLabel" alt="" coords="224,157,357,184"/>
-<area shape="rect" id="node8" href="classbWidgets_1_1bwTextBox.html" title="bWidgets::bwTextBox" alt="" coords="215,208,366,235"/>
+<area shape="rect" id="node2" href="classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="196,81,385,108"/>
+<area shape="rect" id="node7" href="classbWidgets_1_1bwLabel.html" title="bWidgets::bwLabel" alt="" coords="224,132,357,159"/>
+<area shape="rect" id="node8" href="classbWidgets_1_1bwPanel.html" title="bWidgets::bwPanel" alt="" coords="223,183,358,209"/>
+<area shape="rect" id="node9" href="classbWidgets_1_1bwTextBox.html" title="bWidgets::bwTextBox" alt="" coords="215,233,366,260"/>
 <area shape="rect" id="node3" href="classbWidgets_1_1bwCheckbox.html" title="bWidgets::bwCheckbox" alt="" coords="443,5,605,32"/>
 <area shape="rect" id="node4" href="classbWidgets_1_1bwPushButton.html" title="bWidgets::bwPushButton" alt="" coords="439,56,609,83"/>
 <area shape="rect" id="node5" href="classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed. " alt="" coords="437,107,611,133"/>
 <area shape="rect" id="node6" href="classbWidgets_1_1bwScrollBar.html" title="bWidgets::bwScrollBar" alt="" coords="447,157,601,184"/>
-<area shape="rect" id="node9" href="classbWidgets_1_1bwNumberSlider.html" title="bWidgets::bwNumberSlider" alt="" coords="433,208,615,235"/>
+<area shape="rect" id="node10" href="classbWidgets_1_1bwNumberSlider.html" title="bWidgets::bwNumberSlider" alt="" coords="433,233,615,260"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -116,6 +119,7 @@ $(function() {
 <div class="center"><img src="classbWidgets_1_1bwWidget__coll__graph.png" border="0" usemap="#bWidgets_1_1bwWidget_coll__map" alt="Collaboration graph"/></div>
 <map name="bWidgets_1_1bwWidget_coll__map" id="bWidgets_1_1bwWidget_coll__map">
 <area shape="rect" id="node2" href="structbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
+<area shape="rect" id="node3" href="classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="191,13,381,39"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -130,11 +134,13 @@ Public Types</h2></td></tr>
 &#160;&#160;<b>WIDGET_TYPE_RADIO_BUTTON</b>, 
 <b>WIDGET_TYPE_SCROLL_BAR</b>, 
 <b>WIDGET_TYPE_TEXT_BOX</b>, 
-<b>WIDGET_TYPE_TOT</b>
+<b>WIDGET_TYPE_PANEL</b>, 
+<br />
+&#160;&#160;<b>WIDGET_TYPE_TOT</b>
 <br />
  }</td></tr>
 <tr class="separator:a8249aa2b5b55c694c1e0c20c59b0576b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf0e3f3d9336dd1a59334b6f39a6fd8f"><td class="memItemLeft" align="right" valign="top"><a id="acf0e3f3d9336dd1a59334b6f39a6fd8f"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>WidgetState</b> { <b>STATE_NORMAL</b>, 
+<tr class="memitem:acf0e3f3d9336dd1a59334b6f39a6fd8f"><td class="memItemLeft" align="right" valign="top"><a id="acf0e3f3d9336dd1a59334b6f39a6fd8f"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>WidgetState</b> { <b>STATE_NORMAL</b> = 0, 
 <b>STATE_HIGHLIGHTED</b>, 
 <b>STATE_SUNKEN</b>, 
 <b>STATE_TOT</b>
@@ -149,15 +155,15 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ace3fafbfc000b831c9c7b82fd0c7c844"><td class="memItemLeft" align="right" valign="top"><a id="ace3fafbfc000b831c9c7b82fd0c7c844"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>bwWidget</b> (const WidgetType type, const unsigned int <a class="el" href="classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc">width_hint</a>=0, const unsigned int height_hint=0)</td></tr>
-<tr class="separator:ace3fafbfc000b831c9c7b82fd0c7c844"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c1a11d348fbd72e7e206c3eb06c96f"><td class="memItemLeft" align="right" valign="top"><a id="a38c1a11d348fbd72e7e206c3eb06c96f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>bwWidget</b> (const WidgetType type, const std::string &amp;identifier, const unsigned int <a class="el" href="classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc">width_hint</a>=0, const unsigned int height_hint=0)</td></tr>
+<tr class="separator:a38c1a11d348fbd72e7e206c3eb06c96f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af21b8c9d3bd72c3287bcecb363c30462"><td class="memItemLeft" align="right" valign="top"><a id="af21b8c9d3bd72c3287bcecb363c30462"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isCoordinateInside</b> (const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;point) const</td></tr>
 <tr class="separator:af21b8c9d3bd72c3287bcecb363c30462"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf9ca08c95e68b74097e1dc5228da20a"><td class="memItemLeft" align="right" valign="top"><a id="acf9ca08c95e68b74097e1dc5228da20a"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>draw</b> (class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;style) const =0</td></tr>
-<tr class="separator:acf9ca08c95e68b74097e1dc5228da20a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca1ca15a15c803e6b08d96621d4730f1"><td class="memItemLeft" align="right" valign="top"><a id="aca1ca15a15c803e6b08d96621d4730f1"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>draw</b> (class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;style)=0</td></tr>
+<tr class="separator:aca1ca15a15c803e6b08d96621d4730f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af82a8382afad239fc57966f4b7b6cd75"><td class="memItemLeft" align="right" valign="top"><a id="af82a8382afad239fc57966f4b7b6cd75"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mousePressEvent</b> (const MouseButton button, const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;location)</td></tr>
 <tr class="separator:af82a8382afad239fc57966f4b7b6cd75"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,6 +182,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseEnter</b
 <tr class="memitem:abf45f165b446c753686a46aca47beec4"><td class="memItemLeft" align="right" valign="top"><a id="abf45f165b446c753686a46aca47beec4"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseLeave</b> ()</td></tr>
 <tr class="separator:abf45f165b446c753686a46aca47beec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa55d22b8519702102b25d67c089bda6f"><td class="memItemLeft" align="right" valign="top"><a id="aa55d22b8519702102b25d67c089bda6f"></a>
+const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getIdentifier</b> () const</td></tr>
+<tr class="separator:aa55d22b8519702102b25d67c089bda6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -192,10 +201,46 @@ enum bWidgets::bwWidget::WidgetState&#160;</td><td class="memItemRight" valign="
 <tr class="memitem:a9e2a6797a0f7cead9b02e599ebb2f7d3"><td class="memItemLeft" align="right" valign="top"><a id="a9e2a6797a0f7cead9b02e599ebb2f7d3"></a>
 unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>height_hint</b></td></tr>
 <tr class="separator:a9e2a6797a0f7cead9b02e599ebb2f7d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0e79a199d830d4df1c54861dc9b2673"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#ac0e79a199d830d4df1c54861dc9b2673">hidden</a> {false}</td></tr>
+<tr class="separator:ac0e79a199d830d4df1c54861dc9b2673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a798c942b466f2d161200d2e0464f73df"><td class="memItemLeft" align="right" valign="top"><a id="a798c942b466f2d161200d2e0464f73df"></a>
+<a class="el" href="classbWidgets_1_1bwStyleProperties.html">bwStyleProperties</a>&#160;</td><td class="memItemRight" valign="bottom"><b>style_properties</b></td></tr>
+<tr class="separator:a798c942b466f2d161200d2e0464f73df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ae1356f1620a11f10ab45fd4c9bd603f9"><td class="memItemLeft" align="right" valign="top"><a id="ae1356f1620a11f10ab45fd4c9bd603f9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#ae1356f1620a11f10ab45fd4c9bd603f9">initialize</a> ()</td></tr>
+<tr class="memdesc:ae1356f1620a11f10ab45fd4c9bd603f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Additional initialization that can't be done in bwWidget constructor. <br /></td></tr>
+<tr class="separator:ae1356f1620a11f10ab45fd4c9bd603f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3400849de403fda7730f7885a3dec00f"><td class="memItemLeft" align="right" valign="top"><a id="a3400849de403fda7730f7885a3dec00f"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>registerProperties</b> ()</td></tr>
+<tr class="separator:a3400849de403fda7730f7885a3dec00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a8351a818e8c887ffd8a350e492d01984"><td class="memItemLeft" align="right" valign="top"><a id="a8351a818e8c887ffd8a350e492d01984"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>identifier</b></td></tr>
+<tr class="separator:a8351a818e8c887ffd8a350e492d01984"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class that all widgets derive from. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ac0e79a199d830d4df1c54861dc9b2673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0e79a199d830d4df1c54861dc9b2673">&#9670;&nbsp;</a></span>hidden</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool bWidgets::bwWidget::hidden {false}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Hint if widget was explicitly hidden. bWidgets itself doesn't do anything with it (yet). The actual application can use it for its layout calculations or simply ignore it. </p><dl class="section note"><dt>Note</dt><dd>This should not be used to mark a widget as not visible (e.g. because it's scrolled out of view). Only use it to hide a widget after an explicit user action that makes the button irrelevant or inappropriate (e.g. a usage hint that should only be shown if a specific option is enabled). </dd></dl>
+
+</div>
+</div>
 <a id="a2cbd79c1d1ecbe99494923f79e77c17c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2cbd79c1d1ecbe99494923f79e77c17c">&#9670;&nbsp;</a></span>rectangle</h2>
 

@@ -1,4 +1,5 @@
 set(INC
+	..
 	${GPU_INC}
 )
 

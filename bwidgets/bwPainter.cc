@@ -5,8 +5,10 @@
 #include "bwPaintEngine.h"
 #include "bwPoint.h"
 #include "bwPolygon.h"
+#include "bwRange.h"
 #include "bwStyle.h"
 #include "bwUtil.h"
+#include "bwWidgetBaseStyle.h"
 
 #include "bwPainter.h"
 
@@ -371,9 +373,7 @@ void bwPainter::drawRoundbox(
 	const unsigned int minsize = getRoundboxMinsize(rect, corners);
 	float validated_radius = radius;
 
-	if (2.0f * radius > minsize) {
-		validated_radius = 0.5f * minsize;
-	}
+	bwRange<float>::clampValue(validated_radius, 0.0f, minsize * 0.5f);
 
 	PolygonRoundboxCreator roundbox_creator{rect, corners, validated_radius, active_drawtype == DRAW_TYPE_OUTLINE};
 	roundbox_creator.addVerts(polygon);
@@ -424,20 +424,17 @@ void bwPainter::fillVertexColorsWithGradient(const bwPolygon& polygon, const bwR
 }
 
 void bwPainter::drawRoundboxWidgetBase(
-        const bwWidgetStyle& widget_style,
-        const bwWidget::WidgetState state,
+        const bwWidgetBaseStyle& base_style,
         const bwStyle& style,
         const bwRectanglePixel rectangle,
-        bwGradient::Direction gradient_direction,
-        bwWidgetStyle::WidgetStyleColorID background_color_id)
+        const bwGradient& gradient,
+        const float radius)
 {
-	bwGradient gradient{
-	        widget_style.getColor(background_color_id, state),
-	        widget_style.shadeTop(state), widget_style.shadeBottom(state),
-	        gradient_direction
-	};
 	bwRectanglePixel inner_rect = rectangle;
-	const float radius = widget_style.roundbox_radius * style.dpi_fac;
+	const float radius_pixel = radius * style.dpi_fac;
+
+	assert(bwRange<int>::isInside(base_style.shade_top,    -255, 255, true));
+	assert(bwRange<int>::isInside(base_style.shade_bottom, -255, 255, true));
 
 	// Inner - "inside" of outline, so scale down
 	inner_rect.resize(-1);
@@ -446,10 +443,10 @@ void bwPainter::drawRoundboxWidgetBase(
 
 	active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
 	enableGradient(gradient);
-	drawRoundbox(inner_rect, widget_style.roundbox_corners, radius - 1.0f);
+	drawRoundbox(inner_rect, base_style.roundbox_corners, radius_pixel - 1.0f);
 
 	// Outline
 	active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
-	setActiveColor(widget_style.outlineColor(state));
-	drawRoundbox(rectangle, widget_style.roundbox_corners, radius);
+	setActiveColor(base_style.borderColor());
+	drawRoundbox(rectangle, base_style.roundbox_corners, radius_pixel);
 }

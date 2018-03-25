@@ -7,27 +7,36 @@ using namespace bWidgets;
 
 
 bwAbstractButton::bwAbstractButton(
-        const std::string& text, const WidgetType type,
+        const std::string& text,
+        const WidgetType type, const std::string& identifier,
         const unsigned int width_hint, const unsigned int height_hint) :
-    bwWidget(type, width_hint, height_hint),
+    bwWidget(type, identifier, width_hint, height_hint),
     rounded_corners(RoundboxCorner::ALL),
     text(text)
 {
-	
+	initialize();
 }
 
-void bwAbstractButton::draw(bwStyle& style) const
+void bwAbstractButton::draw(bwStyle& style)
 {
-	const bwWidgetStyle& widget_style = style.widget_styles[type];
-	bwPainter painter;
-
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(widget_style, state, style, rectangle);
+	const bwGradient gradient{
+	        base_style.backgroundColor(),
+	        base_style.shadeTop(), base_style.shadeBottom()
+	};
+	bwPainter painter;
+
+	painter.drawRoundboxWidgetBase(base_style, style, rectangle, gradient, base_style.corner_radius);
 
 	// Text
-	painter.setActiveColor(widget_style.textColor(state));
-	painter.drawText(text, rectangle, widget_style.text_alignment);
+	painter.setActiveColor(base_style.textColor());
+	painter.drawText(text, rectangle, base_style.text_alignment);
+}
+
+void bwAbstractButton::registerProperties()
+{
+	base_style.registerProperties(style_properties);
 }
 
 void bwAbstractButton::mousePressEvent(

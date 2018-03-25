@@ -73,7 +73,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>bWidgets</b></li><li class="navelem"><a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacebWidgets.html">bWidgets</a></li><li class="navelem"><a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -91,7 +91,8 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:ab5e720e8edd72f39a03d170eaf0a3412"><td class="memItemLeft" align="right" valign="top"><a id="ab5e720e8edd72f39a03d170eaf0a3412"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>DrawType</b> { <b>DRAW_TYPE_FILLED</b>, 
-<b>DRAW_TYPE_OUTLINE</b>
+<b>DRAW_TYPE_OUTLINE</b>, 
+<b>DRAW_TYPE_LINE</b>
  }</td></tr>
 <tr class="separator:ab5e720e8edd72f39a03d170eaf0a3412"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -130,23 +131,32 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRoundbox</b> (con
 <tr class="memitem:a392d7895edb5eb6a9037b750b1cfa156"><td class="memItemLeft" align="right" valign="top"><a id="a392d7895edb5eb6a9037b750b1cfa156"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRectangle</b> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect)</td></tr>
 <tr class="separator:a392d7895edb5eb6a9037b750b1cfa156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6001e831b9fa27c7c8d16882d019cbf5"><td class="memItemLeft" align="right" valign="top"><a id="a6001e831b9fa27c7c8d16882d019cbf5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRoundboxWidgetBase</b> (const <a class="el" href="classbWidgets_1_1bwWidgetStyle.html">bwWidgetStyle</a> &amp;widget_style, const bwWidget::WidgetState widget, const class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;style, const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> rectangle, bwGradient::Direction gradient_direction=bwGradient::DIRECTION_TOP_BOTTOM, bwWidgetStyle::WidgetStyleColorID background_color_id=bwWidgetStyle::WIDGET_STYLE_COLOR_BACKGROUND)</td></tr>
-<tr class="separator:a6001e831b9fa27c7c8d16882d019cbf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c5719c1661c64228968e08cab7c80a2"><td class="memItemLeft" align="right" valign="top"><a id="a0c5719c1661c64228968e08cab7c80a2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRoundboxWidgetBase</b> (const <a class="el" href="classbWidgets_1_1bwWidgetBaseStyle.html">bwWidgetBaseStyle</a> &amp;base_style, const class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;style, const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> rectangle, const <a class="el" href="classbWidgets_1_1bwGradient.html">bwGradient</a> &amp;gradient, const float radius)</td></tr>
+<tr class="separator:a0c5719c1661c64228968e08cab7c80a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aceced429f8bf1d6a11e454b6faac16dd"><td class="memItemLeft" align="right" valign="top"><a id="aceced429f8bf1d6a11e454b6faac16dd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>drawCheckMark</b> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect)</td></tr>
 <tr class="separator:aceced429f8bf1d6a11e454b6faac16dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fa2a9388d8f052ef42afc5238fe7a27"><td class="memItemLeft" align="right" valign="top"><a id="a6fa2a9388d8f052ef42afc5238fe7a27"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawTriangle</b> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, Direction direction)</td></tr>
+<tr class="separator:a6fa2a9388d8f052ef42afc5238fe7a27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a98cf8bfdb331a4e84167b4e3d93199"><td class="memItemLeft" align="right" valign="top"><a id="a0a98cf8bfdb331a4e84167b4e3d93199"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawLine</b> (const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;from, const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;to)</td></tr>
+<tr class="separator:a0a98cf8bfdb331a4e84167b4e3d93199"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a404a8faa7151e2c0b585f49361cf0a9b"><td class="memItemLeft" align="right" valign="top"><a id="a404a8faa7151e2c0b585f49361cf0a9b"></a>
 enum bWidgets::bwPainter::DrawType&#160;</td><td class="memItemRight" valign="bottom"><b>active_drawtype</b></td></tr>
 <tr class="separator:a404a8faa7151e2c0b585f49361cf0a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f409f3898168d7361981c16e3cfda05"><td class="memItemLeft" align="right" valign="top"><a id="a7f409f3898168d7361981c16e3cfda05"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>use_antialiasing</b> {false}</td></tr>
+<tr class="separator:a7f409f3898168d7361981c16e3cfda05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a3ed8865566b0d5ca826dcf2f2a16798f"><td class="memItemLeft" align="right" valign="top"><a id="a3ed8865566b0d5ca826dcf2f2a16798f"></a>
-static bwPointer&lt; class <a class="el" href="classbWidgets_1_1bwPaintEngine.html">bwPaintEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>paint_engine</b> = nullptr</td></tr>
+static <a class="el" href="namespacebWidgets.html#ae58596de345a3af9009f0a534fc6d6f3">bwPointer</a>&lt; class <a class="el" href="classbWidgets_1_1bwPaintEngine.html">bwPaintEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>paint_engine</b> = nullptr</td></tr>
 <tr class="separator:a3ed8865566b0d5ca826dcf2f2a16798f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['drawpolygon',['drawPolygon',['../classbWidgets_1_1bwPaintEngine.html#a7a6eda0ae77f59bbbf32dc1da3a21384',1,'bWidgets::bwPaintEngine']]],
-  ['drawtext',['drawText',['../classbWidgets_1_1bwPaintEngine.html#a73170392cb04642851364f7c319679b5',1,'bWidgets::bwPaintEngine']]]
+  ['bwpointer_5fnew',['bwPointer_new',['../namespacebWidgets.html#aa86bd12a105a924fbbefcb792b2dc116',1,'bWidgets::bwPointer_new(_Args &amp;&amp;... args)'],['../namespacebWidgets.html#ac6f746d44888896af671b28e7b288474',1,'bWidgets::bwPointer_new()']]]
 ];

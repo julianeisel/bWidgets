@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bwWidget.h"
+#include "bwWidgetBaseStyle.h"
 
 
 namespace bWidgets {
@@ -12,8 +13,9 @@ public:
 	        const std::string& label,
 	        unsigned int header_height_hint);
 
-	void draw(class bwStyle& style) const;
+	void draw(class bwStyle& style) override;
 
+	void registerProperties() override;
 	void mousePressEvent(
 	        const MouseButton button,
 	        const bwPoint& location) override;
@@ -32,6 +34,9 @@ private:
 	bwRectanglePixel getHeaderRectangle() const;
 
 	std::string label;
+
+public: bwWidgetBaseStyle base_style; // XXX public for setWidgetStyle. Should only be temporarily needed.
+public: bool draw_separator;
 };
 
 } // namespace bWidgets

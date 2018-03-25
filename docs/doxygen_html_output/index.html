@@ -95,7 +95,7 @@ Motivation</h1>
 <li><p class="startli"><b>Support for "GUI Styles" in Blender</b></p>
 <p class="startli">Every user has a different tast when it comes to visual style of UI elements. While some like a modern "flat" style, others can't stand it and prefer more classic ones.<br />
  The proposal was made to address this by supporting multiple style presets that go further than themes, see <a href="https://developer.blender.org/T45025">T45025</a>.<br />
- Support for such style presets is a core feature of bWidgets. It even supports CSS defined styles (WIP in <a href="https://github.com/julianeisel/bWidgets/tree/css_styles">css_styles</a>), which Blender users could create, customize and share.</p>
+ Support for such style presets is a core feature of bWidgets. It even supports CSS defined styles, which Blender users could create, customize and share.</p>
 </li>
 <li><p class="startli"><b>Simplify Theme Options in Blender</b></p>
 <p class="startli">It is a known issue that Blender has a huge amount of theming options, far more than practical (see <a href="https://developer.blender.org/T45352">T45352</a>). There are cases where extreme control is useful, but a much simpler solution would work better for most users.<br />
@@ -127,7 +127,7 @@ Role of bWidgets</h1>
 <h1><a class="anchor" id="current_features"></a>
 Current Features</h1>
 <p>As of now, bWidgets basically contains a few widget definitions with simple drawing and handling mimicking Blender. It further supports:</p><ul>
-<li>A primitive style preset system (only supporting the current built-in styles)</li>
+<li>A primitive style preset system designed to work with CSS (only supporting the current built-in styles)</li>
 <li><p class="startli">A drawing system via a graphics framework independent drawing interface</p>
 <p class="startli">Basically a <em>painter</em> object defines geometry as <em>polygons</em> and draws them through a <em>paint-engine</em>. The paint-engine is created by the application that uses bWidgets. It can be a paint-engine for OpenGL drawing, Vulcan drawing, rendering to an image, HTML/CSS export, etc.</p>
 </li>
@@ -135,7 +135,7 @@ Current Features</h1>
 <li>Primitive gradient drawing</li>
 <li>Anti-aliasing for widget outlines</li>
 </ul>
-<p>The demo application has basic features like a primitive layout system, font drawing using FreeType2, GLSL shader support, scrolling and DPI scaling. Most buttons are dummies showing off the bWidgets feature set.</p>
+<p>The demo application has basic CSS support, a primitive layout system, font drawing using FreeType2, GLSL shader support, scrolling and DPI scaling. Most buttons are dummies showing off the bWidgets feature set.</p>
 <div class="image">
 <img src="bwidgets_demo_screenshot.png" alt="bwidgets_demo_screenshot.png"/>
 </div>

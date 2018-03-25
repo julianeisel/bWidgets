@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cassert>
 #include <iomanip>
-#include <math.h>
+#include <iostream>
 #include <sstream>
 
 #include "bwPainter.h"
@@ -18,34 +18,35 @@ bwNumberSlider::bwNumberSlider(
     bwTextBox(width_hint, height_hint), precision(2)
 {
 	type = WIDGET_TYPE_NUMBER_SLIDER;
+	identifier = "bwNumberSlider";
 }
 
-void bwNumberSlider::draw(bwStyle& style) const
+void bwNumberSlider::draw(bwStyle& style)
 {
-	bwWidgetStyle& widget_style = style.widget_styles[type];
-	bwRectanglePixel inner_rect = rectangle;
 	bwPainter painter;
-	const float radius = widget_style.roundbox_radius * style.dpi_fac;
+
+	style.setWidgetStyle(*this);
+
+	bwRectanglePixel inner_rect = rectangle;
+	const float radius = base_style.corner_radius * style.dpi_fac;
 
 	// Inner - "inside" of outline, so scale down
 	inner_rect.resize(-1);
 
-	style.setWidgetStyle(*this);
-
-	painter.setContentMask(inner_rect); // Not sure if we should set this here.
+	painter.setContentMask(inner_rect);
 
 	painter.enableGradient(
-	            bwGradient(widget_style.backgroundColor(state),
-	                       widget_style.shadeTop(state),
-	                       widget_style.shadeBottom(state)));
-	painter.drawRoundbox(inner_rect, widget_style.roundbox_corners, radius - 1.0f);
+	            bwGradient(base_style.backgroundColor(),
+	                       base_style.shadeTop(),
+	                       base_style.shadeBottom()));
+	painter.drawRoundbox(inner_rect, base_style.roundbox_corners, radius - 1.0f);
 
 	painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
 
 	// Text editing
 	if (is_text_editing) {
 		// Selection drawing
-		painter.setActiveColor(widget_style.decorationColor(state));
+		painter.setActiveColor(base_style.decorationColor());
 		painter.drawRectangle(selection_rectangle);
 	}
 	else {
@@ -53,13 +54,13 @@ void bwNumberSlider::draw(bwStyle& style) const
 	}
 
 	// Outline
-	painter.setActiveColor(widget_style.outlineColor(state));
+	painter.setActiveColor(base_style.borderColor());
 	painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
-	painter.drawRoundbox(rectangle, widget_style.roundbox_corners, radius);
+	painter.drawRoundbox(rectangle, base_style.roundbox_corners, radius);
 
-	painter.setActiveColor(widget_style.textColor(state));
+	painter.setActiveColor(base_style.textColor());
 	if (!is_text_editing) {
-		painter.drawText(text, rectangle, widget_style.text_alignment);
+		painter.drawText(text, rectangle, base_style.text_alignment);
 	}
 	painter.drawText(valueToString(precision), rectangle, is_text_editing ? TEXT_ALIGN_LEFT : TEXT_ALIGN_RIGHT);
 }
@@ -68,15 +69,14 @@ void bwNumberSlider::drawValueIndicator(
         bwPainter& painter,
         bwStyle& style) const
 {
-	bwWidgetStyle& widget_style = style.widget_styles[type];
 	bwGradient gradient = bwGradient(
-	                widget_style.decorationColor(state),
+	                base_style.decorationColor(),
 	                // shadeTop/Bottom intentionally inverted
-	                widget_style.shadeBottom(state), widget_style.shadeTop(state));
+	                base_style.shadeBottom(), base_style.shadeTop());
 	bwRectanglePixel indicator_offset_rect = rectangle;
 	bwRectanglePixel indicator_rect = rectangle;
-	unsigned int roundbox_corners = widget_style.roundbox_corners;
-	const float radius = widget_style.roundbox_radius * style.dpi_fac;
+	unsigned int roundbox_corners = base_style.roundbox_corners;
+	const float radius = base_style.corner_radius * style.dpi_fac;
 	float right_side_radius = radius;
 
 	indicator_offset_rect.xmax = indicator_offset_rect.xmin + right_side_radius;
@@ -176,7 +176,8 @@ std::string bwNumberSlider::valueToString(unsigned int precision) const
 float bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const
 {
 	const float range = max - min;
+	const float radius = base_style.corner_radius * style.dpi_fac;
 
 	assert(max > min);
-	return ((value - min) * (rectangle.width() - (style.widget_styles[type].roundbox_radius * style.dpi_fac))) / range;
+	return ((value - min) * (rectangle.width() - radius)) / range;
 }

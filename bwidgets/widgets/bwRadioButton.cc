@@ -5,7 +5,7 @@ using namespace bWidgets;
 bwRadioButton::bwRadioButton(
         const std::string& text,
         unsigned int width_hint, unsigned int height_hint) :
-    bwAbstractButton(text, WIDGET_TYPE_RADIO_BUTTON, width_hint, height_hint)
+    bwAbstractButton(text, WIDGET_TYPE_RADIO_BUTTON, "bwRadioButton", width_hint, height_hint)
 {
 	
 }

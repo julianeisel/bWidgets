@@ -8,6 +8,8 @@ extern "C" {
 #include "../extern/gawain/gawain/shader_interface.h"
 }
 
+#include "File.h"
+
 #include "ShaderProgram.h"
 
 
@@ -52,26 +54,6 @@ static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_T
 
 using namespace bWidgetsDemo;
 
-
-static std::string shaderprog_parseShader(const std::string& shader_name)
-{
-	std::string path(std::string(SHADERS_PATH_STR) + "/" + shader_name);
-	std::ifstream shader_stream(path, std::ios::in);
-	std::string shader_string = "";
-
-	if (shader_stream.is_open()) {
-		std::string line = "";
-		while (getline(shader_stream, line)) {
-			shader_string += line + '\n';
-		}
-		shader_stream.close();
-	}
-	else {
-		assert(0);
-	}
-
-	return shader_string;
-}
 
 static unsigned int shaderprog_compileShader(const std::string& shader_str, const ShaderType& shader_type)
 {
@@ -120,7 +102,8 @@ ShaderProgram::ShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 	ShaderProgramType& type = shader_program_types[shader_program_id];
 
 	for (int i = 0; i < shader_ids.size(); i++) {
-		std::string shader_str{shaderprog_parseShader(type.shader_names[i])};
+		File shader_file{std::string(SHADERS_PATH_STR) + "/" + type.shader_names[i]};
+		std::string shader_str = shader_file.readIntoString();
 		unsigned int shader_id = shaderprog_compileShader(shader_str, shader_types[i]);
 		shader_ids[i] = shader_id;
 	}

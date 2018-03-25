@@ -8,31 +8,39 @@ using namespace bWidgets;
 
 bwTextBox::bwTextBox(
         unsigned int width_hint, unsigned int height_hint) :
-    bwWidget(WIDGET_TYPE_TEXT_BOX, width_hint, height_hint),
+    bwWidget(WIDGET_TYPE_TEXT_BOX, "bwTextBox", width_hint, height_hint),
     selection_rectangle(bwRectanglePixel()), is_text_editing(false)
 {
-	
+	initialize();
 }
 
-void bwTextBox::draw(bwStyle& style) const
+void bwTextBox::draw(bwStyle& style)
 {
-	bwWidgetStyle& widget_style = style.widget_styles[type];
-	bwRectanglePixel inner_rect = rectangle;
-	bwPainter painter;
-
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(widget_style, state, style, inner_rect);
+	bwRectanglePixel inner_rect = rectangle;
+	const bwGradient gradient{
+	        base_style.backgroundColor(),
+	        base_style.shadeTop(), base_style.shadeBottom()
+	};
+	bwPainter painter;
+
+	painter.drawRoundboxWidgetBase(base_style, style, inner_rect, gradient, base_style.corner_radius);
 
 	// Text editing
 	if (is_text_editing && (selection_rectangle.isEmpty() == false)) {
 		// Selection drawing
 		painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
-		painter.setActiveColor(widget_style.decorationColor(state));
+		painter.setActiveColor(base_style.decorationColor());
 		painter.drawRectangle(selection_rectangle);
 	}
-	painter.setActiveColor(widget_style.textColor(state));
-	painter.drawText(text, rectangle, widget_style.text_alignment);
+	painter.setActiveColor(base_style.textColor());
+	painter.drawText(text, rectangle, base_style.text_alignment);
+}
+
+void bwTextBox::registerProperties()
+{
+	base_style.registerProperties(style_properties);
 }
 
 void bwTextBox::mousePressEvent(

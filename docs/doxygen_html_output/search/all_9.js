@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['why_20bwidgets_20and_20not_20an_20existing_20widget_2fgui_20toolkit_3f',['Why bWidgets and Not an Existing Widget/GUI Toolkit?',['../md_docs_bwidgets_vs_existing_toolkits.html',1,'']]],
-  ['width_5fhint',['width_hint',['../classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc',1,'bWidgets::bwWidget']]]
+  ['rectangle',['rectangle',['../classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c',1,'bWidgets::bwWidget']]],
+  ['registerproperties',['registerProperties',['../classbWidgets_1_1bwWidgetBaseStyle.html#abfbfe8b3de35ed9722ebe588d4985537',1,'bWidgets::bwWidgetBaseStyle']]],
+  ['resize',['resize',['../structbWidgets_1_1bwRectangle.html#aeb71cba1ab48a950ce37be49840bd68c',1,'bWidgets::bwRectangle']]]
 ];

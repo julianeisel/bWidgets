@@ -13,23 +13,32 @@ using namespace bWidgets;
 bwPanel::bwPanel(
         const std::string& label,
         unsigned int header_height_hint) :
-    bwWidget(WIDGET_TYPE_PANEL, 0, header_height_hint),
+    bwWidget(WIDGET_TYPE_PANEL, "bwPanel", 0, header_height_hint),
     header_height(header_height_hint),
     label(label)
 {
-	
+	initialize();
 }
 
-void bwPanel::draw(bwStyle& style) const
+void bwPanel::draw(bwStyle& style)
 {
-	const bwWidgetStyle& widget_style = style.widget_styles[type];
-	bwPainter painter;
-
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(widget_style, state, style, rectangle);
+	const bwGradient gradient{
+	        base_style.backgroundColor(),
+	        base_style.shadeTop(), base_style.shadeBottom()
+	};
+	bwPainter painter;
+
+	painter.drawRoundboxWidgetBase(base_style, style, rectangle, gradient, base_style.corner_radius);
 
 	drawHeader(style);
+}
+
+void bwPanel::registerProperties()
+{
+	base_style.registerProperties(style_properties);
+	style_properties.addBool("draw-separator", draw_separator);
 }
 
 void bwPanel::mousePressEvent(
@@ -65,8 +74,7 @@ unsigned int bwPanel::getHeaderHeightHint() const
 static void panel_draw_drag_dots(
         bwPainter& painter,
         const bwRectanglePixel& rectangle,
-        const bwWidgetStyle& widget_style,
-        bwWidget::WidgetState state)
+        const bwWidgetBaseStyle& base_style)
 {
 	const int px = 1.0f; // TODO Equivalent to U.pixelsize.
 	const int px_zoom = std::max((int)std::round(rectangle.height() / 22.0f), 1);
@@ -76,8 +84,8 @@ static void panel_draw_drag_dots(
 	const int dot_margin = std::max((int)std::round(px_zoom * 2.0f), px);
 	const int dot_size   = std::max((int)std::round((rectangle.height() / 8.0f) - px), px);
 
-	bwColor dot_color    = widget_style.backgroundColor(state);
-	bwColor shadow_color = widget_style.backgroundColor(state);
+	bwColor dot_color    = base_style.backgroundColor();
+	bwColor shadow_color = base_style.backgroundColor();
 
 
 	dot_color.shade(tint);
@@ -106,7 +114,6 @@ static void panel_draw_drag_dots(
 
 void bwPanel::drawHeader(bwStyle& style) const
 {
-	const bwWidgetStyle& widget_style = style.widget_styles[type];
 	bwRectanglePixel header_rect = getHeaderRectangle();
 	bwRectanglePixel text_rect = header_rect;
 	bwRectangle<float> drag_rect = header_rect;
@@ -118,7 +125,7 @@ void bwPanel::drawHeader(bwStyle& style) const
 	// for it (e.g. bwLabel for the panel label). For now, let bwPanel draw the
 	// label itself.
 
-	if (style.draw_panel_separators) {
+	if (draw_separator) {
 		painter.setActiveColor(bwColor(0.0f, 0.5f));
 		painter.drawLine(bwPoint(header_rect.xmin, header_rect.ymax),
 		                 bwPoint(header_rect.xmax, header_rect.ymax));
@@ -129,20 +136,20 @@ void bwPanel::drawHeader(bwStyle& style) const
 
 	text_rect.xmin += (20 * style.dpi_fac) + 5;
 	text_rect.xmin -= 10; // XXX Demo app adds 10px when drawing text.
-	painter.setActiveColor(widget_style.textColor(state));
-	painter.drawText(label, text_rect, widget_style.text_alignment);
+	painter.setActiveColor(base_style.textColor());
+	painter.drawText(label, text_rect, base_style.text_alignment);
 
 	drag_rect.xmax -= 5.0f;
 	drag_rect.xmin = drag_rect.xmax - drag_rect.height();
 	drag_rect.scale(0.7f);
-	panel_draw_drag_dots(painter, drag_rect, widget_style, state);
+	panel_draw_drag_dots(painter, drag_rect, base_style);
 
 	triangle_rect.xmin += 5;
 	triangle_rect.xmax = triangle_rect.xmin + triangle_rect.height();
 	triangle_rect.scale(0.35f);
 	painter.active_drawtype = bwPainter::DRAW_TYPE_FILLED;
 	painter.use_antialiasing = true;
-	painter.setActiveColor(widget_style.textColor(state));
+	painter.setActiveColor(base_style.textColor());
 	painter.drawTriangle(triangle_rect, (panel_state == PANEL_OPEN) ? DIRECTION_DOWN : DIRECTION_RIGHT);
 }
 

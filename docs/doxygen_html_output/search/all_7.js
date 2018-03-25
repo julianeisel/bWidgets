@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['rectangle',['rectangle',['../classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c',1,'bWidgets::bwWidget']]],
-  ['resize',['resize',['../structbWidgets_1_1bwRectangle.html#aeb71cba1ab48a950ce37be49840bd68c',1,'bWidgets::bwRectangle']]]
+  ['make_5funique',['make_unique',['../namespacestd.html#a7a786f4c081743da2f7f09500b393ae4',1,'std']]]
 ];

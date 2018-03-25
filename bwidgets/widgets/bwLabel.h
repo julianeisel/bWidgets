@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "bwColor.h"
 #include "bwWidget.h"
 
 namespace bWidgets {
@@ -13,10 +14,13 @@ public:
 	        const std::string& text,
 	        unsigned int width_hint = 0, unsigned int height_hint = 0);
 
-	void draw(class bwStyle& style) const override;
+	void draw(class bwStyle& style) override;
+	void registerProperties() override;
 
 private:
 	const std::string text;
+
+	bwColor text_color;
 };
 
 } // namespace bWidgets

@@ -10,7 +10,7 @@ public:
 	bwScrollBar(
 	        unsigned int width_hint = 0, unsigned int height_hint = 0);
 
-	void draw(bwStyle &style) const override;
+	void draw(bwStyle &style) override;
 	void mousePressEvent(
 	        const MouseButton button,
 	        const bwPoint& location) override;

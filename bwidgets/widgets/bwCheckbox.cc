@@ -9,31 +9,34 @@ using namespace bWidgets;
 bwCheckbox::bwCheckbox(
         const std::string& text,
         unsigned int width_hint, unsigned int height_hint) :
-    bwAbstractButton(text, WIDGET_TYPE_CHECKBOX, width_hint, height_hint)
+    bwAbstractButton(text, WIDGET_TYPE_CHECKBOX, "bwCheckbox", width_hint, height_hint)
 {
 	
 }
 
-void bwCheckbox::draw(bwStyle& style) const
+void bwCheckbox::draw(bwStyle& style)
 {
-	const bwWidgetStyle& widget_style = style.widget_styles[type];
-	const bwRectanglePixel checkbox_rect = getCheckboxRectangle();
-	const bwRectanglePixel text_rect = getTextRectangle(checkbox_rect);
-	bwPainter painter;
-
 	style.setWidgetStyle(*this);
 
-	painter.drawRoundboxWidgetBase(widget_style, state, style, checkbox_rect);
+	const bwRectanglePixel checkbox_rect = getCheckboxRectangle();
+	const bwRectanglePixel text_rect = getTextRectangle(checkbox_rect);
+	const bwGradient gradient{
+	        base_style.backgroundColor(),
+	        base_style.shadeTop(), base_style.shadeBottom()
+	};
+	bwPainter painter;
+
+	painter.drawRoundboxWidgetBase(base_style, style, checkbox_rect, gradient, base_style.corner_radius);
 
 	if (state == STATE_SUNKEN) {
 		painter.active_drawtype = bwPainter::DRAW_TYPE_OUTLINE;
-		painter.setActiveColor(widget_style.decorationColor(state));
+		painter.setActiveColor(base_style.decorationColor());
 		painter.drawCheckMark(checkbox_rect);
 	}
 
 	painter.setContentMask(text_rect); // Not sure if we should set this here.
-	painter.setActiveColor(widget_style.textColor(state));
-	painter.drawText(text, text_rect, widget_style.text_alignment);
+	painter.setActiveColor(base_style.textColor());
+	painter.drawText(text, text_rect, base_style.text_alignment);
 }
 
 void bwCheckbox::mousePressEvent(
@@ -42,6 +45,7 @@ void bwCheckbox::mousePressEvent(
 {
 	if (button == MOUSE_BUTTON_LEFT) {
 		state = (state == STATE_SUNKEN) ? STATE_HIGHLIGHTED : STATE_SUNKEN;
+		apply();
 	}
 }
 

@@ -1,6 +1,8 @@
 #include <cassert>
 #include <math.h>
 
+#include "bwRange.h"
+
 #include "bwColor.h"
 
 
@@ -50,10 +52,26 @@ bwColor::bwColor()
 
 bwColor& bwColor::shade(const float rgb_shade, float alpha_shade)
 {
-	for (int i = 0; i < 3; i++) {
-		rgba[i] = fmin(rgba[i] + rgb_shade, 1.0);
-	}
-	rgba[3] = fmin(rgba[3] + alpha_shade, 1.0);
+	rgba[COMPONENT_RED] += rgb_shade;
+	clamp(COMPONENT_RED);
+	rgba[COMPONENT_GREEN] += rgb_shade;
+	clamp(COMPONENT_GREEN);
+	rgba[COMPONENT_BLUE] += rgb_shade;
+	clamp(COMPONENT_BLUE);
+	rgba[COMPONENT_ALPHA] += alpha_shade;
+
+	return *this;
+}
+bwColor& bwColor::shade(unsigned int rgb_shade, unsigned int alpha_shade)
+{
+	rgba[COMPONENT_RED] += rgb_shade / 255.0f;
+	clamp(COMPONENT_RED);
+	rgba[COMPONENT_GREEN] += rgb_shade / 255.0f;
+	clamp(COMPONENT_GREEN);
+	rgba[COMPONENT_BLUE] += rgb_shade / 255.0f;
+	clamp(COMPONENT_BLUE);
+	rgba[COMPONENT_ALPHA] += alpha_shade / 255.0f;
+	clamp(COMPONENT_ALPHA);
 
 	return *this;
 }
@@ -83,9 +101,13 @@ const float* bwColor::getColor() const
 	return rgba;
 }
 
-void bwColor::operator=(const float rgb)
+void bwColor::operator=(const float* rgb)
 {
 	setColor(rgb);
+}
+void bwColor::operator=(const bwColor& other_color)
+{
+	setColor(other_color.rgba);
 }
 
 bool bwColor::operator==(const bwColor& compare_color) const
@@ -100,6 +122,11 @@ float& bwColor::operator[](int index)
 {
 	assert(index < 4);
 	return rgba[index];
+}
+
+void bwColor::clamp(const Component component)
+{
+	bwRange<float>::clampValue(rgba[component], 0.0f, 1.0f);
 }
 
 bwColor::operator const float*() const
