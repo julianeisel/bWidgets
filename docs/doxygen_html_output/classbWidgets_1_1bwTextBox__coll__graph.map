@@ -1,7 +1,0 @@
-<map id="bWidgets::bwTextBox" name="bWidgets::bwTextBox">
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="221,153,364,180"/>
-<area shape="rect" id="node3" href="$structbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="197,13,388,39"/>
-<area shape="rect" id="node5" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners. " alt="" coords="389,153,591,180"/>
-<area shape="rect" id="node6" href="$classbWidgets_1_1bwColor.html" title="bWidgets::bwColor" alt="" coords="423,13,557,39"/>
-</map>
