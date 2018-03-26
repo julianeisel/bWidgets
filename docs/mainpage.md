@@ -47,15 +47,14 @@ Main motivations for bWidgets come from Blender, namely:
   Every user has a different taste when it comes to visual style of UI elements.
   While some like a modern "flat" style, others can't stand it and prefer more
   classic ones.<br/>
-  Even though there are _many_ theme options in Blender, the system is not
-  flexible enough to satisfy the full variety of tastes our users have. Adding
-  more theme options is not an options, there already are way too many (see
-  [T45352](https://developer.blender.org/T45352)). We need to rethink our
-  approach to theming completely.
+  Even though there are _many_ theme options in Blender, the looks it can
+  achieve are rather limited. Adding more theme settings is not an option, there
+  already are way too many (see [T45352](https://developer.blender.org/T45352)).
+  Instead we should rethink our approach to theming completely.
 
   bWidgets supports style presets, which would be the base of a much deeper
-  integrated theme system. Style support was developed with the goal to support
-  style sheet languages, namely CSS, in mind. Check the
+  integrated theme system. Styles were developed with the goal to support style
+  sheet languages - namely CSS - in mind. Check the
   [Current Features](#current_features) section to see examples of CSS styles in
   the bWidgets Demo application.<br/>
   With these CSS styles as a core, themes would have much more control over the
@@ -64,6 +63,8 @@ Main motivations for bWidgets come from Blender, namely:
   base colors of it.<br/>
   For the majority of users, this should be more than
   enough control. For advanced cases, the CSS files give maximum control.
+  Projects like [GTK+/GNOME do something similar](https://www.gnome-look.org/),
+  and it seems to work pretty well.
 
 * __Major Rewrite of Blender's widget code__
 
@@ -122,16 +123,9 @@ Instead it provides interfaces for the application to implement the necessary
 procedures. This way the role, or scope of bWidgets stays limited to the widgets
 themselves.
 
-As of now, bWidgets actually only does widget drawing with some proof-of-concept
-state changing on user input. It does so based on the style system that was
-developed to support style sheet. Over the coming months features can be added
-and improved, first support drawing more widget types, then some user input
-handling, later a more flexible layout system, etc.
-
-
 # Current Features {#current_features}
 
-As of now, bWidgets basically contains a few widget definitions with simple
+Currently, bWidgets basically contains a few widget definitions with simple
 drawing and handling mimicking Blender. It further supports:
 * An initial style preset system designed to work with CSS (custom styles not
 supported yet).
