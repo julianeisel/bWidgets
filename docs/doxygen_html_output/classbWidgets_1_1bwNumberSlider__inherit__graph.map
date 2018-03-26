@@ -1,0 +1,4 @@
+<map id="bWidgets::bwNumberSlider" name="bWidgets::bwNumberSlider">
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwTextBox.html" title="bWidgets::bwTextBox" alt="" coords="21,80,171,107"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="25,5,167,32"/>
+</map>
