@@ -226,6 +226,11 @@ Eventually, styles should be able to completely override the drawing (and
 handling) of widgets. For example a theme/style could make Blender's
 unconventional number-widgets use a conventional design for those who want it.
 
+There is another big benefit to take from such a flexible styling system: UIs
+for usage in virtual reality worlds could be just another style. A style that
+makes buttons bigger, easier to read and easier to operate via handheld
+controllers.
+
 ## Themes can't inherit nicely
 
 Depending on where widgets are drawn, they may need to use different theme
