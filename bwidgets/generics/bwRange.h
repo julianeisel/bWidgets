@@ -21,7 +21,7 @@ public:
 		bwRange<T>(min, max).clampValue(value);
 	}
 
-	bool isInside(const T& value, const bool including_min_max = false)
+	bool isInside(const T& value, const bool including_min_max = false) const
 	{
 		if (including_min_max) {
 			return (value >= min) && (value <= max);

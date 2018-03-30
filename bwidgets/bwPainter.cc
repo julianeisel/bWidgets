@@ -351,7 +351,7 @@ void PolygonRoundboxCreator::addVerts(bwPolygon& polygon)
 	endRoundbox(polygon);
 }
 
-unsigned int getRoundboxMinsize(
+static unsigned int getRoundboxMinsize(
         const bwRectanglePixel& rect,
         unsigned int corners)
 {

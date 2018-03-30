@@ -19,6 +19,7 @@ void GPU_init(void)
 		assert(0);
 		return;
 	}
+	initialized = true;
 
 	GLenum glew_ret = glewInit();
 	if (glew_ret != GLEW_OK) {
