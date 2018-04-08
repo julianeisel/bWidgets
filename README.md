@@ -11,6 +11,22 @@ Further documentation:
 * [Build instructions](https://julianeisel.github.io/bWidgets/md_docs_build_instructions.html).
 
 
+Licensing
+========
+
+As a temporary solution, bWidgets uses the GPL2 or later. This is to avoid
+licensing issues when using GPL licensed code, specifically from Blender.
+Further contributions will be dual-licensed under GPL2 (or later) and the MIT
+until further notice.
+Later we can then switch back to either MIT, or a different FOSS license, like
+Apache2 or LGPL. Note that this only applies to bWidgets itself.
+
+The demo application is licensed under GPL2 or later. Everything else (namely
+documentation and unit tests) uses the MIT license (see LICENSE.txt), except
+for third party libraries for which a license file is placed inside each root
+directory.
+
+
 # Supported Platforms
 
 bWidgets itself only requires a compiler supporting the C++11 ABI.<br/>
