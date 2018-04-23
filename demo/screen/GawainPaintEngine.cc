@@ -133,7 +133,9 @@ void GawainPaintEngine::drawPolygon(
         const bwPolygon& poly)
 {
 	const bool is_shaded = painter.isGradientEnabled();
-	ShaderProgram shader_program(is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
+	ShaderProgram& shader_program = ShaderProgram::getShaderProgram(is_shaded ?
+	                                                                    ShaderProgram::ID_SMOOTH_COLOR :
+	                                                                    ShaderProgram::ID_UNIFORM_COLOR);
 	const bwColor& color = painter.getActiveColor();
 	PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype);
 	VertexFormat* format = immVertexFormat();

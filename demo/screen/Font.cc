@@ -77,7 +77,7 @@ Font* Font::loadFont(const std::string& name, const std::string& path)
 void Font::render(const std::string &text, const int pos_x, const int pos_y)
 {
 	GLuint tex;
-	ShaderProgram shader_program(ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR);
+	ShaderProgram& shader_program = ShaderProgram::getShaderProgram(ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR);
 	VertexFormat* format = immVertexFormat();
 	unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
 	unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);

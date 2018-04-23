@@ -24,6 +24,9 @@
 #include <string>
 #include <array>
 
+#include "bwUtil.h"
+
+
 namespace bWidgetsDemo {
 
 typedef enum ShaderTypeID {
@@ -44,14 +47,19 @@ public:
 		SHADER_PROGRAM_ID_TOT
 	} ShaderProgramID;
 
-	ShaderProgram(ShaderProgramID shader_program_id);
-	~ShaderProgram();
+	static ShaderProgram& getShaderProgram(ShaderProgramID shader_program_id);
 
 	unsigned int ProgramID() const;
-
 	ShaderInterface* getInterface() const;
 
 private:
+	ShaderProgram(ShaderProgramID shader_program_id);
+	~ShaderProgram();
+	friend bWidgets::bwPointer<ShaderProgram>::deleter_type;
+
+	using ShaderProgramCache = std::array<bWidgets::bwPointer<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
+	static ShaderProgramCache cache;
+
 	std::array<unsigned int, SHADER_TYPE_TOT> shader_ids;
 	unsigned int programID;
 	ShaderInterface* interface;
