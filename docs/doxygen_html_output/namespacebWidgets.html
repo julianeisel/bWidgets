@@ -77,7 +77,8 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">bWidgets Namespace Reference</div>  </div>
 </div><!--header-->
@@ -85,6 +86,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bad__optional__access.html">bad_optional_access</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception for access of disengaged bwOptional.  <a href="classbWidgets_1_1bad__optional__access.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwAbstractButton.html">bwAbstractButton</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for button like widgets.  <a href="classbWidgets_1_1bwAbstractButton.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -98,9 +102,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwGradient.html">bwGradient</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple class for calculating colors for gradient fills.  <a href="classbWidgets_1_1bwGradient.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwIconInterface.html">bwIconInterface</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwLabel.html">bwLabel</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwNumberSlider.html">bwNumberSlider</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Own implementation of <code>std::optional</code> for C++11.  <a href="classbWidgets_1_1bwOptional.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwPaintEngine.html">bwPaintEngine</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main interface to implement any drawing of geometry or text.  <a href="classbWidgets_1_1bwPaintEngine.html#details">More...</a><br /></td></tr>
@@ -156,6 +165,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidgetBaseStyle.html">bwWidgetBaseStyle</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Properties for typical widgets with roundbox corners.  <a href="classbWidgets_1_1bwWidgetBaseStyle.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbWidgets_1_1in__place__t.html">in_place_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empty helper class to tag bwOptional constructors to use in-place construction.  <a href="structbWidgets_1_1in__place__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empty helper class to indicate disengaged bwOptional.  <a href="structbWidgets_1_1nullopt__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1PolygonRoundboxCreator.html">PolygonRoundboxCreator</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbWidgets_1_1PropType.html">PropType</a></td></tr>
@@ -171,6 +186,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:a1a6e0db02a00dfa4267b9c3733792087"><td class="memItemLeft" align="right" valign="top"><a id="a1a6e0db02a00dfa4267b9c3733792087"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>bwIcon</b> = unsigned long int</td></tr>
+<tr class="separator:a1a6e0db02a00dfa4267b9c3733792087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82587311d7936ebe7f92ed27f0b67c4d"><td class="memItemLeft" align="right" valign="top"><a id="a82587311d7936ebe7f92ed27f0b67c4d"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>bwDistance</b> = <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a></td></tr>
 <tr class="separator:a82587311d7936ebe7f92ed27f0b67c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,6 +242,142 @@ Functions</h2></td></tr>
 <tr class="memitem:a01731d135d9f8fd9ae9c4ec85855fcf2"><td class="memItemLeft" align="right" valign="top"><a id="a01731d135d9f8fd9ae9c4ec85855fcf2"></a>
 <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator-</b> (const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;lhs, const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;rhs)</td></tr>
 <tr class="separator:a01731d135d9f8fd9ae9c4ec85855fcf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21ef8c91c678cccd0ae308cb81f8f48c"><td class="memTemplParams" colspan="2"><a id="a21ef8c91c678cccd0ae308cb81f8f48c"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a21ef8c91c678cccd0ae308cb81f8f48c"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;lhs, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;rhs)</td></tr>
+<tr class="separator:a21ef8c91c678cccd0ae308cb81f8f48c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80faff0e62e917d048eeabebc46f93b3"><td class="memTemplParams" colspan="2"><a id="a80faff0e62e917d048eeabebc46f93b3"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a80faff0e62e917d048eeabebc46f93b3"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, <a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>)</td></tr>
+<tr class="separator:a80faff0e62e917d048eeabebc46f93b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af212305f68dffdd609b3164268216dbc"><td class="memTemplParams" colspan="2"><a id="af212305f68dffdd609b3164268216dbc"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:af212305f68dffdd609b3164268216dbc"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (<a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt)</td></tr>
+<tr class="separator:af212305f68dffdd609b3164268216dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e2fe7d8a4c226368de14774e7f74d60"><td class="memTemplParams" colspan="2"><a id="a6e2fe7d8a4c226368de14774e7f74d60"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a6e2fe7d8a4c226368de14774e7f74d60"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, const _U &amp;value)</td></tr>
+<tr class="separator:a6e2fe7d8a4c226368de14774e7f74d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b6be57f1450d997fb8339e103c1b5d9"><td class="memTemplParams" colspan="2"><a id="a1b6be57f1450d997fb8339e103c1b5d9"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a1b6be57f1450d997fb8339e103c1b5d9"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const _T &amp;value, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;opt)</td></tr>
+<tr class="separator:a1b6be57f1450d997fb8339e103c1b5d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7036d063a7e8a35c38bc512615b97768"><td class="memTemplParams" colspan="2"><a id="a7036d063a7e8a35c38bc512615b97768"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a7036d063a7e8a35c38bc512615b97768"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;lhs, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;rhs)</td></tr>
+<tr class="separator:a7036d063a7e8a35c38bc512615b97768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88412fa9450d871162924861f5485c59"><td class="memTemplParams" colspan="2"><a id="a88412fa9450d871162924861f5485c59"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a88412fa9450d871162924861f5485c59"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, <a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>)</td></tr>
+<tr class="separator:a88412fa9450d871162924861f5485c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afef712b22031081135959496b0861839"><td class="memTemplParams" colspan="2"><a id="afef712b22031081135959496b0861839"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:afef712b22031081135959496b0861839"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (<a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt)</td></tr>
+<tr class="separator:afef712b22031081135959496b0861839"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7039932d9f02ebb6d73efa917023251"><td class="memTemplParams" colspan="2"><a id="ac7039932d9f02ebb6d73efa917023251"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:ac7039932d9f02ebb6d73efa917023251"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, const _U &amp;value)</td></tr>
+<tr class="separator:ac7039932d9f02ebb6d73efa917023251"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab944ce155259a78689e2a5dced498124"><td class="memTemplParams" colspan="2"><a id="ab944ce155259a78689e2a5dced498124"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:ab944ce155259a78689e2a5dced498124"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (const _T &amp;value, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;opt)</td></tr>
+<tr class="separator:ab944ce155259a78689e2a5dced498124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90f33d2088ad575950aaa2bc6d6a5f05"><td class="memTemplParams" colspan="2"><a id="a90f33d2088ad575950aaa2bc6d6a5f05"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a90f33d2088ad575950aaa2bc6d6a5f05"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;lhs, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;rhs)</td></tr>
+<tr class="separator:a90f33d2088ad575950aaa2bc6d6a5f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae340c6768e0be013d45bf74a86059632"><td class="memTemplParams" colspan="2"><a id="ae340c6768e0be013d45bf74a86059632"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:ae340c6768e0be013d45bf74a86059632"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, <a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>)</td></tr>
+<tr class="separator:ae340c6768e0be013d45bf74a86059632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82f96f2e38de18a4e2aa0e5314297668"><td class="memTemplParams" colspan="2"><a id="a82f96f2e38de18a4e2aa0e5314297668"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a82f96f2e38de18a4e2aa0e5314297668"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;</b> (<a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt)</td></tr>
+<tr class="separator:a82f96f2e38de18a4e2aa0e5314297668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04b8afe3ac801268127902217edc8de8"><td class="memTemplParams" colspan="2"><a id="a04b8afe3ac801268127902217edc8de8"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a04b8afe3ac801268127902217edc8de8"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, const _U &amp;value)</td></tr>
+<tr class="separator:a04b8afe3ac801268127902217edc8de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86d36ca337ac0521b5c943cc2a544bac"><td class="memTemplParams" colspan="2"><a id="a86d36ca337ac0521b5c943cc2a544bac"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a86d36ca337ac0521b5c943cc2a544bac"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;</b> (const _T &amp;value, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;opt)</td></tr>
+<tr class="separator:a86d36ca337ac0521b5c943cc2a544bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59624bb2de6ce6323b0ab55799b6bde2"><td class="memTemplParams" colspan="2"><a id="a59624bb2de6ce6323b0ab55799b6bde2"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a59624bb2de6ce6323b0ab55799b6bde2"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;lhs, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;rhs)</td></tr>
+<tr class="separator:a59624bb2de6ce6323b0ab55799b6bde2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a910fe1bb55a926e999bac8a53eb4e6bd"><td class="memTemplParams" colspan="2"><a id="a910fe1bb55a926e999bac8a53eb4e6bd"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a910fe1bb55a926e999bac8a53eb4e6bd"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, <a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>)</td></tr>
+<tr class="separator:a910fe1bb55a926e999bac8a53eb4e6bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2127b0bc9677c7f76c3f1f786472ffa9"><td class="memTemplParams" colspan="2"><a id="a2127b0bc9677c7f76c3f1f786472ffa9"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a2127b0bc9677c7f76c3f1f786472ffa9"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;=</b> (<a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt)</td></tr>
+<tr class="separator:a2127b0bc9677c7f76c3f1f786472ffa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89be1ebb10aaa4ed2d187aa28d8825f5"><td class="memTemplParams" colspan="2"><a id="a89be1ebb10aaa4ed2d187aa28d8825f5"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a89be1ebb10aaa4ed2d187aa28d8825f5"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, const _U &amp;value)</td></tr>
+<tr class="separator:a89be1ebb10aaa4ed2d187aa28d8825f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f398a650ace5eae9efb777aab562e55"><td class="memTemplParams" colspan="2"><a id="a1f398a650ace5eae9efb777aab562e55"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a1f398a650ace5eae9efb777aab562e55"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;=</b> (const _T &amp;value, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;opt)</td></tr>
+<tr class="separator:a1f398a650ace5eae9efb777aab562e55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86e0cbc7bcbee73501e85f5752529a1d"><td class="memTemplParams" colspan="2"><a id="a86e0cbc7bcbee73501e85f5752529a1d"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a86e0cbc7bcbee73501e85f5752529a1d"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;lhs, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;rhs)</td></tr>
+<tr class="separator:a86e0cbc7bcbee73501e85f5752529a1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c20f8ea57885dd466d7261914880e0e"><td class="memTemplParams" colspan="2"><a id="a9c20f8ea57885dd466d7261914880e0e"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a9c20f8ea57885dd466d7261914880e0e"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, <a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>)</td></tr>
+<tr class="separator:a9c20f8ea57885dd466d7261914880e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b9cbe2f2efe78188cae00528920ed4"><td class="memTemplParams" colspan="2"><a id="a10b9cbe2f2efe78188cae00528920ed4"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a10b9cbe2f2efe78188cae00528920ed4"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;</b> (<a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt)</td></tr>
+<tr class="separator:a10b9cbe2f2efe78188cae00528920ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ff6f8a390a28f724389409f4ba446af"><td class="memTemplParams" colspan="2"><a id="a0ff6f8a390a28f724389409f4ba446af"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a0ff6f8a390a28f724389409f4ba446af"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, const _U &amp;value)</td></tr>
+<tr class="separator:a0ff6f8a390a28f724389409f4ba446af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1dd708ef3621ce83f3ea7b746fd4c5e"><td class="memTemplParams" colspan="2"><a id="ab1dd708ef3621ce83f3ea7b746fd4c5e"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:ab1dd708ef3621ce83f3ea7b746fd4c5e"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;</b> (const _T &amp;value, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;opt)</td></tr>
+<tr class="separator:ab1dd708ef3621ce83f3ea7b746fd4c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a858baf5217574b5782a5ed1aa18c450d"><td class="memTemplParams" colspan="2"><a id="a858baf5217574b5782a5ed1aa18c450d"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a858baf5217574b5782a5ed1aa18c450d"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;lhs, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;rhs)</td></tr>
+<tr class="separator:a858baf5217574b5782a5ed1aa18c450d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31ca1d3d1018eaec4c5a245df397ed96"><td class="memTemplParams" colspan="2"><a id="a31ca1d3d1018eaec4c5a245df397ed96"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a31ca1d3d1018eaec4c5a245df397ed96"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, <a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>)</td></tr>
+<tr class="separator:a31ca1d3d1018eaec4c5a245df397ed96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af92919f8392215f5309bb8e1717198e6"><td class="memTemplParams" colspan="2"><a id="af92919f8392215f5309bb8e1717198e6"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:af92919f8392215f5309bb8e1717198e6"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;=</b> (<a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt)</td></tr>
+<tr class="separator:af92919f8392215f5309bb8e1717198e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a371e303e0af7bd8c11891931a62fb12c"><td class="memTemplParams" colspan="2"><a id="a371e303e0af7bd8c11891931a62fb12c"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:a371e303e0af7bd8c11891931a62fb12c"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;=</b> (const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;opt, const _U &amp;value)</td></tr>
+<tr class="separator:a371e303e0af7bd8c11891931a62fb12c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1657a23ba17abb609caa219fbcc38ef"><td class="memTemplParams" colspan="2"><a id="ab1657a23ba17abb609caa219fbcc38ef"></a>
+template&lt;typename _T , typename _U &gt; </td></tr>
+<tr class="memitem:ab1657a23ba17abb609caa219fbcc38ef"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;=</b> (const _T &amp;value, const <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _U &gt; &amp;opt)</td></tr>
+<tr class="separator:ab1657a23ba17abb609caa219fbcc38ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6373a433a8a4e87f0ae6a725ccfd78e1"><td class="memTemplParams" colspan="2"><a id="a6373a433a8a4e87f0ae6a725ccfd78e1"></a>
+template&lt;typename _T &gt; </td></tr>
+<tr class="memitem:a6373a433a8a4e87f0ae6a725ccfd78e1"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; typename std::decay&lt; _T &gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>make_optional</b> (_T &amp;&amp;value)</td></tr>
+<tr class="separator:a6373a433a8a4e87f0ae6a725ccfd78e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42a2fc40c02893f6dc69c3f8ade7fada"><td class="memTemplParams" colspan="2"><a id="a42a2fc40c02893f6dc69c3f8ade7fada"></a>
+template&lt;typename _T , typename... Args&gt; </td></tr>
+<tr class="memitem:a42a2fc40c02893f6dc69c3f8ade7fada"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>make_optional</b> (Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a42a2fc40c02893f6dc69c3f8ade7fada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c07f91581081bf52f3286f927c555d4"><td class="memTemplParams" colspan="2"><a id="a8c07f91581081bf52f3286f927c555d4"></a>
+template&lt;typename _T , typename _U , typename... Args&gt; </td></tr>
+<tr class="memitem:a8c07f91581081bf52f3286f927c555d4"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>make_optional</b> (std::initializer_list&lt; _U &gt; ilist, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a8c07f91581081bf52f3286f927c555d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaadd97f0fbbb9b000104e2123230f02e"><td class="memTemplParams" colspan="2"><a id="aaadd97f0fbbb9b000104e2123230f02e"></a>
+template&lt;typename _T , typename std::enable_if&lt; std::is_move_constructible&lt; _T &gt;::value, bool &gt;::type  = false&gt; </td></tr>
+<tr class="memitem:aaadd97f0fbbb9b000104e2123230f02e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>swap</b> (<a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;lhs, <a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; _T &gt; &amp;rhs)</td></tr>
+<tr class="separator:aaadd97f0fbbb9b000104e2123230f02e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa86bd12a105a924fbbefcb792b2dc116"><td class="memTemplParams" colspan="2">template&lt;typename _PointerType , typename... _Args&gt; </td></tr>
 <tr class="memitem:aa86bd12a105a924fbbefcb792b2dc116"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacebWidgets.html#ae58596de345a3af9009f0a534fc6d6f3">bwPointer</a>&lt; _PointerType &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebWidgets.html#aa86bd12a105a924fbbefcb792b2dc116">bwPointer_new</a> (_Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:aa86bd12a105a924fbbefcb792b2dc116"><td class="mdescLeft">&#160;</td><td class="mdescRight">Own implementation of <code>std::make_unique()</code> for C++11.  <a href="#aa86bd12a105a924fbbefcb792b2dc116">More...</a><br /></td></tr>
@@ -238,6 +392,18 @@ Functions</h2></td></tr>
 template&lt;class T &gt; </td></tr>
 <tr class="memitem:afaa7d1129abc5cb1f8f43afda3ed04fa"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>widget_cast</b> (const <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> *widget)</td></tr>
 <tr class="separator:afaa7d1129abc5cb1f8f43afda3ed04fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a70f327787aad94e5fbc4fe5c11bf51e5"><td class="memItemLeft" align="right" valign="top"><a id="a70f327787aad94e5fbc4fe5c11bf51e5"></a>
+const float&#160;</td><td class="memItemRight" valign="bottom"><b>ICON_DEFAULT_SIZE</b> = 16</td></tr>
+<tr class="separator:a70f327787aad94e5fbc4fe5c11bf51e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a695f9ddc662cc88a056d6dbe884b83e0"><td class="memItemLeft" align="right" valign="top"><a id="a695f9ddc662cc88a056d6dbe884b83e0"></a>
+constexpr <a class="el" href="structbWidgets_1_1nullopt__t.html">nullopt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>nullopt</b> {42}</td></tr>
+<tr class="separator:a695f9ddc662cc88a056d6dbe884b83e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a09db6469ce8c1cc2ccc36514e9050b"><td class="memItemLeft" align="right" valign="top"><a id="a5a09db6469ce8c1cc2ccc36514e9050b"></a>
+constexpr <a class="el" href="structbWidgets_1_1in__place__t.html">in_place_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>in_place</b> {}</td></tr>
+<tr class="separator:a5a09db6469ce8c1cc2ccc36514e9050b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Simple type-trait mechanism to get the right bwStyleProperty::PropType from the data-type of the property (bool, int, bwColor, ...) and vise versa. </p>

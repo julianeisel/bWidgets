@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=9"/>
   <meta name="generator" content="Doxygen 1.8.13"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>bWidgets: std Namespace Reference</title>
+  <title>bWidgets: bwidgets/bwIcon.h Source File</title>
   <!-- <script type="text/javascript" src="jquery.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="dynsections.js"></script>
@@ -71,63 +71,19 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_ded1247510d9a1de4ec537edd42ee7cf.html">bwidgets</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">std Namespace Reference</div>  </div>
+<div class="title">bwIcon.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Extension of the std library.  
-<a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1always__false.html">always_false</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a7a786f4c081743da2f7f09500b393ae4"><td class="memTemplParams" colspan="2">template&lt;typename _PointerType , typename... _Args&gt; </td></tr>
-<tr class="memitem:a7a786f4c081743da2f7f09500b393ae4"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::unique_ptr&lt; _PointerType &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a7a786f4c081743da2f7f09500b393ae4">make_unique</a> (_Args &amp;&amp;...)</td></tr>
-<tr class="separator:a7a786f4c081743da2f7f09500b393ae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Extension of the std library. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a7a786f4c081743da2f7f09500b393ae4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a786f4c081743da2f7f09500b393ae4">&#9670;&nbsp;</a></span>make_unique()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename _PointerType , typename... _Args&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr std::unique_ptr&lt;_PointerType&gt; std::make_unique </td>
-          <td>(</td>
-          <td class="paramtype">_Args &amp;&amp;&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Make calling C++14's <code>std::make_unique()</code> fail with an error message hinting to bWidgets' <a class="el" href="namespacebWidgets.html#aa86bd12a105a924fbbefcb792b2dc116">bwPointer_new(). </a></p>
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div><div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="namespacebWidgets.html">    3</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebWidgets.html">bWidgets</a> {</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">const</span> <span class="keywordtype">float</span> ICON_DEFAULT_SIZE = 16;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using</span> bwIcon = <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> int;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div><div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwIconInterface.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="classbWidgets_1_1bwIconInterface.html">bwIconInterface</a></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> isValid() <span class="keyword">const</span> = 0;</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;};</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;} <span class="comment">// namespace bWidgets</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div><div class="ttc" id="namespacebWidgets_html"><div class="ttname"><a href="namespacebWidgets.html">bWidgets</a></div><div class="ttdef"><b>Definition:</b> bwIcon.h:3</div></div>
+<div class="ttc" id="classbWidgets_1_1bwIconInterface_html"><div class="ttname"><a href="classbWidgets_1_1bwIconInterface.html">bWidgets::bwIconInterface</a></div><div class="ttdef"><b>Definition:</b> bwIcon.h:9</div></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

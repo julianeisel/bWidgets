@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['styletype',['StyleType',['../structbWidgets_1_1bwStyle_1_1StyleType.html',1,'bWidgets::bwStyle']]]
+  ['nullopt_5ft',['nullopt_t',['../structbWidgets_1_1nullopt__t.html',1,'bWidgets']]]
 ];
