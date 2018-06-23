@@ -2,17 +2,38 @@
 
 #include <memory>
 
-
-namespace bWidgets {
+namespace std {
 
 /**
- * Portable version of __PRETTY_FUNCTION__.
+ * Helper to ensure #make_unique() implementation below only causes an error
+ * when it's actually called. `static_assert(false)` would fail at template
+ * definition time, `static_assert(always_false<T>::value)` only fails at
+ * template instantiation time.
  */
-#ifdef _MSC_VER
-#  define PRETTY_FUNCTION __FUNCSIG__
-#else
-#  define PRETTY_FUNCTION __PRETTY_FUNCTION__
-#endif
+template<typename... T>
+struct always_false
+{
+	static constexpr bool value = false;
+};
+
+/**
+ * Make calling C++14's `std::make_unique()` fail with an error message hinting
+ * to bWidgets' \link bWidgets::bwPointer_new bwPointer_new().
+ */
+template<typename _PointerType, typename... _Args>
+inline constexpr std::unique_ptr<_PointerType> make_unique(_Args&&...)
+{
+	static_assert(
+	            always_false<_Args...>::value,
+	            "Error: `std::make_unique()` is not available in C++11 and shouldn't be "
+	            "used! Use bWidgets' own implementation `bwPointer_new()` instead.");
+	return{};
+}
+
+} // namespace std
+
+
+namespace bWidgets {
 
 /**
  * \brief Alias for `std::unique_ptr()`.
@@ -67,36 +88,3 @@ inline bwPointer<_PointerType> bwPointer_new()
 }
 
 } // namespace bWidgets
-
-/**
- * \brief Extension of the std library.
- */
-namespace std {
-
-/**
- * Helper to ensure #make_unique() implementation below only causes an error
- * when it's actually called. `static_assert(false)` would fail at template
- * definition time, `static_assert(always_false<T>::value)` only fails at
- * template instantiation time.
- */
-template<typename... T>
-struct always_false
-{
-	static constexpr bool value = false;
-};
-
-/**
- * Make calling C++14's `std::make_unique()` fail with an error message hinting
- * to bWidgets' \link bWidgets::bwPointer_new bwPointer_new().
- */
-template<typename _PointerType, typename... _Args>
-inline constexpr std::unique_ptr<_PointerType> make_unique(_Args&&...)
-{
-	static_assert(
-	            always_false<_Args...>::value,
-	            "Error: `std::make_unique()` is not available in C++11 and shouldn't be "
-	            "used! Use bWidgets' own implementation `bwPointer_new()` instead.");
-	return{};
-}
-
-}

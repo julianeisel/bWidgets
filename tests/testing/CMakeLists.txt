@@ -10,6 +10,9 @@ set(INC
 
 set(SRC
 	testing_main.cc
+
+	TestUtilClasses.h
+	TestUtilMacros.h
 )
 
 add_library(testing_main ${SRC})

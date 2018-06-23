@@ -12,7 +12,6 @@ set(SRC
 	bwPolygon.h
 	bwRange.h
 	bwRectangle.h
-	bwUtil.h
 )
 
 add_library(bw_generics ${SRC})

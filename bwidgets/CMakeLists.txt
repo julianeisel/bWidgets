@@ -2,6 +2,7 @@ set(INC
 	.
 	generics
 	styles
+	utils
 	widgets
 )
 
@@ -40,4 +41,5 @@ include_directories(${INC})
 target_link_libraries(bWidgets ${LIB})
 
 add_subdirectory(generics)
+add_subdirectory(utils)
 add_subdirectory(widgets)
