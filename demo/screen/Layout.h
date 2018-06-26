@@ -194,7 +194,7 @@ public:
 	        const unsigned int item_margin,
 	        const float scale_fac,
 	        const LayoutItem& parent) override;
-	bWidgets::bwOptional<std::reference_wrapper<bWidgets::bwWidget>> getWidget() const;
+	bWidgets::bwOptional<std::reference_wrapper<bWidgets::bwWidget>> getWidget() const override;
 	bool areChildrenHidden() const override;
 
 private:

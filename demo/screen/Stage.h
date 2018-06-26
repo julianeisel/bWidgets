@@ -55,6 +55,8 @@ public:
 	void handleWindowResizeEvent(
 	        const class Window& win);
 
+	static void setInterfaceScale(const float value);
+
 protected:
 	bwPointer<class RootLayout> layout;
 
@@ -68,8 +70,6 @@ protected:
 	int vert_scroll = 0;
 
 	virtual void activateStyleID(bwStyle::StyleTypeID type_id);
-
-	static void setInterfaceScale(const float value);
 
 private:
 	// Not part of the layout yet. We'd need to support horizontal root layouts first.

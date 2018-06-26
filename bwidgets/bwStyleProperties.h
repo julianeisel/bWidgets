@@ -78,11 +78,10 @@ private:
  */
 class bwStyleProperties
 {
-private:
+public:
 	// Store properties as pointer, they are actually created as bwStylePropertyInternal instances.
 	using PropertyList = std::vector<bwPointer<bwStyleProperty>>;
 
-public:
 	bwStyleProperty& addBool(const std::string& name, bool& reference);
 	bwStyleProperty& addBool(const std::string& name);
 	bwStyleProperty& addInteger(const std::string& name, int& reference);
