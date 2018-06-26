@@ -362,17 +362,25 @@ bwStyleProperty::PropertyType bwStyleProperty::getType() const
 
 // --------------------------------------------------------------------
 
-bwStyleProperty* bwStyleProperties::lookup(const std::string& name) const
+bwOptional<std::reference_wrapper<const bwStyleProperty>> bwStyleProperties::lookup(const std::string& name) const
 {
-	for (const bwPointer<bwStyleProperty>& property : properties) {
+	for (const auto& property : properties) {
 		if (property->getIdentifier() == name) {
-			return property.get();
+			return *property;
 		}
 	}
 
-	return nullptr;
+	return nullopt;
 }
 
+bwStyleProperties::iterator bwStyleProperties::begin()
+{
+	return properties.begin();
+}
+bwStyleProperties::iterator bwStyleProperties::end()
+{
+	return properties.end();
+}
 bwStyleProperties::const_iterator bwStyleProperties::begin() const
 {
 	return properties.begin();

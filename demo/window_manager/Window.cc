@@ -19,8 +19,10 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
+#include "DefaultStage.h"
 #include "EventManager.h"
 #include "GPU.h"
+#include "Layout.h"
 #include "Stage.h"
 
 #include "Window.h"
@@ -29,7 +31,7 @@ using namespace bWidgetsDemo;
 
 
 Window::Window(std::string name, unsigned int size_x, unsigned int size_y) :
-    stage(NULL), width(size_x), height(size_y)
+    width(size_x), height(size_y)
 {
 //	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 //	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -55,22 +57,18 @@ Window::Window(std::string name, unsigned int size_x, unsigned int size_y) :
 	GPU_init();
 
 	EventManager::setupWindowHandlers(*this);
+
+	stage = bwPointer_new<DefaultStage>(getWidth(), getHeight());
 }
 
 Window::~Window()
 {
-	if (stage) {
-		delete stage;
-	}
 	glfwDestroyWindow(glfw_window);
 }
 
 void Window::draw()
 {
-	if (stage) {
-		stage->draw();
-	}
-
+	stage->draw();
 	glfwSwapBuffers(glfw_window);
 }
 
@@ -101,9 +99,9 @@ void Window::handleResizeEvent(const int new_win_x, const int new_win_y)
 	stage->handleWindowResizeEvent(*this);
 }
 
-GLFWwindow *Window::getGlfwWindow() const
+GLFWwindow& Window::getGlfwWindow() const
 {
-	return glfw_window;
+	return *glfw_window;
 }
 
 int Window::getWidth() const

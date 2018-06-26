@@ -34,16 +34,14 @@ Application& Application::ensureApplication()
 
 void Application::setup()
 {
-	WindowManager& _wm = WindowManager::CreateWindowManager();
-	Window* win = _wm.addWindow("bWidgets Demo");
-
-	win->stage = new DefaultStage(win->getWidth(), win->getHeight());
-	wm = &_wm;
+	WindowManager& wm = WindowManager::getWindowManager();
+	wm.addWindow("bWidgets Demo");
 }
 
 void Application::mainLoop()
 {
-	wm->mainLoop();
+	WindowManager& wm = WindowManager::getWindowManager();
+	wm.mainLoop();
 }
 
 void Application::exit()

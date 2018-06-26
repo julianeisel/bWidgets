@@ -45,7 +45,7 @@ WindowManager::WindowManager() :
 //	GPU_init(); // needs context, so delay until window creation
 }
 
-WindowManager& WindowManager::CreateWindowManager()
+WindowManager& WindowManager::getWindowManager()
 {
 	static WindowManager instance;
 	return instance;
@@ -53,10 +53,8 @@ WindowManager& WindowManager::CreateWindowManager()
 
 WindowManager::~WindowManager()
 {
+	windows.clear(); // Destroy windows before calling glfwTerminate().
 	GPU_exit();
-	for (Window *win : windows) {
-		delete win;
-	}
 	glfwTerminate();
 }
 
@@ -72,8 +70,8 @@ WindowManager::WindowManagerAction WindowManager::processEvents()
 
 void WindowManager::drawWindows()
 {
-	for (Window* win: windows) {
-		win->draw();
+	for (Window& win: windows) {
+		win.draw();
 	}
 }
 
@@ -84,24 +82,22 @@ void WindowManager::mainLoop()
 	}
 }
 
-Window* WindowManager::addWindow(std::string name)
+Window& WindowManager::addWindow(std::string name)
 {
-	Window *win_new = new Window(name);
-
-	windows.push_back(win_new);
+	windows.emplace_back(name);
 	if (windows.size() == 1) {
-		main_win = win_new;
+		main_win = windows.back();
 	}
 
-	return win_new;
+	return windows.back();
 }
 
-void WindowManager::removeWindow(Window* win)
+void WindowManager::removeWindow(Window& win)
 {
 	windows.remove(win);
 }
 
-const bool WindowManager::isMainWindow(const Window *win) const
+const bool WindowManager::isMainWindow(const Window& win) const
 {
-	return win == main_win;
+	return win == *main_win;
 }

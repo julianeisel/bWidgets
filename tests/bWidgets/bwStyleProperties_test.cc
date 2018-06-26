@@ -12,7 +12,7 @@ using namespace bWidgets;
 TEST(bwStyleProperties, lookup_empty)
 {
 	bwStyleProperties properties;
-	EXPECT_EQ(properties.lookup("null"), nullptr);
+	EXPECT_FALSE(properties.lookup("null"));
 }
 
 TEST(bwStyleProperties, addBool)
@@ -20,7 +20,7 @@ TEST(bwStyleProperties, addBool)
 	bwStyleProperties properties;
 
 	properties.addBool("test_bool");
-	EXPECT_NE(properties.lookup("test_bool"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_bool"));
 }
 TEST(bwStyleProperties, addBool_reference)
 {
@@ -28,7 +28,7 @@ TEST(bwStyleProperties, addBool_reference)
 	bool test_bool = true;
 
 	properties.addBool("test_bool", test_bool);
-	EXPECT_NE(properties.lookup("test_bool"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_bool"));
 	EXPECT_TRUE(test_bool);
 }
 
@@ -37,7 +37,7 @@ TEST(bwStyleProperties, addInteger)
 	bwStyleProperties properties;
 
 	properties.addInteger("test_int");
-	EXPECT_NE(properties.lookup("test_int"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_int"));
 }
 TEST(bwStyleProperties, addInteger_reference)
 {
@@ -45,7 +45,7 @@ TEST(bwStyleProperties, addInteger_reference)
 	int test_int = 42;
 
 	properties.addInteger("test_int", test_int);
-	EXPECT_NE(properties.lookup("test_int"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_int"));
 	EXPECT_EQ(test_int, 42);
 }
 
@@ -54,7 +54,7 @@ TEST(bwStyleProperties, addFloat)
 	bwStyleProperties properties;
 
 	properties.addFloat("test_float");
-	EXPECT_NE(properties.lookup("test_float"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_float"));
 }
 TEST(bwStyleProperties, addFloat_reference)
 {
@@ -62,7 +62,7 @@ TEST(bwStyleProperties, addFloat_reference)
 	float test_float = 42.0f;
 
 	properties.addFloat("test_float", test_float);
-	EXPECT_NE(properties.lookup("test_float"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_float"));
 	EXPECT_EQ(test_float, 42.0f);
 }
 
@@ -71,7 +71,7 @@ TEST(bwStyleProperties, addColor)
 	bwStyleProperties properties;
 
 	properties.addColor("test_color");
-	EXPECT_NE(properties.lookup("test_color"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_color"));
 }
 TEST(bwStyleProperties, addColor_reference)
 {
@@ -79,7 +79,7 @@ TEST(bwStyleProperties, addColor_reference)
 	bwColor test_color{0.5f};
 
 	properties.addColor("test_color", test_color);
-	EXPECT_NE(properties.lookup("test_color"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_color"));
 	EXPECT_EQ(test_color, bwColor(0.5f));
 }
 
@@ -88,28 +88,28 @@ TEST(bwStyleProperties, addProperty_bool)
 	bwStyleProperties properties;
 
 	properties.addProperty("test_bool", bwStyleProperty::TYPE_BOOL);
-	EXPECT_NE(properties.lookup("test_bool"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_bool"));
 }
 TEST(bwStyleProperties, addProperty_integer)
 {
 	bwStyleProperties properties;
 
 	properties.addProperty("test_integer", bwStyleProperty::TYPE_INTEGER);
-	EXPECT_NE(properties.lookup("test_integer"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_integer"));
 }
 TEST(bwStyleProperties, addProperty_float)
 {
 	bwStyleProperties properties;
 
 	properties.addProperty("test_float", bwStyleProperty::TYPE_FLOAT);
-	EXPECT_NE(properties.lookup("test_float"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_float"));
 }
 TEST(bwStyleProperties, addProperty_color)
 {
 	bwStyleProperties properties;
 
 	properties.addProperty("test_color", bwStyleProperty::TYPE_COLOR);
-	EXPECT_NE(properties.lookup("test_color"), nullptr);
+	EXPECT_TRUE(properties.lookup("test_color"));
 }
 
 TEST(bwStyleProperties, begin_end_empty)

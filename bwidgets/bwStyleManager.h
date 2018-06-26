@@ -14,7 +14,7 @@ class bwStyleManager
 {
 public:
 	static bwStyleManager& getStyleManager();
-	static bwStyle* createStyleFromTypeID(bwStyle::StyleTypeID type_id);
+	static bwPointer<bwStyle> createStyleFromTypeID(bwStyle::StyleTypeID type_id);
 
 	void registerDefaultStyleTypes();
 

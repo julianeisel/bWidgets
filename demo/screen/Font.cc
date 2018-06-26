@@ -97,7 +97,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
+	immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
 	immUniformColor4fv(active_color);
 
 	glEnable(GL_BLEND);

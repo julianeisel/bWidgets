@@ -41,7 +41,7 @@ namespace bWidgetsDemo {
 class WidgetLayoutItem : public LayoutItem
 {
 public:
-	WidgetLayoutItem(bwWidget* widget, LayoutItem* parent = nullptr);
+	WidgetLayoutItem(bwPointer<bwWidget> widget);
 
 	void draw(bwStyle &style) const override;
 	void resolve(
@@ -49,7 +49,7 @@ public:
 	        const unsigned int item_margin,
 	        const float scale_fac,
 	        const LayoutItem& parent) override;
-	bwWidget* getWidget() const override;
+	bwOptional<std::reference_wrapper<bwWidget>> getWidget() const override;
 	bool isHidden() const override;
 
 	void alignWidgetItem(const LayoutItem& parent);
@@ -59,7 +59,7 @@ public:
 	bool isAlignedtoPrevious(const LayoutItem& parent) const;
 	bool isAlignedtoNext(const LayoutItem& parent) const;
 
-	bwWidget* widget;
+	bwPointer<bwWidget> widget;
 };
 
 } // namespace bWidgetsDemo
@@ -68,30 +68,14 @@ public:
 LayoutItem::LayoutItem(
         LayoutItemType item_type,
         const bool align,
-        LayoutItem* parent,
         FlowDirection flow_direction) :
     type(item_type), flow_direction(flow_direction), align(align)
 {
-	if (parent) {
-		assert(parent->hasChild(*this) == false);
-		parent->addLayoutItem(this);
-	}
-}
-
-LayoutItem::~LayoutItem()
-{
-	for (LayoutItem* item : child_items) {
-		if (item->type == LAYOUT_ITEM_TYPE_WIDGET) {
-			WidgetLayoutItem* widget_item = static_cast<WidgetLayoutItem*>(item);
-			delete widget_item->widget;
-		}
-		delete item;
-	}
 }
 
 void LayoutItem::draw(bwStyle& style) const
 {
-	for (LayoutItem* item : child_items) {
+	for (const auto& item : child_items) {
 		if (!item->isHidden()) {
 			item->draw(style);
 		}
@@ -103,8 +87,8 @@ bool LayoutItem::iterateWidgets(
         void* custom_data,
         bool skip_hidden)
 {
-	for (LayoutItem* item : child_items) {
-		bwWidget* widget = item->getWidget();
+	for (auto& item : child_items) {
+		bwOptional<std::reference_wrapper<bwWidget>> widget = item->getWidget();
 
 		if (skip_hidden && item->isHidden()) {
 			// skip
@@ -123,36 +107,32 @@ bool LayoutItem::iterateWidgets(
 	return true;
 }
 
-void LayoutItem::addWidget(bwWidget* widget)
+void LayoutItem::addWidget(bwPointer<bwWidget> widget)
 {
-	WidgetLayoutItem* widget_item = new WidgetLayoutItem(widget);
-	addLayoutItem(widget_item);
+	addLayoutItem(bwPointer_new<WidgetLayoutItem>(std::move(widget)));
 }
 
-void LayoutItem::addLayoutItem(LayoutItem* item)
+void LayoutItem::addLayoutItem(bwPointer<LayoutItem> item)
 {
-	child_items.push_back(item);
-	item->iterator_item = std::prev(child_items.end());
-}
-
-void LayoutItem::addLayout(RowLayout* row)
-{
-	addLayoutItem(row);
-}
-
-void LayoutItem::addLayout(ColumnLayout* column)
-{
-	addLayoutItem(column);
+	assert(hasChild(*this) == false);
+	child_items.push_back(std::move(item));
+	LayoutItemList::iterator iterator = std::prev(child_items.end());
+	(*iterator)->iterator_item = iterator;
 }
 
 bool LayoutItem::hasChild(const LayoutItem& potential_child) const
 {
-	return std::find(child_items.begin(), child_items.end(), &potential_child) != child_items.end();
+	for (auto& child : child_items) {
+		if (child.get() == &potential_child) {
+			return true;
+		}
+	}
+	return false;
 }
 
-bwWidget* LayoutItem::getWidget() const
+bwOptional<std::reference_wrapper<bwWidget>> LayoutItem::getWidget() const
 {
-	return nullptr;
+	return nullopt;
 }
 
 bool LayoutItem::isHidden() const
@@ -207,12 +187,12 @@ void LayoutItem::resolve(
 		item_width = width;
 	}
 
-	for (LayoutItem* item : child_items) {
+	for (auto& item : child_items) {
 		if (item->isHidden()) {
 			continue;
 		}
 
-		LayoutItem* next = item->getNext(*this, true);
+		bwOptional<std::reference_wrapper<LayoutItem>> next = item->getNext(*this, true);
 
 		item->width = item_width;
 		// Simple correction for precision issues.
@@ -262,14 +242,14 @@ void LayoutItem::resolve(
 
 bool LayoutItem::needsMarginBeforeNext(const LayoutItem& parent) const
 {
-	const LayoutItem* next = getNext(parent, true);
+	const bwOptional<std::reference_wrapper<LayoutItem>> next = getNext(parent, true);
 
 	if (!next) {
 		return false;
 	}
-	else if (parent.align && (type == LAYOUT_ITEM_TYPE_WIDGET) && (next->type == LAYOUT_ITEM_TYPE_WIDGET)) {
+	else if (parent.align && (type == LAYOUT_ITEM_TYPE_WIDGET) && (next->get().type == LAYOUT_ITEM_TYPE_WIDGET)) {
 		const WidgetLayoutItem& widget_item = static_cast<const WidgetLayoutItem&>(*this);
-		const WidgetLayoutItem& next_widget_item = static_cast<const WidgetLayoutItem&>(*next);
+		const WidgetLayoutItem& next_widget_item = static_cast<const WidgetLayoutItem&>(next->get());
 
 		if (widget_item.canAlignWidgetItem() && next_widget_item.canAlignWidgetItem()) {
 			return false;
@@ -285,7 +265,7 @@ unsigned int LayoutItem::countRowColumns() const
 
 	assert(type == LAYOUT_ITEM_TYPE_ROW);
 
-	for (LayoutItem* item : child_items) {
+	for (auto& item : child_items) {
 		if (item->isHidden()) {
 			continue;
 		}
@@ -313,7 +293,7 @@ unsigned int LayoutItem::countNeededMargins() const
 {
 	unsigned int tot_margins = 0;
 
-	for (LayoutItem* item : child_items) {
+	for (auto& item : child_items) {
 		if (item->isHidden()) {
 			continue;
 		}
@@ -325,12 +305,12 @@ unsigned int LayoutItem::countNeededMargins() const
 	return tot_margins;
 }
 
-LayoutItem* LayoutItem::getPrevious(
+bwOptional<std::reference_wrapper<LayoutItem>> LayoutItem::getPrevious(
         const LayoutItem& parent,
         const bool skip_hidden) const
 {
 	if (iterator_item == parent.child_items.begin()) {
-		return nullptr;
+		return nullopt;
 	}
 
 	for (IteratorItem iterator_item_prev = std::prev(iterator_item);
@@ -338,13 +318,13 @@ LayoutItem* LayoutItem::getPrevious(
 	     iterator_item_prev = std::prev(iterator_item_prev))
 	{
 		if (!skip_hidden || ((*iterator_item_prev)->isHidden() == false)) {
-			return *iterator_item_prev;
+			return **iterator_item_prev;
 		}
 	}
 
-	return nullptr;
+	return nullopt;
 }
-LayoutItem* LayoutItem::getNext(
+bwOptional<std::reference_wrapper<LayoutItem>> LayoutItem::getNext(
         const LayoutItem& parent,
         const bool skip_hidden) const
 {
@@ -353,11 +333,11 @@ LayoutItem* LayoutItem::getNext(
 	     iterator_item_next = std::next(iterator_item_next))
 	{
 		if (!skip_hidden || ((*iterator_item_next)->isHidden() == false)) {
-			return *iterator_item_next;
+			return **iterator_item_next;
 		}
 	}
 
-	return nullptr;
+	return nullopt;
 }
 
 
@@ -370,7 +350,7 @@ RootLayout::RootLayout(
         const int ymax,
         const unsigned int max_size,
         const bool align) :
-    LayoutItem(LAYOUT_ITEM_TYPE_ROOT, align, nullptr, FLOW_DIRECTION_VERTICAL),
+    LayoutItem(LAYOUT_ITEM_TYPE_ROOT, align, FLOW_DIRECTION_VERTICAL),
     max_size(max_size), ymax(ymax)
 {
 	
@@ -399,32 +379,55 @@ void RootLayout::setYmax(const int value)
 }
 
 
-ColumnLayout::ColumnLayout(
-        const bool align,
-        LayoutItem* parent) :
-    LayoutItem(LAYOUT_ITEM_TYPE_COLUMN, align, parent, FLOW_DIRECTION_VERTICAL)
+ColumnLayout::ColumnLayout(const bool align) :
+    LayoutItem(LAYOUT_ITEM_TYPE_COLUMN, align, FLOW_DIRECTION_VERTICAL)
 {
 	
 }
+ColumnLayout& ColumnLayout::create(
+        LayoutItem& parent,
+        const bool align)
+{
+	bwPointer<ColumnLayout> column_layout(new ColumnLayout(align));
+	ColumnLayout& layout_ref = *column_layout;
+	parent.addLayoutItem(std::move(column_layout));
+	return layout_ref;
+}
 
 
-RowLayout::RowLayout(
-        const bool align,
-        LayoutItem* parent) :
-    LayoutItem(LAYOUT_ITEM_TYPE_ROW, align, parent, FLOW_DIRECTION_HORIZONTAL)
+RowLayout::RowLayout(const bool align) :
+    LayoutItem(LAYOUT_ITEM_TYPE_ROW, align, FLOW_DIRECTION_HORIZONTAL)
 {
 	
+}
+RowLayout& RowLayout::create(
+        LayoutItem& parent,
+        const bool align)
+{
+	bwPointer<RowLayout> row_layout(new RowLayout(align));
+	RowLayout& layout_ref = *row_layout;
+	parent.addLayoutItem(std::move(row_layout));
+	return layout_ref;
 }
 
 
 PanelLayout::PanelLayout(
         const std::string& label,
-        unsigned int header_height_hint,
-        LayoutItem* parent) :
-    LayoutItem(LAYOUT_ITEM_TYPE_PANEL, false, parent, FLOW_DIRECTION_VERTICAL),
+        unsigned int header_height_hint) :
+    LayoutItem(LAYOUT_ITEM_TYPE_PANEL, false, FLOW_DIRECTION_VERTICAL),
     panel(bwPointer_new<bwPanel>(label, header_height_hint))
 {
 	
+}
+PanelLayout& PanelLayout::create(
+        const std::string& label,
+        unsigned int header_height_hint,
+        LayoutItem& parent)
+{
+	bwPointer<PanelLayout> panel_layout(new PanelLayout(label, header_height_hint));
+	PanelLayout& layout_ref = *panel_layout;
+	parent.addLayoutItem(std::move(panel_layout));
+	return layout_ref;
 }
 
 void PanelLayout::draw(bwStyle &style) const
@@ -481,9 +484,9 @@ void PanelLayout::resolveContent(
 	width = initial_width;
 }
 
-bwWidget* PanelLayout::getWidget() const
+bwOptional<std::reference_wrapper<bwWidget>> PanelLayout::getWidget() const
 {
-	return panel.get();
+	return *panel;
 }
 
 bool PanelLayout::areChildrenHidden() const
@@ -492,10 +495,8 @@ bool PanelLayout::areChildrenHidden() const
 }
 
 
-WidgetLayoutItem::WidgetLayoutItem(
-        bwWidget* widget,
-        LayoutItem* parent) :
-    LayoutItem(LAYOUT_ITEM_TYPE_WIDGET, false, parent), widget(widget)
+WidgetLayoutItem::WidgetLayoutItem(bwPointer<bwWidget> widget) :
+    LayoutItem(LAYOUT_ITEM_TYPE_WIDGET, false), widget(std::move(widget))
 {
 	
 }
@@ -519,9 +520,9 @@ void WidgetLayoutItem::resolve(
 	alignWidgetItem(parent);
 }
 
-bwWidget* WidgetLayoutItem::getWidget() const
+bwOptional<std::reference_wrapper<bwWidget>> WidgetLayoutItem::getWidget() const
 {
-	return widget;
+	return *widget;
 }
 
 bool WidgetLayoutItem::isHidden() const
@@ -547,7 +548,7 @@ bool WidgetLayoutItem::canAlignWidgetItem() const
 
 bool WidgetLayoutItem::isAlignedtoPrevious(const LayoutItem& parent) const
 {
-	LayoutItem* item_prev;
+	bwOptional<std::reference_wrapper<LayoutItem>> item_prev;
 
 	alignmentSanityCheck(parent);
 
@@ -555,8 +556,8 @@ bool WidgetLayoutItem::isAlignedtoPrevious(const LayoutItem& parent) const
 		return false;
 	}
 	if (!(item_prev = getPrevious(parent, true)) ||
-	    (item_prev->type != LAYOUT_ITEM_TYPE_WIDGET) ||
-	    (!(static_cast<WidgetLayoutItem*>(item_prev)->canAlignWidgetItem())))
+	    (item_prev->get().type != LAYOUT_ITEM_TYPE_WIDGET) ||
+	    (!(static_cast<WidgetLayoutItem&>(item_prev->get()).canAlignWidgetItem())))
 	{
 		return false;
 	}
@@ -565,18 +566,18 @@ bool WidgetLayoutItem::isAlignedtoPrevious(const LayoutItem& parent) const
 }
 bool WidgetLayoutItem::isAlignedtoNext(const LayoutItem& parent) const
 {
-	LayoutItem* item_next;
+	bwOptional<std::reference_wrapper<LayoutItem>> item_next;
 
 	alignmentSanityCheck(parent);
 
 	if (!parent.align) {
 		return false;
 	}
-	if (!(item_next = getNext(parent, true)) || (item_next->type != LAYOUT_ITEM_TYPE_WIDGET)) {
+	if (!(item_next = getNext(parent, true)) || (item_next->get().type != LAYOUT_ITEM_TYPE_WIDGET)) {
 		return false;
 	}
-	else if ((item_next->type == LAYOUT_ITEM_TYPE_WIDGET) &&
-	         (!(static_cast<WidgetLayoutItem*>(item_next)->canAlignWidgetItem())))
+	else if ((item_next->get().type == LAYOUT_ITEM_TYPE_WIDGET) &&
+	         (!(static_cast<WidgetLayoutItem&>(item_next->get()).canAlignWidgetItem())))
 	{
 		return false;
 	}
@@ -588,7 +589,7 @@ void WidgetLayoutItem::alignWidgetItem(const LayoutItem& parent)
 {
 	bwAbstractButton* abstract_button;
 
-	if (!canAlignWidgetItem() || !(abstract_button = widget_cast<bwAbstractButton*>(widget))) {
+	if (!canAlignWidgetItem() || !(abstract_button = widget_cast<bwAbstractButton*>(widget.get()))) {
 		return;
 	}
 	abstract_button->rounded_corners = 0;

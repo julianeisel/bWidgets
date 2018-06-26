@@ -21,9 +21,9 @@
 
 #pragma once
 
-#include <list>
-
 #include "bwWidget.h"
+
+#include "WindowManager.h"
 
 #include "Event.h"
 
@@ -38,9 +38,9 @@ public:
 	static EventManager& ensureEventManager();
 
 	void waitEvents();
-	bool processEvents(std::list<class Window*>& windows);
+	bool processEvents(WindowManager::WindowList& windows);
 
-	static void setupWindowHandlers(class Window& window);
+	static void setupWindowHandlers(Window& window);
 
 	bool isClickEvent();
 	bool isDragging();

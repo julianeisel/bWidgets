@@ -19,21 +19,21 @@ bwStyleCSS::bwStyleCSS() :
 #include "bwPanel.h"
 void bwStyleCSS::setWidgetStyle(bwWidget& widget)
 {
-	bwWidgetBaseStyle* base_style = nullptr;
+	bwOptional<std::reference_wrapper<bwWidgetBaseStyle>> base_style;
 
 	polish(widget);
 
 	if (bwAbstractButton* button = widget_cast<bwAbstractButton*>(&widget)) {
-		base_style = &button->base_style;
-		base_style->roundbox_corners = button->rounded_corners;
+		button->base_style.roundbox_corners = button->rounded_corners;
+		base_style = button->base_style;
 	}
 	else if (bwPanel* panel = widget_cast<bwPanel*>(&widget)) {
-		base_style = &panel->base_style;
-		base_style->roundbox_corners = RoundboxCorner::ALL;
+		panel->base_style.roundbox_corners = RoundboxCorner::ALL;
+		base_style = panel->base_style;
 	}
 	else if (bwTextBox* text_box = widget_cast<bwTextBox*>(&widget)) {
-		base_style = &text_box->base_style;
-		base_style->roundbox_corners = RoundboxCorner::ALL; // XXX Incorrect, should set this in layout.
+		text_box->base_style.roundbox_corners = RoundboxCorner::ALL; // XXX Incorrect, should set this in layout.
+		base_style = text_box->base_style;
 	}
 	else {
 //		base_style->roundbox_corners = RoundboxCorner::ALL;

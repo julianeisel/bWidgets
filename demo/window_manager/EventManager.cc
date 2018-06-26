@@ -45,21 +45,18 @@ void EventManager::waitEvents()
 	glfwWaitEvents();
 }
 
-bool EventManager::processEvents(std::list<Window*>& windows)
+bool EventManager::processEvents(WindowManager::WindowList& windows)
 {
-	for (std::list<Window*>::iterator i = windows.begin(); i != windows.end(); i++) {
-		Window* win = *i;
-
+	for (Window& win : windows) {
 		/* TODO, should register handler lists that are handled in
 		 * event-manager, for now, just doing it with callbacks */
-		if (win->processEvents() == Window::WINDOW_ACTION_CLOSE) {
+		if (win.processEvents() == Window::WINDOW_ACTION_CLOSE) {
 #if 0
 			if (isMainWindow(win)) {
 				return WM_ACTION_CLOSE;
 			}
 			else {
 				removeWindow(win);
-				i--;
 			}
 #endif
 			return false;
@@ -71,13 +68,13 @@ bool EventManager::processEvents(std::list<Window*>& windows)
 
 void EventManager::setupWindowHandlers(Window& window)
 {
-	GLFWwindow* glfw_window = window.getGlfwWindow();
+	GLFWwindow& glfw_window = window.getGlfwWindow();
 
-	glfwSetWindowUserPointer(glfw_window, &window);
-	glfwSetWindowSizeCallback(glfw_window, handleWindowResizeEvent);
-	glfwSetCursorPosCallback(glfw_window, handleMouseMovementEvent);
-	glfwSetMouseButtonCallback(glfw_window, handleMouseButtonEvent);
-	glfwSetScrollCallback(glfw_window, handleMouseScrollEvent);
+	glfwSetWindowUserPointer(&glfw_window, &window);
+	glfwSetWindowSizeCallback(&glfw_window, handleWindowResizeEvent);
+	glfwSetCursorPosCallback(&glfw_window, handleMouseMovementEvent);
+	glfwSetMouseButtonCallback(&glfw_window, handleMouseButtonEvent);
+	glfwSetScrollCallback(&glfw_window, handleMouseScrollEvent);
 }
 
 bool EventManager::isDragging()
@@ -119,17 +116,13 @@ void EventManager::handleMouseMovementEvent(GLFWwindow* glfw_win, double /*x*/, 
 {
 	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
 	const bwPoint& position = win->getCursorPosition();
-	MouseEvent* event;
-
-	event = new MouseEvent(MouseEvent::MOUSE_EVENT_MOVE, bwWidget::MOUSE_BUTTON_UNKNOWN, position);
+	MouseEvent event(MouseEvent::MOUSE_EVENT_MOVE, bwWidget::MOUSE_BUTTON_UNKNOWN, position);
 	if (is_dragging) {
-		win->stage->handleMouseDragEvent(*event);
+		win->stage->handleMouseDragEvent(event);
 	}
 	else {
-		win->stage->handleMouseMovementEvent(*event);
+		win->stage->handleMouseMovementEvent(event);
 	}
-
-	delete event;
 }
 
 void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int glfw_button, int glfw_action, int /*glfw_mods*/)
@@ -138,7 +131,7 @@ void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int glfw_button,
 	const bwPoint& position = win->getCursorPosition();
 	const MouseEvent::MouseEventType action_type = convertGlfwMouseButtonAction(glfw_action);
 	const bwWidget::MouseButton mouse_button = convertGlfwMouseButton(glfw_button);
-	MouseEvent* event;
+	MouseEvent event(action_type, mouse_button, position);
 
 	if (action_type == MouseEvent::MOUSE_EVENT_PRESS) {
 		is_dragging = true;
@@ -147,10 +140,7 @@ void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int glfw_button,
 		is_dragging = false;
 	}
 
-	event = new MouseEvent(action_type, mouse_button, position);
-	win->stage->handleMouseButtonEvent(*event);
-
-	delete event;
+	win->stage->handleMouseButtonEvent(event);
 }
 
 void EventManager::handleMouseScrollEvent(
@@ -162,7 +152,7 @@ void EventManager::handleMouseScrollEvent(
 	                                                    MouseEvent::MOUSE_EVENT_SCROLL_UP :
 	                                                    MouseEvent::MOUSE_EVENT_SCROLL_DOWN;
 	const bwPoint& position = win->getCursorPosition();
-	auto event = bwPointer_new<MouseEvent>(event_type, bwWidget::MOUSE_BUTTON_WHEEL, position);
+	MouseEvent event(event_type, bwWidget::MOUSE_BUTTON_WHEEL, position);
 
-	win->stage->handleMouseScrollEvent(*event);
+	win->stage->handleMouseScrollEvent(event);
 }

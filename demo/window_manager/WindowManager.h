@@ -32,17 +32,19 @@ class WindowManager
 {
 public:
 	// Constructor is private (singleton!)
-	static WindowManager& CreateWindowManager();
+	static WindowManager& getWindowManager();
+	~WindowManager();
 
 	void mainLoop();
-	Window* addWindow(std::string name);
-	const bool isMainWindow(const Window *win) const;
+	Window& addWindow(std::string name);
+	const bool isMainWindow(const Window& win) const;
 
-	void removeWindow(Window *win);
+	void removeWindow(Window& win);
+
+	using WindowList = std::list<Window>;
 
 private:
 	WindowManager();
-	~WindowManager();
 	WindowManager(WindowManager const&) = delete;
 	void operator=(WindowManager const&) = delete;
 
@@ -54,8 +56,8 @@ private:
 	void drawWindows();
 
 	class EventManager& event_manager;
-	std::list<Window*> windows;
-	Window* main_win;
+	WindowList windows;
+	bWidgets::bwOptional<std::reference_wrapper<Window>> main_win;
 };
 
 } // namespace bWidgetsDemo

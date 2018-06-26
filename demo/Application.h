@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include "bwUtil.h"
+
+
 namespace bWidgetsDemo {
 
 /**
@@ -42,8 +45,6 @@ private:
 	// Ensure uniqueness
 	Application(Application const&) = delete;
 	void operator=(Application const&) = delete;
-
-	class WindowManager* wm;
 };
 
 } // namespace bWidgetsDemo

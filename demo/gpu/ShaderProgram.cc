@@ -157,7 +157,7 @@ unsigned int ShaderProgram::ProgramID() const
 	return programID;
 }
 
-ShaderInterface* ShaderProgram::getInterface() const
+const ShaderInterface& ShaderProgram::getInterface() const
 {
-	return interface;
+	return *interface;
 }

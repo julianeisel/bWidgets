@@ -68,7 +68,7 @@ public:
 		FLOW_DIRECTION_HORIZONTAL,
 	};
 
-	virtual ~LayoutItem();
+	virtual ~LayoutItem() = default;
 
 	bool iterateWidgets(
 	        bool (*callback)(bWidgets::bwWidget& widget, void* custom_data),
@@ -81,13 +81,11 @@ public:
 	        const unsigned int item_margin,
 	        const float scale_fac,
 	        const LayoutItem& parent);
-	virtual bWidgets::bwWidget* getWidget() const;
+	virtual bWidgets::bwOptional<std::reference_wrapper<bWidgets::bwWidget>> getWidget() const;
 	virtual bool isHidden() const;
 	virtual bool areChildrenHidden() const;
 
-	void addWidget(bWidgets::bwWidget* widget);
-	void addLayout(class RowLayout* layout);
-	void addLayout(class ColumnLayout* column);
+	void addWidget(bWidgets::bwPointer<bWidgets::bwWidget> widget);
 
 	bool hasChild(const LayoutItem& potential_child) const;
 
@@ -96,34 +94,34 @@ public:
 	const LayoutItemType type;
 	const FlowDirection flow_direction;
 	const bool align;
+	void addLayoutItem(bWidgets::bwPointer<LayoutItem> layout_item);
 
 protected:
 	// Protected constructor to force calling through inherited class (pseudo abstract).
 	LayoutItem(
 	        LayoutItemType layout_type,
 	        const bool align,
-	        LayoutItem *parent = nullptr,
 	        FlowDirection flow_direction = FLOW_DIRECTION_HORIZONTAL);
 
-	LayoutItem* getPrevious(
+	bWidgets::bwOptional<std::reference_wrapper<LayoutItem>> getPrevious(
 	        const LayoutItem& parent,
 	        const bool skip_hidden) const;
-	LayoutItem* getNext(
+	bWidgets::bwOptional<std::reference_wrapper<LayoutItem>> getNext(
 	        const LayoutItem& parent,
 	        const bool skip_hidden) const;
 
-	using IteratorItem = std::list<LayoutItem*>::const_iterator;
+	using LayoutItemList = std::list<bWidgets::bwPointer<LayoutItem>>;
+	using IteratorItem = LayoutItemList::const_iterator;
 
 	// The iterator-wrapper for this item, stored to avoid lookups.
-	// Only valid when item was assigned to a parent using addLayout.
+	// Only valid when item was assigned to a parent using addLayoutItem.
 	IteratorItem iterator_item;
 
 	unsigned int width{0}, height{0};
 	// Properties defined on layout-item creation, not meant to be modified later on.
-	std::list<LayoutItem*> child_items;
+	LayoutItemList child_items;
 
 private:
-	void addLayoutItem(LayoutItem* layout);
 	bool needsMarginBeforeNext(const LayoutItem& parent) const;
 	unsigned int countRowColumns() const;
 	unsigned int countNeededMargins() const;
@@ -163,28 +161,32 @@ private:
 class ColumnLayout : public LayoutItem
 {
 public:
-	explicit ColumnLayout(
-	        const bool align = false,
-	        LayoutItem *parent = nullptr);
+	static ColumnLayout& create(
+	        LayoutItem& parent,
+	        const bool align);
+private:
+	explicit ColumnLayout(const bool align = false);
 };
 
 
 class RowLayout : public LayoutItem
 {
 public:
-	explicit RowLayout(
-	        const bool align = false,
-	        LayoutItem *parent = nullptr);
+	static RowLayout& create(
+	        LayoutItem& parent,
+	        const bool align = false);
+private:
+	explicit RowLayout(const bool align = false);
 };
 
 
 class PanelLayout : public LayoutItem
 {
 public:
-	explicit PanelLayout(
+	static PanelLayout& create(
 	        const std::string& label,
 	        unsigned int header_height_hint,
-	        LayoutItem* parent = nullptr);
+	        LayoutItem& parent);
 
 	void draw(bWidgets::bwStyle &style) const override;
 	void resolve(
@@ -192,10 +194,14 @@ public:
 	        const unsigned int item_margin,
 	        const float scale_fac,
 	        const LayoutItem& parent) override;
-	bWidgets::bwWidget* getWidget() const override;
+	bWidgets::bwOptional<std::reference_wrapper<bWidgets::bwWidget>> getWidget() const;
 	bool areChildrenHidden() const override;
 
 private:
+	explicit PanelLayout(
+	        const std::string& label,
+	        unsigned int header_height_hint);
+
 	void resolveContent(
 	        const bWidgets::bwPoint& panel_pos,
 	        const unsigned int padding,

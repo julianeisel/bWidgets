@@ -41,12 +41,24 @@ public:
 	const bWidgets::bwPoint getCursorPosition() const;
 	void handleResizeEvent(const int new_win_x, const int new_win_y);
 
-	class Stage* stage;
+	bWidgets::bwPointer<class Stage> stage;
 
-	GLFWwindow* getGlfwWindow() const;
+	GLFWwindow& getGlfwWindow() const;
 
 	int getWidth() const;
 	int getHeight() const;
+
+	friend bool operator==(const Window& lhs, const Window& rhs)
+	{
+		if (lhs.glfw_window == rhs.glfw_window) {
+			assert(lhs.stage == rhs.stage);
+			assert(lhs.width == rhs.width);
+			assert(lhs.height == rhs.height);
+			return true;
+		}
+		return false;
+	}
+
 
 private:
 	GLFWwindow* glfw_window;

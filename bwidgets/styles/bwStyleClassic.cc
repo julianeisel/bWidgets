@@ -132,18 +132,18 @@ static void widget_base_style_panel_set(
         bwWidget& widget,
         bwWidgetBaseStyle& r_base_style)
 {
-	bwPanel* panel = widget_cast<bwPanel*>(&widget);
+	bwPanel& panel = *widget_cast<bwPanel*>(&widget);
 
 	r_base_style.background_color = 114u;
 	r_base_style.border_color = 114u;
 
-	panel->draw_separator = true;
+	panel.draw_separator = true;
 }
 
 static void widget_style_properties_set_to_default(
         bwWidget& widget)
 {
-	for (const bwPointer<bwStyleProperty>& property : widget.style_properties) {
+	for (auto& property : widget.style_properties) {
 		property->setValueToDefault();
 	}
 }
@@ -187,20 +187,20 @@ bwStyleClassic::bwStyleClassic() :
 
 void bwStyleClassic::setWidgetStyle(bwWidget& widget)
 {
-	bwWidgetBaseStyle* base_style = nullptr;
+	bwOptional<std::reference_wrapper<bwWidgetBaseStyle>> base_style;
 
 	polish(widget);
 
 	if (bwAbstractButton* button = widget_cast<bwAbstractButton*>(&widget)) {
-		base_style = &button->base_style;
-		base_style->roundbox_corners = button->rounded_corners;
+		button->base_style.roundbox_corners = button->rounded_corners;
+		base_style = button->base_style;
 	}
 	else if (bwPanel* panel = widget_cast<bwPanel*>(&widget)) {
-		base_style = &panel->base_style;
+		base_style = panel->base_style;
 	}
 	else if (bwTextBox* text_box = widget_cast<bwTextBox*>(&widget)) {
-		base_style = &text_box->base_style;
-		base_style->roundbox_corners = RoundboxCorner::ALL; // XXX Incorrect, should set this in layout.
+		text_box->base_style.roundbox_corners = RoundboxCorner::ALL; // XXX Incorrect, should set this in layout.
+		base_style = text_box->base_style;
 	}
 	else {
 //		base_style->roundbox_corners = RoundboxCorner::ALL;

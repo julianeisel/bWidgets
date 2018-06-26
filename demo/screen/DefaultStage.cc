@@ -84,34 +84,34 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 {
 	addStyleSelector(*layout);
 
-	bwNumberSlider* slider = new bwNumberSlider(0, BUTTON_HEIGHT);
+	auto slider = bwPointer_new<bwNumberSlider>(0, BUTTON_HEIGHT);
 	slider->apply_functor = bwPointer_new<ScaleSetter>(*slider);
 	slider->setText("Interface Scale: ");
 	slider->setMinMax(0.5f, 2.0f);
 	slider->setValue(1.0f);
-	layout->addWidget(slider);
+	layout->addWidget(std::move(slider));
 
 	addFakeSpacer(*layout);
 
 
-	PanelLayout* panel = new PanelLayout("Some Testing Widgets", PANEL_HEADER_HEIGHT, layout);
+	PanelLayout* panel = &PanelLayout::create("Some Testing Widgets", PANEL_HEADER_HEIGHT, *layout);
 
-	ColumnLayout* col = new ColumnLayout(true, panel);
-	col->addWidget(new bwPushButton("Translate", 0, BUTTON_HEIGHT));
-	col->addWidget(new bwPushButton("Rotate", 0, BUTTON_HEIGHT));
-	col->addWidget(new bwPushButton("Scale", 0, BUTTON_HEIGHT));
+	ColumnLayout& col = ColumnLayout::create(*panel, true);
+	col.addWidget(bwPointer_new<bwPushButton>("Translate", 0, BUTTON_HEIGHT));
+	col.addWidget(bwPointer_new<bwPushButton>("Rotate", 0, BUTTON_HEIGHT));
+	col.addWidget(bwPointer_new<bwPushButton>("Scale", 0, BUTTON_HEIGHT));
 
-	panel->addWidget(new bwPushButton("Mirror", 0, BUTTON_HEIGHT));
+	panel->addWidget(bwPointer_new<bwPushButton>("Mirror", 0, BUTTON_HEIGHT));
 
 
-	panel = new PanelLayout("More Testing...", PANEL_HEADER_HEIGHT, layout);
-	RowLayout* row = new RowLayout(true, panel);
-	row->addWidget(new bwCheckbox("Make Awesome", 0, BUTTON_HEIGHT));
-	row->addWidget(new bwCheckbox("Wireframes", 0, BUTTON_HEIGHT));
+	panel = &PanelLayout::create("More Testing...", PANEL_HEADER_HEIGHT, *layout);
+	RowLayout& row = RowLayout::create(*panel, true);
+	row.addWidget(bwPointer_new<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT));
+	row.addWidget(bwPointer_new<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT));
 
-	bwTextBox* text_box = new bwTextBox(0, BUTTON_HEIGHT);
+	auto text_box = bwPointer_new<bwTextBox>(0, BUTTON_HEIGHT);
 	text_box->setText("Some Text...");
-	panel->addWidget(text_box);
+	panel->addWidget(std::move(text_box));
 }
 
 bool isUseCSSVersionToggleHidden(const bwStyle& style)
@@ -134,16 +134,16 @@ void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
 
 void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 {
-	RowLayout* row_layout = new RowLayout(true, &parent_layout);
+	RowLayout& row_layout = RowLayout::create(parent_layout, true);
 
-	row_layout->addWidget(new bwLabel("Style:", 0, BUTTON_HEIGHT));
+	row_layout.addWidget(bwPointer_new<bwLabel>("Style:", 0, BUTTON_HEIGHT));
 
 	for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
 		if (type.type_id == bwStyle::STYLE_CLASSIC_CSS) {
 			// We'll add a button for this later.
 			continue;
 		}
-		bwRadioButton* style_button = new bwRadioButton(type.name, 0, BUTTON_HEIGHT);
+		auto style_button = bwPointer_new<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
 
 		style_button->apply_functor = bwPointer_new<StyleSetter>(*this, type);
 
@@ -151,19 +151,19 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 			style_button->state = bwAbstractButton::STATE_SUNKEN;
 		}
 
-		row_layout->addWidget(style_button);
+		row_layout.addWidget(std::move(style_button));
 	}
 
-	bwCheckbox* checkbox = new bwCheckbox("Use CSS Version", 0, BUTTON_HEIGHT);
+	auto checkbox = bwPointer_new<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
 	checkbox->hidden = isUseCSSVersionToggleHidden(*style);
 	checkbox->apply_functor = bwPointer_new<UseCSSVersionToggleSetter>(*checkbox, *this);
-	parent_layout.addWidget(checkbox);
+	parent_layout.addWidget(std::move(checkbox));
 }
 
 void DefaultStage::addFakeSpacer(LayoutItem& layout)
 {
 	// Just some extra space. No spacer widgets yet.
-	layout.addWidget(new bwLabel("", 0, 7));
+	layout.addWidget(bwPointer_new<bwLabel>("", 0, 7));
 }
 
 void DefaultStage::useStyleCSSVersionSet(

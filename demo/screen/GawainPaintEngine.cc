@@ -146,7 +146,7 @@ void GawainPaintEngine::drawPolygon(
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-	immBindProgram(shader_program.ProgramID(), shader_program.getInterface());
+	immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
 
 	if (painter.active_drawtype == bwPainter::DRAW_TYPE_OUTLINE || painter.use_antialiasing) {
 		bwColor drawcolor = color;

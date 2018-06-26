@@ -54,13 +54,13 @@ void Stage::StyleSheetPolish(bwWidget& widget)
 {
 	StyleSheet& stylesheet = *Stage::style_sheet;
 
-	for (const bwPointer<bwStyleProperty>& property : widget.style_properties) {
+	for (auto& property : widget.style_properties) {
 		stylesheet.resolveValue(widget.getIdentifier(), widget.state, *property);
 	}
 }
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
-    mask_width(width), mask_height(height), last_hovered(nullptr), dragged_widget(nullptr)
+    mask_width(width), mask_height(height), last_hovered(), dragged_widget()
 {
 	initFonts();
 
@@ -72,14 +72,9 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 	style_manager.registerDefaultStyleTypes();
 	activateStyleID(bwStyle::STYLE_CLASSIC);
 
-	layout = new RootLayout(height, width);
+	layout = bwPointer_new<RootLayout>(height, width);
 	layout->padding = 7;
 	layout->item_margin = 5;
-}
-
-Stage::~Stage()
-{
-	delete layout;
 }
 
 void Stage::initFonts()
@@ -211,18 +206,18 @@ void Stage::setScrollValue(int value)
 	validizeScrollValue();
 }
 
-bwWidget* Stage::findWidgetAt(const bwPoint& coordinate)
+bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& coordinate)
 {
 	if (coordinate.x > getContentWidth()) {
 		if (scrollbar) {
-			return static_cast<bwWidget*>(scrollbar.get());
+			return *scrollbar;
 		}
-		return nullptr;
+		return nullopt;
 	}
 
 	struct WidgetLookupData {
 		bwPoint coordinate;
-		bwWidget* result = nullptr;
+		bwOptional<std::reference_wrapper<bwWidget>> result;
 	} lookup_data;
 
 	lookup_data.coordinate = coordinate;
@@ -234,11 +229,11 @@ bwWidget* Stage::findWidgetAt(const bwPoint& coordinate)
 			// Temporary exception for until we have proper event handling with event bubbling and breaking
 			bwPanel& panel = *widget_cast<bwPanel*>(&widget);
 			return panel.isCoordinateInsideHeader(lookup_data->coordinate) ?
-			            (lookup_data->result = &widget, false) : true;
+			            (lookup_data->result = widget, false) : true;
 		}
 		else {
 			return widget.isCoordinateInside(lookup_data->coordinate) ?
-			            (lookup_data->result = &widget, false) : true;
+			            (lookup_data->result = widget, false) : true;
 		}
 	}, &lookup_data, true);
 
@@ -252,7 +247,7 @@ void Stage::updateWidgetHovering(
 	if (widget.isCoordinateInside(event.getMouseLocation())) {
 		if (&widget != last_hovered) {
 			if (last_hovered) {
-				last_hovered->mouseLeave();
+				(*last_hovered)->mouseLeave();
 			}
 			widget.mouseEnter();
 			last_hovered = &widget;
@@ -260,7 +255,7 @@ void Stage::updateWidgetHovering(
 	}
 	else if (&widget == last_hovered) {
 		widget.mouseLeave();
-		last_hovered = nullptr;
+		last_hovered = nullopt;
 	}
 }
 
@@ -286,7 +281,7 @@ bool Stage::handleWidgetMouseButtonEvent(
 			break;
 		case MouseEvent::MOUSE_EVENT_RELEASE:
 			widget.mouseReleaseEvent(event.getButton(), location);
-			dragged_widget = nullptr;
+			dragged_widget = nullopt;
 			break;
 		default:
 			return false;
@@ -300,7 +295,7 @@ void Stage::handleMouseMovementEvent(
 {
 	const bwPoint& mouse_location = event.getMouseLocation();
 
-	if (bwWidget* hovered = findWidgetAt(mouse_location)) {
+	if (bwOptional<std::reference_wrapper<bwWidget>> hovered = findWidgetAt(mouse_location)) {
 		updateWidgetHovering(event, *hovered);
 	}
 }
@@ -308,8 +303,9 @@ void Stage::handleMouseMovementEvent(
 void Stage::handleMouseButtonEvent(
         const MouseEvent& event)
 {
-	// Dragged widget has priority.
-	bwWidget* widget = dragged_widget ? dragged_widget : findWidgetAt(event.getMouseLocation());
+	bwOptional<std::reference_wrapper<bwWidget>> widget = dragged_widget ? **dragged_widget :
+	                                                                       findWidgetAt(event.getMouseLocation());
+
 	if (widget) {
 		handleWidgetMouseButtonEvent(event, *widget);
 	}
@@ -319,7 +315,7 @@ void Stage::handleMouseDragEvent(
         const MouseEvent& event)
 {
 	if (dragged_widget) {
-		dragged_widget->mouseDragEvent(event.getButton(), event.getDragDistance());
+		(*dragged_widget)->mouseDragEvent(event.getButton(), event.getDragDistance());
 	}
 }
 

@@ -230,7 +230,8 @@ void StyleSheet::resolveValue(
         const bwWidget::WidgetState state,
         bwStyleProperty& property)
 {
-	const bwStyleProperty* property_from_tree = tree->resolveProperty(class_name, property.getIdentifier(), state);
+	bwOptional<std::reference_wrapper<const bwStyleProperty>> property_from_tree =
+	        tree->resolveProperty(class_name, property.getIdentifier(), state);
 
 	if (property_from_tree) {
 		property.setValue(*property_from_tree);

@@ -40,7 +40,7 @@ class Stage {
 
 public:
 	Stage(const unsigned int mask_width, const unsigned int mask_height);
-	virtual ~Stage();
+	virtual ~Stage() = default;
 
 	void draw();
 
@@ -56,7 +56,7 @@ public:
 	        const class Window& win);
 
 protected:
-	class RootLayout* layout;
+	bwPointer<class RootLayout> layout;
 
 	// Static members, global UI data for all stages
 	static bwPointer<bwStyle> style;
@@ -75,8 +75,8 @@ private:
 	// Not part of the layout yet. We'd need to support horizontal root layouts first.
 	bwPointer<bwScrollBar> scrollbar;
 	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.
-	bwWidget* last_hovered;
-	bwWidget* dragged_widget;
+	bwOptional<bwWidget*> last_hovered;
+	bwOptional<bwWidget*> dragged_widget;
 
 	static void StyleSheetPolish(bwWidget& widget);
 
@@ -85,7 +85,7 @@ private:
 	void drawScrollbars();
 	void updateContentBounds();
 	void validizeScrollValue();
-	bwWidget*findWidgetAt(const bwPoint& coordinate);
+	bwOptional<std::reference_wrapper<bwWidget>> findWidgetAt(const bwPoint& coordinate);
 	void updateWidgetHovering(
 	        const MouseEvent&,
 	        bwWidget&);

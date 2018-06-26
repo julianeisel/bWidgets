@@ -50,7 +50,7 @@ public:
 	static ShaderProgram& getShaderProgram(ShaderProgramID shader_program_id);
 
 	unsigned int ProgramID() const;
-	ShaderInterface* getInterface() const;
+	const ShaderInterface& getInterface() const;
 
 private:
 	ShaderProgram(ShaderProgramID shader_program_id);
