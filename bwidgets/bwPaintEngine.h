@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bwIconInterface.h"
 #include "bwRectangle.h"
 
 namespace bWidgets {
@@ -63,6 +64,13 @@ public:
 	        const std::string& text,
 	        const bwRectanglePixel& rect,
 	        const TextAlignment alignment) = 0;
+	/**
+	 * Draw the icon referenced by \a icon_interface.
+	 * \param rect The bounding-box to draw the icon into.
+	 */
+	virtual void drawIcon(
+	        const bwIconInterface& icon_interface,
+	        const bwRectanglePixel& rect) = 0;
 };
 
 } // namespace bWidgets

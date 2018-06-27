@@ -20,6 +20,7 @@
  */
 
 #include <cassert>
+#include <iostream>
 #include <math.h>
 
 // bWidgets lib
@@ -32,8 +33,10 @@
 #include "bwUtil.h"
 
 #include "Event.h"
+#include "File.h"
 #include "Font.h"
 #include "GawainPaintEngine.h"
+#include "IconMap.h"
 #include "Layout.h"
 #include "StyleSheet.h"
 #include "Window.h"
@@ -47,6 +50,7 @@ using namespace bWidgets; // Less verbose
 bwPointer<bwStyle> Stage::style = nullptr;
 bwPointer<StyleSheet> Stage::style_sheet = nullptr;
 bwPointer<Font> Stage::font = nullptr;
+bwPointer<IconMap> Stage::icon_map = nullptr;
 float Stage::interface_scale = 1.0f;
 
 
@@ -60,12 +64,13 @@ void Stage::StyleSheetPolish(bwWidget& widget)
 }
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
-    mask_width(width), mask_height(height), last_hovered(), dragged_widget()
+    mask_width(width), mask_height(height)
 {
 	initFonts();
+	initIcons();
 
 	// After font-init!
-	bwPainter::paint_engine = bwPointer_new<GawainPaintEngine>(*font);
+	bwPainter::paint_engine = bwPointer_new<GawainPaintEngine>(*font, *icon_map);
 	bwStyleCSS::polish_cb = Stage::StyleSheetPolish;
 
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
@@ -85,6 +90,14 @@ void Stage::initFonts()
 	// Initialize default font
 	font = bwPointer<Font>(Font::loadFont("bfont.ttf", RESOURCES_PATH_STR));
 	font->setSize(11.0f * interface_scale);
+}
+
+void Stage::initIcons()
+{
+	IconMapReader reader;
+	File png_file(RESOURCES_PATH_STR + std::string("/blender_icons16.png"));
+
+	icon_map = reader.readIconMapFromPNGFile(png_file);
 }
 
 void Stage::activateStyleID(bwStyle::StyleTypeID type_id)

@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "bwGradient.h"
+#include "bwIconInterface.h"
 #include "bwStyle.h"
 #include "bwUtil.h"
 #include "bwWidgetBaseStyle.h"
@@ -52,6 +53,9 @@ public:
 	        const std::string& text,
 	        const bwRectanglePixel& rectangle,
 	        const TextAlignment align) const;
+	void drawIcon(
+	        const bwIconInterface&,
+	        const bwRectanglePixel&) const;
 
 	void setActiveColor(const bwColor& color);
 	const bwColor& getActiveColor() const;

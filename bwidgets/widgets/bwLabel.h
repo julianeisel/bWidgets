@@ -3,6 +3,7 @@
 #include <string>
 
 #include "bwColor.h"
+#include "bwIconInterface.h"
 #include "bwWidget.h"
 
 namespace bWidgets {
@@ -17,8 +18,11 @@ public:
 	void draw(class bwStyle& style) override;
 	void registerProperties() override;
 
+	bwLabel& setIcon(const bwIconInterface& icon_interface);
+
 private:
 	const std::string text;
+	bwOptional<const bwIconInterface*> icon;
 
 	bwColor text_color;
 };

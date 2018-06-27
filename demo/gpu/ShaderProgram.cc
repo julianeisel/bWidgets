@@ -69,6 +69,7 @@ static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_T
 	ShaderProgramType{{"uniform_color_vert.glsl", "uniform_color_frag.glsl"}},
 	ShaderProgramType{{"smooth_color_vert.glsl", "smooth_color_frag.glsl"}},
 	ShaderProgramType{{"texture_vert.glsl", "bitmap_texture_uniform_color_frag.glsl"}},
+	ShaderProgramType{{"texture_vert.glsl", "texture_frag.glsl"}},
 };
 
 } // namespace bWidgetsDemo
@@ -125,7 +126,7 @@ ShaderProgram::ShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 	ShaderProgramType& type = shader_program_types[shader_program_id];
 
 	for (int i = 0; i < shader_ids.size(); i++) {
-		File shader_file{std::string(SHADERS_PATH_STR) + "/" + type.shader_names[i]};
+		File shader_file(std::string(SHADERS_PATH_STR) + "/" + type.shader_names[i]);
 		std::string shader_str = shader_file.readIntoString();
 		unsigned int shader_id = shaderprog_compileShader(shader_str, shader_types[i]);
 		shader_ids[i] = shader_id;

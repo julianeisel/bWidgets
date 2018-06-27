@@ -23,6 +23,7 @@ set(INC
 	..
 	../gpu
 	../extern/katana-parser/src
+	../resources
 	../../bwidgets/styles
 )
 
@@ -30,6 +31,7 @@ set(SRC
 	DefaultStage.cc
 	Font.cc
 	GawainPaintEngine.cc
+	IconMap.cc
 	Layout.cc
 	Stage.cc
 	StyleSheet.cc
@@ -38,6 +40,7 @@ set(SRC
 	DefaultStage.h
 	Font.h
 	GawainPaintEngine.h
+	IconMap.h
 	Layout.h
 	Stage.h
 	StyleSheet.h

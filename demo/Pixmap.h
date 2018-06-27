@@ -19,48 +19,35 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include <assert.h>
-#include <iostream>
+#pragma once
 
-#include "File.h"
+#include <vector>
 
-using namespace bWidgetsDemo;
+#include "bwUtil.h"
 
-
-
-File::File(const std::string& path) :
-    _path(path), _file_stream(path, std::ios::in)
-{
-	assert(_file_stream.is_open());
-}
-
-std::string File::readIntoString()
-{
-	std::string string = "";
-	std::string line = "";
-
-	assert(_file_stream.is_open());
-	while (getline(_file_stream, line)) {
-		string += line + '\n';
-	}
-
-	return string;
-}
-
-bool File::readBytes(char* bytes, const unsigned int num_bytes, bool reset_cursor)
-{
-	assert(_file_stream.is_open());
-	_file_stream.read(bytes, num_bytes);
-	if (reset_cursor) {
-		_file_stream.seekg(0);
-	}
-	return _file_stream.good();
-}
 
 namespace bWidgetsDemo {
-std::ostream& operator<<(std::ostream& stream, const File& file)
+
+class Pixmap
 {
-	stream << file._path;
-	return stream;
-}
-}
+public:
+	Pixmap(
+	        const int width, const int height,
+	        const unsigned int bits_per_channel,
+	        const unsigned int num_channels);
+
+	std::vector<unsigned char>& getBytes();
+	const std::vector<unsigned char>& getBytes() const;
+	int width() const;
+	int height() const;
+	unsigned int getBitDepth() const;
+	unsigned int getNumChannels() const;
+
+private:
+	std::vector<unsigned char> _bytes;
+	int _width, _height;
+	unsigned int _bits_per_channel;
+	unsigned int _num_channels;
+};
+
+} // namespace bWidgetsDemo

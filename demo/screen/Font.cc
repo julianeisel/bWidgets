@@ -155,7 +155,7 @@ float Font::renderGlyph(
 	}
 
 	immBegin(PRIM_TRIANGLE_STRIP, 4);
-	immAttrib2f(attr_texcoord, 0.0f, .0f);
+	immAttrib2f(attr_texcoord, 0.0f, 0.0f);
 	immVertex2f(attr_pos, pen_x, -pen_y);
 	immAttrib2f(attr_texcoord, 1.0f, 0.0f);
 	immVertex2f(attr_pos, pen_x + w, -pen_y);

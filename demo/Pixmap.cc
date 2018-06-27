@@ -19,48 +19,46 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include <assert.h>
-#include <iostream>
+#include "Pixmap.h"
 
-#include "File.h"
 
 using namespace bWidgetsDemo;
 
-
-
-File::File(const std::string& path) :
-    _path(path), _file_stream(path, std::ios::in)
+Pixmap::Pixmap(
+        const int width, const int height,
+        const unsigned int bits_per_channel,
+        const unsigned int num_channels) :
+    _bytes(width * height * bits_per_channel * num_channels / 8),
+    _width(width), _height(height),
+    _bits_per_channel(bits_per_channel),
+    _num_channels(num_channels)
 {
-	assert(_file_stream.is_open());
 }
 
-std::string File::readIntoString()
+std::vector<unsigned char>& Pixmap::getBytes()
 {
-	std::string string = "";
-	std::string line = "";
-
-	assert(_file_stream.is_open());
-	while (getline(_file_stream, line)) {
-		string += line + '\n';
-	}
-
-	return string;
+	return _bytes;
+}
+const std::vector<unsigned char>& Pixmap::getBytes() const
+{
+	return _bytes;
 }
 
-bool File::readBytes(char* bytes, const unsigned int num_bytes, bool reset_cursor)
+int Pixmap::width() const
 {
-	assert(_file_stream.is_open());
-	_file_stream.read(bytes, num_bytes);
-	if (reset_cursor) {
-		_file_stream.seekg(0);
-	}
-	return _file_stream.good();
+	return _width;
+}
+int Pixmap::height() const
+{
+	return _height;
 }
 
-namespace bWidgetsDemo {
-std::ostream& operator<<(std::ostream& stream, const File& file)
+unsigned int Pixmap::getBitDepth() const
 {
-	stream << file._path;
-	return stream;
+	return _bits_per_channel;
 }
+
+unsigned int Pixmap::getNumChannels() const
+{
+	return _num_channels;
 }

@@ -21,6 +21,9 @@
 
 #include <cassert>
 
+#include "blender_icon_defines.h"
+
+#include "IconMap.h"
 #include "Layout.h"
 
 #include "bwCheckbox.h"
@@ -105,13 +108,26 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 
 
 	panel = &PanelLayout::create("More Testing...", PANEL_HEADER_HEIGHT, *layout);
-	RowLayout& row = RowLayout::create(*panel, true);
-	row.addWidget(bwPointer_new<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT));
-	row.addWidget(bwPointer_new<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT));
+	RowLayout* row = &RowLayout::create(*panel, true);
+	row->addWidget(bwPointer_new<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT));
+	row->addWidget(bwPointer_new<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT));
 
 	auto text_box = bwPointer_new<bwTextBox>(0, BUTTON_HEIGHT);
 	text_box->setText("Some Text...");
 	panel->addWidget(std::move(text_box));
+
+	row = &RowLayout::create(*panel, false);
+	auto label = bwPointer_new<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
+	label->setIcon(icon_map->getIcon(ICON_POSE_HLT));
+	row->addWidget(std::move(label));
+
+	label = bwPointer_new<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
+	label->setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
+	row->addWidget(std::move(label));
+
+	label = bwPointer_new<bwLabel>("Chroma Scope Icon", 0, BUTTON_HEIGHT);
+	label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
+	row->addWidget(std::move(label));
 }
 
 bool isUseCSSVersionToggleHidden(const bwStyle& style)
@@ -136,7 +152,9 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 {
 	RowLayout& row_layout = RowLayout::create(parent_layout, true);
 
-	row_layout.addWidget(bwPointer_new<bwLabel>("Style:", 0, BUTTON_HEIGHT));
+	auto label = bwPointer_new<bwLabel>("Style:", 0, BUTTON_HEIGHT);
+	label->setIcon(icon_map->getIcon(ICON_BLENDER));
+	row_layout.addWidget(std::move(label));
 
 	for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
 		if (type.type_id == bwStyle::STYLE_CLASSIC_CSS) {

@@ -18,6 +18,7 @@ set(SRC
 	styles/bwStyleFlatDark.cc
 	styles/bwStyleFlatLight.cc
 
+	bwIconInterface.h
 	bwPaintEngine.h
 	bwPainter.h
 	bwStyle.h

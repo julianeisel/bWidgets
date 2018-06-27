@@ -28,11 +28,14 @@ set(INC
 
 set(SRC
 	Application.cc
+	Pixmap.cc
 	bwidgets_demo.cc
 	File.cc
 
 	Application.h
+	Pixmap.h
 	File.h
+	resources/blender_icon_defines.h
 )
 
 set(LIB
@@ -47,6 +50,8 @@ set(GPU_INC
 	../extern/glm
 )
 
+find_package(PNG REQUIRED)
+list(APPEND LIB ${PNG_LIBRARIES})
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 list(APPEND LIB ${OPENGL_LIBRARIES})
@@ -60,6 +65,7 @@ target_link_libraries(bWidgetsDemo LINK_PUBLIC ${LIB})
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
 	set(RESOURCES
 		bfont.ttf
+		blender_icons16.png
 		LICENSE-bfont.ttf.txt
 		classic_style.css
 		flat_light.css

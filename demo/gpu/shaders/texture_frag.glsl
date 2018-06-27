@@ -14,32 +14,20 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  *
- * Original work Copyright (c) 2018 Julian Eisel
+ * Original work Copyright (c) 2016 Martijn Berger
  *
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#pragma once
+#version 330 core
 
-#include <fstream>
-#include <string>
+in vec2 texCoord_interp;
+out vec4 fragColor;
 
-namespace bWidgetsDemo {
+uniform vec4 color;
+uniform sampler2D image;
 
-class File
+void main()
 {
-public:
-	File(const std::string& path);
-	~File() = default;
-
-	std::string readIntoString();
-	bool readBytes(char*, const unsigned int, bool reset_cursor);
-
-	friend std::ostream& operator<<(std::ostream&, const File&);
-
-private:
-	const std::string _path;
-	std::ifstream _file_stream;
-};
-
-} // namespace bWidgetsDemo
+	fragColor = texture(image, texCoord_interp) * color;
+}

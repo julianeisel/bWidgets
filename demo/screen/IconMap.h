@@ -21,37 +21,59 @@
 
 #pragma once
 
-#include <unordered_map>
+#include <iostream>
+#include <array>
 
-#include "bwOptional.h"
-#include "bwWidget.h"
+#include "Pixmap.h"
+
+#include "bwIconInterface.h"
+#include "bwUtil.h"
 
 
 namespace bWidgetsDemo {
 
-class StyleSheetTree
+struct IconReadData;
+
+class Icon : public bWidgets::bwIconInterface
 {
 public:
-	~StyleSheetTree();
+	Icon(const unsigned int size,
+	     const unsigned int bits_per_channel,
+	     const unsigned int num_channels);
 
-	bWidgets::bwStyleProperty& ensureNodeWithProperty(
-	        const std::string& class_name,
-	        const bWidgets::bwWidget::WidgetState state,
-	        const std::string& identifier,
-	        const bWidgets::bwStyleProperty::PropertyType type);
+	bool isValid() const override;
 
-	class StyleSheetNode& ensureNode(
-	        const std::string& class_name);
-
-	bWidgets::bwOptional<std::reference_wrapper<const bWidgets::bwStyleProperty>> resolveProperty(
-	        const std::string& class_name,
-	        const std::string& property_name,
-	        const bWidgets::bwWidget::WidgetState state);
+	Pixmap& getPixmap(); // TODO should get rid of this.
+	const Pixmap& getPixmap() const;
 
 private:
-	bWidgets::bwOptional<std::reference_wrapper<class StyleSheetNode>> lookupNode(const std::string& name);
+	Pixmap _pixmap;
+};
 
-	std::unordered_map<std::string, class StyleSheetNode*> nodes{0};
+class IconMap
+{
+	friend class IconMapReader;
+
+public:
+	Icon& getIcon(unsigned int index);
+	~IconMap() = default;
+
+private:
+	IconMap() = default;
+
+	std::array<bWidgets::bwPointer<Icon>, 30 * 26> icons; // ICON_GRID_ROWS * ICON_GRID_COLS
+};
+
+class IconMapReader
+{
+public:
+	IconMapReader();
+	~IconMapReader();
+
+	bWidgets::bwPointer<IconMap> readIconMapFromPNGFile(class File&);
+
+private:
+	bWidgets::bwPointer<IconReadData> read_data;
 };
 
 } // namespace bWidgetsDemo

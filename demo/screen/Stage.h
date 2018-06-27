@@ -63,6 +63,7 @@ protected:
 	// Static members, global UI data for all stages
 	static bwPointer<bwStyle> style;
 	static bwPointer<class Font> font;
+	static bwPointer<class IconMap> icon_map;
 	static bwPointer<class StyleSheet> style_sheet;
 	static float interface_scale;
 
@@ -80,8 +81,9 @@ private:
 
 	static void StyleSheetPolish(bwWidget& widget);
 
-	void setStyleSheet(const std::string& filepath);
 	void initFonts();
+	void initIcons();
+	void setStyleSheet(const std::string& filepath);
 	void drawScrollbars();
 	void updateContentBounds();
 	void validizeScrollValue();

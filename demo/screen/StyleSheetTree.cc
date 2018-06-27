@@ -71,9 +71,20 @@ StyleSheetNode& StyleSheetTree::ensureNode(
 		return *node;
 	}
 	else {
-		StyleSheetNode* new_node = new StyleSheetNode();
+		StyleSheetNode* new_node = new StyleSheetNode;
 		nodes.insert({class_name, new_node});
 		return *new_node;
+	}
+}
+
+StyleSheetTree::~StyleSheetTree()
+{
+	while (!nodes.empty()) {
+		auto iterator = nodes.begin();
+		StyleSheetNode* node = iterator->second;
+
+		nodes.erase(iterator);
+		delete node;
 	}
 }
 

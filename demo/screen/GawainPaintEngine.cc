@@ -24,6 +24,7 @@ extern "C" {
 }
 #include "Font.h"
 #include "GPU.h"
+#include "IconMap.h"
 #include "ShaderProgram.h"
 
 #include "bwPainter.h"
@@ -35,8 +36,10 @@ using namespace bWidgetsDemo;
 using namespace bWidgets; // less verbose
 
 
-GawainPaintEngine::GawainPaintEngine(Font& font) :
-    font(font)
+GawainPaintEngine::GawainPaintEngine(
+        Font& font,
+        IconMap& icon_map) :
+    font(font), icon_map(icon_map)
 {
 	
 }
@@ -207,4 +210,94 @@ void GawainPaintEngine::drawText(
 	font.setActiveColor(painter.getActiveColor());
 	font.setMask(painter.getContentMask());
 	font.render(text, draw_pos_x, draw_pos_y);
+}
+
+// --------------------------------------------------------------------
+// Icon Drawing
+
+static void engine_icon_texture_draw(const bwRectanglePixel& icon_rect)
+{
+	ShaderProgram& shader_program = ShaderProgram::getShaderProgram(ShaderProgram::ID_TEXTURE_RECT);
+	VertexFormat* format = immVertexFormat();
+	unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
+	unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
+
+	immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
+	immUniformColor4fv(bwColor(1.0f, 1.0f));
+	immUniform1i("image", 0);
+
+	immBegin(PRIM_TRIANGLE_STRIP, 4);
+
+	immAttrib2f(texcoord, 0.0f, 0.0f);
+	immVertex2f(pos, icon_rect.xmin, icon_rect.ymin);
+
+	immAttrib2f(texcoord, 1.0f, 0.0f);
+	immVertex2f(pos, icon_rect.xmax, icon_rect.ymin);
+
+	immAttrib2f(texcoord, 0.0f, 1.0f);
+	immVertex2f(pos, icon_rect.xmin, icon_rect.ymax);
+
+	immAttrib2f(texcoord, 1.0f, 1.0f);
+	immVertex2f(pos, icon_rect.xmax, icon_rect.ymax);
+
+	immEnd();
+	immUnbindProgram();
+}
+
+/**
+ * Enables necessary GL states, generates and binds the texture.
+ */
+static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap)
+{
+	GLuint texture_id;
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+
+	glGenTextures(1, &texture_id);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture_id);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// TODO should consider channel bit depth.
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, pixmap.width(), pixmap.height(),
+	             0, GL_RGBA, GL_UNSIGNED_BYTE, pixmap.getBytes().data());
+}
+static void engine_icon_texture_drawing_cleanup()
+{
+	glDisable(GL_BLEND);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+/**
+ * Makes \a icon_rect use dimensions of \a icon, but centers it and clips it
+ * within \a bounds.
+ */
+static void engine_icon_rectangle_adjust(
+        bwRectanglePixel& icon_rect,
+        const bwRectanglePixel& bounds,
+        const Pixmap& pixmap)
+{
+	const int xmin = std::max(bounds.centerX() - (pixmap.width()  / 2), bounds.xmin);
+	const int ymin = std::max(bounds.centerY() - (pixmap.height() / 2), bounds.ymin);
+
+	icon_rect.set(xmin, std::min(pixmap.width(), bounds.width()),
+	              ymin, std::min(pixmap.height(), bounds.height()));
+}
+
+void GawainPaintEngine::drawIcon(
+        const bwIconInterface& icon_interface,
+        const bwRectanglePixel& rectangle)
+{
+	const Icon& icon = static_cast<const Icon&>(icon_interface);
+	const Pixmap& pixmap = icon.getPixmap();
+	bwRectanglePixel icon_rect;
+
+	engine_icon_rectangle_adjust(icon_rect, rectangle, pixmap);
+
+	engine_icon_texture_drawing_prepare(pixmap);
+	engine_icon_texture_draw(icon_rect);
+	engine_icon_texture_drawing_cleanup();
 }

@@ -28,7 +28,9 @@ namespace bWidgetsDemo {
 class GawainPaintEngine : public bWidgets::bwPaintEngine
 {
 public:
-	GawainPaintEngine(class Font&);
+	GawainPaintEngine(
+	        class Font&,
+	        class IconMap&);
 
 	void setupViewport(
 	        const bWidgets::bwRectanglePixel&,
@@ -42,9 +44,13 @@ public:
 	        const std::string&,
 	        const bWidgets::bwRectanglePixel&,
 	        const bWidgets::TextAlignment) override;
+	void drawIcon(
+	        const bWidgets::bwIconInterface&,
+	        const bWidgets::bwRectanglePixel&);
 
 private:
 	class Font& font;
+	class IconMap& icon_map;
 };
 
 } // namespace bWidgets

@@ -63,6 +63,19 @@ void bwPainter::drawText(
 	}
 }
 
+void bwPainter::drawIcon(
+        const bwIconInterface& icon_interface,
+        const bwRectanglePixel& rect) const
+{
+	if (!painter_check_paint_engine(*this)) {
+		return;
+	}
+
+	if (!rect.isEmpty() && icon_interface.isValid()) {
+		paint_engine->drawIcon(icon_interface, rect);
+	}
+}
+
 void bwPainter::setActiveColor(const bwColor& color)
 {
 	active_color = color;
