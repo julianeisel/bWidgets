@@ -47,6 +47,7 @@ public:
 
 		SHADER_PROGRAM_ID_TOT
 	} ShaderProgramID;
+	using ShaderIDArray = std::array<unsigned int, SHADER_TYPE_TOT>;
 
 	static ShaderProgram& getShaderProgram(ShaderProgramID shader_program_id);
 
@@ -61,7 +62,7 @@ private:
 	using ShaderProgramCache = std::array<bWidgets::bwPointer<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
 	static ShaderProgramCache cache;
 
-	std::array<unsigned int, SHADER_TYPE_TOT> shader_ids;
+	ShaderIDArray shader_ids;
 	unsigned int programID;
 	ShaderInterface* interface;
 };

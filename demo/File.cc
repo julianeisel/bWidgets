@@ -28,8 +28,8 @@ using namespace bWidgetsDemo;
 
 
 
-File::File(const std::string& path) :
-    _path(path), _file_stream(path, std::ios::in)
+File::File(const std::string& path, std::ios::openmode mode) :
+    _path(path), _file_stream(path, mode)
 {
 	assert(_file_stream.is_open());
 }

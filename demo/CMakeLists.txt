@@ -45,13 +45,48 @@ set(LIB
 )
 
 set(GPU_INC
-	../extern/glfw/include
 	../extern/glew/include
 	../extern/glm
 )
 
-find_package(PNG REQUIRED)
-list(APPEND LIB ${PNG_LIBRARIES})
+if(WIN32)
+	if(NOT DEFINED LIBDIR)
+		set(LIBDIR ${CMAKE_SOURCE_DIR}/../lib)
+	endif()
+
+	if(NOT EXISTS "${LIBDIR}/")
+		message(FATAL_ERROR "Windows requires pre-compiled libs at: '${LIBDIR}'")
+	endif()
+endif()
+
+if(LIBDIR)
+	message(STATUS "Pre-compiled libs expected at: '${LIBDIR}'")
+endif()
+
+macro(message_for_using_libdir package_name)
+	message(STATUS "Using ${package_name} from pre-compiled libs instead.")
+endmacro()
+
+if(LIBDIR)
+	set(ZLIB_INCLUDE_DIR ${LIBDIR}/zlib/include)
+	set(ZLIB_LIBRARY ${LIBDIR}/zlib/lib/zlib.lib)
+endif()
+find_package(png)
+if(NOT PNG_FOUND)
+	if (LIBDIR)
+		message_for_using_libdir(libpng)
+		set(PNG_PNG_INCLUDE_DIR ${LIBDIR}/png/include)
+		set(PNG_LIBRARIES ${LIBDIR}/png/lib/libpng16.lib)
+		set(PNG "${LIBDIR}/png")
+		set(PNG_INCLUDE_DIRS "${PNG}/include")
+		set(PNG_LIBPATH ${PNG}/lib)
+	endif()
+endif()
+if(LIBDIR)
+	set(FREETYPE ${LIBDIR}/freetype)
+	set(FREETYPE_INCLUDE_DIRS ${LIBDIR}/freetype/include/freetype2)
+	set(FREETYPE_LIBRARY ${LIBDIR}/freetype/lib/freetype.lib)
+endif()
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 list(APPEND LIB ${OPENGL_LIBRARIES})

@@ -18,8 +18,9 @@
 # ***** END GPL LICENSE BLOCK *****
 
 set(INC
-	${GPU_INC}
 	${FREETYPE_INCLUDE_DIRS}
+	${GPU_INC}
+	${PNG_PNG_INCLUDE_DIR}
 	..
 	../gpu
 	../extern/katana-parser/src
@@ -49,6 +50,7 @@ set(SRC
 
 set(LIB
 	${FREETYPE_LIBRARIES}
+	${PNG_LIBRARIES}
 	bWidgets
 	extern_katana
 

@@ -73,10 +73,10 @@ IconMapReader::~IconMapReader()
 static bool icons_check_if_file_is_png(File& file)
 {
 	const int num_header_bytes = 8;
-	png_byte header[num_header_bytes];
+	char header[num_header_bytes];
 
-	if (file.readBytes((char*)header, num_header_bytes, true)) {
-		return png_sig_cmp(header, 0, num_header_bytes) == 0;
+	if (file.readBytes(header, num_header_bytes, true)) {
+		return png_sig_cmp((png_const_bytep)header, 0, num_header_bytes) == 0;
 	}
 
 	return false;

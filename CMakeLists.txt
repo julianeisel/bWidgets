@@ -4,7 +4,9 @@ cmake_minimum_required(VERSION 2.8.12)
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
 enable_language(CXX)
-set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+	set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+endif()
 
 macro(remove_cc_flag _flag)
 	foreach(flag ${ARGV})

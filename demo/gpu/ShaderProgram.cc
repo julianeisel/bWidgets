@@ -23,6 +23,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "GPU.h"
 extern "C" {
@@ -92,18 +93,20 @@ static unsigned int shaderprog_compileShader(const std::string& shader_str, cons
 	glGetShaderiv(shader_id, GL_COMPILE_STATUS, &success);
 	if (success != GL_TRUE) {
 		int len;
-		char log[568];
 
-		glGetShaderInfoLog(shader_id, 568, &len, log);
-		std::cout << log << std::endl;
+		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &len);
+
+		std::vector<GLchar> log(len);
+		glGetShaderInfoLog(shader_id, len, &len, &log[0]);
+		std::cout << "Error compiling shader: " << std::string(&log[0]) << std::endl;
+		assert(false);
 	}
-	assert(success == GL_TRUE);
 #endif
 
 	return shader_id;
 }
 
-static unsigned int shaderprog_linkProgram(const std::array<unsigned int, SHADER_TYPE_TOT>& shader_ids)
+static unsigned int shaderprog_linkProgram(const ShaderProgram::ShaderIDArray& shader_ids)
 {
 	unsigned int program_id = glCreateProgram();
 
@@ -115,22 +118,40 @@ static unsigned int shaderprog_linkProgram(const std::array<unsigned int, SHADER
 #ifndef NDEBUG
 	GLint success = GL_FALSE;
 	glGetProgramiv(program_id, GL_LINK_STATUS, &success);
-	assert(success == GL_TRUE);
+	if (success == GL_FALSE) {
+		int len;
+
+		glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &len);
+
+		std::vector<GLchar> log(len);
+		glGetProgramInfoLog(program_id, len, &len, &log[0]);
+		std::cout << "Error linking shaders: " << std::string(&log[0]) << std::endl;
+		assert(false);
+	}
 #endif
 
 	return program_id;
+}
+
+static ShaderProgram::ShaderIDArray shaderprog_compileShaders(ShaderProgramType& type)
+{
+	ShaderProgram::ShaderIDArray shader_ids;
+
+	for (unsigned int i = 0; i < shader_ids.size(); i++) {
+		File shader_file(std::string(SHADERS_PATH_STR) + "/" + type.shader_names[i]);
+		std::string shader_str = shader_file.readIntoString();
+		unsigned int shader_id = shaderprog_compileShader(shader_str, shader_types[i]);
+		shader_ids[i] = shader_id;
+	}
+
+	return shader_ids;
 }
 
 ShaderProgram::ShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 {
 	ShaderProgramType& type = shader_program_types[shader_program_id];
 
-	for (int i = 0; i < shader_ids.size(); i++) {
-		File shader_file(std::string(SHADERS_PATH_STR) + "/" + type.shader_names[i]);
-		std::string shader_str = shader_file.readIntoString();
-		unsigned int shader_id = shaderprog_compileShader(shader_str, shader_types[i]);
-		shader_ids[i] = shader_id;
-	}
+	shader_ids = shaderprog_compileShaders(type);
 	programID = shaderprog_linkProgram(shader_ids);
 	interface = ShaderInterface_create(programID);
 }

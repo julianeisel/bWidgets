@@ -22,6 +22,7 @@
 #pragma once
 
 #include <fstream>
+#include <iostream>
 #include <string>
 
 namespace bWidgetsDemo {
@@ -29,7 +30,7 @@ namespace bWidgetsDemo {
 class File
 {
 public:
-	File(const std::string& path);
+	explicit File(const std::string& path, std::ios::openmode mode = std::ios::in);
 	~File() = default;
 
 	std::string readIntoString();

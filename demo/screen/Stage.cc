@@ -95,7 +95,7 @@ void Stage::initFonts()
 void Stage::initIcons()
 {
 	IconMapReader reader;
-	File png_file(RESOURCES_PATH_STR + std::string("/blender_icons16.png"));
+	File png_file(RESOURCES_PATH_STR + std::string("/blender_icons16.png"), std::ios::binary);
 
 	icon_map = reader.readIconMapFromPNGFile(png_file);
 }
