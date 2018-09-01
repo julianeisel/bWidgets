@@ -27,13 +27,13 @@
 #include "bwStyleProperties.h"
 
 #include "File.h"
+#include "PropertyParser.h"
 #include "StyleSheetTree.h"
 
 #include "StyleSheet.h"
 
 using namespace bWidgets;
 using namespace bWidgetsDemo;
-
 
 
 StyleSheet::StyleSheet(const std::string& filepath) :
@@ -47,51 +47,11 @@ StyleSheet::~StyleSheet()
 	unload();
 }
 
-static bwColor stylesheet_get_color_from_katana_value(const KatanaValue& value)
-{
-	bwColor color{};
-
-	switch (value.unit) {
-		case KATANA_VALUE_PARSER_FUNCTION:
-		{
-			std::string function_name{value.function->name};
-
-			if ((function_name == "rgb(") || (function_name == "rgba(")) {
-				for (int i = 0, color_index = 0; i < value.function->args->length; i++) {
-					KatanaValue* arg_value = (KatanaValue*)value.function->args->data[i];
-
-					if (arg_value->unit == KATANA_VALUE_PARSER_OPERATOR) {
-						continue;
-					}
-					assert(arg_value->unit == KATANA_VALUE_NUMBER);
-					color[color_index++] = arg_value->fValue / 255.0f;
-				}
-				break;
-			}
-		}
-		// Fall-through
-		default:
-			assert(!"Only rgb() supported!");
-			break;
-	}
-
-	return color;
-}
-
-static bool stylesheet_get_bool_from_katana_value(const KatanaValue& value)
-{
-	const std::string ident_value{value.string};
-
-	if (ident_value == "true") {
-		return true;
-	}
-	else if (ident_value == "false") {
-		return false;
-	}
-
-	assert(0);
-	return false;
-}
+// TODO Right now the type of properties in the style sheet is decided based on
+// the value they have set. E.g. "border-width: rgba(...)" would add a bwColor
+// property to the tree. Instead we should have a global map of property types
+// with the property identifier as key. Then we can check if the CSS rule is
+// valid for the property.
 
 static bwStyleProperty::PropertyType stylesheet_property_type_get_from_katana(
         const KatanaValue& value)
@@ -125,20 +85,8 @@ static void stylesheet_set_value_from_katana_value(
         bwStyleProperty& property,
         const KatanaValue& value)
 {
-	switch (property.getType()) {
-		case bwStyleProperty::TYPE_BOOL:
-			property.setValue(stylesheet_get_bool_from_katana_value(value));
-			break;
-		case bwStyleProperty::TYPE_INTEGER:
-			property.setValue((int)value.fValue); // iValue is not valid
-			break;
-		case bwStyleProperty::TYPE_FLOAT:
-			property.setValue((float)value.fValue);
-			break;
-		case bwStyleProperty::TYPE_COLOR:
-			property.setValue(stylesheet_get_color_from_katana_value(value));
-			break;
-	}
+	bwPointer<PropertyParser> parser(PropertyParser::newFromPropertyType(property.getType()));
+	parser->parseIntoProperty(property, value);
 }
 
 

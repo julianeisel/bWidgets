@@ -18,42 +18,26 @@
 # ***** END GPL LICENSE BLOCK *****
 
 set(INC
-	${FREETYPE_INCLUDE_DIRS}
-	${GPU_INC}
-	${PNG_PNG_INCLUDE_DIR}
-	..
+    ..
 	../extern/katana-parser/src
-	../gpu
-	../resources
-	../stylesheet
-	../../bwidgets/styles
+	../../bwidgets/generics
 )
 
 set(SRC
-	DefaultStage.cc
-	Font.cc
-	GawainPaintEngine.cc
-	IconMap.cc
-	Layout.cc
-	Stage.cc
+	PropertyParser.cc
+	StyleSheet.cc
+	StyleSheetTree.cc
 
-	DefaultStage.h
-	Font.h
-	GawainPaintEngine.h
-	IconMap.h
-	Layout.h
-	Stage.h
+	PropertyParser.h
+	StyleSheet.h
+	StyleSheetTree.h
 )
 
 set(LIB
-	${FREETYPE_LIBRARIES}
-	${PNG_LIBRARIES}
 	bWidgets
-
-	bwd_gpu
-	bwd_stylesheet
+	extern_katana
 )
 
-add_library(bwd_screen ${SRC})
+add_library(bwd_stylesheet ${SRC})
 include_directories(${INC})
-target_link_libraries(bwd_screen ${LIB})
+target_link_libraries(bwd_stylesheet ${LIB})
