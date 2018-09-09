@@ -19,12 +19,19 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
+#include "bWidgets.h"
+
 #include "Application.h"
 #include "DefaultStage.h"
 #include "WindowManager.h"
 
 using namespace bWidgetsDemo;
 
+
+Application::Application()
+{
+	bWidgets::bWidgetsInit();
+}
 
 Application& Application::ensureApplication()
 {

@@ -20,6 +20,7 @@
 set(INC
 	../bwidgets
 	../bwidgets/generics
+	../bwidgets/style_properties
 	../bwidgets/utils
 	../bwidgets/widgets
 	screen
@@ -39,6 +40,7 @@ set(SRC
 )
 
 set(LIB
+	bWidgets
 	bwd_gpu
 	bwd_window_manager
 	bwd_screen

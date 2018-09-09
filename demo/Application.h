@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "bwUtil.h"
-
 
 namespace bWidgetsDemo {
 
@@ -41,7 +39,7 @@ public:
 	static float interfaceScale();
 
 private:
-	Application() {}
+	Application();
 	// Ensure uniqueness
 	Application(Application const&) = delete;
 	void operator=(Application const&) = delete;

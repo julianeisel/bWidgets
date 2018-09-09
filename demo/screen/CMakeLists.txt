@@ -26,6 +26,7 @@ set(INC
 	../gpu
 	../resources
 	../stylesheet
+	../../bwidgets/style_properties
 	../../bwidgets/styles
 )
 
@@ -48,7 +49,6 @@ set(SRC
 set(LIB
 	${FREETYPE_LIBRARIES}
 	${PNG_LIBRARIES}
-	bWidgets
 
 	bwd_gpu
 	bwd_stylesheet
