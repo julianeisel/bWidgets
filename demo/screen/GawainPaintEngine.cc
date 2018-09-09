@@ -28,6 +28,7 @@ extern "C" {
 #include "ShaderProgram.h"
 
 #include "bwPainter.h"
+#include "bwPoint.h"
 #include "bwPolygon.h"
 
 #include "GawainPaintEngine.h"

@@ -21,7 +21,7 @@ public:
 
 	bwGradient() = default;
 	explicit bwGradient(
-	        bwColor base_color,
+	        const bwColor& base_color,
 	        float shade_begin, float shade_end,
 	        Direction direction = DIRECTION_TOP_BOTTOM);
 

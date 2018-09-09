@@ -7,7 +7,6 @@
 #include "bwPolygon.h"
 #include "bwRange.h"
 #include "bwStyle.h"
-#include "bwUtil.h"
 #include "bwWidgetBaseStyle.h"
 
 #include "bwPainter.h"
@@ -102,7 +101,7 @@ const bwRectanglePixel& bwPainter::getContentMask() const
 	return content_mask;
 }
 
-void bwPainter::enableGradient(const bwGradient gradient)
+void bwPainter::enableGradient(const bwGradient& gradient)
 {
 	if (!active_gradient) {
 		active_gradient = bwPointer_new<bwGradient>();
@@ -439,7 +438,7 @@ void bwPainter::fillVertexColorsWithGradient(const bwPolygon& polygon, const bwR
 void bwPainter::drawRoundboxWidgetBase(
         const bwWidgetBaseStyle& base_style,
         const bwStyle& style,
-        const bwRectanglePixel rectangle,
+        const bwRectanglePixel& rectangle,
         const bwGradient& gradient,
         const float radius)
 {

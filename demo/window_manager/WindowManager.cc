@@ -24,6 +24,7 @@
 #include "GPU.h"
 
 #include "EventManager.h"
+
 #include "WindowManager.h"
 
 using namespace bWidgetsDemo;

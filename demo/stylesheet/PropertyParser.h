@@ -21,9 +21,7 @@
 
 #pragma once
 
-#include "bwColor.h"
 #include "bwStyleProperties.h"
-#include "bwUtil.h"
 
 struct KatanaValue;
 

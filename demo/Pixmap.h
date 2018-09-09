@@ -23,8 +23,6 @@
 
 #include <vector>
 
-#include "bwUtil.h"
-
 
 namespace bWidgetsDemo {
 

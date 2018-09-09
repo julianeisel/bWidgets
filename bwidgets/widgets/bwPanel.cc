@@ -4,7 +4,6 @@
 
 #include "bwPainter.h"
 #include "bwPanel.h"
-#include "bwPolygon.h"
 #include "bwStyle.h"
 
 using namespace bWidgets;

@@ -2,7 +2,6 @@
 
 #include <typeinfo>
 
-#include "bwPoint.h"
 #include "bwDistance.h"
 #include "bwFunctorInterface.h"
 #include "bwRectangle.h"

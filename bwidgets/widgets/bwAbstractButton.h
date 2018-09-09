@@ -3,10 +3,10 @@
 #include <memory>
 #include <string>
 
-#include "bwColor.h"
 #include "bwUtil.h"
 #include "bwWidget.h"
 #include "bwWidgetBaseStyle.h"
+
 
 namespace bWidgets {
 

@@ -1,5 +1,3 @@
-#include "bwPoint.h"
-
 #include "bwWidget.h"
 
 using namespace bWidgets;

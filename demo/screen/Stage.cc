@@ -27,10 +27,8 @@
 #include "bwPainter.h"
 #include "bwPanel.h"
 #include "bwRange.h"
-#include "bwStyleCSS.h"
 #include "bwStyleFlatDark.h"
 #include "bwStyleManager.h"
-#include "bwUtil.h"
 
 #include "Event.h"
 #include "File.h"

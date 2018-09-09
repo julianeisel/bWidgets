@@ -23,9 +23,6 @@
 #include <fstream>
 #include <iostream>
 
-#include "bwColor.h"
-#include "bwStyleProperties.h"
-
 #include "File.h"
 #include "PropertyParser.h"
 #include "StyleSheetTree.h"

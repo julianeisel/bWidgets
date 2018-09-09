@@ -3,11 +3,10 @@
 #include <memory>
 #include <vector>
 
-#include "bwGradient.h"
 #include "bwIconInterface.h"
-#include "bwStyle.h"
+#include "bwGradient.h"
 #include "bwUtil.h"
-#include "bwWidgetBaseStyle.h"
+
 
 namespace bWidgets {
 
@@ -64,7 +63,7 @@ public:
 	void setContentMask(const bwRectanglePixel& value);
 	const bwRectanglePixel& getContentMask() const;
 
-	void enableGradient(const bwGradient gradient);
+	void enableGradient(const bwGradient& gradient);
 	bool isGradientEnabled() const;
 
 	// Primitives
@@ -74,9 +73,9 @@ public:
 	void drawRectangle(
 	        const bwRectanglePixel& rect);
 	void drawRoundboxWidgetBase(
-	        const bwWidgetBaseStyle& base_style,
+	        const class bwWidgetBaseStyle& base_style,
 	        const class bwStyle& style,
-	        const bwRectanglePixel rectangle,
+	        const bwRectanglePixel& rectangle,
 	        const bwGradient& gradient,
 	        const float radius);
 	void drawCheckMark(

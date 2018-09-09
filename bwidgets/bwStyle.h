@@ -3,9 +3,6 @@
 #include <array>
 #include <string>
 
-#include "bwColor.h"
-#include "bwWidget.h"
-
 
 namespace bWidgets {
 

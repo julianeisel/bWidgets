@@ -26,7 +26,6 @@
 #include "bwAbstractButton.h"
 #include "bwPainter.h"
 #include "bwPanel.h"
-#include "bwPoint.h"
 
 #include "Layout.h"
 

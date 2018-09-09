@@ -26,14 +26,12 @@
 
 #include "bwScrollBar.h"
 #include "bwStyle.h"
-#include "bwWidget.h"
 
-
-using namespace bWidgets;
 
 namespace bWidgetsDemo {
 
-class Stage {
+class Stage
+{
 	friend class ScrollbarApplyValueFunctor;
 	friend class StyleSetter;
 	friend class UseCSSVersionToggleSetter;
@@ -58,28 +56,28 @@ public:
 	static void setInterfaceScale(const float value);
 
 protected:
-	bwPointer<class RootLayout> layout;
+	bWidgets::bwPointer<class RootLayout> layout;
 
 	// Static members, global UI data for all stages
-	static bwPointer<bwStyle> style;
-	static bwPointer<class Font> font;
-	static bwPointer<class IconMap> icon_map;
-	static bwPointer<class StyleSheet> style_sheet;
+	static bWidgets::bwPointer<bWidgets::bwStyle> style;
+	static bWidgets::bwPointer<class Font> font;
+	static bWidgets::bwPointer<class IconMap> icon_map;
+	static bWidgets::bwPointer<class StyleSheet> style_sheet;
 	static float interface_scale;
 
 	unsigned int mask_width, mask_height;
 	int vert_scroll = 0;
 
-	virtual void activateStyleID(bwStyle::StyleTypeID type_id);
+	virtual void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
 
 private:
 	// Not part of the layout yet. We'd need to support horizontal root layouts first.
-	bwPointer<bwScrollBar> scrollbar;
+	bWidgets::bwPointer<bWidgets::bwScrollBar> scrollbar;
 	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.
-	bwOptional<bwWidget*> last_hovered;
-	bwOptional<bwWidget*> dragged_widget;
+	bWidgets::bwOptional<bWidgets::bwWidget*> last_hovered;
+	bWidgets::bwOptional<bWidgets::bwWidget*> dragged_widget;
 
-	static void StyleSheetPolish(bwWidget& widget);
+	static void StyleSheetPolish(bWidgets::bwWidget& widget);
 
 	void initFonts();
 	void initIcons();
@@ -87,13 +85,13 @@ private:
 	void drawScrollbars();
 	void updateContentBounds();
 	void validizeScrollValue();
-	bwOptional<std::reference_wrapper<bwWidget>> findWidgetAt(const bwPoint& coordinate);
+	bWidgets::bwOptional<std::reference_wrapper<bWidgets::bwWidget>> findWidgetAt(const bWidgets::bwPoint& coordinate);
 	void updateWidgetHovering(
 	        const MouseEvent&,
-	        bwWidget&);
+	        bWidgets::bwWidget&);
 	bool handleWidgetMouseButtonEvent(
 	        const MouseEvent&,
-	        bwWidget&);
+	        bWidgets::bwWidget&);
 
 	bool isScrollable() const;
 	unsigned int getScrollbarWidth() const;

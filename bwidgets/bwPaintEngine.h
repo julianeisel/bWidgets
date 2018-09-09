@@ -1,7 +1,9 @@
 #pragma once
 
-#include "bwIconInterface.h"
+#include <string>
+
 #include "bwRectangle.h"
+
 
 namespace bWidgets {
 
@@ -69,7 +71,7 @@ public:
 	 * \param rect The bounding-box to draw the icon into.
 	 */
 	virtual void drawIcon(
-	        const bwIconInterface& icon_interface,
+	        const class bwIconInterface& icon_interface,
 	        const bwRectanglePixel& rect) = 0;
 };
 

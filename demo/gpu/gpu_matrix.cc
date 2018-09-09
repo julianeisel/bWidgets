@@ -27,6 +27,8 @@ extern "C" {
 #include "../extern/gawain/gawain/shader_interface.h"
 }
 
+#include "glm.hpp"
+
 #include "gpu_intern.h"
 #include "GPU.h"
 

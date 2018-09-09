@@ -23,6 +23,9 @@
 
 #include <list>
 #include <memory>
+
+#include "bwUtil.h"
+
 #include "Window.h"
 
 

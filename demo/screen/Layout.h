@@ -24,11 +24,13 @@
 #include <list>
 
 #include "bwUtil.h"
-#include "bwWidget.h"
 
 
 namespace bWidgets {
 	class bwPanel;
+	class bwPoint;
+	class bwStyle;
+	class bwWidget;
 }
 
 namespace bWidgetsDemo {
@@ -188,7 +190,7 @@ public:
 	        unsigned int header_height_hint,
 	        LayoutItem& parent);
 
-	void draw(bWidgets::bwStyle &style) const override;
+	void draw(bWidgets::bwStyle& style) const override;
 	void resolve(
 	        const bWidgets::bwPoint& layout_pos,
 	        const unsigned int item_margin,

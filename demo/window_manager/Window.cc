@@ -23,10 +23,10 @@
 #include "EventManager.h"
 #include "GPU.h"
 #include "Layout.h"
-#include "Stage.h"
 
 #include "Window.h"
 
+using namespace bWidgets;
 using namespace bWidgetsDemo;
 
 

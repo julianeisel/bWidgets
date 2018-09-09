@@ -19,9 +19,11 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include "Application.h"
-#include "DefaultStage.h"
+#include <cassert>
+
 #include "WindowManager.h"
+
+#include "Application.h"
 
 using namespace bWidgetsDemo;
 

@@ -1,6 +1,7 @@
 #include <cassert>
 
 #include "bwPainter.h"
+#include "bwStyleProperties.h"
 
 #include "bwWidgetBaseStyle.h"
 
