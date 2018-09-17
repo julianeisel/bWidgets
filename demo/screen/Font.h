@@ -35,6 +35,7 @@
 namespace bWidgetsDemo {
 
 class FontGlyph;
+class Pen;
 
 class Font {
 public:
@@ -44,10 +45,6 @@ public:
 	static Font* loadFont(const std::string& name, const std::string& path);
 
 	void render(const std::string& text, const int pos_x, const int pos_y);
-	float renderGlyph(
-	        const FontGlyph& glyph, const FontGlyph* previous_glyph,
-	        const unsigned int attr_pos, const unsigned int attr_texcoord,
-	        const int pos_x, const int pos_y) const;
 	unsigned int calculateStringWidth(const std::string &text);
 
 	void setSize(const float size);
@@ -61,6 +58,11 @@ public:
 
 private:
 	Font() = default;
+
+	void renderGlyph(
+	        const FontGlyph& glyph, const FontGlyph* previous_glyph,
+	        const unsigned int attr_pos, const unsigned int attr_texcoord,
+	        Pen& pen) const;
 
 	float getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
 

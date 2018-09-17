@@ -24,6 +24,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "bwPoint.h"
 #include "bwUtil.h"
 
 // drawing
@@ -39,6 +40,17 @@ using namespace bWidgetsDemo;
 
 FT_Library Font::ft_library = nullptr;
 bool Font::changed = false;
+
+namespace bWidgetsDemo {
+
+class Pen
+{
+public:
+	explicit Pen(int x = 0, int y = 0) : position(x, y) {}
+	bWidgets::bwPoint position;
+};
+
+} // namespace bWidgetsDemo
 
 
 Font::~Font()
@@ -82,7 +94,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
 	unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
 	const FontGlyph* previous_glyph = nullptr;
-	float pen_x = pos_x;
+	Pen pen(pos_x, pos_y);
 	int old_scissor[4];
 
 	cache.ensureUpdated(*this);
@@ -108,16 +120,16 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 		glScissor(mask.xmin, mask.ymin, mask.width(), mask.height());
 	}
 
-	for (int i = 0; i < text.size(); i++) {
+	for (uint i = 0; i < text.size(); i++) {
 		const FontGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
 
-		if (!mask.isEmpty() && ((pen_x + glyph.advance_width) > mask.xmax)) {
+		if (!mask.isEmpty() && ((pen.position.x + glyph.advance_width) > mask.xmax)) {
 			break;
 		}
 		if (glyph.is_valid == false) {
 			std::cout << "Error: Trying to render invalid character" << std::endl;
 		}
-		pen_x += renderGlyph(glyph, previous_glyph, pos, texcoord, pen_x, pos_y);
+		renderGlyph(glyph, previous_glyph, pos, texcoord, pen);
 		previous_glyph = &glyph;
 	}
 
@@ -132,40 +144,41 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	changed = false;
 }
 
-/**
- * \return The offset at which the next character should be drawn.
- */
-float Font::renderGlyph(
+void Font::renderGlyph(
         const FontGlyph& glyph, const FontGlyph* previous_glyph,
         const unsigned int attr_pos, const unsigned int attr_texcoord,
-        const int pos_x, const int pos_y) const
+        Pen& pen) const
 {
 	const float w = glyph.width;
 	const float h = glyph.height;
 	const bool use_kerning = previous_glyph != nullptr;
-	float pen_x = pos_x + glyph.offset_left;
-	float pen_y = -pos_y - glyph.offset_top;
 	float kerning_dist_x = 0;
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, glyph.bitmap);
 
 	if (use_kerning) {
 		kerning_dist_x = getKerningDistance(*previous_glyph, glyph);
-		pen_x += kerning_dist_x;
+		pen.position.x += kerning_dist_x;
 	}
+
+	/* The actual position for drawing the bitmaps slightly differs from pen position. */
+	bWidgets::bwPoint draw_pos(pen.position);
+
+	draw_pos.x += glyph.offset_left;
+	draw_pos.y += glyph.offset_top;
 
 	immBegin(PRIM_TRIANGLE_STRIP, 4);
 	immAttrib2f(attr_texcoord, 0.0f, 0.0f);
-	immVertex2f(attr_pos, pen_x, -pen_y);
+	immVertex2f(attr_pos, draw_pos.x, draw_pos.y);
 	immAttrib2f(attr_texcoord, 1.0f, 0.0f);
-	immVertex2f(attr_pos, pen_x + w, -pen_y);
+	immVertex2f(attr_pos, draw_pos.x + w, draw_pos.y);
 	immAttrib2f(attr_texcoord, 0.0f, 1.0f);
-	immVertex2f(attr_pos, pen_x, -pen_y - h);
+	immVertex2f(attr_pos, draw_pos.x, draw_pos.y - h);
 	immAttrib2f(attr_texcoord, 1.0f, 1.0f);
-	immVertex2f(attr_pos, pen_x + w, -pen_y - h);
+	immVertex2f(attr_pos, draw_pos.x + w, draw_pos.y - h);
 	immEnd();
 
-	return glyph.advance_width + kerning_dist_x;
+	pen.position.x += glyph.advance_width;
 }
 
 void Font::setSize(const float _size)
