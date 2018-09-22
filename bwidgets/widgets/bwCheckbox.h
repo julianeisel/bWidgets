@@ -21,6 +21,8 @@ public:
 	        const MouseButton button,
 	        const bwPoint& location) override;
 
+	bool isChecked() const;
+
 private:
 	bool isInsideCheckbox(const bwPoint& point) const;
 

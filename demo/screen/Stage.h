@@ -54,6 +54,7 @@ public:
 	        const class Window& win);
 
 	static void setInterfaceScale(const float value);
+	static void setFontHinting(const bool value);
 
 protected:
 	bWidgets::bwPointer<class RootLayout> layout;

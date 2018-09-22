@@ -77,6 +77,20 @@ private:
 	DefaultStage& stage;
 };
 
+class UseFontHintingToggleSetter : public bwFunctorInterface
+{
+public:
+	UseFontHintingToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox) {}
+
+	void operator()() override
+	{
+		Stage::setFontHinting(checkbox.isChecked());
+	}
+
+private:
+	const bwCheckbox& checkbox;
+};
+
 } // namespace bWidgetsDemo
 
 
@@ -93,6 +107,11 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	slider->setMinMax(0.5f, 2.0f);
 	slider->setValue(1.0f);
 	layout->addWidget(std::move(slider));
+
+	layout->addWidget(bwPointer_new<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT));
+	auto checkbox = bwPointer_new<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
+	checkbox->apply_functor = bwPointer_new<UseFontHintingToggleSetter>(*checkbox);
+	layout->addWidget(std::move(checkbox));
 
 	addFakeSpacer(*layout);
 

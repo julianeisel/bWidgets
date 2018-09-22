@@ -47,6 +47,7 @@ public:
 	void render(const std::string& text, const int pos_x, const int pos_y);
 	unsigned int calculateStringWidth(const std::string &text);
 
+	void setHinting(bool value);
 	void setSize(const float size);
 	int getSize() const;
 
@@ -65,6 +66,10 @@ private:
 	        Pen& pen) const;
 
 	float getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
+	/* Accesses private members, so make it a member function. Would be better
+	 * to keep freetype specific stuff out of the general Font class, but
+	 * ignoring for now since this is just the demo app anyway. */
+	FT_Int32 getFreetypeLoadFlags();
 
 	// The freetype library handle.
 	static FT_Library ft_library;
@@ -78,11 +83,13 @@ private:
 
 	bWidgets::bwColor active_color;
 	bWidgets::bwRectanglePixel mask;
+	bool use_hinting;
 
 
 	class FontGlyphCache {
 	// Everything public, this nested class is private to Font anyway.
 	public:
+		void invalidate();
 		void ensureUpdated(Font&);
 		const FontGlyph& getCachedGlyph(const Font&, const unsigned char) const;
 
@@ -94,8 +101,11 @@ private:
 class FontGlyph {
 public:
 	FontGlyph(
-	        const unsigned int, const unsigned int, const unsigned int,
-	        const int, const int, const int, const unsigned char*);
+	        const unsigned int index,
+	        const unsigned int width, const unsigned int height,
+	        const int offset_left, const int offset_top,
+	        const int advance_width,
+	        const unsigned char* bitmap_buffer);
 	FontGlyph();
 	~FontGlyph();
 

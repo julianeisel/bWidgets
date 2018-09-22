@@ -152,13 +152,11 @@ void Font::renderGlyph(
 	const float w = glyph.width;
 	const float h = glyph.height;
 	const bool use_kerning = previous_glyph != nullptr;
-	float kerning_dist_x = 0;
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, glyph.bitmap);
 
 	if (use_kerning) {
-		kerning_dist_x = getKerningDistance(*previous_glyph, glyph);
-		pen.position.x += kerning_dist_x;
+		pen.position.x += getKerningDistance(*previous_glyph, glyph);
 	}
 
 	/* The actual position for drawing the bitmaps slightly differs from pen position. */
@@ -181,13 +179,19 @@ void Font::renderGlyph(
 	pen.position.x += glyph.advance_width;
 }
 
+void Font::setHinting(bool value)
+{
+	if (value != use_hinting) {
+		use_hinting = value;
+		cache.invalidate();
+	}
+}
+
 void Font::setSize(const float _size)
 {
 	size = _size;
-	cache.is_dirty = true;
-	cache.cached_glyphs.clear();
-	cache.cached_glyphs.resize(0);
 	FT_Set_Pixel_Sizes(face, 0, size);
+	cache.invalidate();
 }
 
 int Font::getSize() const
@@ -229,7 +233,7 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 	cache.ensureUpdated(*this);
 
 	const FontGlyph* prev_glyph = nullptr;
-	for (int i = 0; i < text.size(); i++) {
+	for (uint i = 0; i < text.size(); i++) {
 		const FontGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
 
 		if (prev_glyph) {
@@ -241,6 +245,21 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 	}
 
 	return width;
+}
+
+void Font::FontGlyphCache::invalidate()
+{
+	is_dirty = true;
+	cached_glyphs.clear();
+	cached_glyphs.resize(0);
+}
+
+/**
+ * \return The flags that should be used for the FT_Load_Glyph call.
+ */
+FT_Int32 Font::getFreetypeLoadFlags()
+{
+	return use_hinting ? FT_LOAD_TARGET_LIGHT : FT_LOAD_NO_HINTING;
 }
 
 void Font::FontGlyphCache::ensureUpdated(Font& font)
@@ -263,8 +282,8 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 	     glyph_index != 0;
 	     charcode = FT_Get_Next_Char(font.face, charcode, &glyph_index))
 	{
-		FT_Int32 load_flags = FT_LOAD_TARGET_NORMAL | FT_LOAD_NO_HINTING | FT_LOAD_RENDER;
-		FT_Error error = FT_Load_Glyph(font.face, glyph_index, load_flags);
+		FT_Int32 load_flags = font.getFreetypeLoadFlags();
+		FT_Error error = FT_Load_Glyph(font.face, glyph_index, load_flags | FT_LOAD_RENDER);
 
 		if (error != 0) {
 			// This constructor marks glyph as invalid.
