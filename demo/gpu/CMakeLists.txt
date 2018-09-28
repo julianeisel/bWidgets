@@ -31,7 +31,8 @@ set(SRC
 	gpu_intern.h
 	ShaderProgram.h
 
-	shaders/bitmap_texture_uniform_color_frag.glsl
+	shaders/pixel_alpha_mask_texture_uniform_color_frag.glsl
+	shaders/subpixel_alpha_mask_texture_uniform_color_frag.glsl
 	shaders/texture_frag.glsl
 	shaders/texture_vert.glsl
 	shaders/smooth_color_frag.glsl
@@ -54,7 +55,8 @@ target_link_libraries(bwd_gpu ${LIB})
 
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
 	set(SHADERS
-		bitmap_texture_uniform_color_frag.glsl
+		pixel_alpha_mask_texture_uniform_color_frag.glsl
+		subpixel_alpha_mask_texture_uniform_color_frag.glsl
 		texture_frag.glsl
 		texture_vert.glsl
 		smooth_color_frag.glsl

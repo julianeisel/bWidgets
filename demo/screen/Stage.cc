@@ -27,10 +27,8 @@
 #include "bwPainter.h"
 #include "bwPanel.h"
 #include "bwRange.h"
-#include "bwStyleCSS.h"
 #include "bwStyleFlatDark.h"
 #include "bwStyleManager.h"
-#include "bwUtil.h"
 
 #include "Event.h"
 #include "File.h"
@@ -187,6 +185,16 @@ void Stage::setInterfaceScale(const float value)
 		font->setSize(11.0f * value);
 		style->dpi_fac = value;
 	}
+}
+
+void Stage::setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode)
+{
+	font->setFontAntiAliasingMode(aa_mode);
+}
+
+void Stage::setFontHinting(const bool value)
+{
+	font->setHinting(value);
 }
 
 void Stage::setStyleSheet(const std::string& filepath)

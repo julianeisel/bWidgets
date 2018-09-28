@@ -20,7 +20,6 @@
  */
 
 #include <cassert>
-#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -69,7 +68,8 @@ public:
 static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_TOT] = {
 	ShaderProgramType{{"uniform_color_vert.glsl", "uniform_color_frag.glsl"}},
 	ShaderProgramType{{"smooth_color_vert.glsl", "smooth_color_frag.glsl"}},
-	ShaderProgramType{{"texture_vert.glsl", "bitmap_texture_uniform_color_frag.glsl"}},
+	ShaderProgramType{{"texture_vert.glsl", "pixel_alpha_mask_texture_uniform_color_frag.glsl"}},
+	ShaderProgramType{{"texture_vert.glsl", "subpixel_alpha_mask_texture_uniform_color_frag.glsl"}},
 	ShaderProgramType{{"texture_vert.glsl", "texture_frag.glsl"}},
 };
 

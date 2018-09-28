@@ -21,7 +21,13 @@
 
 #pragma once
 
+#include "bwUtil.h"
+
 struct GLFWwindow;
+
+namespace bWidgets {
+class bwPoint;
+}
 
 namespace bWidgetsDemo {
 

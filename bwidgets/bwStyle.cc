@@ -1,7 +1,5 @@
 #include <cassert>
 
-#include "bwPainter.h"
-
 #include "bwStyle.h"
 
 using namespace bWidgets;

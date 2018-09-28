@@ -21,9 +21,8 @@
 
 #pragma once
 
-#include "bwRadioButton.h"
-
 #include "Stage.h"
+
 
 namespace bWidgetsDemo {
 
@@ -37,7 +36,7 @@ public:
 	DefaultStage(unsigned int mask_width, unsigned int mask_height);
 
 private:
-	void activateStyleID(bwStyle::StyleTypeID) override;
+	void activateStyleID(bWidgets::bwStyle::StyleTypeID) override;
 	void addStyleSelector(class LayoutItem& parent_layout);
 	void addFakeSpacer(class LayoutItem& layout);
 

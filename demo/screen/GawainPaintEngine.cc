@@ -28,6 +28,7 @@ extern "C" {
 #include "ShaderProgram.h"
 
 #include "bwPainter.h"
+#include "bwPoint.h"
 #include "bwPolygon.h"
 
 #include "GawainPaintEngine.h"
@@ -262,7 +263,7 @@ static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// TODO should consider channel bit depth.
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, pixmap.width(), pixmap.height(),
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, pixmap.width(), pixmap.height(),
 	             0, GL_RGBA, GL_UNSIGNED_BYTE, pixmap.getBytes().data());
 }
 static void engine_icon_texture_drawing_cleanup()

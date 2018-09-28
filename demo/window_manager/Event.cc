@@ -21,8 +21,6 @@
 
 #include "glm.hpp"
 
-#include "bwDistance.h"
-
 #include "EventManager.h"
 
 using namespace bWidgetsDemo;

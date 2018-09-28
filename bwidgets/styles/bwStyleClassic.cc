@@ -3,7 +3,6 @@
 #include "bwAbstractButton.h"
 #include "bwPainter.h"
 #include "bwPanel.h"
-#include "bwStyleManager.h"
 #include "bwTextBox.h"
 
 #include "bwStyleClassic.h"

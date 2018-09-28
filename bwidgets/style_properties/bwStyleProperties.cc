@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "bwColor.h"
+
 #include "bwStyleProperties.h"
 
 using namespace bWidgets;

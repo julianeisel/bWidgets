@@ -19,9 +19,6 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include "bwStyleProperties.h"
-#include "bwWidget.h"
-
 #include "StyleSheetTree.h"
 
 

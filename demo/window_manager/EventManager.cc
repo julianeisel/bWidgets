@@ -21,10 +21,8 @@
 
 #include <list>
 
-#include "Event.h"
 #include "GPU.h"
 #include "Stage.h"
-#include "WindowManager.h"
 
 #include "EventManager.h"
 

@@ -22,6 +22,8 @@
 #include <cassert>
 #include <string>
 
+#include "bwColor.h"
+
 #include "katana.h"
 
 #include "PropertyParser.h"

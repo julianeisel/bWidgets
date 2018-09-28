@@ -30,7 +30,7 @@
 #include "bwLabel.h"
 #include "bwNumberSlider.h"
 #include "bwPushButton.h"
-#include "bwStyleCSS.h"
+#include "bwRadioButton.h"
 #include "bwStyleManager.h"
 
 #include "DefaultStage.h"
@@ -77,6 +77,34 @@ private:
 	DefaultStage& stage;
 };
 
+class UseFontHintingToggleSetter : public bwFunctorInterface
+{
+public:
+	UseFontHintingToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox) {}
+
+	void operator()() override
+	{
+		Stage::setFontHinting(checkbox.isChecked());
+	}
+
+private:
+	const bwCheckbox& checkbox;
+};
+
+class UseFontSubPixelsToggleSetter : public bwFunctorInterface
+{
+public:
+	UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox) {}
+
+	void operator()() override
+	{
+		Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE : Font::NORMAL_COVERAGE);
+	}
+
+private:
+	const bwCheckbox& checkbox;
+};
+
 } // namespace bWidgetsDemo
 
 
@@ -94,6 +122,17 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	slider->setValue(1.0f);
 	layout->addWidget(std::move(slider));
 
+
+	layout->addWidget(bwPointer_new<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT));
+	auto checkbox = bwPointer_new<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
+
+	RowLayout* row = &RowLayout::create(*layout, true);
+	checkbox->apply_functor = bwPointer_new<UseFontHintingToggleSetter>(*checkbox);
+	row->addWidget(std::move(checkbox));
+	checkbox = bwPointer_new<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
+	checkbox->apply_functor = bwPointer_new<UseFontSubPixelsToggleSetter>(*checkbox);
+	row->addWidget(std::move(checkbox));
+
 	addFakeSpacer(*layout);
 
 
@@ -108,7 +147,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 
 
 	panel = &PanelLayout::create("More Testing...", PANEL_HEADER_HEIGHT, *layout);
-	RowLayout* row = &RowLayout::create(*panel, true);
+	row = &RowLayout::create(*panel, true);
 	row->addWidget(bwPointer_new<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT));
 	row->addWidget(bwPointer_new<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT));
 

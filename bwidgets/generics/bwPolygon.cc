@@ -1,6 +1,8 @@
 #include <iostream>
-#include "bwPolygon.h"
+
 #include "bwPoint.h"
+
+#include "bwPolygon.h"
 
 using namespace bWidgets;
 
@@ -11,7 +13,7 @@ bwPolygon::bwPolygon() :
 	
 }
 
-bwPolygon::bwPolygon(const bwPolygon &poly) :
+bwPolygon::bwPolygon(const bwPolygon& poly) :
     vertices(poly.vertices), vert_count(poly.vert_count)
 {
 	

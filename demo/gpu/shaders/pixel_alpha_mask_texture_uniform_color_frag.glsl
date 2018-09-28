@@ -14,43 +14,23 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  *
- * Original work Copyright (c) 2018 Julian Eisel
+ * Original work Copyright (c) 2017, 2018 Julian Eisel, Mike Erwin
  *
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include "bWidgets.h"
+#version 330 core
 
-#include "WindowManager.h"
+uniform vec4 color;
+uniform sampler2D glyph;
 
-#include "Application.h"
+in vec2 texCoord_interp;
+out vec4 fragColor;
 
-using namespace bWidgetsDemo;
-
-
-Application::Application()
+void main()
 {
-	bWidgets::bWidgetsInit();
-}
+	vec4 alpha_mask = texture(glyph, texCoord_interp);
 
-Application& Application::ensureApplication()
-{
-	static Application app;
-	return app;
-}
-
-void Application::setup()
-{
-	WindowManager& wm = WindowManager::getWindowManager();
-	wm.addWindow("bWidgets Demo");
-}
-
-void Application::mainLoop()
-{
-	WindowManager& wm = WindowManager::getWindowManager();
-	wm.mainLoop();
-}
-
-void Application::exit()
-{
+	fragColor.rgb = color.rgb;
+	fragColor.a = color.a * alpha_mask.r;
 }

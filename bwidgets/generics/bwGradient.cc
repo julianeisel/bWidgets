@@ -9,7 +9,7 @@ using namespace bWidgets;
 
 
 bwGradient::bwGradient(
-        bwColor base_color,
+        const bwColor& base_color,
         float shade_begin, float shade_end,
         Direction direction) :
     direction(direction)

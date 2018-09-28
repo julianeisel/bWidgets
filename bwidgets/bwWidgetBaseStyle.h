@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bwColor.h"
-#include "bwWidget.h"
+
 
 namespace bWidgets {
 
@@ -17,7 +17,7 @@ class bwWidgetBaseStyle
 public:
 	bwWidgetBaseStyle();
 
-	void registerProperties(bwStyleProperties& style_properties);
+	void registerProperties(class bwStyleProperties& style_properties);
 
 	const bwColor& backgroundColor() const;
 	const bwColor& textColor() const;
