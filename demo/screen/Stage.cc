@@ -187,6 +187,11 @@ void Stage::setInterfaceScale(const float value)
 	}
 }
 
+void Stage::setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode)
+{
+	font->setFontAntiAliasingMode(aa_mode);
+}
+
 void Stage::setFontHinting(const bool value)
 {
 	font->setHinting(value);

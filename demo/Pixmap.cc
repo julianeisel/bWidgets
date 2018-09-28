@@ -19,6 +19,8 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
+#include <algorithm>
+
 #include "Pixmap.h"
 
 
@@ -26,13 +28,20 @@ using namespace bWidgetsDemo;
 
 Pixmap::Pixmap(
         const int width, const int height,
+        const unsigned int num_channels,
         const unsigned int bits_per_channel,
-        const unsigned int num_channels) :
-    _bytes(width * height * bits_per_channel * num_channels / 8),
+        const unsigned int row_padding) :
+    _bytes((width + row_padding) * height * (bits_per_channel / 8) * num_channels),
     _width(width), _height(height),
+    _num_channels(num_channels),
     _bits_per_channel(bits_per_channel),
-    _num_channels(num_channels)
+    _row_padding(row_padding)
 {
+}
+
+void Pixmap::fill(const unsigned char* bytes)
+{
+	std::copy_n(bytes, _bytes.size(), &_bytes[0]);
 }
 
 std::vector<unsigned char>& Pixmap::getBytes()

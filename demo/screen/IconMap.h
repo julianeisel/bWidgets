@@ -38,8 +38,8 @@ class Icon : public bWidgets::bwIconInterface
 {
 public:
 	Icon(const unsigned int size,
-	     const unsigned int bits_per_channel,
-	     const unsigned int num_channels);
+	     const unsigned int num_channels,
+	     const unsigned int bits_per_channel);
 
 	bool isValid() const override;
 

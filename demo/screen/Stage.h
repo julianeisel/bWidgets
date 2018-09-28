@@ -27,6 +27,8 @@
 #include "bwScrollBar.h"
 #include "bwStyle.h"
 
+#include "Font.h"
+
 
 namespace bWidgetsDemo {
 
@@ -54,6 +56,7 @@ public:
 	        const class Window& win);
 
 	static void setInterfaceScale(const float value);
+	static void setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode);
 	static void setFontHinting(const bool value);
 
 protected:

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  *
- * Original work Copyright (c) 2017, 2018 Julian Eisel, Mike Erwin
+ * Original work Copyright (c) 2018 Julian Eisel
  *
  * ***** END GPL LICENSE BLOCK *****
  */
@@ -22,14 +22,14 @@
 #version 330 core
 
 uniform vec4 color;
+uniform sampler2D glyph;
 
 in vec2 texCoord_interp;
 out vec4 fragColor;
 
-uniform sampler2D glyph;
-
 void main()
 {
-	fragColor.rgb = color.rgb;
-	fragColor.a = color.a * texture(glyph, texCoord_interp).r;
+	vec4 alpha_mask = texture(glyph, texCoord_interp);
+
+	fragColor = color.a * alpha_mask;
 }

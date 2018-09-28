@@ -135,7 +135,7 @@ bwPointer<IconMap> IconMapReader::readIconMapFromPNGFile(File& file)
 	bwPointer<IconMap> icon_map(new IconMap);
 	for (int y = 0, icon_index = 0; y < ICON_GRID_ROWS; y++) {
 		for (int x = 0; x < ICON_GRID_COLS; x++) {
-			bwPointer<Icon> icon(new Icon(ICON_GRID_W, bit_depth, channels));
+			bwPointer<Icon> icon(new Icon(ICON_GRID_W, channels, bit_depth));
 
 			libpng_copy_rows_into_pixmap(
 			            icon->getPixmap(), row_pointers,
@@ -153,9 +153,9 @@ bwPointer<IconMap> IconMapReader::readIconMapFromPNGFile(File& file)
 
 Icon::Icon(
         const unsigned int size,
-        const unsigned int bits_per_channel,
-        const unsigned int num_channels) :
-    _pixmap(size, size, bits_per_channel, num_channels)
+        const unsigned int num_channels,
+        const unsigned int bits_per_channel) :
+    _pixmap(size, size, num_channels, bits_per_channel)
 {
 }
 

@@ -28,8 +28,11 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "Pixmap.h"
+
 #include "bwColor.h"
 #include "bwRectangle.h"
+#include "bwUtil.h"
 
 
 namespace bWidgetsDemo {
@@ -39,6 +42,17 @@ class Pen;
 
 class Font {
 public:
+	enum AntiAliasingMode {
+		/** Default, pixel coverage based AA. The alpha value of a pixel is
+		 * determined by how much it overlaps with filled the glyph outline. */
+		NORMAL_COVERAGE,
+		/* Works similar to NORMAL_COVERAGE, but gives up to 3x the horizontal
+		 * resolution by addressing RGB channels separately rather than the
+		 * entire pixel. A filter is used to minimize resulting color fringes,
+		 * making them invisible to most people. */
+		SUBPIXEL_LCD_RGB_COVERAGE,
+	};
+
 	~Font();
 
 	static void initFontReading();
@@ -47,6 +61,7 @@ public:
 	void render(const std::string& text, const int pos_x, const int pos_y);
 	unsigned int calculateStringWidth(const std::string &text);
 
+	void setFontAntiAliasingMode(AntiAliasingMode);
 	void setHinting(bool value);
 	void setSize(const float size);
 	int getSize() const;
@@ -83,6 +98,7 @@ private:
 
 	bWidgets::bwColor active_color;
 	bWidgets::bwRectanglePixel mask;
+	AntiAliasingMode render_mode;
 	bool use_hinting;
 
 
@@ -102,22 +118,19 @@ class FontGlyph {
 public:
 	FontGlyph(
 	        const unsigned int index,
-	        const unsigned int width, const unsigned int height,
+	        bWidgets::bwPointer<Pixmap>&& pixmap,
 	        const int offset_left, const int offset_top,
-	        const int advance_width,
-	        const unsigned char* bitmap_buffer);
+	        const int advance_width);
 	FontGlyph();
-	~FontGlyph();
 
 	bool is_valid;
 
 	unsigned int index; // Same as freetype index
 
-	unsigned int width, height;  // width, rows
+	bWidgets::bwPointer<Pixmap> pixmap;
 	int offset_left, offset_top; // bitmap_left, bitmap_top
 	int advance_width; // advance.x
-
-	unsigned char* bitmap;
+	int pitch;
 };
 
 } // namespace bWidgetsDemo

@@ -31,8 +31,11 @@ class Pixmap
 public:
 	Pixmap(
 	        const int width, const int height,
-	        const unsigned int bits_per_channel,
-	        const unsigned int num_channels);
+	        const unsigned int num_channels,
+	        const unsigned int bits_per_channel = 8,
+	        const unsigned int row_padding = 0);
+
+	void fill(const unsigned char* bytes);
 
 	std::vector<unsigned char>& getBytes();
 	const std::vector<unsigned char>& getBytes() const;
@@ -44,8 +47,9 @@ public:
 private:
 	std::vector<unsigned char> _bytes;
 	int _width, _height;
-	unsigned int _bits_per_channel;
 	unsigned int _num_channels;
+	unsigned int _bits_per_channel;
+	unsigned int _row_padding;
 };
 
 } // namespace bWidgetsDemo

@@ -18,7 +18,9 @@
 # ***** END GPL LICENSE BLOCK *****
 
 set(INC
+	${FREETYPE_INCLUDE_DIRS} # XXX Only needed because of ugly freetype includes in Font.h
 	${GPU_INC}
+	..
 	../gpu
 )
 
