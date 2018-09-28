@@ -384,7 +384,7 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 			            glyph_index,
 			            bWidgets::bwPointer_new<Pixmap>(pixmap),
 			            freetype_glyph->bitmap_left, freetype_glyph->bitmap_top,
-			            freetype_glyph->advance.x >> 6);
+			            freetype_glyph->linearHoriAdvance >> 16);
 			glyph->pitch = freetype_glyph->bitmap.pitch;
 		}
 		cached_glyphs[glyph_index] = std::move(glyph);
