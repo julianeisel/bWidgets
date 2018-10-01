@@ -23,6 +23,7 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include FT_LCD_FILTER_H
 
 #include "bwPoint.h"
 #include "bwUtil.h"
@@ -347,6 +348,17 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 	for (int i = 0; i < font.face->num_glyphs; i++) {
 		cached_glyphs.push_back(nullptr);
 	}
+
+#ifdef FT_CONFIG_OPTION_SUBPIXEL_RENDERING
+	if (font.render_mode == SUBPIXEL_LCD_RGB_COVERAGE) {
+		/* FT_CONFIG_OPTION_SUBPIXEL_RENDERING enables patented ClearType
+		 * subpixel rendering, which requires filtering to reduce color
+		 * fringes. The used FreeType version may be a custom build with this
+		 * option enabled (at the user's own risk), apply filtering for them. */
+		FT_Error error = FT_Library_SetLcdFilter(ft_library, FT_LCD_FILTER_DEFAULT);
+		assert(error == FT_Err_Ok);
+	}
+#endif
 
 	for (FT_ULong charcode = FT_Get_First_Char(font.face, &glyph_index);
 	     glyph_index != 0;
