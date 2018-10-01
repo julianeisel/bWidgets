@@ -90,8 +90,6 @@ private:
 	static FT_Library ft_library;
 	// The freetype font handle.
 	FT_Face face;
-	// Was font type (face) changed since last draw?
-	static bool changed;
 
 	// Height in pixels.
 	int size{0};

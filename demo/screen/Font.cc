@@ -40,7 +40,6 @@ extern "C" {
 using namespace bWidgetsDemo;
 
 FT_Library Font::ft_library = nullptr;
-bool Font::changed = false;
 
 namespace bWidgetsDemo {
 
@@ -79,9 +78,6 @@ Font* Font::loadFont(const std::string& name, const std::string& path)
 	}
 	if (FT_New_Face(ft_library, file_path.c_str(), 0, &font->face)) {
 		std::cout << "Error: Failed to load font at " << file_path << "!" << std::endl;
-	}
-	if (font->face != old_face) {
-		font->changed = true;
 	}
 
 	return font;
@@ -177,8 +173,6 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	glDisable(GL_BLEND);
 	glDeleteTextures(1, &tex);
 	immUnbindProgram();
-
-	changed = false;
 }
 
 void Font::renderGlyph(
