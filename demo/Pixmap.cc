@@ -20,18 +20,29 @@
  */
 
 #include <algorithm>
+#include <cassert>
 
 #include "Pixmap.h"
 
 
 using namespace bWidgetsDemo;
 
+static unsigned int get_num_row_bytes_impl(
+        int width,
+        unsigned int num_channels,
+        unsigned int bits_per_channel,
+        unsigned int row_padding)
+{
+	assert((bits_per_channel % 8) == 0);
+	return width * (bits_per_channel / 8) * num_channels + row_padding;
+}
+
 Pixmap::Pixmap(
         const int width, const int height,
         const unsigned int num_channels,
         const unsigned int bits_per_channel,
         const unsigned int row_padding) :
-    _bytes((width + row_padding) * height * (bits_per_channel / 8) * num_channels),
+    _bytes(height * get_num_row_bytes_impl(width, num_channels, bits_per_channel, row_padding)),
     _width(width), _height(height),
     _num_channels(num_channels),
     _bits_per_channel(bits_per_channel),

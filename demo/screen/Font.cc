@@ -311,7 +311,7 @@ void Font::FontGlyphCache::invalidate()
 /**
  * \return The flags that should be used for the FT_Load_Glyph call.
  */
-FT_Int32 Font::getFreetypeLoadFlags()
+FT_Int32 Font::getFreeTypeLoadFlags()
 {
 	FT_Int32 load_flags = FT_LOAD_DEFAULT;
 
@@ -333,11 +333,49 @@ FT_Int32 Font::getFreetypeLoadFlags()
 	return load_flags;
 }
 
-void Font::FontGlyphCache::ensureUpdated(Font& font)
+static bWidgets::bwPointer<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph)
+{
+	const uint num_channels  = getNumChannelsFromFreeTypePixelMode((FT_Pixel_Mode)freetype_glyph->bitmap.pixel_mode);
+	Pixmap pixmap(freetype_glyph->bitmap.width / num_channels, freetype_glyph->bitmap.rows, num_channels,
+	              8, abs(freetype_glyph->bitmap.pitch) - freetype_glyph->bitmap.width);
+
+	pixmap.fill(freetype_glyph->bitmap.buffer);
+
+	return bWidgets::bwPointer_new<Pixmap>(std::move(pixmap));
+}
+
+void Font::FontGlyphCache::loadGlyphsIntoCache(Font& font)
 {
 	FT_UInt glyph_index;
 	bWidgets::bwPointer<FontGlyph> glyph;
 
+	for (FT_ULong charcode = FT_Get_First_Char(font.face, &glyph_index);
+	     glyph_index != 0;
+	     charcode = FT_Get_Next_Char(font.face, charcode, &glyph_index))
+	{
+		FT_Int32 load_flags = font.getFreeTypeLoadFlags();
+		FT_Error error = FT_Load_Glyph(font.face, glyph_index, load_flags | FT_LOAD_RENDER);
+
+		if (error != 0) {
+			// This constructor marks glyph as invalid.
+			glyph = bWidgets::bwPointer_new<FontGlyph>();
+		}
+		else {
+			const FT_GlyphSlot ft_glyph = font.face->glyph;
+
+			glyph = bWidgets::bwPointer_new<FontGlyph>(
+			            glyph_index,
+			            createGlyphPixmap(ft_glyph),
+			            ft_glyph->bitmap_left, ft_glyph->bitmap_top,
+			            ft_glyph->linearHoriAdvance >> 16);
+			glyph->pitch = ft_glyph->bitmap.pitch;
+		}
+		cached_glyphs[glyph_index] = std::move(glyph);
+	}
+}
+
+void Font::FontGlyphCache::ensureUpdated(Font& font)
+{
 	if (is_dirty == false) {
 		return;
 	}
@@ -360,35 +398,7 @@ void Font::FontGlyphCache::ensureUpdated(Font& font)
 	}
 #endif
 
-	for (FT_ULong charcode = FT_Get_First_Char(font.face, &glyph_index);
-	     glyph_index != 0;
-	     charcode = FT_Get_Next_Char(font.face, charcode, &glyph_index))
-	{
-		FT_Int32 load_flags = font.getFreetypeLoadFlags();
-		FT_Error error = FT_Load_Glyph(font.face, glyph_index, load_flags | FT_LOAD_RENDER);
-
-		if (error != 0) {
-			// This constructor marks glyph as invalid.
-			glyph = bWidgets::bwPointer_new<FontGlyph>();
-		}
-		else {
-			const FT_GlyphSlot freetype_glyph = font.face->glyph;
-			const uint num_channels  = getNumChannelsFromFreeTypePixelMode(
-			                               (FT_Pixel_Mode)freetype_glyph->bitmap.pixel_mode);
-			Pixmap pixmap(freetype_glyph->bitmap.width / num_channels, freetype_glyph->bitmap.rows, num_channels,
-			              8, abs(freetype_glyph->bitmap.pitch) - freetype_glyph->bitmap.width);
-
-			pixmap.fill(freetype_glyph->bitmap.buffer);
-
-			glyph = bWidgets::bwPointer_new<FontGlyph>(
-			            glyph_index,
-			            bWidgets::bwPointer_new<Pixmap>(pixmap),
-			            freetype_glyph->bitmap_left, freetype_glyph->bitmap_top,
-			            freetype_glyph->linearHoriAdvance >> 16);
-			glyph->pitch = freetype_glyph->bitmap.pitch;
-		}
-		cached_glyphs[glyph_index] = std::move(glyph);
-	}
+	loadGlyphsIntoCache(font);
 
 	is_dirty = false;
 }

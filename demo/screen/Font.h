@@ -84,7 +84,7 @@ private:
 	/* Accesses private members, so make it a member function. Would be better
 	 * to keep freetype specific stuff out of the general Font class, but
 	 * ignoring for now since this is just the demo app anyway. */
-	FT_Int32 getFreetypeLoadFlags();
+	FT_Int32 getFreeTypeLoadFlags();
 
 	// The freetype library handle.
 	static FT_Library ft_library;
@@ -111,7 +111,11 @@ private:
 
 		bool is_dirty{true};
 		std::vector<std::unique_ptr<FontGlyph>> cached_glyphs;
-	} cache;
+	private:
+		void loadGlyphsIntoCache(Font&);
+	};
+
+	FontGlyphCache cache;
 };
 
 class FontGlyph {
