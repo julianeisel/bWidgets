@@ -87,7 +87,7 @@ public:
 	virtual bool isHidden() const;
 	virtual bool areChildrenHidden() const;
 
-	void addWidget(bWidgets::bwPointer<bWidgets::bwWidget> widget);
+	void addWidget(bWidgets::bwPtr<bWidgets::bwWidget> widget);
 
 	bool hasChild(const LayoutItem& potential_child) const;
 
@@ -96,7 +96,7 @@ public:
 	const LayoutItemType type;
 	const FlowDirection flow_direction;
 	const bool align;
-	void addLayoutItem(bWidgets::bwPointer<LayoutItem> layout_item);
+	void addLayoutItem(bWidgets::bwPtr<LayoutItem> layout_item);
 
 protected:
 	// Protected constructor to force calling through inherited class (pseudo abstract).
@@ -112,7 +112,7 @@ protected:
 	        const LayoutItem& parent,
 	        const bool skip_hidden) const;
 
-	using LayoutItemList = std::list<bWidgets::bwPointer<LayoutItem>>;
+	using LayoutItemList = std::list<bWidgets::bwPtr<LayoutItem>>;
 	using IteratorItem = LayoutItemList::const_iterator;
 
 	// The iterator-wrapper for this item, stored to avoid lookups.
@@ -210,7 +210,7 @@ private:
 	        const unsigned int item_margin,
 	        const float scale_fac);
 
-	bWidgets::bwPointer<class bWidgets::bwPanel> panel;
+	bWidgets::bwPtr<class bWidgets::bwPanel> panel;
 };
 
 } // namespace bWidgetsDemo

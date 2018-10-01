@@ -21,19 +21,19 @@ bwStyleManager& bwStyleManager::getStyleManager()
 	return instance;
 }
 
-bwPointer<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::StyleTypeID type)
+bwPtr<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::StyleTypeID type)
 {
 	switch (type) {
 		case bwStyle::STYLE_CLASSIC:
-			return bwPointer_new<bwStyleClassic>();
+			return bwPtr_new<bwStyleClassic>();
 		case bwStyle::STYLE_CLASSIC_CSS:
-			return bwPointer_new<bwStyleCSS>();
+			return bwPtr_new<bwStyleCSS>();
 		case bwStyle::STYLE_FLAT_GREY:
-			return bwPointer_new<bwStyleFlat>();
+			return bwPtr_new<bwStyleFlat>();
 		case bwStyle::STYLE_FLAT_DARK:
-			return bwPointer_new<bwStyleFlatDark>();
+			return bwPtr_new<bwStyleFlatDark>();
 		case bwStyle::STYLE_FLAT_LIGHT:
-			return bwPointer_new<bwStyleFlatLight>();
+			return bwPtr_new<bwStyleFlatLight>();
 		default:
 			assert(0);
 	}

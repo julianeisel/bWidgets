@@ -333,7 +333,7 @@ FT_Int32 Font::getFreeTypeLoadFlags()
 	return load_flags;
 }
 
-static bWidgets::bwPointer<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph)
+static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph)
 {
 	const uint num_channels  = getNumChannelsFromFreeTypePixelMode((FT_Pixel_Mode)freetype_glyph->bitmap.pixel_mode);
 	Pixmap pixmap(freetype_glyph->bitmap.width / num_channels, freetype_glyph->bitmap.rows, num_channels,
@@ -341,13 +341,13 @@ static bWidgets::bwPointer<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph
 
 	pixmap.fill(freetype_glyph->bitmap.buffer);
 
-	return bWidgets::bwPointer_new<Pixmap>(std::move(pixmap));
+	return bWidgets::bwPtr_new<Pixmap>(std::move(pixmap));
 }
 
 void Font::FontGlyphCache::loadGlyphsIntoCache(Font& font)
 {
 	FT_UInt glyph_index;
-	bWidgets::bwPointer<FontGlyph> glyph;
+	bWidgets::bwPtr<FontGlyph> glyph;
 
 	for (FT_ULong charcode = FT_Get_First_Char(font.face, &glyph_index);
 	     glyph_index != 0;
@@ -358,12 +358,12 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(Font& font)
 
 		if (error != 0) {
 			// This constructor marks glyph as invalid.
-			glyph = bWidgets::bwPointer_new<FontGlyph>();
+			glyph = bWidgets::bwPtr_new<FontGlyph>();
 		}
 		else {
 			const FT_GlyphSlot ft_glyph = font.face->glyph;
 
-			glyph = bWidgets::bwPointer_new<FontGlyph>(
+			glyph = bWidgets::bwPtr_new<FontGlyph>(
 			            glyph_index,
 			            createGlyphPixmap(ft_glyph),
 			            ft_glyph->bitmap_left, ft_glyph->bitmap_top,
@@ -410,7 +410,7 @@ const FontGlyph& Font::FontGlyphCache::getCachedGlyph(const Font& font, const un
 
 FontGlyph::FontGlyph(
         const unsigned int index,
-        bWidgets::bwPointer<Pixmap>&& pixmap,
+        bWidgets::bwPtr<Pixmap>&& pixmap,
         const int offset_left, const int offset_top,
         const int advance_width) :
     is_valid(true),

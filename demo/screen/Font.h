@@ -122,7 +122,7 @@ class FontGlyph {
 public:
 	FontGlyph(
 	        const unsigned int index,
-	        bWidgets::bwPointer<Pixmap>&& pixmap,
+	        bWidgets::bwPtr<Pixmap>&& pixmap,
 	        const int offset_left, const int offset_top,
 	        const int advance_width);
 	FontGlyph();
@@ -131,7 +131,7 @@ public:
 
 	unsigned int index; // Same as freetype index
 
-	bWidgets::bwPointer<Pixmap> pixmap;
+	bWidgets::bwPtr<Pixmap> pixmap;
 	int offset_left, offset_top; // bitmap_left, bitmap_top
 	int advance_width; // advance.x
 	int pitch;

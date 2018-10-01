@@ -31,7 +31,7 @@ public:
 	/**
 	 * Function object called when applying changes to widget.
 	 */
-	bwPointer<bwFunctorInterface> apply_functor{nullptr};
+	bwPtr<bwFunctorInterface> apply_functor{nullptr};
 
 	unsigned int rounded_corners;
 

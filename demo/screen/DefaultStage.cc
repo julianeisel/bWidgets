@@ -115,22 +115,22 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 {
 	addStyleSelector(*layout);
 
-	auto slider = bwPointer_new<bwNumberSlider>(0, BUTTON_HEIGHT);
-	slider->apply_functor = bwPointer_new<ScaleSetter>(*slider);
+	auto slider = bwPtr_new<bwNumberSlider>(0, BUTTON_HEIGHT);
+	slider->apply_functor = bwPtr_new<ScaleSetter>(*slider);
 	slider->setText("Interface Scale: ");
 	slider->setMinMax(0.5f, 2.0f);
 	slider->setValue(1.0f);
 	layout->addWidget(std::move(slider));
 
 
-	layout->addWidget(bwPointer_new<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT));
-	auto checkbox = bwPointer_new<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
+	layout->addWidget(bwPtr_new<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT));
+	auto checkbox = bwPtr_new<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
 
 	RowLayout* row = &RowLayout::create(*layout, true);
-	checkbox->apply_functor = bwPointer_new<UseFontHintingToggleSetter>(*checkbox);
+	checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
 	row->addWidget(std::move(checkbox));
-	checkbox = bwPointer_new<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
-	checkbox->apply_functor = bwPointer_new<UseFontSubPixelsToggleSetter>(*checkbox);
+	checkbox = bwPtr_new<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
+	checkbox->apply_functor = bwPtr_new<UseFontSubPixelsToggleSetter>(*checkbox);
 	row->addWidget(std::move(checkbox));
 
 	addFakeSpacer(*layout);
@@ -139,32 +139,32 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	PanelLayout* panel = &PanelLayout::create("Some Testing Widgets", PANEL_HEADER_HEIGHT, *layout);
 
 	ColumnLayout& col = ColumnLayout::create(*panel, true);
-	col.addWidget(bwPointer_new<bwPushButton>("Translate", 0, BUTTON_HEIGHT));
-	col.addWidget(bwPointer_new<bwPushButton>("Rotate", 0, BUTTON_HEIGHT));
-	col.addWidget(bwPointer_new<bwPushButton>("Scale", 0, BUTTON_HEIGHT));
+	col.addWidget(bwPtr_new<bwPushButton>("Translate", 0, BUTTON_HEIGHT));
+	col.addWidget(bwPtr_new<bwPushButton>("Rotate", 0, BUTTON_HEIGHT));
+	col.addWidget(bwPtr_new<bwPushButton>("Scale", 0, BUTTON_HEIGHT));
 
-	panel->addWidget(bwPointer_new<bwPushButton>("Mirror", 0, BUTTON_HEIGHT));
+	panel->addWidget(bwPtr_new<bwPushButton>("Mirror", 0, BUTTON_HEIGHT));
 
 
 	panel = &PanelLayout::create("More Testing...", PANEL_HEADER_HEIGHT, *layout);
 	row = &RowLayout::create(*panel, true);
-	row->addWidget(bwPointer_new<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT));
-	row->addWidget(bwPointer_new<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT));
+	row->addWidget(bwPtr_new<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT));
+	row->addWidget(bwPtr_new<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT));
 
-	auto text_box = bwPointer_new<bwTextBox>(0, BUTTON_HEIGHT);
+	auto text_box = bwPtr_new<bwTextBox>(0, BUTTON_HEIGHT);
 	text_box->setText("Some Text...");
 	panel->addWidget(std::move(text_box));
 
 	row = &RowLayout::create(*panel, false);
-	auto label = bwPointer_new<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
+	auto label = bwPtr_new<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_POSE_HLT));
 	row->addWidget(std::move(label));
 
-	label = bwPointer_new<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
+	label = bwPtr_new<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
 	row->addWidget(std::move(label));
 
-	label = bwPointer_new<bwLabel>("Chroma Scope Icon", 0, BUTTON_HEIGHT);
+	label = bwPtr_new<bwLabel>("Chroma Scope Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
 	row->addWidget(std::move(label));
 }
@@ -191,7 +191,7 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 {
 	RowLayout& row_layout = RowLayout::create(parent_layout, true);
 
-	auto label = bwPointer_new<bwLabel>("Style:", 0, BUTTON_HEIGHT);
+	auto label = bwPtr_new<bwLabel>("Style:", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_BLENDER));
 	row_layout.addWidget(std::move(label));
 
@@ -200,9 +200,9 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 			// We'll add a button for this later.
 			continue;
 		}
-		auto style_button = bwPointer_new<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
+		auto style_button = bwPtr_new<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
 
-		style_button->apply_functor = bwPointer_new<StyleSetter>(*this, type);
+		style_button->apply_functor = bwPtr_new<StyleSetter>(*this, type);
 
 		if (type.type_id == style->type_id) {
 			style_button->state = bwAbstractButton::STATE_SUNKEN;
@@ -211,16 +211,16 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 		row_layout.addWidget(std::move(style_button));
 	}
 
-	auto checkbox = bwPointer_new<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
+	auto checkbox = bwPtr_new<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
 	checkbox->hidden = isUseCSSVersionToggleHidden(*style);
-	checkbox->apply_functor = bwPointer_new<UseCSSVersionToggleSetter>(*checkbox, *this);
+	checkbox->apply_functor = bwPtr_new<UseCSSVersionToggleSetter>(*checkbox, *this);
 	parent_layout.addWidget(std::move(checkbox));
 }
 
 void DefaultStage::addFakeSpacer(LayoutItem& layout)
 {
 	// Just some extra space. No spacer widgets yet.
-	layout.addWidget(bwPointer_new<bwLabel>("", 0, 7));
+	layout.addWidget(bwPtr_new<bwLabel>("", 0, 7));
 }
 
 void DefaultStage::useStyleCSSVersionSet(

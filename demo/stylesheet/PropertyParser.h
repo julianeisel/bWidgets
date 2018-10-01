@@ -41,7 +41,7 @@ public:
 class PropertyParser
 {
 public:
-	static bWidgets::bwPointer<PropertyParser> newFromPropertyType(bWidgets::bwStyleProperty::PropertyType);
+	static bWidgets::bwPtr<PropertyParser> newFromPropertyType(bWidgets::bwStyleProperty::PropertyType);
 
 	virtual void parseIntoProperty(
 	        bWidgets::bwStyleProperty&,

@@ -32,17 +32,17 @@ using namespace bWidgets;
 using namespace bWidgetsDemo;
 
 
-bwPointer<PropertyParser> PropertyParser::newFromPropertyType(bWidgets::bwStyleProperty::PropertyType type)
+bwPtr<PropertyParser> PropertyParser::newFromPropertyType(bWidgets::bwStyleProperty::PropertyType type)
 {
 	switch (type) {
 		case bwStyleProperty::TYPE_BOOL:
-			return bwPointer_new<BooleanPropertyParser>();
+			return bwPtr_new<BooleanPropertyParser>();
 		case bwStyleProperty::TYPE_INTEGER:
-			return bwPointer_new<IntegerPropertyParser>();
+			return bwPtr_new<IntegerPropertyParser>();
 		case bwStyleProperty::TYPE_FLOAT:
-			return bwPointer_new<FloatPropertyParser>();
+			return bwPtr_new<FloatPropertyParser>();
 		case bwStyleProperty::TYPE_COLOR:
-			return bwPointer_new<ColorPropertyParser>();
+			return bwPtr_new<ColorPropertyParser>();
 		default:
 			return (assert(0), nullptr);
 	}

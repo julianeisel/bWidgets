@@ -52,7 +52,7 @@ private:
 	void unload();
 
 	std::string filepath;
-	bWidgets::bwPointer<class StyleSheetTree> tree;
+	bWidgets::bwPtr<class StyleSheetTree> tree;
 };
 
 } // namespace bWidgetsDemo

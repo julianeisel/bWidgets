@@ -40,7 +40,7 @@ namespace bWidgetsDemo {
 class WidgetLayoutItem : public LayoutItem
 {
 public:
-	WidgetLayoutItem(bwPointer<bwWidget> widget);
+	WidgetLayoutItem(bwPtr<bwWidget> widget);
 
 	void draw(bwStyle &style) const override;
 	void resolve(
@@ -58,7 +58,7 @@ public:
 	bool isAlignedtoPrevious(const LayoutItem& parent) const;
 	bool isAlignedtoNext(const LayoutItem& parent) const;
 
-	bwPointer<bwWidget> widget;
+	bwPtr<bwWidget> widget;
 };
 
 } // namespace bWidgetsDemo
@@ -106,12 +106,12 @@ bool LayoutItem::iterateWidgets(
 	return true;
 }
 
-void LayoutItem::addWidget(bwPointer<bwWidget> widget)
+void LayoutItem::addWidget(bwPtr<bwWidget> widget)
 {
-	addLayoutItem(bwPointer_new<WidgetLayoutItem>(std::move(widget)));
+	addLayoutItem(bwPtr_new<WidgetLayoutItem>(std::move(widget)));
 }
 
-void LayoutItem::addLayoutItem(bwPointer<LayoutItem> item)
+void LayoutItem::addLayoutItem(bwPtr<LayoutItem> item)
 {
 	assert(hasChild(*this) == false);
 	child_items.push_back(std::move(item));
@@ -387,7 +387,7 @@ ColumnLayout& ColumnLayout::create(
         LayoutItem& parent,
         const bool align)
 {
-	bwPointer<ColumnLayout> column_layout(new ColumnLayout(align));
+	bwPtr<ColumnLayout> column_layout(new ColumnLayout(align));
 	ColumnLayout& layout_ref = *column_layout;
 	parent.addLayoutItem(std::move(column_layout));
 	return layout_ref;
@@ -403,7 +403,7 @@ RowLayout& RowLayout::create(
         LayoutItem& parent,
         const bool align)
 {
-	bwPointer<RowLayout> row_layout(new RowLayout(align));
+	bwPtr<RowLayout> row_layout(new RowLayout(align));
 	RowLayout& layout_ref = *row_layout;
 	parent.addLayoutItem(std::move(row_layout));
 	return layout_ref;
@@ -414,7 +414,7 @@ PanelLayout::PanelLayout(
         const std::string& label,
         unsigned int header_height_hint) :
     LayoutItem(LAYOUT_ITEM_TYPE_PANEL, false, FLOW_DIRECTION_VERTICAL),
-    panel(bwPointer_new<bwPanel>(label, header_height_hint))
+    panel(bwPtr_new<bwPanel>(label, header_height_hint))
 {
 	
 }
@@ -423,7 +423,7 @@ PanelLayout& PanelLayout::create(
         unsigned int header_height_hint,
         LayoutItem& parent)
 {
-	bwPointer<PanelLayout> panel_layout(new PanelLayout(label, header_height_hint));
+	bwPtr<PanelLayout> panel_layout(new PanelLayout(label, header_height_hint));
 	PanelLayout& layout_ref = *panel_layout;
 	parent.addLayoutItem(std::move(panel_layout));
 	return layout_ref;
@@ -494,7 +494,7 @@ bool PanelLayout::areChildrenHidden() const
 }
 
 
-WidgetLayoutItem::WidgetLayoutItem(bwPointer<bwWidget> widget) :
+WidgetLayoutItem::WidgetLayoutItem(bwPtr<bwWidget> widget) :
     LayoutItem(LAYOUT_ITEM_TYPE_WIDGET, false), widget(std::move(widget))
 {
 	

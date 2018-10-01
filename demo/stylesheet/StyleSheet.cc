@@ -82,7 +82,7 @@ static void stylesheet_set_value_from_katana_value(
         bwStyleProperty& property,
         const KatanaValue& value)
 {
-	bwPointer<PropertyParser> parser(PropertyParser::newFromPropertyType(property.getType()));
+	bwPtr<PropertyParser> parser(PropertyParser::newFromPropertyType(property.getType()));
 	parser->parseIntoProperty(property, value);
 }
 
@@ -154,7 +154,7 @@ void StyleSheet::load()
 	                                  file_contents.c_str(), file_contents.length(),
 	                                  KatanaParserModeStylesheet);
 
-	tree = bwPointer_new<StyleSheetTree>();
+	tree = bwPtr_new<StyleSheetTree>();
 	stylesheet_tree_fill_from_katana(*tree, *katana_output);
 	katana_destroy_output(katana_output);
 }

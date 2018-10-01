@@ -14,7 +14,7 @@
 using namespace bWidgets;
 
 
-bwPointer<bwPaintEngine> bwPainter::paint_engine = nullptr;
+bwPtr<bwPaintEngine> bwPainter::paint_engine = nullptr;
 
 bwPainter::bwPainter() :
     active_drawtype(DRAW_TYPE_FILLED),
@@ -104,7 +104,7 @@ const bwRectanglePixel& bwPainter::getContentMask() const
 void bwPainter::enableGradient(const bwGradient& gradient)
 {
 	if (!active_gradient) {
-		active_gradient = bwPointer_new<bwGradient>();
+		active_gradient = bwPtr_new<bwGradient>();
 	}
 
 	*active_gradient = gradient;

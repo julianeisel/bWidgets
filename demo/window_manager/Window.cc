@@ -58,7 +58,7 @@ Window::Window(std::string name, unsigned int size_x, unsigned int size_y) :
 
 	EventManager::setupWindowHandlers(*this);
 
-	stage = bwPointer_new<DefaultStage>(getWidth(), getHeight());
+	stage = bwPtr_new<DefaultStage>(getWidth(), getHeight());
 }
 
 Window::~Window()

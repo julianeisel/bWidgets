@@ -42,7 +42,7 @@ public:
 		DRAW_TYPE_LINE,
 	} active_drawtype;
 
-	static bwPointer<class bwPaintEngine> paint_engine;
+	static bwPtr<class bwPaintEngine> paint_engine;
 
 	bwPainter();
 
@@ -92,7 +92,7 @@ public:
 private:
 	bwColor active_color;
 	std::vector<bwColor> vert_colors;
-	bwPointer<bwGradient> active_gradient;
+	bwPtr<bwGradient> active_gradient;
 	bwRectanglePixel content_mask;
 
 	void fillVertexColorsWithGradient(
