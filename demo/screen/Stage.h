@@ -37,6 +37,7 @@ class Stage
 	friend class ScrollbarApplyValueFunctor;
 	friend class StyleSetter;
 	friend class UseCSSVersionToggleSetter;
+	friend class UseFontSubPixelsToggleSetter;
 
 public:
 	Stage(const unsigned int mask_width, const unsigned int mask_height);
@@ -58,6 +59,7 @@ public:
 	static void setInterfaceScale(const float value);
 	static void setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode);
 	static void setFontHinting(const bool value);
+	static void setFontSubPixelPositioning(const bool value);
 
 protected:
 	bWidgets::bwPtr<class RootLayout> layout;

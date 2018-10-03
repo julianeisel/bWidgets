@@ -197,6 +197,11 @@ void Stage::setFontHinting(const bool value)
 	font->setHinting(value);
 }
 
+void Stage::setFontSubPixelPositioning(const bool value)
+{
+	font->setSubPixelPositioning(value);
+}
+
 void Stage::setStyleSheet(const std::string& filepath)
 {
 	if (!style_sheet || (style_sheet->getFilepath() != filepath)) {

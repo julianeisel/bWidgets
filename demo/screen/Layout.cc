@@ -27,6 +27,8 @@
 #include "bwPainter.h"
 #include "bwPanel.h"
 
+#include "FixedNum.h"
+
 #include "Layout.h"
 
 using namespace bWidgetsDemo;

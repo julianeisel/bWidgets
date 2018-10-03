@@ -18,30 +18,14 @@
 # ***** END GPL LICENSE BLOCK *****
 
 set(INC
-	${FREETYPE_INCLUDE_DIRS} # XXX Only needed because of ugly freetype includes in Font.h
-	${GPU_INC}
-	..
-	../gpu
-	../utils
 )
 
 set(SRC
-	Event.cc
-	EventManager.cc
-	Window.cc
-	WindowManager.cc
+	FixedNum.cc
 
-	Event.h
-	EventManager.h
-	Window.h
-	WindowManager.h
+	FixedNum.h
 )
 
-set(LIB
-	bwd_gpu
-	bwd_extern_glew
-)
-
-add_library(bwd_window_manager ${SRC})
+add_library(bwd_utils ${SRC})
 include_directories(${INC})
-target_link_libraries(bwd_window_manager ${LIB})
+set_target_properties(bwd_utils PROPERTIES LINKER_LANGUAGE CXX)

@@ -26,6 +26,7 @@ set(INC
 	../gpu
 	../resources
 	../stylesheet
+	../utils
 	../../bwidgets/styles
 )
 
@@ -52,6 +53,7 @@ set(LIB
 
 	bwd_gpu
 	bwd_stylesheet
+	bwd_utils
 )
 
 add_library(bwd_screen ${SRC})

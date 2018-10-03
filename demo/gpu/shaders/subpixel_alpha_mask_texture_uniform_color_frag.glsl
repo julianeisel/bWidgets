@@ -22,6 +22,7 @@
 #version 330 core
 
 uniform vec4 color;
+uniform float subpixel_offset;
 uniform sampler2D glyph;
 
 in vec2 texCoord_interp;
@@ -30,6 +31,24 @@ out vec4 fragColor;
 void main()
 {
 	vec4 alpha_mask = texture(glyph, texCoord_interp);
+	vec4 alpha_mask_prev = textureOffset(glyph, texCoord_interp, ivec2(-1, 0));
+	bool is_first_texel = (texCoord_interp.x * textureSize(glyph, 0).x) < 1.0;
+
+	if (subpixel_offset <= 0.333) {
+		/* pass */
+	}
+	else if (subpixel_offset <= 0.666) {
+		/* offset by one subpixel */
+		alpha_mask.b = alpha_mask.g;
+		alpha_mask.g = alpha_mask.r;
+		alpha_mask.r = is_first_texel ? 0 : alpha_mask_prev.b;
+	}
+	else if (subpixel_offset < 1.0) {
+		/* offset by two subpixel */
+		alpha_mask.b = alpha_mask.r;
+		alpha_mask.g = is_first_texel ? 0 : alpha_mask_prev.b;
+		alpha_mask.r = is_first_texel ? 0 : alpha_mask_prev.g;
+	}
 
 	fragColor = color.a * alpha_mask;
 }

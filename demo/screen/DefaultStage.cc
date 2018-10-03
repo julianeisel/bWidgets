@@ -91,18 +91,44 @@ private:
 	const bwCheckbox& checkbox;
 };
 
-class UseFontSubPixelsToggleSetter : public bwFunctorInterface
+class UseFontSubPixelPositioningToggleSetter : public bwFunctorInterface
 {
 public:
-	UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox) {}
+	UseFontSubPixelPositioningToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox) {}
 
 	void operator()() override
 	{
-		Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE : Font::NORMAL_COVERAGE);
+		Stage::setFontSubPixelPositioning(checkbox.isChecked());
 	}
 
 private:
 	const bwCheckbox& checkbox;
+};
+
+class UseFontSubPixelsToggleSetter : public bwFunctorInterface
+{
+public:
+	UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox, const Stage& _stage) :
+	    checkbox(_checkbox), stage(_stage)
+	{}
+
+	void operator()() override
+	{
+		Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE : Font::NORMAL_COVERAGE);
+		stage.layout->iterateWidgets([](bwWidget& widget, void* customdata){
+			if (auto* iter_checkbox = widget_cast<bwCheckbox*>(&widget)) {
+				if (iter_checkbox->apply_functor && dynamic_cast<UseFontSubPixelPositioningToggleSetter*>(iter_checkbox->apply_functor.get())) {
+					const auto& checkbox = *static_cast<bwCheckbox*>(customdata);
+					iter_checkbox->hidden = !checkbox.isChecked();
+				}
+			}
+			return true;
+		}, const_cast<bwCheckbox*>(&checkbox));
+	}
+
+private:
+	const bwCheckbox& checkbox;
+	const Stage& stage;
 };
 
 } // namespace bWidgetsDemo
@@ -129,8 +155,14 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	RowLayout* row = &RowLayout::create(*layout, true);
 	checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
 	row->addWidget(std::move(checkbox));
+
+	row = &RowLayout::create(*layout, false);
 	checkbox = bwPtr_new<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
-	checkbox->apply_functor = bwPtr_new<UseFontSubPixelsToggleSetter>(*checkbox);
+	checkbox->apply_functor = bwPtr_new<UseFontSubPixelsToggleSetter>(*checkbox, *this);
+	row->addWidget(std::move(checkbox));
+	checkbox = bwPtr_new<bwCheckbox>("Subpixel Positioning", 0, BUTTON_HEIGHT);
+	checkbox->apply_functor = bwPtr_new<UseFontSubPixelPositioningToggleSetter>(*checkbox);
+	checkbox->hidden = true;
 	row->addWidget(std::move(checkbox));
 
 	addFakeSpacer(*layout);
