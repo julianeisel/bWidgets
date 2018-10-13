@@ -28,6 +28,8 @@ public:
 	virtual void mouseEnter() override;
 	virtual void mouseLeave() override;
 
+	virtual const std::string* getLabel() const override;
+
 	/**
 	 * Function object called when applying changes to widget.
 	 */

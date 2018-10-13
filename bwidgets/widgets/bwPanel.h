@@ -20,6 +20,8 @@ public:
 	        const MouseButton button,
 	        const bwPoint& location) override;
 
+	const std::string* getLabel() const override;
+
 	bool isCoordinateInsideHeader(const bwPoint &point) const;
 	unsigned int getHeaderHeightHint() const;
 	unsigned int header_height;

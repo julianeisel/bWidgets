@@ -88,7 +88,7 @@ void bwTextBox::setText(const std::string& value)
 	text = value;
 }
 
-const std::string&bwTextBox::getText() const
+const std::string* bwTextBox::getLabel() const
 {
-	return text;
+	return &text;
 }

@@ -71,6 +71,11 @@ void bwAbstractButton::mouseLeave()
 	}
 }
 
+const std::string* bwAbstractButton::getLabel() const
+{
+	return &text;
+}
+
 void bwAbstractButton::apply()
 {
 	if (apply_functor) {

@@ -58,6 +58,11 @@ void bwPanel::mousePressEvent(
 	}
 }
 
+const std::string* bwPanel::getLabel() const
+{
+	return &label;
+}
+
 bool bwPanel::isCoordinateInsideHeader(const bwPoint& point) const
 {
 	const bwRectanglePixel header_rect = getHeaderRectangle();

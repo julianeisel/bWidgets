@@ -25,6 +25,7 @@
 
 #include "IconMap.h"
 #include "Layout.h"
+#include "WidgetIterator.h"
 
 #include "bwCheckbox.h"
 #include "bwLabel.h"
@@ -58,7 +59,7 @@ class StyleSetter : public bwFunctorInterface
 {
 public:
 	StyleSetter(DefaultStage& stage, const bwStyle::StyleType& style_type);
-	static bool StyleButtonsUpdateCb(bwWidget&, void*);
+	static bool updateStyleButton(bwWidget&, DefaultStage&);
 	void operator()() override;
 
 private:
@@ -115,15 +116,15 @@ public:
 	void operator()() override
 	{
 		Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE : Font::NORMAL_COVERAGE);
-		stage.layout->iterateWidgets([](bwWidget& widget, void* customdata){
+		for (bwWidget& widget : WidgetIterator::withHidden(*stage.layout)) {
 			if (auto* iter_checkbox = widget_cast<bwCheckbox*>(&widget)) {
-				if (iter_checkbox->apply_functor && dynamic_cast<UseFontSubPixelPositioningToggleSetter*>(iter_checkbox->apply_functor.get())) {
-					const auto& checkbox = *static_cast<bwCheckbox*>(customdata);
+				if (iter_checkbox->apply_functor &&
+				    dynamic_cast<UseFontSubPixelPositioningToggleSetter*>(iter_checkbox->apply_functor.get()))
+				{
 					iter_checkbox->hidden = !checkbox.isChecked();
 				}
 			}
-			return true;
-		}, const_cast<bwCheckbox*>(&checkbox));
+		}
 	}
 
 private:
@@ -209,14 +210,13 @@ bool isUseCSSVersionToggleHidden(const bwStyle& style)
 void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
 	Stage::activateStyleID(type_id);
-	layout->iterateWidgets([](bwWidget& widget, void* /*customdata*/){
+	for (bwWidget& widget : WidgetIterator::withHidden(*layout)) {
 		if (auto* checkbox = widget_cast<bwCheckbox*>(&widget)) {
 			if (checkbox->apply_functor && dynamic_cast<UseCSSVersionToggleSetter*>(checkbox->apply_functor.get())) {
 				widget.hidden = isUseCSSVersionToggleHidden(*Stage::style);
 			}
 		}
-		return true;
-	}, nullptr);
+	}
 }
 
 void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
@@ -295,11 +295,10 @@ StyleSetter::StyleSetter(
 	
 }
 
-bool StyleSetter::StyleButtonsUpdateCb(
+bool StyleSetter::updateStyleButton(
         bwWidget& widget_iter,
-        void* _stage)
+        DefaultStage& stage)
 {
-	auto& stage = *static_cast<DefaultStage*>(_stage);
 	auto* radio_iter = widget_cast<bwRadioButton*>(&widget_iter);
 	bwStyle::StyleTypeID active_type_id = stage.style->type_id;
 
@@ -332,7 +331,9 @@ void StyleSetter::operator()()
 	bwStyle::StyleTypeID style_type_id = style_type.type_id;
 	stage.activateStyleID(style_type_id);
 	// Deactivate other style radio buttons
-	stage.layout->iterateWidgets(StyleButtonsUpdateCb, &stage);
+	for (bwWidget& widget : *stage.layout) {
+		updateStyleButton(widget, stage);
+	}
 }
 
 UseCSSVersionToggleSetter::UseCSSVersionToggleSetter(

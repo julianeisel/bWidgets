@@ -24,7 +24,7 @@ public:
 	void endTextEditing();
 
 	void setText(const std::string& value);
-	const std::string& getText() const;
+	const std::string* getLabel() const override;
 
 	bwRectanglePixel selection_rectangle;
 

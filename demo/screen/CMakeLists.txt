@@ -37,6 +37,7 @@ set(SRC
 	IconMap.cc
 	Layout.cc
 	Stage.cc
+	WidgetIterator.cc
 
 	DefaultStage.h
 	Font.h
@@ -44,6 +45,7 @@ set(SRC
 	IconMap.h
 	Layout.h
 	Stage.h
+	WidgetIterator.h
 )
 
 set(LIB

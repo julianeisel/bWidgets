@@ -29,6 +29,7 @@
 #include "bwRange.h"
 #include "bwStyleFlatDark.h"
 #include "bwStyleManager.h"
+#include "bwWidget.h"
 
 #include "Event.h"
 #include "File.h"
@@ -37,6 +38,7 @@
 #include "IconMap.h"
 #include "Layout.h"
 #include "StyleSheet.h"
+#include "WidgetIterator.h"
 #include "Window.h"
 
 #include "Stage.h"
@@ -241,29 +243,22 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& 
 		return nullopt;
 	}
 
-	struct WidgetLookupData {
-		bwPoint coordinate;
-		bwOptional<std::reference_wrapper<bwWidget>> result;
-	} lookup_data;
-
-	lookup_data.coordinate = coordinate;
-
-	layout->iterateWidgets([](bwWidget& widget, void* customdata){
-		WidgetLookupData* lookup_data = static_cast<WidgetLookupData*>(customdata);
-
+	for (bwWidget& widget : *layout) {
 		if (widget.type == bwWidget::WIDGET_TYPE_PANEL) {
 			// Temporary exception for until we have proper event handling with event bubbling and breaking
 			bwPanel& panel = *widget_cast<bwPanel*>(&widget);
-			return panel.isCoordinateInsideHeader(lookup_data->coordinate) ?
-			            (lookup_data->result = widget, false) : true;
+			if (panel.isCoordinateInsideHeader(coordinate)) {
+				return widget;
+			}
 		}
 		else {
-			return widget.isCoordinateInside(lookup_data->coordinate) ?
-			            (lookup_data->result = widget, false) : true;
+			if (widget.isCoordinateInside(coordinate)) {
+				return widget;
+			}
 		}
-	}, &lookup_data, true);
+	}
 
-	return lookup_data.result;
+	return nullopt;
 }
 
 void Stage::updateWidgetHovering(
