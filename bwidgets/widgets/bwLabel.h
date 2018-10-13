@@ -17,6 +17,7 @@ public:
 
 	void draw(class bwStyle& style) override;
 	void registerProperties() override;
+	const std::string* getLabel() const override;
 
 	bwLabel& setIcon(const class bwIconInterface& icon_interface);
 

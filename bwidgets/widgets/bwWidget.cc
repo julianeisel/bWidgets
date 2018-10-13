@@ -63,6 +63,11 @@ const std::string& bwWidget::getIdentifier() const
 	return identifier;
 }
 
+const std::string* bwWidget::getLabel() const
+{
+	return nullptr;
+}
+
 /**
  * \brief Additional initialization that can't be done in #bwWidget constructor.
  */

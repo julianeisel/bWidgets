@@ -29,6 +29,7 @@
 #include "bwRange.h"
 #include "bwStyleFlatDark.h"
 #include "bwStyleManager.h"
+#include "bwWidget.h"
 
 #include "Event.h"
 #include "File.h"
@@ -37,6 +38,7 @@
 #include "IconMap.h"
 #include "Layout.h"
 #include "StyleSheet.h"
+#include "WidgetIterator.h"
 #include "Window.h"
 
 #include "Stage.h"
@@ -45,10 +47,10 @@
 using namespace bWidgetsDemo;
 using namespace bWidgets; // Less verbose
 
-bwPointer<bwStyle> Stage::style = nullptr;
-bwPointer<StyleSheet> Stage::style_sheet = nullptr;
-bwPointer<Font> Stage::font = nullptr;
-bwPointer<IconMap> Stage::icon_map = nullptr;
+bwPtr<bwStyle> Stage::style = nullptr;
+bwPtr<StyleSheet> Stage::style_sheet = nullptr;
+bwPtr<Font> Stage::font = nullptr;
+bwPtr<IconMap> Stage::icon_map = nullptr;
 float Stage::interface_scale = 1.0f;
 
 
@@ -68,14 +70,14 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 	initIcons();
 
 	// After font-init!
-	bwPainter::paint_engine = bwPointer_new<GawainPaintEngine>(*font, *icon_map);
+	bwPainter::paint_engine = bwPtr_new<GawainPaintEngine>(*font, *icon_map);
 	bwStyleCSS::polish_cb = Stage::StyleSheetPolish;
 
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
 	style_manager.registerDefaultStyleTypes();
 	activateStyleID(bwStyle::STYLE_CLASSIC);
 
-	layout = bwPointer_new<RootLayout>(height, width);
+	layout = bwPtr_new<RootLayout>(height, width);
 	layout->padding = 7;
 	layout->item_margin = 5;
 }
@@ -86,7 +88,7 @@ void Stage::initFonts()
 	Font::initFontReading();
 
 	// Initialize default font
-	font = bwPointer<Font>(Font::loadFont("bfont.ttf", RESOURCES_PATH_STR));
+	font = bwPtr<Font>(Font::loadFont("bfont.ttf", RESOURCES_PATH_STR));
 	font->setSize(11.0f * interface_scale);
 }
 
@@ -101,7 +103,7 @@ void Stage::initIcons()
 void Stage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
 	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
-	style = bwPointer<bwStyle>(style_manager.createStyleFromTypeID(type_id));
+	style = bwPtr<bwStyle>(style_manager.createStyleFromTypeID(type_id));
 	style->dpi_fac = interface_scale;
 }
 
@@ -129,8 +131,8 @@ void Stage::drawScrollbars()
 		const unsigned int padding = (unsigned int)(4 * interface_scale);
 
 		if (!scrollbar) {
-			scrollbar = bwPointer_new<bwScrollBar>(getScrollbarWidth(), mask_height);
-			scrollbar->apply_functor = bwPointer_new<ScrollbarApplyValueFunctor>(*this, *scrollbar);
+			scrollbar = bwPtr_new<bwScrollBar>(getScrollbarWidth(), mask_height);
+			scrollbar->apply_functor = bwPtr_new<ScrollbarApplyValueFunctor>(*this, *scrollbar);
 		}
 
 		scrollbar->rectangle = bwRectanglePixel(
@@ -197,10 +199,15 @@ void Stage::setFontHinting(const bool value)
 	font->setHinting(value);
 }
 
+void Stage::setFontSubPixelPositioning(const bool value)
+{
+	font->setSubPixelPositioning(value);
+}
+
 void Stage::setStyleSheet(const std::string& filepath)
 {
 	if (!style_sheet || (style_sheet->getFilepath() != filepath)) {
-		style_sheet = bwPointer_new<StyleSheet>(filepath);
+		style_sheet = bwPtr_new<StyleSheet>(filepath);
 	}
 	else {
 		/* TODO skip if file didn't change. */
@@ -236,29 +243,22 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& 
 		return nullopt;
 	}
 
-	struct WidgetLookupData {
-		bwPoint coordinate;
-		bwOptional<std::reference_wrapper<bwWidget>> result;
-	} lookup_data;
-
-	lookup_data.coordinate = coordinate;
-
-	layout->iterateWidgets([](bwWidget& widget, void* customdata){
-		WidgetLookupData* lookup_data = static_cast<WidgetLookupData*>(customdata);
-
+	for (bwWidget& widget : *layout) {
 		if (widget.type == bwWidget::WIDGET_TYPE_PANEL) {
 			// Temporary exception for until we have proper event handling with event bubbling and breaking
 			bwPanel& panel = *widget_cast<bwPanel*>(&widget);
-			return panel.isCoordinateInsideHeader(lookup_data->coordinate) ?
-			            (lookup_data->result = widget, false) : true;
+			if (panel.isCoordinateInsideHeader(coordinate)) {
+				return widget;
+			}
 		}
 		else {
-			return widget.isCoordinateInside(lookup_data->coordinate) ?
-			            (lookup_data->result = widget, false) : true;
+			if (widget.isCoordinateInside(coordinate)) {
+				return widget;
+			}
 		}
-	}, &lookup_data, true);
+	}
 
-	return lookup_data.result;
+	return nullopt;
 }
 
 void Stage::updateWidgetHovering(

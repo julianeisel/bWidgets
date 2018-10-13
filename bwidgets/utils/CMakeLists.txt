@@ -1,6 +1,6 @@
 set(SRC
 	bwOptional.h
-	bwPointer.h
+	bwPtr.h
 	bwUtil.h
 	internal/bwOptional_internal.h
 )

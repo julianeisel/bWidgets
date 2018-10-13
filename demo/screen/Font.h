@@ -28,6 +28,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "FixedNum.h"
 #include "Pixmap.h"
 
 #include "bwColor.h"
@@ -63,6 +64,8 @@ public:
 
 	void setFontAntiAliasingMode(AntiAliasingMode);
 	void setHinting(bool value);
+	void setSubPixelPositioning(bool value);
+
 	void setSize(const float size);
 	int getSize() const;
 
@@ -80,18 +83,16 @@ private:
 	        const unsigned int attr_pos, const unsigned int attr_texcoord,
 	        Pen& pen) const;
 
-	float getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
+	FixedNum<F16p16> getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
 	/* Accesses private members, so make it a member function. Would be better
 	 * to keep freetype specific stuff out of the general Font class, but
 	 * ignoring for now since this is just the demo app anyway. */
-	FT_Int32 getFreeTypeLoadFlags();
+	FT_Int32 getFreeTypeLoadFlags() const;
 
 	// The freetype library handle.
 	static FT_Library ft_library;
 	// The freetype font handle.
 	FT_Face face;
-	// Was font type (face) changed since last draw?
-	static bool changed;
 
 	// Height in pixels.
 	int size{0};
@@ -100,19 +101,20 @@ private:
 	bWidgets::bwRectanglePixel mask;
 	AntiAliasingMode render_mode;
 	bool use_hinting;
+	bool use_subpixel_pos;
 
 
 	class FontGlyphCache {
 	// Everything public, this nested class is private to Font anyway.
 	public:
 		void invalidate();
-		void ensureUpdated(Font&);
+		void ensureUpdated(const Font&);
 		const FontGlyph& getCachedGlyph(const Font&, const unsigned char) const;
 
 		bool is_dirty{true};
 		std::vector<std::unique_ptr<FontGlyph>> cached_glyphs;
 	private:
-		void loadGlyphsIntoCache(Font&);
+		void loadGlyphsIntoCache(const Font&);
 	};
 
 	FontGlyphCache cache;
@@ -122,18 +124,18 @@ class FontGlyph {
 public:
 	FontGlyph(
 	        const unsigned int index,
-	        bWidgets::bwPointer<Pixmap>&& pixmap,
+	        bWidgets::bwPtr<Pixmap>&& pixmap,
 	        const int offset_left, const int offset_top,
-	        const int advance_width);
+	        FixedNum<F16p16> advance_width);
 	FontGlyph();
 
 	bool is_valid;
 
 	unsigned int index; // Same as freetype index
 
-	bWidgets::bwPointer<Pixmap> pixmap;
+	bWidgets::bwPtr<Pixmap> pixmap;
 	int offset_left, offset_top; // bitmap_left, bitmap_top
-	int advance_width; // advance.x
+	FixedNum<F16p16> advance_width;
 	int pitch;
 };
 

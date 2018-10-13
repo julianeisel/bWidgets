@@ -28,10 +28,12 @@ public:
 	virtual void mouseEnter() override;
 	virtual void mouseLeave() override;
 
+	virtual const std::string* getLabel() const override;
+
 	/**
 	 * Function object called when applying changes to widget.
 	 */
-	bwPointer<bwFunctorInterface> apply_functor{nullptr};
+	bwPtr<bwFunctorInterface> apply_functor{nullptr};
 
 	unsigned int rounded_corners;
 

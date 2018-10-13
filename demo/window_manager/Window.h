@@ -47,7 +47,7 @@ public:
 	const bWidgets::bwPoint getCursorPosition() const;
 	void handleResizeEvent(const int new_win_x, const int new_win_y);
 
-	bWidgets::bwPointer<class Stage> stage;
+	bWidgets::bwPtr<class Stage> stage;
 
 	GLFWwindow& getGlfwWindow() const;
 

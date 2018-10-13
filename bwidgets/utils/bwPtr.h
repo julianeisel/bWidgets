@@ -18,7 +18,7 @@ struct always_false
 
 /**
  * Make calling C++14's `std::make_unique()` fail with an error message hinting
- * to bWidgets' \link bWidgets::bwPointer_new bwPointer_new().
+ * to bWidgets' \link bWidgets::bwPtr_new bwPtr_new().
  */
 template<typename _PointerType, typename... _Args>
 inline constexpr std::unique_ptr<_PointerType> make_unique(_Args&&...)
@@ -26,7 +26,7 @@ inline constexpr std::unique_ptr<_PointerType> make_unique(_Args&&...)
 	static_assert(
 	            always_false<_Args...>::value,
 	            "Error: `std::make_unique()` is not available in C++11 and shouldn't be "
-	            "used! Use bWidgets' own implementation `bwPointer_new()` instead.");
+	            "used! Use bWidgets' own implementation `bwPtr_new()` instead.");
 	return{};
 }
 
@@ -46,7 +46,7 @@ namespace bWidgets {
  * like to avoid it.
  */
 template<typename _PointerType>
-using bwPointer = std::unique_ptr<_PointerType>;
+using bwPtr = std::unique_ptr<_PointerType>;
 
 /**
  * \brief Own implementation of `std::make_unique()` for C++11.
@@ -57,23 +57,23 @@ using bwPointer = std::unique_ptr<_PointerType>;
  *
  * E.g. this:
  * \code
- * bwPointer<SomeType> type = bwPointer<SomeType>(new SomeType(some_arg));
+ * bwPtr<SomeType> type = bwPtr<SomeType>(new SomeType(some_arg));
  * \endcode
  * shortens to:
  * \code
- * bwPointer<SomeType> type = bwPointer_new<SomeType>(some_arg);
+ * bwPtr<SomeType> type = bwPtr_new<SomeType>(some_arg);
  * \endcode
  *
- * Since the type is clear from passing it to `bwPointer_new()` as template
+ * Since the type is clear from passing it to `bwPtr_new()` as template
  * parameter, it's fine to use `auto` too:
  * \code
- * auto type = bwPointer_new<SomeType>(some_arg);
+ * auto type = bwPtr_new<SomeType>(some_arg);
  * \endcode
  */
 template<typename _PointerType, typename... _Args>
-inline bwPointer<_PointerType> bwPointer_new(_Args&&... args)
+inline bwPtr<_PointerType> bwPtr_new(_Args&&... args)
 {
-	return bwPointer<_PointerType>(new _PointerType(std::forward<_Args>(args)...));
+	return bwPtr<_PointerType>(new _PointerType(std::forward<_Args>(args)...));
 }
 
 /**
@@ -82,9 +82,9 @@ inline bwPointer<_PointerType> bwPointer_new(_Args&&... args)
  * Doing so confuses some IDE's however, which this overload fixes.
  */
 template<typename _PointerType>
-inline bwPointer<_PointerType> bwPointer_new()
+inline bwPtr<_PointerType> bwPtr_new()
 {
-	return bwPointer<_PointerType>(new _PointerType());
+	return bwPtr<_PointerType>(new _PointerType());
 }
 
 } // namespace bWidgets

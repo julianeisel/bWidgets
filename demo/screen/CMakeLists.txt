@@ -26,6 +26,7 @@ set(INC
 	../gpu
 	../resources
 	../stylesheet
+	../utils
 	../../bwidgets/style_properties
 	../../bwidgets/styles
 )
@@ -37,6 +38,7 @@ set(SRC
 	IconMap.cc
 	Layout.cc
 	Stage.cc
+	WidgetIterator.cc
 
 	DefaultStage.h
 	Font.h
@@ -44,6 +46,7 @@ set(SRC
 	IconMap.h
 	Layout.h
 	Stage.h
+	WidgetIterator.h
 )
 
 set(LIB
@@ -52,6 +55,7 @@ set(LIB
 
 	bwd_gpu
 	bwd_stylesheet
+	bwd_utils
 )
 
 add_library(bwd_screen ${SRC})

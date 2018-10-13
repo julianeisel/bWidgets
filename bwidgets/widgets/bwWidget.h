@@ -73,6 +73,7 @@ public:
 	virtual void mouseLeave();
 
 	const std::string& getIdentifier() const;
+	virtual const std::string* getLabel() const;
 
 	/**
 	 * Final rectangle defining the widget bounding-box.

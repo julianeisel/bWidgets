@@ -44,6 +44,11 @@ void bwLabel::registerProperties()
 	style_properties.addColor("color", text_color);
 }
 
+const std::string* bwLabel::getLabel() const
+{
+	return &text;
+}
+
 bwLabel& bwLabel::setIcon(const bwIconInterface& icon_interface)
 {
 	icon = &icon_interface;

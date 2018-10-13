@@ -168,7 +168,7 @@ ShaderProgram::~ShaderProgram()
 ShaderProgram& ShaderProgram::getShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 {
 	if (!cache[shader_program_id]) {
-		cache[shader_program_id] = bWidgets::bwPointer<ShaderProgram>(new ShaderProgram(shader_program_id));
+		cache[shader_program_id] = bWidgets::bwPtr<ShaderProgram>(new ShaderProgram(shader_program_id));
 	}
 
 	return *cache[shader_program_id];

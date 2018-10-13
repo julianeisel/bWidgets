@@ -43,7 +43,7 @@ struct IconReadData
 } // namespace bWidgetsDemo
 
 using namespace bWidgetsDemo;
-using bWidgets::bwPointer;
+using bWidgets::bwPtr;
 
 
 IconMapReader::IconMapReader() :
@@ -106,7 +106,7 @@ static void libpng_read_from_istream(png_structp png_ptr, png_bytep data, png_si
 	}
 }
 
-bwPointer<IconMap> IconMapReader::readIconMapFromPNGFile(File& file)
+bwPtr<IconMap> IconMapReader::readIconMapFromPNGFile(File& file)
 {
 	if (!icons_check_if_file_is_png(file)) {
 		std::cout << "Error: File is not a valid PNG (" << file << ")" << std::endl;
@@ -132,10 +132,10 @@ bwPointer<IconMap> IconMapReader::readIconMapFromPNGFile(File& file)
 	assert((ICON_GRID_COLS * (ICON_GRID_W + ICON_GRID_MARGIN) + (2 * ICON_GRID_MARGIN)) == width - 46);
 
 	// TODO Icons don't scale with interface scale yet.
-	bwPointer<IconMap> icon_map(new IconMap);
+	bwPtr<IconMap> icon_map(new IconMap);
 	for (int y = 0, icon_index = 0; y < ICON_GRID_ROWS; y++) {
 		for (int x = 0; x < ICON_GRID_COLS; x++) {
-			bwPointer<Icon> icon(new Icon(ICON_GRID_W, channels, bit_depth));
+			bwPtr<Icon> icon(new Icon(ICON_GRID_W, channels, bit_depth));
 
 			libpng_copy_rows_into_pixmap(
 			            icon->getPixmap(), row_pointers,

@@ -61,7 +61,7 @@ public:
 private:
 	IconMap() = default;
 
-	std::array<bWidgets::bwPointer<Icon>, 30 * 26> icons; // ICON_GRID_ROWS * ICON_GRID_COLS
+	std::array<bWidgets::bwPtr<Icon>, 30 * 26> icons; // ICON_GRID_ROWS * ICON_GRID_COLS
 };
 
 class IconMapReader
@@ -70,10 +70,10 @@ public:
 	IconMapReader();
 	~IconMapReader();
 
-	bWidgets::bwPointer<IconMap> readIconMapFromPNGFile(class File&);
+	bWidgets::bwPtr<IconMap> readIconMapFromPNGFile(class File&);
 
 private:
-	bWidgets::bwPointer<IconReadData> read_data;
+	bWidgets::bwPtr<IconReadData> read_data;
 };
 
 } // namespace bWidgetsDemo

@@ -32,6 +32,7 @@
 extern "C" {
 #include "../../extern/gawain/gawain/immediate.h"
 }
+#include "FixedNum.h"
 #include "ShaderProgram.h"
 
 #include "Font.h"
@@ -40,15 +41,15 @@ extern "C" {
 using namespace bWidgetsDemo;
 
 FT_Library Font::ft_library = nullptr;
-bool Font::changed = false;
 
 namespace bWidgetsDemo {
 
 class Pen
 {
 public:
-	explicit Pen(int x = 0, int y = 0) : position(x, y) {}
-	bWidgets::bwPoint position;
+	explicit Pen(FixedNum<F16p16> x = 0, FixedNum<F16p16> y = 0) : x(x), y(y) {}
+	FixedNum<F16p16> x;
+	FixedNum<F16p16> y;
 };
 
 } // namespace bWidgetsDemo
@@ -80,9 +81,6 @@ Font* Font::loadFont(const std::string& name, const std::string& path)
 	if (FT_New_Face(ft_library, file_path.c_str(), 0, &font->face)) {
 		std::cout << "Error: Failed to load font at " << file_path << "!" << std::endl;
 	}
-	if (font->face != old_face) {
-		font->changed = true;
-	}
 
 	return font;
 }
@@ -113,7 +111,7 @@ static uint getGLFormatFromNumChannels(uint num_channels)
 	}
 }
 
-void Font::render(const std::string &text, const int pos_x, const int pos_y)
+void Font::render(const std::string& text, const int pos_x, const int pos_y)
 {
 	GLuint tex;
 	ShaderProgram::ShaderProgramID program_id = render_mode == SUBPIXEL_LCD_RGB_COVERAGE ?
@@ -124,7 +122,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
 	unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
 	const FontGlyph* previous_glyph = nullptr;
-	Pen pen(pos_x, pos_y);
+	Pen pen(FixedNum<F16p16>::fromInt(pos_x), FixedNum<F16p16>::fromInt(pos_y));
 	int old_scissor[4];
 
 	cache.ensureUpdated(*this);
@@ -158,7 +156,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	for (uint i = 0; i < text.size(); i++) {
 		const FontGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
 
-		if (!mask.isEmpty() && ((pen.position.x + glyph.advance_width) > mask.xmax)) {
+		if (!mask.isEmpty() && ((pen.x + glyph.advance_width) > FixedNum<F16p16>::fromInt(mask.xmax))) {
 			break;
 		}
 		if (glyph.is_valid == false) {
@@ -177,8 +175,6 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
 	glDisable(GL_BLEND);
 	glDeleteTextures(1, &tex);
 	immUnbindProgram();
-
-	changed = false;
 }
 
 void Font::renderGlyph(
@@ -202,11 +198,20 @@ void Font::renderGlyph(
 	glTexImage2D(GL_TEXTURE_2D, 0, gl_format, w, h, 0, gl_format, GL_UNSIGNED_BYTE, &pixmap.getBytes()[0]);
 
 	if (use_kerning) {
-		pen.position.x += getKerningDistance(*previous_glyph, glyph);
+		pen.x += getKerningDistance(*previous_glyph, glyph);
+	}
+
+	if (render_mode == SUBPIXEL_LCD_RGB_COVERAGE) {
+		if (use_subpixel_pos && previous_glyph) {
+			immUniform1f("subpixel_offset", previous_glyph->advance_width.getFractionAsReal());
+		}
+		else {
+			immUniform1f("subpixel_offset", 0.0f);
+		}
 	}
 
 	/* The actual position for drawing the bitmaps slightly differs from pen position. */
-	bWidgets::bwPoint draw_pos(pen.position);
+	bWidgets::bwPoint draw_pos(pen.x.toInt(), pen.y.toInt());
 
 	draw_pos.x += glyph.offset_left;
 	draw_pos.y += glyph.offset_top;
@@ -222,7 +227,8 @@ void Font::renderGlyph(
 	immVertex2f(attr_pos, draw_pos.x + w, draw_pos.y - h);
 	immEnd();
 
-	pen.position.x += glyph.advance_width;
+	pen.x += glyph.advance_width;
+	pen.x.floor();
 }
 
 void Font::setFontAntiAliasingMode(Font::AntiAliasingMode new_aa_mode)
@@ -237,6 +243,14 @@ void Font::setHinting(bool value)
 {
 	if (value != use_hinting) {
 		use_hinting = value;
+		cache.invalidate();
+	}
+}
+
+void Font::setSubPixelPositioning(bool value)
+{
+	if (value != use_subpixel_pos) {
+		use_subpixel_pos = value;
 		cache.invalidate();
 	}
 }
@@ -273,16 +287,16 @@ void Font::setMask(const bWidgets::bwRectanglePixel& value)
 	mask = value;
 }
 
-float Font::getKerningDistance(const FontGlyph& left, const FontGlyph& right) const
+FixedNum<F16p16> Font::getKerningDistance(const FontGlyph& left, const FontGlyph& right) const
 {
 	FT_Vector kerning_dist_xy;
 	FT_Get_Kerning(face, left.index, right.index, FT_KERNING_DEFAULT, &kerning_dist_xy);
-	return kerning_dist_xy.x / 64.0f;
+	return FixedNum<F26p6>(kerning_dist_xy.x).floor();
 }
 
 unsigned int Font::calculateStringWidth(const std::string& text)
 {
-	unsigned int width = 0;
+	FixedNum<F16p16> width;
 
 	cache.ensureUpdated(*this);
 
@@ -295,10 +309,11 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 		}
 
 		width += glyph.advance_width;
+		width.floor();
 		prev_glyph = &glyph;
 	}
 
-	return width;
+	return width.toInt();
 }
 
 void Font::FontGlyphCache::invalidate()
@@ -311,7 +326,7 @@ void Font::FontGlyphCache::invalidate()
 /**
  * \return The flags that should be used for the FT_Load_Glyph call.
  */
-FT_Int32 Font::getFreeTypeLoadFlags()
+FT_Int32 Font::getFreeTypeLoadFlags() const
 {
 	FT_Int32 load_flags = FT_LOAD_DEFAULT;
 
@@ -333,7 +348,7 @@ FT_Int32 Font::getFreeTypeLoadFlags()
 	return load_flags;
 }
 
-static bWidgets::bwPointer<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph)
+static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph)
 {
 	const uint num_channels  = getNumChannelsFromFreeTypePixelMode((FT_Pixel_Mode)freetype_glyph->bitmap.pixel_mode);
 	Pixmap pixmap(freetype_glyph->bitmap.width / num_channels, freetype_glyph->bitmap.rows, num_channels,
@@ -341,13 +356,13 @@ static bWidgets::bwPointer<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph
 
 	pixmap.fill(freetype_glyph->bitmap.buffer);
 
-	return bWidgets::bwPointer_new<Pixmap>(std::move(pixmap));
+	return bWidgets::bwPtr_new<Pixmap>(std::move(pixmap));
 }
 
-void Font::FontGlyphCache::loadGlyphsIntoCache(Font& font)
+void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 {
 	FT_UInt glyph_index;
-	bWidgets::bwPointer<FontGlyph> glyph;
+	bWidgets::bwPtr<FontGlyph> glyph;
 
 	for (FT_ULong charcode = FT_Get_First_Char(font.face, &glyph_index);
 	     glyph_index != 0;
@@ -358,23 +373,28 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(Font& font)
 
 		if (error != 0) {
 			// This constructor marks glyph as invalid.
-			glyph = bWidgets::bwPointer_new<FontGlyph>();
+			glyph = bWidgets::bwPtr_new<FontGlyph>();
 		}
 		else {
 			const FT_GlyphSlot ft_glyph = font.face->glyph;
+			FixedNum<F16p16> advance = ft_glyph->linearHoriAdvance;
 
-			glyph = bWidgets::bwPointer_new<FontGlyph>(
+			if ((font.render_mode == Font::SUBPIXEL_LCD_RGB_COVERAGE) && font.use_subpixel_pos) {
+				advance += FixedNum<F26p6>(ft_glyph->rsb_delta - ft_glyph->lsb_delta);
+			}
+
+			glyph = bWidgets::bwPtr_new<FontGlyph>(
 			            glyph_index,
 			            createGlyphPixmap(ft_glyph),
 			            ft_glyph->bitmap_left, ft_glyph->bitmap_top,
-			            ft_glyph->linearHoriAdvance >> 16);
+			            advance);
 			glyph->pitch = ft_glyph->bitmap.pitch;
 		}
 		cached_glyphs[glyph_index] = std::move(glyph);
 	}
 }
 
-void Font::FontGlyphCache::ensureUpdated(Font& font)
+void Font::FontGlyphCache::ensureUpdated(const Font& font)
 {
 	if (is_dirty == false) {
 		return;
@@ -410,9 +430,9 @@ const FontGlyph& Font::FontGlyphCache::getCachedGlyph(const Font& font, const un
 
 FontGlyph::FontGlyph(
         const unsigned int index,
-        bWidgets::bwPointer<Pixmap>&& pixmap,
+        bWidgets::bwPtr<Pixmap>&& pixmap,
         const int offset_left, const int offset_top,
-        const int advance_width) :
+        FixedNum<F16p16> advance_width) :
     is_valid(true),
     index(index),
     pixmap(std::move(pixmap)),

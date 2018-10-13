@@ -37,6 +37,7 @@ class Stage
 	friend class ScrollbarApplyValueFunctor;
 	friend class StyleSetter;
 	friend class UseCSSVersionToggleSetter;
+	friend class UseFontSubPixelsToggleSetter;
 
 public:
 	Stage(const unsigned int mask_width, const unsigned int mask_height);
@@ -58,15 +59,16 @@ public:
 	static void setInterfaceScale(const float value);
 	static void setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode);
 	static void setFontHinting(const bool value);
+	static void setFontSubPixelPositioning(const bool value);
 
 protected:
-	bWidgets::bwPointer<class RootLayout> layout;
+	bWidgets::bwPtr<class RootLayout> layout;
 
 	// Static members, global UI data for all stages
-	static bWidgets::bwPointer<bWidgets::bwStyle> style;
-	static bWidgets::bwPointer<class Font> font;
-	static bWidgets::bwPointer<class IconMap> icon_map;
-	static bWidgets::bwPointer<class StyleSheet> style_sheet;
+	static bWidgets::bwPtr<bWidgets::bwStyle> style;
+	static bWidgets::bwPtr<class Font> font;
+	static bWidgets::bwPtr<class IconMap> icon_map;
+	static bWidgets::bwPtr<class StyleSheet> style_sheet;
 	static float interface_scale;
 
 	unsigned int mask_width, mask_height;
@@ -76,7 +78,7 @@ protected:
 
 private:
 	// Not part of the layout yet. We'd need to support horizontal root layouts first.
-	bWidgets::bwPointer<bWidgets::bwScrollBar> scrollbar;
+	bWidgets::bwPtr<bWidgets::bwScrollBar> scrollbar;
 	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.
 	bWidgets::bwOptional<bWidgets::bwWidget*> last_hovered;
 	bWidgets::bwOptional<bWidgets::bwWidget*> dragged_widget;

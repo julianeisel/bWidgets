@@ -58,9 +58,9 @@ public:
 private:
 	ShaderProgram(ShaderProgramID shader_program_id);
 	~ShaderProgram();
-	friend bWidgets::bwPointer<ShaderProgram>::deleter_type;
+	friend bWidgets::bwPtr<ShaderProgram>::deleter_type;
 
-	using ShaderProgramCache = std::array<bWidgets::bwPointer<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
+	using ShaderProgramCache = std::array<bWidgets::bwPtr<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
 	static ShaderProgramCache cache;
 
 	ShaderIDArray shader_ids;
