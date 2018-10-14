@@ -23,8 +23,8 @@ set(SRC
 
 set(LIB
 	bwd_screen
+	testing
 	testing_gtest
-	testing_main
 )
 
 set(SYS_LIB

@@ -9,11 +9,11 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 set(INC
+	..
 	../../bwidgets
 	../../bwidgets/generics
 	../../bwidgets/utils
 	../gtest/include
-	../testing
 )
 
 set(SRC
@@ -31,8 +31,8 @@ set(SRC
 
 set(LIB
 	bWidgets
+	testing
 	testing_gtest
-	testing_main
 )
 
 set(SYS_LIB
