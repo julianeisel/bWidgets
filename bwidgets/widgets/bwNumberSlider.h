@@ -46,11 +46,11 @@ private:
 	union {
 		// float
 		struct {
-			float value;
-			float min, max;
+			float value = 0.0f;
+			float min = 0.0f, max = 0.0f;
 			// Initial value before starting to edit.
-			float initial_value;
-			unsigned int precision;
+			float initial_value = 0.0f;
+			unsigned int precision = 0;
 		};
 		// struct { int value; ...}
 		// struct { char value; ...}

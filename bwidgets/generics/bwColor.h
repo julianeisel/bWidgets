@@ -18,11 +18,11 @@ public:
 	void setColor(float rgb, float alpha = 1.0f);
 	void setColor(const float rgba[4]);
 	const float* getColor() const;
-	void operator=(const float* rgb);
-	void operator=(const bwColor& other_color);
+	bwColor& operator=(const float* rgb);
+	bwColor& operator=(const bwColor& other_color);
 
 	bool operator==(const bwColor& compare_color) const;
-	float& operator[](int index);
+	float& operator[](unsigned int index);
 	// Implicit conversion to float*
 	operator const float*() const;
 

@@ -93,8 +93,8 @@ bwColor ColorPropertyParser::parseFromFunction(const KatanaValue& value) const
 	{
 		bwColor color;
 
-		for (int i = 0, color_index = 0; i < value.function->args->length; i++) {
-			KatanaValue *arg_value = (KatanaValue *)value.function->args->data[i];
+		for (unsigned int i = 0, color_index = 0; i < value.function->args->length; i++) {
+			auto* arg_value = (KatanaValue*)value.function->args->data[i];
 
 			if (arg_value->unit == KATANA_VALUE_PARSER_OPERATOR) {
 				continue;

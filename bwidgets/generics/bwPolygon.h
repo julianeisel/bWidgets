@@ -9,8 +9,8 @@ using bwPointVec = std::vector<class bwPoint>;
 class bwPolygon
 {
 public:
-	bwPolygon();
-	bwPolygon(const bwPolygon& poly);
+	bwPolygon() = default;
+	bwPolygon(const bwPolygon& poly) = default;
 	bwPolygon(const bwPointVec& vertices);
 	explicit bwPolygon(const unsigned int reserve_vertex_count);
 
@@ -25,7 +25,7 @@ public:
 
 protected:
 	bwPointVec vertices{};
-	unsigned int vert_count{0};
+	unsigned long int vert_count{0};
 };
 
 } // namespace bWidgets

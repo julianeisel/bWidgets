@@ -60,7 +60,7 @@ public:
 
 private:
 	bwStyleProperty(
-	        const std::string& identifier,
+	        std::string identifier,
 	        enum PropertyType type);
 
 	const std::string identifier;

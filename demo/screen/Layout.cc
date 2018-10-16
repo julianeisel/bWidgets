@@ -47,8 +47,8 @@ public:
 	void draw(bwStyle &style) const override;
 	void resolve(
 	        const bWidgets::bwPoint& layout_pos,
-	        const unsigned int item_margin,
-	        const float scale_fac) override;
+	        unsigned int item_margin,
+	        float scale_fac) override;
 	bwOptional<std::reference_wrapper<bwWidget>> getWidget() const override;
 	bool isHidden() const override;
 
@@ -117,7 +117,7 @@ void LayoutItem::addLayoutItem(bwPtr<LayoutItem> item)
 	assert(hasChild(*this) == false);
 	child_items.push_back(std::move(item));
 	/* item is moved from now */
-	LayoutItemList::iterator iterator = std::prev(child_items.end());
+	auto iterator = std::prev(child_items.end());
 	(*iterator)->iterator_item = iterator;
 	(*iterator)->parent = this;
 }
@@ -248,9 +248,10 @@ bool LayoutItem::needsMarginBeforeNext() const
 	if (!next) {
 		return false;
 	}
-	else if (parent->align && (type == LAYOUT_ITEM_TYPE_WIDGET) && (next->get().type == LAYOUT_ITEM_TYPE_WIDGET)) {
-		const WidgetLayoutItem& widget_item = static_cast<const WidgetLayoutItem&>(*this);
-		const WidgetLayoutItem& next_widget_item = static_cast<const WidgetLayoutItem&>(next->get());
+
+	if (parent->align && (type == LAYOUT_ITEM_TYPE_WIDGET) && (next->get().type == LAYOUT_ITEM_TYPE_WIDGET)) {
+		auto& widget_item = dynamic_cast<const WidgetLayoutItem&>(*this);
+		auto& next_widget_item = dynamic_cast<const WidgetLayoutItem&>(next->get());
 
 		if (widget_item.canAlignWidgetItem() && next_widget_item.canAlignWidgetItem()) {
 			return false;
@@ -312,11 +313,11 @@ bwOptional<std::reference_wrapper<LayoutItem>> LayoutItem::getPrevious(const boo
 		return nullopt;
 	}
 
-	for (IteratorItem iterator_item_prev = std::prev(iterator_item);
+	for (auto iterator_item_prev = std::prev(iterator_item);
 	     std::next(iterator_item_prev) != parent->child_items.begin();
 	     iterator_item_prev = std::prev(iterator_item_prev))
 	{
-		if (!skip_hidden || ((*iterator_item_prev)->isHidden() == false)) {
+		if (!skip_hidden || !(*iterator_item_prev)->isHidden()) {
 			return **iterator_item_prev;
 		}
 	}
@@ -329,11 +330,11 @@ bwOptional<std::reference_wrapper<LayoutItem>> LayoutItem::getNext(const bool sk
 		return nullopt;
 	}
 
-	for (IteratorItem iterator_item_next = std::next(iterator_item);
+	for (auto iterator_item_next = std::next(iterator_item);
 	     iterator_item_next != parent->child_items.end();
 	     iterator_item_next = std::next(iterator_item_next))
 	{
-		if (!skip_hidden || ((*iterator_item_next)->isHidden() == false)) {
+		if (!skip_hidden || !(*iterator_item_next)->isHidden()) {
 			return **iterator_item_next;
 		}
 	}
@@ -511,8 +512,8 @@ void WidgetLayoutItem::draw(bwStyle &style) const
 
 void WidgetLayoutItem::resolve(
         const bwPoint &layout_pos,
-        const unsigned int /*item_margin*/,
-        const float scale_fac)
+        unsigned int /*item_margin*/,
+        float scale_fac)
 {
 	height = widget->height_hint * scale_fac;
 	widget->rectangle.set(layout_pos.x, width, layout_pos.y - height, height);
@@ -552,9 +553,10 @@ bool WidgetLayoutItem::isAlignedtoPrevious() const
 	if (!parent->align) {
 		return false;
 	}
+
 	if (!(item_prev = getPrevious(true)) ||
 	    (item_prev->get().type != LAYOUT_ITEM_TYPE_WIDGET) ||
-	    (!(static_cast<WidgetLayoutItem&>(item_prev->get()).canAlignWidgetItem())))
+	    (!(dynamic_cast<WidgetLayoutItem&>(item_prev->get()).canAlignWidgetItem())))
 	{
 		return false;
 	}
@@ -573,8 +575,9 @@ bool WidgetLayoutItem::isAlignedtoNext() const
 	if (!(item_next = getNext(true)) || (item_next->get().type != LAYOUT_ITEM_TYPE_WIDGET)) {
 		return false;
 	}
-	else if ((item_next->get().type == LAYOUT_ITEM_TYPE_WIDGET) &&
-	         (!(static_cast<WidgetLayoutItem&>(item_next->get()).canAlignWidgetItem())))
+
+	if ((item_next->get().type == LAYOUT_ITEM_TYPE_WIDGET) &&
+	    (!(dynamic_cast<WidgetLayoutItem&>(item_next->get()).canAlignWidgetItem())))
 	{
 		return false;
 	}

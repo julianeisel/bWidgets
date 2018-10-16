@@ -178,14 +178,14 @@ void bwStyleFlat::setWidgetStyle(bwWidget& widget)
 
 	polish(widget);
 
-	if (bwAbstractButton* button = widget_cast<bwAbstractButton*>(&widget)) {
+	if (auto* button = widget_cast<bwAbstractButton*>(&widget)) {
 		button->base_style.roundbox_corners = button->rounded_corners;
 		base_style = button->base_style;
 	}
-	else if (bwPanel* panel = widget_cast<bwPanel*>(&widget)) {
+	else if (auto* panel = widget_cast<bwPanel*>(&widget)) {
 		base_style = panel->base_style;
 	}
-	else if (bwTextBox* text_box = widget_cast<bwTextBox*>(&widget)) {
+	else if (auto* text_box = widget_cast<bwTextBox*>(&widget)) {
 		text_box->base_style.roundbox_corners = RoundboxCorner::ALL; // XXX Incorrect, should set this in layout.
 		base_style = text_box->base_style;
 	}

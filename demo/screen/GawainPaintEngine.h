@@ -46,7 +46,7 @@ public:
 	        const bWidgets::TextAlignment) override;
 	void drawIcon(
 	        const bWidgets::bwIconInterface&,
-	        const bWidgets::bwRectanglePixel&);
+	        const bWidgets::bwRectanglePixel&) override;
 
 private:
 	class Font& font;

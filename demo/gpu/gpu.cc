@@ -34,7 +34,7 @@ static bool initialized = false;
 /**
  * \return true if successful.
  */
-void GPU_init(void)
+void GPU_init()
 {
 	if (initialized) {
 		assert(0);
@@ -50,7 +50,7 @@ void GPU_init(void)
 	immInit();
 }
 
-void GPU_exit(void)
+void GPU_exit()
 {
 	immDestroy();
 }

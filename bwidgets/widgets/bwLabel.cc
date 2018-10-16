@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 
 #include "bwPainter.h"
 #include "bwStyle.h"
@@ -9,10 +9,10 @@ using namespace bWidgets;
 
 
 bwLabel::bwLabel(
-        const std::string& text,
+        std::string text,
         unsigned int width_hint, unsigned int height_hint) :
     bwWidget(bwWidget::WIDGET_TYPE_LABEL, "bwLabel", width_hint, height_hint),
-    text(text)
+    text(std::move(text))
 {
 	initialize();
 }

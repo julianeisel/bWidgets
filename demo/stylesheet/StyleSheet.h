@@ -35,7 +35,7 @@ namespace bWidgetsDemo {
 class StyleSheet
 {
 public:
-	StyleSheet(const std::string& filepath);
+	StyleSheet(std::string filepath);
 	~StyleSheet();
 
 	void reload();

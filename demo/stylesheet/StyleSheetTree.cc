@@ -34,7 +34,7 @@ public:
 	        const std::string& identifier) const;
 	bwStyleProperty& ensureProperty(
 	        const std::string& identifier,
-	        const bwStyleProperty::PropertyType type);
+	        bwStyleProperty::PropertyType type);
 
 private:
 	bwStyleProperties properties;
@@ -43,7 +43,6 @@ private:
 class StyleSheetNode
 {
 public:
-	~StyleSheetNode() = default;
 	class StateProperties state_properties[bwWidget::STATE_TOT];
 };
 
@@ -56,9 +55,8 @@ bwOptional<std::reference_wrapper<StyleSheetNode>> StyleSheetTree::lookupNode(co
 	if (node_iterator == nodes.end()) {
 		return nullopt;
 	}
-	else {
-		return *node_iterator->second;
-	}
+
+	return *node_iterator->second;
 }
 
 StyleSheetNode& StyleSheetTree::ensureNode(
@@ -67,11 +65,10 @@ StyleSheetNode& StyleSheetTree::ensureNode(
 	if (bwOptional<std::reference_wrapper<StyleSheetNode>> node = lookupNode(class_name)) {
 		return *node;
 	}
-	else {
-		StyleSheetNode* new_node = new StyleSheetNode;
-		nodes.insert({class_name, new_node});
-		return *new_node;
-	}
+
+	StyleSheetNode* new_node = new StyleSheetNode;
+	nodes.insert({class_name, new_node});
+	return *new_node;
 }
 
 StyleSheetTree::~StyleSheetTree()
@@ -138,7 +135,7 @@ bwOptional<std::reference_wrapper<const bwStyleProperty>> StateProperties::looku
  */
 bwStyleProperty& StateProperties::ensureProperty(
         const std::string& identifier,
-        const bwStyleProperty::PropertyType type)
+        bwStyleProperty::PropertyType type)
 {
 	for (auto& iter_property : properties) {
 		if (iter_property->getIdentifier() == identifier) {

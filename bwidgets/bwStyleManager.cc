@@ -10,11 +10,6 @@
 using namespace bWidgets;
 
 
-bwStyleManager::bwStyleManager()
-{
-	
-}
-
 bwStyleManager& bwStyleManager::getStyleManager()
 {
 	static bwStyleManager instance;

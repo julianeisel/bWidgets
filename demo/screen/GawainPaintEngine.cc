@@ -157,10 +157,10 @@ void GawainPaintEngine::drawPolygon(
 
 		drawcolor[3] /= WIDGET_AA_JITTER;
 
-		for (int i = 0; i < WIDGET_AA_JITTER; i++) {
-			gpuTranslate2f(jit[i]);
+		for (const float* i : jit) {
+			gpuTranslate2f(i);
 			stage_polygon_draw(painter, poly, drawcolor, prim_type, attr_pos, attr_color);
-			gpuTranslate2f(-jit[i][0], -jit[i][1]);
+			gpuTranslate2f(-i[0], -i[1]);
 		}
 	}
 	else {
@@ -292,7 +292,7 @@ void GawainPaintEngine::drawIcon(
         const bwIconInterface& icon_interface,
         const bwRectanglePixel& rectangle)
 {
-	const Icon& icon = static_cast<const Icon&>(icon_interface);
+	const auto& icon = static_cast<const Icon&>(icon_interface);
 	const Pixmap& pixmap = icon.getPixmap();
 	bwRectanglePixel icon_rect;
 

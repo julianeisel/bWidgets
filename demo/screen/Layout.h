@@ -148,8 +148,8 @@ public:
 	void setMaxSize(const unsigned int max_size);
 	void setYmax(const int value);
 
-	unsigned int padding;
-	unsigned int item_margin;
+	unsigned int padding = 0;
+	unsigned int item_margin = 0;
 
 private:
 	unsigned int max_size;

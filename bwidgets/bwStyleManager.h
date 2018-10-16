@@ -23,7 +23,7 @@ public:
 	const StyleTypeArray& getBuiltinStyleTypes() const;
 
 private:
-	bwStyleManager();
+	bwStyleManager() = default;
 	bwStyleManager(bwStyleManager const&) = delete;
 	void operator=(bwStyleManager const&) = delete;
 

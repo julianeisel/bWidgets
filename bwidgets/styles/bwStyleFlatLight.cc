@@ -3,8 +3,7 @@
 using namespace bWidgets;
 
 
-bwStyleFlatLight::bwStyleFlatLight() :
-    bwStyleCSS()
+bwStyleFlatLight::bwStyleFlatLight()
 {
 	type_id = STYLE_FLAT_LIGHT;
 }

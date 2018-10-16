@@ -82,7 +82,7 @@ bool EventManager::isDragging()
 
 void EventManager::handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, int new_win_y)
 {
-	Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+	auto* win = (Window*)glfwGetWindowUserPointer(glfw_win);
 	win->handleResizeEvent(new_win_x, new_win_y);
 }
 

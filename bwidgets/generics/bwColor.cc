@@ -1,5 +1,5 @@
 #include <cassert>
-#include <math.h>
+#include <cmath>
 
 #include "bwRange.h"
 
@@ -98,16 +98,18 @@ void bwColor::setColor(const float _rgba[4])
 
 const float* bwColor::getColor() const
 {
-	return rgba;
+	return &rgba[0];
 }
 
-void bwColor::operator=(const float* rgb)
+bwColor& bwColor::operator=(const float* rgb)
 {
 	setColor(rgb);
+	return *this;
 }
-void bwColor::operator=(const bwColor& other_color)
+bwColor& bwColor::operator=(const bwColor& other_color)
 {
 	setColor(other_color.rgba);
+	return *this;
 }
 
 bool bwColor::operator==(const bwColor& compare_color) const
@@ -118,7 +120,7 @@ bool bwColor::operator==(const bwColor& compare_color) const
 	        (rgba[3] == compare_color[3]));
 }
 
-float& bwColor::operator[](int index)
+float& bwColor::operator[](unsigned int index)
 {
 	assert(index < 4);
 	return rgba[index];
@@ -131,5 +133,5 @@ void bwColor::clamp(const Component component)
 
 bwColor::operator const float*() const
 {
-	return rgba;
+	return getColor();
 }

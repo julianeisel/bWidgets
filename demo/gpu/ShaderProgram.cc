@@ -57,8 +57,8 @@ static ShaderType shader_types[SHADER_TYPE_TOT] = {
 class ShaderProgramType
 {
 public:
-	ShaderProgramType(const std::array<std::string, SHADER_TYPE_TOT>& names) :
-		shader_names(names)
+	ShaderProgramType(std::array<std::string, SHADER_TYPE_TOT> names) :
+		shader_names(std::move(names))
 	{
 
 	}
@@ -85,7 +85,7 @@ static unsigned int shaderprog_compileShader(const std::string& shader_str, cons
 	GLuint shader_id = glCreateShader(shader_type.gl_id);
 	const char* shader_c_str = shader_str.c_str();
 
-	glShaderSource(shader_id, 1, &shader_c_str, NULL);
+	glShaderSource(shader_id, 1, &shader_c_str, nullptr);
 	glCompileShader(shader_id);
 
 #ifndef NDEBUG

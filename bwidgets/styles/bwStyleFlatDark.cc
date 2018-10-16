@@ -3,8 +3,7 @@
 using namespace bWidgets;
 
 
-bwStyleFlatDark::bwStyleFlatDark() :
-    bwStyleCSS()
+bwStyleFlatDark::bwStyleFlatDark()
 {
 	type_id = STYLE_FLAT_DARK;
 }

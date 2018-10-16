@@ -300,7 +300,7 @@ bool StyleSetter::updateStyleButton(
         DefaultStage& stage)
 {
 	auto* radio_iter = widget_cast<bwRadioButton*>(&widget_iter);
-	bwStyle::StyleTypeID active_type_id = stage.style->type_id;
+	bwStyle::StyleTypeID active_type_id = DefaultStage::style->type_id;
 
 	if (radio_iter && radio_iter->apply_functor) {
 		// Using dynamic_cast to check if apply_functor is a StyleSetter. Then we assume it's a style button.

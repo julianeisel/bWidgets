@@ -72,7 +72,7 @@ void Font::initFontReading()
 Font* Font::loadFont(const std::string& name, const std::string& path)
 {
 	std::string file_path(path + "/" + name);
-	Font* font = new Font();
+	auto* font = new Font();
 	FT_Face old_face = font->face;
 
 	if (old_face) {
@@ -153,13 +153,13 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
 		glScissor(mask.xmin, mask.ymin, mask.width(), mask.height());
 	}
 
-	for (uint i = 0; i < text.size(); i++) {
-		const FontGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
+	for (char character : text) {
+		const FontGlyph& glyph = cache.getCachedGlyph(*this, character);
 
 		if (!mask.isEmpty() && ((pen.x + glyph.advance_width) > FixedNum<F16p16>::fromInt(mask.xmax))) {
 			break;
 		}
-		if (glyph.is_valid == false) {
+		if (!glyph.is_valid) {
 			std::cout << "Error: Trying to render invalid character" << std::endl;
 		}
 
@@ -301,8 +301,8 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 	cache.ensureUpdated(*this);
 
 	const FontGlyph* prev_glyph = nullptr;
-	for (uint i = 0; i < text.size(); i++) {
-		const FontGlyph& glyph = cache.getCachedGlyph(*this, text[i]);
+	for (char character : text) {
+		const FontGlyph& glyph = cache.getCachedGlyph(*this, character);
 
 		if (prev_glyph) {
 			width += getKerningDistance(*prev_glyph, glyph);
@@ -376,7 +376,7 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 			glyph = bWidgets::bwPtr_new<FontGlyph>();
 		}
 		else {
-			const FT_GlyphSlot ft_glyph = font.face->glyph;
+			FT_GlyphSlot ft_glyph = font.face->glyph;
 			FixedNum<F16p16> advance = ft_glyph->linearHoriAdvance;
 
 			if ((font.render_mode == Font::SUBPIXEL_LCD_RGB_COVERAGE) && font.use_subpixel_pos) {
@@ -396,7 +396,7 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 
 void Font::FontGlyphCache::ensureUpdated(const Font& font)
 {
-	if (is_dirty == false) {
+	if (!is_dirty) {
 		return;
 	}
 
@@ -423,9 +423,9 @@ void Font::FontGlyphCache::ensureUpdated(const Font& font)
 	is_dirty = false;
 }
 
-const FontGlyph& Font::FontGlyphCache::getCachedGlyph(const Font& font, const unsigned char character) const
+const FontGlyph& Font::FontGlyphCache::getCachedGlyph(const Font& font, const char character) const
 {
-	return *cached_glyphs[FT_Get_Char_Index(font.face, character)];
+	return *cached_glyphs[FT_Get_Char_Index(font.face, static_cast<unsigned char>(character))];
 }
 
 FontGlyph::FontGlyph(
@@ -439,10 +439,4 @@ FontGlyph::FontGlyph(
     offset_left(offset_left), offset_top(offset_top),
     advance_width(advance_width)
 {
-}
-
-FontGlyph::FontGlyph() :
-    is_valid(false)
-{
-	
 }

@@ -30,7 +30,9 @@ using namespace bWidgets;
 using namespace bWidgetsDemo;
 
 
-Window::Window(std::string name, unsigned int size_x, unsigned int size_y) :
+Window::Window(
+        const std::string& name,
+        unsigned int size_x, unsigned int size_y) :
     width(size_x), height(size_y)
 {
 //	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -49,7 +51,7 @@ Window::Window(std::string name, unsigned int size_x, unsigned int size_y) :
 //		height = 0.8 * mode->height;
 	}
 
-	glfw_window = glfwCreateWindow(width, height, name.data(), NULL, NULL);
+	glfw_window = glfwCreateWindow(width, height, name.data(), nullptr, nullptr);
 	glfwMakeContextCurrent(glfw_window);
 
 	glEnable(GL_SCISSOR_TEST);

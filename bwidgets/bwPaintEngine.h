@@ -32,6 +32,8 @@ enum TextAlignment: unsigned int;
 class bwPaintEngine
 {
 public:
+	virtual ~bwPaintEngine() = default;
+
 	/**
 	 * Setup function for application to prepare viewport (prepare matrices,
 	 * clear background, etc.) for drawing.

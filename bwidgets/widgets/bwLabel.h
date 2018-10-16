@@ -12,7 +12,7 @@ class bwLabel : public bwWidget
 {
 public:
 	bwLabel(
-	        const std::string& text,
+	        std::string text,
 	        unsigned int width_hint = 0, unsigned int height_hint = 0);
 
 	void draw(class bwStyle& style) override;

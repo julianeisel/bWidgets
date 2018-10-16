@@ -7,18 +7,6 @@
 using namespace bWidgets;
 
 
-bwPolygon::bwPolygon() :
-    vert_count(0)
-{
-	
-}
-
-bwPolygon::bwPolygon(const bwPolygon& poly) :
-    vertices(poly.vertices), vert_count(poly.vert_count)
-{
-	
-}
-
 bwPolygon::bwPolygon(const bwPointVec& vertices) :
     vertices(vertices), vert_count(vertices.size())
 {

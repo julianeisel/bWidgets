@@ -21,7 +21,7 @@
 
 #include <cassert>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 // bWidgets lib
 #include "bwPainter.h"
@@ -102,8 +102,7 @@ void Stage::initIcons()
 
 void Stage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
-	bwStyleManager& style_manager = bwStyleManager::getStyleManager();
-	style = bwPtr<bwStyle>(style_manager.createStyleFromTypeID(type_id));
+	style = bwPtr<bwStyle>(bwStyleManager::createStyleFromTypeID(type_id));
 	style->dpi_fac = interface_scale;
 }
 
@@ -128,7 +127,7 @@ public:
 void Stage::drawScrollbars()
 {
 	if (isScrollable()) {
-		const unsigned int padding = (unsigned int)(4 * interface_scale);
+		const unsigned int padding = 4u * (unsigned int)interface_scale;
 
 		if (!scrollbar) {
 			scrollbar = bwPtr_new<bwScrollBar>(getScrollbarWidth(), mask_height);
@@ -316,7 +315,7 @@ void Stage::handleMouseMovementEvent(
 {
 	const bwPoint& mouse_location = event.getMouseLocation();
 
-	if (bwOptional<std::reference_wrapper<bwWidget>> hovered = findWidgetAt(mouse_location)) {
+	if (auto hovered = findWidgetAt(mouse_location)) {
 		updateWidgetHovering(event, *hovered);
 	}
 }
@@ -371,8 +370,11 @@ unsigned int Stage::getScrollbarWidth() const
 
 unsigned int Stage::getContentWidth() const
 {
-	const bool has_scrollbars = isScrollable();
-	return std::max(mask_width - (has_scrollbars ? getScrollbarWidth() : 0), 0u);
+	if (isScrollable()) {
+		return (getScrollbarWidth() > mask_width) ? 0u : (mask_width - getScrollbarWidth());
+	}
+
+	return mask_width;
 }
 
 unsigned int Stage::getContentHeight() const

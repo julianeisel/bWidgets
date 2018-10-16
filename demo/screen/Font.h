@@ -109,7 +109,7 @@ private:
 	public:
 		void invalidate();
 		void ensureUpdated(const Font&);
-		const FontGlyph& getCachedGlyph(const Font&, const unsigned char) const;
+		const FontGlyph& getCachedGlyph(const Font&, const char) const;
 
 		bool is_dirty{true};
 		std::vector<std::unique_ptr<FontGlyph>> cached_glyphs;
@@ -127,16 +127,16 @@ public:
 	        bWidgets::bwPtr<Pixmap>&& pixmap,
 	        const int offset_left, const int offset_top,
 	        FixedNum<F16p16> advance_width);
-	FontGlyph();
+	FontGlyph() = default;
 
-	bool is_valid;
+	bool is_valid = false;
 
-	unsigned int index; // Same as freetype index
+	unsigned int index = 0; // Same as freetype index
 
 	bWidgets::bwPtr<Pixmap> pixmap;
-	int offset_left, offset_top; // bitmap_left, bitmap_top
+	int offset_left = 0, offset_top = 0; // bitmap_left, bitmap_top
 	FixedNum<F16p16> advance_width;
-	int pitch;
+	int pitch = 0;
 };
 
 } // namespace bWidgetsDemo

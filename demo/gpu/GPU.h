@@ -29,8 +29,8 @@ typedef enum GPUShaderID {
 	GPU_SHADER_2D_UNIFORM_COLOR,
 } GPUShaderID;
 
-void GPU_init(void);
-void GPU_exit(void);
+void GPU_init();
+void GPU_exit();
 
 void gpuTranslate2f(const float x, const float y);
 void gpuTranslate2f(const float vec[2]);

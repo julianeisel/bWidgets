@@ -19,7 +19,7 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 
 #include "File.h"
@@ -36,8 +36,8 @@ File::File(const std::string& path, std::ios::openmode mode) :
 
 std::string File::readIntoString()
 {
-	std::string string = "";
-	std::string line = "";
+	std::string string;
+	std::string line;
 
 	assert(_file_stream.is_open());
 	while (getline(_file_stream, line)) {

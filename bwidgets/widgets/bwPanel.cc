@@ -10,11 +10,11 @@ using namespace bWidgets;
 
 
 bwPanel::bwPanel(
-        const std::string& label,
+        std::string label,
         unsigned int header_height_hint) :
     bwWidget(WIDGET_TYPE_PANEL, "bwPanel", 0, header_height_hint),
     header_height(header_height_hint),
-    label(label)
+    label(std::move(label))
 {
 	initialize();
 }

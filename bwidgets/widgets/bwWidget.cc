@@ -4,13 +4,13 @@ using namespace bWidgets;
 
 
 bwWidget::bwWidget(
-        const WidgetType type, const std::string& identifier,
+        const WidgetType type, std::string identifier,
         const unsigned int width_hint, const unsigned int height_hint) :
     type(type),
     state(STATE_NORMAL),
     rectangle(0, 0, 0, 0),
     width_hint(width_hint), height_hint(height_hint),
-    identifier(identifier)
+    identifier(std::move(identifier))
 {
 	
 }

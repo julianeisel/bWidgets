@@ -63,8 +63,8 @@ private:
 	using ShaderProgramCache = std::array<bWidgets::bwPtr<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
 	static ShaderProgramCache cache;
 
-	ShaderIDArray shader_ids;
-	unsigned int programID;
+	ShaderIDArray shader_ids = {};
+	unsigned int programID = 0;
 	ShaderInterface* interface;
 };
 

@@ -34,7 +34,9 @@ namespace bWidgetsDemo {
 class Window
 {
 public:
-	Window(std::string name, unsigned int size_x = 600, unsigned int size_y = 350);
+	Window(
+	        const std::string& name,
+	        unsigned int size_x = 600, unsigned int size_y = 350);
 	~Window();
 
 	enum WindowAction {
@@ -68,7 +70,7 @@ public:
 
 private:
 	GLFWwindow* glfw_window;
-	unsigned int VertexArrayID;
+	unsigned int VertexArrayID = 0;
 
 	int width, height;
 };

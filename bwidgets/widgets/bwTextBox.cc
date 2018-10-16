@@ -9,7 +9,7 @@ using namespace bWidgets;
 bwTextBox::bwTextBox(
         unsigned int width_hint, unsigned int height_hint) :
     bwWidget(WIDGET_TYPE_TEXT_BOX, "bwTextBox", width_hint, height_hint),
-    selection_rectangle(bwRectanglePixel()), is_text_editing(false)
+    selection_rectangle(bwRectanglePixel())
 {
 	initialize();
 }
@@ -28,7 +28,7 @@ void bwTextBox::draw(bwStyle& style)
 	painter.drawRoundboxWidgetBase(base_style, style, inner_rect, gradient, base_style.corner_radius);
 
 	// Text editing
-	if (is_text_editing && (selection_rectangle.isEmpty() == false)) {
+	if (is_text_editing && !selection_rectangle.isEmpty()) {
 		// Selection drawing
 		painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
 		painter.setActiveColor(base_style.decorationColor());
