@@ -64,7 +64,7 @@ bool bwCheckbox::isChecked() const
 bwRectanglePixel bwCheckbox::getCheckboxRectangle() const
 {
 	bwRectanglePixel checkbox_rect{rectangle};
-	const unsigned int delta = 1 + checkbox_rect.height() / 8;
+	const int delta = 1 + checkbox_rect.height() / 8;
 
 	checkbox_rect.xmax = checkbox_rect.xmin + checkbox_rect.height();
 	checkbox_rect.resize(-delta);

@@ -115,7 +115,7 @@ protected:
 
 	// The iterator-wrapper for this item, stored to avoid lookups.
 	// Only valid when item was assigned to a parent using addLayoutItem.
-	IteratorItem iterator_item{nullptr};
+	IteratorItem iterator_item{};
 
 	unsigned int width{0}, height{0};
 	LayoutItem* parent{nullptr};

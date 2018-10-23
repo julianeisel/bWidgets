@@ -84,10 +84,7 @@ WidgetIterator WidgetIterator::operator++()
 	}
 
 	// Next traverse neighbours and up the tree, until we're at the initial item the iteration was started from.
-	for (const LayoutItem* layout_item = item;
-	     layout_item && layout_item->iterator_item != LayoutItem::IteratorItem(nullptr) && layout_item != subtree_root;
-	     layout_item = layout_item->parent)
-	{
+	for (const LayoutItem* layout_item = item; layout_item && layout_item != subtree_root; layout_item = layout_item->parent) {
 		for (auto neighbour = std::next(layout_item->iterator_item);
 		     layout_item->parent && neighbour != layout_item->parent->child_items.end();
 		     ++neighbour)

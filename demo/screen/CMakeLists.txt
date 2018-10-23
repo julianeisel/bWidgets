@@ -49,8 +49,9 @@ set(SRC
 )
 
 set(LIB
-	${FREETYPE_LIBRARIES}
-	${PNG_LIBRARIES}
+	${FREETYPE_LIBRARY}
+	${ZLIB_LIBRARY}
+	${PNG_LIBRARY}
 	bWidgets
 
 	bwd_gpu

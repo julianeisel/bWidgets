@@ -22,7 +22,7 @@ public:
 	bwColor& operator=(const bwColor& other_color);
 
 	bool operator==(const bwColor& compare_color) const;
-	float& operator[](unsigned int index);
+	float& operator[](size_t index);
 	// Implicit conversion to float*
 	operator const float*() const;
 

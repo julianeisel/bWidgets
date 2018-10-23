@@ -1,1 +1,7 @@
+build
 CMakeLists.txt.user
+
+# Visual Studio
+.vs/
+.vscode/
+CMakeSettings.json

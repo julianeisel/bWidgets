@@ -85,7 +85,7 @@ Font* Font::loadFont(const std::string& name, const std::string& path)
 	return font;
 }
 
-static uint getNumChannelsFromFreeTypePixelMode(FT_Pixel_Mode pixel_mode)
+static unsigned int getNumChannelsFromFreeTypePixelMode(FT_Pixel_Mode pixel_mode)
 {
 	switch (pixel_mode) {
 		case FT_PIXEL_MODE_GRAY:
@@ -98,7 +98,7 @@ static uint getNumChannelsFromFreeTypePixelMode(FT_Pixel_Mode pixel_mode)
 	}
 }
 
-static uint getGLFormatFromNumChannels(uint num_channels)
+static unsigned int getGLFormatFromNumChannels(unsigned int num_channels)
 {
 	switch (num_channels) {
 		case 1:
@@ -177,16 +177,13 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
 	immUnbindProgram();
 }
 
-void Font::renderGlyph(
-        const FontGlyph& glyph, const FontGlyph* previous_glyph,
-        const unsigned int attr_pos, const unsigned int attr_texcoord,
-        Pen& pen) const
+static void render_glyph_texture(
+        const Pixmap& pixmap, const bWidgets::bwPoint& draw_pos,
+        const unsigned int attr_pos, const unsigned int attr_texcoord)
 {
-	const Pixmap& pixmap = *glyph.pixmap;
-	const float w = pixmap.width();
-	const float h = pixmap.height();
-	const bool use_kerning = previous_glyph != nullptr;
-	const uint gl_format = getGLFormatFromNumChannels(pixmap.getNumChannels());
+	const unsigned int gl_format = getGLFormatFromNumChannels(pixmap.getNumChannels());
+	const int w = pixmap.width();
+	const int h = pixmap.height();
 
 	// Could reduce this to one call per text render.
 	if (pixmap.getNumChannels() == 1) {
@@ -196,25 +193,6 @@ void Font::renderGlyph(
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 	}
 	glTexImage2D(GL_TEXTURE_2D, 0, gl_format, w, h, 0, gl_format, GL_UNSIGNED_BYTE, &pixmap.getBytes()[0]);
-
-	if (use_kerning) {
-		pen.x += getKerningDistance(*previous_glyph, glyph);
-	}
-
-	if (render_mode == SUBPIXEL_LCD_RGB_COVERAGE) {
-		if (use_subpixel_pos && previous_glyph) {
-			immUniform1f("subpixel_offset", previous_glyph->advance_width.getFractionAsReal());
-		}
-		else {
-			immUniform1f("subpixel_offset", 0.0f);
-		}
-	}
-
-	/* The actual position for drawing the bitmaps slightly differs from pen position. */
-	bWidgets::bwPoint draw_pos(pen.x.toInt(), pen.y.toInt());
-
-	draw_pos.x += glyph.offset_left;
-	draw_pos.y += glyph.offset_top;
 
 	immBegin(PRIM_TRIANGLE_STRIP, 4);
 	immAttrib2f(attr_texcoord, 0.0f, 0.0f);
@@ -226,6 +204,35 @@ void Font::renderGlyph(
 	immAttrib2f(attr_texcoord, 1.0f, 1.0f);
 	immVertex2f(attr_pos, draw_pos.x + w, draw_pos.y - h);
 	immEnd();
+}
+
+void Font::renderGlyph(
+        const FontGlyph& glyph, const FontGlyph* previous_glyph,
+        const unsigned int attr_pos, const unsigned int attr_texcoord,
+        Pen& pen) const
+{
+	const Pixmap& pixmap = *glyph.pixmap;
+	const bool has_texture = pixmap.getBytes().size() > 0;
+	const bool use_kerning = previous_glyph != nullptr;
+
+	if (use_kerning) {
+		pen.x += getKerningDistance(*previous_glyph, glyph);
+	}
+	/* The actual position for drawing the bitmaps slightly differs from pen position. */
+	bWidgets::bwPoint draw_pos((float)pen.x.toInt(), (float)pen.y.toInt());
+
+	draw_pos.x += glyph.offset_left;
+	draw_pos.y += glyph.offset_top;
+
+	if (render_mode == SUBPIXEL_LCD_RGB_COVERAGE) {
+		const float subpixel_offset = (use_subpixel_pos && previous_glyph) ?
+		                                  (float)previous_glyph->advance_width.getFractionAsReal() : 0.0f;
+		immUniform1f("subpixel_offset", subpixel_offset);
+	}
+
+	if (has_texture) {
+		render_glyph_texture(pixmap, draw_pos, attr_pos, attr_texcoord);
+	}
 
 	pen.x += glyph.advance_width;
 	pen.x.floor();
@@ -350,7 +357,7 @@ FT_Int32 Font::getFreeTypeLoadFlags() const
 
 static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph)
 {
-	const uint num_channels  = getNumChannelsFromFreeTypePixelMode((FT_Pixel_Mode)freetype_glyph->bitmap.pixel_mode);
+	const unsigned int num_channels  = getNumChannelsFromFreeTypePixelMode((FT_Pixel_Mode)freetype_glyph->bitmap.pixel_mode);
 	Pixmap pixmap(freetype_glyph->bitmap.width / num_channels, freetype_glyph->bitmap.rows, num_channels,
 	              8, abs(freetype_glyph->bitmap.pitch) - freetype_glyph->bitmap.width);
 

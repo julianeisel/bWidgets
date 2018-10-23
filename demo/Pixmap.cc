@@ -52,7 +52,9 @@ Pixmap::Pixmap(
 
 void Pixmap::fill(const unsigned char* bytes)
 {
-	std::copy_n(bytes, _bytes.size(), &_bytes[0]);
+	if (_bytes.size() > 0) {
+		std::copy_n(bytes, _bytes.size(), &_bytes[0]);
+	}
 }
 
 std::vector<unsigned char>& Pixmap::getBytes()
