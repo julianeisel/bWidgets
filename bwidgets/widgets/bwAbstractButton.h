@@ -29,6 +29,7 @@ public:
 	virtual void mouseLeave() override;
 
 	virtual const std::string* getLabel() const override;
+	virtual const class bwIconInterface* getIcon() const;
 
 	/**
 	 * Function object called when applying changes to widget.

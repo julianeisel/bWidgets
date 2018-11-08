@@ -66,6 +66,13 @@ public:
 	void enableGradient(const bwGradient& gradient);
 	bool isGradientEnabled() const;
 
+	void drawTextAndIcon(
+	        const std::string& text,
+	        const bwIconInterface* icon,
+	        const bwRectanglePixel& rectangle,
+	        const TextAlignment alignment,
+	        float dpi_fac) const;
+
 	// Primitives
 	void drawRoundbox(
 	        const bwRectanglePixel& rect,

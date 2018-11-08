@@ -23,7 +23,7 @@ public:
 
 private:
 	const std::string text;
-	bwOptional<const class bwIconInterface*> icon;
+	const class bwIconInterface* icon{nullptr};
 
 	bwColor text_color;
 };

@@ -40,11 +40,12 @@ public:
 	        const class bWidgets::bwPainter&,
 	        const class bWidgets::bwPolygon&) override;
 	void drawText(
-	        const class bWidgets::bwPainter &,
+	        const class bWidgets::bwPainter&,
 	        const std::string&,
 	        const bWidgets::bwRectanglePixel&,
 	        const bWidgets::TextAlignment) override;
 	void drawIcon(
+	        const class bWidgets::bwPainter&,
 	        const bWidgets::bwIconInterface&,
 	        const bWidgets::bwRectanglePixel&) override;
 

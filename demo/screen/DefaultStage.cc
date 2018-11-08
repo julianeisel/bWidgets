@@ -176,7 +176,9 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	col.addWidget(bwPtr_new<bwPushButton>("Rotate", 0, BUTTON_HEIGHT));
 	col.addWidget(bwPtr_new<bwPushButton>("Scale", 0, BUTTON_HEIGHT));
 
-	panel->addWidget(bwPtr_new<bwPushButton>("Mirror", 0, BUTTON_HEIGHT));
+	auto push_but = bwPtr_new<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
+	push_but->setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
+	panel->addWidget(std::move(push_but));
 
 
 	panel = &PanelLayout::create("More Testing...", PANEL_HEADER_HEIGHT, *layout);

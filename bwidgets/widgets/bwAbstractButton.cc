@@ -30,8 +30,9 @@ void bwAbstractButton::draw(bwStyle& style)
 	painter.drawRoundboxWidgetBase(base_style, style, rectangle, gradient, base_style.corner_radius);
 
 	// Text
+	painter.setContentMask(rectangle);
 	painter.setActiveColor(base_style.textColor());
-	painter.drawText(text, rectangle, base_style.text_alignment);
+	painter.drawTextAndIcon(text, getIcon(), rectangle, base_style.text_alignment, style.dpi_fac);
 }
 
 void bwAbstractButton::registerProperties()
@@ -74,6 +75,11 @@ void bwAbstractButton::mouseLeave()
 const std::string* bwAbstractButton::getLabel() const
 {
 	return &text;
+}
+
+const bwIconInterface *bwAbstractButton::getIcon() const
+{
+	return nullptr;
 }
 
 void bwAbstractButton::apply()

@@ -185,13 +185,13 @@ static float stage_text_xpos_calc(
 
 	switch (alignment) {
 		case TEXT_ALIGN_LEFT:
-			value = rectangle.xmin + 10; // XXX +10 is ugly. Goes out of widget rectangle even.
+			value = rectangle.xmin + 9; // XXX +9 is ugly. Goes out of widget rectangle even.
 			break;
 		case TEXT_ALIGN_CENTER:
 			value = rectangle.centerX() - (font.calculateStringWidth(text) / 2.0f);
 			break;
 		case TEXT_ALIGN_RIGHT:
-			value = rectangle.xmax - font.calculateStringWidth(text) - 10; // XXX -10 is ugly. Goes out of widget rectangle even.
+			value = rectangle.xmax - font.calculateStringWidth(text) - 9; // XXX -9 is ugly. Goes out of widget rectangle even.
 			break;
 	}
 
@@ -281,14 +281,15 @@ static void engine_icon_rectangle_adjust(
         const bwRectanglePixel& bounds,
         const Pixmap& pixmap)
 {
-	const int xmin = std::max(bounds.centerX() - (pixmap.width()  / 2), bounds.xmin);
-	const int ymin = std::max(bounds.centerY() - (pixmap.height() / 2), bounds.ymin);
+	const int xmin = std::max(bounds.centerX() - (pixmap.width()  / 2) + 4, bounds.xmin);
+	const int ymin = std::max(bounds.centerY() - (pixmap.height() / 2) + 1, bounds.ymin);
 
 	icon_rect.set(xmin, std::min(pixmap.width(), bounds.width()),
 	              ymin, std::min(pixmap.height(), bounds.height()));
 }
 
 void GawainPaintEngine::drawIcon(
+        const bwPainter& /*painter*/,
         const bwIconInterface& icon_interface,
         const bwRectanglePixel& rectangle)
 {

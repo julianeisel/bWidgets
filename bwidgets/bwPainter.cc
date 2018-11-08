@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <iostream>
 
 #include "bwPaintEngine.h"
@@ -71,7 +72,7 @@ void bwPainter::drawIcon(
 	}
 
 	if (!rect.isEmpty() && icon_interface.isValid()) {
-		paint_engine->drawIcon(icon_interface, rect);
+		paint_engine->drawIcon(*this, icon_interface, rect);
 	}
 }
 
@@ -113,6 +114,27 @@ void bwPainter::enableGradient(const bwGradient& gradient)
 bool bwPainter::isGradientEnabled() const
 {
 	return active_gradient != nullptr;
+}
+
+void bwPainter::drawTextAndIcon(
+        const std::string& text,
+        const bwIconInterface* icon,
+        const bwRectanglePixel& rectangle,
+        const TextAlignment alignment,
+        float dpi_fac) const
+{
+	bwRectanglePixel icon_rect{rectangle};
+	bwRectanglePixel text_rect{rectangle};
+
+	if (icon) {
+		const float icon_size = std::round(bwIconInterface::ICON_DEFAULT_SIZE * dpi_fac);
+		icon_rect.xmax = int(icon_rect.xmin + icon_size);
+		icon_rect.ymax = int(icon_rect.ymin + icon_size);
+		drawIcon(*icon, icon_rect);
+		text_rect.xmin = icon_rect.xmax;
+	}
+
+	drawText(text, text_rect, alignment);
 }
 
 // ------------------ Primitives ------------------

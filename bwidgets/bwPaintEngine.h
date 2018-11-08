@@ -70,9 +70,12 @@ public:
 	        const TextAlignment alignment) = 0;
 	/**
 	 * Draw the icon referenced by \a icon_interface.
+	 * \param painter Provides all aditional information needed for drawing
+	 *                (e.g. color for theme controlled monochrome icons etc.).
 	 * \param rect The bounding-box to draw the icon into.
 	 */
 	virtual void drawIcon(
+	        const class bwPainter& painter,
 	        const class bwIconInterface& icon_interface,
 	        const bwRectanglePixel& rect) = 0;
 };
