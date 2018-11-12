@@ -77,6 +77,8 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 	style_manager.registerDefaultStyleTypes();
 	activateStyleID(bwStyle::STYLE_CLASSIC);
 
+	setFontTightPositioning(true);
+
 	layout = bwPtr_new<RootLayout>(height, width);
 	layout->padding = 7;
 	layout->item_margin = 5;
@@ -191,6 +193,11 @@ void Stage::setInterfaceScale(const float value)
 void Stage::setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode)
 {
 	font->setFontAntiAliasingMode(aa_mode);
+}
+
+void Stage::setFontTightPositioning(const bool value)
+{
+	font->setTightPositioning(value);
 }
 
 void Stage::setFontHinting(const bool value)

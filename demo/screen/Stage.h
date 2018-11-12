@@ -57,6 +57,7 @@ public:
 	        const class Window& win);
 
 	static void setInterfaceScale(const float value);
+	static void setFontTightPositioning(const bool value);
 	static void setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode);
 	static void setFontHinting(const bool value);
 	static void setFontSubPixelPositioning(const bool value);

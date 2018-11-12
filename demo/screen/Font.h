@@ -63,6 +63,7 @@ public:
 	unsigned int calculateStringWidth(const std::string &text);
 
 	void setFontAntiAliasingMode(AntiAliasingMode);
+	void setTightPositioning(bool value);
 	void setHinting(bool value);
 	void setSubPixelPositioning(bool value);
 
@@ -83,6 +84,8 @@ private:
 	        const unsigned int attr_pos, const unsigned int attr_texcoord,
 	        Pen& pen) const;
 
+	void applyPositionBias(FixedNum<F16p16>& value) const;
+	float calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) const;
 	FixedNum<F16p16> getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
 	/* Accesses private members, so make it a member function. Would be better
 	 * to keep freetype specific stuff out of the general Font class, but
@@ -100,6 +103,7 @@ private:
 	bWidgets::bwColor active_color;
 	bWidgets::bwRectanglePixel mask;
 	AntiAliasingMode render_mode;
+	bool use_tight_positioning;
 	bool use_hinting;
 	bool use_subpixel_pos;
 

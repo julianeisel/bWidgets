@@ -206,6 +206,26 @@ static void render_glyph_texture(
 	immEnd();
 }
 
+float Font::calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) const
+{
+	if (use_tight_positioning) {
+		return previous_glyph ? (float)previous_glyph->advance_width.getFractionAsReal() : 0.0f;
+	}
+	else {
+		return pen.x.getFractionAsReal();
+	}
+}
+
+void Font::applyPositionBias(FixedNum<F16p16>& value) const
+{
+	if (use_tight_positioning) {
+		value.floor();
+	}
+	else if ((render_mode != SUBPIXEL_LCD_RGB_COVERAGE) || !use_subpixel_pos) {
+		value.round();
+	}
+}
+
 void Font::renderGlyph(
         const FontGlyph& glyph, const FontGlyph* previous_glyph,
         const unsigned int attr_pos, const unsigned int attr_texcoord,
@@ -225,9 +245,7 @@ void Font::renderGlyph(
 	draw_pos.y += glyph.offset_top;
 
 	if (render_mode == SUBPIXEL_LCD_RGB_COVERAGE) {
-		const float subpixel_offset = (use_subpixel_pos && previous_glyph) ?
-		                                  (float)previous_glyph->advance_width.getFractionAsReal() : 0.0f;
-		immUniform1f("subpixel_offset", subpixel_offset);
+		immUniform1f("subpixel_offset", use_subpixel_pos ? calcSubpixelOffset(pen, previous_glyph) : 0.0);
 	}
 
 	if (has_texture) {
@@ -235,13 +253,21 @@ void Font::renderGlyph(
 	}
 
 	pen.x += glyph.advance_width;
-	pen.x.floor();
+	applyPositionBias(pen.x);
 }
 
 void Font::setFontAntiAliasingMode(Font::AntiAliasingMode new_aa_mode)
 {
 	if (new_aa_mode != render_mode) {
 		render_mode = new_aa_mode;
+		cache.invalidate();
+	}
+}
+
+void Font::setTightPositioning(bool value)
+{
+	if (value != use_tight_positioning) {
+		use_tight_positioning = value;
 		cache.invalidate();
 	}
 }
@@ -298,7 +324,9 @@ FixedNum<F16p16> Font::getKerningDistance(const FontGlyph& left, const FontGlyph
 {
 	FT_Vector kerning_dist_xy;
 	FT_Get_Kerning(face, left.index, right.index, FT_KERNING_DEFAULT, &kerning_dist_xy);
-	return FixedNum<F26p6>(kerning_dist_xy.x).floor();
+	FixedNum<F16p16> kerning_dist_fp(FixedNum<F26p6>(kerning_dist_xy.x));
+	applyPositionBias(kerning_dist_fp);
+	return kerning_dist_fp;
 }
 
 unsigned int Font::calculateStringWidth(const std::string& text)
@@ -316,7 +344,7 @@ unsigned int Font::calculateStringWidth(const std::string& text)
 		}
 
 		width += glyph.advance_width;
-		width.floor();
+		applyPositionBias(width);
 		prev_glyph = &glyph;
 	}
 

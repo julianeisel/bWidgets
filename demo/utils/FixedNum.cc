@@ -62,6 +62,13 @@ double FixedNum<_Type>::getFractionAsReal() const
 }
 
 template<typename _Type>
+FixedNum<_Type>& FixedNum<_Type>::round()
+{
+	value += getScaleFactor<_Type>() / 2;
+	return floor();
+}
+
+template<typename _Type>
 FixedNum<_Type>& FixedNum<_Type>::floor()
 {
 	value &= ~(getScaleFactor<_Type>() - 1);

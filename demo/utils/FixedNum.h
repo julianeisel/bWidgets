@@ -62,6 +62,7 @@ public:
 	int toInt() const;
 	double toReal() const;
 	double getFractionAsReal() const;
+	FixedNum& round();
 	FixedNum& floor();
 
 	FixedNum& operator+=(const FixedNum&);

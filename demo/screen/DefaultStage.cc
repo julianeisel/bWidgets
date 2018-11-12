@@ -78,6 +78,20 @@ private:
 	DefaultStage& stage;
 };
 
+class UseFontTightPlacementToggleSetter : public bwFunctorInterface
+{
+public:
+	UseFontTightPlacementToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox) {}
+
+	void operator()() override
+	{
+		Stage::setFontTightPositioning(checkbox.isChecked());
+	}
+
+private:
+	const bwCheckbox& checkbox;
+};
+
 class UseFontHintingToggleSetter : public bwFunctorInterface
 {
 public:
@@ -151,9 +165,13 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 
 
 	layout->addWidget(bwPtr_new<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT));
-	auto checkbox = bwPtr_new<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
 
 	RowLayout* row = &RowLayout::create(*layout, true);
+	auto checkbox = bwPtr_new<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
+	checkbox->apply_functor = bwPtr_new<UseFontTightPlacementToggleSetter>(*checkbox);
+	checkbox->state = bwWidget::STATE_SUNKEN;
+	row->addWidget(std::move(checkbox));
+	checkbox = bwPtr_new<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
 	row->addWidget(std::move(checkbox));
 
