@@ -19,6 +19,7 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
+#include <algorithm>
 #include <iostream>
 
 #include <ft2build.h>
@@ -221,7 +222,7 @@ void Font::applyPositionBias(FixedNum<F16p16>& value) const
 	if (use_tight_positioning) {
 		value.floor();
 	}
-	else if ((render_mode != SUBPIXEL_LCD_RGB_COVERAGE) || !use_subpixel_pos) {
+	else if (!useSubpixelPositioning()) {
 		value.round();
 	}
 }
@@ -383,13 +384,34 @@ FT_Int32 Font::getFreeTypeLoadFlags() const
 	return load_flags;
 }
 
-static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph)
+bool Font::useSubpixelPositioning() const
+{
+	return (render_mode == Font::SUBPIXEL_LCD_RGB_COVERAGE) && use_subpixel_pos;
+}
+
+static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph, const bool use_subpixel_postioning)
 {
 	const unsigned int num_channels  = getNumChannelsFromFreeTypePixelMode((FT_Pixel_Mode)freetype_glyph->bitmap.pixel_mode);
-	Pixmap pixmap(freetype_glyph->bitmap.width / num_channels, freetype_glyph->bitmap.rows, num_channels,
-	              8, abs(freetype_glyph->bitmap.pitch) - freetype_glyph->bitmap.width);
+	const unsigned int width = (freetype_glyph->bitmap.width / num_channels) + (use_subpixel_postioning ? 1 : 0);
+	const unsigned int height = freetype_glyph->bitmap.rows;
+	const unsigned int row_padding = (4 + abs(freetype_glyph->bitmap.pitch) - (width * num_channels)) % 4;
+	Pixmap pixmap(width, height, num_channels, 8, row_padding);
 
-	pixmap.fill(freetype_glyph->bitmap.buffer);
+	if (use_subpixel_postioning) {
+		/* Increase width by 1px so we can draw with subpixel offset of up to 1px. */
+
+		const unsigned char *src_p = freetype_glyph->bitmap.buffer;
+		unsigned char *dst_p = &pixmap.getBytes()[0];
+
+		for (unsigned int row = 0; row < height; row++) {
+			std::copy_n(src_p, freetype_glyph->bitmap.width, dst_p);
+			dst_p += (width * num_channels) + row_padding;
+			src_p += abs(freetype_glyph->bitmap.pitch);
+		}
+	}
+	else {
+		pixmap.fill(freetype_glyph->bitmap.buffer);
+	}
 
 	return bWidgets::bwPtr_new<Pixmap>(std::move(pixmap));
 }
@@ -414,13 +436,13 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 			FT_GlyphSlot ft_glyph = font.face->glyph;
 			FixedNum<F16p16> advance = ft_glyph->linearHoriAdvance;
 
-			if ((font.render_mode == Font::SUBPIXEL_LCD_RGB_COVERAGE) && font.use_subpixel_pos) {
+			if (font.useSubpixelPositioning()) {
 				advance += FixedNum<F26p6>(ft_glyph->rsb_delta - ft_glyph->lsb_delta);
 			}
 
 			glyph = bWidgets::bwPtr_new<FontGlyph>(
 			            glyph_index,
-			            createGlyphPixmap(ft_glyph),
+			            createGlyphPixmap(ft_glyph, font.useSubpixelPositioning()),
 			            ft_glyph->bitmap_left, ft_glyph->bitmap_top,
 			            advance);
 			glyph->pitch = ft_glyph->bitmap.pitch;

@@ -91,6 +91,7 @@ private:
 	 * to keep freetype specific stuff out of the general Font class, but
 	 * ignoring for now since this is just the demo app anyway. */
 	FT_Int32 getFreeTypeLoadFlags() const;
+	bool useSubpixelPositioning() const;
 
 	// The freetype library handle.
 	static FT_Library ft_library;
