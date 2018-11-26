@@ -32,22 +32,25 @@ void main()
 {
 	vec4 alpha_mask = texture(glyph, texCoord_interp);
 	vec4 alpha_mask_prev = textureOffset(glyph, texCoord_interp, ivec2(-1, 0));
+	float ofs_fac = subpixel_offset / 0.333;
 	bool is_first_texel = (texCoord_interp.x * textureSize(glyph, 0).x) < 1.0;
 
 	if (subpixel_offset <= 0.333) {
-		/* pass */
+		alpha_mask.r = mix(alpha_mask.r, is_first_texel ? 0.0 : alpha_mask_prev.b, ofs_fac);
+		alpha_mask.g = mix(alpha_mask.g, alpha_mask.r, ofs_fac);
+		alpha_mask.b = mix(alpha_mask.b, alpha_mask.g, ofs_fac);
 	}
 	else if (subpixel_offset <= 0.666) {
-		/* offset by one subpixel */
-		alpha_mask.b = alpha_mask.g;
-		alpha_mask.g = alpha_mask.r;
-		alpha_mask.r = is_first_texel ? 0 : alpha_mask_prev.b;
+		ofs_fac -= 1;
+		alpha_mask.r = is_first_texel ? 0.0 : mix(alpha_mask_prev.b, alpha_mask_prev.g, ofs_fac);
+		alpha_mask.g = mix(alpha_mask.r, is_first_texel ? 0.0 : alpha_mask_prev.b, ofs_fac);
+		alpha_mask.b = mix(alpha_mask.g, alpha_mask.r, ofs_fac);
 	}
 	else if (subpixel_offset < 1.0) {
-		/* offset by two subpixel */
-		alpha_mask.b = alpha_mask.r;
-		alpha_mask.g = is_first_texel ? 0 : alpha_mask_prev.b;
-		alpha_mask.r = is_first_texel ? 0 : alpha_mask_prev.g;
+		ofs_fac -= 2;
+		alpha_mask.r = is_first_texel ? 0.0 : mix(alpha_mask_prev.g, alpha_mask_prev.r, ofs_fac);
+		alpha_mask.g = is_first_texel ? 0.0 : mix(alpha_mask_prev.b, alpha_mask_prev.g, ofs_fac);
+		alpha_mask.b = mix(alpha_mask.r, is_first_texel ? 0.0 : alpha_mask_prev.b, ofs_fac);
 	}
 
 	fragColor = color.a * alpha_mask;
