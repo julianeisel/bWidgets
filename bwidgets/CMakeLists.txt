@@ -13,12 +13,15 @@ set(SRC
 	bwStyleManager.cc
 	bwStyleProperties.cc
 	bwWidgetBaseStyle.cc
+	screen_graph/Builder.cc
+	screen_graph/Node.cc
 	styles/bwStyleClassic.cc
 	styles/bwStyleFlatGrey.cc
 	styles/bwStyleFlatDark.cc
 	styles/bwStyleFlatLight.cc
 
 	bwIconInterface.h
+	bwLayoutInterface.h
 	bwPaintEngine.h
 	bwPainter.h
 	bwStyle.h
@@ -26,6 +29,8 @@ set(SRC
 	bwStyleManager.h
 	bwStyleProperties.h
 	bwWidgetBaseStyle.h
+	screen_graph/Builder.h
+	screen_graph/Node.h
 	styles/bwStyleClassic.h
 	styles/bwStyleFlatGrey.h
 	styles/bwStyleFlatDark.h

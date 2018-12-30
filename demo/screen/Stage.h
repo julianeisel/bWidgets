@@ -26,6 +26,7 @@
 
 #include "bwScrollBar.h"
 #include "bwStyle.h"
+#include "screen_graph/Node.h"
 
 #include "Font.h"
 
@@ -63,6 +64,7 @@ public:
 	static void setFontSubPixelPositioning(const bool value);
 
 protected:
+	bWidgets::bwScreenGraph::Node screen_graph;
 	bWidgets::bwPtr<class RootLayout> layout;
 
 	// Static members, global UI data for all stages

@@ -33,12 +33,15 @@
 #include "bwPushButton.h"
 #include "bwRadioButton.h"
 #include "bwStyleManager.h"
+#include "screen_graph/Builder.h"
 
 #include "DefaultStage.h"
 
 using namespace bWidgetsDemo;
 using namespace bWidgets; // Less verbose
 
+
+#define USE_SCREENGRAPH_LAYOUT
 
 #define BUTTON_HEIGHT       20
 #define PANEL_HEADER_HEIGHT 24
@@ -151,6 +154,21 @@ private:
 
 // --------------------------------------------------------------------
 
+#ifdef USE_SCREENGRAPH_LAYOUT
+
+DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
+    Stage(mask_width, mask_height)
+{
+	using namespace bwScreenGraph;
+
+	auto& slider = Builder::emplaceWidget<bwNumberSlider>(screen_graph, 0, BUTTON_HEIGHT);
+	slider.apply_functor = bwPtr_new<ScaleSetter>(slider);
+	slider.setText("Interface Scale: ");
+	slider.setMinMax(0.5f, 2.0f);
+	slider.setValue(1.0f);
+}
+
+#else
 DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
     Stage(mask_width, mask_height)
 {
@@ -221,6 +239,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
 	row->addWidget(std::move(label));
 }
+#endif
 
 bool isUseCSSVersionToggleHidden(const bwStyle& style)
 {

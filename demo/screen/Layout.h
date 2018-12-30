@@ -24,6 +24,7 @@
 #include <list>
 
 #include "bwUtil.h"
+#include "bwLayoutInterface.h"
 
 
 namespace bWidgets {
@@ -52,7 +53,7 @@ namespace bWidgetsDemo {
  *       the needed position and size hints can be set. Without changing these, the
  *       calculated widget-coordinates don't change.
  */
-class LayoutItem
+class LayoutItem : public bWidgets::bwLayoutInterface
 {
 	friend class WidgetIterator;
 	friend class WidgetIterator begin(const LayoutItem&);
@@ -73,7 +74,7 @@ public:
 		FLOW_DIRECTION_HORIZONTAL,
 	};
 
-	virtual ~LayoutItem() = default;
+	~LayoutItem() = default;
 
 	bool iterateWidgets(
 	        bool (*callback)(bWidgets::bwWidget& widget, void* custom_data),

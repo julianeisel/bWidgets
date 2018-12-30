@@ -120,7 +120,7 @@ bool bwColor::operator==(const bwColor& compare_color) const
 	        (rgba[3] == compare_color[3]));
 }
 
-float& bwColor::operator[](size_t index)
+float& bwColor::operator[](const int index)
 {
 	assert((index >= 0) && (index < 4));
 	return rgba[index];
