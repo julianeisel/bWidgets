@@ -7,11 +7,16 @@
 namespace bWidgets {
 namespace bwScreenGraph {
 
+/**
+ * \brief Helper class to construct screen-graphs.
+ */
 class Builder
 {
 public:
 	Builder() = default;
+	virtual ~Builder() = default;
 
+	static Node& addChildNode(Node& node, bwPtr<Node> new_child_node);
 	static void setLayout(Node& node, bwPtr<bwLayoutInterface> layout);
 	static bwWidget& addWidget(Node& node, bwPtr<bwWidget> widget);
 
@@ -49,7 +54,6 @@ public:
 	}
 
 private:
-	static Node& addChildNode(Node& node, bwPtr<Node> new_child_node);
 	static void setWidget(Node& node, bwPtr<bwWidget> widget);
 };
 

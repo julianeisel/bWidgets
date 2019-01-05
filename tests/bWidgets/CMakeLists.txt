@@ -13,12 +13,14 @@ set(INC
 	../../bwidgets
 	../../bwidgets/generics
 	../../bwidgets/utils
+	../../bwidgets/widgets
 	../gtest/include
 )
 
 set(SRC
 	bwPolygon_test.cc
 	bwStyleProperties_test.cc
+	screen_graph/Iterator_test.cc
 	utils/bwOptional/constructors.cc
 	utils/bwOptional/comparison_operators.cc
 	utils/bwOptional/destructor.cc
