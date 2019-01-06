@@ -63,7 +63,7 @@ unsigned int LayoutItem::getHeight() const
 	return height;
 }
 
-static bwScreenGraph::Node* getNextUnhiddenWidgetNode(const bwScreenGraph::Node::ChildList::const_iterator& current)
+static bwScreenGraph::Node* getNextUnhiddenNode(const bwScreenGraph::Node::ChildList::const_iterator& current)
 {
 	for (auto iter = ++bwScreenGraph::Node::ChildList::const_iterator(current);
 	     iter != (*current)->Parent()->Children().end();
@@ -74,11 +74,14 @@ static bwScreenGraph::Node* getNextUnhiddenWidgetNode(const bwScreenGraph::Node:
 				return iter->get();
 			}
 		}
+		else {
+			return iter->get();
+		}
 	}
 
 	return nullptr;
 }
-static bwScreenGraph::Node* getPreviousUnhiddenWidgetNode(const bwScreenGraph::Node::ChildIterator& current)
+static bwScreenGraph::Node* getPreviousUnhiddenNode(const bwScreenGraph::Node::ChildIterator& current)
 {
 	for (auto iter = bwScreenGraph::Node::ChildList::reverse_iterator(current);
 	     iter != (*current)->Parent()->Children().rend();
@@ -89,6 +92,9 @@ static bwScreenGraph::Node* getPreviousUnhiddenWidgetNode(const bwScreenGraph::N
 				return iter->get();
 			}
 		}
+		else {
+			return iter->get();
+		}
 	}
 
 	return nullptr;
@@ -96,7 +102,7 @@ static bwScreenGraph::Node* getPreviousUnhiddenWidgetNode(const bwScreenGraph::N
 
 bool shouldWidgetAlignToPrevious(const bwScreenGraph::Node::ChildIterator& current)
 {
-	bwScreenGraph::Node* prev_item = getPreviousUnhiddenWidgetNode(current);
+	bwScreenGraph::Node* prev_item = getPreviousUnhiddenNode(current);
 	bwWidget* prev_widget = prev_item ? prev_item->Widget() : nullptr;
 
 	if (!prev_item || !prev_widget || !prev_widget->canAlign()) {
@@ -107,7 +113,7 @@ bool shouldWidgetAlignToPrevious(const bwScreenGraph::Node::ChildIterator& curre
 }
 bool shouldWidgetAlignToNext(const bwScreenGraph::Node::ChildIterator& current)
 {
-	bwScreenGraph::Node* next_item = getNextUnhiddenWidgetNode(current);
+	bwScreenGraph::Node* next_item = getNextUnhiddenNode(current);
 	bwWidget* next_widget = next_item ? next_item->Widget() : nullptr;
 
 	if (!next_item || !next_widget || !next_widget->canAlign()) {
@@ -141,7 +147,7 @@ static bool needsMarginAfterNode(
         const bool align)
 {
 	const bwWidget* widget = (*node_iter)->Widget();
-	const bwScreenGraph::Node* next_iter = getNextUnhiddenWidgetNode(node_iter);
+	const bwScreenGraph::Node* next_iter = getNextUnhiddenNode(node_iter);
 	const bwWidget* next_widget = next_iter ? next_iter->Widget() : nullptr;
 
 	if (!next_iter) {
@@ -251,7 +257,7 @@ void LayoutItem::resolve(
 			continue;
 		}
 
-		const bwScreenGraph::Node* next = getNextUnhiddenWidgetNode(node_iter);
+		const bwScreenGraph::Node* next = getNextUnhiddenNode(node_iter);
 
 		// Simple correction for precision issues.
 		if (additional_remainder_x > 0) {
