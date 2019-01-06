@@ -1,3 +1,4 @@
+#if 0
 #include "gtest/gtest.h"
 
 #include "bwLabel.h"
@@ -446,3 +447,4 @@ TEST_F(WidgetIteratorTest, subtree_widget_with_childs)
 	expectWidgetCountAndLabels(panel, 3);
 }
 
+#endif

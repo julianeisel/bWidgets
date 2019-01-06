@@ -17,6 +17,8 @@ public:
 	const class bwIconInterface* getIcon() const override;
 	bwPushButton& setIcon(const class bwIconInterface&);
 
+	bool canAlign() const override;
+
 private:
 	const class bwIconInterface* icon{nullptr};
 };

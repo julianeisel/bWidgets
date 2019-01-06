@@ -30,6 +30,7 @@
 #include "bwCheckbox.h"
 #include "bwLabel.h"
 #include "bwNumberSlider.h"
+#include "bwPanel.h"
 #include "bwPushButton.h"
 #include "bwRadioButton.h"
 #include "bwStyleManager.h"
@@ -154,98 +155,81 @@ private:
 
 // --------------------------------------------------------------------
 
-#ifdef USE_SCREENGRAPH_LAYOUT
-
 DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
     Stage(mask_width, mask_height)
 {
 	using namespace bwScreenGraph;
+
+	addStyleSelector(screen_graph);
 
 	auto& slider = Builder::emplaceWidget<bwNumberSlider>(screen_graph, 0, BUTTON_HEIGHT);
 	slider.apply_functor = bwPtr_new<ScaleSetter>(slider);
 	slider.setText("Interface Scale: ");
 	slider.setMinMax(0.5f, 2.0f);
 	slider.setValue(1.0f);
-}
-
-#else
-DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
-    Stage(mask_width, mask_height)
-{
-	addStyleSelector(*layout);
-
-	auto slider = bwPtr_new<bwNumberSlider>(0, BUTTON_HEIGHT);
-	slider->apply_functor = bwPtr_new<ScaleSetter>(*slider);
-	slider->setText("Interface Scale: ");
-	slider->setMinMax(0.5f, 2.0f);
-	slider->setValue(1.0f);
-	layout->addWidget(std::move(slider));
 
 
-	layout->addWidget(bwPtr_new<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT));
+	Builder::emplaceWidget<bwLabel>(screen_graph, "Font Rendering:", 0, BUTTON_HEIGHT);
 
-	RowLayout* row = &RowLayout::create(*layout, true);
-	auto checkbox = bwPtr_new<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
+	auto* row_node = &Builder::addChildNode(screen_graph, bwPtr_new<bwScreenGraph::Node>());
+	Builder::setLayout(*row_node, bwPtr_new<RowLayout>(true));
+	auto* checkbox = &Builder::emplaceWidget<bwCheckbox>(*row_node, "Tight Positioning", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontTightPlacementToggleSetter>(*checkbox);
 	checkbox->state = bwWidget::STATE_SUNKEN;
-	row->addWidget(std::move(checkbox));
-	checkbox = bwPtr_new<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
+	checkbox = &Builder::emplaceWidget<bwCheckbox>(*row_node, "Hinting", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
-	row->addWidget(std::move(checkbox));
 
-	row = &RowLayout::create(*layout, false);
-	checkbox = bwPtr_new<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
+	row_node = &Builder::addChildNode(screen_graph, bwPtr_new<bwScreenGraph::Node>());
+	Builder::setLayout(*row_node, bwPtr_new<RowLayout>(false));
+	checkbox = &Builder::emplaceWidget<bwCheckbox>(*row_node, "Subpixel Rendering", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontSubPixelsToggleSetter>(*checkbox, *this);
-	row->addWidget(std::move(checkbox));
-	checkbox = bwPtr_new<bwCheckbox>("Subpixel Positioning", 0, BUTTON_HEIGHT);
+	checkbox = &Builder::emplaceWidget<bwCheckbox>(*row_node, "Subpixel Positioning", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontSubPixelPositioningToggleSetter>(*checkbox);
 	checkbox->hidden = true;
-	row->addWidget(std::move(checkbox));
 
-	addFakeSpacer(*layout);
+	addFakeSpacer(screen_graph);
 
+	auto* panel_node = &Builder::addChildNode(screen_graph, bwPtr_new<bwScreenGraph::Node>());
+	Builder::setLayout(*panel_node, bwPtr_new<PanelLayout>());
+	Builder::setWidget(*panel_node, bwPtr_new<bwPanel>("Some Testing Widgets", PANEL_HEADER_HEIGHT));
+	auto& col_node = Builder::addChildNode(*panel_node, bwPtr_new<bwScreenGraph::Node>());
+	Builder::setLayout(col_node, bwPtr_new<ColumnLayout>(true));
+	Builder::emplaceWidget<bwPushButton>(col_node, "Translate", 0, BUTTON_HEIGHT);
+	Builder::emplaceWidget<bwPushButton>(col_node, "Rotate", 0, BUTTON_HEIGHT);
+	Builder::emplaceWidget<bwPushButton>(col_node, "Scale", 0, BUTTON_HEIGHT);
 
-	PanelLayout* panel = &PanelLayout::create("Some Testing Widgets", PANEL_HEADER_HEIGHT, *layout);
+	auto& push_but = Builder::emplaceWidget<bwPushButton>(*panel_node, "Mirror", 0, BUTTON_HEIGHT);
+	push_but.setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
 
-	ColumnLayout& col = ColumnLayout::create(*panel, true);
-	col.addWidget(bwPtr_new<bwPushButton>("Translate", 0, BUTTON_HEIGHT));
-	col.addWidget(bwPtr_new<bwPushButton>("Rotate", 0, BUTTON_HEIGHT));
-	col.addWidget(bwPtr_new<bwPushButton>("Scale", 0, BUTTON_HEIGHT));
+	panel_node = &Builder::addChildNode(screen_graph, bwPtr_new<bwScreenGraph::Node>());
+	Builder::setLayout(*panel_node, bwPtr_new<PanelLayout>());
+	Builder::setWidget(*panel_node, bwPtr_new<bwPanel>("More Testing...", PANEL_HEADER_HEIGHT));
+	row_node = &Builder::addChildNode(*panel_node, bwPtr_new<bwScreenGraph::Node>());
+	Builder::setLayout(*row_node, bwPtr_new<RowLayout>(true));
+	Builder::emplaceWidget<bwCheckbox>(*row_node, "Make Awesome", 0, BUTTON_HEIGHT);
+	Builder::emplaceWidget<bwCheckbox>(*row_node, "Wireframes", 0, BUTTON_HEIGHT);
 
-	auto push_but = bwPtr_new<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
-	push_but->setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
-	panel->addWidget(std::move(push_but));
+	auto& text_box = Builder::emplaceWidget<bwTextBox>(*panel_node, 0, BUTTON_HEIGHT);
+	text_box.setText("Some Text...");
 
-
-	panel = &PanelLayout::create("More Testing...", PANEL_HEADER_HEIGHT, *layout);
-	row = &RowLayout::create(*panel, true);
-	row->addWidget(bwPtr_new<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT));
-	row->addWidget(bwPtr_new<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT));
-
-	auto text_box = bwPtr_new<bwTextBox>(0, BUTTON_HEIGHT);
-	text_box->setText("Some Text...");
-	panel->addWidget(std::move(text_box));
-
-	row = &RowLayout::create(*panel, false);
-	auto label = bwPtr_new<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
+	row_node = &Builder::addChildNode(*panel_node, bwPtr_new<bwScreenGraph::Node>());
+	Builder::setLayout(*row_node, bwPtr_new<RowLayout>(false));
+	auto* label = &Builder::emplaceWidget<bwLabel>(*row_node, "Pose Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_POSE_HLT));
-	row->addWidget(std::move(label));
 
-	label = bwPtr_new<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
+	label = &Builder::emplaceWidget<bwLabel>(*row_node, "Normalized FCurve Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
-	row->addWidget(std::move(label));
 
-	label = bwPtr_new<bwLabel>("Chroma Scope Icon", 0, BUTTON_HEIGHT);
+	label = &Builder::emplaceWidget<bwLabel>(*row_node, "Chroma Scope Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
-	row->addWidget(std::move(label));
 }
-#endif
 
 bool isUseCSSVersionToggleHidden(const bwStyle& style)
 {
 	return (style.type_id != bwStyle::STYLE_CLASSIC) && (style.type_id != bwStyle::STYLE_CLASSIC_CSS);
 }
 
+#ifndef USE_SCREENGRAPH_LAYOUT
 void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
 	Stage::activateStyleID(type_id);
@@ -257,14 +241,17 @@ void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
 		}
 	}
 }
+#endif
 
-void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
+void DefaultStage::addStyleSelector(bwScreenGraph::Node& parent_node)
 {
-	RowLayout& row_layout = RowLayout::create(parent_layout, true);
+	using namespace bwScreenGraph;
 
-	auto label = bwPtr_new<bwLabel>("Style:", 0, BUTTON_HEIGHT);
-	label->setIcon(icon_map->getIcon(ICON_BLENDER));
-	row_layout.addWidget(std::move(label));
+	auto& row_node = Builder::addChildNode(parent_node, bwPtr_new<bwScreenGraph::Node>());
+	Builder::setLayout(row_node, bwPtr_new<RowLayout>(true));
+
+	auto& label = Builder::emplaceWidget<bwLabel>(row_node, "Style:", 0, BUTTON_HEIGHT);
+	label.setIcon(icon_map->getIcon(ICON_BLENDER));
 
 	for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
 		if (type.type_id == bwStyle::STYLE_CLASSIC_CSS) {
@@ -279,19 +266,18 @@ void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
 			style_button->state = bwAbstractButton::STATE_SUNKEN;
 		}
 
-		row_layout.addWidget(std::move(style_button));
+		Builder::addWidget(row_node, std::move(style_button));
 	}
 
-	auto checkbox = bwPtr_new<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
-	checkbox->hidden = isUseCSSVersionToggleHidden(*style);
-	checkbox->apply_functor = bwPtr_new<UseCSSVersionToggleSetter>(*checkbox, *this);
-	parent_layout.addWidget(std::move(checkbox));
+	auto& checkbox = Builder::emplaceWidget<bwCheckbox>(parent_node, "Use CSS Version", 0, BUTTON_HEIGHT);
+	checkbox.hidden = isUseCSSVersionToggleHidden(*style);
+	checkbox.apply_functor = bwPtr_new<UseCSSVersionToggleSetter>(checkbox, *this);
 }
 
-void DefaultStage::addFakeSpacer(LayoutItem& layout)
+void DefaultStage::addFakeSpacer(bwScreenGraph::Node& parent_node)
 {
 	// Just some extra space. No spacer widgets yet.
-	layout.addWidget(bwPtr_new<bwLabel>("", 0, 7));
+	bwScreenGraph::Builder::emplaceWidget<bwLabel>(parent_node, "", 0, 7);
 }
 
 void DefaultStage::useStyleCSSVersionSet(

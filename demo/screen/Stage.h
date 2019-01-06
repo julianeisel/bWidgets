@@ -77,6 +77,8 @@ protected:
 	unsigned int mask_width, mask_height;
 	int vert_scroll = 0;
 
+	RootLayout& Layout() const;
+
 	virtual void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
 
 private:

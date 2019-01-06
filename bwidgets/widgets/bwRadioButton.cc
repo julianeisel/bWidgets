@@ -26,3 +26,8 @@ void bwRadioButton::mouseReleaseEvent(
 {
 	
 }
+
+bool bwRadioButton::canAlign() const
+{
+	return true;
+}

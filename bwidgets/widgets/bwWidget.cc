@@ -68,6 +68,11 @@ const std::string* bwWidget::getLabel() const
 	return nullptr;
 }
 
+bool bwWidget::canAlign() const
+{
+	return false;
+}
+
 /**
  * \brief Additional initialization that can't be done in #bwWidget constructor.
  */

@@ -30,6 +30,8 @@
 #include "bwStyleFlatDark.h"
 #include "bwStyleManager.h"
 #include "bwWidget.h"
+#include "screen_graph/Builder.h"
+#include "screen_graph/Iterators.h"
 
 #include "Event.h"
 #include "File.h"
@@ -79,9 +81,10 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 
 	setFontTightPositioning(true);
 
-	layout = bwPtr_new<RootLayout>(height, width);
+	auto layout = bwPtr_new<RootLayout>(height, width);
 	layout->padding = 7;
 	layout->item_margin = 5;
+	bwScreenGraph::Builder::setLayout(screen_graph, std::move(layout));
 }
 
 void Stage::initFonts()
@@ -148,6 +151,21 @@ void Stage::drawScrollbars()
 	}
 }
 
+static void drawScreenGraph(
+        bwScreenGraph::Node& node,
+        bwStyle& style)
+{
+	for (const auto& iter_node : node) {
+		bwWidget* widget = iter_node.Widget();
+
+		if (widget && !widget->hidden) {
+			if (!widget->rectangle.isEmpty()) {
+				widget->draw(style);
+			}
+		}
+	}
+}
+
 void Stage::draw()
 {
 	bwRectanglePixel rect{0, (int)mask_width, 0, (int)mask_height};
@@ -176,8 +194,8 @@ void Stage::draw()
 
 	updateContentBounds();
 
-	layout->resolve(vert_scroll, interface_scale);
-	layout->draw(*style);
+	resolveScreenGraphNodeLayout(screen_graph, vert_scroll, interface_scale);
+	drawScreenGraph(screen_graph, *style);
 	drawScrollbars();
 }
 
@@ -210,6 +228,11 @@ void Stage::setFontSubPixelPositioning(const bool value)
 	font->setSubPixelPositioning(value);
 }
 
+RootLayout& Stage::Layout() const
+{
+	return static_cast<RootLayout&>(*screen_graph.Layout());
+}
+
 void Stage::setStyleSheet(const std::string& filepath)
 {
 	if (!style_sheet || (style_sheet->getFilepath() != filepath)) {
@@ -223,8 +246,9 @@ void Stage::setStyleSheet(const std::string& filepath)
 
 void Stage::updateContentBounds()
 {
-	layout->setMaxSize(getContentWidth());
-	layout->setYmax(mask_height);
+	RootLayout& layout = static_cast<RootLayout&>(*screen_graph.Layout());
+	layout.setMaxSize(getContentWidth());
+	layout.setYmax(mask_height);
 }
 
 void Stage::validizeScrollValue()
@@ -386,7 +410,7 @@ unsigned int Stage::getContentWidth() const
 
 unsigned int Stage::getContentHeight() const
 {
-	return layout->getHeight() + (2 * layout->padding); // TODO Padding should actually be added to layout width/height
+	return Layout().getHeight() + (2 * Layout().padding); // TODO Padding should actually be added to layout width/height
 }
 
 bool Stage::isScrollable() const

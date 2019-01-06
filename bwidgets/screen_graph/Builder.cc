@@ -10,6 +10,7 @@ Node& Builder::addChildNode(
         Node& node,
         bwPtr<Node> new_child_node)
 {
+	new_child_node->parent = &node;
 	node.children.push_back(std::move(new_child_node));
 	return *node.children.back();
 }

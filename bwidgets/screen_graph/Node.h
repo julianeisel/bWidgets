@@ -33,12 +33,39 @@ struct Node
 	friend class Builder;
 	friend class PreOrderIterator;
 
+	using ChildList = std::list<bwPtr<Node>>;
+	using ChildIterator = ChildList::iterator;
+
 	Node() = default;
 	~Node() = default;
 
+	const ChildList& Children() const
+	{
+		return children;
+	}
+	ChildList& Children()
+	{
+		return children;
+	}
+
+	const Node* Parent() const
+	{
+		return parent;
+	}
+
+	bwLayoutInterface* Layout() const
+	{
+		return &*layout;
+	}
+
+	bwWidget* Widget() const
+	{
+		return &*widget;
+	}
+
 private:
-	using ChildList = std::list<bwPtr<Node>>;
 	ChildList children;
+	Node* parent;
 
 	bwPtr<bwLayoutInterface> layout;
 	bwPtr<bwWidget> widget;

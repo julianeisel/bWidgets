@@ -53,7 +53,7 @@ public:
 		return static_cast<_WidgetType&>(*node_ref.widget);
 	}
 
-private:
+//private: // Public for container widgets. We should add proper support for these here.
 	static void setWidget(Node& node, bwPtr<bwWidget> widget);
 };
 

@@ -32,6 +32,7 @@ class bwFunctorInterface
 {
 public:
 	virtual void operator()() = 0;
+	virtual ~bwFunctorInterface() = default;
 };
 
 } // namespace bWidgets

@@ -26,6 +26,8 @@ public:
 	void setText(const std::string& value);
 	const std::string* getLabel() const override;
 
+	bool canAlign() const override;
+
 	bwRectanglePixel selection_rectangle;
 
 protected:
