@@ -25,7 +25,6 @@
 
 #include "IconMap.h"
 #include "Layout.h"
-#include "WidgetIterator.h"
 
 #include "bwCheckbox.h"
 #include "bwLabel.h"
@@ -35,6 +34,7 @@
 #include "bwRadioButton.h"
 #include "bwStyleManager.h"
 #include "screen_graph/Builder.h"
+#include "screen_graph/Iterators.h"
 
 #include "DefaultStage.h"
 
@@ -127,15 +127,19 @@ private:
 class UseFontSubPixelsToggleSetter : public bwFunctorInterface
 {
 public:
-	UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox, const Stage& _stage) :
+	UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox, Stage& _stage) :
 	    checkbox(_checkbox), stage(_stage)
 	{}
 
 	void operator()() override
 	{
 		Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE : Font::NORMAL_COVERAGE);
-		for (bwWidget& widget : WidgetIterator::withHidden(*stage.layout)) {
-			if (auto* iter_checkbox = widget_cast<bwCheckbox*>(&widget)) {
+		for (bwScreenGraph::Node& node : stage.screen_graph) {
+			bwWidget* widget = node.Widget();
+			if (!widget) {
+				continue;
+			}
+			if (auto* iter_checkbox = widget_cast<bwCheckbox*>(widget)) {
 				if (iter_checkbox->apply_functor &&
 				    dynamic_cast<UseFontSubPixelPositioningToggleSetter*>(iter_checkbox->apply_functor.get()))
 				{
@@ -147,7 +151,7 @@ public:
 
 private:
 	const bwCheckbox& checkbox;
-	const Stage& stage;
+	Stage& stage;
 };
 
 } // namespace bWidgetsDemo
@@ -356,8 +360,12 @@ void StyleSetter::operator()()
 	bwStyle::StyleTypeID style_type_id = style_type.type_id;
 	stage.activateStyleID(style_type_id);
 	// Deactivate other style radio buttons
-	for (bwWidget& widget : *stage.layout) {
-		updateStyleButton(widget, stage);
+	for (bwScreenGraph::Node& node : stage.screen_graph) {
+		bwWidget* widget = node.Widget();
+		if (!widget || widget->hidden) {
+			continue;
+		}
+		updateStyleButton(*widget, stage);
 	}
 }
 

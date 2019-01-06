@@ -40,7 +40,6 @@
 #include "IconMap.h"
 #include "Layout.h"
 #include "StyleSheet.h"
-#include "WidgetIterator.h"
 #include "Window.h"
 
 #include "Stage.h"
@@ -273,17 +272,22 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& 
 		return nullopt;
 	}
 
-	for (bwWidget& widget : *layout) {
-		if (widget.type == bwWidget::WIDGET_TYPE_PANEL) {
+	for (bwScreenGraph::Node& node: screen_graph) {
+		bwWidget* widget = node.Widget();
+		if (!widget || widget->hidden) {
+			continue;
+		}
+
+		if (widget->type == bwWidget::WIDGET_TYPE_PANEL) {
 			// Temporary exception for until we have proper event handling with event bubbling and breaking
-			bwPanel& panel = *widget_cast<bwPanel*>(&widget);
+			bwPanel& panel = *widget_cast<bwPanel*>(widget);
 			if (panel.isCoordinateInsideHeader(coordinate)) {
-				return widget;
+				return *widget;
 			}
 		}
 		else {
-			if (widget.isCoordinateInside(coordinate)) {
-				return widget;
+			if (widget->isCoordinateInside(coordinate)) {
+				return *widget;
 			}
 		}
 	}

@@ -21,10 +21,6 @@
 
 #pragma once
 
-#include <list>
-
-#include "bwUtil.h"
-#include "bwLayoutInterface.h"
 #include "screen_graph/Node.h"
 
 
@@ -61,8 +57,6 @@ void resolveScreenGraphNodeLayout(
  */
 class LayoutItem : public bWidgets::bwLayoutInterface
 {
-	friend class WidgetIterator;
-	friend class WidgetIterator begin(const LayoutItem&);
 	friend int getNodeWidth(const bWidgets::bwScreenGraph::Node&);
 	friend int getNodeHeight(const bWidgets::bwScreenGraph::Node&);
 
@@ -89,8 +83,6 @@ public:
 	        const bWidgets::bwPoint& layout_pos,
 	        const unsigned int item_margin,
 	        const float scale_fac);
-	virtual bWidgets::bwWidget* getWidget() const;
-	virtual bool isHidden() const;
 
 	unsigned int getHeight() const;
 
@@ -108,13 +100,7 @@ protected:
 	using LayoutItemList = std::list<bWidgets::bwPtr<LayoutItem>>;
 	using IteratorItem = LayoutItemList::const_iterator;
 
-	// The iterator-wrapper for this item, stored to avoid lookups.
-	// Only valid when item was assigned to a parent using addLayoutItem.
-	IteratorItem iterator_item{}; // TODO remove!
-
 	int width{0}, height{0};
-	LayoutItem* parent{nullptr};
-	LayoutItemList child_items;
 
 	static void resolvePanelContents(
 	        bWidgets::bwScreenGraph::Node& panel_node,

@@ -19,16 +19,12 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include <algorithm>
 #include <cassert>
 #include <iostream>
 
 #include "bwAbstractButton.h"
 #include "bwPainter.h"
 #include "bwPanel.h"
-#include "screen_graph/Node.h"
-
-#include "FixedNum.h"
 
 #include "Layout.h"
 
@@ -37,21 +33,6 @@ using namespace bWidgets; // Less verbose
 
 
 namespace bWidgetsDemo {
-/**
- * \brief Layout-item wrapping a widget to place it within a parent layout.
- */
-class WidgetLayoutItem : public LayoutItem
-{
-public:
-	WidgetLayoutItem(bwPtr<bwWidget> widget);
-
-	bwWidget* getWidget() const override;
-	bool isHidden() const override;
-
-	void alignmentSanityCheck() const;
-
-	bwPtr<bwWidget> widget;
-};
 
 void resolveScreenGraphNodeLayout(
         bwScreenGraph::Node& node,
@@ -76,16 +57,6 @@ LayoutItem::LayoutItem(
 {
 }
 
-
-bwWidget* LayoutItem::getWidget() const
-{
-	return nullptr;
-}
-
-bool LayoutItem::isHidden() const
-{
-	return false;
-}
 
 unsigned int LayoutItem::getHeight() const
 {
@@ -458,22 +429,4 @@ PanelLayout::PanelLayout() :
     LayoutItem(LAYOUT_ITEM_TYPE_PANEL, false, FLOW_DIRECTION_VERTICAL)
 {
 	
-}
-
-
-
-WidgetLayoutItem::WidgetLayoutItem(bwPtr<bwWidget> widget) :
-    LayoutItem(LAYOUT_ITEM_TYPE_WIDGET, false), widget(std::move(widget))
-{
-	
-}
-
-bwWidget* WidgetLayoutItem::getWidget() const
-{
-	return widget.get();
-}
-
-bool WidgetLayoutItem::isHidden() const
-{
-	return widget->hidden;
 }

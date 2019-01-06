@@ -65,7 +65,6 @@ public:
 
 protected:
 	bWidgets::bwScreenGraph::Node screen_graph;
-	bWidgets::bwPtr<class RootLayout> layout;
 
 	// Static members, global UI data for all stages
 	static bWidgets::bwPtr<bWidgets::bwStyle> style;
@@ -77,7 +76,7 @@ protected:
 	unsigned int mask_width, mask_height;
 	int vert_scroll = 0;
 
-	RootLayout& Layout() const;
+	class RootLayout& Layout() const;
 
 	virtual void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
 

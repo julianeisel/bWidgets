@@ -18,7 +18,6 @@ set(INC
 )
 
 set(SRC
-	WidgetIterator_test.cc
 )
 
 set(LIB
@@ -31,6 +30,6 @@ set(SYS_LIB
 	-lpthread
 )
 
-add_executable(testing_bwidgets_demo ${SRC})
-target_link_libraries(testing_bwidgets_demo ${LIB} ${SYS_LIB})
-include_directories(${INC})
+#add_executable(testing_bwidgets_demo ${SRC})
+#target_link_libraries(testing_bwidgets_demo ${LIB} ${SYS_LIB})
+#include_directories(${INC})
