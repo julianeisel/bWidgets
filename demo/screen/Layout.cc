@@ -273,6 +273,7 @@ void LayoutItem::resolve(
 
 			assert(layout);
 			layout->width = item_width;
+			layout->height = 0;
 
 			panel.header_height = panel.getHeaderHeightHint() * scale_fac;
 			if (panel.panel_state == bwPanel::PANEL_OPEN) {

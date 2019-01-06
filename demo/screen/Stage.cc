@@ -154,14 +154,25 @@ static void drawScreenGraph(
         bwScreenGraph::Node& node,
         bwStyle& style)
 {
-	for (const auto& iter_node : node) {
+	const bwScreenGraph::Node* skip_until_parent = nullptr;
+
+	for (auto& iter_node : node) {
 		bwWidget* widget = iter_node.Widget();
 
-		if (widget && !widget->hidden) {
-			if (!widget->rectangle.isEmpty()) {
-				widget->draw(style);
-			}
+		if (skip_until_parent && (skip_until_parent == iter_node.Parent())) {
+			skip_until_parent = nullptr;
 		}
+
+		if (skip_until_parent || !widget || widget->hidden || widget->rectangle.isEmpty()) {
+			continue;
+		}
+
+		bwPanel* panel = widget_cast<bwPanel*>(widget);
+		if (panel && (panel->panel_state == bwPanel::PANEL_CLOSED)) {
+			skip_until_parent = iter_node.Parent();
+		}
+
+		widget->draw(style);
 	}
 }
 
@@ -272,17 +283,27 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& 
 		return nullopt;
 	}
 
+	const bwScreenGraph::Node* skip_until_parent = nullptr;
+
 	for (bwScreenGraph::Node& node: screen_graph) {
 		bwWidget* widget = node.Widget();
-		if (!widget || widget->hidden) {
+		if (skip_until_parent && (skip_until_parent == node.Parent())) {
+			skip_until_parent = nullptr;
+		}
+
+		if (skip_until_parent || !widget || widget->hidden) {
 			continue;
 		}
 
 		if (widget->type == bwWidget::WIDGET_TYPE_PANEL) {
 			// Temporary exception for until we have proper event handling with event bubbling and breaking
 			bwPanel& panel = *widget_cast<bwPanel*>(widget);
+
 			if (panel.isCoordinateInsideHeader(coordinate)) {
 				return *widget;
+			}
+			if (panel.panel_state == bwPanel::PANEL_CLOSED) {
+				skip_until_parent = node.Parent();
 			}
 		}
 		else {
