@@ -130,7 +130,7 @@ public:
 
 void Stage::drawScrollbars()
 {
-	if (isScrollable()) {
+	if (shouldHaveScrollbars()) {
 		const unsigned int padding = 4u * (unsigned int)interface_scale;
 
 		if (!scrollbar) {
@@ -257,13 +257,15 @@ void Stage::setStyleSheet(const std::string& filepath)
 void Stage::updateContentBounds()
 {
 	RootLayout& layout = static_cast<RootLayout&>(*screen_graph.Layout());
+
+	validizeScrollValue();
 	layout.setMaxSize(getContentWidth());
 	layout.setYmax(mask_height);
 }
 
 void Stage::validizeScrollValue()
 {
-	if (isScrollable()) {
+	if (shouldHaveScrollbars()) {
 		bwRange<int>::clampValue(vert_scroll, mask_height - getContentHeight(), 0);
 	}
 }
@@ -398,7 +400,7 @@ void Stage::handleMouseDragEvent(
 void Stage::handleMouseScrollEvent(
         const MouseEvent& event)
 {
-	if (isScrollable()) {
+	if (shouldHaveScrollbars()) {
 		char direction_fac = 0;
 
 		if (event.getType() == MouseEvent::MOUSE_EVENT_SCROLL_DOWN) {
@@ -416,7 +418,6 @@ void Stage::handleWindowResizeEvent(const Window& win)
 {
 	mask_width = win.getWidth();
 	mask_height = win.getHeight();
-	validizeScrollValue();
 }
 
 unsigned int Stage::getScrollbarWidth() const
@@ -426,7 +427,7 @@ unsigned int Stage::getScrollbarWidth() const
 
 unsigned int Stage::getContentWidth() const
 {
-	if (isScrollable()) {
+	if (shouldHaveScrollbars()) {
 		return (getScrollbarWidth() > mask_width) ? 0u : (mask_width - getScrollbarWidth());
 	}
 
@@ -438,7 +439,7 @@ unsigned int Stage::getContentHeight() const
 	return Layout().getHeight() + (2 * Layout().padding); // TODO Padding should actually be added to layout width/height
 }
 
-bool Stage::isScrollable() const
+bool Stage::shouldHaveScrollbars() const
 {
-	return mask_height < getContentHeight();
+	return (mask_height < getContentHeight()) || (vert_scroll != 0);
 }

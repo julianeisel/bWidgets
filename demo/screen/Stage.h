@@ -103,7 +103,7 @@ private:
 	        const MouseEvent&,
 	        bWidgets::bwWidget&);
 
-	bool isScrollable() const;
+	bool shouldHaveScrollbars() const;
 	unsigned int getScrollbarWidth() const;
 	unsigned int getContentWidth() const;
 	unsigned int getContentHeight() const;
