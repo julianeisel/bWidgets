@@ -42,8 +42,6 @@ using namespace bWidgetsDemo;
 using namespace bWidgets; // Less verbose
 
 
-#define USE_SCREENGRAPH_LAYOUT
-
 #define BUTTON_HEIGHT       20
 #define PANEL_HEADER_HEIGHT 24
 
@@ -233,19 +231,22 @@ bool isUseCSSVersionToggleHidden(const bwStyle& style)
 	return (style.type_id != bwStyle::STYLE_CLASSIC) && (style.type_id != bwStyle::STYLE_CLASSIC_CSS);
 }
 
-#ifndef USE_SCREENGRAPH_LAYOUT
 void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
 	Stage::activateStyleID(type_id);
-	for (bwWidget& widget : WidgetIterator::withHidden(*layout)) {
-		if (auto* checkbox = widget_cast<bwCheckbox*>(&widget)) {
+	for (auto& iter_node : screen_graph) {
+		bwWidget* widget = iter_node.Widget();
+		if (!widget) {
+			continue;
+		}
+
+		if (auto* checkbox = widget_cast<bwCheckbox*>(widget)) {
 			if (checkbox->apply_functor && dynamic_cast<UseCSSVersionToggleSetter*>(checkbox->apply_functor.get())) {
-				widget.hidden = isUseCSSVersionToggleHidden(*Stage::style);
+				widget->hidden = isUseCSSVersionToggleHidden(*Stage::style);
 			}
 		}
 	}
 }
-#endif
 
 void DefaultStage::addStyleSelector(bwScreenGraph::Node& parent_node)
 {
