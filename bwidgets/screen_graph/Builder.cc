@@ -6,6 +6,11 @@ using namespace bWidgets;
 using namespace bWidgets::bwScreenGraph;
 
 
+Builder::Builder(Node& active_layout_node) :
+    _active_layout_node(&active_layout_node)
+{
+}
+
 Node& Builder::addChildNode(
         Node& node,
         bwPtr<Node> new_child_node)
@@ -37,4 +42,9 @@ bwWidget& Builder::addWidget(
 	setWidget(*new_node, std::move(widget));
 	Node& node_ref = addChildNode(node, std::move(new_node));
 	return *node_ref.widget;
+}
+
+void Builder::setActiveLayout(Node& node)
+{
+	_active_layout_node = &node;
 }
