@@ -19,7 +19,7 @@ public:
 class IteratorTest : public ::testing::Test
 {
 protected:
-	bwScreenGraph::Node screen_graph;
+	bwScreenGraph::LayoutNode screen_graph;
 	const std::array<std::string, 15> labels = {
 		"Lorem", "ipsum", "dolor", "sit", "amet,", "consectetuer", "adipiscing", "elit.",
 		"Aenean", "commodo", "ligula", "eget", "dolor.", "Aenean", "massa."
@@ -48,8 +48,8 @@ public:
 
 		assert(labels.size() >= expected_count);
 		for (bwScreenGraph::Node& node : root_node) {
-			assert(node.layout);
-			EXPECT_EQ(static_cast<const DummyNodeLayout&>(*node.layout).label, labels[counter]);
+			assert(node.Layout());
+			EXPECT_EQ(static_cast<const DummyNodeLayout&>(*node.Layout()).label, labels[counter]);
 			counter++;
 		}
 		EXPECT_EQ(counter, expected_count);
@@ -65,14 +65,10 @@ public:
 /**
  * Convenience function.
  */
-static bwScreenGraph::Node& addChildNode(bwScreenGraph::Node& node, std::string label)
+static bwScreenGraph::LayoutNode& addChildNode(bwScreenGraph::LayoutNode& node, std::string label)
 {
-	using namespace bwScreenGraph;
-
-	Node& new_node = Builder::addChildNode(node, bwPtr_new<Node>());
-	Builder::setLayout(new_node, bwPtr_new<DummyNodeLayout>(label));
-
-	return new_node;
+	bwScreenGraph::Builder builder(node);
+	return builder.addLayout<DummyNodeLayout>(label);
 }
 
 TEST_F(IteratorTest, no_children)
@@ -111,8 +107,8 @@ TEST_F(IteratorTest, subtree)
 	 *  1 2 3
 	 * Starts iterating at label node with label 0, so: 0, 1, 2, 3.
 	 */
-	bwScreenGraph::Node& node = addChildNode(screen_graph, labels[7]); // Should not be visitied.
-	bwScreenGraph::Node& other_node = addChildNode(node, labels[0]);
+	bwScreenGraph::LayoutNode& node = addChildNode(screen_graph, labels[7]); // Should not be visitied.
+	bwScreenGraph::LayoutNode& other_node = addChildNode(node, labels[0]);
 	expectNodeCountAndMappedLabels(other_node, 1); // Should only visit subtree of other_node.
 	addChildNode(other_node, labels[1]);
 	addChildNode(other_node, labels[2]);
@@ -130,11 +126,11 @@ TEST_F(IteratorTest, multiple_descendants)
 	 * 3
 	 * Starts iterating at screen_graph node so: screen_graph, 1, 2, 3, 4.
 	 */
-	bwScreenGraph::Node& node1 = addChildNode(screen_graph, labels[1]);
-	bwScreenGraph::Node& node2 = addChildNode(node1, labels[2]);
+	bwScreenGraph::LayoutNode& node1 = addChildNode(screen_graph, labels[1]);
+	bwScreenGraph::LayoutNode& node2 = addChildNode(node1, labels[2]);
 	addChildNode(node2, labels[3]);
 
-	bwScreenGraph::Node& node4 = addChildNode(screen_graph, labels[4]);
+	bwScreenGraph::LayoutNode& node4 = addChildNode(screen_graph, labels[4]);
 	addChildNode(node4, labels[5]);
 
 	expectNodeCountAndMappedLabels(6);
@@ -152,11 +148,11 @@ TEST_F(IteratorTest, multiple_descendants_mirrored)
 	 * Starts iterating at screen_graph node so: screen_graph, 4, 5, 1, 2, 3.
 	 * Note that node names don't match label indices here.
 	 */
-	bwScreenGraph::Node& node4 = addChildNode(screen_graph, labels[1]);
+	bwScreenGraph::LayoutNode& node4 = addChildNode(screen_graph, labels[1]);
 	/* node5 = */addChildNode(node4, labels[2]);
 
-	bwScreenGraph::Node& node1 = addChildNode(screen_graph, labels[3]);
-	bwScreenGraph::Node& node2 = addChildNode(node1, labels[4]);
+	bwScreenGraph::LayoutNode& node1 = addChildNode(screen_graph, labels[3]);
+	bwScreenGraph::LayoutNode& node2 = addChildNode(node1, labels[4]);
 	/* node3 = */addChildNode(node2, labels[5]);
 
 	expectNodeCountAndMappedLabels(6);
@@ -180,19 +176,19 @@ TEST_F(IteratorTest, multiple_descendants_complex)
 	 *                   12
 	 * Starts iterating at screen_graph node so: screen_graph, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12.
 	 */
-	bwScreenGraph::Node& node1 = addChildNode(screen_graph, labels[1]);
+	bwScreenGraph::LayoutNode& node1 = addChildNode(screen_graph, labels[1]);
 	/* node2 = */addChildNode(node1, labels[2]);
 
-	bwScreenGraph::Node& node3 = addChildNode(screen_graph, labels[3]);
-	bwScreenGraph::Node& node4 = addChildNode(node3, labels[4]);
+	bwScreenGraph::LayoutNode& node3 = addChildNode(screen_graph, labels[3]);
+	bwScreenGraph::LayoutNode& node4 = addChildNode(node3, labels[4]);
 	/* node5 = */addChildNode(node4, labels[5]);
 	/* node6 = */addChildNode(node3, labels[6]);
 
-	bwScreenGraph::Node& node7 = addChildNode(screen_graph, labels[7]);
+	bwScreenGraph::LayoutNode& node7 = addChildNode(screen_graph, labels[7]);
 	/* node8 = */addChildNode(node7, labels[8]);
-	bwScreenGraph::Node& node9 = addChildNode(node7, labels[9]);
+	bwScreenGraph::LayoutNode& node9 = addChildNode(node7, labels[9]);
 	/* node10 = */addChildNode(node9, labels[10]);
-	bwScreenGraph::Node& node11 = addChildNode(node9, labels[11]);
+	bwScreenGraph::LayoutNode& node11 = addChildNode(node9, labels[11]);
 	/* node12 = */addChildNode(node11, labels[12]);
 
 	expectNodeCountAndMappedLabels(13);
@@ -211,10 +207,10 @@ TEST_F(IteratorTest, subtree_multiple_descendants)
 	 *    3   4
 	 * Starts iterating at label node with label 0, so: 0, 1, 2, 3, 4.
 	 */
-	bwScreenGraph::Node& node = addChildNode(screen_graph, labels[7]); // Should not be visitied.
-	bwScreenGraph::Node& root_node = addChildNode(node, labels[0]);
+	bwScreenGraph::LayoutNode& node = addChildNode(screen_graph, labels[7]); // Should not be visitied.
+	bwScreenGraph::LayoutNode& root_node = addChildNode(node, labels[0]);
 	addChildNode(root_node, labels[1]);
-	bwScreenGraph::Node& child_node = addChildNode(root_node, labels[2]);
+	bwScreenGraph::LayoutNode& child_node = addChildNode(root_node, labels[2]);
 	addChildNode(child_node, labels[3]);
 	addChildNode(child_node, labels[4]);
 
@@ -236,12 +232,12 @@ TEST_F(IteratorTest, subtree_multiple_descendants_variation)
 	 *        3   4
 	 * Starts iterating at label node with label 0, so: 0, 1, 2, 3, 4.
 	 */
-	bwScreenGraph::Node& node7 = addChildNode(screen_graph, labels[7]); // Should not be visitied.
+	bwScreenGraph::LayoutNode& node7 = addChildNode(screen_graph, labels[7]); // Should not be visitied.
 	addChildNode(node7, labels[8]); // Should not be visited.
 
-	bwScreenGraph::Node& node0 = addChildNode(node7, labels[0]);
+	bwScreenGraph::LayoutNode& node0 = addChildNode(node7, labels[0]);
 	addChildNode(node0, labels[1]);
-	bwScreenGraph::Node& node2 = addChildNode(node0, labels[2]);
+	bwScreenGraph::LayoutNode& node2 = addChildNode(node0, labels[2]);
 	addChildNode(node2, labels[3]);
 	addChildNode(node2, labels[4]);
 

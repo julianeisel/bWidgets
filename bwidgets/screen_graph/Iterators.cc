@@ -33,14 +33,19 @@ bool PreOrderIterator::hasExceededLastSibling()
 {
 	assert(is_root == false);
 	// Check if node_iter points at the parents children.end()
-	return node_iter == (ancestors.empty() ? root->children.end() : (*ancestors.back())->children.end());
+	if (ancestors.empty()) {
+		return !root->Children() || (node_iter == root->Children()->end());
+	}
+	else {
+		return !(*ancestors.back())->Children() || (node_iter == (*ancestors.back())->Children()->end());
+	}
 }
 
 PreOrderIterator& PreOrderIterator::operator++()
 {
-	Node::ChildList& childs = is_root ? node->children : (*node_iter)->children;
+	Node::ChildList* childs = is_root ? node->Children() : (*node_iter)->Children();
 
-	if (childs.empty()) {
+	if (!childs || childs->empty()) {
 		if (is_root) {
 			triggerIterationEnd();
 			return *this;
@@ -70,7 +75,7 @@ PreOrderIterator& PreOrderIterator::operator++()
 		if (!is_root) {
 			ancestors.push_back(node_iter);
 		}
-		node_iter = childs.begin();
+		node_iter = childs->begin();
 		is_root = false;
 	}
 

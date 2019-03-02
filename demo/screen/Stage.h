@@ -64,7 +64,7 @@ public:
 	static void setFontSubPixelPositioning(const bool value);
 
 protected:
-	bWidgets::bwScreenGraph::Node screen_graph;
+	bWidgets::bwScreenGraph::LayoutNode screen_graph;
 
 	// Static members, global UI data for all stages
 	static bWidgets::bwPtr<bWidgets::bwStyle> style;

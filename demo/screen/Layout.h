@@ -79,7 +79,7 @@ public:
 	virtual ~LayoutItem() = default;
 
 	virtual void resolve(
-	        bWidgets::bwScreenGraph::Node::ChildList& chilren,
+	        bWidgets::bwScreenGraph::Node::ChildList* chilren,
 	        const bWidgets::bwPoint& layout_pos,
 	        const unsigned int item_margin,
 	        const float scale_fac);

@@ -41,7 +41,8 @@ void resolveScreenGraphNodeLayout(
 {
 	if (LayoutItem* layout = static_cast<LayoutItem*>(node.Layout())) {
 		if (RootLayout* root = dynamic_cast<RootLayout*>(layout)) {
-			root->resolve(node.Children(), vertical_scroll, scale_fac);
+			assert(node.Children());
+			root->resolve(*node.Children(), vertical_scroll, scale_fac);
 		}
 	}
 }
@@ -66,7 +67,7 @@ unsigned int LayoutItem::getHeight() const
 static bwScreenGraph::Node* getNextUnhiddenNode(const bwScreenGraph::Node::ChildList::const_iterator& current)
 {
 	for (auto iter = ++bwScreenGraph::Node::ChildList::const_iterator(current);
-	     iter != (*current)->Parent()->Children().end();
+	     iter != (*current)->Parent()->Children()->end();
 	     ++iter)
 	{
 		if (bwWidget* widget = (*iter)->Widget()) {
@@ -84,7 +85,7 @@ static bwScreenGraph::Node* getNextUnhiddenNode(const bwScreenGraph::Node::Child
 static bwScreenGraph::Node* getPreviousUnhiddenNode(const bwScreenGraph::Node::ChildIterator& current)
 {
 	for (auto iter = bwScreenGraph::Node::ChildList::reverse_iterator(current);
-	     iter != (*current)->Parent()->Children().rend();
+	     iter != (*current)->Parent()->Children()->rend();
 	     ++iter)
 	{
 		if (bwWidget* widget = (*iter)->Widget()) {
@@ -211,7 +212,7 @@ void LayoutItem::resolvePanelContents(
 }
 
 void LayoutItem::resolve(
-        bwScreenGraph::Node::ChildList& children,
+        bwScreenGraph::Node::ChildList* children,
         const bwPoint& layout_pos,
         const unsigned int item_margin,
         const float scale_fac)
@@ -224,15 +225,19 @@ void LayoutItem::resolve(
 	// width precisely. Also makes layout less jaggy on window size changes.
 	int additional_remainder_x = 0;
 
+	if (children == nullptr) {
+		return;
+	}
+
 	height = 0;
 
 	if (flow_direction == FLOW_DIRECTION_HORIZONTAL) {
-		const unsigned int margin_count = countNeededMargins(children);
+		const unsigned int margin_count = countNeededMargins(*children);
 		const unsigned int width_no_margins = width - (margin_count * item_margin);
 		// The max-width of each item is the max-width of the parent, divided by the count of its
 		// horizontally placed sub-items. In other words, each item has the same max-width that
 		// add up to the parent's max-width. From this max-width, the item margins are subtracted.
-		unsigned int tot_row_cols = countRowColumns(children);
+		unsigned int tot_row_cols = countRowColumns(*children);
 
 		if (tot_row_cols == 0) {
 			width = 0;
@@ -247,7 +252,7 @@ void LayoutItem::resolve(
 		item_width_base = width;
 	}
 
-	for (auto node_iter = children.begin(); node_iter != children.end(); ++node_iter) {
+	for (auto node_iter = children->begin(); node_iter != children->end(); ++node_iter) {
 		bwScreenGraph::Node& node = **node_iter;
 		LayoutItem* layout = static_cast<LayoutItem*>(node.Layout());
 		bwWidget* widget = node.Widget();
@@ -352,7 +357,7 @@ unsigned int LayoutItem::countRowColumns(const bwScreenGraph::Node::ChildList& c
 			count_child_cols++;
 		}
 		else if (layout) {
-			count_child_cols += layout->countRowColumns(node->Children());
+			count_child_cols += layout->countRowColumns(*node->Children());
 		}
 	}
 
@@ -406,7 +411,7 @@ void RootLayout::resolve(
 	bwPoint layout_position{(float)padding, ymax - padding - vertical_scroll};
 
 	width = max_size - (padding * 2);
-	LayoutItem::resolve(children, layout_position, item_margin, scale_fac);
+	LayoutItem::resolve(&children, layout_position, item_margin, scale_fac);
 }
 
 void RootLayout::setMaxSize(const unsigned int _max_size)

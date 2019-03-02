@@ -162,6 +162,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 {
 	using namespace bwScreenGraph;
 	bwScreenGraph::Builder builder(screen_graph);
+	ContainerNode* panel;
 
 	addStyleSelector(screen_graph);
 
@@ -174,9 +175,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 
 	builder.addWidget<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT);
 
-	auto* row_node = &builder.addLayout<RowLayout>(true);
-	builder.setActiveLayout(*row_node);
-
+	builder.addLayout<RowLayout>(true);
 	auto* checkbox = &builder.addWidget<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontTightPlacementToggleSetter>(*checkbox);
 	checkbox->state = bwWidget::STATE_SUNKEN;
@@ -184,9 +183,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
 
 	builder.setActiveLayout(screen_graph);
-	row_node = &builder.addLayout<RowLayout>(false);
-	builder.setActiveLayout(*row_node);
-
+	builder.addLayout<RowLayout>(false);
 	checkbox = &builder.addWidget<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontSubPixelsToggleSetter>(*checkbox, *this);
 	checkbox = &builder.addWidget<bwCheckbox>("Subpixel Positioning", 0, BUTTON_HEIGHT);
@@ -195,36 +192,29 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 
 	addFakeSpacer(screen_graph);
 
-	// TODO addContainer
-	auto* panel_node = &Builder::addChildNode(screen_graph, bwPtr_new<bwScreenGraph::Node>());
-	Builder::setLayout(*panel_node, bwPtr_new<PanelLayout>());
-	Builder::setWidget(*panel_node, bwPtr_new<bwPanel>("Some Testing Widgets", PANEL_HEADER_HEIGHT));
-	builder.setActiveLayout(*panel_node);
-	auto& col_node = builder.addLayout<ColumnLayout>(true);
-	builder.setActiveLayout(col_node);
+	builder.setActiveLayout(screen_graph);
+	panel = &builder.addContainer<bwPanel>(bwPtr_new<PanelLayout>(), "Some Testing Widgets", PANEL_HEADER_HEIGHT);
+	builder.setActiveLayout(*panel);
+	builder.addLayout<ColumnLayout>(true);
 	builder.addWidget<bwPushButton>("Translate", 0, BUTTON_HEIGHT);
 	builder.addWidget<bwPushButton>("Rotate",    0, BUTTON_HEIGHT);
 	builder.addWidget<bwPushButton>("Scale",     0, BUTTON_HEIGHT);
 
-	builder.setActiveLayout(*panel_node);
+	builder.setActiveLayout(*panel);
 	auto& push_but = builder.addWidget<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
 	push_but.setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
 
-	panel_node = &Builder::addChildNode(screen_graph, bwPtr_new<bwScreenGraph::Node>());
-	Builder::setLayout(*panel_node, bwPtr_new<PanelLayout>());
-	Builder::setWidget(*panel_node, bwPtr_new<bwPanel>("More Testing...", PANEL_HEADER_HEIGHT));
-	builder.setActiveLayout(*panel_node);
-	row_node = &builder.addLayout<RowLayout>(true);
-	builder.setActiveLayout(*row_node);
+	builder.setActiveLayout(screen_graph);
+	panel = &builder.addContainer<bwPanel>(bwPtr_new<PanelLayout>(), "More Testing...", PANEL_HEADER_HEIGHT);
+	builder.addLayout<RowLayout>(true);
 	builder.addWidget<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT);
-	builder.addWidget<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT);
+	builder.addWidget<bwCheckbox>("Wireframes",   0, BUTTON_HEIGHT);
 
-	builder.setActiveLayout(*panel_node);
+	builder.setActiveLayout(*panel);
 	auto& text_box = builder.addWidget<bwTextBox>(0, BUTTON_HEIGHT);
 	text_box.setText("Some Text...");
 
-	row_node = &builder.addLayout<RowLayout>(false);
-	builder.setActiveLayout(*row_node);
+	builder.addLayout<RowLayout>(false);
 	auto* label = &builder.addWidget<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_POSE_HLT));
 	label = &builder.addWidget<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
@@ -255,13 +245,12 @@ void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
 	}
 }
 
-void DefaultStage::addStyleSelector(bwScreenGraph::Node& parent_node)
+void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 {
 	using namespace bwScreenGraph;
 	Builder builder(parent_node);
 
-	auto& row_node = builder.addLayout<RowLayout>(true);
-	builder.setActiveLayout(row_node);
+	builder.addLayout<RowLayout>(true);
 
 	auto& label = builder.addWidget<bwLabel>("Style:", 0, BUTTON_HEIGHT);
 	label.setIcon(icon_map->getIcon(ICON_BLENDER));
@@ -286,7 +275,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::Node& parent_node)
 	checkbox.apply_functor = bwPtr_new<UseCSSVersionToggleSetter>(checkbox, *this);
 }
 
-void DefaultStage::addFakeSpacer(bwScreenGraph::Node& parent_node)
+void DefaultStage::addFakeSpacer(bwScreenGraph::LayoutNode& parent_node)
 {
 	// Just some extra space. No spacer widgets yet.
 	bwScreenGraph::Builder::emplaceWidget<bwLabel>(parent_node, "", 0, 7);
