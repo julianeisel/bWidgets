@@ -10,6 +10,7 @@
   <!-- <script type="text/javascript" src="jquery.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="dynsections.js"></script>
+  <script type="text/javascript" src="custom_js.js"></script>
   <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -118,7 +119,7 @@ $(function() {
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classbWidgets_1_1bwWidget__coll__graph.png" border="0" usemap="#bWidgets_1_1bwWidget_coll__map" alt="Collaboration graph"/></div>
 <map name="bWidgets_1_1bwWidget_coll__map" id="bWidgets_1_1bwWidget_coll__map">
-<area shape="rect" id="node2" href="structbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
+<area shape="rect" id="node2" href="classbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
 <area shape="rect" id="node3" href="classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="191,13,381,39"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -155,9 +156,9 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a38c1a11d348fbd72e7e206c3eb06c96f"><td class="memItemLeft" align="right" valign="top"><a id="a38c1a11d348fbd72e7e206c3eb06c96f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>bwWidget</b> (const WidgetType type, const std::string &amp;identifier, const unsigned int <a class="el" href="classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc">width_hint</a>=0, const unsigned int height_hint=0)</td></tr>
-<tr class="separator:a38c1a11d348fbd72e7e206c3eb06c96f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf1a12c3c2354ae5bd5ae536f309bb74"><td class="memItemLeft" align="right" valign="top"><a id="aaf1a12c3c2354ae5bd5ae536f309bb74"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>bwWidget</b> (const WidgetType type, std::string identifier, const unsigned int <a class="el" href="classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc">width_hint</a>=0, const unsigned int height_hint=0)</td></tr>
+<tr class="separator:aaf1a12c3c2354ae5bd5ae536f309bb74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af21b8c9d3bd72c3287bcecb363c30462"><td class="memItemLeft" align="right" valign="top"><a id="af21b8c9d3bd72c3287bcecb363c30462"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isCoordinateInside</b> (const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;point) const</td></tr>
 <tr class="separator:af21b8c9d3bd72c3287bcecb363c30462"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -185,6 +186,12 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseLeave</b
 <tr class="memitem:aa55d22b8519702102b25d67c089bda6f"><td class="memItemLeft" align="right" valign="top"><a id="aa55d22b8519702102b25d67c089bda6f"></a>
 const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getIdentifier</b> () const</td></tr>
 <tr class="separator:aa55d22b8519702102b25d67c089bda6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a716ad186b10ebd8f93982f60e58a7ce5"><td class="memItemLeft" align="right" valign="top"><a id="a716ad186b10ebd8f93982f60e58a7ce5"></a>
+virtual const std::string *&#160;</td><td class="memItemRight" valign="bottom"><b>getLabel</b> () const</td></tr>
+<tr class="separator:a716ad186b10ebd8f93982f60e58a7ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a307941f8b61cc3504fe7d178d673b753"><td class="memItemLeft" align="right" valign="top"><a id="a307941f8b61cc3504fe7d178d673b753"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>canAlign</b> () const</td></tr>
+<tr class="separator:a307941f8b61cc3504fe7d178d673b753"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -194,7 +201,7 @@ enum bWidgets::bwWidget::WidgetType&#160;</td><td class="memItemRight" valign="b
 <tr class="memitem:a0ea79ec66abaa9f05628ee42abb39bf8"><td class="memItemLeft" align="right" valign="top"><a id="a0ea79ec66abaa9f05628ee42abb39bf8"></a>
 enum bWidgets::bwWidget::WidgetState&#160;</td><td class="memItemRight" valign="bottom"><b>state</b></td></tr>
 <tr class="separator:a0ea79ec66abaa9f05628ee42abb39bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cbd79c1d1ecbe99494923f79e77c17c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c">rectangle</a></td></tr>
+<tr class="memitem:a2cbd79c1d1ecbe99494923f79e77c17c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c">rectangle</a></td></tr>
 <tr class="separator:a2cbd79c1d1ecbe99494923f79e77c17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adadaaa85d58323b1f3dd8691d63bf6dc"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc">width_hint</a></td></tr>
 <tr class="separator:adadaaa85d58323b1f3dd8691d63bf6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,7 +255,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>identifier</b>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> bWidgets::bwWidget::rectangle</td>
+          <td class="memname"><a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> bWidgets::bwWidget::rectangle</td>
         </tr>
       </table>
 </div><div class="memdoc">

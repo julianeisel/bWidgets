@@ -75,6 +75,8 @@ public:
 	const std::string& getIdentifier() const;
 	virtual const std::string* getLabel() const;
 
+	virtual bool canAlign() const;
+
 	/**
 	 * Final rectangle defining the widget bounding-box.
 	 * \note This really is assumed to be the final bounding-box, bwStyle.dpi_fac will not get applied to it.

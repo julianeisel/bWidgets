@@ -37,8 +37,8 @@ public:
 
 private:
 	void activateStyleID(bWidgets::bwStyle::StyleTypeID) override;
-	void addStyleSelector(class LayoutItem& parent_layout);
-	void addFakeSpacer(class LayoutItem& layout);
+	void addStyleSelector(bWidgets::bwScreenGraph::LayoutNode& parent_node);
+	void addFakeSpacer(bWidgets::bwScreenGraph::LayoutNode& parent_node);
 
 	void useStyleCSSVersionSet(const bool use_css_version);
 

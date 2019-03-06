@@ -1,5 +1,5 @@
 <map id="bWidgets::bwLabel" name="bWidgets::bwLabel">
 <area shape="rect" id="node2" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="115,109,257,136"/>
-<area shape="rect" id="node3" href="$structbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
 <area shape="rect" id="node4" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="191,13,381,39"/>
 </map>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['registerproperties',['registerProperties',['../classbWidgets_1_1bwWidgetBaseStyle.html#abfbfe8b3de35ed9722ebe588d4985537',1,'bWidgets::bwWidgetBaseStyle']]],
-  ['resize',['resize',['../structbWidgets_1_1bwRectangle.html#aeb71cba1ab48a950ce37be49840bd68c',1,'bWidgets::bwRectangle']]]
+  ['emplacewidget',['emplaceWidget',['../classbWidgets_1_1bwScreenGraph_1_1Builder.html#aeb2fe01e93fa1081d150d46f54660d58',1,'bWidgets::bwScreenGraph::Builder']]]
 ];

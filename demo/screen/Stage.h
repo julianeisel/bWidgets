@@ -26,6 +26,7 @@
 
 #include "bwScrollBar.h"
 #include "bwStyle.h"
+#include "screen_graph/Node.h"
 
 #include "Font.h"
 
@@ -63,7 +64,7 @@ public:
 	static void setFontSubPixelPositioning(const bool value);
 
 protected:
-	bWidgets::bwPtr<class RootLayout> layout;
+	bWidgets::bwScreenGraph::LayoutNode screen_graph;
 
 	// Static members, global UI data for all stages
 	static bWidgets::bwPtr<bWidgets::bwStyle> style;
@@ -74,6 +75,8 @@ protected:
 
 	unsigned int mask_width, mask_height;
 	int vert_scroll = 0;
+
+	class RootLayout& Layout() const;
 
 	virtual void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
 

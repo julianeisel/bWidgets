@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['initialize',['initialize',['../classbWidgets_1_1bwWidget.html#ae1356f1620a11f10ab45fd4c9bd603f9',1,'bWidgets::bwWidget']]]
+  ['drawicon',['drawIcon',['../classbWidgets_1_1bwPaintEngine.html#ae4528e7b177cad921e7de4de5690587f',1,'bWidgets::bwPaintEngine']]],
+  ['drawpolygon',['drawPolygon',['../classbWidgets_1_1bwPaintEngine.html#a7a6eda0ae77f59bbbf32dc1da3a21384',1,'bWidgets::bwPaintEngine']]],
+  ['drawtext',['drawText',['../classbWidgets_1_1bwPaintEngine.html#a73170392cb04642851364f7c319679b5',1,'bWidgets::bwPaintEngine']]]
 ];

@@ -10,6 +10,7 @@
   <!-- <script type="text/javascript" src="jquery.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="dynsections.js"></script>
+  <script type="text/javascript" src="custom_js.js"></script>
   <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -102,8 +103,11 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>drawPolygon</b> (const class <a class="el" href="classbWidgets_1_1bwPolygon.html">bwPolygon</a> &amp;poly)</td></tr>
 <tr class="separator:ad764a538bce441b6cd5a611dd7d6dacf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad55899622443486c9afd8a72b40cf56d"><td class="memItemLeft" align="right" valign="top"><a id="ad55899622443486c9afd8a72b40cf56d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawText</b> (const std::string &amp;text, const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rectangle, const TextAlignment align) const</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawText</b> (const std::string &amp;text, const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rectangle, const TextAlignment align) const</td></tr>
 <tr class="separator:ad55899622443486c9afd8a72b40cf56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a91c5f08f21a842fda4b79fd232c211"><td class="memItemLeft" align="right" valign="top"><a id="a9a91c5f08f21a842fda4b79fd232c211"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawIcon</b> (const <a class="el" href="classbWidgets_1_1bwIconInterface.html">bwIconInterface</a> &amp;, const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;) const</td></tr>
+<tr class="separator:a9a91c5f08f21a842fda4b79fd232c211"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfe94e4eaa3b3baa3befdc2640621afe"><td class="memItemLeft" align="right" valign="top"><a id="adfe94e4eaa3b3baa3befdc2640621afe"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setActiveColor</b> (const <a class="el" href="classbWidgets_1_1bwColor.html">bwColor</a> &amp;color)</td></tr>
 <tr class="separator:adfe94e4eaa3b3baa3befdc2640621afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,31 +118,34 @@ const <a class="el" href="classbWidgets_1_1bwColor.html">bwColor</a> &amp;&#160;
 const <a class="el" href="classbWidgets_1_1bwColor.html">bwColor</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getVertexColor</b> (const size_t vertex_index) const</td></tr>
 <tr class="separator:a43291dae6bff4b66f1d4ceafbc29632e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72e94cca0f2880b0989c99e1b6000c75"><td class="memItemLeft" align="right" valign="top"><a id="a72e94cca0f2880b0989c99e1b6000c75"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setContentMask</b> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;value)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setContentMask</b> (const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;value)</td></tr>
 <tr class="separator:a72e94cca0f2880b0989c99e1b6000c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b1ee0488b14461cbca013ad48dcf6f9"><td class="memItemLeft" align="right" valign="top"><a id="a0b1ee0488b14461cbca013ad48dcf6f9"></a>
-const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getContentMask</b> () const</td></tr>
+const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getContentMask</b> () const</td></tr>
 <tr class="separator:a0b1ee0488b14461cbca013ad48dcf6f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a564b40d6240d4055bbf83d947cc081b5"><td class="memItemLeft" align="right" valign="top"><a id="a564b40d6240d4055bbf83d947cc081b5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>enableGradient</b> (const <a class="el" href="classbWidgets_1_1bwGradient.html">bwGradient</a> gradient)</td></tr>
-<tr class="separator:a564b40d6240d4055bbf83d947cc081b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcf73e71101a8472b2719dc7f9131902"><td class="memItemLeft" align="right" valign="top"><a id="adcf73e71101a8472b2719dc7f9131902"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>enableGradient</b> (const <a class="el" href="classbWidgets_1_1bwGradient.html">bwGradient</a> &amp;gradient)</td></tr>
+<tr class="separator:adcf73e71101a8472b2719dc7f9131902"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91256d1755f330ccfc137abce68937d4"><td class="memItemLeft" align="right" valign="top"><a id="a91256d1755f330ccfc137abce68937d4"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isGradientEnabled</b> () const</td></tr>
 <tr class="separator:a91256d1755f330ccfc137abce68937d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d0cb1ac27fffe3282f012477ceaed05"><td class="memItemLeft" align="right" valign="top"><a id="a7d0cb1ac27fffe3282f012477ceaed05"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawTextAndIcon</b> (const std::string &amp;text, const <a class="el" href="classbWidgets_1_1bwIconInterface.html">bwIconInterface</a> *icon, const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rectangle, const TextAlignment alignment, float dpi_fac) const</td></tr>
+<tr class="separator:a7d0cb1ac27fffe3282f012477ceaed05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cace96865a5499e9742509a9c6235a4"><td class="memItemLeft" align="right" valign="top"><a id="a6cace96865a5499e9742509a9c6235a4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRoundbox</b> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, unsigned int corners, const float radius)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRoundbox</b> (const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, unsigned int corners, const float radius)</td></tr>
 <tr class="separator:a6cace96865a5499e9742509a9c6235a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a392d7895edb5eb6a9037b750b1cfa156"><td class="memItemLeft" align="right" valign="top"><a id="a392d7895edb5eb6a9037b750b1cfa156"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRectangle</b> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRectangle</b> (const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect)</td></tr>
 <tr class="separator:a392d7895edb5eb6a9037b750b1cfa156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c5719c1661c64228968e08cab7c80a2"><td class="memItemLeft" align="right" valign="top"><a id="a0c5719c1661c64228968e08cab7c80a2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRoundboxWidgetBase</b> (const <a class="el" href="classbWidgets_1_1bwWidgetBaseStyle.html">bwWidgetBaseStyle</a> &amp;base_style, const class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;style, const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> rectangle, const <a class="el" href="classbWidgets_1_1bwGradient.html">bwGradient</a> &amp;gradient, const float radius)</td></tr>
-<tr class="separator:a0c5719c1661c64228968e08cab7c80a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeb378ec57c5951cc168370f2e0747d2"><td class="memItemLeft" align="right" valign="top"><a id="aeeb378ec57c5951cc168370f2e0747d2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRoundboxWidgetBase</b> (const class <a class="el" href="classbWidgets_1_1bwWidgetBaseStyle.html">bwWidgetBaseStyle</a> &amp;base_style, const class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;style, const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rectangle, const <a class="el" href="classbWidgets_1_1bwGradient.html">bwGradient</a> &amp;gradient, const float radius)</td></tr>
+<tr class="separator:aeeb378ec57c5951cc168370f2e0747d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aceced429f8bf1d6a11e454b6faac16dd"><td class="memItemLeft" align="right" valign="top"><a id="aceced429f8bf1d6a11e454b6faac16dd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawCheckMark</b> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawCheckMark</b> (const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect)</td></tr>
 <tr class="separator:aceced429f8bf1d6a11e454b6faac16dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fa2a9388d8f052ef42afc5238fe7a27"><td class="memItemLeft" align="right" valign="top"><a id="a6fa2a9388d8f052ef42afc5238fe7a27"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawTriangle</b> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, Direction direction)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawTriangle</b> (const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, Direction direction)</td></tr>
 <tr class="separator:a6fa2a9388d8f052ef42afc5238fe7a27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a98cf8bfdb331a4e84167b4e3d93199"><td class="memItemLeft" align="right" valign="top"><a id="a0a98cf8bfdb331a4e84167b4e3d93199"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>drawLine</b> (const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;from, const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;to)</td></tr>
@@ -155,9 +162,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>use_antialiasing</b> 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a3ed8865566b0d5ca826dcf2f2a16798f"><td class="memItemLeft" align="right" valign="top"><a id="a3ed8865566b0d5ca826dcf2f2a16798f"></a>
-static <a class="el" href="namespacebWidgets.html#ae58596de345a3af9009f0a534fc6d6f3">bwPointer</a>&lt; class <a class="el" href="classbWidgets_1_1bwPaintEngine.html">bwPaintEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>paint_engine</b> = nullptr</td></tr>
-<tr class="separator:a3ed8865566b0d5ca826dcf2f2a16798f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30a4322b5b123de26f96988feb1b7bd3"><td class="memItemLeft" align="right" valign="top"><a id="a30a4322b5b123de26f96988feb1b7bd3"></a>
+static <a class="el" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr</a>&lt; class <a class="el" href="classbWidgets_1_1bwPaintEngine.html">bwPaintEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>paint_engine</b> = nullptr</td></tr>
+<tr class="separator:a30a4322b5b123de26f96988feb1b7bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>bwidgets/<a class="el" href="bwPainter_8h_source.html">bwPainter.h</a></li>

@@ -21,9 +21,7 @@
 
 #pragma once
 
-#include <list>
-
-#include "bwUtil.h"
+#include "screen_graph/Node.h"
 
 
 namespace bWidgets {
@@ -34,6 +32,11 @@ namespace bWidgets {
 }
 
 namespace bWidgetsDemo {
+
+void resolveScreenGraphNodeLayout(
+        bWidgets::bwScreenGraph::Node& node,
+        const float vertical_scroll,
+        const float scale_fac);
 
 /**
  * \brief An abstract class for defining items that form the layout.
@@ -52,10 +55,10 @@ namespace bWidgetsDemo {
  *       the needed position and size hints can be set. Without changing these, the
  *       calculated widget-coordinates don't change.
  */
-class LayoutItem
+class LayoutItem : public bWidgets::bwLayoutInterface
 {
-	friend class WidgetIterator;
-	friend class WidgetIterator begin(const LayoutItem&);
+	friend int getNodeWidth(const bWidgets::bwScreenGraph::Node&);
+	friend int getNodeHeight(const bWidgets::bwScreenGraph::Node&);
 
 public:
 	enum LayoutItemType {
@@ -75,30 +78,17 @@ public:
 
 	virtual ~LayoutItem() = default;
 
-	bool iterateWidgets(
-	        bool (*callback)(bWidgets::bwWidget& widget, void* custom_data),
-	        void* custom_data,
-	        bool skip_hidden = false);
-
-	virtual void draw(bWidgets::bwStyle& style) const;
 	virtual void resolve(
+	        bWidgets::bwScreenGraph::Node::ChildList* chilren,
 	        const bWidgets::bwPoint& layout_pos,
 	        const unsigned int item_margin,
 	        const float scale_fac);
-	virtual bWidgets::bwOptional<std::reference_wrapper<bWidgets::bwWidget>> getWidget() const;
-	virtual bool isHidden() const;
-	virtual bool areChildrenHidden() const;
-
-	void addWidget(bWidgets::bwPtr<bWidgets::bwWidget> widget);
-
-	bool hasChild(const LayoutItem& potential_child) const;
 
 	unsigned int getHeight() const;
 
 	const LayoutItemType type;
 	const FlowDirection flow_direction;
 	const bool align;
-	void addLayoutItem(bWidgets::bwPtr<LayoutItem> layout_item);
 
 protected:
 	// Protected constructor to force calling through inherited class (pseudo abstract).
@@ -107,24 +97,19 @@ protected:
 	        const bool align,
 	        FlowDirection flow_direction = FLOW_DIRECTION_HORIZONTAL);
 
-	bWidgets::bwOptional<std::reference_wrapper<LayoutItem>> getPrevious(const bool skip_hidden) const;
-	bWidgets::bwOptional<std::reference_wrapper<LayoutItem>> getNext(const bool skip_hidden) const;
-
 	using LayoutItemList = std::list<bWidgets::bwPtr<LayoutItem>>;
 	using IteratorItem = LayoutItemList::const_iterator;
 
-	// The iterator-wrapper for this item, stored to avoid lookups.
-	// Only valid when item was assigned to a parent using addLayoutItem.
-	IteratorItem iterator_item{};
+	int width{0}, height{0};
 
-	unsigned int width{0}, height{0};
-	LayoutItem* parent{nullptr};
-	LayoutItemList child_items;
-
+	static void resolvePanelContents(
+	        bWidgets::bwScreenGraph::Node& panel_node,
+	        const bWidgets::bwPoint& panel_pos,
+	        const unsigned int padding, const unsigned int item_margin,
+	        const float scale_fac);
 private:
-	bool needsMarginBeforeNext() const;
-	unsigned int countRowColumns() const;
-	unsigned int countNeededMargins() const;
+	unsigned int countRowColumns(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
+	unsigned int countNeededMargins(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
 };
 
 /**
@@ -143,6 +128,7 @@ public:
 	        const bool align = false);
 
 	void resolve(
+	        bWidgets::bwScreenGraph::Node::ChildList& children,
 	        const float vertical_scroll,
 	        const float scale_fac);
 	void setMaxSize(const unsigned int max_size);
@@ -160,10 +146,6 @@ private:
 class ColumnLayout : public LayoutItem
 {
 public:
-	static ColumnLayout& create(
-	        LayoutItem& parent,
-	        const bool align = false);
-private:
 	explicit ColumnLayout(const bool align = false);
 };
 
@@ -171,10 +153,6 @@ private:
 class RowLayout : public LayoutItem
 {
 public:
-	static RowLayout& create(
-	        LayoutItem& parent,
-	        const bool align = false);
-private:
 	explicit RowLayout(const bool align = false);
 };
 
@@ -182,31 +160,7 @@ private:
 class PanelLayout : public LayoutItem
 {
 public:
-	static PanelLayout& create(
-	        const std::string& label,
-	        unsigned int header_height_hint,
-	        LayoutItem& parent);
-
-	void draw(bWidgets::bwStyle& style) const override;
-	void resolve(
-	        const bWidgets::bwPoint& layout_pos,
-	        const unsigned int item_margin,
-	        const float scale_fac) override;
-	bWidgets::bwOptional<std::reference_wrapper<bWidgets::bwWidget>> getWidget() const override;
-	bool areChildrenHidden() const override;
-
-private:
-	explicit PanelLayout(
-	        const std::string& label,
-	        unsigned int header_height_hint);
-
-	void resolveContent(
-	        const bWidgets::bwPoint& panel_pos,
-	        const unsigned int padding,
-	        const unsigned int item_margin,
-	        const float scale_fac);
-
-	bWidgets::bwPtr<class bWidgets::bwPanel> panel;
+	explicit PanelLayout();
 };
 
 } // namespace bWidgetsDemo

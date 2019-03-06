@@ -1,4 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classbWidgets_1_1bwStyleProperty.html" title="Simple class for managing properties that can be manipulated through stylesheets (CSS). " alt="" coords="5,13,187,39"/>
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwStylePropertyInternal.html" title="bWidgets::bwStyleProperty\lInternal\&lt; _Type \&gt;" alt="" coords="235,5,416,47"/>
+<area shape="rect" id="node1" href="$classbWidgets_1_1bwStyle.html" title="bWidgets::bwStyle" alt="" coords="5,56,137,83"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwStyleClassic.html" title="bWidgets::bwStyleClassic" alt="" coords="185,5,361,32"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwStyleCSS.html" title="Style&#45;class for CSS driven Styles. " alt="" coords="193,56,353,83"/>
+<area shape="rect" id="node6" href="$classbWidgets_1_1bwStyleFlat.html" title="bWidgets::bwStyleFlat" alt="" coords="196,107,351,133"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwStyleFlatDark.html" title="bWidgets::bwStyleFlatDark" alt="" coords="409,31,592,57"/>
+<area shape="rect" id="node5" href="$classbWidgets_1_1bwStyleFlatLight.html" title="bWidgets::bwStyleFlatLight" alt="" coords="409,81,592,108"/>
 </map>

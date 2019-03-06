@@ -30,6 +30,8 @@ public:
 	void mouseReleaseEvent(
 	        const MouseButton button,
 	        const bwPoint& location) override;
+
+	bool canAlign() const override;
 };
 
 } // bWidgets

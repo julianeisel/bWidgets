@@ -30,6 +30,8 @@
 #include "bwStyleFlatDark.h"
 #include "bwStyleManager.h"
 #include "bwWidget.h"
+#include "screen_graph/Builder.h"
+#include "screen_graph/Iterators.h"
 
 #include "Event.h"
 #include "File.h"
@@ -38,7 +40,6 @@
 #include "IconMap.h"
 #include "Layout.h"
 #include "StyleSheet.h"
-#include "WidgetIterator.h"
 #include "Window.h"
 
 #include "Stage.h"
@@ -79,9 +80,10 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 
 	setFontTightPositioning(true);
 
-	layout = bwPtr_new<RootLayout>(height, width);
+	auto layout = bwPtr_new<RootLayout>(height, width);
 	layout->padding = 7;
 	layout->item_margin = 5;
+	bwScreenGraph::Builder::setLayout(screen_graph, std::move(layout));
 }
 
 void Stage::initFonts()
@@ -148,6 +150,32 @@ void Stage::drawScrollbars()
 	}
 }
 
+static void drawScreenGraph(
+        bwScreenGraph::Node& node,
+        bwStyle& style)
+{
+	const bwScreenGraph::Node* skip_until_parent = nullptr;
+
+	for (auto& iter_node : node) {
+		bwWidget* widget = iter_node.Widget();
+
+		if (skip_until_parent && (skip_until_parent == iter_node.Parent())) {
+			skip_until_parent = nullptr;
+		}
+
+		if (skip_until_parent || !widget || widget->hidden || widget->rectangle.isEmpty()) {
+			continue;
+		}
+
+		bwPanel* panel = widget_cast<bwPanel*>(widget);
+		if (panel && (panel->panel_state == bwPanel::PANEL_CLOSED)) {
+			skip_until_parent = iter_node.Parent();
+		}
+
+		widget->draw(style);
+	}
+}
+
 void Stage::draw()
 {
 	bwRectanglePixel rect{0, (int)mask_width, 0, (int)mask_height};
@@ -176,8 +204,8 @@ void Stage::draw()
 
 	updateContentBounds();
 
-	layout->resolve(vert_scroll, interface_scale);
-	layout->draw(*style);
+	resolveScreenGraphNodeLayout(screen_graph, vert_scroll, interface_scale);
+	drawScreenGraph(screen_graph, *style);
 	drawScrollbars();
 }
 
@@ -210,6 +238,11 @@ void Stage::setFontSubPixelPositioning(const bool value)
 	font->setSubPixelPositioning(value);
 }
 
+RootLayout& Stage::Layout() const
+{
+	return static_cast<RootLayout&>(*screen_graph.Layout());
+}
+
 void Stage::setStyleSheet(const std::string& filepath)
 {
 	if (!style_sheet || (style_sheet->getFilepath() != filepath)) {
@@ -223,9 +256,11 @@ void Stage::setStyleSheet(const std::string& filepath)
 
 void Stage::updateContentBounds()
 {
+	RootLayout& layout = static_cast<RootLayout&>(*screen_graph.Layout());
+
 	validizeScrollValue();
-	layout->setMaxSize(getContentWidth());
-	layout->setYmax(mask_height);
+	layout.setMaxSize(getContentWidth());
+	layout.setYmax(mask_height);
 }
 
 void Stage::validizeScrollValue()
@@ -250,17 +285,32 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& 
 		return nullopt;
 	}
 
-	for (bwWidget& widget : *layout) {
-		if (widget.type == bwWidget::WIDGET_TYPE_PANEL) {
+	const bwScreenGraph::Node* skip_until_parent = nullptr;
+
+	for (bwScreenGraph::Node& node: screen_graph) {
+		bwWidget* widget = node.Widget();
+		if (skip_until_parent && (skip_until_parent == node.Parent())) {
+			skip_until_parent = nullptr;
+		}
+
+		if (skip_until_parent || !widget || widget->hidden) {
+			continue;
+		}
+
+		if (widget->type == bwWidget::WIDGET_TYPE_PANEL) {
 			// Temporary exception for until we have proper event handling with event bubbling and breaking
-			bwPanel& panel = *widget_cast<bwPanel*>(&widget);
+			bwPanel& panel = *widget_cast<bwPanel*>(widget);
+
 			if (panel.isCoordinateInsideHeader(coordinate)) {
-				return widget;
+				return *widget;
+			}
+			if (panel.panel_state == bwPanel::PANEL_CLOSED) {
+				skip_until_parent = node.Parent();
 			}
 		}
 		else {
-			if (widget.isCoordinateInside(coordinate)) {
-				return widget;
+			if (widget->isCoordinateInside(coordinate)) {
+				return *widget;
 			}
 		}
 	}
@@ -386,7 +436,7 @@ unsigned int Stage::getContentWidth() const
 
 unsigned int Stage::getContentHeight() const
 {
-	return layout->getHeight() + (2 * layout->padding); // TODO Padding should actually be added to layout width/height
+	return Layout().getHeight() + (2 * Layout().padding); // TODO Padding should actually be added to layout width/height
 }
 
 bool Stage::shouldHaveScrollbars() const

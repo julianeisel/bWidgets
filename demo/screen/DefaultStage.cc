@@ -25,14 +25,16 @@
 
 #include "IconMap.h"
 #include "Layout.h"
-#include "WidgetIterator.h"
 
 #include "bwCheckbox.h"
 #include "bwLabel.h"
 #include "bwNumberSlider.h"
+#include "bwPanel.h"
 #include "bwPushButton.h"
 #include "bwRadioButton.h"
 #include "bwStyleManager.h"
+#include "screen_graph/Builder.h"
+#include "screen_graph/Iterators.h"
 
 #include "DefaultStage.h"
 
@@ -123,15 +125,19 @@ private:
 class UseFontSubPixelsToggleSetter : public bwFunctorInterface
 {
 public:
-	UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox, const Stage& _stage) :
+	UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox, Stage& _stage) :
 	    checkbox(_checkbox), stage(_stage)
 	{}
 
 	void operator()() override
 	{
 		Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE : Font::NORMAL_COVERAGE);
-		for (bwWidget& widget : WidgetIterator::withHidden(*stage.layout)) {
-			if (auto* iter_checkbox = widget_cast<bwCheckbox*>(&widget)) {
+		for (bwScreenGraph::Node& node : stage.screen_graph) {
+			bwWidget* widget = node.Widget();
+			if (!widget) {
+				continue;
+			}
+			if (auto* iter_checkbox = widget_cast<bwCheckbox*>(widget)) {
 				if (iter_checkbox->apply_functor &&
 				    dynamic_cast<UseFontSubPixelPositioningToggleSetter*>(iter_checkbox->apply_functor.get()))
 				{
@@ -143,7 +149,7 @@ public:
 
 private:
 	const bwCheckbox& checkbox;
-	const Stage& stage;
+	Stage& stage;
 };
 
 } // namespace bWidgetsDemo
@@ -154,72 +160,67 @@ private:
 DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
     Stage(mask_width, mask_height)
 {
-	addStyleSelector(*layout);
+	using namespace bwScreenGraph;
+	bwScreenGraph::Builder builder(screen_graph);
+	ContainerNode* panel;
 
-	auto slider = bwPtr_new<bwNumberSlider>(0, BUTTON_HEIGHT);
-	slider->apply_functor = bwPtr_new<ScaleSetter>(*slider);
-	slider->setText("Interface Scale: ");
-	slider->setMinMax(0.5f, 2.0f);
-	slider->setValue(1.0f);
-	layout->addWidget(std::move(slider));
+	addStyleSelector(screen_graph);
+
+	auto& slider = builder.addWidget<bwNumberSlider>(0, BUTTON_HEIGHT);
+	slider.apply_functor = bwPtr_new<ScaleSetter>(slider);
+	slider.setText("Interface Scale: ");
+	slider.setMinMax(0.5f, 2.0f);
+	slider.setValue(1.0f);
 
 
-	layout->addWidget(bwPtr_new<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT));
+	builder.addWidget<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT);
 
-	RowLayout* row = &RowLayout::create(*layout, true);
-	auto checkbox = bwPtr_new<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
+	builder.addLayout<RowLayout>(true);
+	auto* checkbox = &builder.addWidget<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontTightPlacementToggleSetter>(*checkbox);
 	checkbox->state = bwWidget::STATE_SUNKEN;
-	row->addWidget(std::move(checkbox));
-	checkbox = bwPtr_new<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
+	checkbox = &builder.addWidget<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
-	row->addWidget(std::move(checkbox));
 
-	row = &RowLayout::create(*layout, false);
-	checkbox = bwPtr_new<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
+	builder.setActiveLayout(screen_graph);
+	builder.addLayout<RowLayout>(false);
+	checkbox = &builder.addWidget<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontSubPixelsToggleSetter>(*checkbox, *this);
-	row->addWidget(std::move(checkbox));
-	checkbox = bwPtr_new<bwCheckbox>("Subpixel Positioning", 0, BUTTON_HEIGHT);
+	checkbox = &builder.addWidget<bwCheckbox>("Subpixel Positioning", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontSubPixelPositioningToggleSetter>(*checkbox);
 	checkbox->hidden = true;
-	row->addWidget(std::move(checkbox));
 
-	addFakeSpacer(*layout);
+	addFakeSpacer(screen_graph);
 
+	builder.setActiveLayout(screen_graph);
+	panel = &builder.addContainer<bwPanel>(bwPtr_new<PanelLayout>(), "Some Testing Widgets", PANEL_HEADER_HEIGHT);
+	builder.setActiveLayout(*panel);
+	builder.addLayout<ColumnLayout>(true);
+	builder.addWidget<bwPushButton>("Translate", 0, BUTTON_HEIGHT);
+	builder.addWidget<bwPushButton>("Rotate",    0, BUTTON_HEIGHT);
+	builder.addWidget<bwPushButton>("Scale",     0, BUTTON_HEIGHT);
 
-	PanelLayout* panel = &PanelLayout::create("Some Testing Widgets", PANEL_HEADER_HEIGHT, *layout);
+	builder.setActiveLayout(*panel);
+	auto& push_but = builder.addWidget<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
+	push_but.setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
 
-	ColumnLayout& col = ColumnLayout::create(*panel, true);
-	col.addWidget(bwPtr_new<bwPushButton>("Translate", 0, BUTTON_HEIGHT));
-	col.addWidget(bwPtr_new<bwPushButton>("Rotate", 0, BUTTON_HEIGHT));
-	col.addWidget(bwPtr_new<bwPushButton>("Scale", 0, BUTTON_HEIGHT));
+	builder.setActiveLayout(screen_graph);
+	panel = &builder.addContainer<bwPanel>(bwPtr_new<PanelLayout>(), "More Testing...", PANEL_HEADER_HEIGHT);
+	builder.addLayout<RowLayout>(true);
+	builder.addWidget<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT);
+	builder.addWidget<bwCheckbox>("Wireframes",   0, BUTTON_HEIGHT);
 
-	auto push_but = bwPtr_new<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
-	push_but->setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
-	panel->addWidget(std::move(push_but));
+	builder.setActiveLayout(*panel);
+	auto& text_box = builder.addWidget<bwTextBox>(0, BUTTON_HEIGHT);
+	text_box.setText("Some Text...");
 
-
-	panel = &PanelLayout::create("More Testing...", PANEL_HEADER_HEIGHT, *layout);
-	row = &RowLayout::create(*panel, true);
-	row->addWidget(bwPtr_new<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT));
-	row->addWidget(bwPtr_new<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT));
-
-	auto text_box = bwPtr_new<bwTextBox>(0, BUTTON_HEIGHT);
-	text_box->setText("Some Text...");
-	panel->addWidget(std::move(text_box));
-
-	row = &RowLayout::create(*panel, false);
-	auto label = bwPtr_new<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
+	builder.addLayout<RowLayout>(false);
+	auto* label = &builder.addWidget<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_POSE_HLT));
-	row->addWidget(std::move(label));
-
-	label = bwPtr_new<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
+	label = &builder.addWidget<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
-	row->addWidget(std::move(label));
-
-	label = bwPtr_new<bwLabel>("Chroma Scope Icon", 0, BUTTON_HEIGHT);
+	label = &builder.addWidget<bwLabel>("Chroma Scope Icon", 0, BUTTON_HEIGHT);
 	label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
-	row->addWidget(std::move(label));
 }
 
 bool isUseCSSVersionToggleHidden(const bwStyle& style)
@@ -230,49 +231,54 @@ bool isUseCSSVersionToggleHidden(const bwStyle& style)
 void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
 	Stage::activateStyleID(type_id);
-	for (bwWidget& widget : WidgetIterator::withHidden(*layout)) {
-		if (auto* checkbox = widget_cast<bwCheckbox*>(&widget)) {
+	for (auto& iter_node : screen_graph) {
+		bwWidget* widget = iter_node.Widget();
+		if (!widget) {
+			continue;
+		}
+
+		if (auto* checkbox = widget_cast<bwCheckbox*>(widget)) {
 			if (checkbox->apply_functor && dynamic_cast<UseCSSVersionToggleSetter*>(checkbox->apply_functor.get())) {
-				widget.hidden = isUseCSSVersionToggleHidden(*Stage::style);
+				widget->hidden = isUseCSSVersionToggleHidden(*Stage::style);
 			}
 		}
 	}
 }
 
-void DefaultStage::addStyleSelector(LayoutItem& parent_layout)
+void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 {
-	RowLayout& row_layout = RowLayout::create(parent_layout, true);
+	using namespace bwScreenGraph;
+	Builder builder(parent_node);
 
-	auto label = bwPtr_new<bwLabel>("Style:", 0, BUTTON_HEIGHT);
-	label->setIcon(icon_map->getIcon(ICON_BLENDER));
-	row_layout.addWidget(std::move(label));
+	builder.addLayout<RowLayout>(true);
+
+	auto& label = builder.addWidget<bwLabel>("Style:", 0, BUTTON_HEIGHT);
+	label.setIcon(icon_map->getIcon(ICON_BLENDER));
 
 	for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
 		if (type.type_id == bwStyle::STYLE_CLASSIC_CSS) {
 			// We'll add a button for this later.
 			continue;
 		}
-		auto style_button = bwPtr_new<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
+		auto& style_button = builder.addWidget<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
 
-		style_button->apply_functor = bwPtr_new<StyleSetter>(*this, type);
+		style_button.apply_functor = bwPtr_new<StyleSetter>(*this, type);
 
 		if (type.type_id == style->type_id) {
-			style_button->state = bwAbstractButton::STATE_SUNKEN;
+			style_button.state = bwAbstractButton::STATE_SUNKEN;
 		}
-
-		row_layout.addWidget(std::move(style_button));
 	}
 
-	auto checkbox = bwPtr_new<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
-	checkbox->hidden = isUseCSSVersionToggleHidden(*style);
-	checkbox->apply_functor = bwPtr_new<UseCSSVersionToggleSetter>(*checkbox, *this);
-	parent_layout.addWidget(std::move(checkbox));
+	builder.setActiveLayout(parent_node);
+	auto& checkbox = builder.addWidget<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
+	checkbox.hidden = isUseCSSVersionToggleHidden(*style);
+	checkbox.apply_functor = bwPtr_new<UseCSSVersionToggleSetter>(checkbox, *this);
 }
 
-void DefaultStage::addFakeSpacer(LayoutItem& layout)
+void DefaultStage::addFakeSpacer(bwScreenGraph::LayoutNode& parent_node)
 {
 	// Just some extra space. No spacer widgets yet.
-	layout.addWidget(bwPtr_new<bwLabel>("", 0, 7));
+	bwScreenGraph::Builder::emplaceWidget<bwLabel>(parent_node, "", 0, 7);
 }
 
 void DefaultStage::useStyleCSSVersionSet(
@@ -351,8 +357,12 @@ void StyleSetter::operator()()
 	bwStyle::StyleTypeID style_type_id = style_type.type_id;
 	stage.activateStyleID(style_type_id);
 	// Deactivate other style radio buttons
-	for (bwWidget& widget : *stage.layout) {
-		updateStyleButton(widget, stage);
+	for (bwScreenGraph::Node& node : stage.screen_graph) {
+		bwWidget* widget = node.Widget();
+		if (!widget || widget->hidden) {
+			continue;
+		}
+		updateStyleButton(*widget, stage);
 	}
 }
 

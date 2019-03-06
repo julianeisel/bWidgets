@@ -21,3 +21,8 @@ bwPushButton& bwPushButton::setIcon(const bwIconInterface &icon_interface)
 	icon = &icon_interface;
 	return *this;
 }
+
+bool bwPushButton::canAlign() const
+{
+	return true;
+}

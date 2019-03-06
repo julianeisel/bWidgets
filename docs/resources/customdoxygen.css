@@ -417,11 +417,14 @@ span.vhdllogic {
     color: #ff0000
 }
 
+blockquote h1, .h1, h2, .h2, h3, .h3 {
+	margin: 0;
+}
 blockquote {
     background-color: #F7F8FB;
     border-left: 2px solid #9CAFD4;
     margin: 0 24px 0 4px;
-    padding: 0 12px 0 16px;
+    padding: 12px 12px 10px 16px;
 }
 
 /*---------------- Search Box */

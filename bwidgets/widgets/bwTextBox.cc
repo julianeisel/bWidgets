@@ -92,3 +92,8 @@ const std::string* bwTextBox::getLabel() const
 {
 	return &text;
 }
+
+bool bwTextBox::canAlign() const
+{
+	return true;
+}
