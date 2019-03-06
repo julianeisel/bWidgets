@@ -10,6 +10,7 @@
   <!-- <script type="text/javascript" src="jquery.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="dynsections.js"></script>
+  <script type="text/javascript" src="custom_js.js"></script>
   <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -81,31 +82,152 @@ $(function() {
 <div class="title">Design Overview </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>High level overview on the bWidgets design.</p>
-<h2>Model-View-Controller (MVC)</h2>
-<p><b>Note:</b> <em>This section describes the planned long-term design and is not fully valid yet.</em></p>
-<p>bWidgets is designed to take over the widgets related <em>view</em> component in an <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> based application. MVC has gained great popularity and Blender's code follows this pattern too (rather loosely though).</p>
-<div class="image">
-<img src="bwidgets_mvc.png" alt="bwidgets_mvc.png"/>
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#pipeline">The Pipeline</a></li>
+<li class="level1"><a href="#construction">Construction</a></li>
+<li class="level1"><a href="#styling">Styling</a></li>
+<li class="level1"><a href="#layout">Layout</a></li>
+<li class="level1"><a href="#drawing">Drawing</a></li>
+<li class="level1"><a href="#handling">Handling</a></li>
+<li class="level1"><a href="#writeback">Write Back</a></li>
+</ul>
 </div>
-<p>Communication between bWidgets and any other component is supposed to happen through the controller. If the application receives an external event (e.g mouse clicks or timer ticks), the controller is responsible for converting them to the higher-level events that bWidgets uses (<em>onKeyPress</em>, <em>onMousePress</em>, etc.) and passing them on to bWidgets. Depending on the context (e.g. which widget is hovered or which widget currently is in text editing mode), bWidgets can then decide on how to react to the event, change the context if needed and notify the controller about any changes. bWidgets will also inform the controller if the event was "consumed" or if it's allowed to pass it on to other handlers.</p>
-<p>The most important part of the MVC <em>view</em> component is the representation of data. bWidgets does this by defining geometry and text to be drawn on screen (or other media if wanted). The look of geometry and text can be controlled with styles.<br />
- We also consider any layout management to be a part of the <em>view</em> component. However, bWidgets doesn't handle that part yet, so it's still job of the application.</p>
-<p><b>Note:</b> <em>There may be versions of the MVC pattern that better resemble the design of bWidgets. Given the early state of the project, we keep it general though.</em></p>
-<h2>Defining Widget Types</h2>
-<p>C++ object-oriented programming and inheritance plays an important role for widgets. All widgets derive from the abstract <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> class and implement its abstract functions. They also typically override virtual functions of <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> to customize their behavior.<br />
- Since many widgets have some similar behavior and properties, in-between classes can be useful, such as <a class="el" href="classbWidgets_1_1bwAbstractButton.html">bwAbstractButton</a>. Instead of inheriting from <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> directly, widgets can inherit from those to get a more practical starting point.</p>
-<h2>Widget Drawing</h2>
-<p>Drawing widgets happens through multiple abstractions. A painter manages all drawing, defined using <a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a>. You tell the painter to change to a certain color, activate a gradient or eventually to draw certain geometry. No drawing calls are issued directly. Instead polygons are created (<a class="el" href="classbWidgets_1_1bwPolygon.html">bwPolygon</a>) and handed over to the painter to draw them. Or in the case of text, strings with some drawing information are passed to it.<br />
- The painter also has functions to draw typical shapes, such as round-boxes, rectangles or check-marks. In most cases those should be enough to draw widgets.<br />
- Once the painter gets the instruction to draw some geometry, it passes it on to the next important abstaction: the paint-engine (<a class="el" href="classbWidgets_1_1bwPaintEngine.html">bwPaintEngine</a>). This engine is the interface between bWidgets, and the application defined drawing implementation. That way the application can implement paint-engines using different backends (e.g. OpenGL, Vulcan, DirectX, PNG exporter, HTML &amp; CSS exporter).</p>
-<h2>Widget Handling</h2>
+<div class="textblock"><p>High level overview on the bWidgets design.</p>
+<h1><a class="anchor" id="pipeline"></a>
+The Pipeline</h1>
+<p>To get a functional, interactive widget onto the screen, it has to go through various stages of processing. On the highest level, we've established six distinct ones for bWidgets. Given that there's a specific order in which they have to be executed, we call this the <em>pipeline</em>:</p>
+<ul>
+<li><p class="startli"><b>Construction</b></p>
+<p class="startli">Build a <em>screen-graph</em>, which defines a hierarchy and principal layout for any widget that may appear on screen.</p>
+</li>
+<li><p class="startli"><b>Styling</b></p>
+<p class="startli">Compute and assign the final styling data (colors, fonts, border-widths, etc.) for each item in the screen-graph.</p>
+</li>
+<li><p class="startli"><b>Layout</b></p>
+<p class="startli">Compute the final position and dimensions of each widget in the screen-graph.</p>
+</li>
+<li><p class="startli"><b>Drawing</b></p>
+<p class="startli">Draw the laid out and styled widgets of the screen-graph to an output buffer (typically the screen-buffer).</p>
+</li>
+<li><p class="startli"><b>Handling</b></p>
+<p class="startli">Pass events (typically triggered by user interaction) down the screen-graph to allow widgets to respond with state changes.</p>
+</li>
+<li><p class="startli"><b>Write Back</b></p>
+<p class="startli">Inform the host application (i.e. Blender) about any state changes to let it update its data accordingly.</p>
+</li>
+</ul>
+<p>Not all stages have to be executed on each redraw. If nothing changed, the styling stage can be skipped for example.</p>
+<p>A lot can be said about each stage, we’ll look at them one by one in the following sections. <br />
+ <br />
+</p>
+<blockquote class="doxtable">
+<p><a href="javascript:void(0)" onclick="toggleCollapsed($(&apos;#pipeline_rationale&apos;), &apos;Design Rationale&apos;)"><b id="pipeline_rationale-header"></b> </a> </p>
+</blockquote>
+<div id="pipeline_rationale"> <div id="pipeline_rationale-summary"></div> <div id="pipeline_rationale-content"> <blockquote class="doxtable">
+<p>A core design principle of bWidgets is to have clearly defined and minimized responsibilities for all code units; from the high level modules to the low level functions. Both the data flow and the code architecture convey this. Such a principle increases the separation of concerns – an important quality in software engineering.<br />
+ Unfortunately, each of the above mentioned stages addresses a high-level responsibility that depends on its predecessors. E.g. the drawing code must not execute before the layout engine has done its job.<br />
+ Rather than fighting these (unavoidable) dependencies, the design is built around them. So the pipeline pictures the dependency flow into the bWidgets architecture.</p>
+<p>Note how the described pipeline nicely implements the Model-View-Controller pattern: [TODO graphic] </p>
+</blockquote>
+</div> <div id="pipeline_rationale-trigger" src="-"></div> </div><p> 
+<script type="text/javascript">
+  $("#pipeline_rationale").ready(function() {
+          toggleCollapsed($("#pipeline_rationale"), "Design Rationale");
+  });
+</script>
+</p>
+<h1><a class="anchor" id="construction"></a>
+Construction</h1>
+<p>The construction stage is responsible for building the screen-graph. The screen-graph is a vital data-structure, in that most other stages base their operations on it. It is a tree structure, with each node representing:</p><ul>
+<li>a widget, or</li>
+<li>a layout item (a node that supports child nodes aligned in some layout),</li>
+<li>a container widget (a widget which may have child nodes aligned in some layout; i.e. panels)</li>
+</ul>
+<p>[TODO graphic]</p>
+<p>To construct a screen-graph, a helper API called screen-graph <em>builder</em> is used. It hides complexity and ensures only valid screen-graphs are constructed. For example it makes sure there’s no way to construct a label widget with children attached to its node – a label is not a container (nor a layout).<br />
+ It's actually possible to have multiple builders, allowing domain specific specializations. Like an own builder for Blender RNA widgets, which also allows setting RNA data in a convenient way (see example below).</p>
+<p>Creating/expanding a screen-graph could look like this:</p>
+<div class="fragment"><div class="line"><span class="comment">// Create a builder which will add children to the root.</span></div><div class="line">bwScreenGraph::Builder builder(screen_graph_root);</div><div class="line"></div><div class="line"><span class="comment">// Further items will be placed in row, until different layout is activated/added.</span></div><div class="line">builder.addLayout&lt;RowLayout&gt;();</div><div class="line"></div><div class="line"><span class="comment">// Parameters passed to addWidget() will be forwarded to the widget constructor (C++ perfect forwarding).</span></div><div class="line">builder.addWidget&lt;bwLabel&gt;(“Option:”, 0, BUTTON_HEIGHT);</div><div class="line">builder.addWidget&lt;bwPushButton&gt;(“Push Me!”, ICON_ACTION, 0, BUTTON_HEIGHT);</div><div class="line"></div><div class="line"><span class="comment">// --------------------------------------------------------------</span></div><div class="line"><span class="comment">// Example of how a custom builder for RNA widgets could be used:</span></div><div class="line"></div><div class="line">ScreenGraphRNABuilder rna_builder(screen_graph_root);</div><div class="line">PointerRNA&amp; ptr = get_some_ptr();</div><div class="line">PropertyRNA&amp; prop = get_some_prop();</div><div class="line"></div><div class="line">rna_builder.addWidget&lt;bwCheckbox&gt;(prop, ptr, BUTTON_HEIGHT);</div></div><!-- fragment --><p> <br />
+</p>
+<blockquote class="doxtable">
+<p><a href="javascript:void(0)" onclick="toggleCollapsed($(&apos;#construction_rationale&apos;), &apos;Design Rationale&apos;)"><b id="construction_rationale-header"></b> </a> </p>
+</blockquote>
+<div id="construction_rationale"> <div id="construction_rationale-summary"></div> <div id="construction_rationale-content"> <blockquote class="doxtable">
+<p>One weakness of the Blender UI code is that it doesn't support nesting widgets. I.e. It’s not possible to have a panel widget that is the parent of its contained widgets. Panels, modifier-boxes and thelike get special treatment to at least visually appear connected to their content. But if a logical connection is needed (say to support dragging a modifier box with its contents), further tricks are needed.<br />
+ So bWidgets was supposed to support widget nesting from the get-go.</p>
+<p>Three general approaches to storing widgets in a hierarchy come to mind:</p><ol type="1">
+<li><p class="startli">Widgets themselves store child widgets</p>
+<p class="startli">Widgets could have a list of children, whereby the parent controls their layout (i.e. <code>parent_widget.setLayout(row_layout)</code>). A number of grouping, or container widgets would likely be needed (e.g. panel, radio-button group, tab-bar, …). Qt uses such a design.</p>
+</li>
+<li><p class="startli">Widgets are owned by a layout tree</p>
+<p class="startli">Layouts are hierarchical by nature: Columns can contain rows, rows can contain columns, panels can contain rows or columns, etc. So the layout hierarchy, aka the layout tree, can be used to store widgets hierarchically too.</p>
+</li>
+<li><p class="startli">A separate data-structure defines the hierarchy and manages layouts and widgets within</p>
+<p class="startli">If neither the widgets themselves, nor the layout tree are used to store the hierarchy, a separate data-structure could be used. Further, it could combine the widget hierarchy and the layout tree. So the idea is to have a tree structure, where each node can be a widget, a layout, or a combination of both (a widget with a layout for child nodes).</p>
+</li>
+</ol>
+<p>You may realize that we went with the third approach, but to understand why, we'll have to look at the topic of responsibilies first. One way to archieve previously mentioned separation of concerns is by minimizing the responsibilities of components. Components should do few things (one ideally) and do them well (see the single responsibility principle). Existing toolkits fail at that. They typically give way too many responsibilities to widgets. Widgets are typically responsible for:</p>
+<ul>
+<li><p class="startli">Drawing themselves</p>
+<p class="startli"><br />
+</p>
+</li>
+<li><p class="startli">Managing their own data</p>
+<p class="startli">Text and icons to display, geometry, numeric values, text selection, tooltip text, handling callbacks and data, widget specific options, …</p>
+</li>
+<li><p class="startli">Handling events</p>
+<p class="startli">Listen to fixed events, pass on events to children if needed, listen to changeable shortcuts, ...</p>
+</li>
+<li><p class="startli">Managing states</p>
+<p class="startli">Correctly enter text edit state if needed (i.e. store the string to be reset on cancel), forbid exiting text edit state when invalid value is entered, don’t listen to events when different menu is in focus, ...</p>
+</li>
+<li><p class="startli">Providing hints for the layout engine</p>
+<p class="startli">Minimum dimensions, flow direction of the widget, alignment (can this widget be “stitched” to others?), …</p>
+</li>
+<li><p class="startli">Providing APIs for data access and manipulation</p>
+<p class="startli">Direct state changes, trigger updates, query information (e.g. does the widget have visible children?), ...</p>
+</li>
+<li><p class="startli">etc.</p>
+<p class="startli"><br />
+</p>
+</li>
+</ul>
+<p>So even if widgets seem like simple little objects, they tend to grow quite complex due to their many responsibilities. This is something that should be addressed.<br />
+ Looking at our options again, the first one adds yet another responsibility for widgets. That is, correctly managing children. The second one doesn't, but it turns the layout tree into a vastly more important data-structure than it should be. To the point where the layout tree isn't a layout tree really, but a separate structure which happens to be used by the layout engine. So basically like option number three.<br />
+ Interestingly, the third option allows us to redistribute responsibilities via the intermediate data-structure it introduces. Responsibilities can be taken out of widgets and moved into own classes/objects, which are then connected to the widget via the node representing it in the hierarchy. The resulting classes/objects are smaller and more focused.</p>
+<div class="image">
+<img src="screen_graph_responsibilities.png" alt="screen_graph_responsibilities.png"/>
+<div class="caption">
+Principal redistribution of responsibilities via screen-graph nodes</div></div>
+<p> The cost is another abstraction to care for. It's more intuitive to deal with widgets directly, without an intermediate and generic "node" object inbetween. But this atypical approach promisses a much greater separation of concerns. So it's an interesting experiment.</p>
+<p>A huge benefit of this design is that a flexible, yet simple and clear event dispatch path is defined: Rather than hardcoding which widgets (or containers like Blender’s <code>ARegion</code>s) listen to an event, the event is passed down the screen-graph towards a target widget (that may then bubble the event up to its parent again).<br />
+</p>
+<p>Another interesting quality of the screen-graph design: The screen-graph has many similarities with the document object model (DOM). So it's quite similar to the core data-structure of the world-wide-web. While it's certainly fair to critique many aspects of web technologies, the basic DOM design seems to have provided a good working base.</p>
+<p>Lastly, object oriented code tends to suffer a lot from data-structures that so much other code depends on. We don't want to just move the complexity of widgets to screen-graph nodes. So the nodes should be mere data-structures without any (non-trivial) functions. Behavior is then implemented by helper classes, like the Builder class for building the screen-graph. es, i.e. panels). </p>
+</blockquote>
+</div> <div id="construction_rationale-trigger" src="-"></div> </div><p> 
+<script type="text/javascript">
+  $("#construction_rationale").ready(function() {
+          toggleCollapsed($("#construction_rationale"), "Design Rationale");
+  });
+</script>
+</p>
+<h1><a class="anchor" id="styling"></a>
+Styling</h1>
 <p>TODO</p>
-<h2>Styles</h2>
+<h1><a class="anchor" id="layout"></a>
+Layout</h1>
+<p>In the layout stage, items from the screen-graph are positioned on screen. For this, the screen-graph already contains all needed information</p>
+<p>Note that although bWidgets’ styling is (going to be) based on the CSS specification, we don’t use any layout features of it except of the box-model. The CSS layout system just has too many issues in practise and doesn't suite our needs.</p>
+<h1><a class="anchor" id="drawing"></a>
+Drawing</h1>
 <p>TODO</p>
-<h2>Generics</h2>
-<p>General low-level data-types are bundled into an own "generics" module. Examples are <a class="el" href="classbWidgets_1_1bwColor.html">bwColor</a>, <a class="el" href="classbWidgets_1_1bwGradient.html">bwGradient</a>, <a class="el" href="classbWidgets_1_1bwPolygon.html">bwPolygon</a> and <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectangle</a>.<br />
- They can be accessed from everywhere inside of bWidgets, but also outside of it. The public bWidgets API uses them too. </p>
+<h1><a class="anchor" id="handling"></a>
+Handling</h1>
+<p>TODO</p>
+<h1><a class="anchor" id="writeback"></a>
+Write Back</h1>
+<p>Should the host application apply any changes to the data displayed on screen, it should also trigger an update of the view. This implies that the bWidgets pipeline is triggered to apply the necessary updates. </p>
 </div></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->

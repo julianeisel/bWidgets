@@ -10,6 +10,7 @@
   <!-- <script type="text/javascript" src="jquery.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="dynsections.js"></script>
+  <script type="text/javascript" src="custom_js.js"></script>
   <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -92,12 +93,14 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6671b452be046504e8866d678dadaf21"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwPaintEngine.html#a6671b452be046504e8866d678dadaf21">setupViewport</a> (const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, const class <a class="el" href="classbWidgets_1_1bwColor.html">bwColor</a> &amp;clear_color)=0</td></tr>
+<tr class="memitem:a6671b452be046504e8866d678dadaf21"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwPaintEngine.html#a6671b452be046504e8866d678dadaf21">setupViewport</a> (const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, const class <a class="el" href="classbWidgets_1_1bwColor.html">bwColor</a> &amp;clear_color)=0</td></tr>
 <tr class="separator:a6671b452be046504e8866d678dadaf21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a6eda0ae77f59bbbf32dc1da3a21384"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwPaintEngine.html#a7a6eda0ae77f59bbbf32dc1da3a21384">drawPolygon</a> (const class <a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a> &amp;painter, const class <a class="el" href="classbWidgets_1_1bwPolygon.html">bwPolygon</a> &amp;polygon)=0</td></tr>
 <tr class="separator:a7a6eda0ae77f59bbbf32dc1da3a21384"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73170392cb04642851364f7c319679b5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwPaintEngine.html#a73170392cb04642851364f7c319679b5">drawText</a> (const class <a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a> &amp;painter, const std::string &amp;text, const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, const TextAlignment alignment)=0</td></tr>
+<tr class="memitem:a73170392cb04642851364f7c319679b5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwPaintEngine.html#a73170392cb04642851364f7c319679b5">drawText</a> (const class <a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a> &amp;painter, const std::string &amp;text, const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect, const TextAlignment alignment)=0</td></tr>
 <tr class="separator:a73170392cb04642851364f7c319679b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4528e7b177cad921e7de4de5690587f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwPaintEngine.html#ae4528e7b177cad921e7de4de5690587f">drawIcon</a> (const class <a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a> &amp;painter, const class <a class="el" href="classbWidgets_1_1bwIconInterface.html">bwIconInterface</a> &amp;icon_interface, const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;rect)=0</td></tr>
+<tr class="separator:ae4528e7b177cad921e7de4de5690587f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main interface to implement any drawing of geometry or text. </p>
@@ -109,6 +112,55 @@ Public Member Functions</h2></td></tr>
 <p>Creating a paint-engine is done by subclassing this class and implementing the abstract functions.</p>
 <dl class="section note"><dt>Note</dt><dd>Even though the name may suggest this is the equivalent to Qt's QPaintEngine, this is more of a combination of both, QPaintEngine and QPaintDevice. </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae4528e7b177cad921e7de4de5690587f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4528e7b177cad921e7de4de5690587f">&#9670;&nbsp;</a></span>drawIcon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void bWidgets::bwPaintEngine::drawIcon </td>
+          <td>(</td>
+          <td class="paramtype">const class <a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a> &amp;&#160;</td>
+          <td class="paramname"><em>painter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const class <a class="el" href="classbWidgets_1_1bwIconInterface.html">bwIconInterface</a> &amp;&#160;</td>
+          <td class="paramname"><em>icon_interface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;&#160;</td>
+          <td class="paramname"><em>rect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Draw the icon referenced by <em>icon_interface</em>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">painter</td><td>Provides all aditional information needed for drawing (e.g. color for theme controlled monochrome icons etc.). </td></tr>
+    <tr><td class="paramname">rect</td><td>The bounding-box to draw the icon into. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a7a6eda0ae77f59bbbf32dc1da3a21384"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7a6eda0ae77f59bbbf32dc1da3a21384">&#9670;&nbsp;</a></span>drawPolygon()</h2>
 
@@ -175,7 +227,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;&#160;</td>
           <td class="paramname"><em>rect</em>, </td>
         </tr>
         <tr>
@@ -218,7 +270,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void bWidgets::bwPaintEngine::setupViewport </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> &amp;&#160;</td>
           <td class="paramname"><em>rect</em>, </td>
         </tr>
         <tr>

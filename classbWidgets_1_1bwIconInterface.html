@@ -10,6 +10,7 @@
   <!-- <script type="text/javascript" src="jquery.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="dynsections.js"></script>
+  <script type="text/javascript" src="custom_js.js"></script>
   <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -79,20 +80,39 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classbWidgets_1_1bwIconInterface-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">bWidgets::bwIconInterface Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interface to reference icons from within bWidgets.  
+ <a href="classbWidgets_1_1bwIconInterface.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="bwIconInterface_8h_source.html">bwIconInterface.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6cdede852cd314714e6489c27a1340d9"><td class="memItemLeft" align="right" valign="top"><a id="a6cdede852cd314714e6489c27a1340d9"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isValid</b> () const =0</td></tr>
 <tr class="separator:a6cdede852cd314714e6489c27a1340d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:aef8450f1b9d13e919fdfb5c6d4395ad2"><td class="memItemLeft" align="right" valign="top"><a id="aef8450f1b9d13e919fdfb5c6d4395ad2"></a>
+static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><b>ICON_DEFAULT_SIZE</b> = 16</td></tr>
+<tr class="separator:aef8450f1b9d13e919fdfb5c6d4395ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>bwidgets/<a class="el" href="bwIcon_8h_source.html">bwIcon.h</a></li>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interface to reference icons from within bWidgets. </p>
+<p>Using this interface, bWidgets can reference icon objects of which it doesn't know any implementation details.</p>
+<p>To get icon drawing to work you have to:</p><ul>
+<li>implement this interface as some class for storing icon data (e.g. a bitmap wrapper),</li>
+<li>implement the <a class="el" href="classbWidgets_1_1bwPaintEngine.html#ae4528e7b177cad921e7de4de5690587f">bwPaintEngine::drawIcon() function for drawing the icon data,call the <code>setIcon</code> function of a widget (if available) to set the icon reference.  Managing icons, including their memory, has to be done outside of bWidgets. At no point does bWidgets take ownership over icon data. </a></li>
+</ul>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
+<li>bwidgets/<a class="el" href="bwIconInterface_8h_source.html">bwIconInterface.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.13-->

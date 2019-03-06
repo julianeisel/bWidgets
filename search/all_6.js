@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['in_5fplace_5ft',['in_place_t',['../structbWidgets_1_1in__place__t.html',1,'bWidgets']]],
-  ['initialize',['initialize',['../classbWidgets_1_1bwWidget.html#ae1356f1620a11f10ab45fd4c9bd603f9',1,'bWidgets::bwWidget']]]
+  ['hidden',['hidden',['../classbWidgets_1_1bwWidget.html#ac0e79a199d830d4df1c54861dc9b2673',1,'bWidgets::bwWidget']]]
 ];
