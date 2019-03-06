@@ -1,6 +1,7 @@
 var searchData=
 [
   ['bad_5foptional_5faccess',['bad_optional_access',['../classbWidgets_1_1bad__optional__access.html',1,'bWidgets']]],
+  ['builder',['Builder',['../classbWidgets_1_1bwScreenGraph_1_1Builder.html',1,'bWidgets::bwScreenGraph']]],
   ['bwabstractbutton',['bwAbstractButton',['../classbWidgets_1_1bwAbstractButton.html',1,'bWidgets']]],
   ['bwcheckbox',['bwCheckbox',['../classbWidgets_1_1bwCheckbox.html',1,'bWidgets']]],
   ['bwcolor',['bwColor',['../classbWidgets_1_1bwColor.html',1,'bWidgets']]],
@@ -8,6 +9,7 @@ var searchData=
   ['bwgradient',['bwGradient',['../classbWidgets_1_1bwGradient.html',1,'bWidgets']]],
   ['bwiconinterface',['bwIconInterface',['../classbWidgets_1_1bwIconInterface.html',1,'bWidgets']]],
   ['bwlabel',['bwLabel',['../classbWidgets_1_1bwLabel.html',1,'bWidgets']]],
+  ['bwlayoutinterface',['bwLayoutInterface',['../classbWidgets_1_1bwLayoutInterface.html',1,'bWidgets']]],
   ['bwnumberslider',['bwNumberSlider',['../classbWidgets_1_1bwNumberSlider.html',1,'bWidgets']]],
   ['bwoptional',['bwOptional',['../classbWidgets_1_1bwOptional.html',1,'bWidgets']]],
   ['bwpaintengine',['bwPaintEngine',['../classbWidgets_1_1bwPaintEngine.html',1,'bWidgets']]],
@@ -18,8 +20,8 @@ var searchData=
   ['bwpushbutton',['bwPushButton',['../classbWidgets_1_1bwPushButton.html',1,'bWidgets']]],
   ['bwradiobutton',['bwRadioButton',['../classbWidgets_1_1bwRadioButton.html',1,'bWidgets']]],
   ['bwrange',['bwRange',['../classbWidgets_1_1bwRange.html',1,'bWidgets']]],
-  ['bwrectangle',['bwRectangle',['../structbWidgets_1_1bwRectangle.html',1,'bWidgets']]],
-  ['bwrectangle_3c_20int_20_3e',['bwRectangle&lt; int &gt;',['../structbWidgets_1_1bwRectangle.html',1,'bWidgets']]],
+  ['bwrectangle',['bwRectangle',['../classbWidgets_1_1bwRectangle.html',1,'bWidgets']]],
+  ['bwrectangle_3c_20int_20_3e',['bwRectangle&lt; int &gt;',['../classbWidgets_1_1bwRectangle.html',1,'bWidgets']]],
   ['bwscrollbar',['bwScrollBar',['../classbWidgets_1_1bwScrollBar.html',1,'bWidgets']]],
   ['bwstyle',['bwStyle',['../classbWidgets_1_1bwStyle.html',1,'bWidgets']]],
   ['bwstyleclassic',['bwStyleClassic',['../classbWidgets_1_1bwStyleClassic.html',1,'bWidgets']]],

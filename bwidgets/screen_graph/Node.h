@@ -11,12 +11,12 @@ namespace bWidgets {
 namespace bwScreenGraph {
 
 /**
- * \brief The data-structure for a screen-graph node
+ * \brief The base data-structure for a screen-graph node
  *
  * Screen-graph nodes are the atomical components of a screen-graph, which is
- * the key for bWidgets' design. If you're not familiar with our screen-graph
- * concept, you should really have a look at the high level bWidgets
- * documentation [TODO link].
+ * key for the bWidgets design. If you're not familiar with our screen-graph
+ * concept, you should really have a look at the
+ * [bWidgets design overview](md_docs_bWidgets_design_overview.html).
  *
  * There are three kinds of screen-graph elements/nodes:
  * * Widget nodes (node representing a simple widget)
@@ -31,8 +31,6 @@ namespace bwScreenGraph {
  * be used and be declared as friend of the `Node` class.
  * Having to declare those helpers as friends may turn out to an annoyance
  * with small benefits. In that case we should just make data public.
- *
- * TL;DR: screen-graph nodes are supposed to stay pure/mere data structures.
  */
 class Node
 {
@@ -75,6 +73,9 @@ private:
 };
 
 
+/**
+ * \brief Node for aligning children to a specific layout.
+ */
 class LayoutNode : virtual public Node
 {
 	friend class Builder;
@@ -101,6 +102,9 @@ private:
 };
 
 
+/**
+ * \brief Node representing a single widget with no children.
+ */
 class WidgetNode : virtual public Node
 {
 	friend class Builder;
@@ -117,7 +121,12 @@ private:
 };
 
 
-// Note virtual inheritance of LayoutNode and WidgetNode, required to solve diamond problems.
+/**
+ * \brief Node representing a widget with children.
+ *
+ * Note virtual inheritance of LayoutNode and WidgetNode, required to solve
+ * diamond problems.
+ */
 class ContainerNode : public LayoutNode, public WidgetNode
 {
 	friend class Builder;

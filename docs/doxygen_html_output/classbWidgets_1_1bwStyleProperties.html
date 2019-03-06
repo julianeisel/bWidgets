@@ -10,6 +10,7 @@
   <!-- <script type="text/javascript" src="jquery.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="dynsections.js"></script>
+  <script type="text/javascript" src="custom_js.js"></script>
   <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -93,18 +94,27 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a7dda8efeb97bfa853531868fb4b89f31"><td class="memItemLeft" align="right" valign="top"><a id="a7dda8efeb97bfa853531868fb4b89f31"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>iterator</b> = std::vector&lt; <a class="el" href="namespacebWidgets.html#ae58596de345a3af9009f0a534fc6d6f3">bwPointer</a>&lt; <a class="el" href="classbWidgets_1_1bwStyleProperty.html">bwStyleProperty</a> &gt; &gt;::iterator</td></tr>
-<tr class="separator:a7dda8efeb97bfa853531868fb4b89f31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d68484d98a9a3f65debb7eb5705557e"><td class="memItemLeft" align="right" valign="top"><a id="a2d68484d98a9a3f65debb7eb5705557e"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_iterator</b> = std::vector&lt; <a class="el" href="namespacebWidgets.html#ae58596de345a3af9009f0a534fc6d6f3">bwPointer</a>&lt; <a class="el" href="classbWidgets_1_1bwStyleProperty.html">bwStyleProperty</a> &gt; &gt;::const_iterator</td></tr>
-<tr class="separator:a2d68484d98a9a3f65debb7eb5705557e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf6572ab4573706d4c5567b8464e9d19"><td class="memItemLeft" align="right" valign="top"><a id="adf6572ab4573706d4c5567b8464e9d19"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>PropertyList</b> = std::vector&lt; <a class="el" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr</a>&lt; <a class="el" href="classbWidgets_1_1bwStyleProperty.html">bwStyleProperty</a> &gt; &gt;</td></tr>
+<tr class="separator:adf6572ab4573706d4c5567b8464e9d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad838770d188032f7e1fd07b9289862aa"><td class="memItemLeft" align="right" valign="top"><a id="ad838770d188032f7e1fd07b9289862aa"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>iterator</b> = PropertyList::iterator</td></tr>
+<tr class="separator:ad838770d188032f7e1fd07b9289862aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a969e122f5e7054aa0b7469060af80920"><td class="memItemLeft" align="right" valign="top"><a id="a969e122f5e7054aa0b7469060af80920"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_iterator</b> = PropertyList::const_iterator</td></tr>
+<tr class="separator:a969e122f5e7054aa0b7469060af80920"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7c1344841bd04b2a8c578b2bfcc55d96"><td class="memItemLeft" align="right" valign="top"><a id="a7c1344841bd04b2a8c578b2bfcc55d96"></a>
-<a class="el" href="classbWidgets_1_1bwStyleProperty.html">bwStyleProperty</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>lookup</b> (const std::string &amp;name) const</td></tr>
-<tr class="separator:a7c1344841bd04b2a8c578b2bfcc55d96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a006277fd71065717f746bd094b0f8aa7"><td class="memItemLeft" align="right" valign="top"><a id="a006277fd71065717f746bd094b0f8aa7"></a>
+<a class="el" href="classbWidgets_1_1bwOptional.html">bwOptional</a>&lt; std::reference_wrapper&lt; const <a class="el" href="classbWidgets_1_1bwStyleProperty.html">bwStyleProperty</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>lookup</b> (const std::string &amp;name) const</td></tr>
+<tr class="separator:a006277fd71065717f746bd094b0f8aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d6f97f7315698f06856b1681b20b34e"><td class="memItemLeft" align="right" valign="top"><a id="a9d6f97f7315698f06856b1681b20b34e"></a>
+iterator&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> ()</td></tr>
+<tr class="separator:a9d6f97f7315698f06856b1681b20b34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2183e114efbe71323f60110d315918d"><td class="memItemLeft" align="right" valign="top"><a id="ae2183e114efbe71323f60110d315918d"></a>
+iterator&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> ()</td></tr>
+<tr class="separator:ae2183e114efbe71323f60110d315918d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a512d26b80f9dac1d2f89813a76c6b70d"><td class="memItemLeft" align="right" valign="top"><a id="a512d26b80f9dac1d2f89813a76c6b70d"></a>
 const_iterator&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () const</td></tr>
 <tr class="separator:a512d26b80f9dac1d2f89813a76c6b70d"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -10,6 +10,7 @@
   <!-- <script type="text/javascript" src="jquery.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="dynsections.js"></script>
+  <script type="text/javascript" src="custom_js.js"></script>
   <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -90,7 +91,7 @@ $(function() {
  For example, bWidgets doesn't contain a drawing backend (like OpenGL). Instead, the application has to implement and register a paint-engine to do the actual drawing on a backend it supports.</p>
 <p>Neither does any widget know or care about the application specific type of data it represents. Widgets only contain some primitive data like strings or numeric values. To access and manipulate the application specific data widgets represent (say RNA properties for Blender), the application can register its own classes that get notified on value changes.</p>
 <h2>Maintainability, Flexibility</h2>
-<p>We try to keep bWidgets highly modular to increase maintainability and flexibility. Widgets share low level types for their data (e.g. <a class="el" href="structbWidgets_1_1bwRectangle.html">bwRectangle</a>), and high-level abstractions to act uppon the data (e.g. <a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a>). That way, different levels are handled in separate locations. Communication between them is established through their public APIs.</p>
+<p>We try to keep bWidgets highly modular to increase maintainability and flexibility. Widgets share low level types for their data (e.g. <a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectangle</a>), and high-level abstractions to act uppon the data (e.g. <a class="el" href="classbWidgets_1_1bwPainter.html">bwPainter</a>). That way, different levels are handled in separate locations. Communication between them is established through their public APIs.</p>
 <p>APIs try to not expose implementation details. Avoid pseudo encapsulation by making class members private and adding mutators and accessors to them. Once again, be reasonable!</p>
 <p>Widgets don't know of each other (although they do know about their base classes) For example a <a class="el" href="classbWidgets_1_1bwPushButton.html">bwPushButton</a> doesn't know about <a class="el" href="classbWidgets_1_1bwNumberSlider.html">bwNumberSlider</a> and vice versa. Changes to one widget usually don't affect other widgets that way.</p>
 <h2>Interoperability</h2>
