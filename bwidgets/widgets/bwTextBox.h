@@ -14,11 +14,11 @@ public:
 	void draw(class bwStyle &style) override;
 	void registerProperties() override;
 
+	void onMouseEnter() override;
+	void onMouseLeave() override;
 	void mousePressEvent(
 	        const MouseButton button,
 	        const bwPoint& location) override;
-	void mouseEnter() override;
-	void mouseLeave() override;
 
 	void startTextEditing();
 	void endTextEditing();

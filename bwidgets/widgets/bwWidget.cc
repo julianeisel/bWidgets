@@ -20,6 +20,16 @@ bool bwWidget::isCoordinateInside(const bwPoint& point) const
 	return rectangle.isCoordinateInside(point.x, point.y);
 }
 
+void bwWidget::onMouseEnter()
+{
+	
+}
+
+void bwWidget::onMouseLeave()
+{
+	
+}
+
 void bwWidget::mousePressEvent(
         const MouseButton /*button*/,
         const bwPoint& /*location*/)
@@ -44,16 +54,6 @@ void bwWidget::mouseClickEvent(
 void bwWidget::mouseDragEvent(
         const MouseButton /*button*/,
         const bwDistance /*drag_distance*/)
-{
-	
-}
-
-void bwWidget::mouseEnter()
-{
-	
-}
-
-void bwWidget::mouseLeave()
 {
 	
 }

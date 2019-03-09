@@ -19,14 +19,14 @@ public:
 	virtual void draw(class bwStyle &style) override;
 	virtual void registerProperties() override;
 
-	virtual void mousePressEvent(
+	void onMouseEnter() override;
+	void onMouseLeave() override;
+	void mousePressEvent(
 	        const MouseButton button,
 	        const bwPoint& location) override;
-	virtual void mouseReleaseEvent(
+	void mouseReleaseEvent(
 	        const MouseButton button,
 	        const bwPoint& location) override;
-	virtual void mouseEnter() override;
-	virtual void mouseLeave() override;
 
 	virtual const std::string* getLabel() const override;
 	virtual const class bwIconInterface* getIcon() const;

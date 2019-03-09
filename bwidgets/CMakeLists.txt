@@ -14,6 +14,7 @@ set(SRC
 	bwStyleProperties.cc
 	bwWidgetBaseStyle.cc
 	screen_graph/Builder.cc
+	screen_graph/EventHandler.cc
 	screen_graph/Iterators.cc
 	styles/bwStyleClassic.cc
 	styles/bwStyleFlatGrey.cc
@@ -30,6 +31,7 @@ set(SRC
 	bwStyleProperties.h
 	bwWidgetBaseStyle.h
 	screen_graph/Builder.h
+	screen_graph/EventHandler.h
 	screen_graph/Iterators.h
 	screen_graph/Node.h
 	styles/bwStyleClassic.h

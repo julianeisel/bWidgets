@@ -82,10 +82,10 @@ protected:
 
 private:
 	// Not part of the layout yet. We'd need to support horizontal root layouts first.
-	bWidgets::bwPtr<bWidgets::bwScrollBar> scrollbar;
+	bWidgets::bwScreenGraph::WidgetNode scrollbar_node;
 	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.
-	bWidgets::bwOptional<bWidgets::bwWidget*> last_hovered;
-	bWidgets::bwOptional<bWidgets::bwWidget*> dragged_widget;
+	bWidgets::bwWidget* last_hovered{nullptr};
+	bWidgets::bwWidget* dragged_widget{nullptr};
 
 	static void StyleSheetPolish(bWidgets::bwWidget& widget);
 
@@ -95,10 +95,10 @@ private:
 	void drawScrollbars();
 	void updateContentBounds();
 	void validizeScrollValue();
-	bWidgets::bwOptional<std::reference_wrapper<bWidgets::bwWidget>> findWidgetAt(const bWidgets::bwPoint& coordinate);
+	bWidgets::bwScreenGraph::Node* findNodeAt(const bWidgets::bwPoint& coordinate);
 	void updateWidgetHovering(
 	        const MouseEvent&,
-	        bWidgets::bwWidget&);
+	        bWidgets::bwScreenGraph::Node&);
 	bool handleWidgetMouseButtonEvent(
 	        const MouseEvent&,
 	        bWidgets::bwWidget&);

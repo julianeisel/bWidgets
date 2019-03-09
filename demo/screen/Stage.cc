@@ -130,11 +130,15 @@ public:
 
 void Stage::drawScrollbars()
 {
+	using namespace bwScreenGraph;
+
 	if (shouldHaveScrollbars()) {
 		const unsigned int padding = 4u * (unsigned int)interface_scale;
+		bwScrollBar* scrollbar = static_cast<bwScrollBar*>(scrollbar_node.Widget());
 
 		if (!scrollbar) {
-			scrollbar = bwPtr_new<bwScrollBar>(getScrollbarWidth(), mask_height);
+			Builder::setWidget(scrollbar_node, bwPtr_new<bwScrollBar>(getScrollbarWidth(), mask_height));
+			scrollbar = static_cast<bwScrollBar*>(scrollbar_node.Widget());
 			scrollbar->apply_functor = bwPtr_new<ScrollbarApplyValueFunctor>(*this, *scrollbar);
 		}
 
@@ -145,8 +149,8 @@ void Stage::drawScrollbars()
 		scrollbar->scroll_offset = vert_scroll;
 		scrollbar->draw(*style);
 	}
-	else if (scrollbar) {
-		scrollbar = nullptr;
+	else if (scrollbar_node.Widget()) {
+		Builder::setWidget(scrollbar_node, nullptr);
 	}
 }
 
@@ -276,13 +280,10 @@ void Stage::setScrollValue(int value)
 	validizeScrollValue();
 }
 
-bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& coordinate)
+bwScreenGraph::Node* Stage::findNodeAt(const bwPoint& coordinate)
 {
 	if (coordinate.x > getContentWidth()) {
-		if (scrollbar) {
-			return *scrollbar;
-		}
-		return nullopt;
+		return scrollbar_node.Widget() ? &scrollbar_node : nullptr;
 	}
 
 	const bwScreenGraph::Node* skip_until_parent = nullptr;
@@ -302,7 +303,7 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& 
 			bwPanel& panel = *widget_cast<bwPanel*>(widget);
 
 			if (panel.isCoordinateInsideHeader(coordinate)) {
-				return *widget;
+				return &node;
 			}
 			if (panel.panel_state == bwPanel::PANEL_CLOSED) {
 				skip_until_parent = node.Parent();
@@ -310,31 +311,12 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& 
 		}
 		else {
 			if (widget->isCoordinateInside(coordinate)) {
-				return *widget;
+				return &node;
 			}
 		}
 	}
 
-	return nullopt;
-}
-
-void Stage::updateWidgetHovering(
-        const MouseEvent& event,
-        bwWidget& widget)
-{
-	if (widget.isCoordinateInside(event.getMouseLocation())) {
-		if (&widget != last_hovered) {
-			if (last_hovered) {
-				(*last_hovered)->mouseLeave();
-			}
-			widget.mouseEnter();
-			last_hovered = &widget;
-		}
-	}
-	else if (&widget == last_hovered) {
-		widget.mouseLeave();
-		last_hovered = nullopt;
-	}
+	return nullptr;
 }
 
 /**
@@ -359,7 +341,7 @@ bool Stage::handleWidgetMouseButtonEvent(
 			break;
 		case MouseEvent::MOUSE_EVENT_RELEASE:
 			widget.mouseReleaseEvent(event.getButton(), location);
-			dragged_widget = nullopt;
+			dragged_widget = nullptr;
 			break;
 		default:
 			return false;
@@ -371,21 +353,40 @@ bool Stage::handleWidgetMouseButtonEvent(
 void Stage::handleMouseMovementEvent(
         const MouseEvent& event)
 {
-	const bwPoint& mouse_location = event.getMouseLocation();
+	using namespace bwScreenGraph;
 
-	if (auto hovered = findWidgetAt(mouse_location)) {
-		updateWidgetHovering(event, *hovered);
+	const bwPoint& mouse_location = event.getMouseLocation();
+	bwWidget* old_hovered = last_hovered;
+
+	if (scrollbar_node.Widget() && scrollbar_node.Widget()->isCoordinateInside(mouse_location)) {
+		last_hovered = scrollbar_node.Widget();
+	}
+	else {
+		for (Node& node : screen_graph) {
+			bwWidget* widget = node.Widget();
+
+			if (widget && widget->isCoordinateInside(mouse_location)) {
+				last_hovered = widget;
+				widget->onMouseEnter();
+			}
+		}
+	}
+
+	if (old_hovered && (last_hovered != old_hovered)) {
+		old_hovered->onMouseLeave();
 	}
 }
 
 void Stage::handleMouseButtonEvent(
         const MouseEvent& event)
 {
-	bwOptional<std::reference_wrapper<bwWidget>> widget = dragged_widget ? **dragged_widget :
-	                                                                       findWidgetAt(event.getMouseLocation());
+	if (!dragged_widget) {
+		bwScreenGraph::Node* node = findNodeAt(event.getMouseLocation());
+		dragged_widget = node ? node->Widget() : nullptr;
+	}
 
-	if (widget) {
-		handleWidgetMouseButtonEvent(event, *widget);
+	if (dragged_widget) {
+		handleWidgetMouseButtonEvent(event, *dragged_widget);
 	}
 }
 
@@ -393,7 +394,7 @@ void Stage::handleMouseDragEvent(
         const MouseEvent& event)
 {
 	if (dragged_widget) {
-		(*dragged_widget)->mouseDragEvent(event.getButton(), event.getDragDistance());
+		dragged_widget->mouseDragEvent(event.getButton(), event.getDragDistance());
 	}
 }
 

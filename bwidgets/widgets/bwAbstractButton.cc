@@ -58,14 +58,14 @@ void bwAbstractButton::mouseReleaseEvent(
 	}
 }
 
-void bwAbstractButton::mouseEnter()
+void bwAbstractButton::onMouseEnter()
 {
 	if (state == STATE_NORMAL) {
 		state = STATE_HIGHLIGHTED;
 	}
 }
 
-void bwAbstractButton::mouseLeave()
+void bwAbstractButton::onMouseLeave()
 {
 	if (state == STATE_HIGHLIGHTED) {
 		state = STATE_NORMAL;

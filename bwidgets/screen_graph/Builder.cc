@@ -23,6 +23,7 @@ void Builder::setWidget(
         bwPtr<bwWidget> widget)
 {
 	node.widget = std::move(widget);
+	node.handler = node.widget.get();
 }
 
 bwWidget& Builder::addWidget(

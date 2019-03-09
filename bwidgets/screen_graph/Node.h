@@ -10,6 +10,8 @@
 namespace bWidgets {
 namespace bwScreenGraph {
 
+class EventHandler;
+
 /**
  * \brief The base data-structure for a screen-graph node
  *
@@ -68,8 +70,14 @@ public:
 		return nullptr;
 	}
 
+	EventHandler* eventHandler() const
+	{
+		return handler;
+	}
+
 private:
 	Node* parent;
+	EventHandler* handler{nullptr};
 };
 
 

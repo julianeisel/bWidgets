@@ -6,13 +6,22 @@
 #include "bwFunctorInterface.h"
 #include "bwRectangle.h"
 #include "bwStyleProperties.h"
+#include "screen_graph/EventHandler.h"
 
 namespace bWidgets {
 
 /**
  * \brief Abstract base class that all widgets derive from.
+ *
+ * The widget base class inherits from the #bwScreenGraph::EventHandler API,
+ * allowing it to implement event-listeners. This base class implements default
+ * listeners, which simply do nothing. To make widgets react to a certain event,
+ * override the corresponding listener in the specific widget type.
+ *
+ * More information on how event handling works in bWidgets can be found in the
+ * [design overview](md_docs_bWidgets_design_overview.html).
  */
-class bwWidget
+class bwWidget : public bwScreenGraph::EventHandler
 {
 public:
 	enum WidgetType {
@@ -50,13 +59,15 @@ public:
 	bwWidget(
 	        const WidgetType type, std::string identifier,
 	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
-	virtual ~bwWidget() = default;
+	virtual ~bwWidget() override = default;
 
 	virtual bool isCoordinateInside(const bwPoint& point) const;
 
 	virtual void draw(class bwStyle& style) = 0;
 
 	// Events
+	void onMouseEnter() override;
+	void onMouseLeave() override;
 	virtual void mousePressEvent(
 	        const MouseButton button,
 	        const bwPoint& location);
@@ -69,8 +80,6 @@ public:
 	virtual void mouseDragEvent(
 	        const MouseButton button,
 	        const bwDistance drag_distance);
-	virtual void mouseEnter();
-	virtual void mouseLeave();
 
 	const std::string& getIdentifier() const;
 	virtual const std::string* getLabel() const;
