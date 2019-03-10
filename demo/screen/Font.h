@@ -90,7 +90,8 @@ private:
 	/* Accesses private members, so make it a member function. Would be better
 	 * to keep freetype specific stuff out of the general Font class, but
 	 * ignoring for now since this is just the demo app anyway. */
-	FT_Int32 getFreeTypeLoadFlags() const;
+	FT_Int32       getFreeTypeLoadFlags() const;
+	FT_Render_Mode getFreeTypeRenderFlags() const;
 	bool useSubpixelPositioning() const;
 
 	// The freetype library handle.
