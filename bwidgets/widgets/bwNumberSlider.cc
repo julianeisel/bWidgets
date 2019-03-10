@@ -101,14 +101,12 @@ void bwNumberSlider::drawValueIndicator(
 	            right_side_radius);
 }
 
-void bwNumberSlider::mousePressEvent(
-        const MouseButton button,
-        const bwPoint& /*location*/)
+void bwNumberSlider::onMousePress(bwMouseButtonEvent& event)
 {
-	if (button == MOUSE_BUTTON_LEFT) {
+	if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
 		initial_value = value;
 	}
-	else if (button == MOUSE_BUTTON_RIGHT) {
+	else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
 		if (is_text_editing) {
 			endTextEditing();
 		}
@@ -119,28 +117,22 @@ void bwNumberSlider::mousePressEvent(
 	is_dragging = true;
 }
 
-void bwNumberSlider::mouseReleaseEvent(
-        const MouseButton /*button*/,
-        const bwPoint& /*location*/)
+void bwNumberSlider::onMouseRelease(bwMouseButtonEvent&)
 {
 	is_dragging = false;
 }
 
-void bwNumberSlider::mouseClickEvent(
-        const MouseButton button,
-        const bwPoint& /*location*/)
+void bwNumberSlider::onMouseClick(bwMouseButtonEvent& event)
 {
-	if (button == MOUSE_BUTTON_LEFT) {
+	if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
 		startTextEditing();
 	}
 }
 
-void bwNumberSlider::mouseDragEvent(
-        const MouseButton button,
-        const bwDistance drag_distance)
+void bwNumberSlider::onMouseDrag(bwMouseButtonDragEvent& event)
 {
-	if (button == MOUSE_BUTTON_LEFT) {
-		setValue(initial_value + (drag_distance.x / (float)rectangle.width()));
+	if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+		setValue(initial_value + (event.drag_distance.x / (float)rectangle.width()));
 		if (apply_functor) {
 			(*apply_functor)();
 		}

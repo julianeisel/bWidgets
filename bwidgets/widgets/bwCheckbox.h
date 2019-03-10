@@ -14,12 +14,8 @@ public:
 
 	void draw(class bwStyle &style) override;
 
-	void mousePressEvent(
-	        const MouseButton button,
-	        const bwPoint& location) override;
-	void mouseReleaseEvent(
-	        const MouseButton button,
-	        const bwPoint& location) override;
+	void onMousePress(bwMouseButtonEvent&) override;
+	void onMouseRelease(bwMouseButtonEvent&) override;
 
 	bool isChecked() const;
 

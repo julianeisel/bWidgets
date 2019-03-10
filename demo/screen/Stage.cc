@@ -24,6 +24,7 @@
 #include <cmath>
 
 // bWidgets lib
+#include "bwEvent.h"
 #include "bwPainter.h"
 #include "bwPanel.h"
 #include "bwRange.h"
@@ -327,20 +328,20 @@ bool Stage::handleWidgetMouseButtonEvent(
         bwWidget& widget)
 {
 	const bwPoint& location = event.getMouseLocation();
+	bwMouseButtonEvent bw_event(event.getButton(), event.getMouseLocation());
 
 	if (event.isClick()) {
-		widget.mouseClickEvent(event.getButton(), location);
-		// TODO handlers should return value to pass on or block event.
+		widget.onMouseClick(bw_event);
 	}
 
 	switch (event.getType()) {
 		case MouseEvent::MOUSE_EVENT_PRESS:
 			assert(widget.isCoordinateInside(location));
-			widget.mousePressEvent(event.getButton(), location);
+			widget.onMousePress(bw_event);
 			dragged_widget = &widget;
 			break;
 		case MouseEvent::MOUSE_EVENT_RELEASE:
-			widget.mouseReleaseEvent(event.getButton(), location);
+			widget.onMouseRelease(bw_event);
 			dragged_widget = nullptr;
 			break;
 		default:
@@ -356,25 +357,32 @@ void Stage::handleMouseMovementEvent(
 	using namespace bwScreenGraph;
 
 	const bwPoint& mouse_location = event.getMouseLocation();
-	bwWidget* old_hovered = last_hovered;
+	bwWidget* new_hovered = nullptr;
+
+	// TODO Multiple hovered items need to be possible (e.g. button + surrounding panel).
 
 	if (scrollbar_node.Widget() && scrollbar_node.Widget()->isCoordinateInside(mouse_location)) {
-		last_hovered = scrollbar_node.Widget();
+		new_hovered = scrollbar_node.Widget();
 	}
 	else {
 		for (Node& node : screen_graph) {
 			bwWidget* widget = node.Widget();
 
 			if (widget && widget->isCoordinateInside(mouse_location)) {
-				last_hovered = widget;
-				widget->onMouseEnter();
+				new_hovered = widget;
 			}
 		}
 	}
 
-	if (old_hovered && (last_hovered != old_hovered)) {
-		old_hovered->onMouseLeave();
+	if (new_hovered != hovered) {
+		if (hovered) {
+			hovered->onMouseLeave();
+		}
+		if (new_hovered) {
+			new_hovered->onMouseEnter();
+		}
 	}
+	hovered = new_hovered;
 }
 
 void Stage::handleMouseButtonEvent(
@@ -394,7 +402,8 @@ void Stage::handleMouseDragEvent(
         const MouseEvent& event)
 {
 	if (dragged_widget) {
-		dragged_widget->mouseDragEvent(event.getButton(), event.getDragDistance());
+		bwMouseButtonDragEvent bw_event(event.getButton(), event.getMouseLocation(), event.getDragDistance());
+		dragged_widget->onMouseDrag(bw_event);
 	}
 }
 

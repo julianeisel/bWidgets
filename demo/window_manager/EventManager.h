@@ -66,7 +66,7 @@ private:
 	static void handleMouseScrollEvent(
 	        GLFWwindow* glfw_win,
 	        double value_x, double value_y);
-	static bWidgets::bwWidget::MouseButton convertGlfwMouseButton(
+	static bWidgets::bwMouseButtonEvent::MouseButton convertGlfwMouseButton(
 	        int glfw_button);
 	static MouseEvent::MouseEventType convertGlfwMouseButtonAction(
 	        int glfw_action);

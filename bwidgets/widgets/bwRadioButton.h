@@ -24,12 +24,8 @@ public:
 	        const std::string& text,
 	        unsigned int width_hint = 0, unsigned int height_hint = 0);
 
-	void mousePressEvent(
-	        const MouseButton button,
-	        const bwPoint& location) override;
-	void mouseReleaseEvent(
-	        const MouseButton button,
-	        const bwPoint& location) override;
+	void onMousePress(bwMouseButtonEvent&) override;
+	void onMouseRelease(bwMouseButtonEvent&) override;
 
 	bool canAlign() const override;
 };

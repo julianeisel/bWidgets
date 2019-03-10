@@ -86,16 +86,16 @@ void EventManager::handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, 
 	win->handleResizeEvent(new_win_x, new_win_y);
 }
 
-bwWidget::MouseButton EventManager::convertGlfwMouseButton(int glfw_button)
+bwMouseButtonEvent::MouseButton EventManager::convertGlfwMouseButton(int glfw_button)
 {
 	switch (glfw_button) {
 		case GLFW_MOUSE_BUTTON_LEFT:
-			return bwWidget::MOUSE_BUTTON_LEFT;
+			return bwMouseButtonEvent::BUTTON_LEFT;
 		case GLFW_MOUSE_BUTTON_RIGHT:
-			return bwWidget::MOUSE_BUTTON_RIGHT;
+			return bwMouseButtonEvent::BUTTON_RIGHT;
 	}
 
-	return bwWidget::MOUSE_BUTTON_UNKNOWN;
+	return bwMouseButtonEvent::BUTTON_UNKNOWN;
 }
 
 MouseEvent::MouseEventType EventManager::convertGlfwMouseButtonAction(int glfw_action)
@@ -114,7 +114,8 @@ void EventManager::handleMouseMovementEvent(GLFWwindow* glfw_win, double /*x*/, 
 {
 	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
 	const bwPoint& position = win->getCursorPosition();
-	MouseEvent event(MouseEvent::MOUSE_EVENT_MOVE, bwWidget::MOUSE_BUTTON_UNKNOWN, position);
+	MouseEvent event(MouseEvent::MOUSE_EVENT_MOVE, bwMouseButtonEvent::BUTTON_UNKNOWN, position);
+
 	if (is_dragging) {
 		win->stage->handleMouseDragEvent(event);
 	}
@@ -128,7 +129,7 @@ void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int glfw_button,
 	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
 	const bwPoint& position = win->getCursorPosition();
 	const MouseEvent::MouseEventType action_type = convertGlfwMouseButtonAction(glfw_action);
-	const bwWidget::MouseButton mouse_button = convertGlfwMouseButton(glfw_button);
+	const bwMouseButtonEvent::MouseButton mouse_button = convertGlfwMouseButton(glfw_button);
 	MouseEvent event(action_type, mouse_button, position);
 
 	if (action_type == MouseEvent::MOUSE_EVENT_PRESS) {
@@ -150,7 +151,7 @@ void EventManager::handleMouseScrollEvent(
 	                                                    MouseEvent::MOUSE_EVENT_SCROLL_UP :
 	                                                    MouseEvent::MOUSE_EVENT_SCROLL_DOWN;
 	const bwPoint& position = win->getCursorPosition();
-	MouseEvent event(event_type, bwWidget::MOUSE_BUTTON_WHEEL, position);
+	MouseEvent event(event_type, bwMouseButtonEvent::BUTTON_WHEEL, position);
 
 	win->stage->handleMouseScrollEvent(event);
 }

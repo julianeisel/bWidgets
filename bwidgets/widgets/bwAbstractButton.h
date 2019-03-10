@@ -21,12 +21,8 @@ public:
 
 	void onMouseEnter() override;
 	void onMouseLeave() override;
-	void mousePressEvent(
-	        const MouseButton button,
-	        const bwPoint& location) override;
-	void mouseReleaseEvent(
-	        const MouseButton button,
-	        const bwPoint& location) override;
+	void onMousePress(bwMouseButtonEvent&) override;
+	void onMouseRelease(bwMouseButtonEvent&) override;
 
 	virtual const std::string* getLabel() const override;
 	virtual const class bwIconInterface* getIcon() const;

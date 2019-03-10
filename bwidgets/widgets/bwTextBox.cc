@@ -43,14 +43,12 @@ void bwTextBox::registerProperties()
 	base_style.registerProperties(style_properties);
 }
 
-void bwTextBox::mousePressEvent(
-        const MouseButton button,
-        const bwPoint& /*location*/)
+void bwTextBox::onMousePress(bwMouseButtonEvent& event)
 {
-	if (button == MOUSE_BUTTON_LEFT) {
+	if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
 		startTextEditing();
 	}
-	else if (button == MOUSE_BUTTON_RIGHT) {
+	else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
 		if (state == STATE_SUNKEN) {
 			endTextEditing();
 		}

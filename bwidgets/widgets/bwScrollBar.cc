@@ -54,27 +54,21 @@ void bwScrollBar::draw(bwStyle& style)
 	base_style.shade_bottom = old_shade_bottom;
 }
 
-void bwScrollBar::mousePressEvent(
-        const bwWidget::MouseButton button,
-        const bwPoint& location)
+void bwScrollBar::onMousePress(bwMouseButtonEvent& event)
 {
-	bwAbstractButton::mousePressEvent(button, location);
+	bwAbstractButton::onMousePress(event);
 	mouse_press_scroll_offset = scroll_offset;
 }
 
-void bwScrollBar::mouseReleaseEvent(
-        const bwWidget::MouseButton button,
-        const bwPoint& location)
+void bwScrollBar::onMouseRelease(bwMouseButtonEvent& event)
 {
-	bwAbstractButton::mouseReleaseEvent(button, location);
+	bwAbstractButton::onMouseRelease(event);
 }
 
-void bwScrollBar::mouseDragEvent(
-        const bwWidget::MouseButton button,
-        const bwDistance drag_distance)
+void bwScrollBar::onMouseDrag(bwMouseButtonDragEvent& event)
 {
-	if (button == MOUSE_BUTTON_LEFT) {
-		setScrollOffset(mouse_press_scroll_offset + drag_distance.y);
+	if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+		setScrollOffset(mouse_press_scroll_offset + event.drag_distance.y);
 	}
 }
 

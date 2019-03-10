@@ -10,19 +10,15 @@ bwRadioButton::bwRadioButton(
 	
 }
 
-void bwRadioButton::mousePressEvent(
-        const bwWidget::MouseButton button,
-        const bwPoint& /*location*/)
+void bwRadioButton::onMousePress(bwMouseButtonEvent& event)
 {
-	if (button == bwWidget::MOUSE_BUTTON_LEFT) {
+	if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
 		state = STATE_SUNKEN;
 		apply();
 	}
 }
 
-void bwRadioButton::mouseReleaseEvent(
-        const bwWidget::MouseButton /*button*/,
-        const bwPoint& /*location*/)
+void bwRadioButton::onMouseRelease(bwMouseButtonEvent&)
 {
 	
 }

@@ -16,9 +16,7 @@ public:
 
 	void onMouseEnter() override;
 	void onMouseLeave() override;
-	void mousePressEvent(
-	        const MouseButton button,
-	        const bwPoint& location) override;
+	void onMousePress(bwMouseButtonEvent&) override;
 
 	void startTextEditing();
 	void endTextEditing();

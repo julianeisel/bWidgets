@@ -138,15 +138,6 @@ private:
 class ContainerNode : public LayoutNode, public WidgetNode
 {
 	friend class Builder;
-
-public:
-	bwWidget* Widget() const override
-	{
-		return &*widget;
-	}
-
-private:
-	bwPtr<bwWidget> widget;
 };
 
 } // namespace bwScreenGraph

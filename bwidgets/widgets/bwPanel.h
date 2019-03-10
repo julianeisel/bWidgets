@@ -16,9 +16,8 @@ public:
 	void draw(class bwStyle& style) override;
 
 	void registerProperties() override;
-	void mousePressEvent(
-	        const MouseButton button,
-	        const bwPoint& location) override;
+
+	void onMousePress(bwMouseButtonEvent&) override;
 
 	const std::string* getLabel() const override;
 

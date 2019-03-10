@@ -30,30 +30,22 @@ void bwWidget::onMouseLeave()
 	
 }
 
-void bwWidget::mousePressEvent(
-        const MouseButton /*button*/,
-        const bwPoint& /*location*/)
+void bwWidget::onMousePress(bwMouseButtonEvent&)
 {
 	
 }
 
-void bwWidget::mouseReleaseEvent(
-        const MouseButton /*button*/,
-        const bwPoint& /*location*/)
+void bwWidget::onMouseRelease(bwMouseButtonEvent&)
 {
 	
 }
 
-void bwWidget::mouseClickEvent(
-        const MouseButton /*button*/,
-        const bwPoint& /*location*/)
+void bwWidget::onMouseClick(bwMouseButtonEvent&)
 {
 	
 }
 
-void bwWidget::mouseDragEvent(
-        const MouseButton /*button*/,
-        const bwDistance /*drag_distance*/)
+void bwWidget::onMouseDrag(bwMouseButtonDragEvent&)
 {
 	
 }

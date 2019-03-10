@@ -39,19 +39,15 @@ void bwCheckbox::draw(bwStyle& style)
 	painter.drawText(text, text_rect, base_style.text_alignment);
 }
 
-void bwCheckbox::mousePressEvent(
-        const bwWidget::MouseButton button,
-        const bwPoint& /*location*/)
+void bwCheckbox::onMousePress(bwMouseButtonEvent& event)
 {
-	if (button == MOUSE_BUTTON_LEFT) {
+	if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
 		state = (state == STATE_SUNKEN) ? STATE_HIGHLIGHTED : STATE_SUNKEN;
 		apply();
 	}
 }
 
-void bwCheckbox::mouseReleaseEvent(
-        const bwWidget::MouseButton /*button*/,
-        const bwPoint& /*location*/)
+void bwCheckbox::onMouseRelease(bwMouseButtonEvent&)
 {
 	
 }

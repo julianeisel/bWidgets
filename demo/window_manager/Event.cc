@@ -28,11 +28,12 @@ using namespace bWidgetsDemo;
 
 bWidgets::bwPoint MouseEvent::location{};
 bWidgets::bwPoint MouseEvent::last_down_location{};
-bWidgets::bwWidget::MouseButton MouseEvent::last_down_button = bWidgets::bwWidget::MOUSE_BUTTON_UNKNOWN;
+bWidgets::bwMouseButtonEvent::MouseButton MouseEvent::last_down_button =
+        bWidgets::bwMouseButtonEvent::BUTTON_UNKNOWN;
 
 MouseEvent::MouseEvent(
         MouseEventType type,
-        bWidgets::bwWidget::MouseButton _button,
+        bWidgets::bwMouseButtonEvent::MouseButton _button,
         const bWidgets::bwPoint& _location) :
     type(type)
 {
@@ -60,7 +61,7 @@ bool MouseEvent::isClick() const
 	return false;
 }
 
-bWidgets::bwWidget::MouseButton MouseEvent::getButton() const
+bWidgets::bwMouseButtonEvent::MouseButton MouseEvent::getButton() const
 {
 	return button;
 }

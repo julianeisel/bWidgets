@@ -40,11 +40,9 @@ void bwPanel::registerProperties()
 	style_properties.addBool("draw-separator", draw_separator);
 }
 
-void bwPanel::mousePressEvent(
-        const bwWidget::MouseButton button,
-        const bwPoint& location)
+void bwPanel::onMousePress(bwMouseButtonEvent& event)
 {
-	if ((button != MOUSE_BUTTON_LEFT) || !isCoordinateInsideHeader(location)) {
+	if ((event.button != bwMouseButtonEvent::BUTTON_LEFT) || !isCoordinateInsideHeader(event.location)) {
 		// Skip
 	}
 	else if (panel_state == PANEL_CLOSED) {

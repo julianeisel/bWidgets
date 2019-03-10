@@ -39,7 +39,8 @@ public:
 		ymax += pixel;
 	}
 
-	inline bool isCoordinateInside(const T x, const T y) const
+	template<typename U>
+	inline bool isCoordinateInside(const U x, const U y) const
 	{
 		return (x >= xmin) && (x <= xmax) && (y >= ymin) && (y <= ymax);
 	}
@@ -60,11 +61,11 @@ public:
 
 	inline T centerX() const
 	{
-		return xmin + (width() / (T)2);
+		return xmin + (width() / T(2));
 	}
 	inline T centerY() const
 	{
-		return ymin + (height() / (T)2);
+		return ymin + (height() / T(2));
 	}
 
 	inline void scale(float scale)

@@ -50,12 +50,12 @@ public:
 
 	MouseEvent(
 	        MouseEventType type,
-	        bWidgets::bwWidget::MouseButton button,
+	        bWidgets::bwMouseButtonEvent::MouseButton button,
 	        const bWidgets::bwPoint& location);
 
 	bool isClick() const;
 
-	bWidgets::bwWidget::MouseButton getButton() const;
+	bWidgets::bwMouseButtonEvent::MouseButton getButton() const;
 	MouseEventType getType() const;
 	bWidgets::bwDistance getDragDistance() const;
 
@@ -63,12 +63,12 @@ public:
 
 private:
 	MouseEventType type;
-	bWidgets::bwWidget::MouseButton button;
+	bWidgets::bwMouseButtonEvent::MouseButton button;
 
 	static bWidgets::bwPoint location;
 	// Location during previous mouse button press.
 	static bWidgets::bwPoint last_down_location;
-	static bWidgets::bwWidget::MouseButton last_down_button;
+	static bWidgets::bwMouseButtonEvent::MouseButton last_down_button;
 };
 
 } // namespace bWidgetsDemo

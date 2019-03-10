@@ -24,6 +24,7 @@ namespace bWidgets {
 class bwWidget : public bwScreenGraph::EventHandler
 {
 public:
+	// TODO we might not need this.
 	enum WidgetType {
 		WIDGET_TYPE_CHECKBOX,
 		WIDGET_TYPE_LABEL,
@@ -47,15 +48,6 @@ public:
 	} state;
 
 
-	// XXX temporarily placed here.
-	enum MouseButton {
-		MOUSE_BUTTON_LEFT,
-		MOUSE_BUTTON_RIGHT,
-		MOUSE_BUTTON_WHEEL,
-
-		MOUSE_BUTTON_UNKNOWN,
-	};
-
 	bwWidget(
 	        const WidgetType type, std::string identifier,
 	        const unsigned int width_hint = 0, const unsigned int height_hint = 0);
@@ -68,18 +60,10 @@ public:
 	// Events
 	void onMouseEnter() override;
 	void onMouseLeave() override;
-	virtual void mousePressEvent(
-	        const MouseButton button,
-	        const bwPoint& location);
-	virtual void mouseReleaseEvent(
-	        const MouseButton button,
-	        const bwPoint& location);
-	virtual void mouseClickEvent(
-	        const MouseButton button,
-	        const bwPoint& location);
-	virtual void mouseDragEvent(
-	        const MouseButton button,
-	        const bwDistance drag_distance);
+	void onMousePress(bwMouseButtonEvent& event) override;
+	void onMouseRelease(bwMouseButtonEvent& event) override;
+	void onMouseClick(bwMouseButtonEvent& event) override;
+	void onMouseDrag(bwMouseButtonDragEvent& event) override;
 
 	const std::string& getIdentifier() const;
 	virtual const std::string* getLabel() const;

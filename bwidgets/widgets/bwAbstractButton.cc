@@ -40,20 +40,16 @@ void bwAbstractButton::registerProperties()
 	base_style.registerProperties(style_properties);
 }
 
-void bwAbstractButton::mousePressEvent(
-        const bwWidget::MouseButton button,
-        const bwPoint& /*location*/)
+void bwAbstractButton::onMousePress(bwMouseButtonEvent& event)
 {
-	if (button == MOUSE_BUTTON_LEFT) {
+	if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
 		state = STATE_SUNKEN;
 	}
 }
 
-void bwAbstractButton::mouseReleaseEvent(
-        const bwWidget::MouseButton button,
-        const bwPoint& /*location*/)
+void bwAbstractButton::onMouseRelease(bwMouseButtonEvent& event)
 {
-	if ((button == MOUSE_BUTTON_LEFT) && (state == STATE_SUNKEN)) {
+	if ((event.button == bwMouseButtonEvent::BUTTON_LEFT) && (state == STATE_SUNKEN)) {
 		state = STATE_NORMAL;
 	}
 }

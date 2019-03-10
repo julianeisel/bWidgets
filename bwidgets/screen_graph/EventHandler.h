@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <list>
 
+#include "bwEvent.h"
+
 
 namespace bWidgets {
 namespace bwScreenGraph {
@@ -34,6 +36,10 @@ public:
 
 	virtual void onMouseEnter() = 0;
 	virtual void onMouseLeave() = 0;
+	virtual void onMousePress(bwMouseButtonEvent&) = 0;
+	virtual void onMouseRelease(bwMouseButtonEvent&) = 0;
+	virtual void onMouseClick(bwMouseButtonEvent&) = 0;
+	virtual void onMouseDrag(bwMouseButtonDragEvent&) = 0;
 
 private:
 	std::array<std::list<EventListener>, TOT_EVENT_TYPES> listeners;
