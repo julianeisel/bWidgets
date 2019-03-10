@@ -371,17 +371,21 @@ FT_Int32 Font::getFreeTypeLoadFlags() const
 		load_flags |= FT_LOAD_NO_HINTING;
 	}
 
+	load_flags |= FT_LOAD_TARGET_LIGHT;
+
+	return load_flags;
+}
+
+FT_Render_Mode Font::getFreeTypeRenderFlags() const
+{
 	// Subpixel rendering
 	switch (render_mode) {
 		case NORMAL_COVERAGE:
-			load_flags |= FT_LOAD_TARGET_LIGHT;
-			break;
+			return FT_RENDER_MODE_NORMAL;
 		case SUBPIXEL_LCD_RGB_COVERAGE:
-			load_flags |= FT_LOAD_TARGET_LCD;
-			break;
+		default:
+			return FT_RENDER_MODE_LCD;
 	}
-
-	return load_flags;
 }
 
 bool Font::useSubpixelPositioning() const
@@ -426,7 +430,11 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 	     charcode = FT_Get_Next_Char(font.face, charcode, &glyph_index))
 	{
 		FT_Int32 load_flags = font.getFreeTypeLoadFlags();
-		FT_Error error = FT_Load_Glyph(font.face, glyph_index, load_flags | FT_LOAD_RENDER);
+		FT_Error error = FT_Load_Glyph(font.face, glyph_index, load_flags);
+
+		if (error == 0) {
+			error = FT_Render_Glyph(font.face->glyph, font.getFreeTypeRenderFlags());
+		}
 
 		if (error != 0) {
 			// This constructor marks glyph as invalid.
@@ -434,11 +442,7 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 		}
 		else {
 			FT_GlyphSlot ft_glyph = font.face->glyph;
-			FixedNum<F16p16> advance = ft_glyph->linearHoriAdvance;
-
-			if (font.useSubpixelPositioning()) {
-				advance += FixedNum<F26p6>(ft_glyph->rsb_delta - ft_glyph->lsb_delta);
-			}
+			FixedNum<F16p16> advance(ft_glyph->linearHoriAdvance);
 
 			glyph = bWidgets::bwPtr_new<FontGlyph>(
 			            glyph_index,
