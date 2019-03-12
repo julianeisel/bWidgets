@@ -8,8 +8,12 @@ namespace bWidgets {
 class bwEvent
 {
 public:
-	bwEvent() = default;
+	bwEvent(bwPoint _location) :
+	    location(_location)
+	{}
 
+	// Where did the event happen?
+	const bwPoint location;
 	// TODO
 //	void swallow();
 };
@@ -26,12 +30,10 @@ public:
 	};
 
 	bwMouseButtonEvent(MouseButton _button, bwPoint _location) :
-	    button(_button), location(_location)
+	    bwEvent(_location), button(_button)
 	{}
 
 	const MouseButton button;
-	// Where did the event happen?
-	const bwPoint location;
 };
 
 class bwMouseButtonDragEvent : public bwMouseButtonEvent

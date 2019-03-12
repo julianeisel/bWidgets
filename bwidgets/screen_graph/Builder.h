@@ -65,6 +65,7 @@ public:
 		// TODO compile time check if widget supports being container.
 		setLayout(new_node, std::move(layout));
 		new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
+		new_node.handler = new_node.widget.get();
 		setActiveLayout(new_node);
 		return new_node;
 	}

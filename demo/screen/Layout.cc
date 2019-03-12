@@ -225,6 +225,8 @@ void LayoutItem::resolve(
 	// width precisely. Also makes layout less jaggy on window size changes.
 	int additional_remainder_x = 0;
 
+	location = layout_pos;
+
 	if (children == nullptr) {
 		return;
 	}
@@ -293,14 +295,17 @@ void LayoutItem::resolve(
 			}
 			layout->height += panel.header_height;
 			panel.rectangle.set(xpos, layout->width, ypos - layout->height, layout->height);
+			location.y = widget->rectangle.ymin;
 		}
 		else if (layout) {
 			layout->width = item_width;
 			layout->resolve(node.Children(), bwPoint(xpos, ypos), item_margin, scale_fac);
+			location.y = ypos;
 		}
 		if (widget) {
 			const int widget_height = layout ? layout->height : widget->height_hint * scale_fac;
 			widget->rectangle.set(xpos, item_width, ypos - widget_height, widget_height);
+			location.y = widget->rectangle.ymin;
 			if (align) {
 				alignNode(node_iter, flow_direction);
 			}
@@ -335,6 +340,11 @@ void LayoutItem::resolve(
 	}
 	// xpos should match right side of layout precisely now.
 	assert((flow_direction != FLOW_DIRECTION_HORIZONTAL) || (xpos == layout_pos.x + width));
+}
+
+bwRectanglePixel LayoutItem::getRectangle()
+{
+	return bwRectanglePixel(location.x, location.x + width, location.y, location.y + height);
 }
 
 unsigned int LayoutItem::countRowColumns(const bwScreenGraph::Node::ChildList& children) const
@@ -411,6 +421,7 @@ void RootLayout::resolve(
 	bwPoint layout_position{(float)padding, ymax - padding - vertical_scroll};
 
 	width = max_size - (padding * 2);
+	location = layout_position;
 	LayoutItem::resolve(&children, layout_position, item_margin, scale_fac);
 }
 

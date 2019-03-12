@@ -22,6 +22,7 @@
 #pragma once
 
 #include "bwDistance.h"
+#include "bwEvent.h"
 #include "bwWidget.h"
 
 

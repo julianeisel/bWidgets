@@ -25,6 +25,7 @@
 
 // bWidgets lib
 #include "bwEvent.h"
+#include "bwEventDispatcher.h"
 #include "bwPainter.h"
 #include "bwPanel.h"
 #include "bwRange.h"
@@ -327,7 +328,7 @@ bool Stage::handleWidgetMouseButtonEvent(
         const MouseEvent& event,
         bwWidget& widget)
 {
-	const bwPoint& location = event.getMouseLocation();
+//	const bwPoint& location = event.getMouseLocation();
 	bwMouseButtonEvent bw_event(event.getButton(), event.getMouseLocation());
 
 	if (event.isClick()) {
@@ -336,8 +337,9 @@ bool Stage::handleWidgetMouseButtonEvent(
 
 	switch (event.getType()) {
 		case MouseEvent::MOUSE_EVENT_PRESS:
-			assert(widget.isCoordinateInside(location));
-			widget.onMousePress(bw_event);
+			bwEventDispatcher::handleMouseButtonPressEvent(bw_event, screen_graph);
+//			assert(widget.isCoordinateInside(location));
+//			widget.onMousePress(bw_event);
 			dragged_widget = &widget;
 			break;
 		case MouseEvent::MOUSE_EVENT_RELEASE:

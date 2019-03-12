@@ -1,12 +1,15 @@
 #pragma once
 
+#include "bwRectangle.h"
+
+
 namespace bWidgets {
 
 class bwLayoutInterface
 {
 public:
-	~bwLayoutInterface() = default;
-
+	virtual ~bwLayoutInterface() = default;
+	virtual bwRectanglePixel getRectangle() = 0;
 protected:
 	bwLayoutInterface() = default;
 };

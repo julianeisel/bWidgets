@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "bwRectangle.h"
+
 #include "screen_graph/Node.h"
 
 
@@ -76,13 +78,15 @@ public:
 		FLOW_DIRECTION_HORIZONTAL,
 	};
 
-	virtual ~LayoutItem() = default;
+	virtual ~LayoutItem() override = default;
 
 	virtual void resolve(
 	        bWidgets::bwScreenGraph::Node::ChildList* chilren,
 	        const bWidgets::bwPoint& layout_pos,
 	        const unsigned int item_margin,
 	        const float scale_fac);
+
+	bWidgets::bwRectanglePixel getRectangle() override;
 
 	unsigned int getHeight() const;
 
@@ -101,6 +105,7 @@ protected:
 	using IteratorItem = LayoutItemList::const_iterator;
 
 	int width{0}, height{0};
+	bWidgets::bwPoint location;
 
 	static void resolvePanelContents(
 	        bWidgets::bwScreenGraph::Node& panel_node,

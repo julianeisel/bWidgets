@@ -10,6 +10,9 @@
 
 namespace bWidgets {
 
+class bwMouseButtonEvent;
+class bwMouseButtonDragEvent;
+
 /**
  * \brief Abstract base class that all widgets derive from.
  *

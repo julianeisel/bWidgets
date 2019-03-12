@@ -1,7 +1,10 @@
 #include <assert.h>
+#include <iostream>
 
 #include "EventHandler.h"
+#include "Node.h"
 
+using namespace bWidgets;
 using namespace bWidgets::bwScreenGraph;
 
 

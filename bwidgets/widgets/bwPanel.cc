@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 
+#include "bwEvent.h"
 #include "bwPainter.h"
 #include "bwPanel.h"
 #include "bwStyle.h"

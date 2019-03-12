@@ -75,6 +75,8 @@ public:
 		return handler;
 	}
 
+	virtual bwRectanglePixel Rectangle() const = 0;
+
 private:
 	Node* parent;
 	EventHandler* handler{nullptr};
@@ -101,7 +103,12 @@ public:
 
 	bwLayoutInterface* Layout() const override
 	{
-		return &*layout;
+		return layout.get();
+	}
+
+	bwRectanglePixel Rectangle() const override
+	{
+		return layout->getRectangle();
 	}
 
 private:
@@ -124,6 +131,11 @@ public:
 		return &*widget;
 	}
 
+	bwRectanglePixel Rectangle() const override
+	{
+		return widget->rectangle;
+	}
+
 private:
 	bwPtr<bwWidget> widget;
 };
@@ -138,6 +150,11 @@ private:
 class ContainerNode : public LayoutNode, public WidgetNode
 {
 	friend class Builder;
+
+	bwRectanglePixel Rectangle() const override
+	{
+		return WidgetNode::Rectangle();
+	}
 };
 
 } // namespace bwScreenGraph

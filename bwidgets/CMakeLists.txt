@@ -8,6 +8,7 @@ set(INC
 
 set(SRC
 	bwEvent.cc
+	bwEventDispatcher.cc
 	bwPainter.cc
 	bwStyle.cc
 	bwStyleCSS.cc
@@ -23,6 +24,7 @@ set(SRC
 	styles/bwStyleFlatLight.cc
 
 	bwEvent.h
+	bwEventDispatcher.h
 	bwIconInterface.h
 	bwLayoutInterface.h
 	bwPaintEngine.h

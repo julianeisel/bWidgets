@@ -4,10 +4,12 @@
 #include <unordered_map>
 #include <list>
 
-#include "bwEvent.h"
-
 
 namespace bWidgets {
+
+class bwMouseButtonEvent;
+class bwMouseButtonDragEvent;
+
 namespace bwScreenGraph {
 
 class Node;

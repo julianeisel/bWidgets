@@ -13,6 +13,7 @@ class DummyNodeLayout : public bwLayoutInterface
 {
 public:
 	DummyNodeLayout(std::string label) : label(label) {}
+	bwRectanglePixel getRectangle() override {return {};}
 	std::string label;
 };
 
