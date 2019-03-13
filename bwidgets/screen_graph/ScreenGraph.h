@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bwContext.h"
 #include "bwPtr.h"
 
 namespace bWidgets {
@@ -14,6 +15,9 @@ class ScreenGraph
 	static_assert(std::is_base_of<Node, _RootNodeType>::value, "Should derrive from bwScreenGraph::Node");
 
 public:
+	/** The context describing the state of this screen-graph */
+	bwContext context;
+
 	ScreenGraph(bwPtr<_RootNodeType> _root_node) :
 	    root_node(std::move(_root_node))
 	{}
