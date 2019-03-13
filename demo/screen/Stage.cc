@@ -67,6 +67,7 @@ void Stage::StyleSheetPolish(bwWidget& widget)
 }
 
 Stage::Stage(const unsigned int width, const unsigned int height) :
+    screen_graph(bwPtr_new<bwScreenGraph::LayoutNode>()),
     mask_width(width), mask_height(height)
 {
 	initFonts();
@@ -85,7 +86,7 @@ Stage::Stage(const unsigned int width, const unsigned int height) :
 	auto layout = bwPtr_new<RootLayout>(height, width);
 	layout->padding = 7;
 	layout->item_margin = 5;
-	bwScreenGraph::Builder::setLayout(screen_graph, std::move(layout));
+	bwScreenGraph::Builder::setLayout(screen_graph.Root(), std::move(layout));
 }
 
 void Stage::initFonts()
@@ -157,12 +158,12 @@ void Stage::drawScrollbars()
 }
 
 static void drawScreenGraph(
-        bwScreenGraph::Node& node,
+        ScreenGraph& screen_graph,
         bwStyle& style)
 {
 	const bwScreenGraph::Node* skip_until_parent = nullptr;
 
-	for (auto& iter_node : node) {
+	for (auto& iter_node : screen_graph) {
 		bwWidget* widget = iter_node.Widget();
 
 		if (skip_until_parent && (skip_until_parent == iter_node.Parent())) {
@@ -210,7 +211,7 @@ void Stage::draw()
 
 	updateContentBounds();
 
-	resolveScreenGraphNodeLayout(screen_graph, vert_scroll, interface_scale);
+	resolveScreenGraphNodeLayout(screen_graph.Root(), vert_scroll, interface_scale);
 	drawScreenGraph(screen_graph, *style);
 	drawScrollbars();
 }
@@ -246,7 +247,7 @@ void Stage::setFontSubPixelPositioning(const bool value)
 
 RootLayout& Stage::Layout() const
 {
-	return static_cast<RootLayout&>(*screen_graph.Layout());
+	return static_cast<RootLayout&>(*screen_graph.Root().Layout());
 }
 
 void Stage::setStyleSheet(const std::string& filepath)
@@ -262,7 +263,7 @@ void Stage::setStyleSheet(const std::string& filepath)
 
 void Stage::updateContentBounds()
 {
-	RootLayout& layout = static_cast<RootLayout&>(*screen_graph.Layout());
+	RootLayout& layout = Layout();
 
 	validizeScrollValue();
 	layout.setMaxSize(getContentWidth());
@@ -337,7 +338,7 @@ bool Stage::handleWidgetMouseButtonEvent(
 
 	switch (event.getType()) {
 		case MouseEvent::MOUSE_EVENT_PRESS:
-			bwEventDispatcher::handleMouseButtonPressEvent(bw_event, screen_graph);
+			bwEventDispatcher::handleMouseButtonPressEvent(bw_event, screen_graph.Root());
 //			assert(widget.isCoordinateInside(location));
 //			widget.onMousePress(bw_event);
 			dragged_widget = &widget;

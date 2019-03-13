@@ -38,6 +38,7 @@ set(SRC
 	screen_graph/EventHandler.h
 	screen_graph/Iterators.h
 	screen_graph/Node.h
+	screen_graph/ScreenGraph.h
 	styles/bwStyleClassic.h
 	styles/bwStyleFlatGrey.h
 	styles/bwStyleFlatDark.h

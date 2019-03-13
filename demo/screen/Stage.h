@@ -27,11 +27,14 @@
 #include "bwScrollBar.h"
 #include "bwStyle.h"
 #include "screen_graph/Node.h"
+#include "screen_graph/ScreenGraph.h"
 
 #include "Font.h"
 
 
 namespace bWidgetsDemo {
+
+using ScreenGraph = bWidgets::bwScreenGraph::ScreenGraph<bWidgets::bwScreenGraph::LayoutNode>;
 
 class Stage
 {
@@ -64,7 +67,7 @@ public:
 	static void setFontSubPixelPositioning(const bool value);
 
 protected:
-	bWidgets::bwScreenGraph::LayoutNode screen_graph;
+	ScreenGraph screen_graph;
 
 	// Static members, global UI data for all stages
 	static bWidgets::bwPtr<bWidgets::bwStyle> style;

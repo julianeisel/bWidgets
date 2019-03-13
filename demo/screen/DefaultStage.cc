@@ -132,7 +132,7 @@ public:
 	void operator()() override
 	{
 		Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE : Font::NORMAL_COVERAGE);
-		for (bwScreenGraph::Node& node : stage.screen_graph) {
+		for (bwScreenGraph::Node& node : stage.screen_graph.Root()) {
 			bwWidget* widget = node.Widget();
 			if (!widget) {
 				continue;
@@ -164,7 +164,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	bwScreenGraph::Builder builder(screen_graph);
 	ContainerNode* panel;
 
-	addStyleSelector(screen_graph);
+	addStyleSelector(screen_graph.Root());
 
 	auto& slider = builder.addWidget<bwNumberSlider>(0, BUTTON_HEIGHT);
 	slider.apply_functor = bwPtr_new<ScaleSetter>(slider);
@@ -182,7 +182,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	checkbox = &builder.addWidget<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
 
-	builder.setActiveLayout(screen_graph);
+	builder.setActiveLayout(screen_graph.Root());
 	builder.addLayout<RowLayout>(false);
 	checkbox = &builder.addWidget<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
 	checkbox->apply_functor = bwPtr_new<UseFontSubPixelsToggleSetter>(*checkbox, *this);
@@ -190,9 +190,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	checkbox->apply_functor = bwPtr_new<UseFontSubPixelPositioningToggleSetter>(*checkbox);
 	checkbox->hidden = true;
 
-	addFakeSpacer(screen_graph);
-
-	builder.setActiveLayout(screen_graph);
+	builder.setActiveLayout(screen_graph.Root());
 	panel = &builder.addContainer<bwPanel>(bwPtr_new<PanelLayout>(), "Some Testing Widgets", PANEL_HEADER_HEIGHT);
 	builder.setActiveLayout(*panel);
 	builder.addLayout<ColumnLayout>(true);
@@ -204,7 +202,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height) :
 	auto& push_but = builder.addWidget<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
 	push_but.setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
 
-	builder.setActiveLayout(screen_graph);
+	builder.setActiveLayout(screen_graph.Root());
 	panel = &builder.addContainer<bwPanel>(bwPtr_new<PanelLayout>(), "More Testing...", PANEL_HEADER_HEIGHT);
 	builder.addLayout<RowLayout>(true);
 	builder.addWidget<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT);

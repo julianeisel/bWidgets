@@ -2,7 +2,8 @@
 
 #include <iterator>
 
-#include "screen_graph/Node.h"
+#include "ScreenGraph.h"
+#include "Node.h"
 #include "bwWidget.h"
 
 
@@ -56,6 +57,16 @@ private:
  * node as range-expression for range-based foor loops) */
 PreOrderIterator begin(Node&);
 PreOrderIterator end(Node&);
+template<typename _RootNodeType>
+PreOrderIterator begin(ScreenGraph<_RootNodeType>& screen_graph)
+{
+	return begin(screen_graph.Root());
+}
+template<typename _RootNodeType>
+PreOrderIterator end(ScreenGraph<_RootNodeType>& screen_graph)
+{
+	return end(screen_graph.Root());
+}
 
 } // namespace bwScreenGraph
 } // bWidgets
