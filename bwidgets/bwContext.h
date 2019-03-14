@@ -15,6 +15,8 @@ class bwWidget;
  */
 struct bwContext
 {
+	/** The currently hovered widget (if any). */
+	bwWidget* hovered = nullptr;
 };
 
 } // namespace bWidgets

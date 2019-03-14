@@ -1,34 +1,34 @@
 #pragma once
 
 #include "bwContext.h"
+#include "bwEventDispatcher.h"
 #include "bwPtr.h"
 
 namespace bWidgets {
 namespace bwScreenGraph {
 
 class Node;
+class LayoutNode;
 
-/* Template parameter is type of the root node. */
-template<typename _RootNodeType>
 class ScreenGraph
 {
-	static_assert(std::is_base_of<Node, _RootNodeType>::value, "Should derrive from bwScreenGraph::Node");
-
 public:
 	/** The context describing the state of this screen-graph */
 	bwContext context;
+	bwEventDispatcher event_dispatcher;
 
-	ScreenGraph(bwPtr<_RootNodeType> _root_node) :
-	    root_node(std::move(_root_node))
+	template<typename _NodeType>
+	ScreenGraph(bwPtr<_NodeType> _root_node) :
+	    event_dispatcher(*this), root_node(std::move(_root_node))
 	{}
 
-	_RootNodeType& Root() const
+	LayoutNode& Root() const
 	{
 		return *root_node;
 	}
 
 private:
-	bwPtr<_RootNodeType> root_node;
+	bwPtr<LayoutNode> root_node;
 };
 
 } // namespace bwScreenGraph

@@ -17,11 +17,10 @@ class Builder
 public:
 	Builder() = default;
 	Builder(LayoutNode& active_layout_node);
-	template<typename _RootNodeType>
-	Builder(ScreenGraph<_RootNodeType>& screen_graph) :
+	Builder(ScreenGraph& screen_graph) :
 	    Builder(screen_graph.Root())
 	{}
-	virtual ~Builder() = default;
+	~Builder() = default;
 
 	static void setLayout(LayoutNode& node, bwPtr<bwLayoutInterface> layout);
 	static bwWidget& addWidget(LayoutNode& node, bwPtr<bwWidget> widget);

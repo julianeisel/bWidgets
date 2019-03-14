@@ -7,7 +7,6 @@ set(INC
 )
 
 set(SRC
-	bwContext.cc
 	bwEvent.cc
 	bwEventDispatcher.cc
 	bwPainter.cc
@@ -24,7 +23,7 @@ set(SRC
 	styles/bwStyleFlatDark.cc
 	styles/bwStyleFlatLight.cc
 
-	bwContext.cc
+	bwContext.h
 	bwEvent.h
 	bwEventDispatcher.h
 	bwIconInterface.h

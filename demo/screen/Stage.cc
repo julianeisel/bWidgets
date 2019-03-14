@@ -158,7 +158,7 @@ void Stage::drawScrollbars()
 }
 
 static void drawScreenGraph(
-        ScreenGraph& screen_graph,
+        bwScreenGraph::ScreenGraph& screen_graph,
         bwStyle& style)
 {
 	const bwScreenGraph::Node* skip_until_parent = nullptr;
@@ -338,7 +338,7 @@ bool Stage::handleWidgetMouseButtonEvent(
 
 	switch (event.getType()) {
 		case MouseEvent::MOUSE_EVENT_PRESS:
-			bwEventDispatcher::handleMouseButtonPressEvent(bw_event, screen_graph.Root());
+			screen_graph.event_dispatcher.dispatchMouseButtonPress(bw_event);
 //			assert(widget.isCoordinateInside(location));
 //			widget.onMousePress(bw_event);
 			dragged_widget = &widget;
@@ -360,32 +360,17 @@ void Stage::handleMouseMovementEvent(
 	using namespace bwScreenGraph;
 
 	const bwPoint& mouse_location = event.getMouseLocation();
-	bwWidget* new_hovered = nullptr;
 
 	// TODO Multiple hovered items need to be possible (e.g. button + surrounding panel).
 
-	if (scrollbar_node.Widget() && scrollbar_node.Widget()->isCoordinateInside(mouse_location)) {
-		new_hovered = scrollbar_node.Widget();
-	}
-	else {
-		for (Node& node : screen_graph) {
-			bwWidget* widget = node.Widget();
+	screen_graph.event_dispatcher.dispatchMouseMovement(bwEvent(mouse_location));
 
-			if (widget && widget->isCoordinateInside(mouse_location)) {
-				new_hovered = widget;
-			}
-		}
+	if (!screen_graph.context.hovered &&
+	    scrollbar_node.Widget() &&
+	    scrollbar_node.Widget()->isCoordinateInside(mouse_location))
+	{
+		screen_graph.event_dispatcher.changeContextHovered(&scrollbar_node);
 	}
-
-	if (new_hovered != hovered) {
-		if (hovered) {
-			hovered->onMouseLeave();
-		}
-		if (new_hovered) {
-			new_hovered->onMouseEnter();
-		}
-	}
-	hovered = new_hovered;
 }
 
 void Stage::handleMouseButtonEvent(

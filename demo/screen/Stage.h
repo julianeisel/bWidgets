@@ -34,8 +34,6 @@
 
 namespace bWidgetsDemo {
 
-using ScreenGraph = bWidgets::bwScreenGraph::ScreenGraph<bWidgets::bwScreenGraph::LayoutNode>;
-
 class Stage
 {
 	friend class ScrollbarApplyValueFunctor;
@@ -67,7 +65,7 @@ public:
 	static void setFontSubPixelPositioning(const bool value);
 
 protected:
-	ScreenGraph screen_graph;
+	bWidgets::bwScreenGraph::ScreenGraph screen_graph;
 
 	// Static members, global UI data for all stages
 	static bWidgets::bwPtr<bWidgets::bwStyle> style;
@@ -86,8 +84,6 @@ protected:
 private:
 	// Not part of the layout yet. We'd need to support horizontal root layouts first.
 	bWidgets::bwScreenGraph::WidgetNode scrollbar_node;
-	// The lastly hovered widget. Stored to detect mouse-leave events without lookups.
-	bWidgets::bwWidget* hovered{nullptr};
 	bWidgets::bwWidget* dragged_widget{nullptr};
 
 	static void StyleSheetPolish(bWidgets::bwWidget& widget);

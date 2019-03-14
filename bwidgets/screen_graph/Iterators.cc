@@ -89,10 +89,17 @@ PreOrderIterator begin(Node& node)
 {
 	return PreOrderIterator(node);
 }
-
 PreOrderIterator end(Node&)
 {
 	return {};
+}
+PreOrderIterator begin(ScreenGraph &screen_graph)
+{
+	return begin(screen_graph.Root());
+}
+PreOrderIterator end(ScreenGraph &screen_graph)
+{
+	return end(screen_graph.Root());
 }
 
 } // namespace bwScreenGraph
