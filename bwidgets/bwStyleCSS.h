@@ -2,7 +2,6 @@
 
 #include "bwStyle.h"
 
-
 namespace bWidgets {
 
 /**
@@ -16,15 +15,14 @@ namespace bWidgets {
  * It's also important to keep custom styles in mind. In the end, users should
  * be able to 'install' a new style via a CSS file.
  */
-class bwStyleCSS : public bwStyle
-{
-public:
-	bwStyleCSS();
+class bwStyleCSS : public bwStyle {
+ public:
+  bwStyleCSS();
 
-	void setWidgetStyle(class bwWidget& widget);
-	void polish(class bwWidget& widget);
+  void setWidgetStyle(class bwWidget &widget);
+  void polish(class bwWidget &widget);
 
-	static void(* polish_cb)(class bwWidget& widget);
+  static void (*polish_cb)(class bwWidget &widget);
 };
 
-} // namespace bWidgets
+}  // namespace bWidgets

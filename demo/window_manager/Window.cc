@@ -29,89 +29,86 @@
 using namespace bWidgets;
 using namespace bWidgetsDemo;
 
-
-Window::Window(
-        const std::string& name,
-        unsigned int size_x, unsigned int size_y) :
-    width(size_x), height(size_y)
+Window::Window(const std::string &name, unsigned int size_x, unsigned int size_y)
+    : width(size_x), height(size_y)
 {
-//	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-//	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+  //	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+  //	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-//	glfwWindowHint(GLFW_SAMPLES, 4); // antialiasing
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE); // For MacOS
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  //	glfwWindowHint(GLFW_SAMPLES, 4); // antialiasing
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);  // For MacOS
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	if (width == 0) {
-//		width = 0.8f * mode->width;
-	}
-	if (height == 0) {
-//		height = 0.8 * mode->height;
-	}
+  if (width == 0) {
+    //		width = 0.8f * mode->width;
+  }
+  if (height == 0) {
+    //		height = 0.8 * mode->height;
+  }
 
-	glfw_window = glfwCreateWindow(width, height, name.data(), nullptr, nullptr);
-	glfwMakeContextCurrent(glfw_window);
+  glfw_window = glfwCreateWindow(width, height, name.data(), nullptr, nullptr);
+  glfwMakeContextCurrent(glfw_window);
 
-	glEnable(GL_SCISSOR_TEST);
+  glEnable(GL_SCISSOR_TEST);
 
-	GPU_init();
+  GPU_init();
 
-	EventManager::setupWindowHandlers(*this);
+  EventManager::setupWindowHandlers(*this);
 
-	stage = bwPtr_new<DefaultStage>(getWidth(), getHeight());
+  stage = bwPtr_new<DefaultStage>(getWidth(), getHeight());
 }
 
 Window::~Window()
 {
-	glfwDestroyWindow(glfw_window);
+  glfwDestroyWindow(glfw_window);
 }
 
 void Window::draw()
 {
-	stage->draw();
-	glfwSwapBuffers(glfw_window);
+  stage->draw();
+  glfwSwapBuffers(glfw_window);
 }
 
 Window::WindowAction Window::processEvents()
 {
-	if (glfwWindowShouldClose(glfw_window)) {
-		return WINDOW_ACTION_CLOSE;
-	}
+  if (glfwWindowShouldClose(glfw_window)) {
+    return WINDOW_ACTION_CLOSE;
+  }
 
-	return WINDOW_ACTION_CONTINUE;
+  return WINDOW_ACTION_CONTINUE;
 }
 
 const bWidgets::bwPoint Window::getCursorPosition() const
 {
-	int win_size_y;
-	double x, y;
+  int win_size_y;
+  double x, y;
 
-	glfwGetCursorPos(glfw_window, &x, &y);
-	glfwGetWindowSize(glfw_window, nullptr, &win_size_y);
+  glfwGetCursorPos(glfw_window, &x, &y);
+  glfwGetWindowSize(glfw_window, nullptr, &win_size_y);
 
-	return bWidgets::bwPoint(x, win_size_y - y);
+  return bWidgets::bwPoint(x, win_size_y - y);
 }
 
 void Window::handleResizeEvent(const int new_win_x, const int new_win_y)
 {
-	width = new_win_x;
-	height = new_win_y;
-	stage->handleWindowResizeEvent(*this);
+  width = new_win_x;
+  height = new_win_y;
+  stage->handleWindowResizeEvent(*this);
 }
 
-GLFWwindow& Window::getGlfwWindow() const
+GLFWwindow &Window::getGlfwWindow() const
 {
-	return *glfw_window;
+  return *glfw_window;
 }
 
 int Window::getWidth() const
 {
-	return width;
+  return width;
 }
 
 int Window::getHeight() const
 {
-	return height;
+  return height;
 }

@@ -27,20 +27,19 @@
 
 namespace bWidgetsDemo {
 
-class File
-{
-public:
-	explicit File(const std::string& path, std::ios::openmode mode = std::ios::in);
-	~File() = default;
+class File {
+ public:
+  explicit File(const std::string &path, std::ios::openmode mode = std::ios::in);
+  ~File() = default;
 
-	std::string readIntoString();
-	bool readBytes(char*, const unsigned int, bool reset_cursor);
+  std::string readIntoString();
+  bool readBytes(char *, const unsigned int, bool reset_cursor);
 
-	friend std::ostream& operator<<(std::ostream&, const File&);
+  friend std::ostream &operator<<(std::ostream &, const File &);
 
-private:
-	const std::string _path;
-	std::ifstream _file_stream;
+ private:
+  const std::string _path;
+  std::ifstream _file_stream;
 };
 
-} // namespace bWidgetsDemo
+}  // namespace bWidgetsDemo

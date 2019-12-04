@@ -26,41 +26,39 @@
 
 using namespace bWidgetsDemo;
 
-
-
-File::File(const std::string& path, std::ios::openmode mode) :
-    _path(path), _file_stream(path, mode)
+File::File(const std::string &path, std::ios::openmode mode)
+    : _path(path), _file_stream(path, mode)
 {
-	assert(_file_stream.is_open());
+  assert(_file_stream.is_open());
 }
 
 std::string File::readIntoString()
 {
-	std::string string;
-	std::string line;
+  std::string string;
+  std::string line;
 
-	assert(_file_stream.is_open());
-	while (getline(_file_stream, line)) {
-		string += line + '\n';
-	}
+  assert(_file_stream.is_open());
+  while (getline(_file_stream, line)) {
+    string += line + '\n';
+  }
 
-	return string;
+  return string;
 }
 
-bool File::readBytes(char* bytes, const unsigned int num_bytes, bool reset_cursor)
+bool File::readBytes(char *bytes, const unsigned int num_bytes, bool reset_cursor)
 {
-	assert(_file_stream.is_open());
-	_file_stream.read(bytes, num_bytes);
-	if (reset_cursor) {
-		_file_stream.seekg(0);
-	}
-	return _file_stream.good();
+  assert(_file_stream.is_open());
+  _file_stream.read(bytes, num_bytes);
+  if (reset_cursor) {
+    _file_stream.seekg(0);
+  }
+  return _file_stream.good();
 }
 
 namespace bWidgetsDemo {
-std::ostream& operator<<(std::ostream& stream, const File& file)
+std::ostream &operator<<(std::ostream &stream, const File &file)
 {
-	stream << file._path;
-	return stream;
+  stream << file._path;
+  return stream;
 }
-}
+}  // namespace bWidgetsDemo

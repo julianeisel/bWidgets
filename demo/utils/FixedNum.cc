@@ -28,63 +28,56 @@ template class bWidgetsDemo::FixedNum<F16p16>;
 template class bWidgetsDemo::FixedNum<F26p6>;
 template bWidgetsDemo::FixedNum<F26p6>::operator FixedNum<F16p16>() const;
 
-
-template<typename _Type>
-constexpr unsigned int getScaleFactor()
+template<typename _Type> constexpr unsigned int getScaleFactor()
 {
-	// Simple, type safe bitshift, e.g. `1 << 16` for 16.16, `1L << 32` for
-	// 32.32 fixed number. Note that this gets evaluated at compile time
-	// (constexpr).
-	return (typename _Type::value_type(1) << _Type::bits_fraction);
+  // Simple, type safe bitshift, e.g. `1 << 16` for 16.16, `1L << 32` for
+  // 32.32 fixed number. Note that this gets evaluated at compile time
+  // (constexpr).
+  return (typename _Type::value_type(1) << _Type::bits_fraction);
 }
 
 template<typename _Type>
 FixedNum<_Type> FixedNum<_Type>::fromInt(typename _Type::value_type _value)
 {
-	return FixedNum(_value * getScaleFactor<_Type>());
+  return FixedNum(_value * getScaleFactor<_Type>());
 }
-template<typename _Type>
-int FixedNum<_Type>::toInt() const
+template<typename _Type> int FixedNum<_Type>::toInt() const
 {
-	return value / getScaleFactor<_Type>();
-}
-
-template<typename _Type>
-double FixedNum<_Type>::toReal() const
-{
-	return double(value) / getScaleFactor<_Type>();
+  return value / getScaleFactor<_Type>();
 }
 
-template<typename _Type>
-double FixedNum<_Type>::getFractionAsReal() const
+template<typename _Type> double FixedNum<_Type>::toReal() const
 {
-	return toReal() - toInt();
+  return double(value) / getScaleFactor<_Type>();
 }
 
-template<typename _Type>
-FixedNum<_Type>& FixedNum<_Type>::round()
+template<typename _Type> double FixedNum<_Type>::getFractionAsReal() const
 {
-	value += getScaleFactor<_Type>() / 2;
-	return floor();
+  return toReal() - toInt();
 }
 
-template<typename _Type>
-FixedNum<_Type>& FixedNum<_Type>::floor()
+template<typename _Type> FixedNum<_Type> &FixedNum<_Type>::round()
 {
-	value &= ~(getScaleFactor<_Type>() - 1);
-	return *this;
+  value += getScaleFactor<_Type>() / 2;
+  return floor();
 }
 
-template<typename _Type>
-FixedNum<_Type>& FixedNum<_Type>::operator+=(const FixedNum& other)
+template<typename _Type> FixedNum<_Type> &FixedNum<_Type>::floor()
 {
-	value += other.value;
-	return *this;
+  value &= ~(getScaleFactor<_Type>() - 1);
+  return *this;
+}
+
+template<typename _Type> FixedNum<_Type> &FixedNum<_Type>::operator+=(const FixedNum &other)
+{
+  value += other.value;
+  return *this;
 }
 
 template<typename _Type>
 template<typename _OtherType>
 FixedNum<_Type>::operator FixedNum<_OtherType>() const
 {
-	return FixedNum<_OtherType>(value * (double(getScaleFactor<_OtherType>()) / getScaleFactor<_Type>()));
+  return FixedNum<_OtherType>(value *
+                              (double(getScaleFactor<_OtherType>()) / getScaleFactor<_Type>()));
 }

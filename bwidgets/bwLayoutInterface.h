@@ -2,13 +2,12 @@
 
 namespace bWidgets {
 
-class bwLayoutInterface
-{
-public:
-	~bwLayoutInterface() = default;
+class bwLayoutInterface {
+ public:
+  ~bwLayoutInterface() = default;
 
-protected:
-	bwLayoutInterface() = default;
+ protected:
+  bwLayoutInterface() = default;
 };
 
-} // namespace bWidgets
+}  // namespace bWidgets

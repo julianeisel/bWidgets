@@ -21,7 +21,7 @@
  * The Original Code is: all of this file.
  *
  * Contributor(s): none yet.
- * 
+ *
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
  */
 
@@ -31,19 +31,19 @@
 #define DEF_VICO(name) VICO_##name,
 
 typedef enum {
-	/* ui */
+/* ui */
 #include "blender_icons.h"
-	BIFICONID_LAST
+  BIFICONID_LAST
 } BIFIconID;
 
-#define BIFICONID_FIRST  (ICON_NONE)
+#define BIFICONID_FIRST (ICON_NONE)
 
 #undef DEF_ICON
 #undef DEF_VICO
 
-#define ICON_GRID_COLS      26
-#define ICON_GRID_ROWS      30
+#define ICON_GRID_COLS 26
+#define ICON_GRID_ROWS 30
 
-#define ICON_GRID_MARGIN    5
-#define ICON_GRID_W         16
-#define ICON_GRID_H         16
+#define ICON_GRID_MARGIN 5
+#define ICON_GRID_W 16
+#define ICON_GRID_H 16

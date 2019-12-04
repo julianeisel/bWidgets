@@ -6,7 +6,6 @@
 #include "bwPtr.h"
 #include "bwWidget.h"
 
-
 namespace bWidgets {
 namespace bwScreenGraph {
 
@@ -32,94 +31,88 @@ namespace bwScreenGraph {
  * Having to declare those helpers as friends may turn out to an annoyance
  * with small benefits. In that case we should just make data public.
  */
-class Node
-{
-	friend class Builder;
-	friend class PreOrderIterator;
+class Node {
+  friend class Builder;
+  friend class PreOrderIterator;
 
-public:
-	using ChildList = std::list<bwPtr<Node>>;
-	using ChildIterator = ChildList::iterator;
+ public:
+  using ChildList = std::list<bwPtr<Node>>;
+  using ChildIterator = ChildList::iterator;
 
-	Node() = default;
-	virtual ~Node() = default;
+  Node() = default;
+  virtual ~Node() = default;
 
-	virtual const ChildList* Children() const
-	{
-		return nullptr;
-	}
-	virtual ChildList* Children()
-	{
-		return nullptr;
-	}
+  virtual const ChildList *Children() const
+  {
+    return nullptr;
+  }
+  virtual ChildList *Children()
+  {
+    return nullptr;
+  }
 
-	const Node* Parent() const
-	{
-		return parent;
-	}
+  const Node *Parent() const
+  {
+    return parent;
+  }
 
-	virtual bwLayoutInterface* Layout() const
-	{
-		return nullptr;
-	}
+  virtual bwLayoutInterface *Layout() const
+  {
+    return nullptr;
+  }
 
-	virtual bwWidget* Widget() const
-	{
-		return nullptr;
-	}
+  virtual bwWidget *Widget() const
+  {
+    return nullptr;
+  }
 
-private:
-	Node* parent;
+ private:
+  Node *parent;
 };
-
 
 /**
  * \brief Node for aligning children to a specific layout.
  */
-class LayoutNode : virtual public Node
-{
-	friend class Builder;
-	friend class PreOrderIterator;
+class LayoutNode : virtual public Node {
+  friend class Builder;
+  friend class PreOrderIterator;
 
-public:
-	const ChildList* Children() const override
-	{
-		return &children;
-	}
-	ChildList* Children() override
-	{
-		return &children;
-	}
+ public:
+  const ChildList *Children() const override
+  {
+    return &children;
+  }
+  ChildList *Children() override
+  {
+    return &children;
+  }
 
-	bwLayoutInterface* Layout() const override
-	{
-		return &*layout;
-	}
+  bwLayoutInterface *Layout() const override
+  {
+    return &*layout;
+  }
 
-private:
-	ChildList children;
-	bwPtr<bwLayoutInterface> layout;
+ private:
+  ChildList children;
+  bwPtr<bwLayoutInterface> layout;
 };
-
 
 /**
  * \brief Node representing a single widget with no children.
  */
-class WidgetNode : virtual public Node
-{
-	friend class Builder;
-	friend class PreOrderIterator;
+class WidgetNode : virtual public Node {
+  friend class Builder;
+  friend class PreOrderIterator;
 
-public:
-	bwWidget* Widget() const override
-	{
-		return &*widget;
-	}
+ public:
+  bwWidget *Widget() const override
+  {
+    return &*widget;
+  }
 
-private:
-	bwPtr<bwWidget> widget;
+ private:
+  bwPtr<bwWidget> widget;
 };
-
 
 /**
  * \brief Node representing a widget with children.
@@ -127,19 +120,18 @@ private:
  * Note virtual inheritance of LayoutNode and WidgetNode, required to solve
  * diamond problems.
  */
-class ContainerNode : public LayoutNode, public WidgetNode
-{
-	friend class Builder;
+class ContainerNode : public LayoutNode, public WidgetNode {
+  friend class Builder;
 
-public:
-	bwWidget* Widget() const override
-	{
-		return &*widget;
-	}
+ public:
+  bwWidget *Widget() const override
+  {
+    return &*widget;
+  }
 
-private:
-	bwPtr<bwWidget> widget;
+ private:
+  bwPtr<bwWidget> widget;
 };
 
-} // namespace bwScreenGraph
-} // namespace bWidgets
+}  // namespace bwScreenGraph
+}  // namespace bWidgets

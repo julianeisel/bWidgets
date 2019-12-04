@@ -29,51 +29,47 @@
 #include "bwIconInterface.h"
 #include "bwUtil.h"
 
-
 namespace bWidgetsDemo {
 
 struct IconReadData;
 
-class Icon : public bWidgets::bwIconInterface
-{
-public:
-	Icon(const unsigned int size,
-	     const unsigned int num_channels,
-	     const unsigned int bits_per_channel);
+class Icon : public bWidgets::bwIconInterface {
+ public:
+  Icon(const unsigned int size,
+       const unsigned int num_channels,
+       const unsigned int bits_per_channel);
 
-	bool isValid() const override;
+  bool isValid() const override;
 
-	Pixmap& getPixmap(); // TODO should get rid of this.
-	const Pixmap& getPixmap() const;
+  Pixmap &getPixmap();  // TODO should get rid of this.
+  const Pixmap &getPixmap() const;
 
-private:
-	Pixmap _pixmap;
+ private:
+  Pixmap _pixmap;
 };
 
-class IconMap
-{
-	friend class IconMapReader;
+class IconMap {
+  friend class IconMapReader;
 
-public:
-	Icon& getIcon(unsigned int index);
-	~IconMap() = default;
+ public:
+  Icon &getIcon(unsigned int index);
+  ~IconMap() = default;
 
-private:
-	IconMap() = default;
+ private:
+  IconMap() = default;
 
-	std::array<bWidgets::bwPtr<Icon>, 30 * 26> icons; // ICON_GRID_ROWS * ICON_GRID_COLS
+  std::array<bWidgets::bwPtr<Icon>, 30 * 26> icons;  // ICON_GRID_ROWS * ICON_GRID_COLS
 };
 
-class IconMapReader
-{
-public:
-	IconMapReader();
-	~IconMapReader();
+class IconMapReader {
+ public:
+  IconMapReader();
+  ~IconMapReader();
 
-	bWidgets::bwPtr<IconMap> readIconMapFromPNGFile(class File&);
+  bWidgets::bwPtr<IconMap> readIconMapFromPNGFile(class File &);
 
-private:
-	bWidgets::bwPtr<IconReadData> read_data;
+ private:
+  bWidgets::bwPtr<IconReadData> read_data;
 };
 
-} // namespace bWidgetsDemo
+}  // namespace bWidgetsDemo

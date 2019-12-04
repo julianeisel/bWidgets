@@ -28,39 +28,37 @@
 
 #include "Window.h"
 
-
 namespace bWidgetsDemo {
 
-class WindowManager
-{
-public:
-	// Constructor is private (singleton!)
-	static WindowManager& getWindowManager();
-	~WindowManager();
+class WindowManager {
+ public:
+  // Constructor is private (singleton!)
+  static WindowManager &getWindowManager();
+  ~WindowManager();
 
-	void mainLoop();
-	Window& addWindow(std::string name);
-	const bool isMainWindow(const Window& win) const;
+  void mainLoop();
+  Window &addWindow(std::string name);
+  const bool isMainWindow(const Window &win) const;
 
-	void removeWindow(Window& win);
+  void removeWindow(Window &win);
 
-	using WindowList = std::list<Window>;
+  using WindowList = std::list<Window>;
 
-private:
-	WindowManager();
-	WindowManager(WindowManager const&) = delete;
-	void operator=(WindowManager const&) = delete;
+ private:
+  WindowManager();
+  WindowManager(WindowManager const &) = delete;
+  void operator=(WindowManager const &) = delete;
 
-	enum WindowManagerAction {
-		WM_ACTION_CONTINUE,
-		WM_ACTION_CLOSE,
-	};
-	WindowManagerAction processEvents();
-	void drawWindows();
+  enum WindowManagerAction {
+    WM_ACTION_CONTINUE,
+    WM_ACTION_CLOSE,
+  };
+  WindowManagerAction processEvents();
+  void drawWindows();
 
-	class EventManager& event_manager;
-	WindowList windows;
-	bWidgets::bwOptional<std::reference_wrapper<Window>> main_win;
+  class EventManager &event_manager;
+  WindowList windows;
+  bWidgets::bwOptional<std::reference_wrapper<Window>> main_win;
 };
 
-} // namespace bWidgetsDemo
+}  // namespace bWidgetsDemo

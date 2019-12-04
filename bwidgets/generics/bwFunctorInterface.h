@@ -28,11 +28,10 @@ namespace bWidgets {
  * };
  * \endcode
  */
-class bwFunctorInterface
-{
-public:
-	virtual void operator()() = 0;
-	virtual ~bwFunctorInterface() = default;
+class bwFunctorInterface {
+ public:
+  virtual void operator()() = 0;
+  virtual ~bwFunctorInterface() = default;
 };
 
-} // namespace bWidgets
+}  // namespace bWidgets

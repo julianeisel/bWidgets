@@ -24,9 +24,8 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
-
 typedef enum GPUShaderID {
-	GPU_SHADER_2D_UNIFORM_COLOR,
+  GPU_SHADER_2D_UNIFORM_COLOR,
 } GPUShaderID;
 
 void GPU_init();
@@ -35,6 +34,4 @@ void GPU_exit();
 void gpuTranslate2f(const float x, const float y);
 void gpuTranslate2f(const float vec[2]);
 
-void gpuOrtho(
-        float left, float right,
-        float bottom, float top);
+void gpuOrtho(float left, float right, float bottom, float top);

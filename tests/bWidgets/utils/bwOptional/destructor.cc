@@ -15,39 +15,41 @@
 
 using namespace bWidgets;
 
-
-template<typename _T>
-void test_type()
+template<typename _T> void test_type()
 {
-	static_assert(!std::is_trivially_destructible<_T>::value || std::is_trivially_destructible<bwOptional<_T>>::value,
-	              "");
+  static_assert(!std::is_trivially_destructible<_T>::value ||
+                    std::is_trivially_destructible<bwOptional<_T>>::value,
+                "");
 }
 
 TEST(bwOptional, destructor)
 {
-	static_assert(std::is_trivially_destructible<bwOptional<int>>::value, "");
-	static_assert(std::is_trivially_destructible<bwOptional<TestUtilClasses::NoConstructors>>::value, "");
-	static_assert(!std::is_trivially_destructible<bwOptional<TestUtilClasses::NonTrivialConstructors>>::value, "");
-	test_type<int>();
-	test_type<TestUtilClasses::NonTrivialConstructors>();
-	test_type<TestUtilClasses::ExplicitNonTrivialConstructors>();
+  static_assert(std::is_trivially_destructible<bwOptional<int>>::value, "");
+  static_assert(std::is_trivially_destructible<bwOptional<TestUtilClasses::NoConstructors>>::value,
+                "");
+  static_assert(
+      !std::is_trivially_destructible<bwOptional<TestUtilClasses::NonTrivialConstructors>>::value,
+      "");
+  test_type<int>();
+  test_type<TestUtilClasses::NonTrivialConstructors>();
+  test_type<TestUtilClasses::ExplicitNonTrivialConstructors>();
 
-	TestUtilClasses::NonTrivialConstructors::reset();
-	{
-		bwOptional<TestUtilClasses::NonTrivialConstructors> lhs(30);
-		EXPECT_TRUE(lhs);
-		EXPECT_EQ(lhs->tot_int_ctor_calls, 1);
-		EXPECT_EQ(lhs->tot_instances, 1);
-		lhs.~bwOptional();
-		EXPECT_TRUE(lhs);
-		EXPECT_EQ(lhs->tot_instances, 0);
-	}
-	TestUtilClasses::NonTrivialConstructors::reset();
-	{
-		bwOptional<TestUtilClasses::NonTrivialConstructors> lhs(30);
-		EXPECT_TRUE(lhs);
-		EXPECT_EQ(TestUtilClasses::NonTrivialConstructors::tot_int_ctor_calls, 1);
-		EXPECT_EQ(TestUtilClasses::NonTrivialConstructors::tot_instances, 1);
-	}
-	EXPECT_EQ(TestUtilClasses::NonTrivialConstructors::tot_instances, 0);
+  TestUtilClasses::NonTrivialConstructors::reset();
+  {
+    bwOptional<TestUtilClasses::NonTrivialConstructors> lhs(30);
+    EXPECT_TRUE(lhs);
+    EXPECT_EQ(lhs->tot_int_ctor_calls, 1);
+    EXPECT_EQ(lhs->tot_instances, 1);
+    lhs.~bwOptional();
+    EXPECT_TRUE(lhs);
+    EXPECT_EQ(lhs->tot_instances, 0);
+  }
+  TestUtilClasses::NonTrivialConstructors::reset();
+  {
+    bwOptional<TestUtilClasses::NonTrivialConstructors> lhs(30);
+    EXPECT_TRUE(lhs);
+    EXPECT_EQ(TestUtilClasses::NonTrivialConstructors::tot_int_ctor_calls, 1);
+    EXPECT_EQ(TestUtilClasses::NonTrivialConstructors::tot_instances, 1);
+  }
+  EXPECT_EQ(TestUtilClasses::NonTrivialConstructors::tot_instances, 0);
 }

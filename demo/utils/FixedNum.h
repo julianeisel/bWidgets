@@ -25,17 +25,15 @@
 
 namespace bWidgetsDemo {
 
-struct F26p6
-{
-	using value_type = int;
-	static const int bits_number = 26;
-	static const int bits_fraction = 6;
+struct F26p6 {
+  using value_type = int;
+  static const int bits_number = 26;
+  static const int bits_fraction = 6;
 };
-struct F16p16
-{
-	using value_type = int;
-	static const int bits_number = 16;
-	static const int bits_fraction = 16;
+struct F16p16 {
+  using value_type = int;
+  static const int bits_number = 16;
+  static const int bits_fraction = 16;
 };
 
 /**
@@ -47,43 +45,43 @@ struct F16p16
  * (i.e. doing `val >> 16` instead of `val >> 6`). But using this type, such
  * mistakes either lead to compile errors or invoke proper conversion.
  */
-template<typename _Type>
-class FixedNum
-{
-public:
-	FixedNum() = default;
-	FixedNum(typename _Type::value_type _value) : value(_value) {}
+template<typename _Type> class FixedNum {
+ public:
+  FixedNum() = default;
+  FixedNum(typename _Type::value_type _value) : value(_value)
+  {
+  }
 
-	static_assert((_Type::bits_number + _Type::bits_fraction) <= (sizeof(typename _Type::value_type) * 8),
-	              "value_type of given fixed point type does not provide enough bits to "
-	              "store its number and fractional part.");
+  static_assert((_Type::bits_number + _Type::bits_fraction) <=
+                    (sizeof(typename _Type::value_type) * 8),
+                "value_type of given fixed point type does not provide enough bits to "
+                "store its number and fractional part.");
 
-	static FixedNum fromInt(typename _Type::value_type _value);
-	int toInt() const;
-	double toReal() const;
-	double getFractionAsReal() const;
-	FixedNum& round();
-	FixedNum& floor();
+  static FixedNum fromInt(typename _Type::value_type _value);
+  int toInt() const;
+  double toReal() const;
+  double getFractionAsReal() const;
+  FixedNum &round();
+  FixedNum &floor();
 
-	FixedNum& operator+=(const FixedNum&);
-	template<typename _OtherType>
-	operator FixedNum<_OtherType>() const;
+  FixedNum &operator+=(const FixedNum &);
+  template<typename _OtherType> operator FixedNum<_OtherType>() const;
 
-	friend FixedNum operator+(const FixedNum& lhs, const FixedNum& rhs)
-	{
-		return lhs.value + rhs.value;
-	}
-	friend FixedNum operator-(const FixedNum& lhs, const FixedNum& rhs)
-	{
-		return lhs.value - rhs.value;
-	}
-	friend bool operator>(const FixedNum& lhs, const FixedNum& rhs)
-	{
-		return lhs.value > rhs.value;
-	}
+  friend FixedNum operator+(const FixedNum &lhs, const FixedNum &rhs)
+  {
+    return lhs.value + rhs.value;
+  }
+  friend FixedNum operator-(const FixedNum &lhs, const FixedNum &rhs)
+  {
+    return lhs.value - rhs.value;
+  }
+  friend bool operator>(const FixedNum &lhs, const FixedNum &rhs)
+  {
+    return lhs.value > rhs.value;
+  }
 
-private:
-	typename _Type::value_type value{0};
+ private:
+  typename _Type::value_type value{0};
 };
 
-} // namespace bWidgetsDemo
+}  // namespace bWidgetsDemo

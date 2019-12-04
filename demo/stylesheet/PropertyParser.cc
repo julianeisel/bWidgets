@@ -31,91 +31,87 @@
 using namespace bWidgets;
 using namespace bWidgetsDemo;
 
-
-bwPtr<PropertyParser> PropertyParser::newFromPropertyType(bWidgets::bwStyleProperty::PropertyType type)
+bwPtr<PropertyParser> PropertyParser::newFromPropertyType(
+    bWidgets::bwStyleProperty::PropertyType type)
 {
-	switch (type) {
-		case bwStyleProperty::TYPE_BOOL:
-			return bwPtr_new<BooleanPropertyParser>();
-		case bwStyleProperty::TYPE_INTEGER:
-			return bwPtr_new<IntegerPropertyParser>();
-		case bwStyleProperty::TYPE_FLOAT:
-			return bwPtr_new<FloatPropertyParser>();
-		case bwStyleProperty::TYPE_COLOR:
-			return bwPtr_new<ColorPropertyParser>();
-		default:
-			return (assert(0), nullptr);
-	}
+  switch (type) {
+    case bwStyleProperty::TYPE_BOOL:
+      return bwPtr_new<BooleanPropertyParser>();
+    case bwStyleProperty::TYPE_INTEGER:
+      return bwPtr_new<IntegerPropertyParser>();
+    case bwStyleProperty::TYPE_FLOAT:
+      return bwPtr_new<FloatPropertyParser>();
+    case bwStyleProperty::TYPE_COLOR:
+      return bwPtr_new<ColorPropertyParser>();
+    default:
+      return (assert(0), nullptr);
+  }
 }
 
-void BooleanPropertyParser::parseIntoProperty(
-        bwStyleProperty& dest_property,
-        const KatanaValue& value) const
+void BooleanPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
+                                              const KatanaValue &value) const
 {
-	const std::string ident_value{value.string};
+  const std::string ident_value{value.string};
 
-	if (ident_value == "true") {
-		dest_property.setValue(true);
-	}
-	else if (ident_value == "false") {
-		dest_property.setValue(false);
-	}
-	else {
-		throw property_parsing_failure();
-	}
+  if (ident_value == "true") {
+    dest_property.setValue(true);
+  }
+  else if (ident_value == "false") {
+    dest_property.setValue(false);
+  }
+  else {
+    throw property_parsing_failure();
+  }
 }
 
-void IntegerPropertyParser::parseIntoProperty(
-        bwStyleProperty& dest_property,
-        const KatanaValue& value) const
+void IntegerPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
+                                              const KatanaValue &value) const
 {
-	dest_property.setValue((int)value.fValue); // iValue is not valid
+  dest_property.setValue((int)value.fValue);  // iValue is not valid
 }
 
-void FloatPropertyParser::parseIntoProperty(
-        bwStyleProperty& dest_property,
-        const KatanaValue& value) const
+void FloatPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
+                                            const KatanaValue &value) const
 {
-	dest_property.setValue((float)value.fValue);
+  dest_property.setValue((float)value.fValue);
 }
 
-bool ColorPropertyParser::canParseFunction(const std::string& function_name) const
+bool ColorPropertyParser::canParseFunction(const std::string &function_name) const
 {
-	return (function_name == "rgb(") || (function_name == "rgba(");
+  return (function_name == "rgb(") || (function_name == "rgba(");
 }
 
-bwColor ColorPropertyParser::parseFromFunction(const KatanaValue& value) const
+bwColor ColorPropertyParser::parseFromFunction(const KatanaValue &value) const
 {
-	if (!canParseFunction(value.function->name)) {
-		throw property_parsing_failure();
-	}
+  if (!canParseFunction(value.function->name)) {
+    throw property_parsing_failure();
+  }
 
-	{
-		bwColor color;
+  {
+    bwColor color;
 
-		for (unsigned int i = 0, color_index = 0; i < value.function->args->length; i++) {
-			auto* arg_value = (KatanaValue*)value.function->args->data[i];
+    for (unsigned int i = 0, color_index = 0; i < value.function->args->length; i++) {
+      auto *arg_value = (KatanaValue *)value.function->args->data[i];
 
-			if (arg_value->unit == KATANA_VALUE_PARSER_OPERATOR) {
-				continue;
-			}
-			assert(arg_value->unit == KATANA_VALUE_NUMBER);
-			color[color_index++] = arg_value->fValue / 255.0f;
-		}
+      if (arg_value->unit == KATANA_VALUE_PARSER_OPERATOR) {
+        continue;
+      }
+      assert(arg_value->unit == KATANA_VALUE_NUMBER);
+      color[color_index++] = arg_value->fValue / 255.0f;
+    }
 
-		return color;
-	}
+    return color;
+  }
 }
 
-void ColorPropertyParser::parseIntoProperty(
-        bwStyleProperty& dest_property,
-        const KatanaValue& value) const
+void ColorPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
+                                            const KatanaValue &value) const
 {
-	switch (value.unit) {
-		case KATANA_VALUE_PARSER_FUNCTION:
-			dest_property.setValue(parseFromFunction(value));
-			break;
-		default:
-			throw property_parsing_failure();
-	}
+  switch (value.unit) {
+    case KATANA_VALUE_PARSER_FUNCTION:
+      dest_property.setValue(parseFromFunction(value));
+      break;
+    default:
+      throw property_parsing_failure();
+  }
 }
