@@ -20,12 +20,12 @@ namespace bWidgets {
  */
 class bwRadioButton : public bwAbstractButton {
  public:
-  bwRadioButton(const std::string &text,
+  bwRadioButton(const std::string& text,
                 unsigned int width_hint = 0,
                 unsigned int height_hint = 0);
 
-  void mousePressEvent(const MouseButton button, const bwPoint &location) override;
-  void mouseReleaseEvent(const MouseButton button, const bwPoint &location) override;
+  void mousePressEvent(const MouseButton button, const bwPoint& location) override;
+  void mouseReleaseEvent(const MouseButton button, const bwPoint& location) override;
 
   bool canAlign() const override;
 };

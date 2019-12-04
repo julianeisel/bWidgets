@@ -9,7 +9,7 @@
 
 using namespace bWidgets;
 
-static void widget_base_style_checkbox_set(bwWidget &widget, bwWidgetBaseStyle &r_base_style)
+static void widget_base_style_checkbox_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
   r_base_style.background_color = 0.27451f;
   r_base_style.text_color = 0.0f;
@@ -25,7 +25,7 @@ static void widget_base_style_checkbox_set(bwWidget &widget, bwWidgetBaseStyle &
     std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
   }
 }
-static void widget_base_style_number_slider_set(bwWidget &widget, bwWidgetBaseStyle &r_base_style)
+static void widget_base_style_number_slider_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
   r_base_style.background_color = 0.6f;
   r_base_style.text_color = 0.0f;
@@ -40,7 +40,7 @@ static void widget_base_style_number_slider_set(bwWidget &widget, bwWidgetBaseSt
     r_base_style.text_color = 1.0f;
   }
 }
-static void widget_base_style_push_button_set(bwWidget &widget, bwWidgetBaseStyle &r_base_style)
+static void widget_base_style_push_button_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
   r_base_style.background_color = 0.6f;
   r_base_style.text_color = 0.0f;
@@ -56,7 +56,7 @@ static void widget_base_style_push_button_set(bwWidget &widget, bwWidgetBaseStyl
     std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
   }
 }
-static void widget_base_style_radio_button_set(bwWidget &widget, bwWidgetBaseStyle &r_base_style)
+static void widget_base_style_radio_button_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
   r_base_style.background_color = 0.27451f;
   r_base_style.text_color = 1.0f;
@@ -73,7 +73,7 @@ static void widget_base_style_radio_button_set(bwWidget &widget, bwWidgetBaseSty
     std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
   }
 }
-static void widget_base_style_scroll_bar_set(bwWidget &widget, bwWidgetBaseStyle &r_base_style)
+static void widget_base_style_scroll_bar_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
   r_base_style.background_color = bwColor(80u, 180u);
   r_base_style.text_color = 0.0f;
@@ -89,7 +89,7 @@ static void widget_base_style_scroll_bar_set(bwWidget &widget, bwWidgetBaseStyle
     r_base_style.text_color = 1.0f;
   }
 }
-static void widget_base_style_text_box_set(bwWidget &widget, bwWidgetBaseStyle &r_base_style)
+static void widget_base_style_text_box_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
   r_base_style.background_color = 0.6f;
   r_base_style.text_color = 0.0f;
@@ -104,20 +104,20 @@ static void widget_base_style_text_box_set(bwWidget &widget, bwWidgetBaseStyle &
     r_base_style.text_color = 1.0f;
   }
 }
-static void widget_base_style_panel_set(bwWidget & /*widget*/, bwWidgetBaseStyle &r_base_style)
+static void widget_base_style_panel_set(bwWidget& /*widget*/, bwWidgetBaseStyle& r_base_style)
 {
   r_base_style.background_color = 134u;
   r_base_style.border_color = 134u;
 }
 
-static void widget_style_properties_set_to_default(bwWidget &widget)
+static void widget_style_properties_set_to_default(bwWidget& widget)
 {
-  for (auto &property : widget.style_properties) {
+  for (auto& property : widget.style_properties) {
     property->setValueToDefault();
   }
 }
 
-static void widget_base_style_set(bwWidget &widget, bwWidgetBaseStyle &r_base_style)
+static void widget_base_style_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
   r_base_style.shade_top = r_base_style.shade_bottom = 0.0f;
 
@@ -152,20 +152,20 @@ bwStyleFlat::bwStyleFlat() : bwStyle(STYLE_FLAT_GREY)
 {
 }
 
-void bwStyleFlat::setWidgetStyle(bwWidget &widget)
+void bwStyleFlat::setWidgetStyle(bwWidget& widget)
 {
   bwOptional<std::reference_wrapper<bwWidgetBaseStyle>> base_style;
 
   polish(widget);
 
-  if (auto *button = widget_cast<bwAbstractButton *>(&widget)) {
+  if (auto* button = widget_cast<bwAbstractButton*>(&widget)) {
     button->base_style.roundbox_corners = button->rounded_corners;
     base_style = button->base_style;
   }
-  else if (auto *panel = widget_cast<bwPanel *>(&widget)) {
+  else if (auto* panel = widget_cast<bwPanel*>(&widget)) {
     base_style = panel->base_style;
   }
-  else if (auto *text_box = widget_cast<bwTextBox *>(&widget)) {
+  else if (auto* text_box = widget_cast<bwTextBox*>(&widget)) {
     text_box->base_style.roundbox_corners =
         RoundboxCorner::ALL;  // XXX Incorrect, should set this in layout.
     base_style = text_box->base_style;

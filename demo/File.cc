@@ -26,7 +26,7 @@
 
 using namespace bWidgetsDemo;
 
-File::File(const std::string &path, std::ios::openmode mode)
+File::File(const std::string& path, std::ios::openmode mode)
     : _path(path), _file_stream(path, mode)
 {
   assert(_file_stream.is_open());
@@ -45,7 +45,7 @@ std::string File::readIntoString()
   return string;
 }
 
-bool File::readBytes(char *bytes, const unsigned int num_bytes, bool reset_cursor)
+bool File::readBytes(char* bytes, const unsigned int num_bytes, bool reset_cursor)
 {
   assert(_file_stream.is_open());
   _file_stream.read(bytes, num_bytes);
@@ -56,7 +56,7 @@ bool File::readBytes(char *bytes, const unsigned int num_bytes, bool reset_curso
 }
 
 namespace bWidgetsDemo {
-std::ostream &operator<<(std::ostream &stream, const File &file)
+std::ostream& operator<<(std::ostream& stream, const File& file)
 {
   stream << file._path;
   return stream;

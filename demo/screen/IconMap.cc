@@ -66,7 +66,7 @@ IconMapReader::~IconMapReader()
   read_data.reset();
 }
 
-static bool icons_check_if_file_is_png(File &file)
+static bool icons_check_if_file_is_png(File& file)
 {
   const int num_header_bytes = 8;
   char header[num_header_bytes];
@@ -78,8 +78,8 @@ static bool icons_check_if_file_is_png(File &file)
   return false;
 }
 
-static void libpng_copy_rows_into_pixmap(Pixmap &pixmap,
-                                         const png_bytep *row_pointers,
+static void libpng_copy_rows_into_pixmap(Pixmap& pixmap,
+                                         const png_bytep* row_pointers,
                                          unsigned int position_x,
                                          unsigned int position_y)
 {
@@ -97,13 +97,13 @@ static void libpng_copy_rows_into_pixmap(Pixmap &pixmap,
 
 static void libpng_read_from_istream(png_structp png_ptr, png_bytep data, png_size_t length)
 {
-  File &file = *(File *)png_get_io_ptr(png_ptr);
-  if (!file.readBytes((char *)data, length, false)) {
+  File& file = *(File*)png_get_io_ptr(png_ptr);
+  if (!file.readBytes((char*)data, length, false)) {
     std::cout << "Error reading PNG" << std::endl;
   }
 }
 
-bwPtr<IconMap> IconMapReader::readIconMapFromPNGFile(File &file)
+bwPtr<IconMap> IconMapReader::readIconMapFromPNGFile(File& file)
 {
   if (!icons_check_if_file_is_png(file)) {
     std::cout << "Error: File is not a valid PNG (" << file << ")" << std::endl;
@@ -121,8 +121,8 @@ bwPtr<IconMap> IconMapReader::readIconMapFromPNGFile(File &file)
   const png_byte channels = png_get_channels(read_data->png_ptr, read_data->info_ptr);
   //	const png_byte color_type = png_get_color_type(read_data->png_ptr, read_data->info_ptr);
 
-  png_bytep *row_pointers;
-  row_pointers = (png_byte **)png_get_rows(read_data->png_ptr, read_data->info_ptr);
+  png_bytep* row_pointers;
+  row_pointers = (png_byte**)png_get_rows(read_data->png_ptr, read_data->info_ptr);
 
   assert((ICON_GRID_ROWS * (ICON_GRID_H + ICON_GRID_MARGIN) + (2 * ICON_GRID_MARGIN)) == height);
   // Icon image contains 46 pixels for category labels on the right side.
@@ -161,16 +161,16 @@ bool Icon::isValid() const
   return true;
 }
 
-Pixmap &Icon::getPixmap()
+Pixmap& Icon::getPixmap()
 {
   return _pixmap;
 }
-const Pixmap &Icon::getPixmap() const
+const Pixmap& Icon::getPixmap() const
 {
   return _pixmap;
 }
 
-Icon &IconMap::getIcon(unsigned int index)
+Icon& IconMap::getIcon(unsigned int index)
 {
   return *icons[index];
 }

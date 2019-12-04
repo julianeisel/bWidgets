@@ -265,7 +265,7 @@ TEST(bwOptional, operator_assign_value)
   }
   {
     int value = 3;
-    bwOptional<void *> opt;
+    bwOptional<void*> opt;
     opt = &value;
     EXPECT_TRUE(opt);
     EXPECT_EQ(*opt, &value);
@@ -459,7 +459,7 @@ TEST(bwOptional, operator_assign_convert_move)
  * Causes a linking error when trying to use address-of operator (&).
  */
 struct UndefinedAddressOfOperator {
-  constexpr UndefinedAddressOfOperator *operator&() const;
+  constexpr UndefinedAddressOfOperator* operator&() const;
   constexpr int foo() const
   {
     return 18;
@@ -474,7 +474,7 @@ TEST(bwOptional, operator_arrow_non_const)
   }
   {
     bwOptional<TestUtilClasses::SimpleFunction> opt;
-    ::testing::StaticAssertTypeEq<decltype(opt.operator->()), TestUtilClasses::SimpleFunction *>();
+    ::testing::StaticAssertTypeEq<decltype(opt.operator->()), TestUtilClasses::SimpleFunction*>();
   }
   {
     bwOptional<UndefinedAddressOfOperator> opt(in_place);
@@ -494,7 +494,7 @@ TEST(bwOptional, operator_arrow_const)
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunction> opt;
     ::testing::StaticAssertTypeEq<decltype(opt.operator->()),
-                                  const TestUtilClasses::SimpleFunction *>();
+                                  const TestUtilClasses::SimpleFunction*>();
   }
   {
     constexpr bwOptional<UndefinedAddressOfOperator> opt(in_place);
@@ -514,7 +514,7 @@ TEST(bwOptional, operator_dereference_lval_non_const)
   }
   {
     bwOptional<TestUtilClasses::SimpleFunction> opt;
-    ::testing::StaticAssertTypeEq<decltype(*opt), TestUtilClasses::SimpleFunction &>();
+    ::testing::StaticAssertTypeEq<decltype(*opt), TestUtilClasses::SimpleFunction&>();
   }
   {
     bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt;
@@ -529,7 +529,7 @@ TEST(bwOptional, operator_dereference_lval_const)
   }
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunction> opt;
-    ::testing::StaticAssertTypeEq<decltype(*opt), const TestUtilClasses::SimpleFunction &>();
+    ::testing::StaticAssertTypeEq<decltype(*opt), const TestUtilClasses::SimpleFunction&>();
   }
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt;
@@ -545,7 +545,7 @@ TEST(bwOptional, operator_dereference_rval_non_const)
   }
   {
     bwOptional<TestUtilClasses::SimpleFunction> opt;
-    ::testing::StaticAssertTypeEq<decltype(*std::move(opt)), TestUtilClasses::SimpleFunction &&>();
+    ::testing::StaticAssertTypeEq<decltype(*std::move(opt)), TestUtilClasses::SimpleFunction&&>();
   }
   {
     bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt;
@@ -562,7 +562,7 @@ TEST(bwOptional, operator_dereference_rval_const)
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunction> opt;
     ::testing::StaticAssertTypeEq<decltype(*std::move(opt)),
-                                  const TestUtilClasses::SimpleFunction &&>();
+                                  const TestUtilClasses::SimpleFunction&&>();
   }
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt;

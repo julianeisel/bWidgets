@@ -5,12 +5,12 @@
 
 using namespace bWidgets;
 
-bwCheckbox::bwCheckbox(const std::string &text, unsigned int width_hint, unsigned int height_hint)
+bwCheckbox::bwCheckbox(const std::string& text, unsigned int width_hint, unsigned int height_hint)
     : bwAbstractButton(text, WIDGET_TYPE_CHECKBOX, "bwCheckbox", width_hint, height_hint)
 {
 }
 
-void bwCheckbox::draw(bwStyle &style)
+void bwCheckbox::draw(bwStyle& style)
 {
   style.setWidgetStyle(*this);
 
@@ -34,7 +34,7 @@ void bwCheckbox::draw(bwStyle &style)
   painter.drawText(text, text_rect, base_style.text_alignment);
 }
 
-void bwCheckbox::mousePressEvent(const bwWidget::MouseButton button, const bwPoint & /*location*/)
+void bwCheckbox::mousePressEvent(const bwWidget::MouseButton button, const bwPoint& /*location*/)
 {
   if (button == MOUSE_BUTTON_LEFT) {
     state = (state == STATE_SUNKEN) ? STATE_HIGHLIGHTED : STATE_SUNKEN;
@@ -43,7 +43,7 @@ void bwCheckbox::mousePressEvent(const bwWidget::MouseButton button, const bwPoi
 }
 
 void bwCheckbox::mouseReleaseEvent(const bwWidget::MouseButton /*button*/,
-                                   const bwPoint & /*location*/)
+                                   const bwPoint& /*location*/)
 {
 }
 
@@ -63,7 +63,7 @@ bwRectanglePixel bwCheckbox::getCheckboxRectangle() const
   return checkbox_rect;
 }
 
-bwRectanglePixel bwCheckbox::getTextRectangle(const bwRectanglePixel &checkbox_rectangle) const
+bwRectanglePixel bwCheckbox::getTextRectangle(const bwRectanglePixel& checkbox_rectangle) const
 {
   bwRectanglePixel text_rect{rectangle};
   text_rect.xmin = checkbox_rectangle.xmax - 1;  // XXX -1 is ugly. Specifically for demo app.

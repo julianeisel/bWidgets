@@ -121,7 +121,7 @@ TEST(bwStyleProperties, iterate_empty)
 {
   bwStyleProperties properties;
 
-  for (const auto &property : properties) {
+  for (const auto& property : properties) {
     GTEST_FATAL_FAILURE_("Unexpected item in bwStyleProperties iterator.");
     (void)property;
   }
@@ -135,9 +135,9 @@ TEST(bwStyleProperties, iterate)
   properties.addFloat("test_float");
   properties.addColor("test_color");
 
-  for (const auto &property : properties) {
+  for (const auto& property : properties) {
     const bwStyleProperty::PropertyType property_type = property->getType();
-    const std::string &identifier = property->getIdentifier();
+    const std::string& identifier = property->getIdentifier();
 
     switch (property_type) {
       case bwStyleProperty::TYPE_BOOL:
@@ -167,7 +167,7 @@ TEST(bwStyleProperty, setValue_bool)
   bwStyleProperties properties;
   bool test_bool = true;
 
-  bwStyleProperty &property = properties.addBool("test_bool", test_bool);
+  bwStyleProperty& property = properties.addBool("test_bool", test_bool);
 
   property.setValue(false);
   EXPECT_FALSE(test_bool);
@@ -182,7 +182,7 @@ TEST(bwStyleProperty, setValue_integer)
   bwStyleProperties properties;
   int test_integer = 1;
 
-  bwStyleProperty &property = properties.addInteger("test_integer", test_integer);
+  bwStyleProperty& property = properties.addInteger("test_integer", test_integer);
 
   property.setValue(10);
   EXPECT_EQ(test_integer, 10);
@@ -198,7 +198,7 @@ TEST(bwStyleProperty, setValue_float)
   bwStyleProperties properties;
   float test_float = true;
 
-  bwStyleProperty &property = properties.addFloat("test_float", test_float);
+  bwStyleProperty& property = properties.addFloat("test_float", test_float);
 
   // Conversion from int to float based on property type not possible yet, so
   // have to explicitly pass as float.
@@ -216,7 +216,7 @@ TEST(bwStyleProperty, setValue_color)
   bwStyleProperties properties;
   bwColor test_color;
 
-  bwStyleProperty &property = properties.addColor("test_color", test_color);
+  bwStyleProperty& property = properties.addColor("test_color", test_color);
 
   property.setValue(bwColor(1.0f));
   EXPECT_EQ(test_color, bwColor(255u, 255u, 255u, 255u));
@@ -234,8 +234,8 @@ TEST(bwStyleProperty, setValue_from_other_property)
   int int_copy_to = 0;
   int int_copy_from = 42;
 
-  bwStyleProperty &property_copy_to = properties.addInteger("test_copy_to", int_copy_to);
-  bwStyleProperty &property_copy_from = properties.addInteger("test_copy_from", int_copy_from);
+  bwStyleProperty& property_copy_to = properties.addInteger("test_copy_to", int_copy_to);
+  bwStyleProperty& property_copy_from = properties.addInteger("test_copy_from", int_copy_from);
 
   property_copy_to.setValue(property_copy_from);
   EXPECT_EQ(int_copy_to, int_copy_from);
@@ -249,7 +249,7 @@ TEST(bwStyleProperty, setValue_from_self)
   bwStyleProperties properties;
   int test_integer = 42;
 
-  bwStyleProperty &property = properties.addInteger("test_integer", test_integer);
+  bwStyleProperty& property = properties.addInteger("test_integer", test_integer);
 
   property.setValue(property);
   EXPECT_EQ(test_integer, 42);
@@ -262,7 +262,7 @@ TEST(bwStyleProperty, setDefaultValue_bool_reference)
   bwStyleProperties properties;
   bool test_bool = true;
 
-  bwStyleProperty &property = properties.addBool("test_bool", test_bool);
+  bwStyleProperty& property = properties.addBool("test_bool", test_bool);
 
   property.setDefaultValue(false);
 
@@ -275,7 +275,7 @@ TEST(bwStyleProperty, setDefaultValue_integer_reference)
   bwStyleProperties properties;
   int test_integer = 42;
 
-  bwStyleProperty &property = properties.addInteger("test_integer", test_integer);
+  bwStyleProperty& property = properties.addInteger("test_integer", test_integer);
 
   property.setDefaultValue(123);
 
@@ -288,7 +288,7 @@ TEST(bwStyleProperty, setDefaultValue_float_reference)
   bwStyleProperties properties;
   float test_float = 42.0f;
 
-  bwStyleProperty &property = properties.addFloat("test_float", test_float);
+  bwStyleProperty& property = properties.addFloat("test_float", test_float);
 
   property.setDefaultValue(123.0f);
 
@@ -301,7 +301,7 @@ TEST(bwStyleProperty, setDefaultValue_color_reference)
   bwStyleProperties properties;
   bwColor test_color{0.8f};
 
-  bwStyleProperty &property = properties.addColor("test_color", test_color);
+  bwStyleProperty& property = properties.addColor("test_color", test_color);
 
   property.setDefaultValue(bwColor{0.3f});
 

@@ -9,14 +9,14 @@ class bwPanel : public bwWidget {
  public:
   bwPanel(std::string label, unsigned int header_height_hint);
 
-  void draw(class bwStyle &style) override;
+  void draw(class bwStyle& style) override;
 
   void registerProperties() override;
-  void mousePressEvent(const MouseButton button, const bwPoint &location) override;
+  void mousePressEvent(const MouseButton button, const bwPoint& location) override;
 
-  const std::string *getLabel() const override;
+  const std::string* getLabel() const override;
 
-  bool isCoordinateInsideHeader(const bwPoint &point) const;
+  bool isCoordinateInsideHeader(const bwPoint& point) const;
   unsigned int getHeaderHeightHint() const;
   unsigned int header_height;
 
@@ -26,7 +26,7 @@ class bwPanel : public bwWidget {
   } panel_state{PANEL_OPEN};
 
  private:
-  void drawHeader(class bwStyle &style) const;
+  void drawHeader(class bwStyle& style) const;
   bwRectanglePixel getHeaderRectangle() const;
 
   std::string label;

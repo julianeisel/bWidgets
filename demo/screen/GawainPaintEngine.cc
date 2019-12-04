@@ -36,13 +36,13 @@ extern "C" {
 using namespace bWidgetsDemo;
 using namespace bWidgets;  // less verbose
 
-GawainPaintEngine::GawainPaintEngine(Font &font, IconMap &icon_map)
+GawainPaintEngine::GawainPaintEngine(Font& font, IconMap& icon_map)
     : font(font), icon_map(icon_map)
 {
 }
 
-void GawainPaintEngine::setupViewport(const bwRectanglePixel &rect,
-                                      const bWidgets::bwColor &clear_color)
+void GawainPaintEngine::setupViewport(const bwRectanglePixel& rect,
+                                      const bWidgets::bwColor& clear_color)
 {
   glViewport(rect.xmin, rect.ymin, rect.width(), rect.height());
   glScissor(rect.xmin, rect.ymin, rect.width(), rect.height());
@@ -67,7 +67,7 @@ static const float jit[WIDGET_AA_JITTER][2] = {{0.468813, -0.481430},
                                                {-0.272855, 0.269918},
                                                {0.095909, 0.388710}};
 
-static PrimitiveType stage_polygon_drawtype_convert(const bwPainter::DrawType &drawtype)
+static PrimitiveType stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype)
 {
   switch (drawtype) {
     case bwPainter::DRAW_TYPE_FILLED:
@@ -81,28 +81,28 @@ static PrimitiveType stage_polygon_drawtype_convert(const bwPainter::DrawType &d
   return PRIM_NONE;
 }
 
-static void stage_polygon_draw_uniform_color(const bwPolygon &poly,
-                                             const bwColor &color,
+static void stage_polygon_draw_uniform_color(const bwPolygon& poly,
+                                             const bwColor& color,
                                              const PrimitiveType type,
                                              const unsigned int attr_pos)
 {
-  const bwPointVec &vertices = poly.getVertices();
+  const bwPointVec& vertices = poly.getVertices();
 
   immUniformColor4fv(color);
 
   immBegin(type, vertices.size());
-  for (const bwPoint &vertex : vertices) {
+  for (const bwPoint& vertex : vertices) {
     immVertex2f(attr_pos, vertex.x, vertex.y);
   }
   immEnd();
 }
-static void stage_polygon_draw_shaded(const bwPainter &painter,
-                                      const bwPolygon &poly,
+static void stage_polygon_draw_shaded(const bwPainter& painter,
+                                      const bwPolygon& poly,
                                       const PrimitiveType type,
                                       const unsigned int attr_pos,
                                       const unsigned int attr_color)
 {
-  const bwPointVec &vertices = poly.getVertices();
+  const bwPointVec& vertices = poly.getVertices();
 
   immBegin(type, vertices.size());
   for (int i = 0; i < vertices.size(); i++) {
@@ -111,9 +111,9 @@ static void stage_polygon_draw_shaded(const bwPainter &painter,
   }
   immEnd();
 }
-static void stage_polygon_draw(const bwPainter &painter,
-                               const bwPolygon &poly,
-                               const bwColor &color,
+static void stage_polygon_draw(const bwPainter& painter,
+                               const bwPolygon& poly,
+                               const bwColor& color,
                                const PrimitiveType type,
                                const unsigned int attr_pos,
                                const unsigned int attr_color)
@@ -126,14 +126,14 @@ static void stage_polygon_draw(const bwPainter &painter,
   }
 }
 
-void GawainPaintEngine::drawPolygon(const bwPainter &painter, const bwPolygon &poly)
+void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& poly)
 {
   const bool is_shaded = painter.isGradientEnabled();
-  ShaderProgram &shader_program = ShaderProgram::getShaderProgram(
+  ShaderProgram& shader_program = ShaderProgram::getShaderProgram(
       is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
-  const bwColor &color = painter.getActiveColor();
+  const bwColor& color = painter.getActiveColor();
   PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype);
-  VertexFormat *format = immVertexFormat();
+  VertexFormat* format = immVertexFormat();
   unsigned int attr_pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
   unsigned int attr_color = is_shaded ?
                                 VertexFormat_add_attrib(format, "color", COMP_F32, 4, KEEP_FLOAT) :
@@ -149,7 +149,7 @@ void GawainPaintEngine::drawPolygon(const bwPainter &painter, const bwPolygon &p
 
     drawcolor[3] /= WIDGET_AA_JITTER;
 
-    for (const float *i : jit) {
+    for (const float* i : jit) {
       gpuTranslate2f(i);
       stage_polygon_draw(painter, poly, drawcolor, prim_type, attr_pos, attr_color);
       gpuTranslate2f(-i[0], -i[1]);
@@ -166,9 +166,9 @@ void GawainPaintEngine::drawPolygon(const bwPainter &painter, const bwPolygon &p
 // --------------------------------------------------------------------
 // Text Drawing
 
-static float stage_text_xpos_calc(Font &font,
-                                  const std::string &text,
-                                  const bwRectanglePixel &rectangle,
+static float stage_text_xpos_calc(Font& font,
+                                  const std::string& text,
+                                  const bwRectanglePixel& rectangle,
                                   const TextAlignment alignment)
 {
   int value = 0;
@@ -189,9 +189,9 @@ static float stage_text_xpos_calc(Font &font,
   return value;
 }
 
-void GawainPaintEngine::drawText(const bwPainter &painter,
-                                 const std::string &text,
-                                 const bwRectanglePixel &rectangle,
+void GawainPaintEngine::drawText(const bwPainter& painter,
+                                 const std::string& text,
+                                 const bwRectanglePixel& rectangle,
                                  const TextAlignment alignment)
 {
   const float font_height = font.getSize();
@@ -206,10 +206,10 @@ void GawainPaintEngine::drawText(const bwPainter &painter,
 // --------------------------------------------------------------------
 // Icon Drawing
 
-static void engine_icon_texture_draw(const bwRectanglePixel &icon_rect)
+static void engine_icon_texture_draw(const bwRectanglePixel& icon_rect)
 {
-  ShaderProgram &shader_program = ShaderProgram::getShaderProgram(ShaderProgram::ID_TEXTURE_RECT);
-  VertexFormat *format = immVertexFormat();
+  ShaderProgram& shader_program = ShaderProgram::getShaderProgram(ShaderProgram::ID_TEXTURE_RECT);
+  VertexFormat* format = immVertexFormat();
   unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
   unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
 
@@ -238,7 +238,7 @@ static void engine_icon_texture_draw(const bwRectanglePixel &icon_rect)
 /**
  * Enables necessary GL states, generates and binds the texture.
  */
-static void engine_icon_texture_drawing_prepare(const Pixmap &pixmap)
+static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap)
 {
   GLuint texture_id;
 
@@ -273,9 +273,9 @@ static void engine_icon_texture_drawing_cleanup()
  * Makes \a icon_rect use dimensions of \a icon, but centers it and clips it
  * within \a bounds.
  */
-static void engine_icon_rectangle_adjust(bwRectanglePixel &icon_rect,
-                                         const bwRectanglePixel &bounds,
-                                         const Pixmap &pixmap)
+static void engine_icon_rectangle_adjust(bwRectanglePixel& icon_rect,
+                                         const bwRectanglePixel& bounds,
+                                         const Pixmap& pixmap)
 {
   const int xmin = std::max(bounds.centerX() - (pixmap.width() / 2) + 4, bounds.xmin);
   const int ymin = std::max(bounds.centerY() - (pixmap.height() / 2) + 1, bounds.ymin);
@@ -286,12 +286,12 @@ static void engine_icon_rectangle_adjust(bwRectanglePixel &icon_rect,
                 std::min(pixmap.height(), bounds.height()));
 }
 
-void GawainPaintEngine::drawIcon(const bwPainter & /*painter*/,
-                                 const bwIconInterface &icon_interface,
-                                 const bwRectanglePixel &rectangle)
+void GawainPaintEngine::drawIcon(const bwPainter& /*painter*/,
+                                 const bwIconInterface& icon_interface,
+                                 const bwRectanglePixel& rectangle)
 {
-  const auto &icon = static_cast<const Icon &>(icon_interface);
-  const Pixmap &pixmap = icon.getPixmap();
+  const auto& icon = static_cast<const Icon&>(icon_interface);
+  const Pixmap& pixmap = icon.getPixmap();
   bwRectanglePixel icon_rect;
 
   engine_icon_rectangle_adjust(icon_rect, rectangle, pixmap);

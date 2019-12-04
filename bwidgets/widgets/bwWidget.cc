@@ -15,20 +15,20 @@ bwWidget::bwWidget(const WidgetType type,
 {
 }
 
-bool bwWidget::isCoordinateInside(const bwPoint &point) const
+bool bwWidget::isCoordinateInside(const bwPoint& point) const
 {
   return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-void bwWidget::mousePressEvent(const MouseButton /*button*/, const bwPoint & /*location*/)
+void bwWidget::mousePressEvent(const MouseButton /*button*/, const bwPoint& /*location*/)
 {
 }
 
-void bwWidget::mouseReleaseEvent(const MouseButton /*button*/, const bwPoint & /*location*/)
+void bwWidget::mouseReleaseEvent(const MouseButton /*button*/, const bwPoint& /*location*/)
 {
 }
 
-void bwWidget::mouseClickEvent(const MouseButton /*button*/, const bwPoint & /*location*/)
+void bwWidget::mouseClickEvent(const MouseButton /*button*/, const bwPoint& /*location*/)
 {
 }
 
@@ -44,12 +44,12 @@ void bwWidget::mouseLeave()
 {
 }
 
-const std::string &bwWidget::getIdentifier() const
+const std::string& bwWidget::getIdentifier() const
 {
   return identifier;
 }
 
-const std::string *bwWidget::getLabel() const
+const std::string* bwWidget::getLabel() const
 {
   return nullptr;
 }

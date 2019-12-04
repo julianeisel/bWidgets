@@ -74,11 +74,11 @@ using namespace bWidgetsDemo;
 
 ShaderProgram::ShaderProgramCache ShaderProgram::cache;
 
-static unsigned int shaderprog_compileShader(const std::string &shader_str,
-                                             const ShaderType &shader_type)
+static unsigned int shaderprog_compileShader(const std::string& shader_str,
+                                             const ShaderType& shader_type)
 {
   GLuint shader_id = glCreateShader(shader_type.gl_id);
-  const char *shader_c_str = shader_str.c_str();
+  const char* shader_c_str = shader_str.c_str();
 
   glShaderSource(shader_id, 1, &shader_c_str, nullptr);
   glCompileShader(shader_id);
@@ -101,7 +101,7 @@ static unsigned int shaderprog_compileShader(const std::string &shader_str,
   return shader_id;
 }
 
-static unsigned int shaderprog_linkProgram(const ShaderProgram::ShaderIDArray &shader_ids)
+static unsigned int shaderprog_linkProgram(const ShaderProgram::ShaderIDArray& shader_ids)
 {
   unsigned int program_id = glCreateProgram();
 
@@ -128,7 +128,7 @@ static unsigned int shaderprog_linkProgram(const ShaderProgram::ShaderIDArray &s
   return program_id;
 }
 
-static ShaderProgram::ShaderIDArray shaderprog_compileShaders(ShaderProgramType &type)
+static ShaderProgram::ShaderIDArray shaderprog_compileShaders(ShaderProgramType& type)
 {
   ShaderProgram::ShaderIDArray shader_ids;
 
@@ -144,7 +144,7 @@ static ShaderProgram::ShaderIDArray shaderprog_compileShaders(ShaderProgramType 
 
 ShaderProgram::ShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 {
-  ShaderProgramType &type = shader_program_types[shader_program_id];
+  ShaderProgramType& type = shader_program_types[shader_program_id];
 
   shader_ids = shaderprog_compileShaders(type);
   programID = shaderprog_linkProgram(shader_ids);
@@ -160,7 +160,7 @@ ShaderProgram::~ShaderProgram()
   glDeleteProgram(programID);
 }
 
-ShaderProgram &ShaderProgram::getShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
+ShaderProgram& ShaderProgram::getShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 {
   if (!cache[shader_program_id]) {
     cache[shader_program_id] = bWidgets::bwPtr<ShaderProgram>(
@@ -175,7 +175,7 @@ unsigned int ShaderProgram::ProgramID() const
   return programID;
 }
 
-const ShaderInterface &ShaderProgram::getInterface() const
+const ShaderInterface& ShaderProgram::getInterface() const
 {
   return *interface;
 }

@@ -29,7 +29,7 @@
 using namespace bWidgets;
 using namespace bWidgetsDemo;
 
-Window::Window(const std::string &name, unsigned int size_x, unsigned int size_y)
+Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y)
     : width(size_x), height(size_y)
 {
   //	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -98,7 +98,7 @@ void Window::handleResizeEvent(const int new_win_x, const int new_win_y)
   stage->handleWindowResizeEvent(*this);
 }
 
-GLFWwindow &Window::getGlfwWindow() const
+GLFWwindow& Window::getGlfwWindow() const
 {
   return *glfw_window;
 }

@@ -32,7 +32,7 @@ class bwWidget;
 
 namespace bWidgetsDemo {
 
-void resolveScreenGraphNodeLayout(bWidgets::bwScreenGraph::Node &node,
+void resolveScreenGraphNodeLayout(bWidgets::bwScreenGraph::Node& node,
                                   const float vertical_scroll,
                                   const float scale_fac);
 
@@ -54,8 +54,8 @@ void resolveScreenGraphNodeLayout(bWidgets::bwScreenGraph::Node &node,
  *       calculated widget-coordinates don't change.
  */
 class LayoutItem : public bWidgets::bwLayoutInterface {
-  friend int getNodeWidth(const bWidgets::bwScreenGraph::Node &);
-  friend int getNodeHeight(const bWidgets::bwScreenGraph::Node &);
+  friend int getNodeWidth(const bWidgets::bwScreenGraph::Node&);
+  friend int getNodeHeight(const bWidgets::bwScreenGraph::Node&);
 
  public:
   enum LayoutItemType {
@@ -75,8 +75,8 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
 
   virtual ~LayoutItem() = default;
 
-  virtual void resolve(bWidgets::bwScreenGraph::Node::ChildList *chilren,
-                       const bWidgets::bwPoint &layout_pos,
+  virtual void resolve(bWidgets::bwScreenGraph::Node::ChildList* chilren,
+                       const bWidgets::bwPoint& layout_pos,
                        const unsigned int item_margin,
                        const float scale_fac);
 
@@ -97,15 +97,15 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
 
   int width{0}, height{0};
 
-  static void resolvePanelContents(bWidgets::bwScreenGraph::Node &panel_node,
-                                   const bWidgets::bwPoint &panel_pos,
+  static void resolvePanelContents(bWidgets::bwScreenGraph::Node& panel_node,
+                                   const bWidgets::bwPoint& panel_pos,
                                    const unsigned int padding,
                                    const unsigned int item_margin,
                                    const float scale_fac);
 
  private:
-  unsigned int countRowColumns(const bWidgets::bwScreenGraph::Node::ChildList &children) const;
-  unsigned int countNeededMargins(const bWidgets::bwScreenGraph::Node::ChildList &children) const;
+  unsigned int countRowColumns(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
+  unsigned int countNeededMargins(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
 };
 
 /**
@@ -123,7 +123,7 @@ class RootLayout : public LayoutItem {
       const unsigned int max_size,
       const bool align = false);
 
-  void resolve(bWidgets::bwScreenGraph::Node::ChildList &children,
+  void resolve(bWidgets::bwScreenGraph::Node::ChildList& children,
                const float vertical_scroll,
                const float scale_fac);
   void setMaxSize(const unsigned int max_size);

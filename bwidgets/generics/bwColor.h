@@ -10,20 +10,20 @@ class bwColor {
   bwColor(unsigned int rgb, unsigned int alpha = 255);
   bwColor();
 
-  bwColor &shade(float rgb_shade, float alpha_shade = 0.0f);
-  bwColor &shade(unsigned int rgb_shade, unsigned int alpha_shade = 0.0f);
+  bwColor& shade(float rgb_shade, float alpha_shade = 0.0f);
+  bwColor& shade(unsigned int rgb_shade, unsigned int alpha_shade = 0.0f);
 
   void setColor(float red, float green, float blue, float alpha = 1.0f);
   void setColor(float rgb, float alpha = 1.0f);
   void setColor(const float rgba[4]);
-  const float *getColor() const;
-  bwColor &operator=(const float *rgb);
-  bwColor &operator=(const bwColor &other_color);
+  const float* getColor() const;
+  bwColor& operator=(const float* rgb);
+  bwColor& operator=(const bwColor& other_color);
 
-  bool operator==(const bwColor &compare_color) const;
-  float &operator[](const int index);
+  bool operator==(const bwColor& compare_color) const;
+  float& operator[](const int index);
   // Implicit conversion to float*
-  operator const float *() const;
+  operator const float*() const;
 
  private:
   enum Component {

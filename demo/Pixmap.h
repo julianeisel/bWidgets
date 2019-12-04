@@ -33,10 +33,10 @@ class Pixmap {
          const unsigned int bits_per_channel = 8,
          const unsigned int row_padding = 0);
 
-  void fill(const unsigned char *bytes);
+  void fill(const unsigned char* bytes);
 
-  std::vector<unsigned char> &getBytes();
-  const std::vector<unsigned char> &getBytes() const;
+  std::vector<unsigned char>& getBytes();
+  const std::vector<unsigned char>& getBytes() const;
   int width() const;
   int height() const;
   unsigned int getBitDepth() const;

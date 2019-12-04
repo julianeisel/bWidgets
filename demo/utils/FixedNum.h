@@ -61,21 +61,21 @@ template<typename _Type> class FixedNum {
   int toInt() const;
   double toReal() const;
   double getFractionAsReal() const;
-  FixedNum &round();
-  FixedNum &floor();
+  FixedNum& round();
+  FixedNum& floor();
 
-  FixedNum &operator+=(const FixedNum &);
+  FixedNum& operator+=(const FixedNum&);
   template<typename _OtherType> operator FixedNum<_OtherType>() const;
 
-  friend FixedNum operator+(const FixedNum &lhs, const FixedNum &rhs)
+  friend FixedNum operator+(const FixedNum& lhs, const FixedNum& rhs)
   {
     return lhs.value + rhs.value;
   }
-  friend FixedNum operator-(const FixedNum &lhs, const FixedNum &rhs)
+  friend FixedNum operator-(const FixedNum& lhs, const FixedNum& rhs)
   {
     return lhs.value - rhs.value;
   }
-  friend bool operator>(const FixedNum &lhs, const FixedNum &rhs)
+  friend bool operator>(const FixedNum& lhs, const FixedNum& rhs)
   {
     return lhs.value > rhs.value;
   }

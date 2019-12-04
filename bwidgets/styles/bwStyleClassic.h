@@ -8,8 +8,8 @@ class bwStyleClassic : public bwStyle {
  public:
   bwStyleClassic();
 
-  void setWidgetStyle(class bwWidget &widget) override;
-  void polish(bwWidget &) override
+  void setWidgetStyle(class bwWidget& widget) override;
+  void polish(bwWidget&) override
   {
   }
 };

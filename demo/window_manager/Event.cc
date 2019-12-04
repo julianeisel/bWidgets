@@ -32,7 +32,7 @@ bWidgets::bwWidget::MouseButton MouseEvent::last_down_button =
 
 MouseEvent::MouseEvent(MouseEventType type,
                        bWidgets::bwWidget::MouseButton _button,
-                       const bWidgets::bwPoint &_location)
+                       const bWidgets::bwPoint& _location)
     : type(type)
 {
   if (type == MOUSE_EVENT_PRESS) {
@@ -71,11 +71,11 @@ MouseEvent::MouseEventType MouseEvent::getType() const
 
 bWidgets::bwDistance MouseEvent::getDragDistance() const
 {
-  EventManager &manager = EventManager::ensureEventManager();
+  EventManager& manager = EventManager::ensureEventManager();
   return manager.isDragging() ? location - last_down_location : 0;
 }
 
-const bWidgets::bwPoint &MouseEvent::getMouseLocation()
+const bWidgets::bwPoint& MouseEvent::getMouseLocation()
 {
   return location;
 }

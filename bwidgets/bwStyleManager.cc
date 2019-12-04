@@ -9,7 +9,7 @@
 
 using namespace bWidgets;
 
-bwStyleManager &bwStyleManager::getStyleManager()
+bwStyleManager& bwStyleManager::getStyleManager()
 {
   static bwStyleManager instance;
   return instance;
@@ -51,7 +51,7 @@ void bwStyleManager::registerDefaultStyleTypes()
   builtin_style_types[bwStyle::STYLE_FLAT_LIGHT].name = "Flat Light (CSS)";
 }
 
-const bwStyleManager::StyleTypeArray &bwStyleManager::getBuiltinStyleTypes() const
+const bwStyleManager::StyleTypeArray& bwStyleManager::getBuiltinStyleTypes() const
 {
   return builtin_style_types;
 }

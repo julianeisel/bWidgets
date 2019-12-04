@@ -7,7 +7,7 @@ using namespace bWidgets;
 
 bwAbstractButton::bwAbstractButton(std::string text,
                                    const WidgetType type,
-                                   const std::string &identifier,
+                                   const std::string& identifier,
                                    const unsigned int width_hint,
                                    const unsigned int height_hint)
     : bwWidget(type, identifier, width_hint, height_hint),
@@ -17,7 +17,7 @@ bwAbstractButton::bwAbstractButton(std::string text,
   initialize();
 }
 
-void bwAbstractButton::draw(bwStyle &style)
+void bwAbstractButton::draw(bwStyle& style)
 {
   style.setWidgetStyle(*this);
 
@@ -39,7 +39,7 @@ void bwAbstractButton::registerProperties()
 }
 
 void bwAbstractButton::mousePressEvent(const bwWidget::MouseButton button,
-                                       const bwPoint & /*location*/)
+                                       const bwPoint& /*location*/)
 {
   if (button == MOUSE_BUTTON_LEFT) {
     state = STATE_SUNKEN;
@@ -47,7 +47,7 @@ void bwAbstractButton::mousePressEvent(const bwWidget::MouseButton button,
 }
 
 void bwAbstractButton::mouseReleaseEvent(const bwWidget::MouseButton button,
-                                         const bwPoint & /*location*/)
+                                         const bwPoint& /*location*/)
 {
   if ((button == MOUSE_BUTTON_LEFT) && (state == STATE_SUNKEN)) {
     state = STATE_NORMAL;
@@ -68,12 +68,12 @@ void bwAbstractButton::mouseLeave()
   }
 }
 
-const std::string *bwAbstractButton::getLabel() const
+const std::string* bwAbstractButton::getLabel() const
 {
   return &text;
 }
 
-const bwIconInterface *bwAbstractButton::getIcon() const
+const bwIconInterface* bwAbstractButton::getIcon() const
 {
   return nullptr;
 }

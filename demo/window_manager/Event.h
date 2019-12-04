@@ -49,7 +49,7 @@ class MouseEvent : Event {
 
   MouseEvent(MouseEventType type,
              bWidgets::bwWidget::MouseButton button,
-             const bWidgets::bwPoint &location);
+             const bWidgets::bwPoint& location);
 
   bool isClick() const;
 
@@ -57,7 +57,7 @@ class MouseEvent : Event {
   MouseEventType getType() const;
   bWidgets::bwDistance getDragDistance() const;
 
-  static const bWidgets::bwPoint &getMouseLocation();
+  static const bWidgets::bwPoint& getMouseLocation();
 
  private:
   MouseEventType type;

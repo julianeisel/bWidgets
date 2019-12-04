@@ -23,8 +23,8 @@ class bwStyle {
   {
   }
 
-  virtual void setWidgetStyle(class bwWidget &widget) = 0;
-  virtual void polish(class bwWidget &widget) = 0;
+  virtual void setWidgetStyle(class bwWidget& widget) = 0;
+  virtual void polish(class bwWidget& widget) = 0;
 
   float dpi_fac{1.0f};
 

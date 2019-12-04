@@ -14,7 +14,7 @@ bwLabel::bwLabel(std::string text, unsigned int width_hint, unsigned int height_
   initialize();
 }
 
-void bwLabel::draw(bwStyle &style)
+void bwLabel::draw(bwStyle& style)
 {
   bwPainter painter;
   style.setWidgetStyle(*this);
@@ -29,12 +29,12 @@ void bwLabel::registerProperties()
   style_properties.addColor("color", text_color);
 }
 
-const std::string *bwLabel::getLabel() const
+const std::string* bwLabel::getLabel() const
 {
   return &text;
 }
 
-bwLabel &bwLabel::setIcon(const bwIconInterface &icon_interface)
+bwLabel& bwLabel::setIcon(const bwIconInterface& icon_interface)
 {
   icon = &icon_interface;
   return *this;

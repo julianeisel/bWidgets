@@ -42,7 +42,7 @@ namespace bWidgetsDemo {
 
 class MatrixStack {
  public:
-  MatrixStack(const glm::mat4 &top_mat = glm::mat4{})
+  MatrixStack(const glm::mat4& top_mat = glm::mat4{})
   {
     stack[top] = top_mat;
   }
@@ -108,20 +108,20 @@ static glm::mat4 gpuGetNormalMatrix()
   return normal_mat;
 }
 
-void gpuBindMatrices(const ShaderInterface *shaderface)
+void gpuBindMatrices(const ShaderInterface* shaderface)
 {
   /* set uniform values to matrix stack values
    * call this before a draw call if desired matrices are dirty
    * call glUseProgram before this, as glUniform expects program to be bound
    */
 
-  const ShaderInput *MV = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MODELVIEW);
-  const ShaderInput *P = ShaderInterface_builtin_uniform(shaderface, UNIFORM_PROJECTION);
-  const ShaderInput *MVP = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MVP);
+  const ShaderInput* MV = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MODELVIEW);
+  const ShaderInput* P = ShaderInterface_builtin_uniform(shaderface, UNIFORM_PROJECTION);
+  const ShaderInput* MVP = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MVP);
 
-  const ShaderInput *N = ShaderInterface_builtin_uniform(shaderface, UNIFORM_NORMAL);
-  const ShaderInput *MV_inv = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MODELVIEW_INV);
-  const ShaderInput *P_inv = ShaderInterface_builtin_uniform(shaderface, UNIFORM_PROJECTION_INV);
+  const ShaderInput* N = ShaderInterface_builtin_uniform(shaderface, UNIFORM_NORMAL);
+  const ShaderInput* MV_inv = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MODELVIEW_INV);
+  const ShaderInput* P_inv = ShaderInterface_builtin_uniform(shaderface, UNIFORM_PROJECTION_INV);
 
   if (MV) {
 #if DEBUG_MATRIX_BIND
@@ -175,7 +175,7 @@ bool gpuMatricesDirty(void)
   return state.dirty;
 }
 
-static void gpuMultMatrix(const glm::mat4 &m)
+static void gpuMultMatrix(const glm::mat4& m)
 {
   ModelView *= m;
   state.dirty = true;
@@ -197,7 +197,7 @@ void gpuTranslate2f(const float vec[2])
 }
 
 static void mat4_ortho_set(
-    glm::mat4 &m, float left, float right, float bottom, float top, float near, float far)
+    glm::mat4& m, float left, float right, float bottom, float top, float near, float far)
 {
   m[0][0] = 2.0f / (right - left);
   m[1][0] = 0.0f;

@@ -29,7 +29,7 @@
 
 using namespace bWidgetsDemo;
 
-static void wm_glfw_error_callback(int /* error */, const char *description)
+static void wm_glfw_error_callback(int /* error */, const char* description)
 {
   std::cout << "Error: " << description << std::endl;
 }
@@ -44,7 +44,7 @@ WindowManager::WindowManager() : event_manager(EventManager::ensureEventManager(
   //	GPU_init(); // needs context, so delay until window creation
 }
 
-WindowManager &WindowManager::getWindowManager()
+WindowManager& WindowManager::getWindowManager()
 {
   static WindowManager instance;
   return instance;
@@ -69,7 +69,7 @@ WindowManager::WindowManagerAction WindowManager::processEvents()
 
 void WindowManager::drawWindows()
 {
-  for (Window &win : windows) {
+  for (Window& win : windows) {
     win.draw();
   }
 }
@@ -81,7 +81,7 @@ void WindowManager::mainLoop()
   }
 }
 
-Window &WindowManager::addWindow(std::string name)
+Window& WindowManager::addWindow(std::string name)
 {
   windows.emplace_back(name);
   if (windows.size() == 1) {
@@ -91,12 +91,12 @@ Window &WindowManager::addWindow(std::string name)
   return windows.back();
 }
 
-void WindowManager::removeWindow(Window &win)
+void WindowManager::removeWindow(Window& win)
 {
   windows.remove(win);
 }
 
-const bool WindowManager::isMainWindow(const Window &win) const
+const bool WindowManager::isMainWindow(const Window& win) const
 {
   return win == *main_win;
 }

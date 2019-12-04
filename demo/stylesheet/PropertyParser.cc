@@ -48,8 +48,8 @@ bwPtr<PropertyParser> PropertyParser::newFromPropertyType(
   }
 }
 
-void BooleanPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
-                                              const KatanaValue &value) const
+void BooleanPropertyParser::parseIntoProperty(bwStyleProperty& dest_property,
+                                              const KatanaValue& value) const
 {
   const std::string ident_value{value.string};
 
@@ -64,24 +64,24 @@ void BooleanPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
   }
 }
 
-void IntegerPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
-                                              const KatanaValue &value) const
+void IntegerPropertyParser::parseIntoProperty(bwStyleProperty& dest_property,
+                                              const KatanaValue& value) const
 {
   dest_property.setValue((int)value.fValue);  // iValue is not valid
 }
 
-void FloatPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
-                                            const KatanaValue &value) const
+void FloatPropertyParser::parseIntoProperty(bwStyleProperty& dest_property,
+                                            const KatanaValue& value) const
 {
   dest_property.setValue((float)value.fValue);
 }
 
-bool ColorPropertyParser::canParseFunction(const std::string &function_name) const
+bool ColorPropertyParser::canParseFunction(const std::string& function_name) const
 {
   return (function_name == "rgb(") || (function_name == "rgba(");
 }
 
-bwColor ColorPropertyParser::parseFromFunction(const KatanaValue &value) const
+bwColor ColorPropertyParser::parseFromFunction(const KatanaValue& value) const
 {
   if (!canParseFunction(value.function->name)) {
     throw property_parsing_failure();
@@ -91,7 +91,7 @@ bwColor ColorPropertyParser::parseFromFunction(const KatanaValue &value) const
     bwColor color;
 
     for (unsigned int i = 0, color_index = 0; i < value.function->args->length; i++) {
-      auto *arg_value = (KatanaValue *)value.function->args->data[i];
+      auto* arg_value = (KatanaValue*)value.function->args->data[i];
 
       if (arg_value->unit == KATANA_VALUE_PARSER_OPERATOR) {
         continue;
@@ -104,8 +104,8 @@ bwColor ColorPropertyParser::parseFromFunction(const KatanaValue &value) const
   }
 }
 
-void ColorPropertyParser::parseIntoProperty(bwStyleProperty &dest_property,
-                                            const KatanaValue &value) const
+void ColorPropertyParser::parseIntoProperty(bwStyleProperty& dest_property,
+                                            const KatanaValue& value) const
 {
   switch (value.unit) {
     case KATANA_VALUE_PARSER_FUNCTION:

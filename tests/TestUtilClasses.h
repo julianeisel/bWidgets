@@ -20,7 +20,7 @@ class SimpleFunctionWithVariants {
     CONST_RREF,
     NON_CONST_RREF,
   };
-  constexpr RefType foo() const &
+  constexpr RefType foo() const&
   {
     return CONST_LREF;
   }
@@ -28,7 +28,7 @@ class SimpleFunctionWithVariants {
   {
     return NON_CONST_LREF;
   }
-  constexpr RefType foo() const &&
+  constexpr RefType foo() const&&
   {
     return CONST_RREF;
   }
@@ -46,10 +46,10 @@ class ConstexprConstructors {
   constexpr ConstexprConstructors(int value) : _value(value)
   {
   }
-  constexpr ConstexprConstructors(const ConstexprConstructors &) = default;
-  constexpr ConstexprConstructors(ConstexprConstructors &&) = default;
+  constexpr ConstexprConstructors(const ConstexprConstructors&) = default;
+  constexpr ConstexprConstructors(ConstexprConstructors&&) = default;
 
-  constexpr bool operator==(const ConstexprConstructors &other)
+  constexpr bool operator==(const ConstexprConstructors& other)
   {
     return this->_value == other._value;
   }
@@ -58,8 +58,8 @@ class ConstexprConstructors {
 class NoConstructors {
  public:
   NoConstructors() = delete;
-  NoConstructors(const NoConstructors &) = delete;
-  NoConstructors &operator=(const NoConstructors &) = delete;
+  NoConstructors(const NoConstructors&) = delete;
+  NoConstructors& operator=(const NoConstructors&) = delete;
 };
 
 /**
@@ -88,13 +88,13 @@ class NonTrivialConstructors {
     tot_int_ctor_calls++;
     tot_instances++;
   }
-  NonTrivialConstructors(const NonTrivialConstructors &other)
+  NonTrivialConstructors(const NonTrivialConstructors& other)
   {
     _value = other._value;
     tot_copy_ctor_calls++;
     tot_instances++;
   }
-  NonTrivialConstructors(NonTrivialConstructors &&other)
+  NonTrivialConstructors(NonTrivialConstructors&& other)
   {
     _value = other._value;
     other._value = -1;
@@ -107,7 +107,7 @@ class NonTrivialConstructors {
     tot_instances--;
   }
 
-  NonTrivialConstructors &operator=(const NonTrivialConstructors &) = default;
+  NonTrivialConstructors& operator=(const NonTrivialConstructors&) = default;
 
   static void reset_constructors()
   {
@@ -134,28 +134,28 @@ class NoCopyConstructor : public NonTrivialConstructors {
   using NonTrivialConstructors::NonTrivialConstructors;
 
   NoCopyConstructor() = default;
-  NoCopyConstructor(const NoCopyConstructor &) = delete;
-  NoCopyConstructor(NoCopyConstructor &&) = default;
+  NoCopyConstructor(const NoCopyConstructor&) = delete;
+  NoCopyConstructor(NoCopyConstructor&&) = default;
 };
 class NoMoveConstructor : public NonTrivialConstructors {
  public:
   using NonTrivialConstructors::NonTrivialConstructors;
 
   NoMoveConstructor() = default;
-  NoMoveConstructor(const NoMoveConstructor &) = default;
-  NoMoveConstructor(NoMoveConstructor &&) = delete;
+  NoMoveConstructor(const NoMoveConstructor&) = default;
+  NoMoveConstructor(NoMoveConstructor&&) = delete;
 };
 class NoCopyAssignmentOperator {
  public:
   // Just delete copy-assign op, don't inherit from NonTrivialConstructors or
   // default the constructors. Can be added if needed.
-  NoCopyAssignmentOperator &operator=(const NoCopyAssignmentOperator &) = delete;
+  NoCopyAssignmentOperator& operator=(const NoCopyAssignmentOperator&) = delete;
 };
 class NoMoveAssignmentOperator {
  public:
   // Just delete move-assign op, don't inherit from NonTrivialConstructors or
   // default the constructors. Can be added if needed.
-  NoMoveAssignmentOperator &operator=(NoMoveAssignmentOperator &&) = delete;
+  NoMoveAssignmentOperator& operator=(NoMoveAssignmentOperator&&) = delete;
 };
 
 class ExplicitConstructibleFromInt : public NonTrivialConstructors {
@@ -170,8 +170,8 @@ class ExplicitNonTrivialConstructors : public NonTrivialConstructors {
   using NonTrivialConstructors::NonTrivialConstructors;
 
   explicit ExplicitNonTrivialConstructors() = default;
-  explicit ExplicitNonTrivialConstructors(const ExplicitNonTrivialConstructors &) = default;
-  explicit ExplicitNonTrivialConstructors(ExplicitNonTrivialConstructors &&) = default;
+  explicit ExplicitNonTrivialConstructors(const ExplicitNonTrivialConstructors&) = default;
+  explicit ExplicitNonTrivialConstructors(ExplicitNonTrivialConstructors&&) = default;
 };
 
 class CustomSwap {
@@ -180,7 +180,7 @@ class CustomSwap {
   {
     tot_int_ctor_calls++;
   }
-  CustomSwap(CustomSwap &&other) : _value(other._value)
+  CustomSwap(CustomSwap&& other) : _value(other._value)
   {
     tot_move_ctor_calls++;
   }
@@ -188,7 +188,7 @@ class CustomSwap {
   {
     tot_dtor_calls++;
   }
-  friend void swap(CustomSwap &a, CustomSwap &b)
+  friend void swap(CustomSwap& a, CustomSwap& b)
   {
     std::swap(a._value, b._value);
     tot_swap_calls++;

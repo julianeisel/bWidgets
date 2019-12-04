@@ -41,8 +41,8 @@ class Icon : public bWidgets::bwIconInterface {
 
   bool isValid() const override;
 
-  Pixmap &getPixmap();  // TODO should get rid of this.
-  const Pixmap &getPixmap() const;
+  Pixmap& getPixmap();  // TODO should get rid of this.
+  const Pixmap& getPixmap() const;
 
  private:
   Pixmap _pixmap;
@@ -52,7 +52,7 @@ class IconMap {
   friend class IconMapReader;
 
  public:
-  Icon &getIcon(unsigned int index);
+  Icon& getIcon(unsigned int index);
   ~IconMap() = default;
 
  private:
@@ -66,7 +66,7 @@ class IconMapReader {
   IconMapReader();
   ~IconMapReader();
 
-  bWidgets::bwPtr<IconMap> readIconMapFromPNGFile(class File &);
+  bWidgets::bwPtr<IconMap> readIconMapFromPNGFile(class File&);
 
  private:
   bWidgets::bwPtr<IconReadData> read_data;

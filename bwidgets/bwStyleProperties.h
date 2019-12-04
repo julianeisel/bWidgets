@@ -44,16 +44,16 @@ class bwStyleProperty {
   void setValue(bool);
   void setValue(int);
   void setValue(float);
-  void setValue(const class bwColor &);
-  void setValue(const bwStyleProperty &);
+  void setValue(const class bwColor&);
+  void setValue(const bwStyleProperty&);
   void setValueToDefault();
 
   void setDefaultValue(bool);
   void setDefaultValue(int);
   void setDefaultValue(float);
-  void setDefaultValue(const class bwColor &);
+  void setDefaultValue(const class bwColor&);
 
-  const std::string &getIdentifier() const;
+  const std::string& getIdentifier() const;
   PropertyType getType() const;
 
  private:
@@ -77,18 +77,18 @@ class bwStyleProperties {
   // Store properties as pointer, they are actually created as bwStylePropertyInternal instances.
   using PropertyList = std::vector<bwPtr<bwStyleProperty>>;
 
-  bwStyleProperty &addBool(const std::string &name, bool &reference);
-  bwStyleProperty &addBool(const std::string &name);
-  bwStyleProperty &addInteger(const std::string &name, int &reference);
-  bwStyleProperty &addInteger(const std::string &name);
-  bwStyleProperty &addFloat(const std::string &name, float &reference);
-  bwStyleProperty &addFloat(const std::string &name);
-  bwStyleProperty &addColor(const std::string &name, class bwColor &reference);
-  bwStyleProperty &addColor(const std::string &name);
-  bwStyleProperty &addProperty(const std::string &name,
+  bwStyleProperty& addBool(const std::string& name, bool& reference);
+  bwStyleProperty& addBool(const std::string& name);
+  bwStyleProperty& addInteger(const std::string& name, int& reference);
+  bwStyleProperty& addInteger(const std::string& name);
+  bwStyleProperty& addFloat(const std::string& name, float& reference);
+  bwStyleProperty& addFloat(const std::string& name);
+  bwStyleProperty& addColor(const std::string& name, class bwColor& reference);
+  bwStyleProperty& addColor(const std::string& name);
+  bwStyleProperty& addProperty(const std::string& name,
                                const bwStyleProperty::PropertyType prop_type);
 
-  bwOptional<std::reference_wrapper<const bwStyleProperty>> lookup(const std::string &name) const;
+  bwOptional<std::reference_wrapper<const bwStyleProperty>> lookup(const std::string& name) const;
 
   using iterator = PropertyList::iterator;
   iterator begin();

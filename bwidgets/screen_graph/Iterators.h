@@ -25,23 +25,23 @@ namespace bwScreenGraph {
 class PreOrderIterator {
  public:
   PreOrderIterator();
-  PreOrderIterator(Node &node);
+  PreOrderIterator(Node& node);
 
   // Delete copy but keep move constructor for now. We store a parent path
   // below which would require deep copying. So prefer move over copy.
-  PreOrderIterator(const PreOrderIterator &) = delete;
-  PreOrderIterator(PreOrderIterator &&) = default;
+  PreOrderIterator(const PreOrderIterator&) = delete;
+  PreOrderIterator(PreOrderIterator&&) = default;
 
-  bool operator!=(const PreOrderIterator &) const;
-  Node &operator*();
-  PreOrderIterator &operator++();
+  bool operator!=(const PreOrderIterator&) const;
+  Node& operator*();
+  PreOrderIterator& operator++();
 
  private:
   union {
-    Node *node;
+    Node* node;
     Node::ChildList::iterator node_iter;
   };
-  Node *root;
+  Node* root;
   bool is_root = true;
   // Ancestors up to (but excluding!) node that started iteration.
   std::list<Node::ChildList::iterator> ancestors;
@@ -52,8 +52,8 @@ class PreOrderIterator {
 
 /* PreOrderIterator is the default iterator (implicitly chosen when passing a
  * node as range-expression for range-based foor loops) */
-PreOrderIterator begin(Node &);
-PreOrderIterator end(Node &);
+PreOrderIterator begin(Node&);
+PreOrderIterator end(Node&);
 
 }  // namespace bwScreenGraph
 }  // namespace bWidgets

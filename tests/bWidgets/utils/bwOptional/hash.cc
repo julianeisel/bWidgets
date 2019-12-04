@@ -23,7 +23,7 @@ struct B {
 namespace std {
 
 template<> struct hash<B> {
-  size_t operator()(const B &)
+  size_t operator()(const B&)
   {
     return 0;
   }
@@ -40,11 +40,11 @@ template<typename To> struct ConvertibleToSimple {
 
 template<class To> struct ConvertibleTo {
   To to{};
-  operator To &() &
+  operator To&() &
   {
     return to;
   }
-  operator To const &() const &
+  operator To const&() const&
   {
     return to;
   }
@@ -52,7 +52,7 @@ template<class To> struct ConvertibleTo {
   {
     return std::move(to);
   }
-  operator To const &&() const &&
+  operator To const &&() const&&
   {
     return std::move(to);
   }
@@ -72,7 +72,7 @@ template<typename T> constexpr bool can_hash()
   return can_hash<T>(0);
 }
 
-template<class Hash, class Key, class InputKey> void test_hash_enabled(InputKey const &key)
+template<class Hash, class Key, class InputKey> void test_hash_enabled(InputKey const& key)
 {
   static_assert(std::is_destructible<Hash>::value, "");
   // Enabled hash requirements
@@ -83,27 +83,27 @@ template<class Hash, class Key, class InputKey> void test_hash_enabled(InputKey 
   static_assert(std::is_move_assignable<Hash>::value, "");
 
   // Hashable requirements
-  static_assert(can_hash<Hash(Key &)>(), "");
-  static_assert(can_hash<Hash(Key const &)>(), "");
+  static_assert(can_hash<Hash(Key&)>(), "");
+  static_assert(can_hash<Hash(Key const&)>(), "");
   static_assert(can_hash<Hash(Key &&)>(), "");
-  static_assert(can_hash<Hash const &(Key &)>(), "");
-  static_assert(can_hash<Hash const &(Key const &)>(), "");
-  static_assert(can_hash<Hash const &(Key &&)>(), "");
+  static_assert(can_hash<Hash const&(Key&)>(), "");
+  static_assert(can_hash<Hash const&(Key const&)>(), "");
+  static_assert(can_hash<Hash const&(Key &&)>(), "");
 
-  static_assert(can_hash<Hash(ConvertibleToSimple<Key> &)>(), "");
-  static_assert(can_hash<Hash(ConvertibleToSimple<Key> const &)>(), "");
+  static_assert(can_hash<Hash(ConvertibleToSimple<Key>&)>(), "");
+  static_assert(can_hash<Hash(ConvertibleToSimple<Key> const&)>(), "");
   static_assert(can_hash<Hash(ConvertibleToSimple<Key> &&)>(), "");
 
-  static_assert(can_hash<Hash(ConvertibleTo<Key> &)>(), "");
-  static_assert(can_hash<Hash(ConvertibleTo<Key> const &)>(), "");
+  static_assert(can_hash<Hash(ConvertibleTo<Key>&)>(), "");
+  static_assert(can_hash<Hash(ConvertibleTo<Key> const&)>(), "");
   static_assert(can_hash<Hash(ConvertibleTo<Key> &&)>(), "");
-  static_assert(can_hash<Hash(ConvertibleTo<Key> const &&)>(), "");
+  static_assert(can_hash<Hash(ConvertibleTo<Key> const&&)>(), "");
 
   const Hash h{};
   EXPECT_EQ(h(key), h(key));
 }
 template<class T, class InputKey = T>
-void test_hash_enabled_for_type(InputKey const &key = InputKey{})
+void test_hash_enabled_for_type(InputKey const& key = InputKey{})
 {
   return test_hash_enabled<std::hash<T>, T, InputKey>(key);
 }
@@ -123,21 +123,21 @@ template<class Hash, class Key> void test_hash_disabled()
       "");
 
   // Hashable requirements
-  static_assert(!can_hash<Hash(Key &)>(), "");
-  static_assert(!can_hash<Hash(Key const &)>(), "");
+  static_assert(!can_hash<Hash(Key&)>(), "");
+  static_assert(!can_hash<Hash(Key const&)>(), "");
   static_assert(!can_hash<Hash(Key &&)>(), "");
-  static_assert(!can_hash<Hash const &(Key &)>(), "");
-  static_assert(!can_hash<Hash const &(Key const &)>(), "");
-  static_assert(!can_hash<Hash const &(Key &&)>(), "");
+  static_assert(!can_hash<Hash const&(Key&)>(), "");
+  static_assert(!can_hash<Hash const&(Key const&)>(), "");
+  static_assert(!can_hash<Hash const&(Key &&)>(), "");
 
-  static_assert(!can_hash<Hash(ConvertibleToSimple<Key> &)>(), "");
-  static_assert(!can_hash<Hash(ConvertibleToSimple<Key> const &)>(), "");
+  static_assert(!can_hash<Hash(ConvertibleToSimple<Key>&)>(), "");
+  static_assert(!can_hash<Hash(ConvertibleToSimple<Key> const&)>(), "");
   static_assert(!can_hash<Hash(ConvertibleToSimple<Key> &&)>(), "");
 
-  static_assert(!can_hash<Hash(ConvertibleTo<Key> &)>(), "");
-  static_assert(!can_hash<Hash(ConvertibleTo<Key> const &)>(), "");
+  static_assert(!can_hash<Hash(ConvertibleTo<Key>&)>(), "");
+  static_assert(!can_hash<Hash(ConvertibleTo<Key> const&)>(), "");
   static_assert(!can_hash<Hash(ConvertibleTo<Key> &&)>(), "");
-  static_assert(!can_hash<Hash(ConvertibleTo<Key> const &&)>(), "");
+  static_assert(!can_hash<Hash(ConvertibleTo<Key> const&&)>(), "");
 }
 template<class T> void test_hash_disabled_for_type()
 {
@@ -169,9 +169,9 @@ TEST(bwOptional, hash)
   }
   {
     test_hash_enabled_for_type<bwOptional<int>>();
-    test_hash_enabled_for_type<bwOptional<int *>>();
+    test_hash_enabled_for_type<bwOptional<int*>>();
     test_hash_enabled_for_type<bwOptional<const int>>();
-    test_hash_enabled_for_type<bwOptional<int *const>>();
+    test_hash_enabled_for_type<bwOptional<int* const>>();
 
     test_hash_disabled_for_type<bwOptional<A>>();
     test_hash_disabled_for_type<bwOptional<const A>>();

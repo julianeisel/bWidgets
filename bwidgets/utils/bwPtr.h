@@ -19,7 +19,7 @@ template<typename... T> struct always_false {
  * to bWidgets' \link bWidgets::bwPtr_new bwPtr_new().
  */
 template<typename _PointerType, typename... _Args>
-inline constexpr std::unique_ptr<_PointerType> make_unique(_Args &&...)
+inline constexpr std::unique_ptr<_PointerType> make_unique(_Args&&...)
 {
   static_assert(always_false<_Args...>::value,
                 "Error: `std::make_unique()` is not available in C++11 and shouldn't be "
@@ -66,7 +66,7 @@ template<typename _PointerType> using bwPtr = std::unique_ptr<_PointerType>;
  * \endcode
  */
 template<typename _PointerType, typename... _Args>
-inline bwPtr<_PointerType> bwPtr_new(_Args &&... args)
+inline bwPtr<_PointerType> bwPtr_new(_Args&&... args)
 {
   return bwPtr<_PointerType>(new _PointerType(std::forward<_Args>(args)...));
 }

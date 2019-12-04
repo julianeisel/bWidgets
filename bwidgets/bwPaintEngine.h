@@ -42,7 +42,7 @@ class bwPaintEngine {
    * \param rect The rectangle defining the viewport location and size.
    * \param clear_color Color to be used for buffer clearing.
    */
-  virtual void setupViewport(const bwRectanglePixel &rect, const class bwColor &clear_color) = 0;
+  virtual void setupViewport(const bwRectanglePixel& rect, const class bwColor& clear_color) = 0;
 
   /**
    * The main polygon draw function which is used to draw all geometry of
@@ -50,16 +50,16 @@ class bwPaintEngine {
    * \param painter Provides all aditional information needed for drawing
    *                (color, draw-style, etc.).
    */
-  virtual void drawPolygon(const class bwPainter &painter, const class bwPolygon &polygon) = 0;
+  virtual void drawPolygon(const class bwPainter& painter, const class bwPolygon& polygon) = 0;
   /**
    * The main text draw function which is used to draw all text of widgets.
    * \param painter Provides all aditional information needed for drawing
    *                (color, draw-style, etc.).
    * \param rect The bounding-box to draw the text into.
    */
-  virtual void drawText(const class bwPainter &painter,
-                        const std::string &text,
-                        const bwRectanglePixel &rect,
+  virtual void drawText(const class bwPainter& painter,
+                        const std::string& text,
+                        const bwRectanglePixel& rect,
                         const TextAlignment alignment) = 0;
   /**
    * Draw the icon referenced by \a icon_interface.
@@ -67,9 +67,9 @@ class bwPaintEngine {
    *                (e.g. color for theme controlled monochrome icons etc.).
    * \param rect The bounding-box to draw the icon into.
    */
-  virtual void drawIcon(const class bwPainter &painter,
-                        const class bwIconInterface &icon_interface,
-                        const bwRectanglePixel &rect) = 0;
+  virtual void drawIcon(const class bwPainter& painter,
+                        const class bwIconInterface& icon_interface,
+                        const bwRectanglePixel& rect) = 0;
 };
 
 }  // namespace bWidgets

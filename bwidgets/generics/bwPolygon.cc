@@ -6,7 +6,7 @@
 
 using namespace bWidgets;
 
-bwPolygon::bwPolygon(const bwPointVec &vertices) : vertices(vertices), vert_count(vertices.size())
+bwPolygon::bwPolygon(const bwPointVec& vertices) : vertices(vertices), vert_count(vertices.size())
 {
 }
 
@@ -31,12 +31,12 @@ void bwPolygon::reserve(const unsigned int count)
   vertices.reserve(count);
 }
 
-const bwPointVec &bwPolygon::getVertices() const
+const bwPointVec& bwPolygon::getVertices() const
 {
   return vertices;
 }
 
-bwPoint &bwPolygon::operator[](const unsigned int index)
+bwPoint& bwPolygon::operator[](const unsigned int index)
 {
   return vertices[index];
 }

@@ -20,7 +20,7 @@ TEST(bwOptional, make_optional_implicit)
   {
     int arr[10];
     ((void)arr);
-    ::testing::StaticAssertTypeEq<decltype(make_optional(arr)), bwOptional<int *>>();
+    ::testing::StaticAssertTypeEq<decltype(make_optional(arr)), bwOptional<int*>>();
   }
   {
     constexpr auto opt = make_optional(2);
@@ -76,7 +76,7 @@ class TestT {
       : x(*il.begin()), size(static_cast<int>(il.size()))
   {
   }
-  constexpr TestT(std::initializer_list<int> il, const int *)
+  constexpr TestT(std::initializer_list<int> il, const int*)
       : x(*il.begin()), size(static_cast<int>(il.size()))
   {
   }

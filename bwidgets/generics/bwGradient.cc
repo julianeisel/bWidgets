@@ -7,7 +7,7 @@
 
 using namespace bWidgets;
 
-bwGradient::bwGradient(const bwColor &base_color,
+bwGradient::bwGradient(const bwColor& base_color,
                        float shade_begin,
                        float shade_end,
                        Direction direction)
@@ -19,8 +19,8 @@ bwGradient::bwGradient(const bwColor &base_color,
   end.shade(shade_end);
 }
 
-bwColor bwGradient::calcPointColor(const bwPoint &point,
-                                   const bwRectanglePixel &bounding_box) const
+bwColor bwGradient::calcPointColor(const bwPoint& point,
+                                   const bwRectanglePixel& bounding_box) const
 {
   const float pos_fac = (direction == bwGradient::DIRECTION_TOP_BOTTOM) ?
                             ((point.y - bounding_box.ymin) / (float)bounding_box.height()) :

@@ -36,7 +36,7 @@ TEST(bwOptional, value_lval_non_const)
   {
     bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt;
     ::testing::StaticAssertTypeEq<decltype(opt.value()),
-                                  TestUtilClasses::SimpleFunctionWithVariants &>();
+                                  TestUtilClasses::SimpleFunctionWithVariants&>();
   }
   {
     bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt(in_place);
@@ -56,7 +56,7 @@ TEST(bwOptional, value_lval_const)
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt;
     ::testing::StaticAssertTypeEq<decltype(opt.value()),
-                                  const TestUtilClasses::SimpleFunctionWithVariants &>();
+                                  const TestUtilClasses::SimpleFunctionWithVariants&>();
   }
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt(in_place);
@@ -77,7 +77,7 @@ TEST(bwOptional, value_rval_non_const)
   {
     bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt;
     ::testing::StaticAssertTypeEq<decltype(std::move(opt).value()),
-                                  TestUtilClasses::SimpleFunctionWithVariants &&>();
+                                  TestUtilClasses::SimpleFunctionWithVariants&&>();
   }
   {
     bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt(in_place);
@@ -98,7 +98,7 @@ TEST(bwOptional, value_rval_const)
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt;
     ::testing::StaticAssertTypeEq<decltype(std::move(opt).value()),
-                                  const TestUtilClasses::SimpleFunctionWithVariants &&>();
+                                  const TestUtilClasses::SimpleFunctionWithVariants&&>();
   }
   {
     constexpr bwOptional<TestUtilClasses::SimpleFunctionWithVariants> opt(in_place);
@@ -466,7 +466,7 @@ template<typename _T> void emplace_test_with_type()
 
   {
     _T::reset_constructors();
-    _T &value = opt.emplace();
+    _T& value = opt.emplace();
 
     EXPECT_EQ(_T::tot_default_ctor_calls, 1);
     EXPECT_EQ(_T::tot_dtor_calls, 0);
@@ -477,9 +477,9 @@ template<typename _T> void emplace_test_with_type()
   }
   {
     _T::reset_constructors();
-    auto &value = opt.emplace();
+    auto& value = opt.emplace();
 
-    ::testing::StaticAssertTypeEq<_T &, decltype(value)>();
+    ::testing::StaticAssertTypeEq<_T&, decltype(value)>();
     EXPECT_EQ(_T::tot_instances, 1);
     EXPECT_EQ(_T::tot_default_ctor_calls, 1);
     EXPECT_EQ(_T::tot_dtor_calls, 1);
@@ -489,9 +489,9 @@ template<typename _T> void emplace_test_with_type()
   }
   {
     _T::reset_constructors();
-    auto &value = opt.emplace(42);
+    auto& value = opt.emplace(42);
 
-    ::testing::StaticAssertTypeEq<_T &, decltype(value)>();
+    ::testing::StaticAssertTypeEq<_T&, decltype(value)>();
     EXPECT_EQ(_T::tot_instances, 1);
     EXPECT_EQ(_T::tot_default_ctor_calls, 0);
     EXPECT_EQ(_T::tot_int_ctor_calls, 1);
@@ -518,9 +518,9 @@ TEST(bwOptional, emplace)
     };
     {
       bwOptional<MultiArg> opt;
-      auto &value = opt.emplace(5, 6, 7);
+      auto& value = opt.emplace(5, 6, 7);
 
-      ::testing::StaticAssertTypeEq<MultiArg &, decltype(value)>();
+      ::testing::StaticAssertTypeEq<MultiArg&, decltype(value)>();
       EXPECT_EQ(value._x, 5);
       EXPECT_EQ(value._y, 6);
       EXPECT_EQ(value._z, 7);
@@ -529,7 +529,7 @@ TEST(bwOptional, emplace)
 
   {
     bwOptional<const int> opt;
-    const int &value = opt.emplace(3);
+    const int& value = opt.emplace(3);
     EXPECT_EQ(*opt, 3);
     EXPECT_EQ(*opt, value);
     opt.emplace();
@@ -560,8 +560,8 @@ TEST(bwOptional, emplace_with_init_list)
     bwOptional<InitListConstructible> opt(in_place);
 
     EXPECT_EQ(InitListConstructible::tot_ctor_calls, 0);
-    auto &value = opt.emplace<int>({9, 2});
-    ::testing::StaticAssertTypeEq<InitListConstructible &, decltype(value)>();
+    auto& value = opt.emplace<int>({9, 2});
+    ::testing::StaticAssertTypeEq<InitListConstructible&, decltype(value)>();
     EXPECT_EQ(InitListConstructible::tot_ctor_calls, 1);
     EXPECT_EQ(opt->_a, 9);
     EXPECT_EQ(opt->_b, 2);
@@ -569,9 +569,9 @@ TEST(bwOptional, emplace_with_init_list)
   }
   {
     bwOptional<std::vector<int>> opt;
-    auto &value = opt.emplace({3, 4, 5}, std::allocator<int>());
+    auto& value = opt.emplace({3, 4, 5}, std::allocator<int>());
 
-    ::testing::StaticAssertTypeEq<std::vector<int> &, decltype(value)>();
+    ::testing::StaticAssertTypeEq<std::vector<int>&, decltype(value)>();
     EXPECT_TRUE(opt);
     EXPECT_EQ(*opt, std::vector<int>({3, 4, 5}));
     EXPECT_EQ(&value, &*opt);

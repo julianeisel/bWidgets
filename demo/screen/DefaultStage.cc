@@ -48,37 +48,37 @@ namespace bWidgetsDemo {
 
 class ScaleSetter : public bwFunctorInterface {
  public:
-  ScaleSetter(const bwNumberSlider &);
+  ScaleSetter(const bwNumberSlider&);
   void operator()() override;
 
  private:
-  const bwNumberSlider &numslider;
+  const bwNumberSlider& numslider;
 };
 
 class StyleSetter : public bwFunctorInterface {
  public:
-  StyleSetter(DefaultStage &stage, const bwStyle::StyleType &style_type);
-  static bool updateStyleButton(bwWidget &, DefaultStage &);
+  StyleSetter(DefaultStage& stage, const bwStyle::StyleType& style_type);
+  static bool updateStyleButton(bwWidget&, DefaultStage&);
   void operator()() override;
 
  private:
-  DefaultStage &stage;
-  const bwStyle::StyleType &style_type;
+  DefaultStage& stage;
+  const bwStyle::StyleType& style_type;
 };
 
 class UseCSSVersionToggleSetter : public bwFunctorInterface {
  public:
-  UseCSSVersionToggleSetter(const bwCheckbox &, DefaultStage &);
+  UseCSSVersionToggleSetter(const bwCheckbox&, DefaultStage&);
   void operator()() override;
 
  private:
-  const bwCheckbox &checkbox;
-  DefaultStage &stage;
+  const bwCheckbox& checkbox;
+  DefaultStage& stage;
 };
 
 class UseFontTightPlacementToggleSetter : public bwFunctorInterface {
  public:
-  UseFontTightPlacementToggleSetter(const bwCheckbox &_checkbox) : checkbox(_checkbox)
+  UseFontTightPlacementToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox)
   {
   }
 
@@ -88,12 +88,12 @@ class UseFontTightPlacementToggleSetter : public bwFunctorInterface {
   }
 
  private:
-  const bwCheckbox &checkbox;
+  const bwCheckbox& checkbox;
 };
 
 class UseFontHintingToggleSetter : public bwFunctorInterface {
  public:
-  UseFontHintingToggleSetter(const bwCheckbox &_checkbox) : checkbox(_checkbox)
+  UseFontHintingToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox)
   {
   }
 
@@ -103,12 +103,12 @@ class UseFontHintingToggleSetter : public bwFunctorInterface {
   }
 
  private:
-  const bwCheckbox &checkbox;
+  const bwCheckbox& checkbox;
 };
 
 class UseFontSubPixelPositioningToggleSetter : public bwFunctorInterface {
  public:
-  UseFontSubPixelPositioningToggleSetter(const bwCheckbox &_checkbox) : checkbox(_checkbox)
+  UseFontSubPixelPositioningToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox)
   {
   }
 
@@ -118,12 +118,12 @@ class UseFontSubPixelPositioningToggleSetter : public bwFunctorInterface {
   }
 
  private:
-  const bwCheckbox &checkbox;
+  const bwCheckbox& checkbox;
 };
 
 class UseFontSubPixelsToggleSetter : public bwFunctorInterface {
  public:
-  UseFontSubPixelsToggleSetter(const bwCheckbox &_checkbox, Stage &_stage)
+  UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox, Stage& _stage)
       : checkbox(_checkbox), stage(_stage)
   {
   }
@@ -132,13 +132,13 @@ class UseFontSubPixelsToggleSetter : public bwFunctorInterface {
   {
     Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE :
                                                           Font::NORMAL_COVERAGE);
-    for (bwScreenGraph::Node &node : stage.screen_graph) {
-      bwWidget *widget = node.Widget();
+    for (bwScreenGraph::Node& node : stage.screen_graph) {
+      bwWidget* widget = node.Widget();
       if (!widget) {
         continue;
       }
-      if (auto *iter_checkbox = widget_cast<bwCheckbox *>(widget)) {
-        if (iter_checkbox->apply_functor && dynamic_cast<UseFontSubPixelPositioningToggleSetter *>(
+      if (auto* iter_checkbox = widget_cast<bwCheckbox*>(widget)) {
+        if (iter_checkbox->apply_functor && dynamic_cast<UseFontSubPixelPositioningToggleSetter*>(
                                                 iter_checkbox->apply_functor.get())) {
           iter_checkbox->hidden = !checkbox.isChecked();
         }
@@ -147,8 +147,8 @@ class UseFontSubPixelsToggleSetter : public bwFunctorInterface {
   }
 
  private:
-  const bwCheckbox &checkbox;
-  Stage &stage;
+  const bwCheckbox& checkbox;
+  Stage& stage;
 };
 
 }  // namespace bWidgetsDemo
@@ -160,11 +160,11 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 {
   using namespace bwScreenGraph;
   bwScreenGraph::Builder builder(screen_graph);
-  ContainerNode *panel;
+  ContainerNode* panel;
 
   addStyleSelector(screen_graph);
 
-  auto &slider = builder.addWidget<bwNumberSlider>(0, BUTTON_HEIGHT);
+  auto& slider = builder.addWidget<bwNumberSlider>(0, BUTTON_HEIGHT);
   slider.apply_functor = bwPtr_new<ScaleSetter>(slider);
   slider.setText("Interface Scale: ");
   slider.setMinMax(0.5f, 2.0f);
@@ -173,7 +173,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   builder.addWidget<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT);
 
   builder.addLayout<RowLayout>(true);
-  auto *checkbox = &builder.addWidget<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
+  auto* checkbox = &builder.addWidget<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
   checkbox->apply_functor = bwPtr_new<UseFontTightPlacementToggleSetter>(*checkbox);
   checkbox->state = bwWidget::STATE_SUNKEN;
   checkbox = &builder.addWidget<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
@@ -199,7 +199,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   builder.addWidget<bwPushButton>("Scale", 0, BUTTON_HEIGHT);
 
   builder.setActiveLayout(*panel);
-  auto &push_but = builder.addWidget<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
+  auto& push_but = builder.addWidget<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
   push_but.setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
 
   builder.setActiveLayout(screen_graph);
@@ -210,11 +210,11 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   builder.addWidget<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT);
 
   builder.setActiveLayout(*panel);
-  auto &text_box = builder.addWidget<bwTextBox>(0, BUTTON_HEIGHT);
+  auto& text_box = builder.addWidget<bwTextBox>(0, BUTTON_HEIGHT);
   text_box.setText("Some Text...");
 
   builder.addLayout<RowLayout>(false);
-  auto *label = &builder.addWidget<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
+  auto* label = &builder.addWidget<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
   label->setIcon(icon_map->getIcon(ICON_POSE_HLT));
   label = &builder.addWidget<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
   label->setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
@@ -222,7 +222,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
 }
 
-bool isUseCSSVersionToggleHidden(const bwStyle &style)
+bool isUseCSSVersionToggleHidden(const bwStyle& style)
 {
   return (style.type_id != bwStyle::STYLE_CLASSIC) &&
          (style.type_id != bwStyle::STYLE_CLASSIC_CSS);
@@ -231,37 +231,37 @@ bool isUseCSSVersionToggleHidden(const bwStyle &style)
 void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
 {
   Stage::activateStyleID(type_id);
-  for (auto &iter_node : screen_graph) {
-    bwWidget *widget = iter_node.Widget();
+  for (auto& iter_node : screen_graph) {
+    bwWidget* widget = iter_node.Widget();
     if (!widget) {
       continue;
     }
 
-    if (auto *checkbox = widget_cast<bwCheckbox *>(widget)) {
+    if (auto* checkbox = widget_cast<bwCheckbox*>(widget)) {
       if (checkbox->apply_functor &&
-          dynamic_cast<UseCSSVersionToggleSetter *>(checkbox->apply_functor.get())) {
+          dynamic_cast<UseCSSVersionToggleSetter*>(checkbox->apply_functor.get())) {
         widget->hidden = isUseCSSVersionToggleHidden(*Stage::style);
       }
     }
   }
 }
 
-void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode &parent_node)
+void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 {
   using namespace bwScreenGraph;
   Builder builder(parent_node);
 
   builder.addLayout<RowLayout>(true);
 
-  auto &label = builder.addWidget<bwLabel>("Style:", 0, BUTTON_HEIGHT);
+  auto& label = builder.addWidget<bwLabel>("Style:", 0, BUTTON_HEIGHT);
   label.setIcon(icon_map->getIcon(ICON_BLENDER));
 
-  for (const bwStyle::StyleType &type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
+  for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
     if (type.type_id == bwStyle::STYLE_CLASSIC_CSS) {
       // We'll add a button for this later.
       continue;
     }
-    auto &style_button = builder.addWidget<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
+    auto& style_button = builder.addWidget<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
 
     style_button.apply_functor = bwPtr_new<StyleSetter>(*this, type);
 
@@ -271,12 +271,12 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode &parent_node)
   }
 
   builder.setActiveLayout(parent_node);
-  auto &checkbox = builder.addWidget<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
+  auto& checkbox = builder.addWidget<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
   checkbox.hidden = isUseCSSVersionToggleHidden(*style);
   checkbox.apply_functor = bwPtr_new<UseCSSVersionToggleSetter>(checkbox, *this);
 }
 
-void DefaultStage::addFakeSpacer(bwScreenGraph::LayoutNode &parent_node)
+void DefaultStage::addFakeSpacer(bwScreenGraph::LayoutNode& parent_node)
 {
   // Just some extra space. No spacer widgets yet.
   bwScreenGraph::Builder::emplaceWidget<bwLabel>(parent_node, "", 0, 7);
@@ -302,7 +302,7 @@ void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
 // --------------------------------------------------------------------
 // Functor definitions
 
-ScaleSetter::ScaleSetter(const bwNumberSlider &numslider) : numslider(numslider)
+ScaleSetter::ScaleSetter(const bwNumberSlider& numslider) : numslider(numslider)
 {
 }
 
@@ -311,20 +311,20 @@ void ScaleSetter::operator()()
   Stage::setInterfaceScale(numslider.getValue());
 }
 
-StyleSetter::StyleSetter(DefaultStage &stage, const bwStyle::StyleType &style_type)
+StyleSetter::StyleSetter(DefaultStage& stage, const bwStyle::StyleType& style_type)
     : stage(stage), style_type(style_type)
 {
 }
 
-bool StyleSetter::updateStyleButton(bwWidget &widget_iter, DefaultStage &stage)
+bool StyleSetter::updateStyleButton(bwWidget& widget_iter, DefaultStage& stage)
 {
-  auto *radio_iter = widget_cast<bwRadioButton *>(&widget_iter);
+  auto* radio_iter = widget_cast<bwRadioButton*>(&widget_iter);
   bwStyle::StyleTypeID active_type_id = DefaultStage::style->type_id;
 
   if (radio_iter && radio_iter->apply_functor) {
     // Using dynamic_cast to check if apply_functor is a StyleSetter. Then we assume it's a style
     // button.
-    if (auto iter_style_setter = dynamic_cast<StyleSetter *>(radio_iter->apply_functor.get())) {
+    if (auto iter_style_setter = dynamic_cast<StyleSetter*>(radio_iter->apply_functor.get())) {
       if (iter_style_setter->style_type.type_id == active_type_id) {
         radio_iter->state = bwWidget::STATE_SUNKEN;
       }
@@ -333,9 +333,9 @@ bool StyleSetter::updateStyleButton(bwWidget &widget_iter, DefaultStage &stage)
       }
     }
   }
-  else if (auto *checkbox_iter = widget_cast<bwCheckbox *>(&widget_iter)) {
+  else if (auto* checkbox_iter = widget_cast<bwCheckbox*>(&widget_iter)) {
     if (checkbox_iter->apply_functor &&
-        dynamic_cast<UseCSSVersionToggleSetter *>(checkbox_iter->apply_functor.get())) {
+        dynamic_cast<UseCSSVersionToggleSetter*>(checkbox_iter->apply_functor.get())) {
       if (active_type_id == bwStyle::STYLE_CLASSIC ||
           active_type_id == bwStyle::STYLE_CLASSIC_CSS) {
         stage.useStyleCSSVersionSet(checkbox_iter->state == bwWidget::STATE_SUNKEN);
@@ -351,8 +351,8 @@ void StyleSetter::operator()()
   bwStyle::StyleTypeID style_type_id = style_type.type_id;
   stage.activateStyleID(style_type_id);
   // Deactivate other style radio buttons
-  for (bwScreenGraph::Node &node : stage.screen_graph) {
-    bwWidget *widget = node.Widget();
+  for (bwScreenGraph::Node& node : stage.screen_graph) {
+    bwWidget* widget = node.Widget();
     if (!widget || widget->hidden) {
       continue;
     }
@@ -360,8 +360,8 @@ void StyleSetter::operator()()
   }
 }
 
-UseCSSVersionToggleSetter::UseCSSVersionToggleSetter(const bwCheckbox &checkbox,
-                                                     DefaultStage &stage)
+UseCSSVersionToggleSetter::UseCSSVersionToggleSetter(const bwCheckbox& checkbox,
+                                                     DefaultStage& stage)
     : checkbox(checkbox), stage(stage)
 {
 }

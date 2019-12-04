@@ -48,10 +48,10 @@ class ShaderProgram {
   } ShaderProgramID;
   using ShaderIDArray = std::array<unsigned int, SHADER_TYPE_TOT>;
 
-  static ShaderProgram &getShaderProgram(ShaderProgramID shader_program_id);
+  static ShaderProgram& getShaderProgram(ShaderProgramID shader_program_id);
 
   unsigned int ProgramID() const;
-  const ShaderInterface &getInterface() const;
+  const ShaderInterface& getInterface() const;
 
  private:
   ShaderProgram(ShaderProgramID shader_program_id);
@@ -64,7 +64,7 @@ class ShaderProgram {
 
   ShaderIDArray shader_ids = {};
   unsigned int programID = 0;
-  ShaderInterface *interface;
+  ShaderInterface* interface;
 };
 
 }  // namespace bWidgetsDemo

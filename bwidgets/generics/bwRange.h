@@ -8,16 +8,16 @@ template<typename T> class bwRange {
   {
   }
 
-  void clampValue(T &value)
+  void clampValue(T& value)
   {
     value = (value < min) ? min : ((value > max) ? max : value);
   }
-  static void clampValue(T &value, const T &min, const T &max)
+  static void clampValue(T& value, const T& min, const T& max)
   {
     bwRange<T>(min, max).clampValue(value);
   }
 
-  bool isInside(const T &value, const bool including_min_max = false) const
+  bool isInside(const T& value, const bool including_min_max = false) const
   {
     if (including_min_max) {
       return (value >= min) && (value <= max);
@@ -26,9 +26,9 @@ template<typename T> class bwRange {
       return (value > min) && (value < max);
     }
   }
-  static bool isInside(const T &value,
-                       const T &min,
-                       const T &max,
+  static bool isInside(const T& value,
+                       const T& min,
+                       const T& max,
                        const bool including_min_max = false)
   {
     return bwRange<T>(min, max).isInside(value, including_min_max);

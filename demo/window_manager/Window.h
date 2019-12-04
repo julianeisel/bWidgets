@@ -33,7 +33,7 @@ namespace bWidgetsDemo {
 
 class Window {
  public:
-  Window(const std::string &name, unsigned int size_x = 600, unsigned int size_y = 350);
+  Window(const std::string& name, unsigned int size_x = 600, unsigned int size_y = 350);
   ~Window();
 
   enum WindowAction {
@@ -48,12 +48,12 @@ class Window {
 
   bWidgets::bwPtr<class Stage> stage;
 
-  GLFWwindow &getGlfwWindow() const;
+  GLFWwindow& getGlfwWindow() const;
 
   int getWidth() const;
   int getHeight() const;
 
-  friend bool operator==(const Window &lhs, const Window &rhs)
+  friend bool operator==(const Window& lhs, const Window& rhs)
   {
     if (lhs.glfw_window == rhs.glfw_window) {
       assert(lhs.stage == rhs.stage);
@@ -65,7 +65,7 @@ class Window {
   }
 
  private:
-  GLFWwindow *glfw_window;
+  GLFWwindow* glfw_window;
   unsigned int VertexArrayID = 0;
 
   int width, height;

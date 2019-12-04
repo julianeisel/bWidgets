@@ -9,18 +9,18 @@ class bwTextBox : public bwWidget {
  public:
   bwTextBox(unsigned int width_hint = 0, unsigned int height_hint = 0);
 
-  void draw(class bwStyle &style) override;
+  void draw(class bwStyle& style) override;
   void registerProperties() override;
 
-  void mousePressEvent(const MouseButton button, const bwPoint &location) override;
+  void mousePressEvent(const MouseButton button, const bwPoint& location) override;
   void mouseEnter() override;
   void mouseLeave() override;
 
   void startTextEditing();
   void endTextEditing();
 
-  void setText(const std::string &value);
-  const std::string *getLabel() const override;
+  void setText(const std::string& value);
+  const std::string* getLabel() const override;
 
   bool canAlign() const override;
 

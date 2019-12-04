@@ -33,7 +33,7 @@ template<typename _Optional> void test_constructor_default_constexpr()
 TEST(bwOptional, constructor_default)
 {
   test_constructor_default_constexpr<bwOptional<int>>();
-  test_constructor_default_constexpr<bwOptional<int *>>();
+  test_constructor_default_constexpr<bwOptional<int*>>();
   test_constructor_default_constexpr<bwOptional<TestUtilClasses::NoConstructors>>();
 
   // Test non-constexpr
@@ -46,7 +46,7 @@ TEST(bwOptional, constructor_default)
 
 template<typename _Optional> void test_constructor_nullopt_constexpr()
 {
-  static_assert(std::is_constructible<_Optional, nullopt_t &>::value, "");
+  static_assert(std::is_constructible<_Optional, nullopt_t&>::value, "");
 
   constexpr _Optional opt(nullopt);
   MAYBE_STATIC_ASSERT(!opt);
@@ -60,8 +60,8 @@ template<typename _Optional> void test_constructor_nullopt_constexpr()
 TEST(bwOptional, constructor_nullopt)
 {
   test_constructor_nullopt_constexpr<bwOptional<int>>();
-  test_constructor_nullopt_constexpr<bwOptional<int *>>();
-  test_constructor_nullopt_constexpr<bwOptional<TestUtilClasses::NoConstructors *>>();
+  test_constructor_nullopt_constexpr<bwOptional<int*>>();
+  test_constructor_nullopt_constexpr<bwOptional<TestUtilClasses::NoConstructors*>>();
 
   // Test non-constexpr
   {
@@ -170,8 +170,8 @@ TEST(bwOptional, constructor_move)
   {
     struct HasTrivialMoveConstructor {
       HasTrivialMoveConstructor() = default;
-      HasTrivialMoveConstructor(const HasTrivialMoveConstructor &) = delete;
-      HasTrivialMoveConstructor(HasTrivialMoveConstructor &&) = default;
+      HasTrivialMoveConstructor(const HasTrivialMoveConstructor&) = delete;
+      HasTrivialMoveConstructor(HasTrivialMoveConstructor&&) = default;
     };
     static_assert(std::is_trivially_move_constructible<HasTrivialMoveConstructor>::value, "");
 
@@ -198,7 +198,7 @@ TEST(bwOptional, constructor_converting_copy_implicit)
     EXPECT_EQ(*lhs, 42);
   }
 
-  static_assert(std::is_constructible<TestUtilClasses::NonTrivialConstructors, const int &>::value,
+  static_assert(std::is_constructible<TestUtilClasses::NonTrivialConstructors, const int&>::value,
                 "");
 
   TestUtilClasses::NonTrivialConstructors::reset();
@@ -221,12 +221,11 @@ TEST(bwOptional, constructor_converting_copy_implicit)
 TEST(bwOptional, constructor_converting_copy_explicit)
 {
   static_assert(
-      std::is_constructible<TestUtilClasses::ExplicitConstructibleFromInt, const int &>::value,
-      "");
+      std::is_constructible<TestUtilClasses::ExplicitConstructibleFromInt, const int&>::value, "");
   static_assert(
-      !std::is_convertible<const int &, TestUtilClasses::ExplicitConstructibleFromInt>::value, "");
+      !std::is_convertible<const int&, TestUtilClasses::ExplicitConstructibleFromInt>::value, "");
   static_assert(
-      !std::is_convertible<const bwOptional<int> &,
+      !std::is_convertible<const bwOptional<int>&,
                            bwOptional<TestUtilClasses::ExplicitConstructibleFromInt>>::value,
       "");
 
@@ -262,7 +261,7 @@ TEST(bwOptional, constructor_converting_move_implicit)
     EXPECT_EQ(*lhs, 42);
   }
 
-  static_assert(std::is_constructible<TestUtilClasses::NonTrivialConstructors, int &&>::value, "");
+  static_assert(std::is_constructible<TestUtilClasses::NonTrivialConstructors, int&&>::value, "");
 
   TestUtilClasses::NonTrivialConstructors::reset();
   {
@@ -283,12 +282,12 @@ TEST(bwOptional, constructor_converting_move_implicit)
 
 TEST(bwOptional, constructor_converting_move_explicit)
 {
+  static_assert(std::is_constructible<TestUtilClasses::ExplicitConstructibleFromInt, int&&>::value,
+                "");
   static_assert(
-      std::is_constructible<TestUtilClasses::ExplicitConstructibleFromInt, int &&>::value, "");
+      !std::is_convertible<const int&, TestUtilClasses::ExplicitConstructibleFromInt>::value, "");
   static_assert(
-      !std::is_convertible<const int &, TestUtilClasses::ExplicitConstructibleFromInt>::value, "");
-  static_assert(
-      !std::is_convertible<const bwOptional<int> &,
+      !std::is_convertible<const bwOptional<int>&,
                            bwOptional<TestUtilClasses::ExplicitConstructibleFromInt>>::value,
       "");
 
@@ -434,7 +433,7 @@ TEST(bwOptional, constructor_in_place_with_init_list)
     }
   }
   static_assert(!std::is_constructible<bwOptional<TestUtilClasses::NonTrivialConstructors>,
-                                       std::initializer_list<int> &>::value,
+                                       std::initializer_list<int>&>::value,
                 "");
 }
 
@@ -457,7 +456,7 @@ TEST(bwOptional, constructor_value_implicit)
   }
   {
     int value = 3;
-    bwOptional<void *const> opt(&value);
+    bwOptional<void* const> opt(&value);
     EXPECT_TRUE(opt);
     EXPECT_EQ(*opt, &value);
   }

@@ -28,7 +28,7 @@ namespace bWidgetsDemo {
  */
 class Application {
  public:
-  static Application &ensureApplication();
+  static Application& ensureApplication();
 
   void setup();
   void mainLoop();
@@ -41,8 +41,8 @@ class Application {
   {
   }
   // Ensure uniqueness
-  Application(Application const &) = delete;
-  void operator=(Application const &) = delete;
+  Application(Application const&) = delete;
+  void operator=(Application const&) = delete;
 };
 
 }  // namespace bWidgetsDemo

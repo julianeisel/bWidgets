@@ -42,32 +42,32 @@ class Node {
   Node() = default;
   virtual ~Node() = default;
 
-  virtual const ChildList *Children() const
+  virtual const ChildList* Children() const
   {
     return nullptr;
   }
-  virtual ChildList *Children()
+  virtual ChildList* Children()
   {
     return nullptr;
   }
 
-  const Node *Parent() const
+  const Node* Parent() const
   {
     return parent;
   }
 
-  virtual bwLayoutInterface *Layout() const
+  virtual bwLayoutInterface* Layout() const
   {
     return nullptr;
   }
 
-  virtual bwWidget *Widget() const
+  virtual bwWidget* Widget() const
   {
     return nullptr;
   }
 
  private:
-  Node *parent;
+  Node* parent;
 };
 
 /**
@@ -78,16 +78,16 @@ class LayoutNode : virtual public Node {
   friend class PreOrderIterator;
 
  public:
-  const ChildList *Children() const override
+  const ChildList* Children() const override
   {
     return &children;
   }
-  ChildList *Children() override
+  ChildList* Children() override
   {
     return &children;
   }
 
-  bwLayoutInterface *Layout() const override
+  bwLayoutInterface* Layout() const override
   {
     return &*layout;
   }
@@ -105,7 +105,7 @@ class WidgetNode : virtual public Node {
   friend class PreOrderIterator;
 
  public:
-  bwWidget *Widget() const override
+  bwWidget* Widget() const override
   {
     return &*widget;
   }
@@ -124,7 +124,7 @@ class ContainerNode : public LayoutNode, public WidgetNode {
   friend class Builder;
 
  public:
-  bwWidget *Widget() const override
+  bwWidget* Widget() const override
   {
     return &*widget;
   }

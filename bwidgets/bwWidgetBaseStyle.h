@@ -14,12 +14,12 @@ class bwWidgetBaseStyle {
  public:
   bwWidgetBaseStyle();
 
-  void registerProperties(class bwStyleProperties &style_properties);
+  void registerProperties(class bwStyleProperties& style_properties);
 
-  const bwColor &backgroundColor() const;
-  const bwColor &textColor() const;
-  const bwColor &borderColor() const;
-  const bwColor &decorationColor() const;
+  const bwColor& backgroundColor() const;
+  const bwColor& textColor() const;
+  const bwColor& borderColor() const;
+  const bwColor& decorationColor() const;
   float shadeTop() const;
   float shadeBottom() const;
 

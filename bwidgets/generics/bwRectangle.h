@@ -9,7 +9,7 @@ template<typename T> class bwRectangle {
   {
   }
   template<typename U>
-  inline bwRectangle(const bwRectangle<U> &rect)
+  inline bwRectangle(const bwRectangle<U>& rect)
       : xmin(rect.xmin), xmax(rect.xmax), ymin(rect.ymin), ymax(rect.ymax)
   {
   }

@@ -12,7 +12,7 @@ bwTextBox::bwTextBox(unsigned int width_hint, unsigned int height_hint)
   initialize();
 }
 
-void bwTextBox::draw(bwStyle &style)
+void bwTextBox::draw(bwStyle& style)
 {
   style.setWidgetStyle(*this);
 
@@ -40,7 +40,7 @@ void bwTextBox::registerProperties()
   base_style.registerProperties(style_properties);
 }
 
-void bwTextBox::mousePressEvent(const MouseButton button, const bwPoint & /*location*/)
+void bwTextBox::mousePressEvent(const MouseButton button, const bwPoint& /*location*/)
 {
   if (button == MOUSE_BUTTON_LEFT) {
     startTextEditing();
@@ -78,12 +78,12 @@ void bwTextBox::endTextEditing()
   is_text_editing = false;
 }
 
-void bwTextBox::setText(const std::string &value)
+void bwTextBox::setText(const std::string& value)
 {
   text = value;
 }
 
-const std::string *bwTextBox::getLabel() const
+const std::string* bwTextBox::getLabel() const
 {
   return &text;
 }

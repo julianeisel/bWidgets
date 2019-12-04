@@ -49,18 +49,18 @@ Pixmap::Pixmap(const int width,
 {
 }
 
-void Pixmap::fill(const unsigned char *bytes)
+void Pixmap::fill(const unsigned char* bytes)
 {
   if (_bytes.size() > 0) {
     std::copy_n(bytes, _bytes.size(), &_bytes[0]);
   }
 }
 
-std::vector<unsigned char> &Pixmap::getBytes()
+std::vector<unsigned char>& Pixmap::getBytes()
 {
   return _bytes;
 }
-const std::vector<unsigned char> &Pixmap::getBytes() const
+const std::vector<unsigned char>& Pixmap::getBytes() const
 {
   return _bytes;
 }

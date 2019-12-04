@@ -16,7 +16,7 @@ bwPanel::bwPanel(std::string label, unsigned int header_height_hint)
   initialize();
 }
 
-void bwPanel::draw(bwStyle &style)
+void bwPanel::draw(bwStyle& style)
 {
   style.setWidgetStyle(*this);
 
@@ -35,7 +35,7 @@ void bwPanel::registerProperties()
   style_properties.addBool("draw-separator", draw_separator);
 }
 
-void bwPanel::mousePressEvent(const bwWidget::MouseButton button, const bwPoint &location)
+void bwPanel::mousePressEvent(const bwWidget::MouseButton button, const bwPoint& location)
 {
   if ((button != MOUSE_BUTTON_LEFT) || !isCoordinateInsideHeader(location)) {
     // Skip
@@ -51,12 +51,12 @@ void bwPanel::mousePressEvent(const bwWidget::MouseButton button, const bwPoint 
   }
 }
 
-const std::string *bwPanel::getLabel() const
+const std::string* bwPanel::getLabel() const
 {
   return &label;
 }
 
-bool bwPanel::isCoordinateInsideHeader(const bwPoint &point) const
+bool bwPanel::isCoordinateInsideHeader(const bwPoint& point) const
 {
   const bwRectanglePixel header_rect = getHeaderRectangle();
   return header_rect.isCoordinateInside(point.x, point.y);
@@ -68,9 +68,9 @@ unsigned int bwPanel::getHeaderHeightHint() const
 }
 
 // TODO GPL!
-static void panel_draw_drag_dots(bwPainter &painter,
-                                 const bwRectanglePixel &rectangle,
-                                 const bwWidgetBaseStyle &base_style)
+static void panel_draw_drag_dots(bwPainter& painter,
+                                 const bwRectanglePixel& rectangle,
+                                 const bwWidgetBaseStyle& base_style)
 {
   const int px = 1.0f;  // TODO Equivalent to U.pixelsize.
   const int px_zoom = std::max((int)std::round(rectangle.height() / 22.0f), 1);
@@ -106,7 +106,7 @@ static void panel_draw_drag_dots(bwPainter &painter,
   }
 }
 
-void bwPanel::drawHeader(bwStyle &style) const
+void bwPanel::drawHeader(bwStyle& style) const
 {
   bwRectanglePixel header_rect = getHeaderRectangle();
   bwRectanglePixel text_rect = header_rect;

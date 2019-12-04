@@ -69,10 +69,10 @@ void Font::initFontReading()
   }
 }
 
-Font *Font::loadFont(const std::string &name, const std::string &path)
+Font* Font::loadFont(const std::string& name, const std::string& path)
 {
   std::string file_path(path + "/" + name);
-  auto *font = new Font();
+  auto* font = new Font();
   FT_Face old_face = font->face;
 
   if (old_face) {
@@ -111,18 +111,18 @@ static unsigned int getGLFormatFromNumChannels(unsigned int num_channels)
   }
 }
 
-void Font::render(const std::string &text, const int pos_x, const int pos_y)
+void Font::render(const std::string& text, const int pos_x, const int pos_y)
 {
   GLuint tex;
   ShaderProgram::ShaderProgramID program_id =
       render_mode == SUBPIXEL_LCD_RGB_COVERAGE ?
           ShaderProgram::ID_SUBPIXEL_BITMAP_TEXTURE_UNIFORM_COLOR :
           ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR;
-  ShaderProgram &shader_program = ShaderProgram::getShaderProgram(program_id);
-  VertexFormat *format = immVertexFormat();
+  ShaderProgram& shader_program = ShaderProgram::getShaderProgram(program_id);
+  VertexFormat* format = immVertexFormat();
   unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
   unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
-  const FontGlyph *previous_glyph = nullptr;
+  const FontGlyph* previous_glyph = nullptr;
   Pen pen(FixedNum<F16p16>::fromInt(pos_x), FixedNum<F16p16>::fromInt(pos_y));
   int old_scissor[4];
 
@@ -155,7 +155,7 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
   }
 
   for (char character : text) {
-    const FontGlyph &glyph = cache.getCachedGlyph(*this, character);
+    const FontGlyph& glyph = cache.getCachedGlyph(*this, character);
 
     if (!mask.isEmpty() &&
         ((pen.x + glyph.advance_width) > FixedNum<F16p16>::fromInt(mask.xmax))) {
@@ -179,8 +179,8 @@ void Font::render(const std::string &text, const int pos_x, const int pos_y)
   immUnbindProgram();
 }
 
-static void render_glyph_texture(const Pixmap &pixmap,
-                                 const bWidgets::bwPoint &draw_pos,
+static void render_glyph_texture(const Pixmap& pixmap,
+                                 const bWidgets::bwPoint& draw_pos,
                                  const unsigned int attr_pos,
                                  const unsigned int attr_texcoord)
 {
@@ -210,7 +210,7 @@ static void render_glyph_texture(const Pixmap &pixmap,
   immEnd();
 }
 
-float Font::calcSubpixelOffset(const Pen &pen, const FontGlyph *previous_glyph) const
+float Font::calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) const
 {
   if (use_tight_positioning) {
     return previous_glyph ? (float)previous_glyph->advance_width.getFractionAsReal() : 0.0f;
@@ -220,7 +220,7 @@ float Font::calcSubpixelOffset(const Pen &pen, const FontGlyph *previous_glyph) 
   }
 }
 
-void Font::applyPositionBias(FixedNum<F16p16> &value) const
+void Font::applyPositionBias(FixedNum<F16p16>& value) const
 {
   if (use_tight_positioning) {
     value.floor();
@@ -230,13 +230,13 @@ void Font::applyPositionBias(FixedNum<F16p16> &value) const
   }
 }
 
-void Font::renderGlyph(const FontGlyph &glyph,
-                       const FontGlyph *previous_glyph,
+void Font::renderGlyph(const FontGlyph& glyph,
+                       const FontGlyph* previous_glyph,
                        const unsigned int attr_pos,
                        const unsigned int attr_texcoord,
-                       Pen &pen) const
+                       Pen& pen) const
 {
-  const Pixmap &pixmap = *glyph.pixmap;
+  const Pixmap& pixmap = *glyph.pixmap;
   const bool has_texture = pixmap.getBytes().size() > 0;
   const bool use_kerning = previous_glyph != nullptr;
 
@@ -306,27 +306,27 @@ int Font::getSize() const
   return size;
 }
 
-const bWidgets::bwColor &Font::getActiveColor() const
+const bWidgets::bwColor& Font::getActiveColor() const
 {
   return active_color;
 }
 
-void Font::setActiveColor(const bWidgets::bwColor &value)
+void Font::setActiveColor(const bWidgets::bwColor& value)
 {
   active_color = value;
 }
 
-const bWidgets::bwRectanglePixel &Font::getMask() const
+const bWidgets::bwRectanglePixel& Font::getMask() const
 {
   return mask;
 }
 
-void Font::setMask(const bWidgets::bwRectanglePixel &value)
+void Font::setMask(const bWidgets::bwRectanglePixel& value)
 {
   mask = value;
 }
 
-FixedNum<F16p16> Font::getKerningDistance(const FontGlyph &left, const FontGlyph &right) const
+FixedNum<F16p16> Font::getKerningDistance(const FontGlyph& left, const FontGlyph& right) const
 {
   FT_Vector kerning_dist_xy;
   FT_Get_Kerning(face, left.index, right.index, FT_KERNING_DEFAULT, &kerning_dist_xy);
@@ -335,15 +335,15 @@ FixedNum<F16p16> Font::getKerningDistance(const FontGlyph &left, const FontGlyph
   return kerning_dist_fp;
 }
 
-unsigned int Font::calculateStringWidth(const std::string &text)
+unsigned int Font::calculateStringWidth(const std::string& text)
 {
   FixedNum<F16p16> width;
 
   cache.ensureUpdated(*this);
 
-  const FontGlyph *prev_glyph = nullptr;
+  const FontGlyph* prev_glyph = nullptr;
   for (char character : text) {
-    const FontGlyph &glyph = cache.getCachedGlyph(*this, character);
+    const FontGlyph& glyph = cache.getCachedGlyph(*this, character);
 
     if (prev_glyph) {
       width += getKerningDistance(*prev_glyph, glyph);
@@ -414,8 +414,8 @@ static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph,
   if (use_subpixel_postioning) {
     /* Increase width by 1px so we can draw with subpixel offset of up to 1px. */
 
-    const unsigned char *src_p = freetype_glyph->bitmap.buffer;
-    unsigned char *dst_p = &pixmap.getBytes()[0];
+    const unsigned char* src_p = freetype_glyph->bitmap.buffer;
+    unsigned char* dst_p = &pixmap.getBytes()[0];
 
     for (unsigned int row = 0; row < height; row++) {
       std::copy_n(src_p, freetype_glyph->bitmap.width, dst_p);
@@ -430,7 +430,7 @@ static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph,
   return bWidgets::bwPtr_new<Pixmap>(std::move(pixmap));
 }
 
-void Font::FontGlyphCache::loadGlyphsIntoCache(const Font &font)
+void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 {
   FT_UInt glyph_index;
   bWidgets::bwPtr<FontGlyph> glyph;
@@ -464,7 +464,7 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(const Font &font)
   }
 }
 
-void Font::FontGlyphCache::ensureUpdated(const Font &font)
+void Font::FontGlyphCache::ensureUpdated(const Font& font)
 {
   if (!is_dirty) {
     return;
@@ -493,13 +493,13 @@ void Font::FontGlyphCache::ensureUpdated(const Font &font)
   is_dirty = false;
 }
 
-const FontGlyph &Font::FontGlyphCache::getCachedGlyph(const Font &font, const char character) const
+const FontGlyph& Font::FontGlyphCache::getCachedGlyph(const Font& font, const char character) const
 {
   return *cached_glyphs[FT_Get_Char_Index(font.face, static_cast<unsigned char>(character))];
 }
 
 FontGlyph::FontGlyph(const unsigned int index,
-                     bWidgets::bwPtr<Pixmap> &&pixmap,
+                     bWidgets::bwPtr<Pixmap>&& pixmap,
                      const int offset_left,
                      const int offset_top,
                      FixedNum<F16p16> advance_width)

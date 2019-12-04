@@ -9,16 +9,16 @@ using bwPointVec = std::vector<class bwPoint>;
 class bwPolygon {
  public:
   bwPolygon() = default;
-  bwPolygon(const bwPolygon &poly) = default;
-  bwPolygon(const bwPointVec &vertices);
+  bwPolygon(const bwPolygon& poly) = default;
+  bwPolygon(const bwPointVec& vertices);
   explicit bwPolygon(const unsigned int reserve_vertex_count);
 
   void addVertex(class bwPoint vertex);
   void addVertex(const float x, const float y);
   void reserve(const unsigned int count);
-  const bwPointVec &getVertices() const;
+  const bwPointVec& getVertices() const;
 
-  bwPoint &operator[](const unsigned int index);
+  bwPoint& operator[](const unsigned int index);
 
   bool isDrawable() const;
 

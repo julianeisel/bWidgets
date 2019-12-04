@@ -56,10 +56,10 @@ class Font {
   ~Font();
 
   static void initFontReading();
-  static Font *loadFont(const std::string &name, const std::string &path);
+  static Font* loadFont(const std::string& name, const std::string& path);
 
-  void render(const std::string &text, const int pos_x, const int pos_y);
-  unsigned int calculateStringWidth(const std::string &text);
+  void render(const std::string& text, const int pos_x, const int pos_y);
+  unsigned int calculateStringWidth(const std::string& text);
 
   void setFontAntiAliasingMode(AntiAliasingMode);
   void setTightPositioning(bool value);
@@ -69,24 +69,24 @@ class Font {
   void setSize(const float size);
   int getSize() const;
 
-  const bWidgets::bwColor &getActiveColor() const;
-  void setActiveColor(const bWidgets::bwColor &value);
+  const bWidgets::bwColor& getActiveColor() const;
+  void setActiveColor(const bWidgets::bwColor& value);
 
-  const bWidgets::bwRectanglePixel &getMask() const;
-  void setMask(const bWidgets::bwRectanglePixel &value);
+  const bWidgets::bwRectanglePixel& getMask() const;
+  void setMask(const bWidgets::bwRectanglePixel& value);
 
  private:
   Font() = default;
 
-  void renderGlyph(const FontGlyph &glyph,
-                   const FontGlyph *previous_glyph,
+  void renderGlyph(const FontGlyph& glyph,
+                   const FontGlyph* previous_glyph,
                    const unsigned int attr_pos,
                    const unsigned int attr_texcoord,
-                   Pen &pen) const;
+                   Pen& pen) const;
 
-  void applyPositionBias(FixedNum<F16p16> &value) const;
-  float calcSubpixelOffset(const Pen &pen, const FontGlyph *previous_glyph) const;
-  FixedNum<F16p16> getKerningDistance(const FontGlyph &left, const FontGlyph &right) const;
+  void applyPositionBias(FixedNum<F16p16>& value) const;
+  float calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) const;
+  FixedNum<F16p16> getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
   /* Accesses private members, so make it a member function. Would be better
    * to keep freetype specific stuff out of the general Font class, but
    * ignoring for now since this is just the demo app anyway. */
@@ -113,14 +113,14 @@ class Font {
     // Everything public, this nested class is private to Font anyway.
    public:
     void invalidate();
-    void ensureUpdated(const Font &);
-    const FontGlyph &getCachedGlyph(const Font &, const char) const;
+    void ensureUpdated(const Font&);
+    const FontGlyph& getCachedGlyph(const Font&, const char) const;
 
     bool is_dirty{true};
     std::vector<std::unique_ptr<FontGlyph>> cached_glyphs;
 
    private:
-    void loadGlyphsIntoCache(const Font &);
+    void loadGlyphsIntoCache(const Font&);
   };
 
   FontGlyphCache cache;
@@ -129,7 +129,7 @@ class Font {
 class FontGlyph {
  public:
   FontGlyph(const unsigned int index,
-            bWidgets::bwPtr<Pixmap> &&pixmap,
+            bWidgets::bwPtr<Pixmap>&& pixmap,
             const int offset_left,
             const int offset_top,
             FixedNum<F16p16> advance_width);

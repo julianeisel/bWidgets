@@ -8,11 +8,11 @@ class bwNumberSlider : public bwTextBox {
  public:
   bwNumberSlider(const unsigned int width_hint = 0, const unsigned int height_hint = 0);
 
-  void draw(class bwStyle &style) override;
+  void draw(class bwStyle& style) override;
 
-  void mousePressEvent(const MouseButton button, const bwPoint &location) override;
-  void mouseReleaseEvent(const MouseButton button, const bwPoint &location) override;
-  void mouseClickEvent(const MouseButton button, const bwPoint &location) override;
+  void mousePressEvent(const MouseButton button, const bwPoint& location) override;
+  void mouseReleaseEvent(const MouseButton button, const bwPoint& location) override;
+  void mouseClickEvent(const MouseButton button, const bwPoint& location) override;
   void mouseDragEvent(const MouseButton button, const bwDistance drag_distance) override;
 
   void setValue(float value);
@@ -23,8 +23,8 @@ class bwNumberSlider : public bwTextBox {
 
  private:
   std::string valueToString(unsigned int precision) const;
-  void drawValueIndicator(class bwPainter &painter, class bwStyle &style) const;
-  float calcValueIndicatorWidth(class bwStyle &style) const;
+  void drawValueIndicator(class bwPainter& painter, class bwStyle& style) const;
+  float calcValueIndicatorWidth(class bwStyle& style) const;
 
   /**
    * Support multiple numeric types. bwNumberSlider could be made

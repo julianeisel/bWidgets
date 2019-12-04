@@ -26,11 +26,11 @@ class X {
   X(int i) : i_(i)
   {
   }
-  X(X &&other) : i_(other.i_)
+  X(X&& other) : i_(other.i_)
   {
     move_ctor_called++;
   }
-  X &operator=(X &&other)
+  X& operator=(X&& other)
   {
     i_ = other.i_;
     move_assign_called++;
@@ -41,7 +41,7 @@ class X {
     dtor_called++;
   }
 
-  friend bool operator==(const X &x, const X &y)
+  friend bool operator==(const X& x, const X& y)
   {
     return x.i_ == y.i_;
   }
@@ -61,17 +61,17 @@ class Y {
   Y(int i) : i_(i)
   {
   }
-  Y(Y &&) = default;
+  Y(Y&&) = default;
   ~Y()
   {
     dtor_called++;
   }
 
-  friend constexpr bool operator==(const Y &x, const Y &y)
+  friend constexpr bool operator==(const Y& x, const Y& y)
   {
     return x.i_ == y.i_;
   }
-  friend void swap(Y &x, Y &y)
+  friend void swap(Y& x, Y& y)
   {
     std::swap(x.i_, y.i_);
     swap_called++;

@@ -53,11 +53,11 @@ bwPtr<Font> Stage::font = nullptr;
 bwPtr<IconMap> Stage::icon_map = nullptr;
 float Stage::interface_scale = 1.0f;
 
-void Stage::StyleSheetPolish(bwWidget &widget)
+void Stage::StyleSheetPolish(bwWidget& widget)
 {
-  StyleSheet &stylesheet = *Stage::style_sheet;
+  StyleSheet& stylesheet = *Stage::style_sheet;
 
-  for (auto &property : widget.style_properties) {
+  for (auto& property : widget.style_properties) {
     stylesheet.resolveValue(widget.getIdentifier(), widget.state, *property);
   }
 }
@@ -72,7 +72,7 @@ Stage::Stage(const unsigned int width, const unsigned int height)
   bwPainter::paint_engine = bwPtr_new<GawainPaintEngine>(*font, *icon_map);
   bwStyleCSS::polish_cb = Stage::StyleSheetPolish;
 
-  bwStyleManager &style_manager = bwStyleManager::getStyleManager();
+  bwStyleManager& style_manager = bwStyleManager::getStyleManager();
   style_manager.registerDefaultStyleTypes();
   activateStyleID(bwStyle::STYLE_CLASSIC);
 
@@ -111,11 +111,11 @@ void Stage::activateStyleID(bwStyle::StyleTypeID type_id)
 namespace bWidgetsDemo {
 
 class ScrollbarApplyValueFunctor : public bwFunctorInterface {
-  Stage &stage;
-  const bwScrollBar &scrollbar;
+  Stage& stage;
+  const bwScrollBar& scrollbar;
 
  public:
-  ScrollbarApplyValueFunctor(Stage &stage, const bwScrollBar &scrollbar)
+  ScrollbarApplyValueFunctor(Stage& stage, const bwScrollBar& scrollbar)
       : stage(stage), scrollbar(scrollbar)
   {
   }
@@ -148,12 +148,12 @@ void Stage::drawScrollbars()
   }
 }
 
-static void drawScreenGraph(bwScreenGraph::Node &node, bwStyle &style)
+static void drawScreenGraph(bwScreenGraph::Node& node, bwStyle& style)
 {
-  const bwScreenGraph::Node *skip_until_parent = nullptr;
+  const bwScreenGraph::Node* skip_until_parent = nullptr;
 
-  for (auto &iter_node : node) {
-    bwWidget *widget = iter_node.Widget();
+  for (auto& iter_node : node) {
+    bwWidget* widget = iter_node.Widget();
 
     if (skip_until_parent && (skip_until_parent == iter_node.Parent())) {
       skip_until_parent = nullptr;
@@ -163,7 +163,7 @@ static void drawScreenGraph(bwScreenGraph::Node &node, bwStyle &style)
       continue;
     }
 
-    bwPanel *panel = widget_cast<bwPanel *>(widget);
+    bwPanel* panel = widget_cast<bwPanel*>(widget);
     if (panel && (panel->panel_state == bwPanel::PANEL_CLOSED)) {
       skip_until_parent = iter_node.Parent();
     }
@@ -191,7 +191,7 @@ void Stage::draw()
     style_sheet = nullptr;
   }
 
-  bwStyleProperty &property = properties.addColor("background-color", clear_color);
+  bwStyleProperty& property = properties.addColor("background-color", clear_color);
   if (style_sheet) {
     style_sheet->resolveValue("Stage", bwWidget::STATE_NORMAL, property);
   }
@@ -234,12 +234,12 @@ void Stage::setFontSubPixelPositioning(const bool value)
   font->setSubPixelPositioning(value);
 }
 
-RootLayout &Stage::Layout() const
+RootLayout& Stage::Layout() const
 {
-  return static_cast<RootLayout &>(*screen_graph.Layout());
+  return static_cast<RootLayout&>(*screen_graph.Layout());
 }
 
-void Stage::setStyleSheet(const std::string &filepath)
+void Stage::setStyleSheet(const std::string& filepath)
 {
   if (!style_sheet || (style_sheet->getFilepath() != filepath)) {
     style_sheet = bwPtr_new<StyleSheet>(filepath);
@@ -252,7 +252,7 @@ void Stage::setStyleSheet(const std::string &filepath)
 
 void Stage::updateContentBounds()
 {
-  RootLayout &layout = static_cast<RootLayout &>(*screen_graph.Layout());
+  RootLayout& layout = static_cast<RootLayout&>(*screen_graph.Layout());
 
   validizeScrollValue();
   layout.setMaxSize(getContentWidth());
@@ -272,7 +272,7 @@ void Stage::setScrollValue(int value)
   validizeScrollValue();
 }
 
-bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint &coordinate)
+bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint& coordinate)
 {
   if (coordinate.x > getContentWidth()) {
     if (scrollbar) {
@@ -281,10 +281,10 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint &
     return nullopt;
   }
 
-  const bwScreenGraph::Node *skip_until_parent = nullptr;
+  const bwScreenGraph::Node* skip_until_parent = nullptr;
 
-  for (bwScreenGraph::Node &node : screen_graph) {
-    bwWidget *widget = node.Widget();
+  for (bwScreenGraph::Node& node : screen_graph) {
+    bwWidget* widget = node.Widget();
     if (skip_until_parent && (skip_until_parent == node.Parent())) {
       skip_until_parent = nullptr;
     }
@@ -296,7 +296,7 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint &
     if (widget->type == bwWidget::WIDGET_TYPE_PANEL) {
       // Temporary exception for until we have proper event handling with event bubbling and
       // breaking
-      bwPanel &panel = *widget_cast<bwPanel *>(widget);
+      bwPanel& panel = *widget_cast<bwPanel*>(widget);
 
       if (panel.isCoordinateInsideHeader(coordinate)) {
         return *widget;
@@ -315,7 +315,7 @@ bwOptional<std::reference_wrapper<bwWidget>> Stage::findWidgetAt(const bwPoint &
   return nullopt;
 }
 
-void Stage::updateWidgetHovering(const MouseEvent &event, bwWidget &widget)
+void Stage::updateWidgetHovering(const MouseEvent& event, bwWidget& widget)
 {
   if (widget.isCoordinateInside(event.getMouseLocation())) {
     if (&widget != last_hovered) {
@@ -335,9 +335,9 @@ void Stage::updateWidgetHovering(const MouseEvent &event, bwWidget &widget)
 /**
  * \return True if handled successfully.
  */
-bool Stage::handleWidgetMouseButtonEvent(const MouseEvent &event, bwWidget &widget)
+bool Stage::handleWidgetMouseButtonEvent(const MouseEvent& event, bwWidget& widget)
 {
-  const bwPoint &location = event.getMouseLocation();
+  const bwPoint& location = event.getMouseLocation();
 
   if (event.isClick()) {
     widget.mouseClickEvent(event.getButton(), location);
@@ -361,16 +361,16 @@ bool Stage::handleWidgetMouseButtonEvent(const MouseEvent &event, bwWidget &widg
   return false;
 }
 
-void Stage::handleMouseMovementEvent(const MouseEvent &event)
+void Stage::handleMouseMovementEvent(const MouseEvent& event)
 {
-  const bwPoint &mouse_location = event.getMouseLocation();
+  const bwPoint& mouse_location = event.getMouseLocation();
 
   if (auto hovered = findWidgetAt(mouse_location)) {
     updateWidgetHovering(event, *hovered);
   }
 }
 
-void Stage::handleMouseButtonEvent(const MouseEvent &event)
+void Stage::handleMouseButtonEvent(const MouseEvent& event)
 {
   bwOptional<std::reference_wrapper<bwWidget>> widget = dragged_widget ?
                                                             **dragged_widget :
@@ -381,14 +381,14 @@ void Stage::handleMouseButtonEvent(const MouseEvent &event)
   }
 }
 
-void Stage::handleMouseDragEvent(const MouseEvent &event)
+void Stage::handleMouseDragEvent(const MouseEvent& event)
 {
   if (dragged_widget) {
     (*dragged_widget)->mouseDragEvent(event.getButton(), event.getDragDistance());
   }
 }
 
-void Stage::handleMouseScrollEvent(const MouseEvent &event)
+void Stage::handleMouseScrollEvent(const MouseEvent& event)
 {
   if (shouldHaveScrollbars()) {
     char direction_fac = 0;
@@ -404,7 +404,7 @@ void Stage::handleMouseScrollEvent(const MouseEvent &event)
   }
 }
 
-void Stage::handleWindowResizeEvent(const Window &win)
+void Stage::handleWindowResizeEvent(const Window& win)
 {
   mask_width = win.getWidth();
   mask_height = win.getHeight();

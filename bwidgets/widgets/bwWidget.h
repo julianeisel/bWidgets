@@ -51,20 +51,20 @@ class bwWidget {
            const unsigned int height_hint = 0);
   virtual ~bwWidget() = default;
 
-  virtual bool isCoordinateInside(const bwPoint &point) const;
+  virtual bool isCoordinateInside(const bwPoint& point) const;
 
-  virtual void draw(class bwStyle &style) = 0;
+  virtual void draw(class bwStyle& style) = 0;
 
   // Events
-  virtual void mousePressEvent(const MouseButton button, const bwPoint &location);
-  virtual void mouseReleaseEvent(const MouseButton button, const bwPoint &location);
-  virtual void mouseClickEvent(const MouseButton button, const bwPoint &location);
+  virtual void mousePressEvent(const MouseButton button, const bwPoint& location);
+  virtual void mouseReleaseEvent(const MouseButton button, const bwPoint& location);
+  virtual void mouseClickEvent(const MouseButton button, const bwPoint& location);
   virtual void mouseDragEvent(const MouseButton button, const bwDistance drag_distance);
   virtual void mouseEnter();
   virtual void mouseLeave();
 
-  const std::string &getIdentifier() const;
-  virtual const std::string *getLabel() const;
+  const std::string& getIdentifier() const;
+  virtual const std::string* getLabel() const;
 
   virtual bool canAlign() const;
 
@@ -106,21 +106,21 @@ class bwWidget {
  * Performs a conditional widget cast from bwWidget to derived class if valid.
  * \return the derrived widget class of type T or nullptr if cast is not valid.
  */
-template<class T> inline T widget_cast(bwWidget *widget)
+template<class T> inline T widget_cast(bwWidget* widget)
 {
   try {
     return dynamic_cast<T>(widget);
   }
-  catch (const std::bad_cast &) {
+  catch (const std::bad_cast&) {
     return nullptr;
   }
 }
-template<class T> inline T widget_cast(const bwWidget *widget)
+template<class T> inline T widget_cast(const bwWidget* widget)
 {
   try {
     return dynamic_cast<T>(widget);
   }
-  catch (const std::bad_cast &) {
+  catch (const std::bad_cast&) {
     return nullptr;
   }
 }

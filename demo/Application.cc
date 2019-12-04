@@ -27,7 +27,7 @@
 
 using namespace bWidgetsDemo;
 
-Application &Application::ensureApplication()
+Application& Application::ensureApplication()
 {
   static Application app;
   return app;
@@ -35,13 +35,13 @@ Application &Application::ensureApplication()
 
 void Application::setup()
 {
-  WindowManager &wm = WindowManager::getWindowManager();
+  WindowManager& wm = WindowManager::getWindowManager();
   wm.addWindow("bWidgets Demo");
 }
 
 void Application::mainLoop()
 {
-  WindowManager &wm = WindowManager::getWindowManager();
+  WindowManager& wm = WindowManager::getWindowManager();
   wm.mainLoop();
 }
 

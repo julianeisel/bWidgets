@@ -14,35 +14,35 @@ namespace bwScreenGraph {
 class Builder {
  public:
   Builder() = default;
-  Builder(LayoutNode &active_layout_node);
+  Builder(LayoutNode& active_layout_node);
   virtual ~Builder() = default;
 
-  static void setLayout(LayoutNode &node, bwPtr<bwLayoutInterface> layout);
-  static bwWidget &addWidget(LayoutNode &node, bwPtr<bwWidget> widget);
+  static void setLayout(LayoutNode& node, bwPtr<bwLayoutInterface> layout);
+  static bwWidget& addWidget(LayoutNode& node, bwPtr<bwWidget> widget);
 
-  void setActiveLayout(bwScreenGraph::LayoutNode &);
+  void setActiveLayout(bwScreenGraph::LayoutNode&);
 
   /**
    * \brief Add child node for a layout created in-place.
    */
-  template<typename _LayoutType, typename... _Args> LayoutNode &addLayout(_Args &&... __args)
+  template<typename _LayoutType, typename... _Args> LayoutNode& addLayout(_Args&&... __args)
   {
     static_assert(std::is_base_of<bwLayoutInterface, _LayoutType>::value,
                   "Should implement bwLayoutInterface");
 
-    LayoutNode &new_node = addChildNode<LayoutNode>(*_active_layout_node);
+    LayoutNode& new_node = addChildNode<LayoutNode>(*_active_layout_node);
     new_node.layout = bwPtr_new<_LayoutType>(std::forward<_Args>(__args)...);
     setActiveLayout(new_node);
     return new_node;
   }
 
-  template<typename _WidgetType, typename... _Args> _WidgetType &addWidget(_Args &&... __args)
+  template<typename _WidgetType, typename... _Args> _WidgetType& addWidget(_Args&&... __args)
   {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
-    WidgetNode &new_node = addChildNode<WidgetNode>(*_active_layout_node);
+    WidgetNode& new_node = addChildNode<WidgetNode>(*_active_layout_node);
     new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
-    return static_cast<_WidgetType &>(*new_node.widget);
+    return static_cast<_WidgetType&>(*new_node.widget);
   }
 
   /**
@@ -54,11 +54,11 @@ class Builder {
    * verbose and easier to understand.
    */
   template<typename _WidgetType, typename... _Args>
-  ContainerNode &addContainer(bwPtr<bwLayoutInterface> layout, _Args &&... __args)
+  ContainerNode& addContainer(bwPtr<bwLayoutInterface> layout, _Args&&... __args)
   {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
-    ContainerNode &new_node = addChildNode<ContainerNode>(*_active_layout_node);
+    ContainerNode& new_node = addChildNode<ContainerNode>(*_active_layout_node);
     // TODO compile time check if widget supports being container.
     setLayout(new_node, std::move(layout));
     new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
@@ -91,32 +91,32 @@ class Builder {
    * \endcode
    */
   template<typename _WidgetType, typename... _Args>
-  static _WidgetType &emplaceWidget(LayoutNode &node, _Args &&... __args)
+  static _WidgetType& emplaceWidget(LayoutNode& node, _Args&&... __args)
   {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
-    WidgetNode &new_node = addChildNode<WidgetNode>(node);
+    WidgetNode& new_node = addChildNode<WidgetNode>(node);
     new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
-    return static_cast<_WidgetType &>(*new_node.widget);
+    return static_cast<_WidgetType&>(*new_node.widget);
   }
 
  private:
-  static void setWidget(WidgetNode &node, bwPtr<bwWidget> widget);
+  static void setWidget(WidgetNode& node, bwPtr<bwWidget> widget);
 
-  template<typename _NodeType> static _NodeType &addChildNode(LayoutNode &parent_node)
+  template<typename _NodeType> static _NodeType& addChildNode(LayoutNode& parent_node)
   {
     static_assert(std::is_base_of<Node, _NodeType>::value,
                   "Should derrive from bwScreenGraph::Node");
 
     parent_node.children.push_back(bwPtr_new<_NodeType>());
-    Node &ref = *parent_node.children.back();
+    Node& ref = *parent_node.children.back();
     ref.parent = &parent_node;
 
-    return dynamic_cast<_NodeType &>(ref);
+    return dynamic_cast<_NodeType&>(ref);
   }
 
  private:
-  bwScreenGraph::LayoutNode *_active_layout_node{nullptr};
+  bwScreenGraph::LayoutNode* _active_layout_node{nullptr};
 };
 
 }  // namespace bwScreenGraph

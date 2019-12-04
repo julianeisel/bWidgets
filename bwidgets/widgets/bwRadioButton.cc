@@ -2,7 +2,7 @@
 
 using namespace bWidgets;
 
-bwRadioButton::bwRadioButton(const std::string &text,
+bwRadioButton::bwRadioButton(const std::string& text,
                              unsigned int width_hint,
                              unsigned int height_hint)
     : bwAbstractButton(text, WIDGET_TYPE_RADIO_BUTTON, "bwRadioButton", width_hint, height_hint)
@@ -10,7 +10,7 @@ bwRadioButton::bwRadioButton(const std::string &text,
 }
 
 void bwRadioButton::mousePressEvent(const bwWidget::MouseButton button,
-                                    const bwPoint & /*location*/)
+                                    const bwPoint& /*location*/)
 {
   if (button == bwWidget::MOUSE_BUTTON_LEFT) {
     state = STATE_SUNKEN;
@@ -19,7 +19,7 @@ void bwRadioButton::mousePressEvent(const bwWidget::MouseButton button,
 }
 
 void bwRadioButton::mouseReleaseEvent(const bwWidget::MouseButton /*button*/,
-                                      const bwPoint & /*location*/)
+                                      const bwPoint& /*location*/)
 {
 }
 

@@ -19,7 +19,7 @@ bwNumberSlider::bwNumberSlider(const unsigned int width_hint, const unsigned int
   identifier = "bwNumberSlider";
 }
 
-void bwNumberSlider::draw(bwStyle &style)
+void bwNumberSlider::draw(bwStyle& style)
 {
   bwPainter painter;
 
@@ -62,7 +62,7 @@ void bwNumberSlider::draw(bwStyle &style)
       valueToString(precision), rectangle, is_text_editing ? TEXT_ALIGN_LEFT : TEXT_ALIGN_RIGHT);
 }
 
-void bwNumberSlider::drawValueIndicator(bwPainter &painter, bwStyle &style) const
+void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) const
 {
   bwGradient gradient = bwGradient(base_style.decorationColor(),
                                    // shadeTop/Bottom intentionally inverted
@@ -93,7 +93,7 @@ void bwNumberSlider::drawValueIndicator(bwPainter &painter, bwStyle &style) cons
       indicator_rect, roundbox_corners & ~(TOP_LEFT | BOTTOM_LEFT), right_side_radius);
 }
 
-void bwNumberSlider::mousePressEvent(const MouseButton button, const bwPoint & /*location*/)
+void bwNumberSlider::mousePressEvent(const MouseButton button, const bwPoint& /*location*/)
 {
   if (button == MOUSE_BUTTON_LEFT) {
     initial_value = value;
@@ -109,12 +109,12 @@ void bwNumberSlider::mousePressEvent(const MouseButton button, const bwPoint & /
   is_dragging = true;
 }
 
-void bwNumberSlider::mouseReleaseEvent(const MouseButton /*button*/, const bwPoint & /*location*/)
+void bwNumberSlider::mouseReleaseEvent(const MouseButton /*button*/, const bwPoint& /*location*/)
 {
   is_dragging = false;
 }
 
-void bwNumberSlider::mouseClickEvent(const MouseButton button, const bwPoint & /*location*/)
+void bwNumberSlider::mouseClickEvent(const MouseButton button, const bwPoint& /*location*/)
 {
   if (button == MOUSE_BUTTON_LEFT) {
     startTextEditing();
@@ -157,7 +157,7 @@ std::string bwNumberSlider::valueToString(unsigned int precision) const
   return string_stream.str();
 }
 
-float bwNumberSlider::calcValueIndicatorWidth(bwStyle &style) const
+float bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const
 {
   const float range = max - min;
   const float radius = base_style.corner_radius * style.dpi_fac;

@@ -6,17 +6,17 @@ PreOrderIterator::PreOrderIterator() : node(nullptr)
 {
 }
 
-PreOrderIterator::PreOrderIterator(Node &node) : node(&node), root(&node)
+PreOrderIterator::PreOrderIterator(Node& node) : node(&node), root(&node)
 {
 }
 
-bool PreOrderIterator::operator!=(const PreOrderIterator &other) const
+bool PreOrderIterator::operator!=(const PreOrderIterator& other) const
 {
   return (is_root != other.is_root) ||
          (is_root ? (node != other.node) : (node_iter != other.node_iter));
 }
 
-Node &PreOrderIterator::operator*()
+Node& PreOrderIterator::operator*()
 {
   return is_root ? *node : **node_iter;
 }
@@ -40,9 +40,9 @@ bool PreOrderIterator::hasExceededLastSibling()
   }
 }
 
-PreOrderIterator &PreOrderIterator::operator++()
+PreOrderIterator& PreOrderIterator::operator++()
 {
-  Node::ChildList *childs = is_root ? node->Children() : (*node_iter)->Children();
+  Node::ChildList* childs = is_root ? node->Children() : (*node_iter)->Children();
 
   if (!childs || childs->empty()) {
     if (is_root) {
@@ -85,12 +85,12 @@ PreOrderIterator &PreOrderIterator::operator++()
 namespace bWidgets {
 namespace bwScreenGraph {
 
-PreOrderIterator begin(Node &node)
+PreOrderIterator begin(Node& node)
 {
   return PreOrderIterator(node);
 }
 
-PreOrderIterator end(Node &)
+PreOrderIterator end(Node&)
 {
   return {};
 }

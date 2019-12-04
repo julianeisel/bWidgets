@@ -29,8 +29,8 @@ namespace bWidgetsDemo {
 class StateProperties {
  public:
   bwOptional<std::reference_wrapper<const bwStyleProperty>> lookupProperty(
-      const std::string &identifier) const;
-  bwStyleProperty &ensureProperty(const std::string &identifier,
+      const std::string& identifier) const;
+  bwStyleProperty& ensureProperty(const std::string& identifier,
                                   bwStyleProperty::PropertyType type);
 
  private:
@@ -45,9 +45,9 @@ class StyleSheetNode {
 }  // namespace bWidgetsDemo
 
 bwOptional<std::reference_wrapper<StyleSheetNode>> StyleSheetTree::lookupNode(
-    const std::string &name)
+    const std::string& name)
 {
-  const auto &node_iterator = nodes.find(name);
+  const auto& node_iterator = nodes.find(name);
   if (node_iterator == nodes.end()) {
     return nullopt;
   }
@@ -55,13 +55,13 @@ bwOptional<std::reference_wrapper<StyleSheetNode>> StyleSheetTree::lookupNode(
   return *node_iterator->second;
 }
 
-StyleSheetNode &StyleSheetTree::ensureNode(const std::string &class_name)
+StyleSheetNode& StyleSheetTree::ensureNode(const std::string& class_name)
 {
   if (bwOptional<std::reference_wrapper<StyleSheetNode>> node = lookupNode(class_name)) {
     return *node;
   }
 
-  StyleSheetNode *new_node = new StyleSheetNode;
+  StyleSheetNode* new_node = new StyleSheetNode;
   nodes.insert({class_name, new_node});
   return *new_node;
 }
@@ -70,33 +70,33 @@ StyleSheetTree::~StyleSheetTree()
 {
   while (!nodes.empty()) {
     auto iterator = nodes.begin();
-    StyleSheetNode *node = iterator->second;
+    StyleSheetNode* node = iterator->second;
 
     nodes.erase(iterator);
     delete node;
   }
 }
 
-bwStyleProperty &StyleSheetTree::ensureNodeWithProperty(const std::string &class_name,
+bwStyleProperty& StyleSheetTree::ensureNodeWithProperty(const std::string& class_name,
                                                         const bwWidget::WidgetState pseudo_state,
-                                                        const std::string &identifier,
+                                                        const std::string& identifier,
                                                         const bwStyleProperty::PropertyType type)
 {
-  StyleSheetNode &node = ensureNode(class_name);
-  StateProperties &state_properties = node.state_properties[pseudo_state];
+  StyleSheetNode& node = ensureNode(class_name);
+  StateProperties& state_properties = node.state_properties[pseudo_state];
 
   return state_properties.ensureProperty(identifier, type);
 }
 
 static bwOptional<std::reference_wrapper<const bwStyleProperty>> state_properties_lookup_property(
-    const std::string &property_name, StateProperties &state_properties)
+    const std::string& property_name, StateProperties& state_properties)
 {
   return state_properties.lookupProperty(property_name);
 }
 
 bwOptional<std::reference_wrapper<const bwStyleProperty>> StyleSheetTree::resolveProperty(
-    const std::string &class_name,
-    const std::string &property_name,
+    const std::string& class_name,
+    const std::string& property_name,
     const bwWidget::WidgetState state)
 {
   if (bwOptional<std::reference_wrapper<StyleSheetNode>> node = lookupNode(class_name)) {
@@ -116,7 +116,7 @@ bwOptional<std::reference_wrapper<const bwStyleProperty>> StyleSheetTree::resolv
 }
 
 bwOptional<std::reference_wrapper<const bwStyleProperty>> StateProperties::lookupProperty(
-    const std::string &identifier) const
+    const std::string& identifier) const
 {
   return properties.lookup(identifier);
 }
@@ -124,10 +124,10 @@ bwOptional<std::reference_wrapper<const bwStyleProperty>> StateProperties::looku
 /**
  * Performs a identifier based lookup of \a property and adds it if not found.
  */
-bwStyleProperty &StateProperties::ensureProperty(const std::string &identifier,
+bwStyleProperty& StateProperties::ensureProperty(const std::string& identifier,
                                                  bwStyleProperty::PropertyType type)
 {
-  for (auto &iter_property : properties) {
+  for (auto& iter_property : properties) {
     if (iter_property->getIdentifier() == identifier) {
       return *iter_property;
     }

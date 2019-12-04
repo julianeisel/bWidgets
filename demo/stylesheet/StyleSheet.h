@@ -38,11 +38,11 @@ class StyleSheet {
 
   void reload();
 
-  void resolveValue(const std::string &class_name,
+  void resolveValue(const std::string& class_name,
                     bWidgets::bwWidget::WidgetState state,
-                    bWidgets::bwStyleProperty &property);
+                    bWidgets::bwStyleProperty& property);
 
-  const std::string &getFilepath() const;
+  const std::string& getFilepath() const;
 
  private:
   void load();

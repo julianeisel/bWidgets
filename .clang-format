@@ -155,3 +155,7 @@ AlwaysBreakBeforeMultilineStrings: true
 # We don't want literal strings to break,
 # however clang-format seems to ignore this (sigh).
 PenaltyBreakString: 1000000
+
+# bWidgets stuff
+
+PointerBindsToType: true

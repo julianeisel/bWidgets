@@ -15,7 +15,7 @@ bwWidgetBaseStyle::bwWidgetBaseStyle() : text_alignment(TEXT_ALIGN_LEFT), roundb
  * Add bwStyleProperty instances to \a style_properties for all
  * bwWidgetBaseStyle options.
  */
-void bwWidgetBaseStyle::registerProperties(bwStyleProperties &style_properties)
+void bwWidgetBaseStyle::registerProperties(bwStyleProperties& style_properties)
 {
   style_properties.addColor("color", text_color);
   style_properties.addColor("background-color", background_color);
@@ -28,22 +28,22 @@ void bwWidgetBaseStyle::registerProperties(bwStyleProperties &style_properties)
   style_properties.addFloat("border-radius", corner_radius);
 }
 
-const bwColor &bwWidgetBaseStyle::backgroundColor() const
+const bwColor& bwWidgetBaseStyle::backgroundColor() const
 {
   return background_color;
 }
 
-const bwColor &bwWidgetBaseStyle::textColor() const
+const bwColor& bwWidgetBaseStyle::textColor() const
 {
   return text_color;
 }
 
-const bwColor &bwWidgetBaseStyle::borderColor() const
+const bwColor& bwWidgetBaseStyle::borderColor() const
 {
   return border_color;
 }
 
-const bwColor &bwWidgetBaseStyle::decorationColor() const
+const bwColor& bwWidgetBaseStyle::decorationColor() const
 {
   return decoration_color;
 }
