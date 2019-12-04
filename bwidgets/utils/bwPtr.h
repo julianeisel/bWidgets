@@ -10,10 +10,8 @@ namespace std {
  * definition time, `static_assert(always_false<T>::value)` only fails at
  * template instantiation time.
  */
-template<typename... T>
-struct always_false
-{
-	static constexpr bool value = false;
+template<typename... T> struct always_false {
+  static constexpr bool value = false;
 };
 
 /**
@@ -23,15 +21,13 @@ struct always_false
 template<typename _PointerType, typename... _Args>
 inline constexpr std::unique_ptr<_PointerType> make_unique(_Args&&...)
 {
-	static_assert(
-	            always_false<_Args...>::value,
-	            "Error: `std::make_unique()` is not available in C++11 and shouldn't be "
-	            "used! Use bWidgets' own implementation `bwPtr_new()` instead.");
-	return{};
+  static_assert(always_false<_Args...>::value,
+                "Error: `std::make_unique()` is not available in C++11 and shouldn't be "
+                "used! Use bWidgets' own implementation `bwPtr_new()` instead.");
+  return {};
 }
 
-} // namespace std
-
+}  // namespace std
 
 namespace bWidgets {
 
@@ -45,8 +41,7 @@ namespace bWidgets {
  * We currently don't need a `std::shared_ptr()` version of this, and would
  * like to avoid it.
  */
-template<typename _PointerType>
-using bwPtr = std::unique_ptr<_PointerType>;
+template<typename _PointerType> using bwPtr = std::unique_ptr<_PointerType>;
 
 /**
  * \brief Own implementation of `std::make_unique()` for C++11.
@@ -73,7 +68,7 @@ using bwPtr = std::unique_ptr<_PointerType>;
 template<typename _PointerType, typename... _Args>
 inline bwPtr<_PointerType> bwPtr_new(_Args&&... args)
 {
-	return bwPtr<_PointerType>(new _PointerType(std::forward<_Args>(args)...));
+  return bwPtr<_PointerType>(new _PointerType(std::forward<_Args>(args)...));
 }
 
 /**
@@ -81,10 +76,9 @@ inline bwPtr<_PointerType> bwPtr_new(_Args&&... args)
  * Technically not needed since overloaded version also accepts no arguments.
  * Doing so confuses some IDE's however, which this overload fixes.
  */
-template<typename _PointerType>
-inline bwPtr<_PointerType> bwPtr_new()
+template<typename _PointerType> inline bwPtr<_PointerType> bwPtr_new()
 {
-	return bwPtr<_PointerType>(new _PointerType());
+  return bwPtr<_PointerType>(new _PointerType());
 }
 
-} // namespace bWidgets
+}  // namespace bWidgets

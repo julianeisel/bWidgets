@@ -23,26 +23,24 @@
 
 #include "Stage.h"
 
-
 namespace bWidgetsDemo {
 
-class DefaultStage : public Stage
-{
-	friend class ScaleSetter;
-	friend class StyleSetter;
-	friend class UseCSSVersionToggleSetter;
+class DefaultStage : public Stage {
+  friend class ScaleSetter;
+  friend class StyleSetter;
+  friend class UseCSSVersionToggleSetter;
 
-public:
-	DefaultStage(unsigned int mask_width, unsigned int mask_height);
+ public:
+  DefaultStage(unsigned int mask_width, unsigned int mask_height);
 
-private:
-	void activateStyleID(bWidgets::bwStyle::StyleTypeID) override;
-	void addStyleSelector(bWidgets::bwScreenGraph::LayoutNode& parent_node);
-	void addFakeSpacer(bWidgets::bwScreenGraph::LayoutNode& parent_node);
+ private:
+  void activateStyleID(bWidgets::bwStyle::StyleTypeID) override;
+  void addStyleSelector(bWidgets::bwScreenGraph::LayoutNode& parent_node);
+  void addFakeSpacer(bWidgets::bwScreenGraph::LayoutNode& parent_node);
 
-	void useStyleCSSVersionSet(const bool use_css_version);
+  void useStyleCSSVersionSet(const bool use_css_version);
 
-	const unsigned int padding = 10;
+  const unsigned int padding = 10;
 };
 
-} // namespace bWidgetsDemo
+}  // namespace bWidgetsDemo

@@ -5,7 +5,6 @@
 
 #include "bwUtil.h"
 
-
 namespace bWidgets {
 
 /**
@@ -31,40 +30,37 @@ namespace bWidgets {
  * assert(some_int == 42);
  * \endcode
  */
-class bwStyleProperty
-{
-	template<typename> friend class bwStylePropertyInternal;
+class bwStyleProperty {
+  template<typename> friend class bwStylePropertyInternal;
 
-public:
-	enum PropertyType {
-		TYPE_BOOL,
-		TYPE_INTEGER,
-		TYPE_FLOAT,
-		TYPE_COLOR,
-	};
+ public:
+  enum PropertyType {
+    TYPE_BOOL,
+    TYPE_INTEGER,
+    TYPE_FLOAT,
+    TYPE_COLOR,
+  };
 
-	void setValue(bool);
-	void setValue(int);
-	void setValue(float);
-	void setValue(const class bwColor&);
-	void setValue(const bwStyleProperty&);
-	void setValueToDefault();
+  void setValue(bool);
+  void setValue(int);
+  void setValue(float);
+  void setValue(const class bwColor&);
+  void setValue(const bwStyleProperty&);
+  void setValueToDefault();
 
-	void setDefaultValue(bool);
-	void setDefaultValue(int);
-	void setDefaultValue(float);
-	void setDefaultValue(const class bwColor&);
+  void setDefaultValue(bool);
+  void setDefaultValue(int);
+  void setDefaultValue(float);
+  void setDefaultValue(const class bwColor&);
 
-	const std::string& getIdentifier() const;
-	PropertyType getType() const;
+  const std::string& getIdentifier() const;
+  PropertyType getType() const;
 
-private:
-	bwStyleProperty(
-	        std::string identifier,
-	        enum PropertyType type);
+ private:
+  bwStyleProperty(std::string identifier, enum PropertyType type);
 
-	const std::string identifier;
-	enum PropertyType type;
+  const std::string identifier;
+  enum PropertyType type;
 };
 
 /**
@@ -76,35 +72,33 @@ private:
  * * Lookup a property from its identifier (lookup() function).
  * * Get iterators to iterate over all properties.
  */
-class bwStyleProperties
-{
-public:
-	// Store properties as pointer, they are actually created as bwStylePropertyInternal instances.
-	using PropertyList = std::vector<bwPtr<bwStyleProperty>>;
+class bwStyleProperties {
+ public:
+  // Store properties as pointer, they are actually created as bwStylePropertyInternal instances.
+  using PropertyList = std::vector<bwPtr<bwStyleProperty>>;
 
-	bwStyleProperty& addBool(const std::string& name, bool& reference);
-	bwStyleProperty& addBool(const std::string& name);
-	bwStyleProperty& addInteger(const std::string& name, int& reference);
-	bwStyleProperty& addInteger(const std::string& name);
-	bwStyleProperty& addFloat(const std::string& name, float& reference);
-	bwStyleProperty& addFloat(const std::string& name);
-	bwStyleProperty& addColor(const std::string& name, class bwColor& reference);
-	bwStyleProperty& addColor(const std::string& name);
-	bwStyleProperty& addProperty(
-	        const std::string& name,
-	        const bwStyleProperty::PropertyType prop_type);
+  bwStyleProperty& addBool(const std::string& name, bool& reference);
+  bwStyleProperty& addBool(const std::string& name);
+  bwStyleProperty& addInteger(const std::string& name, int& reference);
+  bwStyleProperty& addInteger(const std::string& name);
+  bwStyleProperty& addFloat(const std::string& name, float& reference);
+  bwStyleProperty& addFloat(const std::string& name);
+  bwStyleProperty& addColor(const std::string& name, class bwColor& reference);
+  bwStyleProperty& addColor(const std::string& name);
+  bwStyleProperty& addProperty(const std::string& name,
+                               const bwStyleProperty::PropertyType prop_type);
 
-	bwOptional<std::reference_wrapper<const bwStyleProperty>> lookup(const std::string& name) const;
+  bwOptional<std::reference_wrapper<const bwStyleProperty>> lookup(const std::string& name) const;
 
-	using iterator = PropertyList::iterator;
-	iterator begin();
-	iterator end();
-	using const_iterator = PropertyList::const_iterator;
-	const_iterator begin() const;
-	const_iterator end() const;
+  using iterator = PropertyList::iterator;
+  iterator begin();
+  iterator end();
+  using const_iterator = PropertyList::const_iterator;
+  const_iterator begin() const;
+  const_iterator end() const;
 
-private:
-	PropertyList properties{};
+ private:
+  PropertyList properties{};
 };
 
-} // namespace bWidgets
+}  // namespace bWidgets

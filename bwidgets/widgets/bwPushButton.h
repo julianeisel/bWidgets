@@ -4,23 +4,19 @@
 
 #include "bwAbstractButton.h"
 
-
 namespace bWidgets {
 
-class bwPushButton : public bwAbstractButton
-{
-public:
-	bwPushButton(
-	        const std::string& text,
-	        unsigned int width_hint = 0, unsigned int height_hint = 0);
+class bwPushButton : public bwAbstractButton {
+ public:
+  bwPushButton(const std::string& text, unsigned int width_hint = 0, unsigned int height_hint = 0);
 
-	const class bwIconInterface* getIcon() const override;
-	bwPushButton& setIcon(const class bwIconInterface&);
+  const class bwIconInterface* getIcon() const override;
+  bwPushButton& setIcon(const class bwIconInterface&);
 
-	bool canAlign() const override;
+  bool canAlign() const override;
 
-private:
-	const class bwIconInterface* icon{nullptr};
+ private:
+  const class bwIconInterface* icon{nullptr};
 };
 
-} // namespace bWidgets
+}  // namespace bWidgets

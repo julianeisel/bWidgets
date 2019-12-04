@@ -2,8 +2,7 @@
 
 using namespace bWidgets;
 
-
 bwStyleFlatDark::bwStyleFlatDark()
 {
-	type_id = STYLE_FLAT_DARK;
+  type_id = STYLE_FLAT_DARK;
 }

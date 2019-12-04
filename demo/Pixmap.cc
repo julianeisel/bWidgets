@@ -24,63 +24,62 @@
 
 #include "Pixmap.h"
 
-
 using namespace bWidgetsDemo;
 
-static unsigned int get_num_row_bytes_impl(
-        int width,
-        unsigned int num_channels,
-        unsigned int bits_per_channel,
-        unsigned int row_padding)
+static unsigned int get_num_row_bytes_impl(int width,
+                                           unsigned int num_channels,
+                                           unsigned int bits_per_channel,
+                                           unsigned int row_padding)
 {
-	assert((bits_per_channel % 8) == 0);
-	return width * (bits_per_channel / 8) * num_channels + row_padding;
+  assert((bits_per_channel % 8) == 0);
+  return width * (bits_per_channel / 8) * num_channels + row_padding;
 }
 
-Pixmap::Pixmap(
-        const int width, const int height,
-        const unsigned int num_channels,
-        const unsigned int bits_per_channel,
-        const unsigned int row_padding) :
-    _bytes(height * get_num_row_bytes_impl(width, num_channels, bits_per_channel, row_padding)),
-    _width(width), _height(height),
-    _num_channels(num_channels),
-    _bits_per_channel(bits_per_channel),
-    _row_padding(row_padding)
+Pixmap::Pixmap(const int width,
+               const int height,
+               const unsigned int num_channels,
+               const unsigned int bits_per_channel,
+               const unsigned int row_padding)
+    : _bytes(height * get_num_row_bytes_impl(width, num_channels, bits_per_channel, row_padding)),
+      _width(width),
+      _height(height),
+      _num_channels(num_channels),
+      _bits_per_channel(bits_per_channel),
+      _row_padding(row_padding)
 {
 }
 
 void Pixmap::fill(const unsigned char* bytes)
 {
-	if (_bytes.size() > 0) {
-		std::copy_n(bytes, _bytes.size(), &_bytes[0]);
-	}
+  if (_bytes.size() > 0) {
+    std::copy_n(bytes, _bytes.size(), &_bytes[0]);
+  }
 }
 
 std::vector<unsigned char>& Pixmap::getBytes()
 {
-	return _bytes;
+  return _bytes;
 }
 const std::vector<unsigned char>& Pixmap::getBytes() const
 {
-	return _bytes;
+  return _bytes;
 }
 
 int Pixmap::width() const
 {
-	return _width;
+  return _width;
 }
 int Pixmap::height() const
 {
-	return _height;
+  return _height;
 }
 
 unsigned int Pixmap::getBitDepth() const
 {
-	return _bits_per_channel;
+  return _bits_per_channel;
 }
 
 unsigned int Pixmap::getNumChannels() const
 {
-	return _num_channels;
+  return _num_channels;
 }

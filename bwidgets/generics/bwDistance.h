@@ -6,4 +6,4 @@ namespace bWidgets {
 
 using bwDistance = bwPoint;
 
-} // namespace bWidgets
+}  // namespace bWidgets

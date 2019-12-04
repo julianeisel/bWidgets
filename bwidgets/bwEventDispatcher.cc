@@ -30,7 +30,7 @@ static Node* findHoveredNode(bwEvent& event, Node& node)
 void bwEventDispatcher::dispatchMouseMovement(bwEvent event)
 {
   Node* new_hovered = findHoveredNode(event, screen_graph.Root());
-  changeHovered(new_hovered);
+  changeContextHovered(new_hovered);
 }
 
 void bwEventDispatcher::dispatchMouseButtonPress(bwMouseButtonEvent& event)
@@ -46,7 +46,7 @@ void bwEventDispatcher::dispatchMouseButtonPress(bwMouseButtonEvent& event)
  * Make \a new_hovered the new hovered widget, executing the onMouseEnter() and
  * onMouseLeave() listeners as needed.
  */
-void bwEventDispatcher::changeHovered(Node* new_hovered)
+void bwEventDispatcher::changeContextHovered(Node* new_hovered)
 {
   bwWidget* old_hovered = screen_graph.context.hovered;
 

@@ -4,16 +4,14 @@
 
 namespace bWidgets {
 
-class bwStyleFlat : public bwStyle
-{
-public:
-	bwStyleFlat();
+class bwStyleFlat : public bwStyle {
+ public:
+  bwStyleFlat();
 
-	void setWidgetStyle(class bwWidget& widget) override;
-	void polish(bwWidget &) override
-	{
-		
-	}
+  void setWidgetStyle(class bwWidget& widget) override;
+  void polish(bwWidget&) override
+  {
+  }
 };
 
-} // namespace bWidgets
+}  // namespace bWidgets

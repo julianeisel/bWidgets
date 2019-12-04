@@ -26,46 +26,45 @@
 
 #include "bwUtil.h"
 
-
 namespace bWidgetsDemo {
 
 typedef enum ShaderTypeID {
-	SHADER_TYPE_VERTEX,
-	SHADER_TYPE_FRAGMENT,
+  SHADER_TYPE_VERTEX,
+  SHADER_TYPE_FRAGMENT,
 
-	SHADER_TYPE_TOT
+  SHADER_TYPE_TOT
 } ShaderTypeID;
 
-class ShaderProgram
-{
-public:
-	typedef enum {
-		ID_UNIFORM_COLOR,
-		ID_SMOOTH_COLOR,
-		ID_BITMAP_TEXTURE_UNIFORM_COLOR,
-		ID_SUBPIXEL_BITMAP_TEXTURE_UNIFORM_COLOR,
-		ID_TEXTURE_RECT,
+class ShaderProgram {
+ public:
+  typedef enum {
+    ID_UNIFORM_COLOR,
+    ID_SMOOTH_COLOR,
+    ID_BITMAP_TEXTURE_UNIFORM_COLOR,
+    ID_SUBPIXEL_BITMAP_TEXTURE_UNIFORM_COLOR,
+    ID_TEXTURE_RECT,
 
-		SHADER_PROGRAM_ID_TOT
-	} ShaderProgramID;
-	using ShaderIDArray = std::array<unsigned int, SHADER_TYPE_TOT>;
+    SHADER_PROGRAM_ID_TOT
+  } ShaderProgramID;
+  using ShaderIDArray = std::array<unsigned int, SHADER_TYPE_TOT>;
 
-	static ShaderProgram& getShaderProgram(ShaderProgramID shader_program_id);
+  static ShaderProgram& getShaderProgram(ShaderProgramID shader_program_id);
 
-	unsigned int ProgramID() const;
-	const ShaderInterface& getInterface() const;
+  unsigned int ProgramID() const;
+  const ShaderInterface& getInterface() const;
 
-private:
-	ShaderProgram(ShaderProgramID shader_program_id);
-	~ShaderProgram();
-	friend bWidgets::bwPtr<ShaderProgram>::deleter_type;
+ private:
+  ShaderProgram(ShaderProgramID shader_program_id);
+  ~ShaderProgram();
+  friend bWidgets::bwPtr<ShaderProgram>::deleter_type;
 
-	using ShaderProgramCache = std::array<bWidgets::bwPtr<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
-	static ShaderProgramCache cache;
+  using ShaderProgramCache =
+      std::array<bWidgets::bwPtr<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
+  static ShaderProgramCache cache;
 
-	ShaderIDArray shader_ids = {};
-	unsigned int programID = 0;
-	ShaderInterface* interface;
+  ShaderIDArray shader_ids = {};
+  unsigned int programID = 0;
+  ShaderInterface* interface;
 };
 
-} // namespace bWidgetsDemo
+}  // namespace bWidgetsDemo

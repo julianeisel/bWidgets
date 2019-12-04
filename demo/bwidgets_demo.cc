@@ -23,14 +23,13 @@
 
 using namespace bWidgetsDemo;
 
-
 int main(int /*argc*/, char** /*argv*/)
 {
-	Application& app = Application::ensureApplication();
+  Application& app = Application::ensureApplication();
 
-	app.setup();
-	app.mainLoop();
-	app.exit();
+  app.setup();
+  app.mainLoop();
+  app.exit();
 
-	return 0;
+  return 0;
 }
