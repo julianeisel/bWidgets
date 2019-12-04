@@ -6,7 +6,6 @@
 #include "Node.h"
 #include "bwWidget.h"
 
-
 namespace bWidgets {
 namespace bwScreenGraph {
 
@@ -24,33 +23,32 @@ namespace bwScreenGraph {
  * memory to keep information about visited ancestors up to the root of
  * iteration. Even that only adds trivial overhead though.
  */
-class PreOrderIterator
-{
-public:
-	PreOrderIterator();
-	PreOrderIterator(Node& node);
+class PreOrderIterator {
+ public:
+  PreOrderIterator();
+  PreOrderIterator(Node& node);
 
-	// Delete copy but keep move constructor for now. We store a parent path
-	// below which would require deep copying. So prefer move over copy.
-	PreOrderIterator(const PreOrderIterator&) = delete;
-	PreOrderIterator(PreOrderIterator&&) = default;
+  // Delete copy but keep move constructor for now. We store a parent path
+  // below which would require deep copying. So prefer move over copy.
+  PreOrderIterator(const PreOrderIterator&) = delete;
+  PreOrderIterator(PreOrderIterator&&) = default;
 
-	bool operator!=(const PreOrderIterator&) const;
-	Node& operator*();
-	PreOrderIterator& operator++();
+  bool operator!=(const PreOrderIterator&) const;
+  Node& operator*();
+  PreOrderIterator& operator++();
 
-private:
-	union {
-		Node* node;
-		Node::ChildList::iterator node_iter;
-	};
-	Node* root;
-	bool is_root = true;
-	// Ancestors up to (but excluding!) node that started iteration.
-	std::list<Node::ChildList::iterator> ancestors;
+ private:
+  union {
+    Node* node;
+    Node::ChildList::iterator node_iter;
+  };
+  Node* root;
+  bool is_root = true;
+  // Ancestors up to (but excluding!) node that started iteration.
+  std::list<Node::ChildList::iterator> ancestors;
 
-	void triggerIterationEnd();
-	bool hasExceededLastSibling();
+  void triggerIterationEnd();
+  bool hasExceededLastSibling();
 };
 
 /* PreOrderIterator is the default iterator (implicitly chosen when passing a
@@ -60,5 +58,5 @@ PreOrderIterator end(Node&);
 PreOrderIterator begin(ScreenGraph& screen_graph);
 PreOrderIterator end(ScreenGraph& screen_graph);
 
-} // namespace bwScreenGraph
-} // bWidgets
+}  // namespace bwScreenGraph
+}  // namespace bWidgets

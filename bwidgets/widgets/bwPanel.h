@@ -3,41 +3,40 @@
 #include "bwWidget.h"
 #include "bwWidgetBaseStyle.h"
 
-
 namespace bWidgets {
 
-class bwPanel : public bwWidget
-{
-public:
-	bwPanel(
-	        std::string label,
-	        unsigned int header_height_hint);
+class bwPanel : public bwWidget {
+ public:
+  bwPanel(std::string label, unsigned int header_height_hint);
 
-	void draw(class bwStyle& style) override;
+  void draw(class bwStyle& style) override;
 
-	void registerProperties() override;
+  void registerProperties() override;
 
-	void onMousePress(bwMouseButtonEvent&) override;
+  void onMousePress(bwMouseButtonEvent&) override;
 
-	const std::string* getLabel() const override;
+  const std::string* getLabel() const override;
 
-	bool isCoordinateInsideHeader(const bwPoint &point) const;
-	unsigned int getHeaderHeightHint() const;
-	unsigned int header_height;
+  bool isCoordinateInsideHeader(const bwPoint& point) const;
+  unsigned int getHeaderHeightHint() const;
+  unsigned int header_height;
 
-	enum {
-		PANEL_OPEN,
-		PANEL_CLOSED,
-	} panel_state{PANEL_OPEN};
+  enum {
+    PANEL_OPEN,
+    PANEL_CLOSED,
+  } panel_state{PANEL_OPEN};
 
-private:
-	void drawHeader(class bwStyle& style) const;
-	bwRectanglePixel getHeaderRectangle() const;
+ private:
+  void drawHeader(class bwStyle& style) const;
+  bwRectanglePixel getHeaderRectangle() const;
 
-	std::string label;
+  std::string label;
 
-public: bwWidgetBaseStyle base_style; // XXX public for setWidgetStyle. Should only be temporarily needed.
-public: bool draw_separator = false;
+ public:
+  bwWidgetBaseStyle
+      base_style;  // XXX public for setWidgetStyle. Should only be temporarily needed.
+ public:
+  bool draw_separator = false;
 };
 
-} // namespace bWidgets
+}  // namespace bWidgets

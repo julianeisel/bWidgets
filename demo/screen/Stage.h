@@ -31,82 +31,71 @@
 
 #include "Font.h"
 
-
 namespace bWidgetsDemo {
 
-class Stage
-{
-	friend class ScrollbarApplyValueFunctor;
-	friend class StyleSetter;
-	friend class UseCSSVersionToggleSetter;
-	friend class UseFontSubPixelsToggleSetter;
+class Stage {
+  friend class ScrollbarApplyValueFunctor;
+  friend class StyleSetter;
+  friend class UseCSSVersionToggleSetter;
+  friend class UseFontSubPixelsToggleSetter;
 
-public:
-	Stage(const unsigned int mask_width, const unsigned int mask_height);
-	virtual ~Stage() = default;
+ public:
+  Stage(const unsigned int mask_width, const unsigned int mask_height);
+  virtual ~Stage() = default;
 
-	void draw();
+  void draw();
 
-	void handleMouseMovementEvent(
-	        const class MouseEvent& event);
-	void handleMouseButtonEvent(
-	        const class MouseEvent& event);
-	void handleMouseDragEvent(
-	        const class MouseEvent& event);
-	void handleMouseScrollEvent(
-	        const class MouseEvent& event);
-	void handleWindowResizeEvent(
-	        const class Window& win);
+  void handleMouseMovementEvent(const class MouseEvent& event);
+  void handleMouseButtonEvent(const class MouseEvent& event);
+  void handleMouseDragEvent(const class MouseEvent& event);
+  void handleMouseScrollEvent(const class MouseEvent& event);
+  void handleWindowResizeEvent(const class Window& win);
 
-	static void setInterfaceScale(const float value);
-	static void setFontTightPositioning(const bool value);
-	static void setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode);
-	static void setFontHinting(const bool value);
-	static void setFontSubPixelPositioning(const bool value);
+  static void setInterfaceScale(const float value);
+  static void setFontTightPositioning(const bool value);
+  static void setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode);
+  static void setFontHinting(const bool value);
+  static void setFontSubPixelPositioning(const bool value);
 
-protected:
-	bWidgets::bwScreenGraph::ScreenGraph screen_graph;
+ protected:
+  bWidgets::bwScreenGraph::ScreenGraph screen_graph;
 
-	// Static members, global UI data for all stages
-	static bWidgets::bwPtr<bWidgets::bwStyle> style;
-	static bWidgets::bwPtr<class Font> font;
-	static bWidgets::bwPtr<class IconMap> icon_map;
-	static bWidgets::bwPtr<class StyleSheet> style_sheet;
-	static float interface_scale;
+  // Static members, global UI data for all stages
+  static bWidgets::bwPtr<bWidgets::bwStyle> style;
+  static bWidgets::bwPtr<class Font> font;
+  static bWidgets::bwPtr<class IconMap> icon_map;
+  static bWidgets::bwPtr<class StyleSheet> style_sheet;
+  static float interface_scale;
 
-	unsigned int mask_width, mask_height;
-	int vert_scroll = 0;
+  unsigned int mask_width, mask_height;
+  int vert_scroll = 0;
 
-	class RootLayout& Layout() const;
+  class RootLayout& Layout() const;
 
-	virtual void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
+  virtual void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
 
-private:
-	// Not part of the layout yet. We'd need to support horizontal root layouts first.
-	bWidgets::bwScreenGraph::WidgetNode scrollbar_node;
-	bWidgets::bwWidget* dragged_widget{nullptr};
+ private:
+  // Not part of the layout yet. We'd need to support horizontal root layouts first.
+  bWidgets::bwScreenGraph::WidgetNode scrollbar_node;
+  bWidgets::bwWidget* dragged_widget{nullptr};
 
-	static void StyleSheetPolish(bWidgets::bwWidget& widget);
+  static void StyleSheetPolish(bWidgets::bwWidget& widget);
 
-	void initFonts();
-	void initIcons();
-	void setStyleSheet(const std::string& filepath);
-	void drawScrollbars();
-	void updateContentBounds();
-	void validizeScrollValue();
-	bWidgets::bwScreenGraph::Node* findNodeAt(const bWidgets::bwPoint& coordinate);
-	void updateWidgetHovering(
-	        const MouseEvent&,
-	        bWidgets::bwScreenGraph::Node&);
-	bool handleWidgetMouseButtonEvent(
-	        const MouseEvent&,
-	        bWidgets::bwWidget&);
+  void initFonts();
+  void initIcons();
+  void setStyleSheet(const std::string& filepath);
+  void drawScrollbars();
+  void updateContentBounds();
+  void validizeScrollValue();
+  bWidgets::bwScreenGraph::Node* findNodeAt(const bWidgets::bwPoint& coordinate);
+  void updateWidgetHovering(const MouseEvent&, bWidgets::bwScreenGraph::Node&);
+  bool handleWidgetMouseButtonEvent(const MouseEvent&, bWidgets::bwWidget&);
 
-	bool shouldHaveScrollbars() const;
-	unsigned int getScrollbarWidth() const;
-	unsigned int getContentWidth() const;
-	unsigned int getContentHeight() const;
-	void setScrollValue(int value);
+  bool shouldHaveScrollbars() const;
+  unsigned int getScrollbarWidth() const;
+  unsigned int getContentWidth() const;
+  unsigned int getContentHeight() const;
+  void setScrollValue(int value);
 };
 
-} // namespace bWidgetsDemo
+}  // namespace bWidgetsDemo

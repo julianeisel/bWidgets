@@ -13,10 +13,9 @@ class bwWidget;
  * Rather than requiring lookups, bWidgets uses this context data-struture for
  * access to special state widgets.
  */
-struct bwContext
-{
-	/** The currently hovered widget (if any). */
-	bwWidget* hovered = nullptr;
+struct bwContext {
+  /** The currently hovered widget (if any). */
+  bwWidget* hovered = nullptr;
 };
 
-} // namespace bWidgets
+}  // namespace bWidgets

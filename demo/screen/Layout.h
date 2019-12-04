@@ -25,20 +25,18 @@
 
 #include "screen_graph/Node.h"
 
-
 namespace bWidgets {
-	class bwPanel;
-	class bwPoint;
-	class bwStyle;
-	class bwWidget;
-}
+class bwPanel;
+class bwPoint;
+class bwStyle;
+class bwWidget;
+}  // namespace bWidgets
 
 namespace bWidgetsDemo {
 
-void resolveScreenGraphNodeLayout(
-        bWidgets::bwScreenGraph::Node& node,
-        const float vertical_scroll,
-        const float scale_fac);
+void resolveScreenGraphNodeLayout(bWidgets::bwScreenGraph::Node& node,
+                                  const float vertical_scroll,
+                                  const float scale_fac);
 
 /**
  * \brief An abstract class for defining items that form the layout.
@@ -57,64 +55,62 @@ void resolveScreenGraphNodeLayout(
  *       the needed position and size hints can be set. Without changing these, the
  *       calculated widget-coordinates don't change.
  */
-class LayoutItem : public bWidgets::bwLayoutInterface
-{
-	friend int getNodeWidth(const bWidgets::bwScreenGraph::Node&);
-	friend int getNodeHeight(const bWidgets::bwScreenGraph::Node&);
+class LayoutItem : public bWidgets::bwLayoutInterface {
+  friend int getNodeWidth(const bWidgets::bwScreenGraph::Node&);
+  friend int getNodeHeight(const bWidgets::bwScreenGraph::Node&);
 
-public:
-	enum LayoutItemType {
-		LAYOUT_ITEM_TYPE_ROOT,
-		LAYOUT_ITEM_TYPE_ROW,
-		LAYOUT_ITEM_TYPE_COLUMN,
-		LAYOUT_ITEM_TYPE_PANEL,
-		LAYOUT_ITEM_TYPE_WIDGET,
-	};
+ public:
+  enum LayoutItemType {
+    LAYOUT_ITEM_TYPE_ROOT,
+    LAYOUT_ITEM_TYPE_ROW,
+    LAYOUT_ITEM_TYPE_COLUMN,
+    LAYOUT_ITEM_TYPE_PANEL,
+    LAYOUT_ITEM_TYPE_WIDGET,
+  };
 
-	enum FlowDirection {
-		// Widgets and child-layouts are added top to down
-		FLOW_DIRECTION_VERTICAL,
-		// Widgets and child-layouts are added left to right
-		FLOW_DIRECTION_HORIZONTAL,
-	};
+  enum FlowDirection {
+    // Widgets and child-layouts are added top to down
+    FLOW_DIRECTION_VERTICAL,
+    // Widgets and child-layouts are added left to right
+    FLOW_DIRECTION_HORIZONTAL,
+  };
 
-	virtual ~LayoutItem() override = default;
+  virtual ~LayoutItem() override = default;
 
-	virtual void resolve(
-	        bWidgets::bwScreenGraph::Node::ChildList* chilren,
-	        const bWidgets::bwPoint& layout_pos,
-	        const unsigned int item_margin,
-	        const float scale_fac);
+  virtual void resolve(bWidgets::bwScreenGraph::Node::ChildList* chilren,
+                       const bWidgets::bwPoint& layout_pos,
+                       const unsigned int item_margin,
+                       const float scale_fac);
 
-	bWidgets::bwRectanglePixel getRectangle() override;
+  bWidgets::bwRectanglePixel getRectangle() override;
 
-	unsigned int getHeight() const;
+  unsigned int getHeight() const;
 
-	const LayoutItemType type;
-	const FlowDirection flow_direction;
-	const bool align;
+  const LayoutItemType type;
+  const FlowDirection flow_direction;
+  const bool align;
 
-protected:
-	// Protected constructor to force calling through inherited class (pseudo abstract).
-	LayoutItem(
-	        LayoutItemType layout_type,
-	        const bool align,
-	        FlowDirection flow_direction = FLOW_DIRECTION_HORIZONTAL);
+ protected:
+  // Protected constructor to force calling through inherited class (pseudo abstract).
+  LayoutItem(LayoutItemType layout_type,
+             const bool align,
+             FlowDirection flow_direction = FLOW_DIRECTION_HORIZONTAL);
 
-	using LayoutItemList = std::list<bWidgets::bwPtr<LayoutItem>>;
-	using IteratorItem = LayoutItemList::const_iterator;
+  using LayoutItemList = std::list<bWidgets::bwPtr<LayoutItem>>;
+  using IteratorItem = LayoutItemList::const_iterator;
 
-	int width{0}, height{0};
-	bWidgets::bwPoint location;
+  int width{0}, height{0};
+  bWidgets::bwPoint location;
 
-	static void resolvePanelContents(
-	        bWidgets::bwScreenGraph::Node& panel_node,
-	        const bWidgets::bwPoint& panel_pos,
-	        const unsigned int padding, const unsigned int item_margin,
-	        const float scale_fac);
-private:
-	unsigned int countRowColumns(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
-	unsigned int countNeededMargins(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
+  static void resolvePanelContents(bWidgets::bwScreenGraph::Node& panel_node,
+                                   const bWidgets::bwPoint& panel_pos,
+                                   const unsigned int padding,
+                                   const unsigned int item_margin,
+                                   const float scale_fac);
+
+ private:
+  unsigned int countRowColumns(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
+  unsigned int countNeededMargins(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
 };
 
 /**
@@ -124,48 +120,41 @@ private:
  *
  * \note Only root-layouts with \a flow_direction FLOW_DIRECTION_VERTICAL are supported right now.
  */
-class RootLayout : public LayoutItem
-{
-public:
-	RootLayout(
-//	        FlowDirection direction,
-	        const int ymax, const unsigned int max_size,
-	        const bool align = false);
+class RootLayout : public LayoutItem {
+ public:
+  RootLayout(
+      //	        FlowDirection direction,
+      const int ymax,
+      const unsigned int max_size,
+      const bool align = false);
 
-	void resolve(
-	        bWidgets::bwScreenGraph::Node::ChildList& children,
-	        const float vertical_scroll,
-	        const float scale_fac);
-	void setMaxSize(const unsigned int max_size);
-	void setYmax(const int value);
+  void resolve(bWidgets::bwScreenGraph::Node::ChildList& children,
+               const float vertical_scroll,
+               const float scale_fac);
+  void setMaxSize(const unsigned int max_size);
+  void setYmax(const int value);
 
-	unsigned int padding = 0;
-	unsigned int item_margin = 0;
+  unsigned int padding = 0;
+  unsigned int item_margin = 0;
 
-private:
-	unsigned int max_size;
-	int ymax;
+ private:
+  unsigned int max_size;
+  int ymax;
 };
 
-
-class ColumnLayout : public LayoutItem
-{
-public:
-	explicit ColumnLayout(const bool align = false);
+class ColumnLayout : public LayoutItem {
+ public:
+  explicit ColumnLayout(const bool align = false);
 };
 
-
-class RowLayout : public LayoutItem
-{
-public:
-	explicit RowLayout(const bool align = false);
+class RowLayout : public LayoutItem {
+ public:
+  explicit RowLayout(const bool align = false);
 };
 
-
-class PanelLayout : public LayoutItem
-{
-public:
-	explicit PanelLayout();
+class PanelLayout : public LayoutItem {
+ public:
+  explicit PanelLayout();
 };
 
-} // namespace bWidgetsDemo
+}  // namespace bWidgetsDemo

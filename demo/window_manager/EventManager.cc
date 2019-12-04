@@ -27,28 +27,27 @@
 #include "EventManager.h"
 
 using namespace bWidgetsDemo;
-using namespace bWidgets; // Less verbose
-
+using namespace bWidgets;  // Less verbose
 
 bool EventManager::is_dragging = false;
 
 EventManager& EventManager::ensureEventManager()
 {
-	static EventManager instance;
-	return instance;
+  static EventManager instance;
+  return instance;
 }
 
 void EventManager::waitEvents()
 {
-	glfwWaitEvents();
+  glfwWaitEvents();
 }
 
 bool EventManager::processEvents(WindowManager::WindowList& windows)
 {
-	for (Window& win : windows) {
-		/* TODO, should register handler lists that are handled in
-		 * event-manager, for now, just doing it with callbacks */
-		if (win.processEvents() == Window::WINDOW_ACTION_CLOSE) {
+  for (Window& win : windows) {
+    /* TODO, should register handler lists that are handled in
+     * event-manager, for now, just doing it with callbacks */
+    if (win.processEvents() == Window::WINDOW_ACTION_CLOSE) {
 #if 0
 			if (isMainWindow(win)) {
 				return WM_ACTION_CLOSE;
@@ -57,101 +56,102 @@ bool EventManager::processEvents(WindowManager::WindowList& windows)
 				removeWindow(win);
 			}
 #endif
-			return false;
-		}
-	}
+      return false;
+    }
+  }
 
-	return true;
+  return true;
 }
 
 void EventManager::setupWindowHandlers(Window& window)
 {
-	GLFWwindow& glfw_window = window.getGlfwWindow();
+  GLFWwindow& glfw_window = window.getGlfwWindow();
 
-	glfwSetWindowUserPointer(&glfw_window, &window);
-	glfwSetWindowSizeCallback(&glfw_window, handleWindowResizeEvent);
-	glfwSetCursorPosCallback(&glfw_window, handleMouseMovementEvent);
-	glfwSetMouseButtonCallback(&glfw_window, handleMouseButtonEvent);
-	glfwSetScrollCallback(&glfw_window, handleMouseScrollEvent);
+  glfwSetWindowUserPointer(&glfw_window, &window);
+  glfwSetWindowSizeCallback(&glfw_window, handleWindowResizeEvent);
+  glfwSetCursorPosCallback(&glfw_window, handleMouseMovementEvent);
+  glfwSetMouseButtonCallback(&glfw_window, handleMouseButtonEvent);
+  glfwSetScrollCallback(&glfw_window, handleMouseScrollEvent);
 }
 
 bool EventManager::isDragging()
 {
-	return is_dragging;
+  return is_dragging;
 }
 
 void EventManager::handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, int new_win_y)
 {
-	auto* win = (Window*)glfwGetWindowUserPointer(glfw_win);
-	win->handleResizeEvent(new_win_x, new_win_y);
+  auto* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+  win->handleResizeEvent(new_win_x, new_win_y);
 }
 
 bwMouseButtonEvent::MouseButton EventManager::convertGlfwMouseButton(int glfw_button)
 {
-	switch (glfw_button) {
-		case GLFW_MOUSE_BUTTON_LEFT:
-			return bwMouseButtonEvent::BUTTON_LEFT;
-		case GLFW_MOUSE_BUTTON_RIGHT:
-			return bwMouseButtonEvent::BUTTON_RIGHT;
-	}
+  switch (glfw_button) {
+    case GLFW_MOUSE_BUTTON_LEFT:
+      return bwMouseButtonEvent::BUTTON_LEFT;
+    case GLFW_MOUSE_BUTTON_RIGHT:
+      return bwMouseButtonEvent::BUTTON_RIGHT;
+  }
 
-	return bwMouseButtonEvent::BUTTON_UNKNOWN;
+  return bwMouseButtonEvent::BUTTON_UNKNOWN;
 }
 
 MouseEvent::MouseEventType EventManager::convertGlfwMouseButtonAction(int glfw_action)
 {
-	switch (glfw_action) {
-		case GLFW_PRESS:
-			return MouseEvent::MOUSE_EVENT_PRESS;
-		case GLFW_RELEASE:
-			return MouseEvent::MOUSE_EVENT_RELEASE;
-	}
+  switch (glfw_action) {
+    case GLFW_PRESS:
+      return MouseEvent::MOUSE_EVENT_PRESS;
+    case GLFW_RELEASE:
+      return MouseEvent::MOUSE_EVENT_RELEASE;
+  }
 
-	return MouseEvent::MOUSE_EVENT_UNKNOWN;
+  return MouseEvent::MOUSE_EVENT_UNKNOWN;
 }
 
 void EventManager::handleMouseMovementEvent(GLFWwindow* glfw_win, double /*x*/, double /*y*/)
 {
-	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
-	const bwPoint& position = win->getCursorPosition();
-	MouseEvent event(MouseEvent::MOUSE_EVENT_MOVE, bwMouseButtonEvent::BUTTON_UNKNOWN, position);
+  const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+  const bwPoint& position = win->getCursorPosition();
+  MouseEvent event(MouseEvent::MOUSE_EVENT_MOVE, bwMouseButtonEvent::BUTTON_UNKNOWN, position);
 
-	if (is_dragging) {
-		win->stage->handleMouseDragEvent(event);
-	}
-	else {
-		win->stage->handleMouseMovementEvent(event);
-	}
+  if (is_dragging) {
+    win->stage->handleMouseDragEvent(event);
+  }
+  else {
+    win->stage->handleMouseMovementEvent(event);
+  }
 }
 
-void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win, int glfw_button, int glfw_action, int /*glfw_mods*/)
+void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win,
+                                          int glfw_button,
+                                          int glfw_action,
+                                          int /*glfw_mods*/)
 {
-	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
-	const bwPoint& position = win->getCursorPosition();
-	const MouseEvent::MouseEventType action_type = convertGlfwMouseButtonAction(glfw_action);
-	const bwMouseButtonEvent::MouseButton mouse_button = convertGlfwMouseButton(glfw_button);
-	MouseEvent event(action_type, mouse_button, position);
+  const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+  const bwPoint& position = win->getCursorPosition();
+  const MouseEvent::MouseEventType action_type = convertGlfwMouseButtonAction(glfw_action);
+  const bwMouseButtonEvent::MouseButton mouse_button = convertGlfwMouseButton(glfw_button);
+  MouseEvent event(action_type, mouse_button, position);
 
-	if (action_type == MouseEvent::MOUSE_EVENT_PRESS) {
-		is_dragging = true;
-	}
-	else if (action_type == MouseEvent::MOUSE_EVENT_RELEASE) {
-		is_dragging = false;
-	}
+  if (action_type == MouseEvent::MOUSE_EVENT_PRESS) {
+    is_dragging = true;
+  }
+  else if (action_type == MouseEvent::MOUSE_EVENT_RELEASE) {
+    is_dragging = false;
+  }
 
-	win->stage->handleMouseButtonEvent(event);
+  win->stage->handleMouseButtonEvent(event);
 }
 
-void EventManager::handleMouseScrollEvent(
-        GLFWwindow* glfw_win,
-        double /*value_x*/, double value_y)
+void EventManager::handleMouseScrollEvent(GLFWwindow* glfw_win, double /*value_x*/, double value_y)
 {
-	const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
-	const MouseEvent::MouseEventType event_type = (value_y > 0) ?
-	                                                    MouseEvent::MOUSE_EVENT_SCROLL_UP :
-	                                                    MouseEvent::MOUSE_EVENT_SCROLL_DOWN;
-	const bwPoint& position = win->getCursorPosition();
-	MouseEvent event(event_type, bwMouseButtonEvent::BUTTON_WHEEL, position);
+  const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+  const MouseEvent::MouseEventType event_type = (value_y > 0) ?
+                                                    MouseEvent::MOUSE_EVENT_SCROLL_UP :
+                                                    MouseEvent::MOUSE_EVENT_SCROLL_DOWN;
+  const bwPoint& position = win->getCursorPosition();
+  MouseEvent event(event_type, bwMouseButtonEvent::BUTTON_WHEEL, position);
 
-	win->stage->handleMouseScrollEvent(event);
+  win->stage->handleMouseScrollEvent(event);
 }
