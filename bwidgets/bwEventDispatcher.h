@@ -1,9 +1,12 @@
 #pragma once
 
+#include "bwEvent.h"
+#include "bwOptional.h"
+#include "bwPoint.h"
+
 namespace bWidgets {
 
-class bwEvent;
-class bwMouseButtonEvent;
+class bwContext;
 namespace bwScreenGraph {
 class ScreenGraph;
 class Node;
@@ -19,16 +22,21 @@ class Node;
  */
 class bwEventDispatcher {
  public:
-  bwEventDispatcher(bwScreenGraph::ScreenGraph& _screen_graph) : screen_graph(_screen_graph)
-  {
-  }
+  bwEventDispatcher(bwScreenGraph::ScreenGraph& _screen_graph);
 
   void dispatchMouseMovement(bwEvent);
   void dispatchMouseButtonPress(bwMouseButtonEvent&);
+  void dispatchMouseButtonRelease(bwMouseButtonEvent&);
 
  private:
   /** Reference back to the screen-graph owning this dispatcher */
   bwScreenGraph::ScreenGraph& screen_graph;
+  /** Reference to the screen-graph's context (convenience). */
+  bwContext& context;
+
+  bwOptional<bwMouseButtonDragEvent> drag_event;
+
+  bool isDragging();
 
   // XXX Temp: Public so host app can manage scrollbar hovering.
  public:

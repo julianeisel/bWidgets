@@ -69,12 +69,6 @@ MouseEvent::MouseEventType MouseEvent::getType() const
   return type;
 }
 
-bWidgets::bwDistance MouseEvent::getDragDistance() const
-{
-  EventManager& manager = EventManager::ensureEventManager();
-  return manager.isDragging() ? location - last_down_location : 0;
-}
-
 const bWidgets::bwPoint& MouseEvent::getMouseLocation()
 {
   return location;

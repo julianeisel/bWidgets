@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "bwPoint.h"
 
 using namespace bWidgets;
@@ -28,6 +30,11 @@ bwPoint operator+(const bwPoint& lhs, const bwPoint& rhs)
 bwPoint operator-(const bwPoint& lhs, const bwPoint& rhs)
 {
   return {lhs.x - rhs.x, lhs.y - rhs.y};
+}
+
+float distance(bwPoint a, bwPoint b)
+{
+  return std::sqrt(std::pow(a.x - b.x, 2.0f) + std::pow(a.y - b.y, 2.0f));
 }
 
 }  // namespace bWidgets

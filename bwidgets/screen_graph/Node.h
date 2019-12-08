@@ -74,6 +74,7 @@ class Node {
   }
 
   virtual bwRectanglePixel Rectangle() const = 0;
+  virtual bool isVisible() const = 0;
 
  private:
   Node* parent;
@@ -107,6 +108,11 @@ class LayoutNode : virtual public Node {
     return layout->getRectangle();
   }
 
+  bool isVisible() const override
+  {
+    return true;
+  }
+
  private:
   ChildList children;
   bwPtr<bwLayoutInterface> layout;
@@ -130,6 +136,11 @@ class WidgetNode : virtual public Node {
     return widget->rectangle;
   }
 
+  bool isVisible() const override
+  {
+    return widget->hidden == false;
+  }
+
  private:
   bwPtr<bwWidget> widget;
 };
@@ -146,6 +157,11 @@ class ContainerNode : public LayoutNode, public WidgetNode {
   bwRectanglePixel Rectangle() const override
   {
     return WidgetNode::Rectangle();
+  }
+
+  bool isVisible() const override
+  {
+    return WidgetNode::isVisible();
   }
 };
 

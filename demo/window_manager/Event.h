@@ -56,7 +56,6 @@ class MouseEvent : Event {
 
   bWidgets::bwMouseButtonEvent::MouseButton getButton() const;
   MouseEventType getType() const;
-  bWidgets::bwDistance getDragDistance() const;
 
   static const bWidgets::bwPoint& getMouseLocation();
 

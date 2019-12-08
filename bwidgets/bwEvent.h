@@ -36,12 +36,22 @@ class bwMouseButtonEvent : public bwEvent {
 
 class bwMouseButtonDragEvent : public bwMouseButtonEvent {
  public:
-  bwMouseButtonDragEvent(MouseButton _button, bwPoint _location, bwDistance _drag_distance)
-      : bwMouseButtonEvent(_button, _location), drag_distance(_drag_distance)
+  enum DragState {
+    DRAGGING_BELOW_THRESHOLD,
+    DRAGGING,
+  };
+
+  bwMouseButtonDragEvent(MouseButton _button, bwPoint _location)
+      : bwMouseButtonEvent(_button, _location), drag_state(DRAGGING_BELOW_THRESHOLD)
   {
   }
 
-  const bwDistance drag_distance;
+  void addMouseMovement(bwPoint new_location);
+
+  const static short DRAG_THRESHOLD = 3;
+
+  bwDistance drag_distance;
+  DragState drag_state;
 };
 
 }  // namespace bWidgets

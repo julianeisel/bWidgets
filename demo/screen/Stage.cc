@@ -278,76 +278,6 @@ void Stage::setScrollValue(int value)
   validizeScrollValue();
 }
 
-bwScreenGraph::Node* Stage::findNodeAt(const bwPoint& coordinate)
-{
-  if (coordinate.x > getContentWidth()) {
-    return scrollbar_node.Widget() ? &scrollbar_node : nullptr;
-  }
-
-  const bwScreenGraph::Node* skip_until_parent = nullptr;
-
-  for (bwScreenGraph::Node& node : screen_graph) {
-    bwWidget* widget = node.Widget();
-    if (skip_until_parent && (skip_until_parent == node.Parent())) {
-      skip_until_parent = nullptr;
-    }
-
-    if (skip_until_parent || !widget || widget->hidden) {
-      continue;
-    }
-
-    if (widget->type == bwWidget::WIDGET_TYPE_PANEL) {
-      // Temporary exception for until we have proper event handling with event bubbling and
-      // breaking
-      bwPanel& panel = *widget_cast<bwPanel*>(widget);
-
-      if (panel.isCoordinateInsideHeader(coordinate)) {
-        return &node;
-      }
-      if (panel.panel_state == bwPanel::PANEL_CLOSED) {
-        skip_until_parent = node.Parent();
-      }
-    }
-    else {
-      if (widget->isCoordinateInside(coordinate)) {
-        return &node;
-      }
-    }
-  }
-
-  return nullptr;
-}
-
-/**
- * \return True if handled successfully.
- */
-bool Stage::handleWidgetMouseButtonEvent(const MouseEvent& event, bwWidget& widget)
-{
-  //	const bwPoint& location = event.getMouseLocation();
-  bwMouseButtonEvent bw_event(event.getButton(), event.getMouseLocation());
-
-  if (event.isClick()) {
-    widget.onMouseClick(bw_event);
-  }
-
-  switch (event.getType()) {
-    case MouseEvent::MOUSE_EVENT_PRESS:
-      screen_graph.event_dispatcher.dispatchMouseButtonPress(bw_event);
-      //			assert(widget.isCoordinateInside(location));
-      //			widget.onMousePress(bw_event);
-      dragged_widget = &widget;
-      break;
-    case MouseEvent::MOUSE_EVENT_RELEASE:
-      widget.onMouseRelease(bw_event);
-      dragged_widget = nullptr;
-      break;
-    default:
-      return false;
-  }
-
-  return false;
-}
-
 void Stage::handleMouseMovementEvent(const MouseEvent& event)
 {
   using namespace bwScreenGraph;
@@ -366,22 +296,18 @@ void Stage::handleMouseMovementEvent(const MouseEvent& event)
 
 void Stage::handleMouseButtonEvent(const MouseEvent& event)
 {
-  if (!dragged_widget) {
-    bwScreenGraph::Node* node = findNodeAt(event.getMouseLocation());
-    dragged_widget = node ? node->Widget() : nullptr;
-  }
+  bwMouseButtonEvent bw_event(event.getButton(), event.getMouseLocation());
+  bwEventDispatcher& dispatcher = screen_graph.event_dispatcher;
 
-  if (dragged_widget) {
-    handleWidgetMouseButtonEvent(event, *dragged_widget);
-  }
-}
-
-void Stage::handleMouseDragEvent(const MouseEvent& event)
-{
-  if (dragged_widget) {
-    bwMouseButtonDragEvent bw_event(
-        event.getButton(), event.getMouseLocation(), event.getDragDistance());
-    dragged_widget->onMouseDrag(bw_event);
+  switch (event.getType()) {
+    case MouseEvent::MOUSE_EVENT_PRESS:
+      dispatcher.dispatchMouseButtonPress(bw_event);
+      break;
+    case MouseEvent::MOUSE_EVENT_RELEASE:
+      dispatcher.dispatchMouseButtonRelease(bw_event);
+      break;
+    default:
+      break;
   }
 }
 

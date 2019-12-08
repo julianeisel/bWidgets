@@ -1,8 +1,13 @@
 #pragma once
 
+#include "bwPtr.h"
+
 namespace bWidgets {
 
 class bwWidget;
+namespace bwScreenGraph {
+class Node;
+}
 
 /**
  * \brief Important state information for the screen-graph.
@@ -16,6 +21,9 @@ class bwWidget;
 struct bwContext {
   /** The currently hovered widget (if any). */
   bwWidget* hovered = nullptr;
+
+  /** The currently active widget which gets any input (if any). */
+  bwScreenGraph::Node* active = nullptr;
 };
 
 }  // namespace bWidgets

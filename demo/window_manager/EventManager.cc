@@ -29,7 +29,6 @@
 using namespace bWidgetsDemo;
 using namespace bWidgets;  // Less verbose
 
-bool EventManager::is_dragging = false;
 
 EventManager& EventManager::ensureEventManager()
 {
@@ -74,11 +73,6 @@ void EventManager::setupWindowHandlers(Window& window)
   glfwSetScrollCallback(&glfw_window, handleMouseScrollEvent);
 }
 
-bool EventManager::isDragging()
-{
-  return is_dragging;
-}
-
 void EventManager::handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, int new_win_y)
 {
   auto* win = (Window*)glfwGetWindowUserPointer(glfw_win);
@@ -115,12 +109,7 @@ void EventManager::handleMouseMovementEvent(GLFWwindow* glfw_win, double /*x*/, 
   const bwPoint& position = win->getCursorPosition();
   MouseEvent event(MouseEvent::MOUSE_EVENT_MOVE, bwMouseButtonEvent::BUTTON_UNKNOWN, position);
 
-  if (is_dragging) {
-    win->stage->handleMouseDragEvent(event);
-  }
-  else {
-    win->stage->handleMouseMovementEvent(event);
-  }
+  win->stage->handleMouseMovementEvent(event);
 }
 
 void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win,
@@ -133,13 +122,6 @@ void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win,
   const MouseEvent::MouseEventType action_type = convertGlfwMouseButtonAction(glfw_action);
   const bwMouseButtonEvent::MouseButton mouse_button = convertGlfwMouseButton(glfw_button);
   MouseEvent event(action_type, mouse_button, position);
-
-  if (action_type == MouseEvent::MOUSE_EVENT_PRESS) {
-    is_dragging = true;
-  }
-  else if (action_type == MouseEvent::MOUSE_EVENT_RELEASE) {
-    is_dragging = false;
-  }
 
   win->stage->handleMouseButtonEvent(event);
 }

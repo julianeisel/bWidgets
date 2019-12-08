@@ -42,7 +42,6 @@ class EventManager {
   static void setupWindowHandlers(Window& window);
 
   bool isClickEvent();
-  bool isDragging();
 
  private:
   EventManager()
@@ -64,8 +63,6 @@ class EventManager {
   static void handleMouseScrollEvent(GLFWwindow* glfw_win, double value_x, double value_y);
   static bWidgets::bwMouseButtonEvent::MouseButton convertGlfwMouseButton(int glfw_button);
   static MouseEvent::MouseEventType convertGlfwMouseButtonAction(int glfw_action);
-
-  static bool is_dragging;
 };
 
 }  // namespace bWidgetsDemo

@@ -98,6 +98,7 @@ void bwNumberSlider::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     initial_value = value;
+    state = STATE_SUNKEN;
   }
   else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
     if (is_text_editing) {
@@ -113,6 +114,7 @@ void bwNumberSlider::onMousePress(bwMouseButtonEvent& event)
 void bwNumberSlider::onMouseRelease(bwMouseButtonEvent&)
 {
   is_dragging = false;
+  state = STATE_NORMAL;
 }
 
 void bwNumberSlider::onMouseClick(bwMouseButtonEvent& event)

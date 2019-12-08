@@ -18,4 +18,6 @@ bwPoint operator*(float, const bwPoint&);
 bwPoint operator+(const bwPoint&, const bwPoint&);
 bwPoint operator-(const bwPoint&, const bwPoint&);
 
+float distance(bwPoint a, bwPoint b);
+
 }  // namespace bWidgets

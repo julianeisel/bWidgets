@@ -24,6 +24,7 @@
 #include <list>
 #include <memory>
 
+#include "bwEvent.h"
 #include "bwScrollBar.h"
 #include "bwStyle.h"
 #include "screen_graph/Node.h"
@@ -47,7 +48,6 @@ class Stage {
 
   void handleMouseMovementEvent(const class MouseEvent& event);
   void handleMouseButtonEvent(const class MouseEvent& event);
-  void handleMouseDragEvent(const class MouseEvent& event);
   void handleMouseScrollEvent(const class MouseEvent& event);
   void handleWindowResizeEvent(const class Window& win);
 
@@ -77,7 +77,6 @@ class Stage {
  private:
   // Not part of the layout yet. We'd need to support horizontal root layouts first.
   bWidgets::bwScreenGraph::WidgetNode scrollbar_node;
-  bWidgets::bwWidget* dragged_widget{nullptr};
 
   static void StyleSheetPolish(bWidgets::bwWidget& widget);
 
@@ -87,9 +86,6 @@ class Stage {
   void drawScrollbars();
   void updateContentBounds();
   void validizeScrollValue();
-  bWidgets::bwScreenGraph::Node* findNodeAt(const bWidgets::bwPoint& coordinate);
-  void updateWidgetHovering(const MouseEvent&, bWidgets::bwScreenGraph::Node&);
-  bool handleWidgetMouseButtonEvent(const MouseEvent&, bWidgets::bwWidget&);
 
   bool shouldHaveScrollbars() const;
   unsigned int getScrollbarWidth() const;
