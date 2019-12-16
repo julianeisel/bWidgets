@@ -70,11 +70,11 @@ static const float jit[WIDGET_AA_JITTER][2] = {{0.468813, -0.481430},
 static PrimitiveType stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype)
 {
   switch (drawtype) {
-    case bwPainter::DRAW_TYPE_FILLED:
+    case bwPainter::DrawType::FILLED:
       return PRIM_TRIANGLE_FAN;
-    case bwPainter::DRAW_TYPE_OUTLINE:
+    case bwPainter::DrawType::OUTLINE:
       return PRIM_TRIANGLE_STRIP;
-    case bwPainter::DRAW_TYPE_LINE:
+    case bwPainter::DrawType::LINE:
       return PRIM_LINE_STRIP;
   }
 
@@ -144,7 +144,7 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
 
   immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
 
-  if (painter.active_drawtype == bwPainter::DRAW_TYPE_OUTLINE || painter.use_antialiasing) {
+  if (painter.active_drawtype == bwPainter::DrawType::OUTLINE || painter.use_antialiasing) {
     bwColor drawcolor = color;
 
     drawcolor[3] /= WIDGET_AA_JITTER;
@@ -174,13 +174,13 @@ static float stage_text_xpos_calc(Font& font,
   int value = 0;
 
   switch (alignment) {
-    case TEXT_ALIGN_LEFT:
+    case TextAlignment::LEFT:
       value = rectangle.xmin + 9;  // XXX +9 is ugly. Goes out of widget rectangle even.
       break;
-    case TEXT_ALIGN_CENTER:
+    case TextAlignment::CENTER:
       value = rectangle.centerX() - (font.calculateStringWidth(text) / 2.0f);
       break;
-    case TEXT_ALIGN_RIGHT:
+    case TextAlignment::RIGHT:
       value = rectangle.xmax - font.calculateStringWidth(text) -
               9;  // XXX -9 is ugly. Goes out of widget rectangle even.
       break;

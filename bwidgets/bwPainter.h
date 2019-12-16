@@ -19,25 +19,25 @@ enum RoundboxCorner {
   ALL = (BOTTOM_LEFT | BOTTOM_RIGHT | TOP_LEFT | TOP_RIGHT),
 };
 
-enum TextAlignment : unsigned int {
-  TEXT_ALIGN_LEFT,
-  TEXT_ALIGN_CENTER,
-  TEXT_ALIGN_RIGHT,
+enum class TextAlignment {
+  LEFT,
+  CENTER,
+  RIGHT,
 };
 
-enum Direction {
-  DIRECTION_UP,
-  DIRECTION_DOWN,
-  DIRECTION_LEFT,
-  DIRECTION_RIGHT,
+enum class Direction {
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
 };
 
 class bwPainter {
  public:
-  enum DrawType {
-    DRAW_TYPE_FILLED,
-    DRAW_TYPE_OUTLINE,
-    DRAW_TYPE_LINE,
+  enum class DrawType {
+    FILLED,
+    OUTLINE,
+    LINE,
   } active_drawtype;
 
   static bwPtr<class bwPaintEngine> paint_engine;

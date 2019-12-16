@@ -275,7 +275,7 @@ void LayoutItem::resolve(bwScreenGraph::Node::ChildList* children,
       }
     }
 
-    if (widget && widget->type == bwWidget::WIDGET_TYPE_PANEL) {
+    if (widget && widget->type == bwWidget::Type::PANEL) {
       bwPanel& panel = static_cast<bwPanel&>(*widget);
 
       assert(layout);
@@ -283,7 +283,7 @@ void LayoutItem::resolve(bwScreenGraph::Node::ChildList* children,
       layout->height = 0;
 
       panel.header_height = panel.getHeaderHeightHint() * scale_fac;
-      if (panel.panel_state == bwPanel::PANEL_OPEN) {
+      if (panel.panel_state == bwPanel::State::OPEN) {
         resolvePanelContents(node, bwPoint(xpos, ypos), item_margin, item_margin, scale_fac);
         layout->height += 3 * item_margin;
       }

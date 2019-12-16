@@ -8,8 +8,7 @@
 using namespace bWidgets;
 
 bwLabel::bwLabel(std::string text, unsigned int width_hint, unsigned int height_hint)
-    : bwWidget(bwWidget::WIDGET_TYPE_LABEL, "bwLabel", width_hint, height_hint),
-      text(std::move(text))
+    : bwWidget(bwWidget::Type::LABEL, "bwLabel", width_hint, height_hint), text(std::move(text))
 {
   initialize();
 }
@@ -21,7 +20,7 @@ void bwLabel::draw(bwStyle& style)
 
   painter.setContentMask(rectangle);
   painter.setActiveColor(text_color);
-  painter.drawTextAndIcon(text, icon, rectangle, TEXT_ALIGN_LEFT, style.dpi_fac);
+  painter.drawTextAndIcon(text, icon, rectangle, TextAlignment::LEFT, style.dpi_fac);
 }
 
 void bwLabel::registerProperties()

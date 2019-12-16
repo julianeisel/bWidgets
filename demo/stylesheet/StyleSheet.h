@@ -39,7 +39,7 @@ class StyleSheet {
   void reload();
 
   void resolveValue(const std::string& class_name,
-                    bWidgets::bwWidget::WidgetState state,
+                    bWidgets::bwWidget::State state,
                     bWidgets::bwStyleProperty& property);
 
   const std::string& getFilepath() const;

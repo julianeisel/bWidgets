@@ -27,29 +27,29 @@ class bwMouseButtonDragEvent;
 class bwWidget : public bwScreenGraph::EventHandler {
  public:
   // TODO we might not need this.
-  enum WidgetType {
-    WIDGET_TYPE_CHECKBOX,
-    WIDGET_TYPE_LABEL,
-    WIDGET_TYPE_NUMBER_SLIDER,
-    WIDGET_TYPE_PUSH_BUTTON,
-    WIDGET_TYPE_RADIO_BUTTON,
-    WIDGET_TYPE_SCROLL_BAR,
-    WIDGET_TYPE_TEXT_BOX,
+  enum class Type {
+    CHECKBOX,
+    LABEL,
+    NUMBER_SLIDER,
+    PUSH_BUTTON,
+    RADIO_BUTTON,
+    SCROLL_BAR,
+    BOX,
 
-    WIDGET_TYPE_PANEL,
+    PANEL,
 
-    WIDGET_TYPE_TOT
+    TOT
   } type;
 
-  enum WidgetState {
-    STATE_NORMAL = 0,
-    STATE_HIGHLIGHTED,
-    STATE_SUNKEN,
+  enum class State {
+    NORMAL = 0,
+    HIGHLIGHTED,
+    SUNKEN,
 
     STATE_TOT
   } state;
 
-  bwWidget(const WidgetType type,
+  bwWidget(const Type type,
            std::string identifier,
            const unsigned int width_hint = 0,
            const unsigned int height_hint = 0);

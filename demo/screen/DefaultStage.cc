@@ -175,7 +175,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   builder.addLayout<RowLayout>(true);
   auto* checkbox = &builder.addWidget<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
   checkbox->apply_functor = bwPtr_new<UseFontTightPlacementToggleSetter>(*checkbox);
-  checkbox->state = bwWidget::STATE_SUNKEN;
+  checkbox->state = bwWidget::State::SUNKEN;
   checkbox = &builder.addWidget<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
   checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
 
@@ -222,11 +222,11 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 
 bool isUseCSSVersionToggleHidden(const bwStyle& style)
 {
-  return (style.type_id != bwStyle::STYLE_CLASSIC) &&
-         (style.type_id != bwStyle::STYLE_CLASSIC_CSS);
+  return (style.type_id != bwStyle::TypeID::CLASSIC) &&
+         (style.type_id != bwStyle::TypeID::CLASSIC_CSS);
 }
 
-void DefaultStage::activateStyleID(bwStyle::StyleTypeID type_id)
+void DefaultStage::activateStyleID(bwStyle::TypeID type_id)
 {
   Stage::activateStyleID(type_id);
   for (auto& iter_node : screen_graph) {
@@ -255,7 +255,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
   label.setIcon(icon_map->getIcon(ICON_BLENDER));
 
   for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
-    if (type.type_id == bwStyle::STYLE_CLASSIC_CSS) {
+    if (type.type_id == bwStyle::TypeID::CLASSIC_CSS) {
       // We'll add a button for this later.
       continue;
     }
@@ -264,7 +264,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
     style_button.apply_functor = bwPtr_new<StyleSetter>(*this, type);
 
     if (type.type_id == style->type_id) {
-      style_button.state = bwAbstractButton::STATE_SUNKEN;
+      style_button.state = bwAbstractButton::State::SUNKEN;
     }
   }
 
@@ -282,17 +282,18 @@ void DefaultStage::addFakeSpacer(bwScreenGraph::LayoutNode& parent_node)
 
 void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
 {
-  bwStyle::StyleTypeID active_type_id = style->type_id;
+  bwStyle::TypeID active_type_id = style->type_id;
 
-  assert(active_type_id == bwStyle::STYLE_CLASSIC || active_type_id == bwStyle::STYLE_CLASSIC_CSS);
+  assert(active_type_id == bwStyle::TypeID::CLASSIC ||
+         active_type_id == bwStyle::TypeID::CLASSIC_CSS);
   if (use_css_version) {
-    if (active_type_id != bwStyle::STYLE_CLASSIC_CSS) {
-      activateStyleID(bwStyle::STYLE_CLASSIC_CSS);
+    if (active_type_id != bwStyle::TypeID::CLASSIC_CSS) {
+      activateStyleID(bwStyle::TypeID::CLASSIC_CSS);
     }
   }
   else {
-    if (active_type_id != bwStyle::STYLE_CLASSIC) {
-      activateStyleID(bwStyle::STYLE_CLASSIC);
+    if (active_type_id != bwStyle::TypeID::CLASSIC) {
+      activateStyleID(bwStyle::TypeID::CLASSIC);
     }
   }
 }
@@ -317,26 +318,26 @@ StyleSetter::StyleSetter(DefaultStage& stage, const bwStyle::StyleType& style_ty
 bool StyleSetter::updateStyleButton(bwWidget& widget_iter, DefaultStage& stage)
 {
   auto* radio_iter = widget_cast<bwRadioButton*>(&widget_iter);
-  bwStyle::StyleTypeID active_type_id = DefaultStage::style->type_id;
+  bwStyle::TypeID active_type_id = DefaultStage::style->type_id;
 
   if (radio_iter && radio_iter->apply_functor) {
     // Using dynamic_cast to check if apply_functor is a StyleSetter. Then we assume it's a style
     // button.
     if (auto iter_style_setter = dynamic_cast<StyleSetter*>(radio_iter->apply_functor.get())) {
       if (iter_style_setter->style_type.type_id == active_type_id) {
-        radio_iter->state = bwWidget::STATE_SUNKEN;
+        radio_iter->state = bwWidget::State::SUNKEN;
       }
       else {
-        radio_iter->state = bwWidget::STATE_NORMAL;
+        radio_iter->state = bwWidget::State::NORMAL;
       }
     }
   }
   else if (auto* checkbox_iter = widget_cast<bwCheckbox*>(&widget_iter)) {
     if (checkbox_iter->apply_functor &&
         dynamic_cast<UseCSSVersionToggleSetter*>(checkbox_iter->apply_functor.get())) {
-      if (active_type_id == bwStyle::STYLE_CLASSIC ||
-          active_type_id == bwStyle::STYLE_CLASSIC_CSS) {
-        stage.useStyleCSSVersionSet(checkbox_iter->state == bwWidget::STATE_SUNKEN);
+      if (active_type_id == bwStyle::TypeID::CLASSIC ||
+          active_type_id == bwStyle::TypeID::CLASSIC_CSS) {
+        stage.useStyleCSSVersionSet(checkbox_iter->state == bwWidget::State::SUNKEN);
       }
     }
   }
@@ -346,7 +347,7 @@ bool StyleSetter::updateStyleButton(bwWidget& widget_iter, DefaultStage& stage)
 
 void StyleSetter::operator()()
 {
-  bwStyle::StyleTypeID style_type_id = style_type.type_id;
+  bwStyle::TypeID style_type_id = style_type.type_id;
   stage.activateStyleID(style_type_id);
   // Deactivate other style radio buttons
   for (bwScreenGraph::Node& node : stage.screen_graph) {
@@ -366,5 +367,5 @@ UseCSSVersionToggleSetter::UseCSSVersionToggleSetter(const bwCheckbox& checkbox,
 
 void UseCSSVersionToggleSetter::operator()()
 {
-  stage.useStyleCSSVersionSet(checkbox.state == bwWidget::STATE_SUNKEN);
+  stage.useStyleCSSVersionSet(checkbox.state == bwWidget::State::SUNKEN);
 }

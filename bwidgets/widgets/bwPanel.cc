@@ -10,7 +10,7 @@
 using namespace bWidgets;
 
 bwPanel::bwPanel(std::string label, unsigned int header_height_hint)
-    : bwWidget(WIDGET_TYPE_PANEL, "bwPanel", 0, header_height_hint),
+    : bwWidget(Type::PANEL, "bwPanel", 0, header_height_hint),
       header_height(header_height_hint),
       label(std::move(label))
 {
@@ -42,11 +42,11 @@ void bwPanel::onMousePress(bwMouseButtonEvent& event)
       !isCoordinateInsideHeader(event.location)) {
     // Skip
   }
-  else if (panel_state == PANEL_CLOSED) {
-    panel_state = PANEL_OPEN;
+  else if (panel_state == State::CLOSED) {
+    panel_state = State::OPEN;
   }
-  else if (panel_state == PANEL_OPEN) {
-    panel_state = PANEL_CLOSED;
+  else if (panel_state == State::OPEN) {
+    panel_state = State::CLOSED;
   }
   else {
     assert(0);
@@ -88,7 +88,7 @@ static void panel_draw_drag_dots(bwPainter& painter,
   dot_color.shade(tint);
   shadow_color.shade(-tint);
 
-  painter.active_drawtype = bwPainter::DRAW_TYPE_FILLED;
+  painter.active_drawtype = bwPainter::DrawType::FILLED;
   for (int col = 0; col < 4; col++) {
     for (int row = 0; row < 2; row++) {
       const bwPoint pos{((float)rectangle.xmin + padding) + (col * (dot_size + dot_margin)),
@@ -144,11 +144,11 @@ void bwPanel::drawHeader(bwStyle& style) const
   triangle_rect.xmin += 5;
   triangle_rect.xmax = triangle_rect.xmin + triangle_rect.height();
   triangle_rect.scale(0.35f);
-  painter.active_drawtype = bwPainter::DRAW_TYPE_FILLED;
+  painter.active_drawtype = bwPainter::DrawType::FILLED;
   painter.use_antialiasing = true;
   painter.setActiveColor(base_style.textColor());
   painter.drawTriangle(triangle_rect,
-                       (panel_state == PANEL_OPEN) ? DIRECTION_DOWN : DIRECTION_RIGHT);
+                       (panel_state == State::OPEN) ? Direction::DOWN : Direction::RIGHT);
 }
 
 bwRectanglePixel bwPanel::getHeaderRectangle() const

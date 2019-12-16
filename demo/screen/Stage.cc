@@ -76,7 +76,7 @@ Stage::Stage(const unsigned int width, const unsigned int height)
 
   bwStyleManager& style_manager = bwStyleManager::getStyleManager();
   style_manager.registerDefaultStyleTypes();
-  activateStyleID(bwStyle::STYLE_CLASSIC);
+  activateStyleID(bwStyle::TypeID::CLASSIC);
 
   setFontTightPositioning(true);
 
@@ -104,7 +104,7 @@ void Stage::initIcons()
   icon_map = reader.readIconMapFromPNGFile(png_file);
 }
 
-void Stage::activateStyleID(bwStyle::StyleTypeID type_id)
+void Stage::activateStyleID(bwStyle::TypeID type_id)
 {
   style = bwPtr<bwStyle>(bwStyleManager::createStyleFromTypeID(type_id));
   style->dpi_fac = interface_scale;
@@ -170,7 +170,7 @@ static void drawScreenGraph(bwScreenGraph::ScreenGraph& screen_graph, bwStyle& s
     }
 
     bwPanel* panel = widget_cast<bwPanel*>(widget);
-    if (panel && (panel->panel_state == bwPanel::PANEL_CLOSED)) {
+    if (panel && (panel->panel_state == bwPanel::State::CLOSED)) {
       skip_until_parent = iter_node.Parent();
     }
 
@@ -184,13 +184,13 @@ void Stage::draw()
   bwStyleProperties properties;
   bwColor clear_color{114u};
 
-  if (style->type_id == bwStyle::STYLE_CLASSIC_CSS) {
+  if (style->type_id == bwStyle::TypeID::CLASSIC_CSS) {
     setStyleSheet(std::string(RESOURCES_PATH_STR) + "/" + "classic_style.css");
   }
-  else if (style->type_id == bwStyle::STYLE_FLAT_LIGHT) {
+  else if (style->type_id == bwStyle::TypeID::FLAT_LIGHT) {
     setStyleSheet(std::string(RESOURCES_PATH_STR) + "/" + "flat_light.css");
   }
-  else if (style->type_id == bwStyle::STYLE_FLAT_DARK) {
+  else if (style->type_id == bwStyle::TypeID::FLAT_DARK) {
     setStyleSheet(std::string(RESOURCES_PATH_STR) + "/" + "flat_dark.css");
   }
   else {
@@ -199,7 +199,7 @@ void Stage::draw()
 
   bwStyleProperty& property = properties.addColor("background-color", clear_color);
   if (style_sheet) {
-    style_sheet->resolveValue("Stage", bwWidget::STATE_NORMAL, property);
+    style_sheet->resolveValue("Stage", bwWidget::State::NORMAL, property);
   }
 
   bwPainter::paint_engine->setupViewport(rect, clear_color);

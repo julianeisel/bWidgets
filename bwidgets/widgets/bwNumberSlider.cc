@@ -16,7 +16,7 @@ using namespace bWidgets;
 bwNumberSlider::bwNumberSlider(const unsigned int width_hint, const unsigned int height_hint)
     : bwTextBox(width_hint, height_hint), precision(2)
 {
-  type = WIDGET_TYPE_NUMBER_SLIDER;
+  type = Type::NUMBER_SLIDER;
   identifier = "bwNumberSlider";
 }
 
@@ -38,7 +38,7 @@ void bwNumberSlider::draw(bwStyle& style)
       bwGradient(base_style.backgroundColor(), base_style.shadeTop(), base_style.shadeBottom()));
   painter.drawRoundbox(inner_rect, base_style.roundbox_corners, radius - 1.0f);
 
-  painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
+  painter.active_drawtype = bwPainter::DrawType::FILLED;
 
   // Text editing
   if (is_text_editing) {
@@ -52,15 +52,16 @@ void bwNumberSlider::draw(bwStyle& style)
 
   // Outline
   painter.setActiveColor(base_style.borderColor());
-  painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
+  painter.active_drawtype = bwPainter::DrawType::OUTLINE;
   painter.drawRoundbox(rectangle, base_style.roundbox_corners, radius);
 
   painter.setActiveColor(base_style.textColor());
   if (!is_text_editing) {
     painter.drawText(text, rectangle, base_style.text_alignment);
   }
-  painter.drawText(
-      valueToString(precision), rectangle, is_text_editing ? TEXT_ALIGN_LEFT : TEXT_ALIGN_RIGHT);
+  painter.drawText(valueToString(precision),
+                   rectangle,
+                   is_text_editing ? TextAlignment::LEFT : TextAlignment::RIGHT);
 }
 
 void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) const
@@ -98,7 +99,7 @@ void bwNumberSlider::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     initial_value = value;
-    state = STATE_SUNKEN;
+    state = State::SUNKEN;
   }
   else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
     if (is_text_editing) {
@@ -114,7 +115,7 @@ void bwNumberSlider::onMousePress(bwMouseButtonEvent& event)
 void bwNumberSlider::onMouseRelease(bwMouseButtonEvent&)
 {
   is_dragging = false;
-  state = STATE_NORMAL;
+  state = State::SUNKEN;
 }
 
 void bwNumberSlider::onMouseClick(bwMouseButtonEvent& event)

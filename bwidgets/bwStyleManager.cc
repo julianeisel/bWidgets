@@ -15,18 +15,18 @@ bwStyleManager& bwStyleManager::getStyleManager()
   return instance;
 }
 
-bwPtr<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::StyleTypeID type)
+bwPtr<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::TypeID type)
 {
   switch (type) {
-    case bwStyle::STYLE_CLASSIC:
+    case bwStyle::TypeID::CLASSIC:
       return bwPtr_new<bwStyleClassic>();
-    case bwStyle::STYLE_CLASSIC_CSS:
+    case bwStyle::TypeID::CLASSIC_CSS:
       return bwPtr_new<bwStyleCSS>();
-    case bwStyle::STYLE_FLAT_GREY:
+    case bwStyle::TypeID::FLAT_GREY:
       return bwPtr_new<bwStyleFlat>();
-    case bwStyle::STYLE_FLAT_DARK:
+    case bwStyle::TypeID::FLAT_DARK:
       return bwPtr_new<bwStyleFlatDark>();
-    case bwStyle::STYLE_FLAT_LIGHT:
+    case bwStyle::TypeID::FLAT_LIGHT:
       return bwPtr_new<bwStyleFlatLight>();
     default:
       assert(0);
@@ -35,20 +35,20 @@ bwPtr<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::StyleTypeID type)
 
 void bwStyleManager::registerDefaultStyleTypes()
 {
-  builtin_style_types[bwStyle::STYLE_CLASSIC].type_id = bwStyle::STYLE_CLASSIC;
-  builtin_style_types[bwStyle::STYLE_CLASSIC].name = "Classic";
+  builtin_style_types[int(bwStyle::TypeID::CLASSIC)].type_id = bwStyle::TypeID::CLASSIC;
+  builtin_style_types[int(bwStyle::TypeID::CLASSIC)].name = "Classic";
 
-  builtin_style_types[bwStyle::STYLE_CLASSIC_CSS].type_id = bwStyle::STYLE_CLASSIC_CSS;
-  builtin_style_types[bwStyle::STYLE_CLASSIC_CSS].name = "Classic (CSS)";
+  builtin_style_types[int(bwStyle::TypeID::CLASSIC_CSS)].type_id = bwStyle::TypeID::CLASSIC_CSS;
+  builtin_style_types[int(bwStyle::TypeID::CLASSIC_CSS)].name = "Classic (CSS)";
 
-  builtin_style_types[bwStyle::STYLE_FLAT_GREY].type_id = bwStyle::STYLE_FLAT_GREY;
-  builtin_style_types[bwStyle::STYLE_FLAT_GREY].name = "Flat Grey";
+  builtin_style_types[int(bwStyle::TypeID::FLAT_GREY)].type_id = bwStyle::TypeID::FLAT_GREY;
+  builtin_style_types[int(bwStyle::TypeID::FLAT_GREY)].name = "Flat Grey";
 
-  builtin_style_types[bwStyle::STYLE_FLAT_DARK].type_id = bwStyle::STYLE_FLAT_DARK;
-  builtin_style_types[bwStyle::STYLE_FLAT_DARK].name = "Flat Dark (CSS)";
+  builtin_style_types[int(bwStyle::TypeID::FLAT_DARK)].type_id = bwStyle::TypeID::FLAT_DARK;
+  builtin_style_types[int(bwStyle::TypeID::FLAT_DARK)].name = "Flat Dark (CSS)";
 
-  builtin_style_types[bwStyle::STYLE_FLAT_LIGHT].type_id = bwStyle::STYLE_FLAT_LIGHT;
-  builtin_style_types[bwStyle::STYLE_FLAT_LIGHT].name = "Flat Light (CSS)";
+  builtin_style_types[int(bwStyle::TypeID::FLAT_LIGHT)].type_id = bwStyle::TypeID::FLAT_LIGHT;
+  builtin_style_types[int(bwStyle::TypeID::FLAT_LIGHT)].name = "Flat Light (CSS)";
 }
 
 const bwStyleManager::StyleTypeArray& bwStyleManager::getBuiltinStyleTypes() const

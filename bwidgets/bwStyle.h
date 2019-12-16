@@ -7,14 +7,14 @@ namespace bWidgets {
 
 class bwStyle {
  public:
-  enum StyleTypeID {
-    STYLE_CLASSIC,
-    STYLE_CLASSIC_CSS,
-    STYLE_FLAT_GREY,
-    STYLE_FLAT_DARK,
-    STYLE_FLAT_LIGHT,
+  enum class TypeID {
+    CLASSIC,
+    CLASSIC_CSS,
+    FLAT_GREY,
+    FLAT_DARK,
+    FLAT_LIGHT,
 
-    STYLE_BUILTIN_TOT,
+    BUILTIN_TOT,
 
     //		STYLE_CUSTOM, // For the future
   } type_id;
@@ -29,12 +29,12 @@ class bwStyle {
   float dpi_fac{1.0f};
 
   struct StyleType {
-    StyleTypeID type_id;
+    TypeID type_id;
     std::string name;
   };
 
  protected:
-  bwStyle(StyleTypeID type_id);
+  bwStyle(TypeID type_id);
 };
 
 }  // namespace bWidgets

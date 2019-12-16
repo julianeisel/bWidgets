@@ -35,7 +35,7 @@ class bwAbstractButton : public bwWidget {
  protected:
   // Protected constructor to force calling through inherited class (pseudo abstract).
   bwAbstractButton(std::string text,
-                   const WidgetType type,
+                   const Type type,
                    const std::string& identifier,
                    const unsigned int width_hint = 0,
                    const unsigned int height_hint = 0);

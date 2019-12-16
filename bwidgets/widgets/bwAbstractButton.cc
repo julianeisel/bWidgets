@@ -7,7 +7,7 @@
 using namespace bWidgets;
 
 bwAbstractButton::bwAbstractButton(std::string text,
-                                   const WidgetType type,
+                                   const Type type,
                                    const std::string& identifier,
                                    const unsigned int width_hint,
                                    const unsigned int height_hint)
@@ -42,28 +42,28 @@ void bwAbstractButton::registerProperties()
 void bwAbstractButton::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    state = STATE_SUNKEN;
+    state = State::SUNKEN;
   }
 }
 
 void bwAbstractButton::onMouseRelease(bwMouseButtonEvent& event)
 {
-  if ((event.button == bwMouseButtonEvent::BUTTON_LEFT) && (state == STATE_SUNKEN)) {
-    state = STATE_NORMAL;
+  if ((event.button == bwMouseButtonEvent::BUTTON_LEFT) && (state == State::SUNKEN)) {
+    state = State::NORMAL;
   }
 }
 
 void bwAbstractButton::onMouseEnter()
 {
-  if (state == STATE_NORMAL) {
-    state = STATE_HIGHLIGHTED;
+  if (state == State::NORMAL) {
+    state = State::HIGHLIGHTED;
   }
 }
 
 void bwAbstractButton::onMouseLeave()
 {
-  if (state == STATE_HIGHLIGHTED) {
-    state = STATE_NORMAL;
+  if (state == State::HIGHLIGHTED) {
+    state = State::NORMAL;
   }
 }
 

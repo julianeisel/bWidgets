@@ -7,7 +7,8 @@
 
 using namespace bWidgets;
 
-bwWidgetBaseStyle::bwWidgetBaseStyle() : text_alignment(TEXT_ALIGN_LEFT), roundbox_corners(NONE)
+bwWidgetBaseStyle::bwWidgetBaseStyle()
+    : text_alignment(TextAlignment::LEFT), roundbox_corners(NONE)
 {
 }
 

@@ -7,7 +7,7 @@
 using namespace bWidgets;
 
 bwScrollBar::bwScrollBar(unsigned int width_hint, unsigned int height_hint)
-    : bwAbstractButton("", WIDGET_TYPE_SCROLL_BAR, "bwScrollBar", width_hint, height_hint)
+    : bwAbstractButton("", Type::SCROLL_BAR, "bwScrollBar", width_hint, height_hint)
 {
 }
 
@@ -22,7 +22,7 @@ void bwScrollBar::draw(bwStyle& style)
   const bwGradient gradient_outer{base_style.backgroundColor(),
                                   base_style.shadeBottom(),
                                   base_style.shadeTop(),
-                                  bwGradient::DIRECTION_LEFT_RIGHT};
+                                  bwGradient::Direction::LEFT_RIGHT};
   bwPainter painter;
 
   rect_inner.ymax += (ratio * scroll_offset);
@@ -44,7 +44,7 @@ void bwScrollBar::draw(bwStyle& style)
   const bwGradient gradient_inner{base_style.decorationColor(),
                                   base_style.shadeTop(),
                                   base_style.shadeBottom(),
-                                  bwGradient::DIRECTION_LEFT_RIGHT};
+                                  bwGradient::Direction::LEFT_RIGHT};
   painter.drawRoundboxWidgetBase(
       base_style, style, rect_inner, gradient_inner, base_style.corner_radius);
 

@@ -16,7 +16,7 @@ using namespace bWidgets;
 
 bwPtr<bwPaintEngine> bwPainter::paint_engine = nullptr;
 
-bwPainter::bwPainter() : active_drawtype(DRAW_TYPE_FILLED), active_gradient(nullptr)
+bwPainter::bwPainter() : active_drawtype(DrawType::FILLED), active_gradient(nullptr)
 {
 }
 
@@ -159,22 +159,22 @@ void bwPainter::drawTriangle(const bwRectanglePixel& rect, Direction direction)
   bwPolygon polygon{3};
 
   switch (direction) {
-    case DIRECTION_UP:
+    case Direction::UP:
       polygon.addVertex(rect.xmin, rect.ymin);
       polygon.addVertex(rect.xmin + (rect.width() * 0.5f), rect.ymax);
       polygon.addVertex(rect.xmax, rect.ymin);
       break;
-    case DIRECTION_DOWN:
+    case Direction::DOWN:
       polygon.addVertex(rect.xmin, rect.ymax);
       polygon.addVertex(rect.xmin + (rect.width() * 0.5f), rect.ymin);
       polygon.addVertex(rect.xmax, rect.ymax);
       break;
-    case DIRECTION_LEFT:
+    case Direction::LEFT:
       polygon.addVertex(rect.xmax, rect.ymax);
       polygon.addVertex(rect.xmin, rect.ymin + (rect.height() * 0.5f));
       polygon.addVertex(rect.xmax, rect.ymin);
       break;
-    case DIRECTION_RIGHT:
+    case Direction::RIGHT:
       polygon.addVertex(rect.xmin, rect.ymax);
       polygon.addVertex(rect.xmax, rect.ymin + (rect.height() * 0.5f));
       polygon.addVertex(rect.xmin, rect.ymin);
@@ -192,7 +192,7 @@ void bwPainter::drawLine(const bwPoint& from, const bwPoint& to)
 {
   bwPolygon polygon{2};
 
-  active_drawtype = bwPainter::DRAW_TYPE_LINE;
+  active_drawtype = bwPainter::DrawType::LINE;
   polygon.addVertex(from.x, from.y);
   polygon.addVertex(to.x, to.y);
   drawPolygon(polygon);
@@ -395,7 +395,7 @@ void bwPainter::drawRoundbox(const bwRectanglePixel& rect,
   bwRange<float>::clampValue(validated_radius, 0.0f, minsize * 0.5f);
 
   PolygonRoundboxCreator roundbox_creator{
-      rect, corners, validated_radius, active_drawtype == DRAW_TYPE_OUTLINE};
+      rect, corners, validated_radius, active_drawtype == DrawType::OUTLINE};
   roundbox_creator.addVerts(polygon);
 
   if (isGradientEnabled()) {
@@ -461,12 +461,12 @@ void bwPainter::drawRoundboxWidgetBase(const bwWidgetBaseStyle& base_style,
 
   setContentMask(inner_rect);  // Not sure if we should set this here.
 
-  active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
+  active_drawtype = bwPainter::DrawType::FILLED;
   enableGradient(gradient);
   drawRoundbox(inner_rect, base_style.roundbox_corners, radius_pixel - 1.0f);
 
   // Outline
-  active_drawtype = bwPainter::DrawType::DRAW_TYPE_OUTLINE;
+  active_drawtype = bwPainter::DrawType::OUTLINE;
   setActiveColor(base_style.borderColor());
   drawRoundbox(rectangle, base_style.roundbox_corners, radius_pixel);
 }

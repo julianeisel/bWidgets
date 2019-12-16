@@ -34,11 +34,11 @@ class bwStyleProperty {
   template<typename> friend class bwStylePropertyInternal;
 
  public:
-  enum PropertyType {
-    TYPE_BOOL,
-    TYPE_INTEGER,
-    TYPE_FLOAT,
-    TYPE_COLOR,
+  enum class Type {
+    BOOL,
+    INTEGER,
+    FLOAT,
+    COLOR,
   };
 
   void setValue(bool);
@@ -54,13 +54,13 @@ class bwStyleProperty {
   void setDefaultValue(const class bwColor&);
 
   const std::string& getIdentifier() const;
-  PropertyType getType() const;
+  Type getType() const;
 
  private:
-  bwStyleProperty(std::string identifier, enum PropertyType type);
+  bwStyleProperty(std::string identifier, enum Type type);
 
   const std::string identifier;
-  enum PropertyType type;
+  enum Type type;
 };
 
 /**
@@ -86,7 +86,7 @@ class bwStyleProperties {
   bwStyleProperty& addColor(const std::string& name, class bwColor& reference);
   bwStyleProperty& addColor(const std::string& name);
   bwStyleProperty& addProperty(const std::string& name,
-                               const bwStyleProperty::PropertyType prop_type);
+                               const bwStyleProperty::Type prop_type);
 
   bwOptional<std::reference_wrapper<const bwStyleProperty>> lookup(const std::string& name) const;
 

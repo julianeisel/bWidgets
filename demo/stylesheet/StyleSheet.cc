@@ -48,30 +48,29 @@ StyleSheet::~StyleSheet()
 // with the property identifier as key. Then we can check if the CSS rule is
 // valid for the property.
 
-static bwStyleProperty::PropertyType stylesheet_property_type_get_from_katana(
-    const KatanaValue& value)
+static bwStyleProperty::Type stylesheet_property_type_get_from_katana(const KatanaValue& value)
 {
   switch (value.unit) {
     case KATANA_VALUE_PARSER_FUNCTION: {
       std::string function_name{value.function->name};
       if ((function_name == "rgb(") || (function_name == "rgba(")) {
-        return bwStyleProperty::TYPE_COLOR;
+        return bwStyleProperty::Type::COLOR;
       }
       break;
     }
     case KATANA_VALUE_PX:
-      return bwStyleProperty::TYPE_FLOAT;
+      return bwStyleProperty::Type::FLOAT;
     case KATANA_VALUE_IDENT: {
       // Customization to support booleans in CSS.
       const std::string ident_value{value.string};
       assert(ident_value == "true" || ident_value == "false");
-      return bwStyleProperty::TYPE_BOOL;
+      return bwStyleProperty::Type::BOOL;
     }
     default:
-      return bwStyleProperty::TYPE_INTEGER;
+      return bwStyleProperty::Type::INTEGER;
   }
 
-  return bwStyleProperty::TYPE_INTEGER;
+  return bwStyleProperty::Type::INTEGER;
 }
 
 static void stylesheet_set_value_from_katana_value(bwStyleProperty& property,
@@ -81,19 +80,19 @@ static void stylesheet_set_value_from_katana_value(bwStyleProperty& property,
   parser->parseIntoProperty(property, value);
 }
 
-static bwWidget::WidgetState stylesheet_property_state_from_katana(const KatanaSelector& selector)
+static bwWidget::State stylesheet_property_state_from_katana(const KatanaSelector& selector)
 {
   KatanaPseudoType pseudo_type = selector.tagHistory ? selector.tagHistory->pseudo :
                                                        KatanaPseudoEmpty;
 
   switch (pseudo_type) {
     case KatanaPseudoHover:
-      return bwWidget::STATE_HIGHLIGHTED;
+      return bwWidget::State::HIGHLIGHTED;
     case KatanaPseudoActive:
-      return bwWidget::STATE_SUNKEN;
+      return bwWidget::State::SUNKEN;
     case KatanaPseudoEmpty:
     default:
-      return bwWidget::STATE_NORMAL;
+      return bwWidget::State::NORMAL;
   }
 }
 
@@ -162,7 +161,7 @@ void StyleSheet::reload()
 }
 
 void StyleSheet::resolveValue(const std::string& class_name,
-                              const bwWidget::WidgetState state,
+                              const bwWidget::State state,
                               bwStyleProperty& property)
 {
   bwOptional<std::reference_wrapper<const bwStyleProperty>> property_from_tree =
