@@ -6,7 +6,7 @@
 using namespace bWidgets;
 
 bwCheckbox::bwCheckbox(const std::string& text, unsigned int width_hint, unsigned int height_hint)
-    : bwAbstractButton(text, WIDGET_TYPE_CHECKBOX, "bwCheckbox", width_hint, height_hint)
+    : bwAbstractButton(text, Type::CHECKBOX, "bwCheckbox", width_hint, height_hint)
 {
 }
 
@@ -24,7 +24,7 @@ void bwCheckbox::draw(bwStyle& style)
       base_style, style, checkbox_rect, gradient, base_style.corner_radius);
 
   if (isChecked()) {
-    painter.active_drawtype = bwPainter::DRAW_TYPE_OUTLINE;
+    painter.active_drawtype = bwPainter::DrawType::OUTLINE;
     painter.setActiveColor(base_style.decorationColor());
     painter.drawCheckMark(checkbox_rect);
   }
@@ -37,7 +37,8 @@ void bwCheckbox::draw(bwStyle& style)
 void bwCheckbox::mousePressEvent(const bwWidget::MouseButton button, const bwPoint& /*location*/)
 {
   if (button == MOUSE_BUTTON_LEFT) {
-    state = (state == STATE_SUNKEN) ? STATE_HIGHLIGHTED : STATE_SUNKEN;
+    state = (state == State::SUNKEN) ? State::HIGHLIGHTED :
+                                                   State::SUNKEN;
     apply();
   }
 }
@@ -49,7 +50,7 @@ void bwCheckbox::mouseReleaseEvent(const bwWidget::MouseButton /*button*/,
 
 bool bwCheckbox::isChecked() const
 {
-  return state == STATE_SUNKEN;
+  return state == State::SUNKEN;
 }
 
 bwRectanglePixel bwCheckbox::getCheckboxRectangle() const

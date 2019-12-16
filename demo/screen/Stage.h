@@ -71,7 +71,7 @@ class Stage {
 
   class RootLayout& Layout() const;
 
-  virtual void activateStyleID(bWidgets::bwStyle::StyleTypeID type_id);
+  virtual void activateStyleID(bWidgets::bwStyle::TypeID type_id);
 
  private:
   // Not part of the layout yet. We'd need to support horizontal root layouts first.

@@ -34,16 +34,16 @@ class StyleSheetTree {
 
   bWidgets::bwStyleProperty& ensureNodeWithProperty(
       const std::string& class_name,
-      const bWidgets::bwWidget::WidgetState state,
+      const bWidgets::bwWidget::State state,
       const std::string& identifier,
-      const bWidgets::bwStyleProperty::PropertyType type);
+      const bWidgets::bwStyleProperty::Type type);
 
   class StyleSheetNode& ensureNode(const std::string& class_name);
 
   bWidgets::bwOptional<std::reference_wrapper<const bWidgets::bwStyleProperty>> resolveProperty(
       const std::string& class_name,
       const std::string& property_name,
-      const bWidgets::bwWidget::WidgetState state);
+      const bWidgets::bwWidget::State state);
 
  private:
   bWidgets::bwOptional<std::reference_wrapper<class StyleSheetNode>> lookupNode(

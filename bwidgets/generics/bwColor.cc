@@ -39,26 +39,26 @@ bwColor::bwColor()
 
 bwColor& bwColor::shade(const float rgb_shade, float alpha_shade)
 {
-  rgba[COMPONENT_RED] += rgb_shade;
-  clamp(COMPONENT_RED);
-  rgba[COMPONENT_GREEN] += rgb_shade;
-  clamp(COMPONENT_GREEN);
-  rgba[COMPONENT_BLUE] += rgb_shade;
-  clamp(COMPONENT_BLUE);
-  rgba[COMPONENT_ALPHA] += alpha_shade;
+  (*this)[Component::RED] += rgb_shade;
+  clamp(Component::RED);
+  (*this)[Component::GREEN] += rgb_shade;
+  clamp(Component::GREEN);
+  (*this)[Component::BLUE] += rgb_shade;
+  clamp(Component::BLUE);
+  (*this)[Component::ALPHA] += alpha_shade;
 
   return *this;
 }
 bwColor& bwColor::shade(unsigned int rgb_shade, unsigned int alpha_shade)
 {
-  rgba[COMPONENT_RED] += rgb_shade / 255.0f;
-  clamp(COMPONENT_RED);
-  rgba[COMPONENT_GREEN] += rgb_shade / 255.0f;
-  clamp(COMPONENT_GREEN);
-  rgba[COMPONENT_BLUE] += rgb_shade / 255.0f;
-  clamp(COMPONENT_BLUE);
-  rgba[COMPONENT_ALPHA] += alpha_shade / 255.0f;
-  clamp(COMPONENT_ALPHA);
+  (*this)[Component::RED] += rgb_shade / 255.0f;
+  clamp(Component::RED);
+  (*this)[Component::GREEN] += rgb_shade / 255.0f;
+  clamp(Component::GREEN);
+  (*this)[Component::BLUE] += rgb_shade / 255.0f;
+  clamp(Component::BLUE);
+  (*this)[Component::ALPHA] += alpha_shade / 255.0f;
+  clamp(Component::ALPHA);
 
   return *this;
 }
@@ -113,7 +113,7 @@ float& bwColor::operator[](const int index)
 
 void bwColor::clamp(const Component component)
 {
-  bwRange<float>::clampValue(rgba[component], 0.0f, 1.0f);
+  bwRange<float>::clampValue((*this)[component], 0.0f, 1.0f);
 }
 
 bwColor::operator const float*() const

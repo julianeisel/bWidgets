@@ -7,7 +7,7 @@ using namespace bWidgets;
 
 void (*bwStyleCSS::polish_cb)(class bwWidget&) = nullptr;
 
-bwStyleCSS::bwStyleCSS() : bwStyle(STYLE_CLASSIC_CSS)
+bwStyleCSS::bwStyleCSS() : bwStyle(bwStyle::TypeID::CLASSIC_CSS)
 {
 }
 

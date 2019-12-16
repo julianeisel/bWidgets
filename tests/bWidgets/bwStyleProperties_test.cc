@@ -86,28 +86,28 @@ TEST(bwStyleProperties, addProperty_bool)
 {
   bwStyleProperties properties;
 
-  properties.addProperty("test_bool", bwStyleProperty::TYPE_BOOL);
+  properties.addProperty("test_bool", bwStyleProperty::Type::BOOL);
   EXPECT_TRUE(properties.lookup("test_bool"));
 }
 TEST(bwStyleProperties, addProperty_integer)
 {
   bwStyleProperties properties;
 
-  properties.addProperty("test_integer", bwStyleProperty::TYPE_INTEGER);
+  properties.addProperty("test_integer", bwStyleProperty::Type::INTEGER);
   EXPECT_TRUE(properties.lookup("test_integer"));
 }
 TEST(bwStyleProperties, addProperty_float)
 {
   bwStyleProperties properties;
 
-  properties.addProperty("test_float", bwStyleProperty::TYPE_FLOAT);
+  properties.addProperty("test_float", bwStyleProperty::Type::FLOAT);
   EXPECT_TRUE(properties.lookup("test_float"));
 }
 TEST(bwStyleProperties, addProperty_color)
 {
   bwStyleProperties properties;
 
-  properties.addProperty("test_color", bwStyleProperty::TYPE_COLOR);
+  properties.addProperty("test_color", bwStyleProperty::Type::COLOR);
   EXPECT_TRUE(properties.lookup("test_color"));
 }
 
@@ -136,20 +136,20 @@ TEST(bwStyleProperties, iterate)
   properties.addColor("test_color");
 
   for (const auto& property : properties) {
-    const bwStyleProperty::PropertyType property_type = property->getType();
+    const bwStyleProperty::Type property_type = property->getType();
     const std::string& identifier = property->getIdentifier();
 
     switch (property_type) {
-      case bwStyleProperty::TYPE_BOOL:
+      case bwStyleProperty::Type::BOOL:
         EXPECT_EQ(identifier, "test_bool");
         break;
-      case bwStyleProperty::TYPE_INTEGER:
+      case bwStyleProperty::Type::INTEGER:
         EXPECT_EQ(identifier, "test_integer");
         break;
-      case bwStyleProperty::TYPE_FLOAT:
+      case bwStyleProperty::Type::FLOAT:
         EXPECT_EQ(identifier, "test_float");
         break;
-      case bwStyleProperty::TYPE_COLOR:
+      case bwStyleProperty::Type::COLOR:
         EXPECT_EQ(identifier, "test_color");
         break;
       default:

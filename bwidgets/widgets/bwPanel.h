@@ -20,10 +20,10 @@ class bwPanel : public bwWidget {
   unsigned int getHeaderHeightHint() const;
   unsigned int header_height;
 
-  enum {
-    PANEL_OPEN,
-    PANEL_CLOSED,
-  } panel_state{PANEL_OPEN};
+  enum class State {
+    OPEN,
+    CLOSED,
+  } panel_state{State::OPEN};
 
  private:
   void drawHeader(class bwStyle& style) const;

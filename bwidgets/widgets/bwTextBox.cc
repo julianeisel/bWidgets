@@ -6,7 +6,7 @@
 using namespace bWidgets;
 
 bwTextBox::bwTextBox(unsigned int width_hint, unsigned int height_hint)
-    : bwWidget(WIDGET_TYPE_TEXT_BOX, "bwTextBox", width_hint, height_hint),
+    : bwWidget(Type::BOX, "bwTextBox", width_hint, height_hint),
       selection_rectangle(bwRectanglePixel())
 {
   initialize();
@@ -27,7 +27,7 @@ void bwTextBox::draw(bwStyle& style)
   // Text editing
   if (is_text_editing && !selection_rectangle.isEmpty()) {
     // Selection drawing
-    painter.active_drawtype = bwPainter::DrawType::DRAW_TYPE_FILLED;
+    painter.active_drawtype = bwPainter::DrawType::FILLED;
     painter.setActiveColor(base_style.decorationColor());
     painter.drawRectangle(selection_rectangle);
   }
@@ -46,7 +46,7 @@ void bwTextBox::mousePressEvent(const MouseButton button, const bwPoint& /*locat
     startTextEditing();
   }
   else if (button == MOUSE_BUTTON_RIGHT) {
-    if (state == STATE_SUNKEN) {
+    if (state == State::SUNKEN) {
       endTextEditing();
     }
   }
@@ -54,27 +54,27 @@ void bwTextBox::mousePressEvent(const MouseButton button, const bwPoint& /*locat
 
 void bwTextBox::mouseEnter()
 {
-  if (state == STATE_NORMAL) {
-    state = STATE_HIGHLIGHTED;
+  if (state == State::NORMAL) {
+    state = State::HIGHLIGHTED;
   }
 }
 
 void bwTextBox::mouseLeave()
 {
-  if (state == STATE_HIGHLIGHTED) {
-    state = STATE_NORMAL;
+  if (state == State::HIGHLIGHTED) {
+    state = State::NORMAL;
   }
 }
 
 void bwTextBox::startTextEditing()
 {
-  state = STATE_SUNKEN;
+  state = State::SUNKEN;
   is_text_editing = true;
 }
 
 void bwTextBox::endTextEditing()
 {
-  state = STATE_NORMAL;
+  state = State::NORMAL;
   is_text_editing = false;
 }
 

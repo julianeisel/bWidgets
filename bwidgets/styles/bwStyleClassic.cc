@@ -19,10 +19,10 @@ static void widget_base_style_checkbox_set(bwWidget& widget, bwWidgetBaseStyle& 
   r_base_style.shade_bottom = -15;
   r_base_style.corner_radius = 4.0f;
 
-  if (widget.state == bwWidget::STATE_HIGHLIGHTED) {
+  if (widget.state == bwWidget::State::HIGHLIGHTED) {
     r_base_style.background_color.shade(0.06f);
   }
-  else if (widget.state == bwWidget::STATE_SUNKEN) {
+  else if (widget.state == bwWidget::State::SUNKEN) {
     r_base_style.text_color = 1.0f;
     std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
   }
@@ -37,10 +37,10 @@ static void widget_base_style_number_slider_set(bwWidget& widget, bwWidgetBaseSt
   r_base_style.shade_bottom = 0;
   r_base_style.corner_radius = 10.0f;
 
-  if (widget.state == bwWidget::STATE_HIGHLIGHTED) {
+  if (widget.state == bwWidget::State::HIGHLIGHTED) {
     r_base_style.background_color.shade(0.06f);
   }
-  else if (widget.state == bwWidget::STATE_SUNKEN) {
+  else if (widget.state == bwWidget::State::SUNKEN) {
     r_base_style.text_color = 1.0f;
     r_base_style.background_color = 153u;
   }
@@ -54,10 +54,10 @@ static void widget_base_style_push_button_set(bwWidget& widget, bwWidgetBaseStyl
   r_base_style.shade_bottom = -15;
   r_base_style.corner_radius = 5.0f;
 
-  if (widget.state == bwWidget::STATE_HIGHLIGHTED) {
+  if (widget.state == bwWidget::State::HIGHLIGHTED) {
     r_base_style.background_color.shade(0.06f);
   }
-  else if (widget.state == bwWidget::STATE_SUNKEN) {
+  else if (widget.state == bwWidget::State::SUNKEN) {
     r_base_style.background_color = 0.353f;
     r_base_style.text_color = 1.0f;
     std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
@@ -70,13 +70,13 @@ static void widget_base_style_radio_button_set(bwWidget& widget, bwWidgetBaseSty
   r_base_style.border_color = 0.0f;
   r_base_style.shade_top = 15;
   r_base_style.shade_bottom = -15;
-  r_base_style.text_alignment = TEXT_ALIGN_CENTER;
+  r_base_style.text_alignment = TextAlignment::CENTER;
   r_base_style.corner_radius = 4.0f;
 
-  if (widget.state == bwWidget::STATE_HIGHLIGHTED) {
+  if (widget.state == bwWidget::State::HIGHLIGHTED) {
     r_base_style.background_color.shade(0.06f);
   }
-  else if (widget.state == bwWidget::STATE_SUNKEN) {
+  else if (widget.state == bwWidget::State::SUNKEN) {
     r_base_style.background_color = bwColor(0.337255f, 0.501961f, 0.760784f);
     r_base_style.text_color = 0.0f;
     std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
@@ -92,7 +92,7 @@ static void widget_base_style_scroll_bar_set(bwWidget& widget, bwWidgetBaseStyle
   r_base_style.shade_bottom = -5;
   r_base_style.corner_radius = 6.5f;
 
-  if (widget.state == bwWidget::STATE_SUNKEN) {
+  if (widget.state == bwWidget::State::SUNKEN) {
     r_base_style.decoration_color.shade(5u);
     r_base_style.text_color = 1.0f;
   }
@@ -107,10 +107,10 @@ static void widget_base_style_text_box_set(bwWidget& widget, bwWidgetBaseStyle& 
   r_base_style.shade_bottom = 25;
   r_base_style.corner_radius = 4.0f;
 
-  if (widget.state == bwWidget::STATE_HIGHLIGHTED) {
+  if (widget.state == bwWidget::State::HIGHLIGHTED) {
     r_base_style.background_color.shade(0.06f);
   }
-  else if (widget.state == bwWidget::STATE_SUNKEN) {
+  else if (widget.state == bwWidget::State::SUNKEN) {
     r_base_style.text_color = 1.0f;
   }
 }
@@ -134,25 +134,25 @@ static void widget_style_properties_set_to_default(bwWidget& widget)
 static void widget_base_style_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
   switch (widget.type) {
-    case bwWidget::WIDGET_TYPE_CHECKBOX:
+    case bwWidget::Type::CHECKBOX:
       widget_base_style_checkbox_set(widget, r_base_style);
       break;
-    case bwWidget::WIDGET_TYPE_NUMBER_SLIDER:
+    case bwWidget::Type::NUMBER_SLIDER:
       widget_base_style_number_slider_set(widget, r_base_style);
       break;
-    case bwWidget::WIDGET_TYPE_PUSH_BUTTON:
+    case bwWidget::Type::PUSH_BUTTON:
       widget_base_style_push_button_set(widget, r_base_style);
       break;
-    case bwWidget::WIDGET_TYPE_RADIO_BUTTON:
+    case bwWidget::Type::RADIO_BUTTON:
       widget_base_style_radio_button_set(widget, r_base_style);
       break;
-    case bwWidget::WIDGET_TYPE_SCROLL_BAR:
+    case bwWidget::Type::SCROLL_BAR:
       widget_base_style_scroll_bar_set(widget, r_base_style);
       break;
-    case bwWidget::WIDGET_TYPE_TEXT_BOX:
+    case bwWidget::Type::BOX:
       widget_base_style_text_box_set(widget, r_base_style);
       break;
-    case bwWidget::WIDGET_TYPE_PANEL:
+    case bwWidget::Type::PANEL:
       widget_base_style_panel_set(widget, r_base_style);
       break;
     default:
@@ -160,7 +160,7 @@ static void widget_base_style_set(bwWidget& widget, bwWidgetBaseStyle& r_base_st
   }
 }
 
-bwStyleClassic::bwStyleClassic() : bwStyle(STYLE_CLASSIC)
+bwStyleClassic::bwStyleClassic() : bwStyle(TypeID::CLASSIC)
 {
 }
 

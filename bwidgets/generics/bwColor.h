@@ -26,12 +26,18 @@ class bwColor {
   operator const float*() const;
 
  private:
-  enum Component {
-    COMPONENT_RED = 0,
-    COMPONENT_GREEN = 1,
-    COMPONENT_BLUE = 2,
-    COMPONENT_ALPHA = 3,
+  enum class Component {
+    RED = 0,
+    GREEN = 1,
+    BLUE = 2,
+    ALPHA = 3,
   };
+
+  float& operator[](const Component component)
+  {
+    return rgba[static_cast<int>(component)];
+  }
+
   void clamp(const Component component);
 
   float rgba[4]{0};

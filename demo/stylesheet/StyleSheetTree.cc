@@ -30,8 +30,7 @@ class StateProperties {
  public:
   bwOptional<std::reference_wrapper<const bwStyleProperty>> lookupProperty(
       const std::string& identifier) const;
-  bwStyleProperty& ensureProperty(const std::string& identifier,
-                                  bwStyleProperty::PropertyType type);
+  bwStyleProperty& ensureProperty(const std::string& identifier, bwStyleProperty::Type type);
 
  private:
   bwStyleProperties properties;
@@ -39,7 +38,7 @@ class StateProperties {
 
 class StyleSheetNode {
  public:
-  class StateProperties state_properties[bwWidget::STATE_TOT];
+  class StateProperties state_properties[int(bwWidget::State::STATE_TOT)];
 };
 
 }  // namespace bWidgetsDemo
@@ -78,12 +77,12 @@ StyleSheetTree::~StyleSheetTree()
 }
 
 bwStyleProperty& StyleSheetTree::ensureNodeWithProperty(const std::string& class_name,
-                                                        const bwWidget::WidgetState pseudo_state,
+                                                        const bwWidget::State pseudo_state,
                                                         const std::string& identifier,
-                                                        const bwStyleProperty::PropertyType type)
+                                                        const bwStyleProperty::Type type)
 {
   StyleSheetNode& node = ensureNode(class_name);
-  StateProperties& state_properties = node.state_properties[pseudo_state];
+  StateProperties& state_properties = node.state_properties[int(pseudo_state)];
 
   return state_properties.ensureProperty(identifier, type);
 }
@@ -95,18 +94,16 @@ static bwOptional<std::reference_wrapper<const bwStyleProperty>> state_propertie
 }
 
 bwOptional<std::reference_wrapper<const bwStyleProperty>> StyleSheetTree::resolveProperty(
-    const std::string& class_name,
-    const std::string& property_name,
-    const bwWidget::WidgetState state)
+    const std::string& class_name, const std::string& property_name, const bwWidget::State state)
 {
   if (bwOptional<std::reference_wrapper<StyleSheetNode>> node = lookupNode(class_name)) {
     bwOptional<std::reference_wrapper<const bwStyleProperty>> property =
-        state_properties_lookup_property(property_name, node->get().state_properties[state]);
+        state_properties_lookup_property(property_name, node->get().state_properties[int(state)]);
 
-    if (!property && (state != bwWidget::STATE_NORMAL)) {
+    if (!property && (state != bwWidget::State::NORMAL)) {
       // Property for this state not set, check for STATE_NORMAL.
       property = state_properties_lookup_property(
-          property_name, node->get().state_properties[bwWidget::STATE_NORMAL]);
+          property_name, node->get().state_properties[int(bwWidget::State::NORMAL)]);
     }
 
     return property;
@@ -125,7 +122,7 @@ bwOptional<std::reference_wrapper<const bwStyleProperty>> StateProperties::looku
  * Performs a identifier based lookup of \a property and adds it if not found.
  */
 bwStyleProperty& StateProperties::ensureProperty(const std::string& identifier,
-                                                 bwStyleProperty::PropertyType type)
+                                                 bwStyleProperty::Type type)
 {
   for (auto& iter_property : properties) {
     if (iter_property->getIdentifier() == identifier) {

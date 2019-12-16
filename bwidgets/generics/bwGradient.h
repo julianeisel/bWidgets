@@ -13,21 +13,21 @@ namespace bWidgets {
  */
 class bwGradient {
  public:
-  enum Direction {
-    DIRECTION_TOP_BOTTOM,
-    DIRECTION_LEFT_RIGHT,
+  enum class Direction {
+    TOP_BOTTOM,
+    LEFT_RIGHT,
   };
 
   bwGradient() = default;
   explicit bwGradient(const bwColor& base_color,
                       float shade_begin,
                       float shade_end,
-                      Direction direction = DIRECTION_TOP_BOTTOM);
+                      Direction direction = Direction::TOP_BOTTOM);
 
   bwColor calcPointColor(const class bwPoint& point, const bwRectanglePixel& bounding_box) const;
 
   bwColor begin, end;
-  Direction direction{DIRECTION_TOP_BOTTOM};
+  Direction direction{Direction::TOP_BOTTOM};
 };
 
 }  // namespace bWidgets

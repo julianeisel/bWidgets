@@ -6,7 +6,7 @@
 
 namespace bWidgets {
 
-enum TextAlignment : unsigned int;
+enum class TextAlignment;
 
 /**
  * \class bwPaintEngine

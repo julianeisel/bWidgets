@@ -4,7 +4,7 @@
 
 namespace bWidgets {
 
-enum TextAlignment : unsigned int;
+enum class TextAlignment;
 
 /**
  * \class bwWidgetBaseStyle
@@ -31,8 +31,8 @@ class bwWidgetBaseStyle {
   int shade_top{0},
       shade_bottom{
           0};  // TODO could make this a char - or support gradient for background_color even.
-  TextAlignment text_alignment;   // Default value set in constructor.
-  unsigned int roundbox_corners;  // Default value set in constructor.
+  enum TextAlignment text_alignment;  // Default value set in constructor.
+  unsigned int roundbox_corners;      // Default value set in constructor.
   float corner_radius{
       0.0f};  // TODO Utility function for calculating final radius (roundbox_radius * dpi_fac).
 };

@@ -34,7 +34,7 @@ class DefaultStage : public Stage {
   DefaultStage(unsigned int mask_width, unsigned int mask_height);
 
  private:
-  void activateStyleID(bWidgets::bwStyle::StyleTypeID) override;
+  void activateStyleID(bWidgets::bwStyle::TypeID) override;
   void addStyleSelector(bWidgets::bwScreenGraph::LayoutNode& parent_node);
   void addFakeSpacer(bWidgets::bwScreenGraph::LayoutNode& parent_node);
 

@@ -4,6 +4,6 @@
 
 using namespace bWidgets;
 
-bwStyle::bwStyle(StyleTypeID type_id) : type_id(type_id)
+bwStyle::bwStyle(TypeID type_id) : type_id(type_id)
 {
 }
