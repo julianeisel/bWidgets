@@ -48,7 +48,7 @@ Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y
     //		height = 0.8 * mode->height;
   }
 
-  glfw_window = glfwCreateWindow(width, height, name.data(), nullptr, nullptr);
+  glfw_window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
   glfwMakeContextCurrent(glfw_window);
 
   glEnable(GL_SCISSOR_TEST);

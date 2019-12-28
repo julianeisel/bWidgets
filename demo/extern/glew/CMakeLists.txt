@@ -23,6 +23,8 @@ set(INC
 
 set(SRC
 	src/glew.c
+	src/glewinfo.c
+	src/visualinfo.c
 
 	include/GL/eglew.h
 	include/GL/glew.h
