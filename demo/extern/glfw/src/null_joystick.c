@@ -1,8 +1,7 @@
 //========================================================================
-// GLFW 3.2 Win32 - www.glfw.org
+// GLFW 3.3 - www.glfw.org
 //------------------------------------------------------------------------
-// Copyright (c) 2002-2006 Marcus Geelnard
-// Copyright (c) 2006-2016 Camilla Berglund <elmindreda@glfw.org>
+// Copyright (c) 2016-2017 Camilla Löwy <elmindreda@glfw.org>
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -29,41 +28,15 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-//////                       GLFW internal API                      //////
-//////////////////////////////////////////////////////////////////////////
-
-GLFWbool _glfwInitThreadLocalStorageWin32(void)
-{
-    _glfw.win32_tls.context = TlsAlloc();
-    if (_glfw.win32_tls.context == TLS_OUT_OF_INDEXES)
-    {
-        _glfwInputError(GLFW_PLATFORM_ERROR,
-                        "Win32: Failed to allocate TLS index");
-        return GLFW_FALSE;
-    }
-
-    _glfw.win32_tls.allocated = GLFW_TRUE;
-    return GLFW_TRUE;
-}
-
-void _glfwTerminateThreadLocalStorageWin32(void)
-{
-    if (_glfw.win32_tls.allocated)
-        TlsFree(_glfw.win32_tls.context);
-}
-
-
-//////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
 //////////////////////////////////////////////////////////////////////////
 
-void _glfwPlatformSetCurrentContext(_GLFWwindow* context)
+int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
 {
-    TlsSetValue(_glfw.win32_tls.context, context);
+    return GLFW_FALSE;
 }
 
-_GLFWwindow* _glfwPlatformGetCurrentContext(void)
+void _glfwPlatformUpdateGamepadGUID(char* guid)
 {
-    return TlsGetValue(_glfw.win32_tls.context);
 }
 

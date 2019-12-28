@@ -1,8 +1,8 @@
 //========================================================================
-// GLFW 3.2 POSIX - www.glfw.org
+// GLFW 3.3 POSIX - www.glfw.org
 //------------------------------------------------------------------------
 // Copyright (c) 2002-2006 Marcus Geelnard
-// Copyright (c) 2006-2016 Camilla Berglund <elmindreda@glfw.org>
+// Copyright (c) 2006-2017 Camilla Löwy <elmindreda@glfw.org>
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -25,25 +25,27 @@
 //
 //========================================================================
 
-#ifndef _glfw3_posix_tls_h_
-#define _glfw3_posix_tls_h_
-
 #include <pthread.h>
 
-#define _GLFW_PLATFORM_LIBRARY_TLS_STATE _GLFWtlsPOSIX posix_tls
+#define _GLFW_PLATFORM_TLS_STATE    _GLFWtlsPOSIX   posix
+#define _GLFW_PLATFORM_MUTEX_STATE  _GLFWmutexPOSIX posix
 
 
-// POSIX-specific global TLS data
+// POSIX-specific thread local storage data
 //
 typedef struct _GLFWtlsPOSIX
 {
     GLFWbool        allocated;
-    pthread_key_t   context;
+    pthread_key_t   key;
 
 } _GLFWtlsPOSIX;
 
+// POSIX-specific mutex data
+//
+typedef struct _GLFWmutexPOSIX
+{
+    GLFWbool        allocated;
+    pthread_mutex_t handle;
 
-GLFWbool _glfwInitThreadLocalStoragePOSIX(void);
-void _glfwTerminateThreadLocalStoragePOSIX(void);
+} _GLFWmutexPOSIX;
 
-#endif // _glfw3_posix_tls_h_
