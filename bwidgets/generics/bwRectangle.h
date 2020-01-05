@@ -13,6 +13,11 @@ template<typename T> class bwRectangle {
       : xmin(rect.xmin), xmax(rect.xmax), ymin(rect.ymin), ymax(rect.ymax)
   {
   }
+  template<typename U>
+  inline bwRectangle(bwRectangle<U>&& rect)
+      : xmin(rect.xmin), xmax(rect.xmax), ymin(rect.ymin), ymax(rect.ymax)
+  {
+  }
 
   inline void set(const T _xmin, const T width, const T _ymin, const T height)
   {
@@ -71,6 +76,22 @@ template<typename T> class bwRectangle {
     ymin = cent_y - size_y_half;
     xmax = cent_x + size_x_half;
     ymax = cent_y + size_y_half;
+  }
+
+  inline void clamp(const bwRectangle<T> boundary)
+  {
+    if (xmin < boundary.xmin) {
+      xmin = boundary.xmin;
+    }
+    if (xmax > boundary.xmax) {
+      xmax = boundary.xmax;
+    }
+    if (ymin < boundary.ymin) {
+      ymin = boundary.ymin;
+    }
+    if (ymax > boundary.ymax) {
+      ymax = boundary.ymax;
+    }
   }
 
   T xmin, xmax;

@@ -19,8 +19,8 @@ class Node;
  * access to special state widgets.
  */
 struct bwContext {
-  /** The currently hovered widget (if any). */
-  bwWidget* hovered = nullptr;
+  /** The currently hovered node (if any). */
+  bwScreenGraph::Node* hovered = nullptr;
 
   /** The currently active widget which gets any input (if any). */
   bwScreenGraph::Node* active = nullptr;

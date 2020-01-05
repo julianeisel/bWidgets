@@ -53,14 +53,14 @@ void bwTextBox::onMousePress(bwMouseButtonEvent& event)
   }
 }
 
-void bwTextBox::onMouseEnter()
+void bwTextBox::onMouseEnter(bwEvent&)
 {
   if (state == State::NORMAL) {
     state = State::HIGHLIGHTED;
   }
 }
 
-void bwTextBox::onMouseLeave()
+void bwTextBox::onMouseLeave(bwEvent&)
 {
   if (state == State::HIGHLIGHTED) {
     state = State::NORMAL;

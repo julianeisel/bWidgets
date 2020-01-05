@@ -150,6 +150,7 @@ void bwPainter::drawCheckMark(const bwRectanglePixel& rect)
   if (isGradientEnabled()) {
     fillVertexColorsWithGradient(polygon, rect);
   }
+  use_antialiasing = true;
 
   drawPolygon(polygon);
 }
@@ -161,22 +162,22 @@ void bwPainter::drawTriangle(const bwRectanglePixel& rect, Direction direction)
   switch (direction) {
     case Direction::UP:
       polygon.addVertex(rect.xmin, rect.ymin);
-      polygon.addVertex(rect.xmin + (rect.width() * 0.5f), rect.ymax);
+      polygon.addVertex(int(rect.xmin + (rect.width() * 0.5f)), rect.ymax);
       polygon.addVertex(rect.xmax, rect.ymin);
       break;
     case Direction::DOWN:
       polygon.addVertex(rect.xmin, rect.ymax);
-      polygon.addVertex(rect.xmin + (rect.width() * 0.5f), rect.ymin);
+      polygon.addVertex(int(rect.xmin + (rect.width() * 0.5f)), rect.ymin);
       polygon.addVertex(rect.xmax, rect.ymax);
       break;
     case Direction::LEFT:
       polygon.addVertex(rect.xmax, rect.ymax);
-      polygon.addVertex(rect.xmin, rect.ymin + (rect.height() * 0.5f));
+      polygon.addVertex(rect.xmin, int(rect.ymin + (rect.height() * 0.5f)));
       polygon.addVertex(rect.xmax, rect.ymin);
       break;
     case Direction::RIGHT:
       polygon.addVertex(rect.xmin, rect.ymax);
-      polygon.addVertex(rect.xmax, rect.ymin + (rect.height() * 0.5f));
+      polygon.addVertex(rect.xmax, int(rect.ymin + (rect.height() * 0.5f)));
       polygon.addVertex(rect.xmin, rect.ymin);
       break;
   }
@@ -185,6 +186,7 @@ void bwPainter::drawTriangle(const bwRectanglePixel& rect, Direction direction)
     fillVertexColorsWithGradient(polygon, rect);
   }
 
+  use_antialiasing = true;
   drawPolygon(polygon);
 }
 
@@ -397,6 +399,9 @@ void bwPainter::drawRoundbox(const bwRectanglePixel& rect,
   PolygonRoundboxCreator roundbox_creator{
       rect, corners, validated_radius, active_drawtype == DrawType::OUTLINE};
   roundbox_creator.addVerts(polygon);
+  if (active_drawtype == DrawType::OUTLINE) {
+    use_antialiasing = true;
+  }
 
   if (isGradientEnabled()) {
     fillVertexColorsWithGradient(polygon, rect);

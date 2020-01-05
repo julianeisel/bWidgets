@@ -44,6 +44,8 @@ class bwPaintEngine {
    */
   virtual void setupViewport(const bwRectanglePixel& rect, const class bwColor& clear_color) = 0;
 
+  virtual void enableMask(const bwRectanglePixel& rect) = 0;
+
   /**
    * The main polygon draw function which is used to draw all geometry of
    * widgets.

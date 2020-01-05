@@ -25,7 +25,6 @@
 #include <memory>
 
 #include "bwEvent.h"
-#include "bwScrollBar.h"
 #include "bwStyle.h"
 #include "screen_graph/Node.h"
 #include "screen_graph/ScreenGraph.h"
@@ -35,9 +34,6 @@
 namespace bWidgetsDemo {
 
 class Stage {
-  friend class ScrollbarApplyValueFunctor;
-  friend class StyleSetter;
-  friend class UseCSSVersionToggleSetter;
   friend class UseFontSubPixelsToggleSetter;
 
  public:
@@ -48,7 +44,8 @@ class Stage {
 
   void handleMouseMovementEvent(const class MouseEvent& event);
   void handleMouseButtonEvent(const class MouseEvent& event);
-  void handleMouseScrollEvent(const class MouseEvent& event);
+  void handleMouseScrollEvent(const class MouseEvent& event,
+                              enum bWidgets::bwMouseWheelEvent::Direction dir);
   void handleWindowResizeEvent(const class Window& win);
 
   static void setInterfaceScale(const float value);
@@ -68,30 +65,15 @@ class Stage {
   static float interface_scale;
 
   unsigned int mask_width, mask_height;
-  int vert_scroll = 0;
-
-  class RootLayout& Layout() const;
 
   virtual void activateStyleID(bWidgets::bwStyle::TypeID type_id);
 
  private:
-  // Not part of the layout yet. We'd need to support horizontal root layouts first.
-  bWidgets::bwScreenGraph::WidgetNode scrollbar_node;
-
   static void StyleSheetPolish(bWidgets::bwWidget& widget);
 
   void initFonts();
   void initIcons();
   void setStyleSheet(const std::string& filepath);
-  void drawScrollbars();
-  void updateContentBounds();
-  void validizeScrollValue();
-
-  bool shouldHaveScrollbars() const;
-  unsigned int getScrollbarWidth() const;
-  unsigned int getContentWidth() const;
-  unsigned int getContentHeight() const;
-  void setScrollValue(int value);
 };
 
 }  // namespace bWidgetsDemo

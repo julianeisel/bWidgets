@@ -35,7 +35,7 @@ Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y
   //	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
   //	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-  //	glfwWindowHint(GLFW_SAMPLES, 4); // antialiasing
+  //	glfwWindowHint(GLFW_SAMPLES, 4);  // antialiasing
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);  // For MacOS

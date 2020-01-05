@@ -10,6 +10,7 @@
 
 namespace bWidgets {
 
+class bwEvent;
 class bwMouseButtonEvent;
 class bwMouseButtonDragEvent;
 
@@ -34,6 +35,7 @@ class bwWidget : public bwScreenGraph::EventHandler {
     PUSH_BUTTON,
     RADIO_BUTTON,
     SCROLL_BAR,
+    SCROLL_VIEW,
     BOX,
 
     PANEL,
@@ -50,7 +52,7 @@ class bwWidget : public bwScreenGraph::EventHandler {
   } state;
 
   bwWidget(const Type type,
-           std::string identifier,
+           const std::string& identifier,
            const unsigned int width_hint = 0,
            const unsigned int height_hint = 0);
   virtual ~bwWidget() override = default;
@@ -60,12 +62,14 @@ class bwWidget : public bwScreenGraph::EventHandler {
   virtual void draw(class bwStyle& style) = 0;
 
   // Events
-  void onMouseEnter() override;
-  void onMouseLeave() override;
+  void onMouseMove(bwEvent&) override;
+  void onMouseEnter(bwEvent&) override;
+  void onMouseLeave(bwEvent&) override;
   void onMousePress(bwMouseButtonEvent& event) override;
   void onMouseRelease(bwMouseButtonEvent& event) override;
   void onMouseClick(bwMouseButtonEvent& event) override;
   void onMouseDrag(bwMouseButtonDragEvent& event) override;
+  void onMouseWheel(bwMouseWheelEvent& event) override;
 
   const std::string& getIdentifier() const;
   virtual const std::string* getLabel() const;

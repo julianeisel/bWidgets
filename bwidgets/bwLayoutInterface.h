@@ -7,10 +7,8 @@ namespace bWidgets {
 class bwLayoutInterface {
  public:
   virtual ~bwLayoutInterface() = default;
-  virtual bwRectanglePixel getRectangle() = 0;
 
- protected:
-  bwLayoutInterface() = default;
+  virtual bwRectanglePixel getRectangle() = 0;
 };
 
 }  // namespace bWidgets

@@ -41,16 +41,24 @@ GawainPaintEngine::GawainPaintEngine(Font& font, IconMap& icon_map)
 {
 }
 
-void GawainPaintEngine::setupViewport(const bwRectanglePixel& rect,
-                                      const bWidgets::bwColor& clear_color)
+void GawainPaintEngine::setupViewport(const bwRectanglePixel& rect, const bwColor& clear_color)
 {
-  glViewport(rect.xmin, rect.ymin, rect.width(), rect.height());
-  glScissor(rect.xmin, rect.ymin, rect.width(), rect.height());
+  const float width = rect.width() + 1;
+  const float height = rect.height() + 1;
+
+  glViewport(rect.xmin, rect.ymin, width, height);
+  glScissor(rect.xmin, rect.ymin, width, height);
 
   glClearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
   glClear(GL_COLOR_BUFFER_BIT);
 
-  gpuOrtho(rect.xmin, rect.xmax, rect.ymin, rect.ymax);
+  gpuOrtho(0, width, 0, height);
+  gpuIdentityMatrix();
+}
+
+void GawainPaintEngine::enableMask(const bwRectanglePixel& rect)
+{
+  glScissor(rect.xmin, rect.ymin, rect.width() + 1, rect.height() + 1);
 }
 
 // --------------------------------------------------------------------
@@ -67,13 +75,14 @@ static const float jit[WIDGET_AA_JITTER][2] = {{0.468813, -0.481430},
                                                {-0.272855, 0.269918},
                                                {0.095909, 0.388710}};
 
-static PrimitiveType stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype)
+static PrimitiveType stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype,
+                                                    bool use_antialiasing)
 {
   switch (drawtype) {
     case bwPainter::DrawType::FILLED:
       return PRIM_TRIANGLE_FAN;
     case bwPainter::DrawType::OUTLINE:
-      return PRIM_TRIANGLE_STRIP;
+      return use_antialiasing ? PRIM_TRIANGLE_STRIP : PRIM_LINE_LOOP;
     case bwPainter::DrawType::LINE:
       return PRIM_LINE_STRIP;
   }
@@ -132,7 +141,8 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
   ShaderProgram& shader_program = ShaderProgram::getShaderProgram(
       is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
   const bwColor& color = painter.getActiveColor();
-  PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype);
+  PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype,
+                                                           painter.use_antialiasing);
   VertexFormat* format = immVertexFormat();
   unsigned int attr_pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
   unsigned int attr_color = is_shaded ?
@@ -144,7 +154,7 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
 
   immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
 
-  if (painter.active_drawtype == bwPainter::DrawType::OUTLINE || painter.use_antialiasing) {
+  if (painter.use_antialiasing) {
     bwColor drawcolor = color;
 
     drawcolor[3] /= WIDGET_AA_JITTER;

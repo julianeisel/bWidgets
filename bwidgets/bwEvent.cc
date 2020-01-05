@@ -2,6 +2,16 @@
 
 using namespace bWidgets;
 
+void bwEvent::swallow()
+{
+  is_swallowed = true;
+}
+
+bool bwEvent::isSwallowed() const
+{
+  return is_swallowed;
+}
+
 void bwMouseButtonDragEvent::addMouseMovement(bwPoint new_location)
 {
   if (drag_state == DRAGGING_BELOW_THRESHOLD &&

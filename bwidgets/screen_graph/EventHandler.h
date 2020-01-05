@@ -6,8 +6,10 @@
 
 namespace bWidgets {
 
+class bwEvent;
 class bwMouseButtonEvent;
 class bwMouseButtonDragEvent;
+class bwMouseWheelEvent;
 
 namespace bwScreenGraph {
 
@@ -33,12 +35,14 @@ class EventHandler {
 
   void addEventListener(EventType event_type, EventListener listener);
 
-  virtual void onMouseEnter() = 0;
-  virtual void onMouseLeave() = 0;
+  virtual void onMouseMove(bwEvent&) = 0;
+  virtual void onMouseEnter(bwEvent&) = 0;
+  virtual void onMouseLeave(bwEvent&) = 0;
   virtual void onMousePress(bwMouseButtonEvent&) = 0;
   virtual void onMouseRelease(bwMouseButtonEvent&) = 0;
   virtual void onMouseClick(bwMouseButtonEvent&) = 0;
   virtual void onMouseDrag(bwMouseButtonDragEvent&) = 0;
+  virtual void onMouseWheel(bwMouseWheelEvent&) = 0;
 
  private:
   std::array<std::list<EventListener>, TOT_EVENT_TYPES> listeners;

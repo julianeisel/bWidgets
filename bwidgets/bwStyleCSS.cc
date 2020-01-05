@@ -23,9 +23,9 @@ void bwStyleCSS::setWidgetStyle(bwWidget& widget)
     button->base_style.roundbox_corners = button->rounded_corners;
     base_style = button->base_style;
   }
-  else if (auto* panel = widget_cast<bwPanel*>(&widget)) {
-    panel->base_style.roundbox_corners = RoundboxCorner::ALL;
-    base_style = panel->base_style;
+  else if (auto* container = widget_cast<bwContainerWidget*>(&widget)) {
+    container->base_style.roundbox_corners = RoundboxCorner::ALL;
+    base_style = container->base_style;
   }
   else if (auto* text_box = widget_cast<bwTextBox*>(&widget)) {
     text_box->base_style.roundbox_corners =

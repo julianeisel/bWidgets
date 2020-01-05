@@ -17,8 +17,8 @@ class bwAbstractButton : public bwWidget {
   virtual void draw(class bwStyle& style) override;
   virtual void registerProperties() override;
 
-  void onMouseEnter() override;
-  void onMouseLeave() override;
+  void onMouseEnter(bwEvent&) override;
+  void onMouseLeave(bwEvent&) override;
   void onMousePress(bwMouseButtonEvent&) override;
   void onMouseRelease(bwMouseButtonEvent&) override;
 
@@ -34,7 +34,7 @@ class bwAbstractButton : public bwWidget {
 
  protected:
   // Protected constructor to force calling through inherited class (pseudo abstract).
-  bwAbstractButton(std::string text,
+  bwAbstractButton(const std::string& text,
                    const Type type,
                    const std::string& identifier,
                    const unsigned int width_hint = 0,

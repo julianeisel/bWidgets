@@ -10,6 +10,7 @@ class bwContext;
 namespace bwScreenGraph {
 class ScreenGraph;
 class Node;
+class EventHandler;
 }  // namespace bwScreenGraph
 
 /**
@@ -22,11 +23,21 @@ class Node;
  */
 class bwEventDispatcher {
  public:
+  /* Event to bubble is not passed here, lambdas can capture it while keeping exact type (no cast
+   * needed). */
+  using EventBubbleFunctor =
+      std::function<void(const bwScreenGraph::Node&, bwScreenGraph::EventHandler& handler)>;
+
   bwEventDispatcher(bwScreenGraph::ScreenGraph& _screen_graph);
+
+  void bubbleEvent(const bwEvent& event,
+                   const bwScreenGraph::Node& from_node,
+                   const EventBubbleFunctor functor);
 
   void dispatchMouseMovement(bwEvent);
   void dispatchMouseButtonPress(bwMouseButtonEvent&);
   void dispatchMouseButtonRelease(bwMouseButtonEvent&);
+  void dispatchMouseWheelScroll(bwMouseWheelEvent&);
 
  private:
   /** Reference back to the screen-graph owning this dispatcher */
@@ -37,10 +48,7 @@ class bwEventDispatcher {
   bwOptional<bwMouseButtonDragEvent> drag_event;
 
   bool isDragging();
-
-  // XXX Temp: Public so host app can manage scrollbar hovering.
- public:
-  void changeContextHovered(bwScreenGraph::Node*);
+  void changeContextHovered(bwScreenGraph::Node*, bwEvent&);
 };
 
 }  // namespace bWidgets

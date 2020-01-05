@@ -22,6 +22,7 @@ class Builder {
   ~Builder() = default;
 
   static void setLayout(LayoutNode& node, bwPtr<bwLayoutInterface> layout);
+  static void setWidget(WidgetNode& node, bwPtr<bwWidget> widget);
   static bwWidget& addWidget(LayoutNode& node, bwPtr<bwWidget> widget);
 
   void setActiveLayout(bwScreenGraph::LayoutNode&);
@@ -62,11 +63,12 @@ class Builder {
   ContainerNode& addContainer(bwPtr<bwLayoutInterface> layout, _Args&&... __args)
   {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
+    static_assert(std::is_base_of<bwContainerWidget, _WidgetType>::value,
+                  "Should derrive from bwContainerWidget");
 
     ContainerNode& new_node = addChildNode<ContainerNode>(*_active_layout_node);
-    // TODO compile time check if widget supports being container.
     setLayout(new_node, std::move(layout));
-    new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
+    new_node.widget = bwPtr_new<_WidgetType>(new_node, std::forward<_Args>(__args)...);
     new_node.handler = new_node.widget.get();
     setActiveLayout(new_node);
     return new_node;
@@ -82,8 +84,9 @@ class Builder {
    * \code
    * using bWidgets::bwScreenGraph;
    *
-   * auto& widget = static_cast<bwLabel&>(Builder::addWidget<bwLabel>(screen_graph,
-   * bwPtr_new<bwLabel>("Foo", 0, 10))); widget.foo();
+   * auto& widget = static_cast<bwLabel&>(Builder::addWidget<bwLabel>(
+   *                    screen_graph, bwPtr_new<bwLabel>("Foo", 0, 10)));
+   * widget.foo();
    * // ...
    * \endcode
    *
@@ -106,8 +109,6 @@ class Builder {
     new_node.handler = new_node.widget.get();
     return static_cast<_WidgetType&>(*new_node.widget);
   }
-
-  static void setWidget(WidgetNode& node, bwPtr<bwWidget> widget);
 
  private:
   template<typename _NodeType> static _NodeType& addChildNode(LayoutNode& parent_node)

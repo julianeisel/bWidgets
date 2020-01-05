@@ -2,6 +2,7 @@
 
 #include <list>
 
+#include "bwContainerWidget.h"
 #include "bwLayoutInterface.h"
 #include "bwPtr.h"
 #include "bwWidget.h"
@@ -35,7 +36,6 @@ class EventHandler;
  */
 class Node {
   friend class Builder;
-  friend class PreOrderIterator;
 
  public:
   using ChildList = std::list<bwPtr<Node>>;
@@ -53,7 +53,12 @@ class Node {
     return nullptr;
   }
 
-  const Node* Parent() const
+  virtual bool childrenVisible() const
+  {
+    return true;
+  }
+
+  Node* Parent() const
   {
     return parent;
   }
@@ -74,10 +79,11 @@ class Node {
   }
 
   virtual bwRectanglePixel Rectangle() const = 0;
+  virtual bwOptional<bwRectanglePixel> MaskRectangle() const = 0;
   virtual bool isVisible() const = 0;
 
  private:
-  Node* parent;
+  Node* parent{nullptr};
   EventHandler* handler{nullptr};
 };
 
@@ -86,7 +92,6 @@ class Node {
  */
 class LayoutNode : virtual public Node {
   friend class Builder;
-  friend class PreOrderIterator;
 
  public:
   const ChildList* Children() const override
@@ -108,6 +113,11 @@ class LayoutNode : virtual public Node {
     return layout->getRectangle();
   }
 
+  bwOptional<bwRectanglePixel> MaskRectangle() const override
+  {
+    return nullopt;
+  }
+
   bool isVisible() const override
   {
     return true;
@@ -123,7 +133,6 @@ class LayoutNode : virtual public Node {
  */
 class WidgetNode : virtual public Node {
   friend class Builder;
-  friend class PreOrderIterator;
 
  public:
   bwWidget* Widget() const override
@@ -134,6 +143,11 @@ class WidgetNode : virtual public Node {
   bwRectanglePixel Rectangle() const override
   {
     return widget->rectangle;
+  }
+
+  bwOptional<bwRectanglePixel> MaskRectangle() const override
+  {
+    return nullopt;
   }
 
   bool isVisible() const override
@@ -152,16 +166,34 @@ class WidgetNode : virtual public Node {
  * diamond problems.
  */
 class ContainerNode : public LayoutNode, public WidgetNode {
-  friend class Builder;
+ public:
+  bwContainerWidget& ContainerWidget() const
+  {
+    return static_cast<bwContainerWidget&>(*Widget());
+  }
 
   bwRectanglePixel Rectangle() const override
   {
     return WidgetNode::Rectangle();
   }
+  bwRectanglePixel ContentRectangle() const
+  {
+    return LayoutNode::Rectangle();
+  }
+
+  bwOptional<bwRectanglePixel> MaskRectangle() const override
+  {
+    return ContainerWidget().getMaskRectangle();
+  }
 
   bool isVisible() const override
   {
     return WidgetNode::isVisible();
+  }
+
+  bool childrenVisible() const override
+  {
+    return ContainerWidget().childrenVisible();
   }
 };
 

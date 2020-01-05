@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 
 #include "bwPoint.h"
@@ -24,6 +25,11 @@ void bwPolygon::addVertex(bwPoint vertex)
 void bwPolygon::addVertex(const float x, const float y)
 {
   addVertex(bwPoint(x, y));
+}
+
+void bwPolygon::addVertex(const int x, const int y)
+{
+  addVertex({std::roundf(x), std::roundf(y)});
 }
 
 void bwPolygon::reserve(const unsigned int count)

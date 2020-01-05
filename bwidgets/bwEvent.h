@@ -10,11 +10,16 @@ class bwEvent {
   bwEvent(bwPoint _location) : location(_location)
   {
   }
+  virtual ~bwEvent() = default;
+
+  void swallow();
+  bool isSwallowed() const;
 
   // Where did the event happen?
   const bwPoint location;
-  // TODO
-  //	void swallow();
+
+ private:
+  bool is_swallowed{false};
 };
 
 class bwMouseButtonEvent : public bwEvent {
@@ -52,6 +57,24 @@ class bwMouseButtonDragEvent : public bwMouseButtonEvent {
 
   bwDistance drag_distance;
   DragState drag_state;
+};
+
+class bwMouseWheelEvent : public bwMouseButtonEvent {
+ public:
+  enum class Direction { UP, DOWN };
+
+  bwMouseWheelEvent(Direction _direction, bwPoint _location)
+      : bwMouseButtonEvent(MouseButton::BUTTON_WHEEL, _location), direction(_direction)
+  {
+  }
+
+  Direction getDirection() const
+  {
+    return direction;
+  }
+
+ private:
+  Direction direction;
 };
 
 }  // namespace bWidgets

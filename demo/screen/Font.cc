@@ -150,8 +150,14 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
   }
 
   if (!mask.isEmpty()) {
+    bWidgets::bwRectanglePixel bounding_mask;
+    bWidgets::bwRectanglePixel final_mask = mask;
+
     glGetIntegerv(GL_SCISSOR_BOX, old_scissor);
-    glScissor(mask.xmin, mask.ymin, mask.width(), mask.height());
+    bounding_mask.set(old_scissor[0], old_scissor[2], old_scissor[1], old_scissor[3]);
+    final_mask.clamp(bounding_mask);
+
+    glScissor(final_mask.xmin, final_mask.ymin, final_mask.width(), final_mask.height());
   }
 
   for (char character : text) {

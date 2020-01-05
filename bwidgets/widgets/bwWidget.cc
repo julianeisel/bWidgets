@@ -3,7 +3,7 @@
 using namespace bWidgets;
 
 bwWidget::bwWidget(const Type type,
-                   std::string identifier,
+                   const std::string& identifier,
                    const unsigned int width_hint,
                    const unsigned int height_hint)
     : type(type),
@@ -11,7 +11,7 @@ bwWidget::bwWidget(const Type type,
       rectangle(0, 0, 0, 0),
       width_hint(width_hint),
       height_hint(height_hint),
-      identifier(std::move(identifier))
+      identifier(identifier)
 {
 }
 
@@ -20,11 +20,15 @@ bool bwWidget::isCoordinateInside(const bwPoint& point) const
   return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-void bwWidget::onMouseEnter()
+void bwWidget::onMouseMove(bwEvent&)
 {
 }
 
-void bwWidget::onMouseLeave()
+void bwWidget::onMouseEnter(bwEvent&)
+{
+}
+
+void bwWidget::onMouseLeave(bwEvent&)
 {
 }
 
@@ -41,6 +45,10 @@ void bwWidget::onMouseClick(bwMouseButtonEvent&)
 }
 
 void bwWidget::onMouseDrag(bwMouseButtonDragEvent&)
+{
+}
+
+void bwWidget::onMouseWheel(bwMouseWheelEvent&)
 {
 }
 

@@ -26,7 +26,6 @@
 #include "screen_graph/Node.h"
 
 namespace bWidgets {
-class bwPanel;
 class bwPoint;
 class bwStyle;
 class bwWidget;
@@ -34,8 +33,8 @@ class bwWidget;
 
 namespace bWidgetsDemo {
 
-void resolveScreenGraphNodeLayout(bWidgets::bwScreenGraph::Node& node,
-                                  const float vertical_scroll,
+void resolveScreenGraphNodeLayout(bWidgets::bwScreenGraph::LayoutNode& node,
+                                  const bWidgets::bwRectangle<float>& rect,
                                   const float scale_fac);
 
 /**
@@ -60,12 +59,11 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
   friend int getNodeHeight(const bWidgets::bwScreenGraph::Node&);
 
  public:
-  enum LayoutItemType {
-    LAYOUT_ITEM_TYPE_ROOT,
-    LAYOUT_ITEM_TYPE_ROW,
-    LAYOUT_ITEM_TYPE_COLUMN,
-    LAYOUT_ITEM_TYPE_PANEL,
-    LAYOUT_ITEM_TYPE_WIDGET,
+  enum class Type {
+    ROW,
+    COLUMN,
+    PANEL,
+    SCROLL_VIEW,
   };
 
   enum FlowDirection {
@@ -77,7 +75,7 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
 
   virtual ~LayoutItem() override = default;
 
-  virtual void resolve(bWidgets::bwScreenGraph::Node::ChildList* chilren,
+  virtual void resolve(bWidgets::bwScreenGraph::Node& node,
                        const bWidgets::bwPoint& layout_pos,
                        const unsigned int item_margin,
                        const float scale_fac);
@@ -86,13 +84,14 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
 
   unsigned int getHeight() const;
 
-  const LayoutItemType type;
+  const Type type;
   const FlowDirection flow_direction;
+  unsigned int padding = 0;
   const bool align;
 
  protected:
   // Protected constructor to force calling through inherited class (pseudo abstract).
-  LayoutItem(LayoutItemType layout_type,
+  LayoutItem(Type layout_type,
              const bool align,
              FlowDirection flow_direction = FLOW_DIRECTION_HORIZONTAL);
 
@@ -113,35 +112,6 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
   unsigned int countNeededMargins(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
 };
 
-/**
- * \brief The layout item at the root of the layout-item tree.
- *
- * A RootLayout can be used to manage child-layouts more easily.
- *
- * \note Only root-layouts with \a flow_direction FLOW_DIRECTION_VERTICAL are supported right now.
- */
-class RootLayout : public LayoutItem {
- public:
-  RootLayout(
-      //	        FlowDirection direction,
-      const int ymax,
-      const unsigned int max_size,
-      const bool align = false);
-
-  void resolve(bWidgets::bwScreenGraph::Node::ChildList& children,
-               const float vertical_scroll,
-               const float scale_fac);
-  void setMaxSize(const unsigned int max_size);
-  void setYmax(const int value);
-
-  unsigned int padding = 0;
-  unsigned int item_margin = 0;
-
- private:
-  unsigned int max_size;
-  int ymax;
-};
-
 class ColumnLayout : public LayoutItem {
  public:
   explicit ColumnLayout(const bool align = false);
@@ -155,6 +125,18 @@ class RowLayout : public LayoutItem {
 class PanelLayout : public LayoutItem {
  public:
   explicit PanelLayout();
+};
+
+class ScrollViewLayout : public LayoutItem {
+ public:
+  explicit ScrollViewLayout();
+
+  void resolve(bWidgets::bwScreenGraph::Node& node,
+               const bWidgets::bwPoint& layout_pos,
+               const unsigned int item_margin,
+               const float scale_fac) override;
+
+  unsigned int item_margin = 0;
 };
 
 }  // namespace bWidgetsDemo

@@ -12,8 +12,8 @@ class bwTextBox : public bwWidget {
   void draw(class bwStyle& style) override;
   void registerProperties() override;
 
-  void onMouseEnter() override;
-  void onMouseLeave() override;
+  void onMouseEnter(bwEvent&) override;
+  void onMouseLeave(bwEvent&) override;
   void onMousePress(bwMouseButtonEvent&) override;
 
   void startTextEditing();

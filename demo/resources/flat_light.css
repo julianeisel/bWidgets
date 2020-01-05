@@ -5,6 +5,12 @@ Stage
     background-color: rgb(191, 191, 191);
 }
 
+bwScrollView
+{
+    background-color: rgb(191, 191, 191);
+    border-color: rgb(191, 191, 191);
+}
+
 bwCheckbox
 {
     border-color: rgb(85, 85, 85);

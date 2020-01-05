@@ -21,6 +21,8 @@
 
 #include <list>
 
+#include "bwRange.h"
+
 #include "GPU.h"
 #include "Stage.h"
 
@@ -28,7 +30,6 @@
 
 using namespace bWidgetsDemo;
 using namespace bWidgets;  // Less verbose
-
 
 EventManager& EventManager::ensureEventManager()
 {
@@ -128,12 +129,18 @@ void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win,
 
 void EventManager::handleMouseScrollEvent(GLFWwindow* glfw_win, double /*value_x*/, double value_y)
 {
+  if ((value_y > -1) && (value_y < 1)) {
+    return;
+  }
+
   const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
   const MouseEvent::MouseEventType event_type = (value_y > 0) ?
                                                     MouseEvent::MOUSE_EVENT_SCROLL_UP :
                                                     MouseEvent::MOUSE_EVENT_SCROLL_DOWN;
   const bwPoint& position = win->getCursorPosition();
   MouseEvent event(event_type, bwMouseButtonEvent::BUTTON_WHEEL, position);
+  bwMouseWheelEvent::Direction dir = (value_y > 0) ? bwMouseWheelEvent::Direction::UP :
+                                                     bwMouseWheelEvent::Direction::DOWN;
 
-  win->stage->handleMouseScrollEvent(event);
+  win->stage->handleMouseScrollEvent(event, dir);
 }

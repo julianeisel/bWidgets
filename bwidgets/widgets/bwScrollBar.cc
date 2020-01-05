@@ -11,11 +11,22 @@ bwScrollBar::bwScrollBar(unsigned int width_hint, unsigned int height_hint)
 {
 }
 
+static bwRectanglePixel getInnerRect(bwScrollBar& scrollbar)
+{
+  bwRectanglePixel rect_inner{scrollbar.rectangle};
+
+  rect_inner.ymax -= (scrollbar.ratio * scrollbar.scroll_offset);
+  rect_inner.ymin = rect_inner.ymax - (scrollbar.ratio * scrollbar.rectangle.height());
+
+  return rect_inner;
+}
+
 void bwScrollBar::draw(bwStyle& style)
 {
   style.setWidgetStyle(*this);
 
-  bwRectanglePixel rect_inner{rectangle};
+  bwRectanglePixel rect_inner{getInnerRect(*this)};
+
   /* TODO maybe a wrapper could ensure old style is unchanged after drawing (by resetting it) */
   const char old_shade_top = base_style.shade_top;
   const char old_shade_bottom = base_style.shade_bottom;
@@ -24,9 +35,6 @@ void bwScrollBar::draw(bwStyle& style)
                                   base_style.shadeTop(),
                                   bwGradient::Direction::LEFT_RIGHT};
   bwPainter painter;
-
-  rect_inner.ymax += (ratio * scroll_offset);
-  rect_inner.ymin = rect_inner.ymax - (ratio * rectangle.height());
 
   painter.drawRoundboxWidgetBase(
       base_style, style, rectangle, gradient_outer, base_style.corner_radius);
@@ -63,10 +71,24 @@ void bwScrollBar::onMouseRelease(bwMouseButtonEvent& event)
   bwAbstractButton::onMouseRelease(event);
 }
 
+void bwScrollBar::onMouseClick(bwMouseButtonEvent& event)
+{
+  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+    bwRectanglePixel rect_inner{getInnerRect(*this)};
+
+    if (event.location.y > rect_inner.ymax) {
+      setScrollOffset(scroll_offset - (rectangle.height() * SCROLL_JUMP_FAC));
+    }
+    else if (event.location.y < rect_inner.ymin) {
+      setScrollOffset(scroll_offset + (rectangle.height() * SCROLL_JUMP_FAC));
+    }
+  }
+}
+
 void bwScrollBar::onMouseDrag(bwMouseButtonDragEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    setScrollOffset(mouse_press_scroll_offset + event.drag_distance.y);
+    setScrollOffset(mouse_press_scroll_offset - event.drag_distance.y);
   }
 }
 

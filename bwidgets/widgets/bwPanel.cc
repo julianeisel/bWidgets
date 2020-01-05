@@ -9,8 +9,10 @@
 
 using namespace bWidgets;
 
-bwPanel::bwPanel(std::string label, unsigned int header_height_hint)
-    : bwWidget(Type::PANEL, "bwPanel", 0, header_height_hint),
+bwPanel::bwPanel(const bwScreenGraph::ContainerNode& node,
+                 std::string label,
+                 unsigned int header_height_hint)
+    : bwContainerWidget(node, Type::PANEL, "bwPanel", 0, header_height_hint),
       header_height(header_height_hint),
       label(std::move(label))
 {
@@ -32,7 +34,7 @@ void bwPanel::draw(bwStyle& style)
 
 void bwPanel::registerProperties()
 {
-  base_style.registerProperties(style_properties);
+  bwContainerWidget::registerProperties();
   style_properties.addBool("draw-separator", draw_separator);
 }
 
@@ -56,6 +58,11 @@ void bwPanel::onMousePress(bwMouseButtonEvent& event)
 const std::string* bwPanel::getLabel() const
 {
   return &label;
+}
+
+bool bwPanel::childrenVisible() const
+{
+  return panel_state == State::OPEN;
 }
 
 bool bwPanel::isCoordinateInsideHeader(const bwPoint& point) const
@@ -145,7 +152,6 @@ void bwPanel::drawHeader(bwStyle& style) const
   triangle_rect.xmax = triangle_rect.xmin + triangle_rect.height();
   triangle_rect.scale(0.35f);
   painter.active_drawtype = bwPainter::DrawType::FILLED;
-  painter.use_antialiasing = true;
   painter.setActiveColor(base_style.textColor());
   painter.drawTriangle(triangle_rect,
                        (panel_state == State::OPEN) ? Direction::DOWN : Direction::RIGHT);

@@ -58,3 +58,8 @@ float bwWidgetBaseStyle::shadeBottom() const
 {
   return shade_bottom / 255.0f;
 }
+
+bool bwWidgetBaseStyle::isBorderVisible() const
+{
+  return (background_color == border_color) == false;
+}

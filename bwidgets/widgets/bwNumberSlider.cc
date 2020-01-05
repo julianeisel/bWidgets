@@ -109,13 +109,14 @@ void bwNumberSlider::onMousePress(bwMouseButtonEvent& event)
       value = initial_value;
     }
   }
-  is_dragging = true;
 }
 
 void bwNumberSlider::onMouseRelease(bwMouseButtonEvent&)
 {
+  if (is_dragging) {
+    state = State::NORMAL;
+  }
   is_dragging = false;
-  state = State::SUNKEN;
 }
 
 void bwNumberSlider::onMouseClick(bwMouseButtonEvent& event)
@@ -132,6 +133,8 @@ void bwNumberSlider::onMouseDrag(bwMouseButtonDragEvent& event)
     if (apply_functor) {
       (*apply_functor)();
     }
+
+    is_dragging = true;
   }
 }
 

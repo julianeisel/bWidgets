@@ -6,7 +6,7 @@
 
 using namespace bWidgets;
 
-bwAbstractButton::bwAbstractButton(std::string text,
+bwAbstractButton::bwAbstractButton(const std::string& text,
                                    const Type type,
                                    const std::string& identifier,
                                    const unsigned int width_hint,
@@ -53,14 +53,14 @@ void bwAbstractButton::onMouseRelease(bwMouseButtonEvent& event)
   }
 }
 
-void bwAbstractButton::onMouseEnter()
+void bwAbstractButton::onMouseEnter(bwEvent&)
 {
   if (state == State::NORMAL) {
     state = State::HIGHLIGHTED;
   }
 }
 
-void bwAbstractButton::onMouseLeave()
+void bwAbstractButton::onMouseLeave(bwEvent&)
 {
   if (state == State::HIGHLIGHTED) {
     state = State::NORMAL;

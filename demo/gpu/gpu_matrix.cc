@@ -175,6 +175,12 @@ bool gpuMatricesDirty(void)
   return state.dirty;
 }
 
+void gpuIdentityMatrix(void)
+{
+  ModelView = glm::mat4{};
+  state.dirty = true;
+}
+
 static void gpuMultMatrix(const glm::mat4& m)
 {
   ModelView *= m;

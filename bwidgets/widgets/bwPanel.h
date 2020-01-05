@@ -1,13 +1,14 @@
 #pragma once
 
-#include "bwWidget.h"
-#include "bwWidgetBaseStyle.h"
+#include "bwContainerWidget.h"
 
 namespace bWidgets {
 
-class bwPanel : public bwWidget {
+class bwPanel : public bwContainerWidget {
  public:
-  bwPanel(std::string label, unsigned int header_height_hint);
+  bwPanel(const bwScreenGraph::ContainerNode& node,
+          std::string label,
+          unsigned int header_height_hint);
 
   void draw(class bwStyle& style) override;
 
@@ -16,8 +17,8 @@ class bwPanel : public bwWidget {
   void onMousePress(bwMouseButtonEvent&) override;
 
   const std::string* getLabel() const override;
+  bool childrenVisible() const override;
 
-  bool isCoordinateInsideHeader(const bwPoint& point) const;
   unsigned int getHeaderHeightHint() const;
   unsigned int header_height;
 
@@ -29,12 +30,10 @@ class bwPanel : public bwWidget {
  private:
   void drawHeader(class bwStyle& style) const;
   bwRectanglePixel getHeaderRectangle() const;
+  bool isCoordinateInsideHeader(const bwPoint& point) const;
 
   std::string label;
 
- public:
-  bwWidgetBaseStyle
-      base_style;  // XXX public for setWidgetStyle. Should only be temporarily needed.
  public:
   bool draw_separator = false;
 };

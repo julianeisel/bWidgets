@@ -38,8 +38,7 @@ void bwCheckbox::draw(bwStyle& style)
 void bwCheckbox::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    state = (state == State::SUNKEN) ? State::HIGHLIGHTED :
-                                                   State::SUNKEN;
+    state = (state == State::SUNKEN) ? State::HIGHLIGHTED : State::SUNKEN;
     apply();
   }
 }

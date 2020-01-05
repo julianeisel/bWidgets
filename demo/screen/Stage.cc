@@ -20,24 +20,22 @@
  */
 
 #include <cassert>
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 // bWidgets lib
-#include "bwEvent.h"
-#include "bwEventDispatcher.h"
 #include "bwPainter.h"
-#include "bwPanel.h"
 #include "bwRange.h"
-#include "bwStyleFlatDark.h"
+#include "bwRectangle.h"
+#include "bwScrollView.h"
+#include "bwStyleCSS.h"
 #include "bwStyleManager.h"
-#include "bwWidget.h"
 #include "screen_graph/Builder.h"
+#include "screen_graph/Drawer.h"
 #include "screen_graph/Iterators.h"
 
 #include "Event.h"
 #include "File.h"
-#include "Font.h"
 #include "GawainPaintEngine.h"
 #include "IconMap.h"
 #include "Layout.h"
@@ -55,17 +53,22 @@ bwPtr<Font> Stage::font = nullptr;
 bwPtr<IconMap> Stage::icon_map = nullptr;
 float Stage::interface_scale = 1.0f;
 
-void Stage::StyleSheetPolish(bwWidget& widget)
+bwScreenGraph::ScreenGraph createScreenGraph(const unsigned int width, const unsigned int height)
 {
-  StyleSheet& stylesheet = *Stage::style_sheet;
+  auto container = bwPtr_new<bwScreenGraph::ContainerNode>();
+  auto layout = bwPtr_new<ScrollViewLayout>();
+  auto scroll_view = bwPtr_new<bwScrollView>(*container, width, height);
 
-  for (auto& property : widget.style_properties) {
-    stylesheet.resolveValue(widget.getIdentifier(), widget.state, *property);
-  }
+  layout->padding = 7;
+  layout->item_margin = 5;
+  bwScreenGraph::Builder::setLayout(*container, std::move(layout));
+  bwScreenGraph::Builder::setWidget(*container, std::move(scroll_view));
+
+  return bwScreenGraph::ScreenGraph(std::move(container));
 }
 
 Stage::Stage(const unsigned int width, const unsigned int height)
-    : screen_graph(bwPtr_new<bwScreenGraph::LayoutNode>()), mask_width(width), mask_height(height)
+    : screen_graph(createScreenGraph(width, height)), mask_width(width), mask_height(height)
 {
   initFonts();
   initIcons();
@@ -79,11 +82,6 @@ Stage::Stage(const unsigned int width, const unsigned int height)
   activateStyleID(bwStyle::TypeID::CLASSIC);
 
   setFontTightPositioning(true);
-
-  auto layout = bwPtr_new<RootLayout>(height, width);
-  layout->padding = 7;
-  layout->item_margin = 5;
-  bwScreenGraph::Builder::setLayout(screen_graph.Root(), std::move(layout));
 }
 
 void Stage::initFonts()
@@ -110,77 +108,9 @@ void Stage::activateStyleID(bwStyle::TypeID type_id)
   style->dpi_fac = interface_scale;
 }
 
-namespace bWidgetsDemo {
-
-class ScrollbarApplyValueFunctor : public bwFunctorInterface {
-  Stage& stage;
-  const bwScrollBar& scrollbar;
-
- public:
-  ScrollbarApplyValueFunctor(Stage& stage, const bwScrollBar& scrollbar)
-      : stage(stage), scrollbar(scrollbar)
-  {
-  }
-  inline void operator()() override
-  {
-    stage.setScrollValue(scrollbar.scroll_offset);
-  }
-};
-
-}  // namespace bWidgetsDemo
-
-void Stage::drawScrollbars()
-{
-  using namespace bwScreenGraph;
-
-  if (shouldHaveScrollbars()) {
-    const unsigned int padding = 4u * (unsigned int)interface_scale;
-    bwScrollBar* scrollbar = static_cast<bwScrollBar*>(scrollbar_node.Widget());
-
-    if (!scrollbar) {
-      Builder::setWidget(scrollbar_node, bwPtr_new<bwScrollBar>(getScrollbarWidth(), mask_height));
-      scrollbar = static_cast<bwScrollBar*>(scrollbar_node.Widget());
-      scrollbar->apply_functor = bwPtr_new<ScrollbarApplyValueFunctor>(*this, *scrollbar);
-    }
-
-    scrollbar->rectangle = bwRectanglePixel(
-        getContentWidth(), mask_width - padding, padding, mask_height - padding);
-    scrollbar->ratio = mask_height / (float)getContentHeight();
-    scrollbar->scroll_offset = vert_scroll;
-    scrollbar->draw(*style);
-  }
-  else if (scrollbar_node.Widget()) {
-    Builder::setWidget(scrollbar_node, nullptr);
-  }
-}
-
-static void drawScreenGraph(bwScreenGraph::ScreenGraph& screen_graph, bwStyle& style)
-{
-  const bwScreenGraph::Node* skip_until_parent = nullptr;
-
-  for (auto& iter_node : screen_graph) {
-    bwWidget* widget = iter_node.Widget();
-
-    if (skip_until_parent && (skip_until_parent == iter_node.Parent())) {
-      skip_until_parent = nullptr;
-    }
-
-    if (skip_until_parent || !widget || widget->hidden || widget->rectangle.isEmpty()) {
-      continue;
-    }
-
-    bwPanel* panel = widget_cast<bwPanel*>(widget);
-    if (panel && (panel->panel_state == bwPanel::State::CLOSED)) {
-      skip_until_parent = iter_node.Parent();
-    }
-
-    widget->draw(style);
-  }
-}
-
 void Stage::draw()
 {
-  bwRectanglePixel rect{0, (int)mask_width, 0, (int)mask_height};
+  bwRectanglePixel stage_rect{0, int(mask_width) - 1, 0, int(mask_height - 1)};
   bwStyleProperties properties;
   bwColor clear_color{114u};
 
@@ -202,13 +132,19 @@ void Stage::draw()
     style_sheet->resolveValue("Stage", bwWidget::State::NORMAL, property);
   }
 
-  bwPainter::paint_engine->setupViewport(rect, clear_color);
+  bwPainter::paint_engine->setupViewport(stage_rect, clear_color);
 
-  updateContentBounds();
+  resolveScreenGraphNodeLayout(screen_graph.Root(), stage_rect, interface_scale);
+  bwScreenGraph::Drawer::draw(screen_graph, *style);
+}
 
-  resolveScreenGraphNodeLayout(screen_graph.Root(), vert_scroll, interface_scale);
-  drawScreenGraph(screen_graph, *style);
-  drawScrollbars();
+void Stage::StyleSheetPolish(bwWidget& widget)
+{
+  StyleSheet& stylesheet = *Stage::style_sheet;
+
+  for (auto& property : widget.style_properties) {
+    stylesheet.resolveValue(widget.getIdentifier(), widget.state, *property);
+  }
 }
 
 void Stage::setInterfaceScale(const float value)
@@ -240,11 +176,6 @@ void Stage::setFontSubPixelPositioning(const bool value)
   font->setSubPixelPositioning(value);
 }
 
-RootLayout& Stage::Layout() const
-{
-  return static_cast<RootLayout&>(*screen_graph.Root().Layout());
-}
-
 void Stage::setStyleSheet(const std::string& filepath)
 {
   if (!style_sheet || (style_sheet->getFilepath() != filepath)) {
@@ -256,28 +187,6 @@ void Stage::setStyleSheet(const std::string& filepath)
   }
 }
 
-void Stage::updateContentBounds()
-{
-  RootLayout& layout = Layout();
-
-  validizeScrollValue();
-  layout.setMaxSize(getContentWidth());
-  layout.setYmax(mask_height);
-}
-
-void Stage::validizeScrollValue()
-{
-  if (shouldHaveScrollbars()) {
-    bwRange<int>::clampValue(vert_scroll, mask_height - getContentHeight(), 0);
-  }
-}
-
-void Stage::setScrollValue(int value)
-{
-  vert_scroll = value;
-  validizeScrollValue();
-}
-
 void Stage::handleMouseMovementEvent(const MouseEvent& event)
 {
   using namespace bwScreenGraph;
@@ -287,11 +196,6 @@ void Stage::handleMouseMovementEvent(const MouseEvent& event)
   // TODO Multiple hovered items need to be possible (e.g. button + surrounding panel).
 
   screen_graph.event_dispatcher.dispatchMouseMovement(bwEvent(mouse_location));
-
-  if (!screen_graph.context.hovered && scrollbar_node.Widget() &&
-      scrollbar_node.Widget()->isCoordinateInside(mouse_location)) {
-    screen_graph.event_dispatcher.changeContextHovered(&scrollbar_node);
-  }
 }
 
 void Stage::handleMouseButtonEvent(const MouseEvent& event)
@@ -311,49 +215,16 @@ void Stage::handleMouseButtonEvent(const MouseEvent& event)
   }
 }
 
-void Stage::handleMouseScrollEvent(const MouseEvent& event)
+void Stage::handleMouseScrollEvent(const MouseEvent& event, bwMouseWheelEvent::Direction dir)
 {
-  if (shouldHaveScrollbars()) {
-    char direction_fac = 0;
+  bwMouseWheelEvent bw_event(dir, event.getMouseLocation());
+  bwEventDispatcher& dispatcher = screen_graph.event_dispatcher;
 
-    if (event.getType() == MouseEvent::MOUSE_EVENT_SCROLL_DOWN) {
-      direction_fac = -1;
-    }
-    else if (event.getType() == MouseEvent::MOUSE_EVENT_SCROLL_UP) {
-      direction_fac = 1;
-    }
-
-    setScrollValue(vert_scroll + (direction_fac * 40));
-  }
+  dispatcher.dispatchMouseWheelScroll(bw_event);
 }
 
 void Stage::handleWindowResizeEvent(const Window& win)
 {
   mask_width = win.getWidth();
   mask_height = win.getHeight();
-}
-
-unsigned int Stage::getScrollbarWidth() const
-{
-  return std::round(17 * interface_scale);
-}
-
-unsigned int Stage::getContentWidth() const
-{
-  if (shouldHaveScrollbars()) {
-    return (getScrollbarWidth() > mask_width) ? 0u : (mask_width - getScrollbarWidth());
-  }
-
-  return mask_width;
-}
-
-unsigned int Stage::getContentHeight() const
-{
-  return Layout().getHeight() +
-         (2 * Layout().padding);  // TODO Padding should actually be added to layout width/height
-}
-
-bool Stage::shouldHaveScrollbars() const
-{
-  return (mask_height < getContentHeight()) || (vert_scroll != 0);
 }

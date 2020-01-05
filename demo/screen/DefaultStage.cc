@@ -190,7 +190,6 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   builder.setActiveLayout(screen_graph.Root());
   panel = &builder.addContainer<bwPanel>(
       bwPtr_new<PanelLayout>(), "Some Testing Widgets", PANEL_HEADER_HEIGHT);
-  builder.setActiveLayout(*panel);
   builder.addLayout<ColumnLayout>(true);
   builder.addWidget<bwPushButton>("Translate", 0, BUTTON_HEIGHT);
   builder.addWidget<bwPushButton>("Rotate", 0, BUTTON_HEIGHT);

@@ -23,6 +23,8 @@ class bwWidgetBaseStyle {
   float shadeTop() const;
   float shadeBottom() const;
 
+  bool isBorderVisible() const;
+
   bwColor background_color;
   bwColor text_color;
   bwColor border_color;

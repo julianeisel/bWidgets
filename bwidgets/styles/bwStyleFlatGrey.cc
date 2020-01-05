@@ -3,6 +3,7 @@
 #include "bwAbstractButton.h"
 #include "bwPainter.h"
 #include "bwPanel.h"
+#include "bwScrollView.h"
 #include "bwTextBox.h"
 
 #include "bwStyleFlatGrey.h"
@@ -110,6 +111,12 @@ static void widget_base_style_panel_set(bwWidget& /*widget*/, bwWidgetBaseStyle&
   r_base_style.border_color = 134u;
 }
 
+static void widget_base_style_scrollview_set(bwWidget&, bwWidgetBaseStyle& r_base_style)
+{
+  r_base_style.background_color = 114u;
+  r_base_style.border_color = 114u;
+}
+
 static void widget_style_properties_set_to_default(bwWidget& widget)
 {
   for (auto& property : widget.style_properties) {
@@ -143,6 +150,9 @@ static void widget_base_style_set(bwWidget& widget, bwWidgetBaseStyle& r_base_st
     case bwWidget::Type::PANEL:
       widget_base_style_panel_set(widget, r_base_style);
       break;
+    case bwWidget::Type::SCROLL_VIEW:
+      widget_base_style_scrollview_set(widget, r_base_style);
+      break;
     default:
       break;
   }
@@ -162,13 +172,14 @@ void bwStyleFlat::setWidgetStyle(bwWidget& widget)
     button->base_style.roundbox_corners = button->rounded_corners;
     base_style = button->base_style;
   }
-  else if (auto* panel = widget_cast<bwPanel*>(&widget)) {
-    base_style = panel->base_style;
-  }
   else if (auto* text_box = widget_cast<bwTextBox*>(&widget)) {
     text_box->base_style.roundbox_corners =
         RoundboxCorner::ALL;  // XXX Incorrect, should set this in layout.
     base_style = text_box->base_style;
+  }
+  else if (auto* container = widget_cast<bwContainerWidget*>(&widget)) {
+    container->base_style.roundbox_corners = RoundboxCorner::ALL;
+    base_style = container->base_style;
   }
   else {
     //		base_style->roundbox_corners = RoundboxCorner::ALL;

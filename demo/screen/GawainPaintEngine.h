@@ -30,6 +30,7 @@ class GawainPaintEngine : public bWidgets::bwPaintEngine {
   GawainPaintEngine(class Font&, class IconMap&);
 
   void setupViewport(const bWidgets::bwRectanglePixel&, const class bWidgets::bwColor&) override;
+  void enableMask(const bWidgets::bwRectanglePixel&) override;
 
   void drawPolygon(const class bWidgets::bwPainter&, const class bWidgets::bwPolygon&) override;
   void drawText(const class bWidgets::bwPainter&,
