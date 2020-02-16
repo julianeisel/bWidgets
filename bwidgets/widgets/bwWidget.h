@@ -16,16 +16,8 @@ class bwMouseButtonDragEvent;
 
 /**
  * \brief Abstract base class that all widgets derive from.
- *
- * The widget base class inherits from the #bwScreenGraph::EventHandler API,
- * allowing it to implement event-listeners. This base class implements default
- * listeners, which simply do nothing. To make widgets react to a certain event,
- * override the corresponding listener in the specific widget type.
- *
- * More information on how event handling works in bWidgets can be found in the
- * [design overview](md_docs_bWidgets_design_overview.html).
  */
-class bwWidget : public bwScreenGraph::EventHandler {
+class bwWidget {
  public:
   // TODO we might not need this.
   enum class Type {
@@ -55,26 +47,18 @@ class bwWidget : public bwScreenGraph::EventHandler {
            const std::string& identifier,
            const unsigned int width_hint = 0,
            const unsigned int height_hint = 0);
-  virtual ~bwWidget() override = default;
+  virtual ~bwWidget() = default;
 
   virtual bool isCoordinateInside(const bwPoint& point) const;
 
   virtual void draw(class bwStyle& style) = 0;
 
-  // Events
-  void onMouseMove(bwEvent&) override;
-  void onMouseEnter(bwEvent&) override;
-  void onMouseLeave(bwEvent&) override;
-  void onMousePress(bwMouseButtonEvent& event) override;
-  void onMouseRelease(bwMouseButtonEvent& event) override;
-  void onMouseClick(bwMouseButtonEvent& event) override;
-  void onMouseDrag(bwMouseButtonDragEvent& event) override;
-  void onMouseWheel(bwMouseWheelEvent& event) override;
-
   const std::string& getIdentifier() const;
   virtual const std::string* getLabel() const;
 
   virtual bool canAlign() const;
+
+  virtual bwPtr<bwScreenGraph::EventHandler> createHandler() = 0;
 
   /**
    * Final rectangle defining the widget bounding-box.

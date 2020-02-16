@@ -12,7 +12,7 @@
 
 #include "bwScrollView.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwScrollView::bwScrollView(bwScreenGraph::ContainerNode& node,
                            unsigned int _width,
@@ -76,143 +76,12 @@ void bwScrollView::draw(bwStyle& style)
   }
 }
 
-template<typename... _Args> using HandlerFunc = void (bwScreenGraph::EventHandler::*)(_Args&&...);
-
-/* Could turn this into a general utility to forward events to different widgets. */
-template<typename... _Args>
-static void forwardEventToNode(bwScreenGraph::Node& to_node,
-                               HandlerFunc<_Args&&...> handler_func,
-                               _Args&&... __args)
-{
-  (to_node.eventHandler()->*handler_func)(std::forward<_Args>(__args)...);
-}
-
-template<typename... _Args>
-static bool forwardEventToScrollbarIfInside(const bwScrollView& scrollview,
-                                            bwScreenGraph::Node& scrollbar_node,
-                                            const class bwEvent& event,
-                                            HandlerFunc<_Args&&...> handler_func,
-                                            _Args&&... __args)
-{
-  if (scrollview.isEventInsideScrollbar(event)) {
-    forwardEventToNode<_Args&&...>(scrollbar_node, handler_func, std::forward<_Args>(__args)...);
-    return true;
-  }
-
-  return false;
-}
-
-void bwScrollView::onMouseWheel(bwMouseWheelEvent& event)
-{
-  if (!isScrollable()) {
-    return;
-  }
-
-  char direction_fac = 0;
-
-  switch (event.getDirection()) {
-    case bwMouseWheelEvent::Direction::UP:
-      direction_fac = -1;
-      break;
-    case bwMouseWheelEvent::Direction::DOWN:
-      direction_fac = 1;
-      break;
-  }
-
-  setScrollValue(vert_scroll + (direction_fac * SCROLL_STEP_SIZE));
-
-  event.swallow();
-}
-
-bool bwScrollView::isEventInsideScrollbar(const bwEvent& event) const
-{
-  return isScrollable() &&
-         scrollbar_node->Rectangle().isCoordinateInside(event.location.x, event.location.y);
-}
-
-void bwScrollView::onScrollbarMouseEnter(bwEvent& event) const
-{
-  forwardEventToNode<bwEvent&>(*scrollbar_node, &EventHandler::onMouseEnter, event);
-}
-
-void bwScrollView::onScrollbarMouseLeave(bwEvent& event) const
-{
-  forwardEventToNode<bwEvent&>(*scrollbar_node, &EventHandler::onMouseLeave, event);
-}
-
-void bwScrollView::onMouseMove(bwEvent& event)
-{
-  forwardEventToScrollbarIfInside<bwEvent&>(
-      *this, *scrollbar_node, event, &EventHandler::onMouseMove, event);
-
-  if (was_inside_scrollbar && !isEventInsideScrollbar(event)) {
-    onScrollbarMouseLeave(event);
-    was_inside_scrollbar = false;
-  }
-  else if (!was_inside_scrollbar && isEventInsideScrollbar(event)) {
-    onScrollbarMouseEnter(event);
-    was_inside_scrollbar = true;
-  }
-}
-
-void bwScrollView::onMouseEnter(bwEvent& event)
-{
-  if (!was_inside_scrollbar && isEventInsideScrollbar(event)) {
-    onScrollbarMouseEnter(event);
-    was_inside_scrollbar = true;
-  }
-}
-
-void bwScrollView::onMouseLeave(bwEvent& event)
-{
-  if (was_inside_scrollbar && !isEventInsideScrollbar(event)) {
-    onScrollbarMouseLeave(event);
-    was_inside_scrollbar = false;
-  }
-}
-
-void bwScrollView::onMouseDrag(bwMouseButtonDragEvent& event)
-{
-  if (forwardEventToScrollbarIfInside<bwMouseButtonDragEvent&>(
-          *this, *scrollbar_node, event, &EventHandler::onMouseDrag, event)) {
-    setScrollValue(getVerticalScrollBar().scroll_offset);
-  }
-}
-
-void bwScrollView::onMousePress(bwMouseButtonEvent& event)
-{
-  forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
-      *this, *scrollbar_node, event, &EventHandler::onMousePress, event);
-}
-
-void bwScrollView::onMouseRelease(bwMouseButtonEvent& event)
-{
-  forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
-      *this, *scrollbar_node, event, &EventHandler::onMouseRelease, event);
-}
-
-void bwScrollView::onMouseClick(bwMouseButtonEvent& event)
-{
-  if (forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
-          *this, *scrollbar_node, event, &EventHandler::onMouseClick, event)) {
-    setScrollValue(getVerticalScrollBar().scroll_offset);
-  }
-}
-
 void bwScrollView::validizeScrollValues()
 {
   assert(isScrollable());
 
   bwRange<int>::clampValue(
       vert_scroll, 0, node.ContentRectangle().height() - node.Rectangle().height());
-}
-
-void bwScrollView::setScrollValue(int value)
-{
-  assert(isScrollable());
-
-  vert_scroll = value;
-  validizeScrollValues();
 }
 
 int bwScrollView::getScrollOffsetY() const
@@ -238,3 +107,175 @@ int bwScrollView::getScrollbarWidth(float interface_scale)
 {
   return std::round(SCROLL_BAR_SIZE * interface_scale);
 }
+
+// ------------------ Handling ------------------
+
+class bwScrollViewHandler : public bwScreenGraph::EventHandler {
+ public:
+  bwScrollViewHandler(bwScrollView& scrollview);
+  ~bwScrollViewHandler() = default;
+
+  void onMouseMove(bwEvent&) override;
+  void onMouseEnter(bwEvent&) override;
+  void onMouseLeave(bwEvent&) override;
+  void onMousePress(bwMouseButtonEvent& event) override;
+  void onMouseRelease(bwMouseButtonEvent& event) override;
+  void onMouseClick(bwMouseButtonEvent& event) override;
+  void onMouseDrag(bwMouseButtonDragEvent& event) override;
+  void onMouseWheel(bwMouseWheelEvent& event) override;
+
+  void onScrollbarMouseEnter(bwEvent& event) const;
+  void onScrollbarMouseLeave(bwEvent& event) const;
+
+  bool isEventInsideScrollbar(const class bwEvent& event) const;
+
+  void setScrollValue(int value);
+
+ private:
+  bwScrollView& scrollview;
+  constexpr static int SCROLL_STEP_SIZE = 40;
+
+  bool was_inside_scrollbar{false};
+};
+
+bwScrollViewHandler::bwScrollViewHandler(bwScrollView& panel) : scrollview(panel)
+{
+}
+
+bwPtr<bwScreenGraph::EventHandler> bwScrollView::createHandler()
+{
+  return bwPtr_new<bwScrollViewHandler>(*this);
+}
+
+template<typename... _Args> using HandlerFunc = void (bwScreenGraph::EventHandler::*)(_Args&&...);
+
+/* Could turn this into a general utility to forward events to different widgets. */
+template<typename... _Args>
+static void forwardEventToNode(bwScreenGraph::Node& to_node,
+                               HandlerFunc<_Args&&...> handler_func,
+                               _Args&&... __args)
+{
+  (to_node.eventHandler()->*handler_func)(std::forward<_Args>(__args)...);
+}
+
+template<typename... _Args>
+static bool forwardEventToScrollbarIfInside(const bwScrollViewHandler& scrollview_handler,
+                                            bwScreenGraph::Node& scrollbar_node,
+                                            const class bwEvent& event,
+                                            HandlerFunc<_Args&&...> handler_func,
+                                            _Args&&... __args)
+{
+  if (scrollview_handler.isEventInsideScrollbar(event)) {
+    forwardEventToNode<_Args&&...>(scrollbar_node, handler_func, std::forward<_Args>(__args)...);
+    return true;
+  }
+
+  return false;
+}
+
+void bwScrollViewHandler::onMouseWheel(bwMouseWheelEvent& event)
+{
+  if (!scrollview.isScrollable()) {
+    return;
+  }
+
+  char direction_fac = 0;
+
+  switch (event.getDirection()) {
+    case bwMouseWheelEvent::Direction::UP:
+      direction_fac = -1;
+      break;
+    case bwMouseWheelEvent::Direction::DOWN:
+      direction_fac = 1;
+      break;
+  }
+
+  setScrollValue(scrollview.vert_scroll + (direction_fac * SCROLL_STEP_SIZE));
+
+  event.swallow();
+}
+
+bool bwScrollViewHandler::isEventInsideScrollbar(const bwEvent& event) const
+{
+  return scrollview.isScrollable() && scrollview.scrollbar_node->Rectangle().isCoordinateInside(
+                                          event.location.x, event.location.y);
+}
+
+void bwScrollViewHandler::onScrollbarMouseEnter(bwEvent& event) const
+{
+  forwardEventToNode<bwEvent&>(*scrollview.scrollbar_node, &EventHandler::onMouseEnter, event);
+}
+
+void bwScrollViewHandler::onScrollbarMouseLeave(bwEvent& event) const
+{
+  forwardEventToNode<bwEvent&>(*scrollview.scrollbar_node, &EventHandler::onMouseLeave, event);
+}
+
+void bwScrollViewHandler::onMouseMove(bwEvent& event)
+{
+  forwardEventToScrollbarIfInside<bwEvent&>(
+      *this, *scrollview.scrollbar_node, event, &EventHandler::onMouseMove, event);
+
+  if (was_inside_scrollbar && !isEventInsideScrollbar(event)) {
+    onScrollbarMouseLeave(event);
+    was_inside_scrollbar = false;
+  }
+  else if (!was_inside_scrollbar && isEventInsideScrollbar(event)) {
+    onScrollbarMouseEnter(event);
+    was_inside_scrollbar = true;
+  }
+}
+
+void bwScrollViewHandler::onMouseEnter(bwEvent& event)
+{
+  if (!was_inside_scrollbar && isEventInsideScrollbar(event)) {
+    onScrollbarMouseEnter(event);
+    was_inside_scrollbar = true;
+  }
+}
+
+void bwScrollViewHandler::onMouseLeave(bwEvent& event)
+{
+  if (was_inside_scrollbar && !isEventInsideScrollbar(event)) {
+    onScrollbarMouseLeave(event);
+    was_inside_scrollbar = false;
+  }
+}
+
+void bwScrollViewHandler::onMouseDrag(bwMouseButtonDragEvent& event)
+{
+  if (forwardEventToScrollbarIfInside<bwMouseButtonDragEvent&>(
+          *this, *scrollview.scrollbar_node, event, &EventHandler::onMouseDrag, event)) {
+    setScrollValue(scrollview.getVerticalScrollBar().scroll_offset);
+  }
+}
+
+void bwScrollViewHandler::onMousePress(bwMouseButtonEvent& event)
+{
+  forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
+      *this, *scrollview.scrollbar_node, event, &EventHandler::onMousePress, event);
+}
+
+void bwScrollViewHandler::onMouseRelease(bwMouseButtonEvent& event)
+{
+  forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
+      *this, *scrollview.scrollbar_node, event, &EventHandler::onMouseRelease, event);
+}
+
+void bwScrollViewHandler::onMouseClick(bwMouseButtonEvent& event)
+{
+  if (forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
+          *this, *scrollview.scrollbar_node, event, &EventHandler::onMouseClick, event)) {
+    setScrollValue(scrollview.getVerticalScrollBar().scroll_offset);
+  }
+}
+
+void bwScrollViewHandler::setScrollValue(int value)
+{
+  assert(scrollview.isScrollable());
+
+  scrollview.vert_scroll = value;
+  scrollview.validizeScrollValues();
+}
+
+}  // namespace bWidgets

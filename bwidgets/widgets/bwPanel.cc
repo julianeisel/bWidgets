@@ -7,7 +7,7 @@
 #include "bwPanel.h"
 #include "bwStyle.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwPanel::bwPanel(const bwScreenGraph::ContainerNode& node,
                  std::string label,
@@ -36,23 +36,6 @@ void bwPanel::registerProperties()
 {
   bwContainerWidget::registerProperties();
   style_properties.addBool("draw-separator", draw_separator);
-}
-
-void bwPanel::onMousePress(bwMouseButtonEvent& event)
-{
-  if ((event.button != bwMouseButtonEvent::BUTTON_LEFT) ||
-      !isCoordinateInsideHeader(event.location)) {
-    // Skip
-  }
-  else if (panel_state == State::CLOSED) {
-    panel_state = State::OPEN;
-  }
-  else if (panel_state == State::OPEN) {
-    panel_state = State::CLOSED;
-  }
-  else {
-    assert(0);
-  }
 }
 
 const std::string* bwPanel::getLabel() const
@@ -163,3 +146,44 @@ bwRectanglePixel bwPanel::getHeaderRectangle() const
   header_rect.ymin = header_rect.ymax - header_height;
   return header_rect;
 }
+
+// ------------------ Handling ------------------
+
+class bwPanelHandler : public bwScreenGraph::EventHandler {
+ public:
+  bwPanelHandler(bwPanel& panel);
+  ~bwPanelHandler() = default;
+
+  void onMousePress(bwMouseButtonEvent&) override;
+
+ private:
+  bwPanel& panel;
+};
+
+bwPanelHandler::bwPanelHandler(bwPanel& panel) : panel(panel)
+{
+}
+
+bwPtr<bwScreenGraph::EventHandler> bwPanel::createHandler()
+{
+  return bwPtr_new<bwPanelHandler>(*this);
+}
+
+void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)
+{
+  if ((event.button != bwMouseButtonEvent::BUTTON_LEFT) ||
+      !panel.isCoordinateInsideHeader(event.location)) {
+    // Skip
+  }
+  else if (panel.panel_state == bwPanel::State::CLOSED) {
+    panel.panel_state = bwPanel::State::OPEN;
+  }
+  else if (panel.panel_state == bwPanel::State::OPEN) {
+    panel.panel_state = bwPanel::State::CLOSED;
+  }
+  else {
+    assert(0);
+  }
+}
+
+}  // namespace bWidgets

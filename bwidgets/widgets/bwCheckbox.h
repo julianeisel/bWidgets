@@ -10,8 +10,7 @@ class bwCheckbox : public bwAbstractButton {
 
   void draw(class bwStyle& style) override;
 
-  void onMousePress(bwMouseButtonEvent&) override;
-  void onMouseRelease(bwMouseButtonEvent&) override;
+  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
 
   bool isChecked() const;
 

@@ -11,7 +11,7 @@
 
 #include "bwNumberSlider.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwNumberSlider::bwNumberSlider(const unsigned int width_hint, const unsigned int height_hint)
     : bwTextBox(width_hint, height_hint), precision(2)
@@ -95,49 +95,6 @@ void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) cons
       indicator_rect, roundbox_corners & ~(TOP_LEFT | BOTTOM_LEFT), right_side_radius);
 }
 
-void bwNumberSlider::onMousePress(bwMouseButtonEvent& event)
-{
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    initial_value = value;
-    state = State::SUNKEN;
-  }
-  else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
-    if (is_text_editing) {
-      endTextEditing();
-    }
-    else if (is_dragging) {
-      value = initial_value;
-    }
-  }
-}
-
-void bwNumberSlider::onMouseRelease(bwMouseButtonEvent&)
-{
-  if (is_dragging) {
-    state = State::NORMAL;
-  }
-  is_dragging = false;
-}
-
-void bwNumberSlider::onMouseClick(bwMouseButtonEvent& event)
-{
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    startTextEditing();
-  }
-}
-
-void bwNumberSlider::onMouseDrag(bwMouseButtonDragEvent& event)
-{
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    setValue(initial_value + (event.drag_distance.x / (float)rectangle.width()));
-    if (apply_functor) {
-      (*apply_functor)();
-    }
-
-    is_dragging = true;
-  }
-}
-
 void bwNumberSlider::setValue(float _value)
 {
   const int precision_fac = std::pow(10, precision);
@@ -172,3 +129,78 @@ float bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const
   assert(max > min);
   return ((value - min) * (rectangle.width() - radius)) / range;
 }
+
+// ------------------ Handling ------------------
+
+class bwNumberSliderHandler : public bwTextBoxHandler {
+ public:
+  bwNumberSliderHandler(bwNumberSlider& numberslider);
+  ~bwNumberSliderHandler() = default;
+
+  void onMousePress(bwMouseButtonEvent&) override;
+  void onMouseRelease(bwMouseButtonEvent&) override;
+  void onMouseClick(bwMouseButtonEvent&) override;
+  void onMouseDrag(bwMouseButtonDragEvent&) override;
+
+ private:
+  bwNumberSlider& numberslider;
+
+  // Initial value before starting to edit.
+  float initial_value;
+};
+
+bwNumberSliderHandler::bwNumberSliderHandler(bwNumberSlider& numberslider)
+    : bwTextBoxHandler(numberslider), numberslider(numberslider)
+{
+}
+
+bwPtr<bwScreenGraph::EventHandler> bwNumberSlider::createHandler()
+{
+  return bwPtr_new<bwNumberSliderHandler>(*this);
+}
+
+void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
+{
+  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+    initial_value = numberslider.value;
+    numberslider.state = bwWidget::State::SUNKEN;
+  }
+  else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
+    if (numberslider.is_text_editing) {
+      endTextEditing();
+    }
+    else if (is_dragging) {
+      numberslider.value = initial_value;
+    }
+  }
+}
+
+void bwNumberSliderHandler::onMouseRelease(bwMouseButtonEvent&)
+{
+  if (is_dragging) {
+    numberslider.state = bwWidget::State::NORMAL;
+  }
+  is_dragging = false;
+}
+
+void bwNumberSliderHandler::onMouseClick(bwMouseButtonEvent& event)
+{
+  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+    startTextEditing();
+  }
+}
+
+void bwNumberSliderHandler::onMouseDrag(bwMouseButtonDragEvent& event)
+{
+  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+    numberslider.setValue(initial_value +
+                          (event.drag_distance.x / (float)numberslider.rectangle.width()));
+    if (numberslider.apply_functor) {
+      (*numberslider.apply_functor)();
+    }
+
+    is_dragging = true;
+  }
+}
+
+}  // namespace bWidgets

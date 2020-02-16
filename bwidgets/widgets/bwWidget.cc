@@ -20,38 +20,6 @@ bool bwWidget::isCoordinateInside(const bwPoint& point) const
   return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-void bwWidget::onMouseMove(bwEvent&)
-{
-}
-
-void bwWidget::onMouseEnter(bwEvent&)
-{
-}
-
-void bwWidget::onMouseLeave(bwEvent&)
-{
-}
-
-void bwWidget::onMousePress(bwMouseButtonEvent&)
-{
-}
-
-void bwWidget::onMouseRelease(bwMouseButtonEvent&)
-{
-}
-
-void bwWidget::onMouseClick(bwMouseButtonEvent&)
-{
-}
-
-void bwWidget::onMouseDrag(bwMouseButtonDragEvent&)
-{
-}
-
-void bwWidget::onMouseWheel(bwMouseWheelEvent&)
-{
-}
-
 const std::string& bwWidget::getIdentifier() const
 {
   return identifier;

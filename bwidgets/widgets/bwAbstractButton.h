@@ -14,16 +14,13 @@ namespace bWidgets {
  */
 class bwAbstractButton : public bwWidget {
  public:
-  virtual void draw(class bwStyle& style) override;
-  virtual void registerProperties() override;
+  void draw(class bwStyle& style) override;
+  void registerProperties() override;
 
-  void onMouseEnter(bwEvent&) override;
-  void onMouseLeave(bwEvent&) override;
-  void onMousePress(bwMouseButtonEvent&) override;
-  void onMouseRelease(bwMouseButtonEvent&) override;
-
-  virtual const std::string* getLabel() const override;
+  const std::string* getLabel() const override;
   virtual const class bwIconInterface* getIcon() const;
+
+  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
 
   /**
    * Function object called when applying changes to widget.
@@ -46,6 +43,22 @@ class bwAbstractButton : public bwWidget {
  public:
   bwWidgetBaseStyle
       base_style;  // XXX public for setWidgetStyle. Should only be temporarily needed.
+};
+
+class bwAbstractButtonHandler : public bwScreenGraph::EventHandler {
+ public:
+  bwAbstractButtonHandler(bwAbstractButton& button);
+  virtual ~bwAbstractButtonHandler() = default;
+
+  void onMouseEnter(bwEvent&) override;
+  void onMouseLeave(bwEvent&) override;
+  void onMousePress(bwMouseButtonEvent&) override;
+  void onMouseRelease(bwMouseButtonEvent&) override;
+
+ protected:
+  bwAbstractButton& button;
+
+  void apply();
 };
 
 }  // namespace bWidgets

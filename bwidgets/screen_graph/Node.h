@@ -75,7 +75,7 @@ class Node {
 
   EventHandler* eventHandler() const
   {
-    return handler;
+    return handler.get();
   }
 
   virtual bwRectanglePixel Rectangle() const = 0;
@@ -84,7 +84,7 @@ class Node {
 
  private:
   Node* parent{nullptr};
-  EventHandler* handler{nullptr};
+  bwPtr<EventHandler> handler{nullptr};
 };
 
 /**

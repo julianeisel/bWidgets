@@ -35,18 +35,6 @@ void bwCheckbox::draw(bwStyle& style)
   painter.drawText(text, text_rect, base_style.text_alignment);
 }
 
-void bwCheckbox::onMousePress(bwMouseButtonEvent& event)
-{
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    state = (state == State::SUNKEN) ? State::HIGHLIGHTED : State::SUNKEN;
-    apply();
-  }
-}
-
-void bwCheckbox::onMouseRelease(bwMouseButtonEvent&)
-{
-}
-
 bool bwCheckbox::isChecked() const
 {
   return state == State::SUNKEN;
@@ -68,4 +56,38 @@ bwRectanglePixel bwCheckbox::getTextRectangle(const bwRectanglePixel& checkbox_r
   bwRectanglePixel text_rect{rectangle};
   text_rect.xmin = checkbox_rectangle.xmax - 1;  // XXX -1 is ugly. Specifically for demo app.
   return text_rect;
+}
+
+// ------------------ Handling ------------------
+
+class bwCheckboxHandler : public bwAbstractButtonHandler {
+ public:
+  bwCheckboxHandler(bwCheckbox& checkbox);
+  ~bwCheckboxHandler() = default;
+
+  void onMousePress(bwMouseButtonEvent&) override;
+  void onMouseRelease(bwMouseButtonEvent&) override;
+};
+
+bwPtr<bwScreenGraph::EventHandler> bwCheckbox::createHandler()
+{
+  return bwPtr_new<bwCheckboxHandler>(*this);
+}
+
+bwCheckboxHandler::bwCheckboxHandler(bwCheckbox& checkbox) : bwAbstractButtonHandler(checkbox)
+{
+}
+
+void bwCheckboxHandler::onMousePress(bwMouseButtonEvent& event)
+{
+  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+    button.state = (button.state == bwWidget::State::SUNKEN) ? bwWidget::State::HIGHLIGHTED :
+                                                               bwWidget::State::SUNKEN;
+    apply();
+  }
+}
+
+void bwCheckboxHandler::onMouseRelease(bwMouseButtonEvent&)
+{
+  // Don't change state at all.
 }

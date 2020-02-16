@@ -10,19 +10,39 @@ bwRadioButton::bwRadioButton(const std::string& text,
 {
 }
 
-void bwRadioButton::onMousePress(bwMouseButtonEvent& event)
+bool bwRadioButton::canAlign() const
+{
+  return true;
+}
+
+// ------------------ Handling ------------------
+
+class bwRadioButtonHandler : public bwAbstractButtonHandler {
+ public:
+  bwRadioButtonHandler(bwRadioButton& button);
+  ~bwRadioButtonHandler() = default;
+
+  void onMousePress(bwMouseButtonEvent&) override;
+  void onMouseRelease(bwMouseButtonEvent&) override;
+};
+
+bwRadioButtonHandler::bwRadioButtonHandler(bwRadioButton& button) : bwAbstractButtonHandler(button)
+{
+}
+
+bwPtr<bwScreenGraph::EventHandler> bwRadioButton::createHandler()
+{
+  return bwPtr_new<bwRadioButtonHandler>(*this);
+}
+
+void bwRadioButtonHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    state = State::SUNKEN;
+    button.state = bwWidget::State::SUNKEN;
     apply();
   }
 }
 
-void bwRadioButton::onMouseRelease(bwMouseButtonEvent&)
+void bwRadioButtonHandler::onMouseRelease(bwMouseButtonEvent&)
 {
-}
-
-bool bwRadioButton::canAlign() const
-{
-  return true;
 }

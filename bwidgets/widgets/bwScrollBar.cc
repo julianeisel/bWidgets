@@ -60,40 +60,72 @@ void bwScrollBar::draw(bwStyle& style)
   base_style.shade_bottom = old_shade_bottom;
 }
 
-void bwScrollBar::onMousePress(bwMouseButtonEvent& event)
+// ------------------ Handling ------------------
+
+class bwScrollBarHandler : public bwAbstractButtonHandler {
+ public:
+  bwScrollBarHandler(bwScrollBar& scrollbar);
+  ~bwScrollBarHandler() = default;
+
+  void onMousePress(bwMouseButtonEvent&) override;
+  void onMouseRelease(bwMouseButtonEvent&) override;
+  void onMouseClick(bwMouseButtonEvent&) override;
+  void onMouseDrag(bwMouseButtonDragEvent&) override;
+
+ private:
+  bwScrollBar& scrollbar;
+
+  constexpr static float SCROLL_JUMP_FAC = 0.8f;
+
+  int mouse_press_scroll_offset = 0;  // scroll_offset from last onMousePress() call
+
+  void setScrollOffset(int);
+};
+
+bwScrollBarHandler::bwScrollBarHandler(bwScrollBar& scrollbar)
+    : bwAbstractButtonHandler(scrollbar), scrollbar(scrollbar)
 {
-  bwAbstractButton::onMousePress(event);
-  mouse_press_scroll_offset = scroll_offset;
 }
 
-void bwScrollBar::onMouseRelease(bwMouseButtonEvent& event)
+bwPtr<bwScreenGraph::EventHandler> bwScrollBar::createHandler()
 {
-  bwAbstractButton::onMouseRelease(event);
+  return bwPtr_new<bwScrollBarHandler>(*this);
 }
 
-void bwScrollBar::onMouseClick(bwMouseButtonEvent& event)
+void bwScrollBarHandler::onMousePress(bwMouseButtonEvent& event)
+{
+  bwAbstractButtonHandler::onMousePress(event);
+  mouse_press_scroll_offset = scrollbar.scroll_offset;
+}
+
+void bwScrollBarHandler::onMouseRelease(bwMouseButtonEvent& event)
+{
+  bwAbstractButtonHandler::onMouseRelease(event);
+}
+
+void bwScrollBarHandler::onMouseClick(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    bwRectanglePixel rect_inner{getInnerRect(*this)};
+    bwRectanglePixel rect_inner{getInnerRect(scrollbar)};
 
     if (event.location.y > rect_inner.ymax) {
-      setScrollOffset(scroll_offset - (rectangle.height() * SCROLL_JUMP_FAC));
+      setScrollOffset(scrollbar.scroll_offset - (scrollbar.rectangle.height() * SCROLL_JUMP_FAC));
     }
     else if (event.location.y < rect_inner.ymin) {
-      setScrollOffset(scroll_offset + (rectangle.height() * SCROLL_JUMP_FAC));
+      setScrollOffset(scrollbar.scroll_offset + (scrollbar.rectangle.height() * SCROLL_JUMP_FAC));
     }
   }
 }
 
-void bwScrollBar::onMouseDrag(bwMouseButtonDragEvent& event)
+void bwScrollBarHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     setScrollOffset(mouse_press_scroll_offset - event.drag_distance.y);
   }
 }
 
-void bwScrollBar::setScrollOffset(int value)
+void bwScrollBarHandler::setScrollOffset(int value)
 {
-  scroll_offset = value;
+  scrollbar.scroll_offset = value;
   apply();
 }

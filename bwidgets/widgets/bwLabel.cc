@@ -33,6 +33,11 @@ const std::string* bwLabel::getLabel() const
   return &text;
 }
 
+bwPtr<bwScreenGraph::EventHandler> bwLabel::createHandler()
+{
+  return nullptr;
+}
+
 bwLabel& bwLabel::setIcon(const bwIconInterface& icon_interface)
 {
   icon = &icon_interface;

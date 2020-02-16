@@ -47,7 +47,7 @@ class Builder {
 
     WidgetNode& new_node = addChildNode<WidgetNode>(*_active_layout_node);
     new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
-    new_node.handler = new_node.widget.get();
+    new_node.handler = new_node.widget->createHandler();
     return static_cast<_WidgetType&>(*new_node.widget);
   }
 
@@ -69,7 +69,7 @@ class Builder {
     ContainerNode& new_node = addChildNode<ContainerNode>(*_active_layout_node);
     setLayout(new_node, std::move(layout));
     new_node.widget = bwPtr_new<_WidgetType>(new_node, std::forward<_Args>(__args)...);
-    new_node.handler = new_node.widget.get();
+    new_node.handler = new_node.widget->createHandler();
     setActiveLayout(new_node);
     return new_node;
   }
@@ -106,7 +106,7 @@ class Builder {
 
     WidgetNode& new_node = addChildNode<WidgetNode>(node);
     new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
-    new_node.handler = new_node.widget.get();
+    new_node.handler = new_node.widget->createHandler();
     return static_cast<_WidgetType&>(*new_node.widget);
   }
 

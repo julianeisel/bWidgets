@@ -39,34 +39,6 @@ void bwAbstractButton::registerProperties()
   base_style.registerProperties(style_properties);
 }
 
-void bwAbstractButton::onMousePress(bwMouseButtonEvent& event)
-{
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    state = State::SUNKEN;
-  }
-}
-
-void bwAbstractButton::onMouseRelease(bwMouseButtonEvent& event)
-{
-  if ((event.button == bwMouseButtonEvent::BUTTON_LEFT) && (state == State::SUNKEN)) {
-    state = State::NORMAL;
-  }
-}
-
-void bwAbstractButton::onMouseEnter(bwEvent&)
-{
-  if (state == State::NORMAL) {
-    state = State::HIGHLIGHTED;
-  }
-}
-
-void bwAbstractButton::onMouseLeave(bwEvent&)
-{
-  if (state == State::HIGHLIGHTED) {
-    state = State::NORMAL;
-  }
-}
-
 const std::string* bwAbstractButton::getLabel() const
 {
   return &text;
@@ -77,9 +49,49 @@ const bwIconInterface* bwAbstractButton::getIcon() const
   return nullptr;
 }
 
-void bwAbstractButton::apply()
+bwPtr<bwScreenGraph::EventHandler> bwAbstractButton::createHandler()
 {
-  if (apply_functor) {
-    (*apply_functor)();
+  return bwPtr_new<bwAbstractButtonHandler>(*this);
+}
+
+// ------------------ Handling ------------------
+
+bwAbstractButtonHandler::bwAbstractButtonHandler(bwAbstractButton& button) : button(button)
+{
+}
+
+void bwAbstractButtonHandler::onMouseEnter(bwEvent&)
+{
+  if (button.state == bwWidget::State::NORMAL) {
+    button.state = bwWidget::State::HIGHLIGHTED;
+  }
+}
+
+void bwAbstractButtonHandler::onMouseLeave(bwEvent&)
+{
+  if (button.state == bwWidget::State::HIGHLIGHTED) {
+    button.state = bwWidget::State::NORMAL;
+  }
+}
+
+void bwAbstractButtonHandler::onMousePress(bwMouseButtonEvent& event)
+{
+  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+    button.state = bwWidget::State::SUNKEN;
+  }
+}
+
+void bwAbstractButtonHandler::onMouseRelease(bwMouseButtonEvent& event)
+{
+  if ((event.button == bwMouseButtonEvent::BUTTON_LEFT) &&
+      (button.state == bwWidget::State::SUNKEN)) {
+    button.state = bwWidget::State::NORMAL;
+  }
+}
+
+void bwAbstractButtonHandler::apply()
+{
+  if (button.apply_functor) {
+    (*button.apply_functor)();
   }
 }

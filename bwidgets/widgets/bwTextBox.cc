@@ -41,44 +41,6 @@ void bwTextBox::registerProperties()
   base_style.registerProperties(style_properties);
 }
 
-void bwTextBox::onMousePress(bwMouseButtonEvent& event)
-{
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
-    startTextEditing();
-  }
-  else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
-    if (state == State::SUNKEN) {
-      endTextEditing();
-    }
-  }
-}
-
-void bwTextBox::onMouseEnter(bwEvent&)
-{
-  if (state == State::NORMAL) {
-    state = State::HIGHLIGHTED;
-  }
-}
-
-void bwTextBox::onMouseLeave(bwEvent&)
-{
-  if (state == State::HIGHLIGHTED) {
-    state = State::NORMAL;
-  }
-}
-
-void bwTextBox::startTextEditing()
-{
-  state = State::SUNKEN;
-  is_text_editing = true;
-}
-
-void bwTextBox::endTextEditing()
-{
-  state = State::NORMAL;
-  is_text_editing = false;
-}
-
 void bwTextBox::setText(const std::string& value)
 {
   text = value;
@@ -92,4 +54,52 @@ const std::string* bwTextBox::getLabel() const
 bool bwTextBox::canAlign() const
 {
   return true;
+}
+
+// ------------------ Handling ------------------
+
+bwPtr<bwScreenGraph::EventHandler> bwTextBox::createHandler()
+{
+  return bwPtr_new<bwTextBoxHandler>(*this);
+}
+
+bwTextBoxHandler::bwTextBoxHandler(bwTextBox& textbox) : textbox(textbox)
+{
+}
+
+void bwTextBoxHandler::startTextEditing()
+{
+  textbox.state = bwWidget::State::SUNKEN;
+  textbox.is_text_editing = true;
+}
+
+void bwTextBoxHandler::endTextEditing()
+{
+  textbox.state = bwWidget::State::NORMAL;
+  textbox.is_text_editing = false;
+}
+
+void bwTextBoxHandler::onMouseEnter(bwEvent&)
+{
+  if (textbox.state == bwWidget::State::NORMAL) {
+    textbox.state = bwWidget::State::HIGHLIGHTED;
+  }
+}
+
+void bwTextBoxHandler::onMouseLeave(bwEvent&)
+{
+  if (textbox.state == bwWidget::State::HIGHLIGHTED) {
+    textbox.state = bwWidget::State::NORMAL;
+  }
+}
+void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
+{
+  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+    startTextEditing();
+  }
+  else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
+    if (textbox.state == bwWidget::State::SUNKEN) {
+      endTextEditing();
+    }
+  }
 }

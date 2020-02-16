@@ -14,6 +14,7 @@ class bwLabel : public bwWidget {
   void draw(class bwStyle& style) override;
   void registerProperties() override;
   const std::string* getLabel() const override;
+  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
 
   bwLabel& setIcon(const class bwIconInterface& icon_interface);
 

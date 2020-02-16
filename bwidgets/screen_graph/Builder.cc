@@ -17,7 +17,7 @@ void Builder::setLayout(LayoutNode& node, bwPtr<bwLayoutInterface> layout)
 void Builder::setWidget(WidgetNode& node, bwPtr<bwWidget> widget)
 {
   node.widget = std::move(widget);
-  node.handler = node.widget.get();
+  node.handler = node.widget->createHandler();
 }
 
 bwWidget& Builder::addWidget(LayoutNode& node, bwPtr<bwWidget> widget)

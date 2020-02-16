@@ -5,6 +5,8 @@
 namespace bWidgets {
 
 class bwPanel : public bwContainerWidget {
+  friend class bwPanelHandler;
+
  public:
   bwPanel(const bwScreenGraph::ContainerNode& node,
           std::string label,
@@ -14,10 +16,10 @@ class bwPanel : public bwContainerWidget {
 
   void registerProperties() override;
 
-  void onMousePress(bwMouseButtonEvent&) override;
-
   const std::string* getLabel() const override;
   bool childrenVisible() const override;
+
+  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
 
   unsigned int getHeaderHeightHint() const;
   unsigned int header_height;
