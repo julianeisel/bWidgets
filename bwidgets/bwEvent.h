@@ -13,6 +13,7 @@ class bwEvent {
   virtual ~bwEvent() = default;
 
   void swallow();
+  void unswallow();
   bool isSwallowed() const;
 
   // Where did the event happen?

@@ -40,9 +40,11 @@ void bwRadioButtonHandler::onMousePress(bwMouseButtonEvent& event)
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     button.state = bwWidget::State::SUNKEN;
     apply();
+    event.swallow();
   }
 }
 
-void bwRadioButtonHandler::onMouseRelease(bwMouseButtonEvent&)
+void bwRadioButtonHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
+  event.swallow();
 }

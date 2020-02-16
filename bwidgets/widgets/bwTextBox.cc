@@ -96,10 +96,12 @@ void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     startTextEditing();
+    event.swallow();
   }
   else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
     if (textbox.state == bwWidget::State::SUNKEN) {
       endTextEditing();
+      event.swallow();
     }
   }
 }

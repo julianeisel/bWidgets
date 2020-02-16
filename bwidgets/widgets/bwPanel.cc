@@ -177,9 +177,11 @@ void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)
   }
   else if (panel.panel_state == bwPanel::State::CLOSED) {
     panel.panel_state = bwPanel::State::OPEN;
+    event.swallow();
   }
   else if (panel.panel_state == bwPanel::State::OPEN) {
     panel.panel_state = bwPanel::State::CLOSED;
+    event.swallow();
   }
   else {
     assert(0);

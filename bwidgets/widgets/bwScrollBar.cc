@@ -68,7 +68,6 @@ class bwScrollBarHandler : public bwAbstractButtonHandler {
   ~bwScrollBarHandler() = default;
 
   void onMousePress(bwMouseButtonEvent&) override;
-  void onMouseRelease(bwMouseButtonEvent&) override;
   void onMouseClick(bwMouseButtonEvent&) override;
   void onMouseDrag(bwMouseButtonDragEvent&) override;
 
@@ -96,11 +95,7 @@ void bwScrollBarHandler::onMousePress(bwMouseButtonEvent& event)
 {
   bwAbstractButtonHandler::onMousePress(event);
   mouse_press_scroll_offset = scrollbar.scroll_offset;
-}
-
-void bwScrollBarHandler::onMouseRelease(bwMouseButtonEvent& event)
-{
-  bwAbstractButtonHandler::onMouseRelease(event);
+  event.swallow();
 }
 
 void bwScrollBarHandler::onMouseClick(bwMouseButtonEvent& event)
@@ -115,12 +110,15 @@ void bwScrollBarHandler::onMouseClick(bwMouseButtonEvent& event)
       setScrollOffset(scrollbar.scroll_offset + (scrollbar.rectangle.height() * SCROLL_JUMP_FAC));
     }
   }
+
+  event.swallow();
 }
 
 void bwScrollBarHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     setScrollOffset(mouse_press_scroll_offset - event.drag_distance.y);
+    event.swallow();
   }
 }
 

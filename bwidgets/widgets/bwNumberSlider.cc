@@ -164,6 +164,8 @@ void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     initial_value = numberslider.value;
     numberslider.state = bwWidget::State::SUNKEN;
+
+    event.swallow();
   }
   else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
     if (numberslider.is_text_editing) {
@@ -172,15 +174,19 @@ void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
     else if (is_dragging) {
       numberslider.value = initial_value;
     }
+
+    event.swallow();
   }
 }
 
-void bwNumberSliderHandler::onMouseRelease(bwMouseButtonEvent&)
+void bwNumberSliderHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
   if (is_dragging) {
     numberslider.state = bwWidget::State::NORMAL;
   }
   is_dragging = false;
+
+  event.swallow();
 }
 
 void bwNumberSliderHandler::onMouseClick(bwMouseButtonEvent& event)
@@ -188,6 +194,8 @@ void bwNumberSliderHandler::onMouseClick(bwMouseButtonEvent& event)
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     startTextEditing();
   }
+
+  event.swallow();
 }
 
 void bwNumberSliderHandler::onMouseDrag(bwMouseButtonDragEvent& event)
@@ -200,6 +208,8 @@ void bwNumberSliderHandler::onMouseDrag(bwMouseButtonDragEvent& event)
     }
 
     is_dragging = true;
+
+    event.swallow();
   }
 }
 

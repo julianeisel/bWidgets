@@ -78,6 +78,7 @@ void bwAbstractButtonHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
     button.state = bwWidget::State::SUNKEN;
+    event.swallow();
   }
 }
 
@@ -86,6 +87,8 @@ void bwAbstractButtonHandler::onMouseRelease(bwMouseButtonEvent& event)
   if ((event.button == bwMouseButtonEvent::BUTTON_LEFT) &&
       (button.state == bwWidget::State::SUNKEN)) {
     button.state = bwWidget::State::NORMAL;
+
+    event.swallow();
   }
 }
 

@@ -7,6 +7,11 @@ void bwEvent::swallow()
   is_swallowed = true;
 }
 
+void bwEvent::unswallow()
+{
+  is_swallowed = false;
+}
+
 bool bwEvent::isSwallowed() const
 {
   return is_swallowed;

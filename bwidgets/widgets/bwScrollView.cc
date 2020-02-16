@@ -247,19 +247,24 @@ void bwScrollViewHandler::onMouseDrag(bwMouseButtonDragEvent& event)
   if (forwardEventToScrollbarIfInside<bwMouseButtonDragEvent&>(
           *this, *scrollview.scrollbar_node, event, &EventHandler::onMouseDrag, event)) {
     setScrollValue(scrollview.getVerticalScrollBar().scroll_offset);
+    event.swallow();
   }
 }
 
 void bwScrollViewHandler::onMousePress(bwMouseButtonEvent& event)
 {
-  forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
-      *this, *scrollview.scrollbar_node, event, &EventHandler::onMousePress, event);
+  if (forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
+          *this, *scrollview.scrollbar_node, event, &EventHandler::onMousePress, event)) {
+    event.swallow();
+  }
 }
 
 void bwScrollViewHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
-  forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
-      *this, *scrollview.scrollbar_node, event, &EventHandler::onMouseRelease, event);
+  if (forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
+          *this, *scrollview.scrollbar_node, event, &EventHandler::onMouseRelease, event)) {
+    event.swallow();
+  }
 }
 
 void bwScrollViewHandler::onMouseClick(bwMouseButtonEvent& event)
@@ -267,6 +272,7 @@ void bwScrollViewHandler::onMouseClick(bwMouseButtonEvent& event)
   if (forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
           *this, *scrollview.scrollbar_node, event, &EventHandler::onMouseClick, event)) {
     setScrollValue(scrollview.getVerticalScrollBar().scroll_offset);
+    event.swallow();
   }
 }
 

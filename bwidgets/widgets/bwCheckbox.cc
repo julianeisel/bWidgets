@@ -84,10 +84,13 @@ void bwCheckboxHandler::onMousePress(bwMouseButtonEvent& event)
     button.state = (button.state == bwWidget::State::SUNKEN) ? bwWidget::State::HIGHLIGHTED :
                                                                bwWidget::State::SUNKEN;
     apply();
+    event.swallow();
   }
 }
 
-void bwCheckboxHandler::onMouseRelease(bwMouseButtonEvent&)
+void bwCheckboxHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
+  event.swallow();
+
   // Don't change state at all.
 }
