@@ -15,13 +15,17 @@ bwEventDispatcher::bwEventDispatcher(ScreenGraph& _screen_graph)
 {
 }
 
-void bwEventDispatcher::bubbleEvent(const bwEvent& event,
-                                    const Node& from_node,
-                                    const EventBubbleFunctor functor)
+template<typename... _Args> using HandlerFunc = void (bwScreenGraph::EventHandler::*)(_Args&&...);
+
+template<typename... _Args>
+static void bubbleEvent(const bwEvent& event,
+                        const Node& from_node,
+                        HandlerFunc<_Args&&...> handler_func,
+                        _Args&&... __args)
 {
   for (const Node* node = &from_node; node && !event.isSwallowed(); node = node->Parent()) {
     if (EventHandler* handler = node->eventHandler()) {
-      functor(*node, *handler);
+      (handler->*handler_func)(std::forward<_Args>(__args)...);
     }
   }
 }
@@ -50,18 +54,15 @@ void bwEventDispatcher::dispatchMouseMovement(bwEvent event)
 
   if (Node* active = context.active) {
     if (isDragging()) {
-      bubbleEvent(event, *active, [this](const Node&, EventHandler& handler) {
-        handler.onMouseDrag(drag_event.value());
-      });
+      bubbleEvent<bwMouseButtonDragEvent&>(
+          event, *active, &EventHandler::onMouseDrag, drag_event.value());
     }
   }
   else {
     Node* new_hovered = findHoveredNode(event, screen_graph.Root());
 
     if (new_hovered && (new_hovered == context.hovered)) {
-      bubbleEvent(event, *new_hovered, [&event](const Node&, EventHandler& handler) {
-        handler.onMouseMove(event);
-      });
+      bubbleEvent<bwEvent&>(event, *new_hovered, &EventHandler::onMouseMove, event);
     }
     changeContextHovered(new_hovered, event);
   }
@@ -72,9 +73,7 @@ void bwEventDispatcher::dispatchMouseButtonPress(bwMouseButtonEvent& event)
   Node* node = context.active ? context.active : findHoveredNode(event, screen_graph.Root());
 
   if (node) {
-    bubbleEvent(event, *node, [&event](const Node&, EventHandler& handler) {
-      handler.onMousePress(event);
-    });
+    bubbleEvent<bwMouseButtonEvent&>(event, *node, &EventHandler::onMousePress, event);
   }
   drag_event.emplace(event.button, event.location);
 
@@ -86,18 +85,14 @@ void bwEventDispatcher::dispatchMouseButtonPress(bwMouseButtonEvent& event)
 void bwEventDispatcher::dispatchMouseButtonRelease(bwMouseButtonEvent& event)
 {
   if (context.active) {
-    bubbleEvent(event, *context.active, [&event](const Node&, EventHandler& handler) {
-      handler.onMouseRelease(event);
-    });
+    bubbleEvent<bwMouseButtonEvent&>(event, *context.active, &EventHandler::onMouseRelease, event);
 
     if (!isDragging()) {
       /* Even if the drag event was already sent, we may also need to send the click event, so
        * unswallow it for that purpose. */
       event.unswallow();
 
-      bubbleEvent(event, *context.active, [&event](const Node&, EventHandler& handler) {
-        handler.onMouseClick(event);
-      });
+      bubbleEvent<bwMouseButtonEvent&>(event, *context.active, &EventHandler::onMouseClick, event);
     }
   }
 
@@ -108,9 +103,7 @@ void bwEventDispatcher::dispatchMouseButtonRelease(bwMouseButtonEvent& event)
 void bwEventDispatcher::dispatchMouseWheelScroll(bwMouseWheelEvent& event)
 {
   if (context.hovered) {
-    bubbleEvent(event, *context.hovered, [&event](const Node&, EventHandler& handler) {
-      handler.onMouseWheel(event);
-    });
+    bubbleEvent<bwMouseWheelEvent&>(event, *context.hovered, &EventHandler::onMouseWheel, event);
   }
 }
 
@@ -132,15 +125,11 @@ void bwEventDispatcher::changeContextHovered(Node* new_hovered, bwEvent& event)
   }
 
   if (old_hovered) {
-    bubbleEvent(event, *old_hovered, [&event](const Node&, EventHandler& handler) {
-      handler.onMouseLeave(event);
-    });
+    bubbleEvent<bwEvent&>(event, *old_hovered, &EventHandler::onMouseLeave, event);
   }
 
   if (new_hovered) {
-    bubbleEvent(event, *new_hovered, [&event](const Node&, EventHandler& handler) {
-      handler.onMouseEnter(event);
-    });
+    bubbleEvent<bwEvent&>(event, *new_hovered, &EventHandler::onMouseEnter, event);
   }
 
   context.hovered = new_hovered;

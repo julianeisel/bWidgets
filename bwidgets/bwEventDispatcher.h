@@ -30,10 +30,6 @@ class bwEventDispatcher {
 
   bwEventDispatcher(bwScreenGraph::ScreenGraph& _screen_graph);
 
-  void bubbleEvent(const bwEvent& event,
-                   const bwScreenGraph::Node& from_node,
-                   const EventBubbleFunctor functor);
-
   void dispatchMouseMovement(bwEvent);
   void dispatchMouseButtonPress(bwMouseButtonEvent&);
   void dispatchMouseButtonRelease(bwMouseButtonEvent&);
