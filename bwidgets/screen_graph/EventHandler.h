@@ -20,6 +20,12 @@ using EventListener = std::function<void(Node&)>;
 
 /**
  * \brief API for registering and calling event-listeners
+ *
+ * TODO:
+ * * Only default `onFoo()` style listeners are supported, custom `addEventListener()` doesn't work
+ *   yet.
+ * * Many widget handlers are friend classes to the widgets to access internal data. Instead
+ *   widgets should have APIs to manipulate their state anyway, which they don't have yet.
  */
 class EventHandler {
  public:
