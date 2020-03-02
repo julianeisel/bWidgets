@@ -38,11 +38,9 @@ extern "C" {
 
 #include "Font.h"
 
-using namespace bWidgetsDemo;
+namespace bWidgetsDemo {
 
 FT_Library Font::ft_library = nullptr;
-
-namespace bWidgetsDemo {
 
 class Pen {
  public:
@@ -52,8 +50,6 @@ class Pen {
   FixedNum<F16p16> x;
   FixedNum<F16p16> y;
 };
-
-}  // namespace bWidgetsDemo
 
 Font::~Font()
 {
@@ -517,3 +513,5 @@ FontGlyph::FontGlyph(const unsigned int index,
       advance_width(advance_width)
 {
 }
+
+}  // namespace bWidgetsDemo

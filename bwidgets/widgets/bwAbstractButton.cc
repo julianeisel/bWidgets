@@ -4,7 +4,7 @@
 
 #include "bwAbstractButton.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwAbstractButton::bwAbstractButton(const std::string& text,
                                    const Type type,
@@ -98,3 +98,5 @@ void bwAbstractButtonHandler::apply()
     (*button.apply_functor)();
   }
 }
+
+}  // namespace bWidgets

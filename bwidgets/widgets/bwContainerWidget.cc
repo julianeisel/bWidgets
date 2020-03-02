@@ -1,6 +1,6 @@
 #include "bwContainerWidget.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwContainerWidget::bwContainerWidget(const bwScreenGraph::ContainerNode& node,
                                      const bwWidget::Type type,
@@ -36,3 +36,5 @@ void bwContainerWidget::registerProperties()
 {
   base_style.registerProperties(style_properties);
 }
+
+}  // namespace bWidgets

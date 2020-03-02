@@ -5,7 +5,7 @@
 
 #include "bwLabel.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwLabel::bwLabel(std::string text, unsigned int width_hint, unsigned int height_hint)
     : bwWidget(bwWidget::Type::LABEL, "bwLabel", width_hint, height_hint), text(std::move(text))
@@ -43,3 +43,5 @@ bwLabel& bwLabel::setIcon(const bwIconInterface& icon_interface)
   icon = &icon_interface;
   return *this;
 }
+
+}  // namespace bWidgets

@@ -28,8 +28,9 @@
 
 #include "EventManager.h"
 
-using namespace bWidgetsDemo;
 using namespace bWidgets;  // Less verbose
+
+namespace bWidgetsDemo {
 
 EventManager& EventManager::ensureEventManager()
 {
@@ -144,3 +145,5 @@ void EventManager::handleMouseScrollEvent(GLFWwindow* glfw_win, double /*value_x
 
   win->stage->handleMouseScrollEvent(event, dir);
 }
+
+}  // namespace bWidgetsDemo

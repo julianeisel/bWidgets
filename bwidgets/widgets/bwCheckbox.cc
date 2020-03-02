@@ -4,7 +4,7 @@
 
 #include "bwCheckbox.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwCheckbox::bwCheckbox(const std::string& text, unsigned int width_hint, unsigned int height_hint)
     : bwAbstractButton(text, Type::CHECKBOX, "bwCheckbox", width_hint, height_hint)
@@ -94,3 +94,5 @@ void bwCheckboxHandler::onMouseRelease(bwMouseButtonEvent& event)
 
   // Don't change state at all.
 }
+
+}  // namespace bWidgets

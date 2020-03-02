@@ -5,7 +5,7 @@
 
 #include "bwGradient.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwGradient::bwGradient(const bwColor& base_color,
                        float shade_begin,
@@ -34,3 +34,5 @@ bwColor bwGradient::calcPointColor(const bwPoint& point,
                  (begin[2] * pos_fac) + (end[2] * pos_fac_inv),
                  (begin[3] * pos_fac) + (end[3] * pos_fac_inv));
 }
+
+}  // namespace bWidgets

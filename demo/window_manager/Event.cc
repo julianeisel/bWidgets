@@ -23,7 +23,7 @@
 
 #include "EventManager.h"
 
-using namespace bWidgetsDemo;
+namespace bWidgetsDemo {
 
 bWidgets::bwPoint MouseEvent::location{};
 bWidgets::bwPoint MouseEvent::last_down_location{};
@@ -73,3 +73,5 @@ const bWidgets::bwPoint& MouseEvent::getMouseLocation()
 {
   return location;
 }
+
+}  // namespace bWidgetsDemo

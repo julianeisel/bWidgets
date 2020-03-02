@@ -8,7 +8,7 @@
 
 #include "bwStyleClassic.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 static void widget_base_style_checkbox_set(bwWidget& widget, bwWidgetBaseStyle& r_base_style)
 {
@@ -203,3 +203,5 @@ void bwStyleClassic::setWidgetStyle(bwWidget& widget)
     widget_base_style_set(widget, *base_style);
   }
 }
+
+}  // namespace bWidgets

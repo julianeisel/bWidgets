@@ -6,8 +6,7 @@
 
 #include "Drawer.h"
 
-using namespace bWidgets;
-using namespace bwScreenGraph;
+namespace bWidgets::bwScreenGraph {
 
 Drawer::Drawer(bwStyle& _style) : style(_style)
 {
@@ -74,3 +73,5 @@ void Drawer::popMask()
     bwPainter::paint_engine->enableMask(maskrect_stack.top());
   }
 }
+
+}  // namespace bWidgets::bwScreenGraph

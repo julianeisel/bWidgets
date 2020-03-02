@@ -30,7 +30,8 @@
 #include "StyleSheet.h"
 
 using namespace bWidgets;
-using namespace bWidgetsDemo;
+
+namespace bWidgetsDemo {
 
 StyleSheet::StyleSheet(std::string filepath) : filepath(std::move(filepath))
 {
@@ -183,3 +184,5 @@ const std::string& StyleSheet::getFilepath() const
 {
   return filepath;
 }
+
+}  // namespace bWidgetsDemo

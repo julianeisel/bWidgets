@@ -1,7 +1,7 @@
 #include "bwEvent.h"
 #include "bwRadioButton.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwRadioButton::bwRadioButton(const std::string& text,
                              unsigned int width_hint,
@@ -48,3 +48,5 @@ void bwRadioButtonHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
   event.swallow();
 }
+
+}  // namespace bWidgets

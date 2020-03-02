@@ -7,7 +7,7 @@
 
 #include "bwStyleManager.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwStyleManager& bwStyleManager::getStyleManager()
 {
@@ -55,3 +55,5 @@ const bwStyleManager::StyleTypeArray& bwStyleManager::getBuiltinStyleTypes() con
 {
   return builtin_style_types;
 }
+
+}  // namespace bWidgets

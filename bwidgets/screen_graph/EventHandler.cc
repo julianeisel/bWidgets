@@ -4,8 +4,7 @@
 #include "EventHandler.h"
 #include "Node.h"
 
-using namespace bWidgets;
-using namespace bWidgets::bwScreenGraph;
+namespace bWidgets::bwScreenGraph {
 
 void EventHandler::addEventListener(EventHandler::EventType event_type, EventListener listener)
 {
@@ -44,3 +43,5 @@ void EventHandler::onMouseDrag(bwMouseButtonDragEvent&)
 void EventHandler::onMouseWheel(bwMouseWheelEvent&)
 {
 }
+
+}  // namespace bWidgets::bwScreenGraph

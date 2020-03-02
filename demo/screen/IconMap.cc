@@ -38,9 +38,6 @@ struct IconReadData {
   png_infop info_ptr;
 };
 
-}  // namespace bWidgetsDemo
-
-using namespace bWidgetsDemo;
 using bWidgets::bwPtr;
 
 IconMapReader::IconMapReader() : read_data(new IconReadData)
@@ -174,3 +171,5 @@ Icon& IconMap::getIcon(unsigned int index)
 {
   return *icons[index];
 }
+
+}  // namespace bWidgetsDemo

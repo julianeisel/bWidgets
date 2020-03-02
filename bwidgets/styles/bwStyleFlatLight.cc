@@ -1,8 +1,10 @@
 #include "bwStyleFlatLight.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwStyleFlatLight::bwStyleFlatLight()
 {
   type_id = TypeID::FLAT_LIGHT;
 }
+
+}  // namespace bWidgets

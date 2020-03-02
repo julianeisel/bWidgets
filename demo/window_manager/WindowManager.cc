@@ -27,7 +27,7 @@
 
 #include "WindowManager.h"
 
-using namespace bWidgetsDemo;
+namespace bWidgetsDemo {
 
 static void wm_glfw_error_callback(int /* error */, const char* description)
 {
@@ -100,3 +100,5 @@ const bool WindowManager::isMainWindow(const Window& win) const
 {
   return win == *main_win;
 }
+
+}  // namespace bWidgetsDemo

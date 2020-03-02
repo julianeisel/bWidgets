@@ -33,8 +33,9 @@ extern "C" {
 
 #include "GawainPaintEngine.h"
 
-using namespace bWidgetsDemo;
 using namespace bWidgets;  // less verbose
+
+namespace bWidgetsDemo {
 
 GawainPaintEngine::GawainPaintEngine(Font& font, IconMap& icon_map)
     : font(font), icon_map(icon_map)
@@ -310,3 +311,5 @@ void GawainPaintEngine::drawIcon(const bwPainter& /*painter*/,
   engine_icon_texture_draw(icon_rect);
   engine_icon_texture_drawing_cleanup();
 }
+
+}  // namespace bWidgetsDemo

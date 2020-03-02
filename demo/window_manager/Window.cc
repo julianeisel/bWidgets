@@ -27,7 +27,8 @@
 #include "Window.h"
 
 using namespace bWidgets;
-using namespace bWidgetsDemo;
+
+namespace bWidgetsDemo {
 
 Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y)
     : width(size_x), height(size_y)
@@ -112,3 +113,5 @@ int Window::getHeight() const
 {
   return height;
 }
+
+}  // namespace bWidgetsDemo

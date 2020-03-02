@@ -7,8 +7,9 @@
 
 #include "bwEventDispatcher.h"
 
-using namespace bWidgets;
-using namespace bwScreenGraph;
+using namespace bWidgets::bwScreenGraph;
+
+namespace bWidgets {
 
 bwEventDispatcher::bwEventDispatcher(ScreenGraph& _screen_graph)
     : screen_graph(_screen_graph), context(_screen_graph.context)
@@ -134,3 +135,5 @@ void bwEventDispatcher::changeContextHovered(Node* new_hovered, bwEvent& event)
 
   context.hovered = new_hovered;
 }
+
+}  // namespace bWidgets

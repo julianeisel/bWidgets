@@ -24,7 +24,7 @@
 
 #include "Pixmap.h"
 
-using namespace bWidgetsDemo;
+namespace bWidgetsDemo {
 
 static unsigned int get_num_row_bytes_impl(int width,
                                            unsigned int num_channels,
@@ -83,3 +83,5 @@ unsigned int Pixmap::getNumChannels() const
 {
   return _num_channels;
 }
+
+}  // namespace bWidgetsDemo

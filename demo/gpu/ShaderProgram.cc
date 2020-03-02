@@ -68,10 +68,6 @@ static ShaderProgramType shader_program_types[ShaderProgram::SHADER_PROGRAM_ID_T
     ShaderProgramType{{"texture_vert.glsl", "texture_frag.glsl"}},
 };
 
-}  // namespace bWidgetsDemo
-
-using namespace bWidgetsDemo;
-
 ShaderProgram::ShaderProgramCache ShaderProgram::cache;
 
 static unsigned int shaderprog_compileShader(const std::string& shader_str,
@@ -179,3 +175,5 @@ const ShaderInterface& ShaderProgram::getInterface() const
 {
   return *interface;
 }
+
+}  // namespace bWidgetsDemo

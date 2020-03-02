@@ -38,8 +38,6 @@ extern "C" {
 
 #define MATRIX_STACK_DEPTH 32
 
-namespace bWidgetsDemo {
-
 class MatrixStack {
  public:
   MatrixStack(const glm::mat4& top_mat = glm::mat4{})
@@ -73,15 +71,11 @@ class MatrixState {
 
 static MatrixState state{MatrixStack{}, MatrixStack{}};
 
-}  // namespace bWidgetsDemo
-
 #define ModelViewStack state.model_view_stack
 #define ModelView ModelViewStack.stack[ModelViewStack.top]
 
 #define ProjectionStack state.projection_stack
 #define Projection ProjectionStack.stack[ProjectionStack.top]
-
-using namespace bWidgetsDemo;
 
 static glm::mat4 gpuGetModelViewMatrix()
 {

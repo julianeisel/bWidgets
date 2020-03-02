@@ -29,7 +29,6 @@
 
 #include "Layout.h"
 
-using namespace bWidgetsDemo;
 using namespace bWidgets;  // Less verbose
 
 namespace bWidgetsDemo {
@@ -51,8 +50,6 @@ void resolveScreenGraphNodeLayout(bwScreenGraph::LayoutNode& node,
     }
   }
 }
-
-}  // namespace bWidgetsDemo
 
 LayoutItem::LayoutItem(LayoutItem::Type item_type, const bool align, FlowDirection flow_direction)
     : type(item_type), flow_direction(flow_direction), align(align)
@@ -162,7 +159,6 @@ static bool needsMarginAfterNode(const bwScreenGraph::Node::ChildList::const_ite
   return true;
 }
 
-namespace bWidgetsDemo {
 int getNodeWidth(const bwScreenGraph::Node& node)
 {
   if (const LayoutItem* layout = static_cast<LayoutItem*>(node.Layout())) {
@@ -186,7 +182,6 @@ int getNodeHeight(const bwScreenGraph::Node& node)
 
   return 0;
 }
-};  // namespace bWidgetsDemo
 
 void LayoutItem::resolvePanelContents(bwScreenGraph::Node& panel_node,
                                       const bwPoint& panel_pos,
@@ -450,3 +445,5 @@ void ScrollViewLayout::resolve(bwScreenGraph::Node& node,
   LayoutItem::resolve(node, children_pos, item_margin, scale_fac);
   //  height += padding;
 }
+
+}  // namespace bWidgetsDemo

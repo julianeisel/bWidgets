@@ -1,6 +1,6 @@
 #include "bwWidget.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwWidget::bwWidget(const Type type,
                    const std::string& identifier,
@@ -48,3 +48,5 @@ void bwWidget::initialize()
 void bwWidget::registerProperties()
 {
 }
+
+}  // namespace bWidgets

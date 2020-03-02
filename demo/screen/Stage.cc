@@ -44,8 +44,9 @@
 
 #include "Stage.h"
 
-using namespace bWidgetsDemo;
 using namespace bWidgets;  // Less verbose
+
+namespace bWidgetsDemo {
 
 bwPtr<bwStyle> Stage::style = nullptr;
 bwPtr<StyleSheet> Stage::style_sheet = nullptr;
@@ -228,3 +229,5 @@ void Stage::handleWindowResizeEvent(const Window& win)
   mask_width = win.getWidth();
   mask_height = win.getHeight();
 }
+
+}  // namespace bWidgetsDemo

@@ -10,7 +10,6 @@ class bwContext;
 namespace bwScreenGraph {
 class ScreenGraph;
 class Node;
-class EventHandler;
 }  // namespace bwScreenGraph
 
 /**
@@ -23,11 +22,6 @@ class EventHandler;
  */
 class bwEventDispatcher {
  public:
-  /* Event to bubble is not passed here, lambdas can capture it while keeping exact type (no cast
-   * needed). */
-  using EventBubbleFunctor =
-      std::function<void(const bwScreenGraph::Node&, bwScreenGraph::EventHandler& handler)>;
-
   bwEventDispatcher(bwScreenGraph::ScreenGraph& _screen_graph);
 
   void dispatchMouseMovement(bwEvent);

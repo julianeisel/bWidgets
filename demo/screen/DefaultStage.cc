@@ -38,13 +38,12 @@
 
 #include "DefaultStage.h"
 
-using namespace bWidgetsDemo;
 using namespace bWidgets;  // Less verbose
+
+namespace bWidgetsDemo {
 
 #define BUTTON_HEIGHT 20
 #define PANEL_HEADER_HEIGHT 24
-
-namespace bWidgetsDemo {
 
 class ScaleSetter : public bwFunctorInterface {
  public:
@@ -151,15 +150,13 @@ class UseFontSubPixelsToggleSetter : public bwFunctorInterface {
   Stage& stage;
 };
 
-}  // namespace bWidgetsDemo
-
 // --------------------------------------------------------------------
 
 DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
     : Stage(mask_width, mask_height)
 {
   using namespace bwScreenGraph;
-  bwScreenGraph::Builder builder(screen_graph);
+  Builder builder(screen_graph);
   ContainerNode* panel;
 
   addStyleSelector(screen_graph.Root());
@@ -368,3 +365,5 @@ void UseCSSVersionToggleSetter::operator()()
 {
   stage.useStyleCSSVersionSet(checkbox.state == bwWidget::State::SUNKEN);
 }
+
+}  // namespace bWidgetsDemo

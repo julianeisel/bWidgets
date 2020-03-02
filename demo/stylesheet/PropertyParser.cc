@@ -29,7 +29,8 @@
 #include "PropertyParser.h"
 
 using namespace bWidgets;
-using namespace bWidgetsDemo;
+
+namespace bWidgetsDemo {
 
 bwPtr<PropertyParser> PropertyParser::newFromPropertyType(bwStyleProperty::Type type)
 {
@@ -114,3 +115,5 @@ void ColorPropertyParser::parseIntoProperty(bwStyleProperty& dest_property,
       throw property_parsing_failure();
   }
 }
+
+}  // namespace bWidgetsDemo

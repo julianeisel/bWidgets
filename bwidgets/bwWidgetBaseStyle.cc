@@ -5,7 +5,7 @@
 
 #include "bwWidgetBaseStyle.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwWidgetBaseStyle::bwWidgetBaseStyle()
     : text_alignment(TextAlignment::LEFT), roundbox_corners(NONE)
@@ -63,3 +63,5 @@ bool bwWidgetBaseStyle::isBorderVisible() const
 {
   return (background_color == border_color) == false;
 }
+
+}  // namespace bWidgets

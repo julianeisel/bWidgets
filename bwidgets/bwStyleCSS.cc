@@ -3,7 +3,10 @@
 
 #include "bwStyleCSS.h"
 
-using namespace bWidgets;
+#include "bwTextBox.h"  // XXX Ugly
+#include "bwPanel.h"
+
+namespace bWidgets {
 
 void (*bwStyleCSS::polish_cb)(class bwWidget&) = nullptr;
 
@@ -11,8 +14,6 @@ bwStyleCSS::bwStyleCSS() : bwStyle(bwStyle::TypeID::CLASSIC_CSS)
 {
 }
 
-#include "bwTextBox.h"  // XXX Ugly
-#include "bwPanel.h"
 void bwStyleCSS::setWidgetStyle(bwWidget& widget)
 {
   bwOptional<std::reference_wrapper<bwWidgetBaseStyle>> base_style;
@@ -43,3 +44,5 @@ void bwStyleCSS::polish(bwWidget& widget)
     polish_cb(widget);
   }
 }
+
+}  // namespace bWidgets

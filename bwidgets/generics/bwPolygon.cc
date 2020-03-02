@@ -5,7 +5,7 @@
 
 #include "bwPolygon.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwPolygon::bwPolygon(const bwPointVec& vertices) : vertices(vertices), vert_count(vertices.size())
 {
@@ -51,3 +51,5 @@ bool bwPolygon::isDrawable() const
 {
   return (vert_count > 0);
 }
+
+}  // namespace bWidgets

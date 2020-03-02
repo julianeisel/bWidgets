@@ -1,6 +1,6 @@
 #include "bwEvent.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 void bwEvent::swallow()
 {
@@ -26,3 +26,5 @@ void bwMouseButtonDragEvent::addMouseMovement(bwPoint new_location)
 
   drag_distance = new_location - location;
 }
+
+}  // namespace bWidgets

@@ -25,7 +25,7 @@
 
 #include "Application.h"
 
-using namespace bWidgetsDemo;
+namespace bWidgetsDemo {
 
 Application& Application::ensureApplication()
 {
@@ -48,3 +48,5 @@ void Application::mainLoop()
 void Application::exit()
 {
 }
+
+}  // namespace bWidgetsDemo

@@ -5,7 +5,7 @@
 
 #include "bwColor.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwColor::bwColor(float red, float green, float blue, float alpha)
 {
@@ -120,3 +120,5 @@ bwColor::operator const float*() const
 {
   return getColor();
 }
+
+}  // namespace bWidgets

@@ -1,6 +1,6 @@
 #include "bwPushButton.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwPushButton::bwPushButton(const std::string& text,
                            unsigned int width_hint,
@@ -24,3 +24,5 @@ bool bwPushButton::canAlign() const
 {
   return true;
 }
+
+}  // namespace bWidgets

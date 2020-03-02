@@ -4,7 +4,7 @@
 
 #include "bwTextBox.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwTextBox::bwTextBox(unsigned int width_hint, unsigned int height_hint)
     : bwWidget(Type::BOX, "bwTextBox", width_hint, height_hint),
@@ -105,3 +105,5 @@ void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
     }
   }
 }
+
+}  // namespace bWidgets

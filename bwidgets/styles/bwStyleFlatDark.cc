@@ -1,8 +1,10 @@
 #include "bwStyleFlatDark.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwStyleFlatDark::bwStyleFlatDark()
 {
   type_id = TypeID::FLAT_DARK;
 }
+
+}  // namespace bWidgets

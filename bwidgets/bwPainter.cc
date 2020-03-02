@@ -12,7 +12,7 @@
 
 #include "bwPainter.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwPtr<bwPaintEngine> bwPainter::paint_engine = nullptr;
 
@@ -200,7 +200,6 @@ void bwPainter::drawLine(const bwPoint& from, const bwPoint& to)
   drawPolygon(polygon);
 }
 
-namespace bWidgets {
 class PolygonRoundboxCreator {
  public:
   PolygonRoundboxCreator(const bwRectanglePixel& rect,
@@ -241,7 +240,6 @@ class PolygonRoundboxCreator {
   float radius_inner = 0.0f;
   bool is_outline = false;
 };
-}  // namespace bWidgets
 constexpr float PolygonRoundboxCreator::cornervec[ROUNDCORNER_RESOLUTION][2];
 
 void PolygonRoundboxCreator::addVertsBottomLeft(bwPolygon& polygon) const
@@ -475,3 +473,5 @@ void bwPainter::drawRoundboxWidgetBase(const bwWidgetBaseStyle& base_style,
   setActiveColor(base_style.borderColor());
   drawRoundbox(rectangle, base_style.roundbox_corners, radius_pixel);
 }
+
+}  // namespace bWidgets

@@ -5,8 +5,6 @@
 
 #include "bwStyleProperties.h"
 
-using namespace bWidgets;
-
 namespace bWidgets {
 
 template<typename _Type> class bwStylePropertyInternal : public bwStyleProperty {
@@ -25,8 +23,6 @@ template<typename _Type> class bwStylePropertyInternal : public bwStyleProperty 
   // parameter, this value is used and reference references this.
   _Type value;
 };
-
-}  // namespace bWidgets
 
 // --------------------------------------------------------------------
 
@@ -184,8 +180,6 @@ void bwStyleProperty::setDefaultValue(const bwColor& value)
  * \{
  */
 
-namespace bWidgets {
-
 template<typename> struct PropType;
 
 template<> struct PropType<bool> {
@@ -221,8 +215,6 @@ template<> struct PropDataType<bwStyleProperty::TYPE_COLOR>
 	using type = bwColor;
 };
 #endif
-
-}  // namespace bWidgets
 
 /** \} */
 
@@ -360,3 +352,5 @@ bwStyleProperties::const_iterator bwStyleProperties::end() const
 {
   return properties.end();
 }
+
+}  // namespace bWidgets

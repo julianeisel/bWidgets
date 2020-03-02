@@ -21,7 +21,6 @@
 
 #include "StyleSheetTree.h"
 
-using namespace bWidgetsDemo;
 using namespace bWidgets;
 
 namespace bWidgetsDemo {
@@ -40,8 +39,6 @@ class StyleSheetNode {
  public:
   class StateProperties state_properties[int(bwWidget::State::STATE_TOT)];
 };
-
-}  // namespace bWidgetsDemo
 
 bwOptional<std::reference_wrapper<StyleSheetNode>> StyleSheetTree::lookupNode(
     const std::string& name)
@@ -132,3 +129,5 @@ bwStyleProperty& StateProperties::ensureProperty(const std::string& identifier,
 
   return properties.addProperty(identifier, type);
 }
+
+}  // namespace bWidgetsDemo

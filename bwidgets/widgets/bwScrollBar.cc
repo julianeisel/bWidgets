@@ -4,7 +4,7 @@
 
 #include "bwScrollBar.h"
 
-using namespace bWidgets;
+namespace bWidgets {
 
 bwScrollBar::bwScrollBar(unsigned int width_hint, unsigned int height_hint)
     : bwAbstractButton("", Type::SCROLL_BAR, "bwScrollBar", width_hint, height_hint)
@@ -127,3 +127,5 @@ void bwScrollBarHandler::setScrollOffset(int value)
   scrollbar.scroll_offset = value;
   apply();
 }
+
+}  // namespace bWidgets

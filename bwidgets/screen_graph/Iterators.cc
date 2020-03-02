@@ -1,6 +1,6 @@
 #include "Iterators.h"
 
-using namespace bWidgets::bwScreenGraph;
+namespace bWidgets::bwScreenGraph {
 
 PreOrderIterator::PreOrderIterator() : node(nullptr)
 {
@@ -82,9 +82,6 @@ PreOrderIterator& PreOrderIterator::operator++()
   return *this;
 }
 
-namespace bWidgets {
-namespace bwScreenGraph {
-
 PreOrderIterator begin(Node& node)
 {
   return PreOrderIterator(node);
@@ -102,5 +99,4 @@ PreOrderIterator end(ScreenGraph& screen_graph)
   return end(screen_graph.Root());
 }
 
-}  // namespace bwScreenGraph
-}  // namespace bWidgets
+}  // namespace bWidgets::bwScreenGraph

@@ -24,7 +24,7 @@
 
 #include "File.h"
 
-using namespace bWidgetsDemo;
+namespace bWidgetsDemo {
 
 File::File(const std::string& path, std::ios::openmode mode)
     : _path(path), _file_stream(path, mode)
@@ -55,10 +55,10 @@ bool File::readBytes(char* bytes, const unsigned int num_bytes, bool reset_curso
   return _file_stream.good();
 }
 
-namespace bWidgetsDemo {
 std::ostream& operator<<(std::ostream& stream, const File& file)
 {
   stream << file._path;
   return stream;
 }
+
 }  // namespace bWidgetsDemo

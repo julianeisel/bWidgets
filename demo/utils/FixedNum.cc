@@ -21,12 +21,12 @@
 
 #include "FixedNum.h"
 
-using namespace bWidgetsDemo;
+namespace bWidgetsDemo {
 
 // Instantiations needed to avoid linker errors.
-template class bWidgetsDemo::FixedNum<F16p16>;
-template class bWidgetsDemo::FixedNum<F26p6>;
-template bWidgetsDemo::FixedNum<F26p6>::operator FixedNum<F16p16>() const;
+template class FixedNum<F16p16>;
+template class FixedNum<F26p6>;
+template FixedNum<F26p6>::operator FixedNum<F16p16>() const;
 
 template<typename _Type> constexpr unsigned int getScaleFactor()
 {
@@ -81,3 +81,5 @@ FixedNum<_Type>::operator FixedNum<_OtherType>() const
   return FixedNum<_OtherType>(value *
                               (double(getScaleFactor<_OtherType>()) / getScaleFactor<_Type>()));
 }
+
+}  // namespace bWidgetsDemo
