@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <initializer_list>
 #include <functional>
 #include <map>
@@ -113,11 +114,15 @@ template<typename _Obj> class RNAProperties {
     return *(*pair.first).second;
   }
 
-  RNAProperty* find(const std::string& name) const
+  RNAProperty* find(const std::string& name, bool silent = false) const
   {
     auto iter = m_properties.find(name);
     if (iter != m_properties.end()) {
       return (*iter).second.get();
+    }
+    if (!silent) {
+      std::cout << "RNA Property not found: " << name << std::endl;
+      assert(false);
     }
     return nullptr;
   }

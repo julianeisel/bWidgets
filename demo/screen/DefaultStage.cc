@@ -53,6 +53,8 @@ class DefaultStageRNAFunctor : public bwFunctorInterface {
                          const bwWidget& widget)
       : m_props(props), m_stage(stage), m_prop_name(prop_name), m_widget(widget)
   {
+    /* Sanity check. */
+    assert(props.find(prop_name));
   }
 
   DefaultStageRNAFunctor(RNAProperties<DefaultStage>& props,
@@ -96,22 +98,61 @@ class DefaultStageRNAFunctor : public bwFunctorInterface {
   bwOptional<int> m_enum_value;
 };
 
+template<typename _Obj> class RNAScreenGraphBuilder : public bwScreenGraph::Builder {
+ public:
+  RNAScreenGraphBuilder(bwScreenGraph::LayoutNode& node,
+                        _Obj& obj,
+                        RNAProperties<_Obj>& properties)
+      : bwScreenGraph::Builder(node), m_obj(obj), m_props(properties)
+  {
+  }
+  RNAScreenGraphBuilder(bwScreenGraph::ScreenGraph& screen_graph,
+                        _Obj& obj,
+                        RNAProperties<_Obj>& properties)
+      : RNAScreenGraphBuilder(screen_graph.Root(), obj, properties)
+  {
+  }
+
+  template<typename _WidgetType, typename... _Args>
+  _WidgetType& addRNAWidget(const std::string& propname, _Args&&... __args)
+  {
+    _WidgetType& widget = Builder::addWidget<_WidgetType>(std::forward<_Args>(__args)...);
+    static_assert(!std::is_same<_WidgetType, bwRadioButton>::value,
+                  "RNAScreenGraphBuilder: For bwRadioButton, addRNAWidget overload with enum "
+                  "value should be called.");
+    widget.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(m_props, m_obj, propname, widget);
+    return widget;
+  }
+
+  template<typename _WidgetType, typename... _Args>
+  _WidgetType& addRNAWidget(int enum_value, const std::string& propname, _Args&&... __args)
+  {
+    _WidgetType& widget = Builder::addWidget<_WidgetType>(std::forward<_Args>(__args)...);
+    widget.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+        m_props, m_obj, propname, widget, enum_value);
+    return widget;
+  }
+
+ private:
+  _Obj& m_obj;
+  RNAProperties<_Obj>& m_props;
+};
+
 // --------------------------------------------------------------------
 
 DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
     : Stage(mask_width, mask_height)
 {
   using namespace bwScreenGraph;
-  Builder builder(screen_graph);
+
+  RNAScreenGraphBuilder<DefaultStage> builder(screen_graph, *this, properties);
   ContainerNode* panel;
 
   registerProperties(properties);
 
   addStyleSelector(screen_graph.Root());
 
-  auto& slider = builder.addWidget<bwNumberSlider>(0, BUTTON_HEIGHT);
-  slider.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
-      properties, *this, "interface_scale", slider);
+  auto& slider = builder.addRNAWidget<bwNumberSlider>("interface_scale", 0, BUTTON_HEIGHT);
   slider.setText("Interface Scale: ");
   slider.setMinMax(0.5f, 2.0f);
   slider.setValue(1.0f);
@@ -119,22 +160,17 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   builder.addWidget<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT);
 
   builder.addLayout<RowLayout>(true);
-  auto* checkbox = &builder.addWidget<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
-  checkbox->apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
-      properties, *this, "font_use_tight_positioning", *checkbox);
+  auto* checkbox = &builder.addRNAWidget<bwCheckbox>(
+      "font_use_tight_positioning", "Tight Positioning", 0, BUTTON_HEIGHT);
   checkbox->state = bwWidget::State::SUNKEN;
-  checkbox = &builder.addWidget<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
-  checkbox->apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
-      properties, *this, "font_use_hinting", *checkbox);
+  checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_hinting", "Hinting", 0, BUTTON_HEIGHT);
 
   builder.setActiveLayout(screen_graph.Root());
   builder.addLayout<RowLayout>(false);
-  checkbox = &builder.addWidget<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
-  checkbox->apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
-      properties, *this, "font_use_subpixels", *checkbox);
-  checkbox = &builder.addWidget<bwCheckbox>("Subpixel Positioning", 0, BUTTON_HEIGHT);
-  checkbox->apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
-      properties, *this, "font_use_subpixel_positioning", *checkbox);
+  checkbox = &builder.addRNAWidget<bwCheckbox>(
+      "font_use_subpixels", "Subpixel Rendering", 0, BUTTON_HEIGHT);
+  checkbox = &builder.addRNAWidget<bwCheckbox>(
+      "font_use_subpixel_positioning", "Subpixel Positioning", 0, BUTTON_HEIGHT);
   checkbox->hidden = true;
 
   builder.setActiveLayout(screen_graph.Root());
@@ -177,8 +213,8 @@ bool isUseCSSVersionToggleHidden(const bwStyle& style)
 
 void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 {
+  RNAScreenGraphBuilder<DefaultStage> builder(parent_node, *this, properties);
   using namespace bwScreenGraph;
-  Builder builder(parent_node);
 
   builder.addLayout<RowLayout>(true);
 
@@ -187,13 +223,11 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 
   for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
     if (type.type_id == bwStyle::TypeID::CLASSIC_CSS) {
-      // We'll add a button for this later.
+      // A checkbox button is added for this variation later.
       continue;
     }
-    auto& style_button = builder.addWidget<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
-
-    style_button.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
-        properties, *this, "style_type", style_button, int(type.type_id));
+    auto& style_button = builder.addRNAWidget<bwRadioButton>(
+        int(type.type_id), "style_type", type.name, 0, BUTTON_HEIGHT);
 
     if (type.type_id == style->type_id) {
       style_button.state = bwAbstractButton::State::SUNKEN;
@@ -201,10 +235,9 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
   }
 
   builder.setActiveLayout(parent_node);
-  auto& checkbox = builder.addWidget<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
+  auto& checkbox = builder.addRNAWidget<bwCheckbox>(
+      "style_use_css_version", "Use CSS Version", 0, BUTTON_HEIGHT);
   checkbox.hidden = isUseCSSVersionToggleHidden(*style);
-  checkbox.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
-      properties, *this, "style_use_css_version", checkbox);
 }
 
 void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
