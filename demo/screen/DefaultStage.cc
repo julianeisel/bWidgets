@@ -45,109 +45,55 @@ namespace bWidgetsDemo {
 #define BUTTON_HEIGHT 20
 #define PANEL_HEADER_HEIGHT 24
 
-class ScaleSetter : public bwFunctorInterface {
+class DefaultStageRNAFunctor : public bwFunctorInterface {
  public:
-  ScaleSetter(const bwNumberSlider&);
-  void operator()() override;
-
- private:
-  const bwNumberSlider& numslider;
-};
-
-class StyleSetter : public bwFunctorInterface {
- public:
-  StyleSetter(DefaultStage& stage, const bwStyle::StyleType& style_type);
-  static bool updateStyleButton(bwWidget&, DefaultStage&);
-  void operator()() override;
-
- private:
-  DefaultStage& stage;
-  const bwStyle::StyleType& style_type;
-};
-
-class UseCSSVersionToggleSetter : public bwFunctorInterface {
- public:
-  UseCSSVersionToggleSetter(const bwCheckbox&, DefaultStage&);
-  void operator()() override;
-
- private:
-  const bwCheckbox& checkbox;
-  DefaultStage& stage;
-};
-
-class UseFontTightPlacementToggleSetter : public bwFunctorInterface {
- public:
-  UseFontTightPlacementToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox)
+  DefaultStageRNAFunctor(RNAProperties<DefaultStage>& props,
+                         DefaultStage& stage,
+                         const std::string& prop_name,
+                         const bwWidget& widget)
+      : m_props(props), m_stage(stage), m_prop_name(prop_name), m_widget(widget)
   {
+  }
+
+  DefaultStageRNAFunctor(RNAProperties<DefaultStage>& props,
+                         DefaultStage& stage,
+                         const std::string& prop_name,
+                         const bwWidget& widget,
+                         int enum_value)
+      : DefaultStageRNAFunctor(props, stage, prop_name, widget)
+  {
+    m_enum_value = enum_value;
   }
 
   void operator()() override
   {
-    Stage::setFontTightPositioning(checkbox.isChecked());
-  }
-
- private:
-  const bwCheckbox& checkbox;
-};
-
-class UseFontHintingToggleSetter : public bwFunctorInterface {
- public:
-  UseFontHintingToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox)
-  {
-  }
-
-  void operator()() override
-  {
-    Stage::setFontHinting(checkbox.isChecked());
-  }
-
- private:
-  const bwCheckbox& checkbox;
-};
-
-class UseFontSubPixelPositioningToggleSetter : public bwFunctorInterface {
- public:
-  UseFontSubPixelPositioningToggleSetter(const bwCheckbox& _checkbox) : checkbox(_checkbox)
-  {
-  }
-
-  void operator()() override
-  {
-    Stage::setFontSubPixelPositioning(checkbox.isChecked());
-  }
-
- private:
-  const bwCheckbox& checkbox;
-};
-
-class UseFontSubPixelsToggleSetter : public bwFunctorInterface {
- public:
-  UseFontSubPixelsToggleSetter(const bwCheckbox& _checkbox, Stage& _stage)
-      : checkbox(_checkbox), stage(_stage)
-  {
-  }
-
-  void operator()() override
-  {
-    Stage::setFontAntiAliasingMode(checkbox.isChecked() ? Font::SUBPIXEL_LCD_RGB_COVERAGE :
-                                                          Font::NORMAL_COVERAGE);
-    for (bwScreenGraph::Node& node : stage.screen_graph.Root()) {
-      bwWidget* widget = node.Widget();
-      if (!widget) {
-        continue;
-      }
-      if (auto* iter_checkbox = widget_cast<bwCheckbox*>(widget)) {
-        if (iter_checkbox->apply_functor && dynamic_cast<UseFontSubPixelPositioningToggleSetter*>(
-                                                iter_checkbox->apply_functor.get())) {
-          iter_checkbox->hidden = !checkbox.isChecked();
-        }
-      }
+    if (widget_cast<const bwCheckbox*>(&m_widget)) {
+      m_props.set(m_prop_name, m_stage, m_widget.state == bwWidget::State::SUNKEN);
+    }
+    else if (auto* slider = widget_cast<const bwNumberSlider*>(&m_widget)) {
+      m_props.set(m_prop_name, m_stage, slider->getValue());
+    }
+    else if (widget_cast<const bwRadioButton*>(&m_widget)) {
+      m_props.set(m_prop_name, m_stage, m_enum_value.value());
     }
   }
 
+  const std::string& getPropName() const
+  {
+    return m_prop_name;
+  }
+
+  bwOptional<int> getEnumValue() const
+  {
+    return m_enum_value;
+  }
+
  private:
-  const bwCheckbox& checkbox;
-  Stage& stage;
+  RNAProperties<DefaultStage>& m_props;
+  DefaultStage& m_stage;
+  std::string m_prop_name;
+  const bwWidget& m_widget;
+  bwOptional<int> m_enum_value;
 };
 
 // --------------------------------------------------------------------
@@ -159,10 +105,13 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   Builder builder(screen_graph);
   ContainerNode* panel;
 
+  registerProperties(properties);
+
   addStyleSelector(screen_graph.Root());
 
   auto& slider = builder.addWidget<bwNumberSlider>(0, BUTTON_HEIGHT);
-  slider.apply_functor = bwPtr_new<ScaleSetter>(slider);
+  slider.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+      properties, *this, "interface_scale", slider);
   slider.setText("Interface Scale: ");
   slider.setMinMax(0.5f, 2.0f);
   slider.setValue(1.0f);
@@ -171,17 +120,21 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 
   builder.addLayout<RowLayout>(true);
   auto* checkbox = &builder.addWidget<bwCheckbox>("Tight Positioning", 0, BUTTON_HEIGHT);
-  checkbox->apply_functor = bwPtr_new<UseFontTightPlacementToggleSetter>(*checkbox);
+  checkbox->apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+      properties, *this, "font_use_tight_positioning", *checkbox);
   checkbox->state = bwWidget::State::SUNKEN;
   checkbox = &builder.addWidget<bwCheckbox>("Hinting", 0, BUTTON_HEIGHT);
-  checkbox->apply_functor = bwPtr_new<UseFontHintingToggleSetter>(*checkbox);
+  checkbox->apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+      properties, *this, "font_use_hinting", *checkbox);
 
   builder.setActiveLayout(screen_graph.Root());
   builder.addLayout<RowLayout>(false);
   checkbox = &builder.addWidget<bwCheckbox>("Subpixel Rendering", 0, BUTTON_HEIGHT);
-  checkbox->apply_functor = bwPtr_new<UseFontSubPixelsToggleSetter>(*checkbox, *this);
+  checkbox->apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+      properties, *this, "font_use_subpixels", *checkbox);
   checkbox = &builder.addWidget<bwCheckbox>("Subpixel Positioning", 0, BUTTON_HEIGHT);
-  checkbox->apply_functor = bwPtr_new<UseFontSubPixelPositioningToggleSetter>(*checkbox);
+  checkbox->apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+      properties, *this, "font_use_subpixel_positioning", *checkbox);
   checkbox->hidden = true;
 
   builder.setActiveLayout(screen_graph.Root());
@@ -222,24 +175,6 @@ bool isUseCSSVersionToggleHidden(const bwStyle& style)
          (style.type_id != bwStyle::TypeID::CLASSIC_CSS);
 }
 
-void DefaultStage::activateStyleID(bwStyle::TypeID type_id)
-{
-  Stage::activateStyleID(type_id);
-  for (auto& iter_node : screen_graph) {
-    bwWidget* widget = iter_node.Widget();
-    if (!widget) {
-      continue;
-    }
-
-    if (auto* checkbox = widget_cast<bwCheckbox*>(widget)) {
-      if (checkbox->apply_functor &&
-          dynamic_cast<UseCSSVersionToggleSetter*>(checkbox->apply_functor.get())) {
-        widget->hidden = isUseCSSVersionToggleHidden(*Stage::style);
-      }
-    }
-  }
-}
-
 void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 {
   using namespace bwScreenGraph;
@@ -257,7 +192,8 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
     }
     auto& style_button = builder.addWidget<bwRadioButton>(type.name, 0, BUTTON_HEIGHT);
 
-    style_button.apply_functor = bwPtr_new<StyleSetter>(*this, type);
+    style_button.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+        properties, *this, "style_type", style_button, int(type.type_id));
 
     if (type.type_id == style->type_id) {
       style_button.state = bwAbstractButton::State::SUNKEN;
@@ -267,13 +203,8 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
   builder.setActiveLayout(parent_node);
   auto& checkbox = builder.addWidget<bwCheckbox>("Use CSS Version", 0, BUTTON_HEIGHT);
   checkbox.hidden = isUseCSSVersionToggleHidden(*style);
-  checkbox.apply_functor = bwPtr_new<UseCSSVersionToggleSetter>(checkbox, *this);
-}
-
-void DefaultStage::addFakeSpacer(bwScreenGraph::LayoutNode& parent_node)
-{
-  // Just some extra space. No spacer widgets yet.
-  bwScreenGraph::Builder::emplaceWidget<bwLabel>(parent_node, "", 0, 7);
+  checkbox.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+      properties, *this, "style_use_css_version", checkbox);
 }
 
 void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
@@ -294,46 +225,34 @@ void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
   }
 }
 
-// --------------------------------------------------------------------
-// Functor definitions
-
-ScaleSetter::ScaleSetter(const bwNumberSlider& numslider) : numslider(numslider)
+bool DefaultStage::updateStyleButton(bwWidget& widget_iter)
 {
-}
-
-void ScaleSetter::operator()()
-{
-  Stage::setInterfaceScale(numslider.getValue());
-}
-
-StyleSetter::StyleSetter(DefaultStage& stage, const bwStyle::StyleType& style_type)
-    : stage(stage), style_type(style_type)
-{
-}
-
-bool StyleSetter::updateStyleButton(bwWidget& widget_iter, DefaultStage& stage)
-{
-  auto* radio_iter = widget_cast<bwRadioButton*>(&widget_iter);
   bwStyle::TypeID active_type_id = DefaultStage::style->type_id;
 
-  if (radio_iter && radio_iter->apply_functor) {
-    // Using dynamic_cast to check if apply_functor is a StyleSetter. Then we assume it's a style
-    // button.
-    if (auto iter_style_setter = dynamic_cast<StyleSetter*>(radio_iter->apply_functor.get())) {
-      if (iter_style_setter->style_type.type_id == active_type_id) {
-        radio_iter->state = bwWidget::State::SUNKEN;
-      }
-      else {
-        radio_iter->state = bwWidget::State::NORMAL;
+  if (auto* radio_iter = widget_cast<bwRadioButton*>(&widget_iter)) {
+    if (radio_iter->apply_functor) {
+      auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(radio_iter->apply_functor.get());
+
+      if (rna_functor && rna_functor->getPropName() == "style_type") {
+        auto prop = rna_functor->getEnumValue();
+        if (prop && bwStyle::TypeID(prop.value()) == active_type_id) {
+          radio_iter->state = bwWidget::State::SUNKEN;
+        }
+        else {
+          radio_iter->state = bwWidget::State::NORMAL;
+        }
       }
     }
   }
   else if (auto* checkbox_iter = widget_cast<bwCheckbox*>(&widget_iter)) {
-    if (checkbox_iter->apply_functor &&
-        dynamic_cast<UseCSSVersionToggleSetter*>(checkbox_iter->apply_functor.get())) {
-      if (active_type_id == bwStyle::TypeID::CLASSIC ||
-          active_type_id == bwStyle::TypeID::CLASSIC_CSS) {
-        stage.useStyleCSSVersionSet(checkbox_iter->state == bwWidget::State::SUNKEN);
+    if (checkbox_iter->apply_functor) {
+      auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
+          checkbox_iter->apply_functor.get());
+      if (rna_functor && rna_functor->getPropName() == "style_use_css_version") {
+        if (active_type_id == bwStyle::TypeID::CLASSIC ||
+            active_type_id == bwStyle::TypeID::CLASSIC_CSS) {
+          useStyleCSSVersionSet(checkbox_iter->state == bwWidget::State::SUNKEN);
+        }
       }
     }
   }
@@ -341,29 +260,97 @@ bool StyleSetter::updateStyleButton(bwWidget& widget_iter, DefaultStage& stage)
   return true;
 }
 
-void StyleSetter::operator()()
+void DefaultStage::updateStyleButtons()
 {
-  bwStyle::TypeID style_type_id = style_type.type_id;
-  stage.activateStyleID(style_type_id);
-  // Deactivate other style radio buttons
-  for (bwScreenGraph::Node& node : stage.screen_graph) {
-    bwWidget* widget = node.Widget();
-    if (!widget || widget->hidden) {
+  // Deactivate style radio buttons that are not active. In future this should be handled within
+  // bWidgets somehow (groups of radio buttons and a value getter maybe?).
+  for (bwScreenGraph::Node& node : screen_graph) {
+    if (!node.isVisible()) {
       continue;
     }
-    updateStyleButton(*widget, stage);
+    bwWidget* widget = node.Widget();
+    updateStyleButton(*widget);
   }
 }
 
-UseCSSVersionToggleSetter::UseCSSVersionToggleSetter(const bwCheckbox& checkbox,
-                                                     DefaultStage& stage)
-    : checkbox(checkbox), stage(stage)
+void DefaultStage::activateStyleID(bwStyle::TypeID type_id)
 {
+  Stage::activateStyleID(type_id);
+  for (auto& iter_node : screen_graph) {
+    bwWidget* widget = iter_node.Widget();
+    if (!widget) {
+      continue;
+    }
+
+    const auto* checkbox = widget_cast<bwCheckbox*>(widget);
+    if (checkbox && checkbox->apply_functor) {
+      const auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
+          checkbox->apply_functor.get());
+      if (rna_functor && (rna_functor->getPropName() == "style_use_css_version")) {
+        widget->hidden = isUseCSSVersionToggleHidden(*Stage::style);
+      }
+    }
+  }
 }
 
-void UseCSSVersionToggleSetter::operator()()
+void DefaultStage::updateFontAAMode(bool value)
 {
-  stage.useStyleCSSVersionSet(checkbox.state == bwWidget::State::SUNKEN);
+  for (bwScreenGraph::Node& node : screen_graph.Root()) {
+    bwWidget* widget = node.Widget();
+    if (!widget) {
+      continue;
+    }
+    if (auto* iter_checkbox = widget_cast<bwCheckbox*>(widget)) {
+      if (iter_checkbox->apply_functor) {
+        const auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
+            iter_checkbox->apply_functor.get());
+        if (rna_functor && (rna_functor->getPropName() == "font_use_subpixel_positioning")) {
+          iter_checkbox->hidden = !value;
+        }
+      }
+    }
+  }
+}
+
+void DefaultStage::registerProperties(RNAProperties<DefaultStage>& properties)
+{
+  properties.defProperty<bwStyle::TypeID>(
+      "style_type",
+      [](DefaultStage& stage) { return stage.style->type_id; },
+      [](DefaultStage& stage, bwStyle::TypeID value) {
+        stage.activateStyleID(value);
+        stage.updateStyleButtons();
+      });
+  properties.defProperty<bool>(
+      "style_use_css_version",
+      [](DefaultStage&) { return style->type_id == bwStyle::TypeID::CLASSIC_CSS; },
+      [](DefaultStage& stage, bool value) { stage.useStyleCSSVersionSet(value); });
+
+  properties.defProperty<bool>(
+      "font_use_tight_positioning",
+      [](DefaultStage&) { return true; }, /* TODO */
+      [](DefaultStage&, bool value) { Stage::setFontTightPositioning(value); });
+  properties.defProperty<bool>(
+      "font_use_hinting",
+      [](DefaultStage&) { return true; }, /* TODO */
+      [](DefaultStage&, bool value) { Stage::setFontHinting(value); });
+  properties.defProperty<bool>(
+      "font_use_subpixels",
+      [](DefaultStage&) { return true; }, /* TODO */
+      [](DefaultStage& stage, bool value) {
+        Stage::setFontAntiAliasingMode(value ? Font::SUBPIXEL_LCD_RGB_COVERAGE :
+                                               Font::NORMAL_COVERAGE);
+        stage.updateFontAAMode(value);
+      });
+  properties.defProperty<bool>(
+      "font_use_subpixel_positioning",
+      [](DefaultStage&) { return true; }, /* TODO */
+      [](DefaultStage& stage, bool value) { stage.setFontSubPixelPositioning(value); });
+
+  properties.defProperty<float>(
+      "interface_scale",
+      [](DefaultStage& stage) { return stage.interface_scale; }, /* TODO */
+      [](DefaultStage& stage, float value) { stage.setInterfaceScale(value); });
 }
 
 }  // namespace bWidgetsDemo

@@ -29,6 +29,8 @@
 #include "screen_graph/Node.h"
 #include "screen_graph/ScreenGraph.h"
 
+#include "RNAProperty.h"
+
 #include "Font.h"
 
 namespace bWidgetsDemo {

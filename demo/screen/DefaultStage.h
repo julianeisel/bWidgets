@@ -28,17 +28,22 @@ namespace bWidgetsDemo {
 class DefaultStage : public Stage {
   friend class ScaleSetter;
   friend class StyleSetter;
-  friend class UseCSSVersionToggleSetter;
 
  public:
   DefaultStage(unsigned int mask_width, unsigned int mask_height);
 
  private:
+  RNAProperties<DefaultStage> properties;
+
+  void registerProperties(RNAProperties<DefaultStage>& properties);
+
   void activateStyleID(bWidgets::bwStyle::TypeID) override;
   void addStyleSelector(bWidgets::bwScreenGraph::LayoutNode& parent_node);
-  void addFakeSpacer(bWidgets::bwScreenGraph::LayoutNode& parent_node);
+  void updateFontAAMode(bool value);
 
   void useStyleCSSVersionSet(const bool use_css_version);
+  void updateStyleButtons();
+  bool updateStyleButton(bWidgets::bwWidget& widget_iter);
 
   const unsigned int padding = 10;
 };
