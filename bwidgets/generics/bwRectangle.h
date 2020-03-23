@@ -83,14 +83,26 @@ template<typename T> class bwRectangle {
     if (xmin < boundary.xmin) {
       xmin = boundary.xmin;
     }
+    if (xmin > boundary.xmax) {
+      xmin = boundary.xmax;
+    }
     if (xmax > boundary.xmax) {
       xmax = boundary.xmax;
+    }
+    if (xmax < boundary.xmin) {
+      xmax = boundary.xmin;
     }
     if (ymin < boundary.ymin) {
       ymin = boundary.ymin;
     }
+    if (ymin > boundary.ymax) {
+      ymin = boundary.ymax;
+    }
     if (ymax > boundary.ymax) {
       ymax = boundary.ymax;
+    }
+    if (ymax < boundary.ymin) {
+      ymax = boundary.ymin;
     }
   }
 
