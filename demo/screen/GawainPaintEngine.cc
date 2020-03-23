@@ -19,6 +19,8 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
+#include <cmath>
+
 extern "C" {
 #include "../../extern/gawain/gawain/immediate.h"
 }
@@ -211,7 +213,7 @@ void GawainPaintEngine::drawText(const bwPainter& painter,
 
   font.setActiveColor(painter.getActiveColor());
   font.setMask(painter.getContentMask());
-  font.render(text, draw_pos_x, draw_pos_y);
+  font.render(text, std::floor(draw_pos_x), std::floor(draw_pos_y));
 }
 
 // --------------------------------------------------------------------
@@ -249,10 +251,8 @@ static void engine_icon_texture_draw(const bwRectanglePixel& icon_rect)
 /**
  * Enables necessary GL states, generates and binds the texture.
  */
-static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap)
+static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap, GLuint texture_id)
 {
-  GLuint texture_id;
-
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
 
@@ -274,10 +274,11 @@ static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap)
                GL_UNSIGNED_BYTE,
                pixmap.getBytes().data());
 }
-static void engine_icon_texture_drawing_cleanup()
+static void engine_icon_texture_drawing_cleanup(GLuint texture_id)
 {
   glDisable(GL_BLEND);
   glBindTexture(GL_TEXTURE_2D, 0);
+  glDeleteTextures(1, &texture_id);
 }
 
 /**
@@ -304,12 +305,13 @@ void GawainPaintEngine::drawIcon(const bwPainter& /*painter*/,
   const auto& icon = static_cast<const Icon&>(icon_interface);
   const Pixmap& pixmap = icon.getPixmap();
   bwRectanglePixel icon_rect;
+  GLuint texture_id = 0;
 
   engine_icon_rectangle_adjust(icon_rect, rectangle, pixmap);
 
-  engine_icon_texture_drawing_prepare(pixmap);
+  engine_icon_texture_drawing_prepare(pixmap, texture_id);
   engine_icon_texture_draw(icon_rect);
-  engine_icon_texture_drawing_cleanup();
+  engine_icon_texture_drawing_cleanup(texture_id);
 }
 
 }  // namespace bWidgetsDemo

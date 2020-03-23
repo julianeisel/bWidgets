@@ -109,7 +109,6 @@ static unsigned int getGLFormatFromNumChannels(unsigned int num_channels)
 
 void Font::render(const std::string& text, const int pos_x, const int pos_y)
 {
-  GLuint tex;
   ShaderProgram::ShaderProgramID program_id =
       render_mode == SUBPIXEL_LCD_RGB_COVERAGE ?
           ShaderProgram::ID_SUBPIXEL_BITMAP_TEXTURE_UNIFORM_COLOR :
@@ -121,6 +120,7 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
   const FontGlyph* previous_glyph = nullptr;
   Pen pen(FixedNum<F16p16>::fromInt(pos_x), FixedNum<F16p16>::fromInt(pos_y));
   int old_scissor[4];
+  GLuint tex;
 
   cache.ensureUpdated(*this);
 
@@ -159,8 +159,7 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
   for (char character : text) {
     const FontGlyph& glyph = cache.getCachedGlyph(*this, character);
 
-    if (!mask.isEmpty() &&
-        ((pen.x + glyph.advance_width) > FixedNum<F16p16>::fromInt(mask.xmax))) {
+    if (!mask.isEmpty() && ((pen.x) > FixedNum<F16p16>::fromInt(mask.xmax))) {
       break;
     }
     if (!glyph.is_valid) {
@@ -177,6 +176,7 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glDisable(GL_BLEND);
+  glBindTexture(GL_TEXTURE_2D, 0);
   glDeleteTextures(1, &tex);
   immUnbindProgram();
 }
@@ -316,11 +316,6 @@ const bWidgets::bwColor& Font::getActiveColor() const
 void Font::setActiveColor(const bWidgets::bwColor& value)
 {
   active_color = value;
-}
-
-const bWidgets::bwRectanglePixel& Font::getMask() const
-{
-  return mask;
 }
 
 void Font::setMask(const bWidgets::bwRectanglePixel& value)

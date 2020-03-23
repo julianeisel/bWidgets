@@ -72,7 +72,6 @@ class Font {
   const bWidgets::bwColor& getActiveColor() const;
   void setActiveColor(const bWidgets::bwColor& value);
 
-  const bWidgets::bwRectanglePixel& getMask() const;
   void setMask(const bWidgets::bwRectanglePixel& value);
 
  private:

@@ -43,7 +43,7 @@ FixedNum<_Type> FixedNum<_Type>::fromInt(typename _Type::value_type _value)
 }
 template<typename _Type> int FixedNum<_Type>::toInt() const
 {
-  return value / getScaleFactor<_Type>();
+  return value / typename _Type::value_type(getScaleFactor<_Type>());
 }
 
 template<typename _Type> double FixedNum<_Type>::toReal() const
