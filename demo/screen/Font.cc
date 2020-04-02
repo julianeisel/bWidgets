@@ -218,7 +218,7 @@ float Font::calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) 
     return previous_glyph ? (float)previous_glyph->advance_width.getFractionAsReal() : 0.0f;
   }
   else {
-    return pen.x.getFractionAsReal();
+    return float(pen.x.getFractionAsReal());
   }
 }
 
@@ -253,7 +253,7 @@ void Font::renderGlyph(const FontGlyph& glyph,
 
   if (render_mode == SUBPIXEL_LCD_RGB_COVERAGE) {
     immUniform1f("subpixel_offset",
-                 use_subpixel_pos ? calcSubpixelOffset(pen, previous_glyph) : 0.0);
+                 use_subpixel_pos ? calcSubpixelOffset(pen, previous_glyph) : 0.0f);
   }
 
   if (has_texture) {
@@ -411,13 +411,15 @@ static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph,
   if (use_subpixel_postioning) {
     /* Increase width by 1px so we can draw with subpixel offset of up to 1px. */
 
-    const unsigned char* src_p = freetype_glyph->bitmap.buffer;
-    unsigned char* dst_p = &pixmap.getBytes()[0];
+    if (pixmap.getBytes().size() > 0) {
+      const unsigned char* src_p = freetype_glyph->bitmap.buffer;
+      unsigned char* dst_p = &pixmap.getBytes()[0];
 
-    for (unsigned int row = 0; row < height; row++) {
-      std::copy_n(src_p, freetype_glyph->bitmap.width, dst_p);
-      dst_p += (width * num_channels) + row_padding;
-      src_p += abs(freetype_glyph->bitmap.pitch);
+      for (unsigned int row = 0; row < height; row++) {
+        std::copy_n(src_p, freetype_glyph->bitmap.width, dst_p);
+        dst_p += (width * num_channels) + row_padding;
+        src_p += abs(freetype_glyph->bitmap.pitch);
+      }
     }
   }
   else {

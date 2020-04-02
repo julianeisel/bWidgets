@@ -90,6 +90,9 @@ PreOrderIterator& PreOrderIterator::operator++()
         // next candidate for the iterator is the parents next sibling.
         node_iter = ++(*parent_iter);
         ancestors.pop_back();
+        if (ancestors.empty()) {
+          break;
+        }
       }
     }
   }
@@ -97,6 +100,7 @@ PreOrderIterator& PreOrderIterator::operator++()
     if (!is_root) {
       ancestors.push_back(node_iter);
     }
+    node = nullptr;
     node_iter = childs->begin();
     is_root = false;
   }
