@@ -2,7 +2,8 @@
 
 #include "Builder.h"
 
-namespace bWidgets::bwScreenGraph {
+namespace bWidgets {
+namespace bwScreenGraph {
 
 Builder::Builder(LayoutNode& active_layout_node) : _active_layout_node(&active_layout_node)
 {
@@ -31,4 +32,5 @@ void Builder::setActiveLayout(LayoutNode& node)
   _active_layout_node = &node;
 }
 
-}  // namespace bWidgets::bwScreenGraph
+}  // namespace bwScreenGraph
+}  // namespace bWidgets

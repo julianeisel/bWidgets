@@ -27,11 +27,12 @@ class PreOrderIterator {
  public:
   PreOrderIterator();
   PreOrderIterator(Node& node);
+  ~PreOrderIterator();
 
   // Delete copy but keep move constructor for now. We store a parent path
   // below which would require deep copying. So prefer move over copy.
   PreOrderIterator(const PreOrderIterator&) = delete;
-  PreOrderIterator(PreOrderIterator&&) = default;
+  PreOrderIterator(PreOrderIterator&&);
 
   bool operator!=(const PreOrderIterator&) const;
   Node& operator*();
@@ -42,7 +43,7 @@ class PreOrderIterator {
     Node* node;
     Node::ChildList::iterator node_iter;
   };
-  Node* root;
+  Node* root = nullptr;
   bool is_root = true;
   // Ancestors up to (but excluding!) node that started iteration.
   std::list<Node::ChildList::iterator> ancestors;

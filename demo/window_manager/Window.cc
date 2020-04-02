@@ -89,7 +89,7 @@ const bWidgets::bwPoint Window::getCursorPosition() const
   glfwGetCursorPos(glfw_window, &x, &y);
   glfwGetWindowSize(glfw_window, nullptr, &win_size_y);
 
-  return bWidgets::bwPoint(x, win_size_y - y);
+  return bWidgets::bwPoint(float(x), float(win_size_y - y));
 }
 
 void Window::handleResizeEvent(const int new_win_x, const int new_win_y)

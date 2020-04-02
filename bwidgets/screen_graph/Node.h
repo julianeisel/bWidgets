@@ -167,6 +167,25 @@ class WidgetNode : virtual public Node {
  */
 class ContainerNode : public LayoutNode, public WidgetNode {
  public:
+  const ChildList* Children() const override
+  {
+    return LayoutNode::Children();
+  }
+  ChildList* Children() override
+  {
+    return LayoutNode::Children();
+  }
+
+  bwLayoutInterface* Layout() const override
+  {
+    return LayoutNode::Layout();
+  }
+
+  bwWidget* Widget() const
+  {
+    return WidgetNode::Widget();
+  }
+
   bwContainerWidget& ContainerWidget() const
   {
     return static_cast<bwContainerWidget&>(*Widget());

@@ -27,7 +27,7 @@ class bwPolygon {
 
  protected:
   bwPointVec vertices{};
-  unsigned long int vert_count{0};
+  size_t vert_count{0};
 };
 
 }  // namespace bWidgets

@@ -97,7 +97,7 @@ bwColor ColorPropertyParser::parseFromFunction(const KatanaValue& value) const
         continue;
       }
       assert(arg_value->unit == KATANA_VALUE_NUMBER);
-      color[color_index++] = arg_value->fValue / 255.0f;
+      color[color_index++] = float(arg_value->fValue / 255.0f);
     }
 
     return color;

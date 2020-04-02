@@ -34,7 +34,7 @@ bwRectanglePixel bwScrollView::getVerticalScrollbarRect(const bwStyle& style) co
 {
   bwRectanglePixel scroll_rectangle{rectangle};
   /* TODO hardcoded padding */
-  const unsigned int padding = 4u * (unsigned int)style.dpi_fac;
+  const int padding = 4 * (int)style.dpi_fac;
 
   scroll_rectangle.xmin = scroll_rectangle.xmax - bwScrollView::getScrollbarWidth(style.dpi_fac) -
                           padding;

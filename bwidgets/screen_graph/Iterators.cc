@@ -1,13 +1,35 @@
 #include "Iterators.h"
 
-namespace bWidgets::bwScreenGraph {
+namespace bWidgets {
+namespace bwScreenGraph {
 
 PreOrderIterator::PreOrderIterator() : node(nullptr)
 {
 }
 
+PreOrderIterator::~PreOrderIterator()
+{
+}
+
 PreOrderIterator::PreOrderIterator(Node& node) : node(&node), root(&node)
 {
+}
+
+PreOrderIterator::PreOrderIterator(PreOrderIterator&& other)
+    : ancestors(std::move(other.ancestors))
+{
+  if (other.is_root) {
+    is_root = true;
+    node = other.node;
+    other.node = nullptr;
+  }
+  else {
+    is_root = false;
+    node_iter = other.node_iter;
+    other.node_iter = {};
+  }
+  root = other.root;
+  other.root = nullptr;
 }
 
 bool PreOrderIterator::operator!=(const PreOrderIterator& other) const
@@ -99,4 +121,5 @@ PreOrderIterator end(ScreenGraph& screen_graph)
   return end(screen_graph.Root());
 }
 
-}  // namespace bWidgets::bwScreenGraph
+}  // namespace bwScreenGraph
+}  // namespace bWidgets

@@ -30,6 +30,7 @@ bwPtr<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::TypeID type)
       return bwPtr_new<bwStyleFlatLight>();
     default:
       assert(0);
+      return nullptr;
   }
 }
 

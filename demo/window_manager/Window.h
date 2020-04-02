@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "bwUtil.h"
 
 struct GLFWwindow;
