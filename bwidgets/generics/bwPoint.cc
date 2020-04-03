@@ -32,7 +32,7 @@ bwPoint operator-(const bwPoint& lhs, const bwPoint& rhs)
 
 float distance(bwPoint a, bwPoint b)
 {
-  return std::sqrtf(std::powf(a.x - b.x, 2.0f) + std::powf(a.y - b.y, 2.0f));
+  return std::sqrt(std::pow(a.x - b.x, 2.0f) + std::pow(a.y - b.y, 2.0f));
 }
 
 }  // namespace bWidgets
