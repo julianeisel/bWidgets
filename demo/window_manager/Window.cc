@@ -21,6 +21,10 @@
 
 #include "DefaultStage.h"
 #include "EventManager.h"
+extern "C" {
+#include "gawain/gwn_immediate.h"
+#include "gawain/gwn_context.h"
+}
 #include "GPU.h"
 #include "Layout.h"
 
@@ -52,9 +56,10 @@ Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y
   glfw_window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
   glfwMakeContextCurrent(glfw_window);
 
-  glEnable(GL_SCISSOR_TEST);
-
   GPU_init();
+  gwn_context = GWN_context_create();
+
+  glEnable(GL_SCISSOR_TEST);
 
   EventManager::setupWindowHandlers(*this);
 
@@ -63,12 +68,27 @@ Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y
 
 Window::~Window()
 {
+  /* Let stage destruct shaders first. */
+  stage = nullptr;
+
+  GWN_context_active_set(gwn_context);
+  GPU_exit();
+  GWN_context_discard(gwn_context);
+
+  glfwMakeContextCurrent(nullptr);
   glfwDestroyWindow(glfw_window);
 }
 
 void Window::draw()
 {
+  GWN_context_active_set(gwn_context);
+  immActivate();
+
   stage->draw();
+
+  immDeactivate();
+  GWN_context_active_set(nullptr);
+
   glfwSwapBuffers(glfw_window);
 }
 

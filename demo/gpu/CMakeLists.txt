@@ -19,6 +19,7 @@
 
 set(INC
 	..
+	../extern/gawain
 	${GPU_INC}
 )
 

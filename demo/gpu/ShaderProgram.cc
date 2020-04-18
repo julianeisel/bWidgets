@@ -26,7 +26,7 @@
 
 #include "GPU.h"
 extern "C" {
-#include "../extern/gawain/gawain/shader_interface.h"
+#include "gawain/gwn_shader_interface.h"
 }
 
 #include "File.h"
@@ -144,16 +144,23 @@ ShaderProgram::ShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
 
   shader_ids = shaderprog_compileShaders(type);
   programID = shaderprog_linkProgram(shader_ids);
-  interface = ShaderInterface_create(programID);
+  interface = GWN_shaderinterface_create(programID);
 }
 
 ShaderProgram::~ShaderProgram()
 {
-  ShaderInterface_discard(interface);
+  GWN_shaderinterface_discard(interface);
   for (unsigned int shader_id : shader_ids) {
     glDeleteShader(shader_id);
   }
   glDeleteProgram(programID);
+}
+
+void ShaderProgram::clearAllCached()
+{
+  for (auto& prog : cache) {
+    prog = nullptr;
+  }
 }
 
 ShaderProgram& ShaderProgram::getShaderProgram(ShaderProgram::ShaderProgramID shader_program_id)
@@ -171,7 +178,7 @@ unsigned int ShaderProgram::ProgramID() const
   return programID;
 }
 
-const ShaderInterface& ShaderProgram::getInterface() const
+const Gwn_ShaderInterface& ShaderProgram::getInterface() const
 {
   return *interface;
 }

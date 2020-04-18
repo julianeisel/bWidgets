@@ -39,6 +39,7 @@
 #include "GawainPaintEngine.h"
 #include "IconMap.h"
 #include "Layout.h"
+#include "ShaderProgram.h"
 #include "StyleSheet.h"
 #include "Window.h"
 
@@ -83,6 +84,11 @@ Stage::Stage(const unsigned int width, const unsigned int height)
   activateStyleID(bwStyle::TypeID::CLASSIC);
 
   setFontTightPositioning(true);
+}
+
+Stage::~Stage()
+{
+  ShaderProgram::clearAllCached();
 }
 
 void Stage::initFonts()

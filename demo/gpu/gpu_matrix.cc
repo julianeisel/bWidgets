@@ -24,7 +24,7 @@
 #include <cstring>
 
 extern "C" {
-#include "../extern/gawain/gawain/shader_interface.h"
+#include "gawain/gwn_shader_interface.h"
 }
 
 #include "glm.hpp"
@@ -102,20 +102,24 @@ static glm::mat4 gpuGetNormalMatrix()
   return normal_mat;
 }
 
-void gpuBindMatrices(const ShaderInterface* shaderface)
+void GPU_matrix_bind(const Gwn_ShaderInterface* shaderface)
 {
   /* set uniform values to matrix stack values
    * call this before a draw call if desired matrices are dirty
    * call glUseProgram before this, as glUniform expects program to be bound
    */
 
-  const ShaderInput* MV = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MODELVIEW);
-  const ShaderInput* P = ShaderInterface_builtin_uniform(shaderface, UNIFORM_PROJECTION);
-  const ShaderInput* MVP = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MVP);
+  const Gwn_ShaderInput* MV = GWN_shaderinterface_uniform_builtin(shaderface,
+                                                                  GWN_UNIFORM_MODELVIEW);
+  const Gwn_ShaderInput* P = GWN_shaderinterface_uniform_builtin(shaderface,
+                                                                 GWN_UNIFORM_PROJECTION);
+  const Gwn_ShaderInput* MVP = GWN_shaderinterface_uniform_builtin(shaderface, GWN_UNIFORM_MVP);
 
-  const ShaderInput* N = ShaderInterface_builtin_uniform(shaderface, UNIFORM_NORMAL);
-  const ShaderInput* MV_inv = ShaderInterface_builtin_uniform(shaderface, UNIFORM_MODELVIEW_INV);
-  const ShaderInput* P_inv = ShaderInterface_builtin_uniform(shaderface, UNIFORM_PROJECTION_INV);
+  const Gwn_ShaderInput* N = GWN_shaderinterface_uniform_builtin(shaderface, GWN_UNIFORM_NORMAL);
+  const Gwn_ShaderInput* MV_inv = GWN_shaderinterface_uniform_builtin(shaderface,
+                                                                      GWN_UNIFORM_MODELVIEW_INV);
+  const Gwn_ShaderInput* P_inv = GWN_shaderinterface_uniform_builtin(shaderface,
+                                                                     GWN_UNIFORM_PROJECTION_INV);
 
   if (MV) {
 #if DEBUG_MATRIX_BIND
@@ -164,7 +168,7 @@ void gpuBindMatrices(const ShaderInterface* shaderface)
   state.dirty = false;
 }
 
-bool gpuMatricesDirty(void)
+bool GPU_matrix_dirty_get(void)
 {
   return state.dirty;
 }

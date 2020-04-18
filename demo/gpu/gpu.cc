@@ -23,7 +23,7 @@
 #include <iostream>
 
 extern "C" {
-#include "../extern/gawain/gawain/immediate.h"
+#include "gawain/gwn_immediate.h"
 }
 
 #include "GPU.h"

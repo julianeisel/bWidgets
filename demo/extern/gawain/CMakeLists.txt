@@ -17,42 +17,52 @@
 #
 # ***** END GPL LICENSE BLOCK *****
 
+# WITH_OPENGL limits the visibility of the opengl headers to just gawain and bg_gpu,
+# to more easily highlight codepadths in other libraries that need to be refactored,
+# bf_intern_gawain is allowed to have opengl regardless of this option.
+
+
 set(INC
 	../glew/include
 	gawain
 )
 
 set(SRC
-	src/attrib_binding.c
-	src/batch.c
-	src/element.c
-	src/buffer_id.cpp
-	src/immediate.c
-	src/imm_util.c
-	src/primitive.c
-	src/shader_interface.c
-	src/vertex_buffer.c
-	src/vertex_format.c
+	src/gwn_attr_binding.c
+	src/gwn_batch.c
+	src/gwn_element.c
+	src/gwn_buffer_id.cpp
+	src/gwn_immediate.c
+	src/gwn_imm_util.c
+	src/gwn_primitive.c
+	src/gwn_shader_interface.c
+	src/gwn_vertex_array_id.cpp
+	src/gwn_vertex_buffer.c
+	src/gwn_vertex_format.c
 
-	gawain/attrib_binding.h
-	gawain/batch.h
-	gawain/buffer_id.h
-	gawain/common.h
-	gawain/element.h
-	gawain/immediate.h
-	gawain/imm_util.h
-	gawain/primitive.h
-	gawain/shader_interface.h
-	gawain/vertex_buffer.h
-	gawain/vertex_format.h
+	gawain/gwn_attr_binding.h
+	gawain/gwn_attr_binding_private.h
+	gawain/gwn_batch.h
+	gawain/gwn_batch_private.h
+	gawain/gwn_buffer_id.h
+	gawain/gwn_common.h
+	gawain/gwn_element.h
+	gawain/gwn_imm_util.h
+	gawain/gwn_immediate.h
+	gawain/gwn_primitive.h
+	gawain/gwn_primitive_private.h
+	gawain/gwn_shader_interface.h
+	gawain/gwn_vertex_array_id.h
+	gawain/gwn_vertex_buffer.h
+	gawain/gwn_vertex_format.h
+	gawain/gwn_vertex_format_private.h
 )
 
 set(LIB
 	bwd_extern_glew
-	bwd_gpu
 )
 
-add_definitions(-DWITH_GL_PROFILE_CORE)
+add_definitions(-DWITH_GL_PROFILE_CORE -DWITH_OPENGL)
 
 add_library(bwd_extern_gawain ${SRC})
 include_directories(${INC})

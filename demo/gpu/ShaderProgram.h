@@ -48,15 +48,16 @@ class ShaderProgram {
   } ShaderProgramID;
   using ShaderIDArray = std::array<unsigned int, SHADER_TYPE_TOT>;
 
+  ~ShaderProgram();
+
   static ShaderProgram& getShaderProgram(ShaderProgramID shader_program_id);
+  static void clearAllCached();
 
   unsigned int ProgramID() const;
-  const ShaderInterface& getInterface() const;
+  const struct Gwn_ShaderInterface& getInterface() const;
 
  private:
   ShaderProgram(ShaderProgramID shader_program_id);
-  ~ShaderProgram();
-  friend bWidgets::bwPtr<ShaderProgram>::deleter_type;
 
   using ShaderProgramCache =
       std::array<bWidgets::bwPtr<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
@@ -64,7 +65,7 @@ class ShaderProgram {
 
   ShaderIDArray shader_ids = {};
   unsigned int programID = 0;
-  ShaderInterface* interface;
+  Gwn_ShaderInterface* interface;
 };
 
 }  // namespace bWidgetsDemo

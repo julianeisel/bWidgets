@@ -26,6 +26,7 @@
 #include "bwUtil.h"
 
 struct GLFWwindow;
+struct Gwn_Context;
 
 namespace bWidgets {
 class bwPoint;
@@ -68,6 +69,7 @@ class Window {
 
  private:
   GLFWwindow* glfw_window;
+  Gwn_Context* gwn_context;
   unsigned int VertexArrayID = 0;
 
   int width, height;

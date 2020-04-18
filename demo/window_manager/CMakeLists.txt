@@ -23,6 +23,7 @@ set(INC
 	..
 	../gpu
 	../utils
+	../extern/gawain
 )
 
 set(SRC

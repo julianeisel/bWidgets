@@ -22,7 +22,7 @@
 #include <cmath>
 
 extern "C" {
-#include "../../extern/gawain/gawain/immediate.h"
+#include "gawain/gwn_immediate.h"
 }
 #include "Font.h"
 #include "GPU.h"
@@ -78,24 +78,24 @@ static const float jit[WIDGET_AA_JITTER][2] = {{0.468813, -0.481430},
                                                {-0.272855, 0.269918},
                                                {0.095909, 0.388710}};
 
-static PrimitiveType stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype,
-                                                    bool use_antialiasing)
+static Gwn_PrimType stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype,
+                                                   bool use_antialiasing)
 {
   switch (drawtype) {
     case bwPainter::DrawType::FILLED:
-      return PRIM_TRIANGLE_FAN;
+      return GWN_PRIM_TRI_FAN;
     case bwPainter::DrawType::OUTLINE:
-      return use_antialiasing ? PRIM_TRIANGLE_STRIP : PRIM_LINE_LOOP;
+      return use_antialiasing ? GWN_PRIM_TRI_STRIP : GWN_PRIM_LINE_LOOP;
     case bwPainter::DrawType::LINE:
-      return PRIM_LINE_STRIP;
+      return GWN_PRIM_LINE_STRIP;
   }
 
-  return PRIM_NONE;
+  return GWN_PRIM_NONE;
 }
 
 static void stage_polygon_draw_uniform_color(const bwPolygon& poly,
                                              const bwColor& color,
-                                             const PrimitiveType type,
+                                             const Gwn_PrimType type,
                                              const unsigned int attr_pos)
 {
   const bwPointVec& vertices = poly.getVertices();
@@ -110,7 +110,7 @@ static void stage_polygon_draw_uniform_color(const bwPolygon& poly,
 }
 static void stage_polygon_draw_shaded(const bwPainter& painter,
                                       const bwPolygon& poly,
-                                      const PrimitiveType type,
+                                      const Gwn_PrimType type,
                                       const unsigned int attr_pos,
                                       const unsigned int attr_color)
 {
@@ -126,7 +126,7 @@ static void stage_polygon_draw_shaded(const bwPainter& painter,
 static void stage_polygon_draw(const bwPainter& painter,
                                const bwPolygon& poly,
                                const bwColor& color,
-                               const PrimitiveType type,
+                               const Gwn_PrimType type,
                                const unsigned int attr_pos,
                                const unsigned int attr_color)
 {
@@ -144,13 +144,13 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
   ShaderProgram& shader_program = ShaderProgram::getShaderProgram(
       is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
   const bwColor& color = painter.getActiveColor();
-  PrimitiveType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype,
-                                                           painter.use_antialiasing);
-  VertexFormat* format = immVertexFormat();
-  unsigned int attr_pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
-  unsigned int attr_color = is_shaded ?
-                                VertexFormat_add_attrib(format, "color", COMP_F32, 4, KEEP_FLOAT) :
-                                0;
+  Gwn_PrimType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype,
+                                                          painter.use_antialiasing);
+  Gwn_VertFormat* format = immVertexFormat();
+  unsigned int attr_pos = GWN_vertformat_attr_add(format, "pos", GWN_COMP_F32, 2, GWN_FETCH_FLOAT);
+  unsigned int attr_color = is_shaded ? GWN_vertformat_attr_add(
+                                            format, "color", GWN_COMP_F32, 4, GWN_FETCH_FLOAT) :
+                                        0;
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
@@ -222,15 +222,16 @@ void GawainPaintEngine::drawText(const bwPainter& painter,
 static void engine_icon_texture_draw(const bwRectanglePixel& icon_rect)
 {
   ShaderProgram& shader_program = ShaderProgram::getShaderProgram(ShaderProgram::ID_TEXTURE_RECT);
-  VertexFormat* format = immVertexFormat();
-  unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
-  unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
+  Gwn_VertFormat* format = immVertexFormat();
+  unsigned int pos = GWN_vertformat_attr_add(format, "pos", GWN_COMP_F32, 2, GWN_FETCH_FLOAT);
+  unsigned int texcoord = GWN_vertformat_attr_add(
+      format, "texCoord", GWN_COMP_F32, 2, GWN_FETCH_FLOAT);
 
   immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
   immUniformColor4fv(bwColor(1.0f, 1.0f));
   immUniform1i("image", 0);
 
-  immBegin(PRIM_TRIANGLE_STRIP, 4);
+  immBegin(GWN_PRIM_TRI_STRIP, 4);
 
   immAttrib2f(texcoord, 0.0f, 0.0f);
   immVertex2f(pos, icon_rect.xmin, icon_rect.ymin);

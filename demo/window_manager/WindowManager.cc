@@ -53,7 +53,6 @@ WindowManager& WindowManager::getWindowManager()
 WindowManager::~WindowManager()
 {
   windows.clear();  // Destroy windows before calling glfwTerminate().
-  GPU_exit();
   glfwTerminate();
 }
 

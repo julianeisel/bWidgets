@@ -23,6 +23,7 @@ set(INC
 	${PNG_PNG_INCLUDE_DIR}
 	..
 	../extern/katana-parser/src
+	../extern/gawain
 	../gpu
 	../resources
 	../stylesheet

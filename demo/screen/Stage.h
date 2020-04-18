@@ -40,7 +40,7 @@ class Stage {
 
  public:
   Stage(const unsigned int mask_width, const unsigned int mask_height);
-  virtual ~Stage() = default;
+  virtual ~Stage();
 
   void draw();
 

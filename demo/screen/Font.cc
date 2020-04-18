@@ -30,8 +30,9 @@
 #include "bwUtil.h"
 
 // drawing
+#include "GPU.h"
 extern "C" {
-#include "../../extern/gawain/gawain/immediate.h"
+#include "gawain/gwn_immediate.h"
 }
 #include "FixedNum.h"
 #include "ShaderProgram.h"
@@ -114,9 +115,10 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
           ShaderProgram::ID_SUBPIXEL_BITMAP_TEXTURE_UNIFORM_COLOR :
           ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR;
   ShaderProgram& shader_program = ShaderProgram::getShaderProgram(program_id);
-  VertexFormat* format = immVertexFormat();
-  unsigned int pos = VertexFormat_add_attrib(format, "pos", COMP_F32, 2, KEEP_FLOAT);
-  unsigned int texcoord = VertexFormat_add_attrib(format, "texCoord", COMP_F32, 2, KEEP_FLOAT);
+  Gwn_VertFormat* format = immVertexFormat();
+  unsigned int pos = GWN_vertformat_attr_add(format, "pos", GWN_COMP_F32, 2, GWN_FETCH_FLOAT);
+  unsigned int texcoord = GWN_vertformat_attr_add(
+      format, "texCoord", GWN_COMP_F32, 2, GWN_FETCH_FLOAT);
   const FontGlyph* previous_glyph = nullptr;
   Pen pen(FixedNum<F16p16>::fromInt(pos_x), FixedNum<F16p16>::fromInt(pos_y));
   int old_scissor[4];
@@ -200,7 +202,7 @@ static void render_glyph_texture(const Pixmap& pixmap,
   glTexImage2D(
       GL_TEXTURE_2D, 0, gl_format, w, h, 0, gl_format, GL_UNSIGNED_BYTE, &pixmap.getBytes()[0]);
 
-  immBegin(PRIM_TRIANGLE_STRIP, 4);
+  immBegin(GWN_PRIM_TRI_STRIP, 4);
   immAttrib2f(attr_texcoord, 0.0f, 0.0f);
   immVertex2f(attr_pos, draw_pos.x, draw_pos.y);
   immAttrib2f(attr_texcoord, 1.0f, 0.0f);
