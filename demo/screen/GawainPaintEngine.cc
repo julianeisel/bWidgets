@@ -26,8 +26,8 @@ extern "C" {
 }
 #include "Font.h"
 #include "GPU.h"
+#include "GPUShader.h"
 #include "IconMap.h"
-#include "ShaderProgram.h"
 
 #include "bwPainter.h"
 #include "bwPoint.h"
@@ -141,8 +141,6 @@ static void stage_polygon_draw(const bwPainter& painter,
 void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& poly)
 {
   const bool is_shaded = painter.isGradientEnabled();
-  ShaderProgram& shader_program = ShaderProgram::getShaderProgram(
-      is_shaded ? ShaderProgram::ID_SMOOTH_COLOR : ShaderProgram::ID_UNIFORM_COLOR);
   const bwColor& color = painter.getActiveColor();
   Gwn_PrimType prim_type = stage_polygon_drawtype_convert(painter.active_drawtype,
                                                           painter.use_antialiasing);
@@ -155,7 +153,7 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
 
-  immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
+  GPUShader::immBind(is_shaded ? GPUShader::ID_SMOOTH_COLOR : GPUShader::ID_UNIFORM_COLOR);
 
   if (painter.use_antialiasing) {
     bwColor drawcolor = color;
@@ -172,7 +170,7 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
     stage_polygon_draw(painter, poly, color, prim_type, attr_pos, attr_color);
   }
 
-  immUnbindProgram();
+  GPUShader::immUnbind();
   glDisable(GL_BLEND);
 }
 
@@ -221,13 +219,12 @@ void GawainPaintEngine::drawText(const bwPainter& painter,
 
 static void engine_icon_texture_draw(const bwRectanglePixel& icon_rect)
 {
-  ShaderProgram& shader_program = ShaderProgram::getShaderProgram(ShaderProgram::ID_TEXTURE_RECT);
   Gwn_VertFormat* format = immVertexFormat();
   unsigned int pos = GWN_vertformat_attr_add(format, "pos", GWN_COMP_F32, 2, GWN_FETCH_FLOAT);
   unsigned int texcoord = GWN_vertformat_attr_add(
       format, "texCoord", GWN_COMP_F32, 2, GWN_FETCH_FLOAT);
 
-  immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
+  GPUShader::immBind(GPUShader::ID_TEXTURE_RECT);
   immUniformColor4fv(bwColor(1.0f, 1.0f));
   immUniform1i("image", 0);
 
@@ -246,13 +243,13 @@ static void engine_icon_texture_draw(const bwRectanglePixel& icon_rect)
   immVertex2f(pos, icon_rect.xmax, icon_rect.ymax);
 
   immEnd();
-  immUnbindProgram();
+  GPUShader::immUnbind();
 }
 
 /**
  * Enables necessary GL states, generates and binds the texture.
  */
-static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap, GLuint texture_id)
+static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap, GLuint& texture_id)
 {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
@@ -277,6 +274,8 @@ static void engine_icon_texture_drawing_prepare(const Pixmap& pixmap, GLuint tex
 }
 static void engine_icon_texture_drawing_cleanup(GLuint texture_id)
 {
+  assert(texture_id != 0);
+
   glDisable(GL_BLEND);
   glBindTexture(GL_TEXTURE_2D, 0);
   glDeleteTextures(1, &texture_id);

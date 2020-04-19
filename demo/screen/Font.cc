@@ -31,11 +31,11 @@
 
 // drawing
 #include "GPU.h"
+#include "GPUShader.h"
 extern "C" {
 #include "gawain/gwn_immediate.h"
 }
 #include "FixedNum.h"
-#include "ShaderProgram.h"
 
 #include "Font.h"
 
@@ -110,11 +110,6 @@ static unsigned int getGLFormatFromNumChannels(unsigned int num_channels)
 
 void Font::render(const std::string& text, const int pos_x, const int pos_y)
 {
-  ShaderProgram::ShaderProgramID program_id =
-      render_mode == SUBPIXEL_LCD_RGB_COVERAGE ?
-          ShaderProgram::ID_SUBPIXEL_BITMAP_TEXTURE_UNIFORM_COLOR :
-          ShaderProgram::ID_BITMAP_TEXTURE_UNIFORM_COLOR;
-  ShaderProgram& shader_program = ShaderProgram::getShaderProgram(program_id);
   Gwn_VertFormat* format = immVertexFormat();
   unsigned int pos = GWN_vertformat_attr_add(format, "pos", GWN_COMP_F32, 2, GWN_FETCH_FLOAT);
   unsigned int texcoord = GWN_vertformat_attr_add(
@@ -135,7 +130,9 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-  immBindProgram(shader_program.ProgramID(), &shader_program.getInterface());
+  GPUShader::immBind(render_mode == SUBPIXEL_LCD_RGB_COVERAGE ?
+                         GPUShader::ID_SUBPIXEL_BITMAP_TEXTURE_UNIFORM_COLOR :
+                         GPUShader::ID_BITMAP_TEXTURE_UNIFORM_COLOR);
   immUniformColor4fv(active_color);
 
   glEnable(GL_BLEND);
@@ -180,7 +177,7 @@ void Font::render(const std::string& text, const int pos_x, const int pos_y)
   glDisable(GL_BLEND);
   glBindTexture(GL_TEXTURE_2D, 0);
   glDeleteTextures(1, &tex);
-  immUnbindProgram();
+  GPUShader::immUnbind();
 }
 
 static void render_glyph_texture(const Pixmap& pixmap,

@@ -24,10 +24,6 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
-typedef enum GPUShaderID {
-  GPU_SHADER_2D_UNIFORM_COLOR,
-} GPUShaderID;
-
 void GPU_init();
 void GPU_exit();
 

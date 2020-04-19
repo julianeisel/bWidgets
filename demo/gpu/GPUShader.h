@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  *
- * Original work Copyright (c) 2018 Julian Eisel
+ * Original work Copyright (c) 2020 Julian Eisel
  *
  * ***** END GPL LICENSE BLOCK *****
  */
@@ -26,16 +26,13 @@
 
 #include "bwUtil.h"
 
+#include "GPU.h"
+
+struct Gwn_ShaderInterface;
+
 namespace bWidgetsDemo {
 
-typedef enum ShaderTypeID {
-  SHADER_TYPE_VERTEX,
-  SHADER_TYPE_FRAGMENT,
-
-  SHADER_TYPE_TOT
-} ShaderTypeID;
-
-class ShaderProgram {
+class GPUShader {
  public:
   typedef enum {
     ID_UNIFORM_COLOR,
@@ -44,28 +41,28 @@ class ShaderProgram {
     ID_SUBPIXEL_BITMAP_TEXTURE_UNIFORM_COLOR,
     ID_TEXTURE_RECT,
 
-    SHADER_PROGRAM_ID_TOT
-  } ShaderProgramID;
-  using ShaderIDArray = std::array<unsigned int, SHADER_TYPE_TOT>;
+    SHADER_ID_TOT
+  } ID;
 
-  ~ShaderProgram();
+  ~GPUShader();
 
-  static ShaderProgram& getShaderProgram(ShaderProgramID shader_program_id);
-  static void clearAllCached();
+  static void clearCache();
 
-  unsigned int ProgramID() const;
-  const struct Gwn_ShaderInterface& getInterface() const;
+  static void immBind(ID id);
+  static void immUnbind();
 
  private:
-  ShaderProgram(ShaderProgramID shader_program_id);
+  GPUShader(const std::string& vertexcode, const std::string& fragcode);
 
-  using ShaderProgramCache =
-      std::array<bWidgets::bwPtr<ShaderProgram>, ShaderProgram::SHADER_PROGRAM_ID_TOT>;
-  static ShaderProgramCache cache;
+  static std::unique_ptr<GPUShader> createFromID(GPUShader::ID id);
+  static GPUShader& ensureCached(ID id);
 
-  ShaderIDArray shader_ids = {};
-  unsigned int programID = 0;
-  Gwn_ShaderInterface* interface;
+  GLuint m_program;
+
+  GLuint m_vertex;
+  GLuint m_fragment;
+
+  Gwn_ShaderInterface* m_interface;
 };
 
 }  // namespace bWidgetsDemo

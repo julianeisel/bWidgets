@@ -26,11 +26,11 @@ set(INC
 set(SRC
 	gpu.cc
 	gpu_matrix.cc
-	ShaderProgram.cc
+	GPUShader.cc
 
 	GPU.h
 	gpu_intern.h
-	ShaderProgram.h
+	GPUShader.h
 
 	shaders/pixel_alpha_mask_texture_uniform_color_frag.glsl
 	shaders/subpixel_alpha_mask_texture_uniform_color_frag.glsl
