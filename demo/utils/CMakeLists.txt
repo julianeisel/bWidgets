@@ -17,15 +17,16 @@
 #
 # ***** END GPL LICENSE BLOCK *****
 
-set(INC
-)
+# No source files here, causing error on clang.
+if(False)
+	set(INC
+	)
 
-set(SRC
-	FixedNum.cc
+	set(SRC
+		FixedNum.h
+	)
 
-	FixedNum.h
-)
-
-add_library(bwd_utils ${SRC})
-include_directories(${INC})
-set_target_properties(bwd_utils PROPERTIES LINKER_LANGUAGE CXX)
+	add_library(bwd_utils ${SRC})
+	include_directories(${INC})
+	set_target_properties(bwd_utils PROPERTIES LINKER_LANGUAGE CXX)
+endif()

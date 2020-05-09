@@ -565,6 +565,8 @@ void swap(bwOptional<_T>& lhs, bwOptional<_T>& rhs)
 
 namespace std {
 
+/* This specialization for std::hash<bwOptional<>> only seems to work on Linux GCC. */
+#if defined(__GNUC__) && !defined(__clang__)
 template<typename _Type, typename> using __enable_hash_helper_impl = _Type;
 template<typename _Type, typename _KeyType>
 using __enable_hash_helper =
@@ -580,6 +582,7 @@ struct hash<__enable_hash_helper<bWidgets::bwOptional<_T>, typename remove_const
     return opt ? hash<typename remove_const<_T>::type>()(*opt) : 0;
   }
 };
+#endif
 
 /** \endcond */  // End excluding symbols from Doxygen input.
 

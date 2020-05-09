@@ -29,6 +29,9 @@
  * Gawain immediate mode drawing utilities
  */
 
+/* bWidgets-only */
+#include "gwn_common.h"
+
 #include "gwn_imm_util.h"
 #include "gwn_immediate.h"
 #include <stdlib.h>

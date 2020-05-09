@@ -181,7 +181,7 @@ class ContainerNode : public LayoutNode, public WidgetNode {
     return LayoutNode::Layout();
   }
 
-  bwWidget* Widget() const
+  bwWidget* Widget() const override
   {
     return WidgetNode::Widget();
   }

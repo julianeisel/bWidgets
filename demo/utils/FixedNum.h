@@ -84,4 +84,58 @@ template<typename _Type> class FixedNum {
   typename _Type::value_type value{0};
 };
 
+template<typename _Type> constexpr unsigned int getScaleFactor()
+{
+  // Simple, type safe bitshift, e.g. `1 << 16` for 16.16, `1L << 32` for
+  // 32.32 fixed number. Note that this gets evaluated at compile time
+  // (constexpr).
+  return (typename _Type::value_type(1) << _Type::bits_fraction);
+}
+
+template<typename _Type>
+FixedNum<_Type> FixedNum<_Type>::fromInt(typename _Type::value_type _value)
+{
+  return FixedNum(_value * getScaleFactor<_Type>());
+}
+template<typename _Type> int FixedNum<_Type>::toInt() const
+{
+  return value / typename _Type::value_type(getScaleFactor<_Type>());
+}
+
+template<typename _Type> double FixedNum<_Type>::toReal() const
+{
+  return double(value) / getScaleFactor<_Type>();
+}
+
+template<typename _Type> double FixedNum<_Type>::getFractionAsReal() const
+{
+  return toReal() - toInt();
+}
+
+template<typename _Type> FixedNum<_Type>& FixedNum<_Type>::round()
+{
+  value += getScaleFactor<_Type>() / 2;
+  return floor();
+}
+
+template<typename _Type> FixedNum<_Type>& FixedNum<_Type>::floor()
+{
+  value &= ~(getScaleFactor<_Type>() - 1);
+  return *this;
+}
+
+template<typename _Type> FixedNum<_Type>& FixedNum<_Type>::operator+=(const FixedNum& other)
+{
+  value += other.value;
+  return *this;
+}
+
+template<typename _Type>
+template<typename _OtherType>
+FixedNum<_Type>::operator FixedNum<_OtherType>() const
+{
+  return FixedNum<_OtherType>(value *
+                              (double(getScaleFactor<_OtherType>()) / getScaleFactor<_Type>()));
+}
+
 }  // namespace bWidgetsDemo

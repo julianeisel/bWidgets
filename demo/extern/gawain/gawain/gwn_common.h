@@ -30,6 +30,9 @@
 #ifndef __GWN_COMMON_H__
 #define __GWN_COMMON_H__
 
+/* bWidgets-only */
+typedef unsigned int uint;
+
 #define PROGRAM_NO_OPTI 0
 
 #if defined(NDEBUG)

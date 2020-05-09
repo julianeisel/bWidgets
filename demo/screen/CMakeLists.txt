@@ -55,10 +55,8 @@ set(LIB
 
 	bwd_gpu
 	bwd_stylesheet
-	bwd_utils
 )
 add_definitions(-DGLEW_STATIC)
-
 
 add_library(bwd_screen ${SRC})
 include_directories(${INC})

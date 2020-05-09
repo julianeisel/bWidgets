@@ -37,8 +37,9 @@ class property_parsing_failure : public std::exception {
 
 class PropertyParser {
  public:
-  static bWidgets::bwPtr<PropertyParser> newFromPropertyType(
-      bWidgets::bwStyleProperty::Type);
+  virtual ~PropertyParser() = default;
+
+  static bWidgets::bwPtr<PropertyParser> newFromPropertyType(bWidgets::bwStyleProperty::Type);
 
   virtual void parseIntoProperty(bWidgets::bwStyleProperty&, const KatanaValue&) const = 0;
 };
