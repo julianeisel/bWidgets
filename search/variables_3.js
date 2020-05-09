@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['width_5fhint',['width_hint',['../classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc',1,'bWidgets::bwWidget']]]
+  ['node_184',['node',['../classbWidgets_1_1bwContainerWidget.html#a3be04672c2a30ec993ce4147c53dddcc',1,'bWidgets::bwContainerWidget']]]
 ];

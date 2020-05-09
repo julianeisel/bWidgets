@@ -1,0 +1,29 @@
+digraph "bWidgets::bwScrollView"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="bWidgets::bwScrollView",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="bWidgets::bwContainerWidget",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwContainerWidget.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="bWidgets::bwWidget",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwWidget.html",tooltip="Abstract base class that all widgets derive from."];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" rectangle" ,fontname="Helvetica"];
+  Node4 [label="bWidgets::bwRectangle\l\< int \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwRectangle.html",tooltip=" "];
+  Node5 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" style_properties" ,fontname="Helvetica"];
+  Node5 [label="bWidgets::bwStyleProperties",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwStyleProperties.html",tooltip="Manage a list of properties (bwStyleProperty instances)."];
+  Node6 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" node" ,fontname="Helvetica"];
+  Node6 [label="bWidgets::bwScreenGraph\l::ContainerNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwScreenGraph_1_1ContainerNode.html",tooltip="Node representing a widget with children."];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="bWidgets::bwScreenGraph\l::LayoutNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwScreenGraph_1_1LayoutNode.html",tooltip="Node for aligning children to a specific layout."];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="bWidgets::bwScreenGraph\l::Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwScreenGraph_1_1Node.html",tooltip="The base data-structure for a screen-graph node."];
+  Node9 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="bWidgets::bwScreenGraph\l::WidgetNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwScreenGraph_1_1WidgetNode.html",tooltip="Node representing a single widget with no children."];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" base_style" ,fontname="Helvetica"];
+  Node10 [label="bWidgets::bwWidgetBaseStyle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwWidgetBaseStyle.html",tooltip="Properties for typical widgets with roundbox corners."];
+  Node11 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" background_color\nborder_color\ntext_color\ndecoration_color" ,fontname="Helvetica"];
+  Node11 [label="bWidgets::bwColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwColor.html",tooltip=" "];
+}

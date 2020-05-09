@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['emplacewidget',['emplaceWidget',['../classbWidgets_1_1bwScreenGraph_1_1Builder.html#aeb2fe01e93fa1081d150d46f54660d58',1,'bWidgets::bwScreenGraph::Builder']]]
+  ['initialize_175',['initialize',['../classbWidgets_1_1bwWidget.html#a52d62e992262fd7177a4095978240a78',1,'bWidgets::bwWidget']]]
 ];

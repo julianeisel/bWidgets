@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hidden',['hidden',['../classbWidgets_1_1bwWidget.html#ac0e79a199d830d4df1c54861dc9b2673',1,'bWidgets::bwWidget']]]
+  ['context_181',['context',['../classbWidgets_1_1bwScreenGraph_1_1ScreenGraph.html#ac46532a32e3590bf6196a8bd6c7d381a',1,'bWidgets::bwScreenGraph::ScreenGraph']]]
 ];
