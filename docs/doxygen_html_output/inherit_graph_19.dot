@@ -1,0 +1,24 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="bWidgets::bwScreenGraph\l::EventHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwScreenGraph_1_1EventHandler.html",tooltip="API for registering and calling event-listeners."];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="bWidgets::bwAbstractButton\lHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwAbstractButtonHandler.html",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="bWidgets::bwCheckboxHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwCheckboxHandler.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="bWidgets::bwRadioButtonHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwRadioButtonHandler.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="bWidgets::bwScrollBarHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwScrollBarHandler.html",tooltip=" "];
+  Node0 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="bWidgets::bwPanelHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwPanelHandler.html",tooltip=" "];
+  Node0 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="bWidgets::bwScrollViewHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwScrollViewHandler.html",tooltip=" "];
+  Node0 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="bWidgets::bwTextBoxHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwTextBoxHandler.html",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="bWidgets::bwNumberSlider\lHandler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbWidgets_1_1bwNumberSliderHandler.html",tooltip=" "];
+}
