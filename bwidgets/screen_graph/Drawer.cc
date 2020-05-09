@@ -1,5 +1,5 @@
-#include "bwPainter.h"
 #include "bwPaintEngine.h"
+#include "bwPainter.h"
 
 #include "Node.h"
 #include "ScreenGraph.h"

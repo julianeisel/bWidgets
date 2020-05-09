@@ -1,5 +1,5 @@
-#include "bwEvent.h"
 #include "bwRadioButton.h"
+#include "bwEvent.h"
 
 namespace bWidgets {
 

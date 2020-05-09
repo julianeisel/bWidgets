@@ -22,8 +22,8 @@
 #include "DefaultStage.h"
 #include "EventManager.h"
 extern "C" {
-#include "gawain/gwn_immediate.h"
 #include "gawain/gwn_context.h"
+#include "gawain/gwn_immediate.h"
 }
 #include "GPU.h"
 #include "Layout.h"

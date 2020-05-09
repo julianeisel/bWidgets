@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "bwIconInterface.h"
 #include "bwGradient.h"
+#include "bwIconInterface.h"
 #include "bwUtil.h"
 
 namespace bWidgets {

@@ -1,9 +1,9 @@
 #include <cassert>
 
 #include "bwStyleClassic.h"
+#include "bwStyleFlatDark.h"
 #include "bwStyleFlatGrey.h"
 #include "bwStyleFlatLight.h"
-#include "bwStyleFlatDark.h"
 
 #include "bwStyleManager.h"
 

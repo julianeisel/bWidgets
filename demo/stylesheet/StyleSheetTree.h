@@ -32,11 +32,10 @@ class StyleSheetTree {
  public:
   ~StyleSheetTree();
 
-  bWidgets::bwStyleProperty& ensureNodeWithProperty(
-      const std::string& class_name,
-      const bWidgets::bwWidget::State state,
-      const std::string& identifier,
-      const bWidgets::bwStyleProperty::Type type);
+  bWidgets::bwStyleProperty& ensureNodeWithProperty(const std::string& class_name,
+                                                    const bWidgets::bwWidget::State state,
+                                                    const std::string& identifier,
+                                                    const bWidgets::bwStyleProperty::Type type);
 
   class StyleSheetNode& ensureNode(const std::string& class_name);
 

@@ -2,8 +2,8 @@
 
 #include <array>
 #include <functional>
-#include <unordered_map>
 #include <list>
+#include <unordered_map>
 
 namespace bWidgets {
 

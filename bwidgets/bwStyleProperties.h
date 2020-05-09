@@ -85,8 +85,7 @@ class bwStyleProperties {
   bwStyleProperty& addFloat(const std::string& name);
   bwStyleProperty& addColor(const std::string& name, class bwColor& reference);
   bwStyleProperty& addColor(const std::string& name);
-  bwStyleProperty& addProperty(const std::string& name,
-                               const bwStyleProperty::Type prop_type);
+  bwStyleProperty& addProperty(const std::string& name, const bwStyleProperty::Type prop_type);
 
   bwOptional<std::reference_wrapper<const bwStyleProperty>> lookup(const std::string& name) const;
 

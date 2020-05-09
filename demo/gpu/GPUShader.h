@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include <string>
 #include <array>
+#include <string>
 
 #include "bwUtil.h"
 

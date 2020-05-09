@@ -36,8 +36,8 @@
 
 #include "Event.h"
 #include "File.h"
-#include "GawainPaintEngine.h"
 #include "GPUShader.h"
+#include "GawainPaintEngine.h"
 #include "IconMap.h"
 #include "Layout.h"
 #include "StyleSheet.h"

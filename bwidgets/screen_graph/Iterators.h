@@ -2,8 +2,8 @@
 
 #include <iterator>
 
-#include "ScreenGraph.h"
 #include "Node.h"
+#include "ScreenGraph.h"
 #include "bwWidget.h"
 
 namespace bWidgets {

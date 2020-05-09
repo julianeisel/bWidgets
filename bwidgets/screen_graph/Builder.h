@@ -2,9 +2,9 @@
 
 #include <type_traits>
 
-#include "bwWidget.h"
 #include "Node.h"
 #include "ScreenGraph.h"
+#include "bwWidget.h"
 
 namespace bWidgets {
 namespace bwScreenGraph {

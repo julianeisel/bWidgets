@@ -20,8 +20,8 @@
  */
 
 #include <array>
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
 extern "C" {
 #include "gawain/gwn_shader_interface.h"
@@ -29,8 +29,8 @@ extern "C" {
 
 #include "glm.hpp"
 
-#include "gpu_intern.h"
 #include "GPU.h"
+#include "gpu_intern.h"
 
 /* Based on Blender's gpu_matrix.c */
 
