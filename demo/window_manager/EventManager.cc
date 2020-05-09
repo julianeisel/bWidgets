@@ -70,6 +70,7 @@ void EventManager::setupWindowHandlers(Window& window)
 
   glfwSetWindowUserPointer(&glfw_window, &window);
   glfwSetWindowSizeCallback(&glfw_window, handleWindowResizeEvent);
+  glfwSetWindowContentScaleCallback(&glfw_window, handleWindowContentScaleEvent);
   glfwSetCursorPosCallback(&glfw_window, handleMouseMovementEvent);
   glfwSetMouseButtonCallback(&glfw_window, handleMouseButtonEvent);
   glfwSetScrollCallback(&glfw_window, handleMouseScrollEvent);
@@ -79,6 +80,14 @@ void EventManager::handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, 
 {
   auto* win = (Window*)glfwGetWindowUserPointer(glfw_win);
   win->handleResizeEvent(new_win_x, new_win_y);
+}
+
+void EventManager::handleWindowContentScaleEvent(GLFWwindow* glfw_win,
+                                                 float new_scale_x,
+                                                 float new_scale_y)
+{
+  auto* win = (Window*)glfwGetWindowUserPointer(glfw_win);
+  win->handleContentScaleEvent(new_scale_x, new_scale_y);
 }
 
 bwMouseButtonEvent::MouseButton EventManager::convertGlfwMouseButton(int glfw_button)

@@ -41,6 +41,9 @@ class GawainPaintEngine : public bWidgets::bwPaintEngine {
                 const bWidgets::bwIconInterface&,
                 const bWidgets::bwRectanglePixel&) override;
 
+  float m_scale_x{1.0f};
+  float m_scale_y{1.0f};
+
  private:
   class Font& font;
   class IconMap& icon_map;

@@ -154,13 +154,27 @@ void Stage::StyleSheetPolish(bwWidget& widget)
   }
 }
 
+void Stage::setContentScale(const float scale_x, const float scale_y)
+{
+  auto& gwn_engine = dynamic_cast<GawainPaintEngine&>(*bwPainter::paint_engine);
+  gwn_engine.m_scale_x = scale_x;
+  gwn_engine.m_scale_y = scale_y;
+  setFontSize(11.0f);
+}
+
 void Stage::setInterfaceScale(const float value)
 {
   if (value != interface_scale) {
     interface_scale = value;
-    font->setSize(11.0f * value);
     style->dpi_fac = value;
+    setFontSize(11.0f);
   }
+}
+
+void Stage::setFontSize(const float size)
+{
+  auto& gwn_engine = dynamic_cast<GawainPaintEngine&>(*bwPainter::paint_engine);
+  font->setSize(size * interface_scale * gwn_engine.m_scale_x);
 }
 
 void Stage::setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode)

@@ -46,11 +46,11 @@ GawainPaintEngine::GawainPaintEngine(Font& font, IconMap& icon_map)
 
 void GawainPaintEngine::setupViewport(const bwRectanglePixel& rect, const bwColor& clear_color)
 {
-  const float width = rect.width() + 1;
-  const float height = rect.height() + 1;
+  const float width = (rect.width() + 1) * m_scale_x;
+  const float height = (rect.height() + 1) * m_scale_y;
 
-  glViewport(rect.xmin, rect.ymin, width, height);
-  glScissor(rect.xmin, rect.ymin, width, height);
+  glViewport(rect.xmin * m_scale_x, rect.ymin * m_scale_y, width, height);
+  glScissor(rect.xmin * m_scale_x, rect.ymin * m_scale_y, width, height);
 
   glClearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
   glClear(GL_COLOR_BUFFER_BIT);
@@ -61,7 +61,10 @@ void GawainPaintEngine::setupViewport(const bwRectanglePixel& rect, const bwColo
 
 void GawainPaintEngine::enableMask(const bwRectanglePixel& rect)
 {
-  glScissor(rect.xmin, rect.ymin, rect.width() + 1, rect.height() + 1);
+  glScissor(rect.xmin * m_scale_x,
+            rect.ymin * m_scale_y,
+            (rect.width() + 1) * m_scale_x,
+            (rect.height() + 1) * m_scale_y);
 }
 
 // --------------------------------------------------------------------
@@ -96,7 +99,9 @@ static Gwn_PrimType stage_polygon_drawtype_convert(const bwPainter::DrawType& dr
 static void stage_polygon_draw_uniform_color(const bwPolygon& poly,
                                              const bwColor& color,
                                              const Gwn_PrimType type,
-                                             const unsigned int attr_pos)
+                                             const unsigned int attr_pos,
+                                             float scale_x,
+                                             float scale_y)
 {
   const bwPointVec& vertices = poly.getVertices();
 
@@ -104,7 +109,7 @@ static void stage_polygon_draw_uniform_color(const bwPolygon& poly,
 
   immBegin(type, vertices.size());
   for (const bwPoint& vertex : vertices) {
-    immVertex2f(attr_pos, vertex.x, vertex.y);
+    immVertex2f(attr_pos, vertex.x * scale_x, vertex.y * scale_y);
   }
   immEnd();
 }
@@ -112,14 +117,16 @@ static void stage_polygon_draw_shaded(const bwPainter& painter,
                                       const bwPolygon& poly,
                                       const Gwn_PrimType type,
                                       const unsigned int attr_pos,
-                                      const unsigned int attr_color)
+                                      const unsigned int attr_color,
+                                      float scale_x,
+                                      float scale_y)
 {
   const bwPointVec& vertices = poly.getVertices();
 
   immBegin(type, vertices.size());
   for (int i = 0; i < vertices.size(); i++) {
     immAttrib4fv(attr_color, painter.getVertexColor(i));
-    immVertex2f(attr_pos, vertices[i].x, vertices[i].y);
+    immVertex2f(attr_pos, vertices[i].x * scale_x, vertices[i].y * scale_y);
   }
   immEnd();
 }
@@ -128,13 +135,15 @@ static void stage_polygon_draw(const bwPainter& painter,
                                const bwColor& color,
                                const Gwn_PrimType type,
                                const unsigned int attr_pos,
-                               const unsigned int attr_color)
+                               const unsigned int attr_color,
+                               float scale_x,
+                               float scale_y)
 {
   if (painter.isGradientEnabled()) {
-    stage_polygon_draw_shaded(painter, poly, type, attr_pos, attr_color);
+    stage_polygon_draw_shaded(painter, poly, type, attr_pos, attr_color, scale_x, scale_y);
   }
   else {
-    stage_polygon_draw_uniform_color(poly, color, type, attr_pos);
+    stage_polygon_draw_uniform_color(poly, color, type, attr_pos, scale_x, scale_y);
   }
 }
 
@@ -162,12 +171,14 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
 
     for (const float* i : jit) {
       gpuTranslate2f(i);
-      stage_polygon_draw(painter, poly, drawcolor, prim_type, attr_pos, attr_color);
+      stage_polygon_draw(
+          painter, poly, drawcolor, prim_type, attr_pos, attr_color, m_scale_x, m_scale_y);
       gpuTranslate2f(-i[0], -i[1]);
     }
   }
   else {
-    stage_polygon_draw(painter, poly, color, prim_type, attr_pos, attr_color);
+    stage_polygon_draw(
+        painter, poly, color, prim_type, attr_pos, attr_color, m_scale_x, m_scale_y);
   }
 
   GPUShader::immUnbind();
@@ -180,20 +191,22 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
 static float stage_text_xpos_calc(Font& font,
                                   const std::string& text,
                                   const bwRectanglePixel& rectangle,
-                                  const TextAlignment alignment)
+                                  const TextAlignment alignment,
+                                  float scale_x)
 {
   int value = 0;
 
   switch (alignment) {
     case TextAlignment::LEFT:
-      value = rectangle.xmin + 9;  // XXX +9 is ugly. Goes out of widget rectangle even.
+      // XXX -9 is ugly. Goes out of widget rectangle even.
+      value = (rectangle.xmin + 9) * scale_x;
       break;
     case TextAlignment::CENTER:
-      value = rectangle.centerX() - (font.calculateStringWidth(text) / 2.0f);
+      value = rectangle.centerX() * scale_x - (font.calculateStringWidth(text) / 2.0f);
       break;
     case TextAlignment::RIGHT:
-      value = rectangle.xmax - font.calculateStringWidth(text) -
-              9;  // XXX -9 is ugly. Goes out of widget rectangle even.
+      // XXX -9 is ugly. Goes out of widget rectangle even.
+      value = (rectangle.xmax - 9) * scale_x - font.calculateStringWidth(text);
       break;
   }
 
@@ -205,12 +218,17 @@ void GawainPaintEngine::drawText(const bwPainter& painter,
                                  const bwRectanglePixel& rectangle,
                                  const TextAlignment alignment)
 {
+  bwRectanglePixel scaled_mask = painter.getContentMask();
   const float font_height = font.getSize();
-  const float draw_pos_x = stage_text_xpos_calc(font, text, rectangle, alignment);
-  const float draw_pos_y = rectangle.centerY() - (font_height / 2.0f) + 1.0f;
+  const float draw_pos_x = stage_text_xpos_calc(font, text, rectangle, alignment, m_scale_x);
+  const float draw_pos_y = (rectangle.centerY() + 1.0f) * m_scale_y - (font_height / 2.0f);
 
+  scaled_mask.xmin *= m_scale_x;
+  scaled_mask.xmax *= m_scale_x;
+  scaled_mask.ymin *= m_scale_y;
+  scaled_mask.ymax *= m_scale_y;
   font.setActiveColor(painter.getActiveColor());
-  font.setMask(painter.getContentMask());
+  font.setMask(scaled_mask);
   font.render(text, std::floor(draw_pos_x), std::floor(draw_pos_y));
 }
 
@@ -287,15 +305,17 @@ static void engine_icon_texture_drawing_cleanup(GLuint texture_id)
  */
 static void engine_icon_rectangle_adjust(bwRectanglePixel& icon_rect,
                                          const bwRectanglePixel& bounds,
-                                         const Pixmap& pixmap)
+                                         const Pixmap& pixmap,
+                                         float scale_x,
+                                         float scale_y)
 {
   const int xmin = std::max(bounds.centerX() - (pixmap.width() / 2) + 4, bounds.xmin);
   const int ymin = std::max(bounds.centerY() - (pixmap.height() / 2) + 1, bounds.ymin);
 
-  icon_rect.set(xmin,
-                std::min(pixmap.width(), bounds.width()),
-                ymin,
-                std::min(pixmap.height(), bounds.height()));
+  icon_rect.set(xmin * scale_x,
+                std::min(pixmap.width(), bounds.width()) * scale_x,
+                ymin * scale_y,
+                std::min(pixmap.height(), bounds.height()) * scale_y);
 }
 
 void GawainPaintEngine::drawIcon(const bwPainter& /*painter*/,
@@ -307,7 +327,7 @@ void GawainPaintEngine::drawIcon(const bwPainter& /*painter*/,
   bwRectanglePixel icon_rect;
   GLuint texture_id = 0;
 
-  engine_icon_rectangle_adjust(icon_rect, rectangle, pixmap);
+  engine_icon_rectangle_adjust(icon_rect, rectangle, pixmap, m_scale_x, m_scale_y);
 
   engine_icon_texture_drawing_prepare(pixmap, texture_id);
   engine_icon_texture_draw(icon_rect);

@@ -297,9 +297,11 @@ void Font::setSubPixelPositioning(bool value)
 
 void Font::setSize(const float _size)
 {
-  size = _size;
-  FT_Set_Pixel_Sizes(face, 0, size);
-  cache.invalidate();
+  if (size != _size) {
+    size = _size;
+    FT_Set_Pixel_Sizes(face, 0, size);
+    cache.invalidate();
+  }
 }
 
 int Font::getSize() const

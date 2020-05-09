@@ -55,6 +55,9 @@ class EventManager {
   void operator=(EventManager const&) = delete;
 
   static void handleWindowResizeEvent(GLFWwindow* glfw_win, int new_win_x, int new_win_y);
+  static void handleWindowContentScaleEvent(GLFWwindow* glfw_win,
+                                            float new_scale_x,
+                                            float new_scale_y);
   static void handleMouseMovementEvent(GLFWwindow* glfw_win, double x, double y);
   static void handleMouseButtonEvent(GLFWwindow* glfw_win,
                                      int glfw_button,

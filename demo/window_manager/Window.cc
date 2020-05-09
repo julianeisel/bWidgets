@@ -63,7 +63,11 @@ Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y
 
   EventManager::setupWindowHandlers(*this);
 
+  float px_scale_x, px_scale_y;
+  glfwGetWindowContentScale(glfw_window, &px_scale_x, &px_scale_y);
+
   stage = bwPtr_new<DefaultStage>(getWidth(), getHeight());
+  stage->setContentScale(px_scale_x, px_scale_y);
 }
 
 Window::~Window()
@@ -117,6 +121,11 @@ void Window::handleResizeEvent(const int new_win_x, const int new_win_y)
   width = new_win_x;
   height = new_win_y;
   stage->handleWindowResizeEvent(*this);
+}
+
+void Window::handleContentScaleEvent(const float new_scale_x, const float new_scale_y)
+{
+  stage->setContentScale(new_scale_x, new_scale_y);
 }
 
 GLFWwindow& Window::getGlfwWindow() const

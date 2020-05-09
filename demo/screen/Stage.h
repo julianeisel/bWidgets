@@ -50,7 +50,9 @@ class Stage {
                               enum bWidgets::bwMouseWheelEvent::Direction dir);
   void handleWindowResizeEvent(const class Window& win);
 
+  void setContentScale(float scale_x, float scale_y);
   static void setInterfaceScale(const float value);
+  static void setFontSize(const float size);
   static void setFontTightPositioning(const bool value);
   static void setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode);
   static void setFontHinting(const bool value);
