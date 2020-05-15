@@ -36,7 +36,7 @@ static Node* findHoveredNode(const bwEvent& event, Node& node)
   const bool is_hovered = node.isVisible() &&
                           node.Rectangle().isCoordinateInside(event.location.x, event.location.y);
 
-  if (node.Children() && is_hovered) {
+  if (is_hovered && node.Children() && node.childrenVisible()) {
     for (auto& iter_child : *node.Children()) {
       if (Node* found_child = findHoveredNode(event, *iter_child)) {
         return found_child;
