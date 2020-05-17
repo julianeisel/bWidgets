@@ -69,13 +69,13 @@ class DefaultStageRNAFunctor : public bwFunctorInterface {
 
   void operator()() override
   {
-    if (widget_cast<const bwCheckbox*>(&m_widget)) {
+    if (widget_cast<bwCheckbox>(m_widget)) {
       m_props.set(m_prop_name, m_stage, m_widget.state == bwWidget::State::SUNKEN);
     }
-    else if (auto* slider = widget_cast<const bwNumberSlider*>(&m_widget)) {
+    else if (auto* slider = widget_cast<bwNumberSlider>(m_widget)) {
       m_props.set(m_prop_name, m_stage, slider->getValue());
     }
-    else if (widget_cast<const bwRadioButton*>(&m_widget)) {
+    else if (widget_cast<bwRadioButton>(m_widget)) {
       m_props.set(m_prop_name, m_stage, m_enum_value.value());
     }
   }
@@ -262,7 +262,7 @@ bool DefaultStage::updateStyleButton(bwWidget& widget_iter)
 {
   bwStyle::TypeID active_type_id = DefaultStage::style->type_id;
 
-  if (auto* radio_iter = widget_cast<bwRadioButton*>(&widget_iter)) {
+  if (auto* radio_iter = widget_cast<bwRadioButton>(widget_iter)) {
     if (radio_iter->apply_functor) {
       auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(radio_iter->apply_functor.get());
 
@@ -277,7 +277,7 @@ bool DefaultStage::updateStyleButton(bwWidget& widget_iter)
       }
     }
   }
-  else if (auto* checkbox_iter = widget_cast<bwCheckbox*>(&widget_iter)) {
+  else if (auto* checkbox_iter = widget_cast<bwCheckbox>(widget_iter)) {
     if (checkbox_iter->apply_functor) {
       auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
           checkbox_iter->apply_functor.get());
@@ -315,7 +315,7 @@ void DefaultStage::activateStyleID(bwStyle::TypeID type_id)
       continue;
     }
 
-    const auto* checkbox = widget_cast<bwCheckbox*>(widget);
+    const auto* checkbox = widget_cast<bwCheckbox>(widget);
     if (checkbox && checkbox->apply_functor) {
       const auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
           checkbox->apply_functor.get());
@@ -333,7 +333,7 @@ void DefaultStage::updateFontAAMode(bool value)
     if (!widget) {
       continue;
     }
-    if (auto* iter_checkbox = widget_cast<bwCheckbox*>(widget)) {
+    if (auto* iter_checkbox = widget_cast<bwCheckbox>(widget)) {
       if (iter_checkbox->apply_functor) {
         const auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
             iter_checkbox->apply_functor.get());

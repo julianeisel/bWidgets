@@ -2,12 +2,10 @@
 
 namespace bWidgets {
 
-bwWidget::bwWidget(const Type type,
-                   const std::string& identifier,
+bwWidget::bwWidget(const std::string& identifier,
                    const unsigned int width_hint,
                    const unsigned int height_hint)
-    : type(type),
-      state(State::NORMAL),
+    : state(State::NORMAL),
       rectangle(0, 0, 0, 0),
       width_hint(width_hint),
       height_hint(height_hint),

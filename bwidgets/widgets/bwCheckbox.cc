@@ -7,7 +7,7 @@
 namespace bWidgets {
 
 bwCheckbox::bwCheckbox(const std::string& text, unsigned int width_hint, unsigned int height_hint)
-    : bwAbstractButton(text, Type::CHECKBOX, "bwCheckbox", width_hint, height_hint)
+    : bwAbstractButton(text, "bwCheckbox", width_hint, height_hint)
 {
 }
 

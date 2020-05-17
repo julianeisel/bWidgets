@@ -3,11 +3,10 @@
 namespace bWidgets {
 
 bwContainerWidget::bwContainerWidget(const bwScreenGraph::ContainerNode& node,
-                                     const bwWidget::Type type,
                                      const std::string& identifier,
                                      const unsigned int width_hint,
                                      const unsigned int height_hint)
-    : bwWidget(type, identifier, width_hint, height_hint), node(node)
+    : bwWidget(identifier, width_hint, height_hint), node(node)
 {
   initialize();
 }

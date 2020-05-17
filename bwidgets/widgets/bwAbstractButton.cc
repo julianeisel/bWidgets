@@ -7,11 +7,10 @@
 namespace bWidgets {
 
 bwAbstractButton::bwAbstractButton(const std::string& text,
-                                   const Type type,
                                    const std::string& identifier,
                                    const unsigned int width_hint,
                                    const unsigned int height_hint)
-    : bwWidget(type, identifier, width_hint, height_hint),
+    : bwWidget(identifier, width_hint, height_hint),
       rounded_corners(RoundboxCorner::ALL),
       text(std::move(text))
 {

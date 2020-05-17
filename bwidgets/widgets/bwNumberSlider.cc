@@ -16,7 +16,6 @@ namespace bWidgets {
 bwNumberSlider::bwNumberSlider(const unsigned int width_hint, const unsigned int height_hint)
     : bwTextBox(width_hint, height_hint), precision(2)
 {
-  type = Type::NUMBER_SLIDER;
   identifier = "bwNumberSlider";
 }
 

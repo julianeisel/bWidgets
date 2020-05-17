@@ -1,8 +1,13 @@
 #include <cassert>
 
 #include "bwAbstractButton.h"
+#include "bwCheckbox.h"
+#include "bwNumberSlider.h"
 #include "bwPainter.h"
 #include "bwPanel.h"
+#include "bwPushButton.h"
+#include "bwRadioButton.h"
+#include "bwScrollBar.h"
 #include "bwScrollView.h"
 #include "bwTextBox.h"
 
@@ -128,33 +133,33 @@ static void widget_base_style_set(bwWidget& widget, bwWidgetBaseStyle& r_base_st
 {
   r_base_style.shade_top = r_base_style.shade_bottom = 0.0f;
 
-  switch (widget.type) {
-    case bwWidget::Type::CHECKBOX:
-      widget_base_style_checkbox_set(widget, r_base_style);
-      break;
-    case bwWidget::Type::NUMBER_SLIDER:
-      widget_base_style_number_slider_set(widget, r_base_style);
-      break;
-    case bwWidget::Type::PUSH_BUTTON:
-      widget_base_style_push_button_set(widget, r_base_style);
-      break;
-    case bwWidget::Type::RADIO_BUTTON:
-      widget_base_style_radio_button_set(widget, r_base_style);
-      break;
-    case bwWidget::Type::SCROLL_BAR:
-      widget_base_style_scroll_bar_set(widget, r_base_style);
-      break;
-    case bwWidget::Type::BOX:
-      widget_base_style_text_box_set(widget, r_base_style);
-      break;
-    case bwWidget::Type::PANEL:
-      widget_base_style_panel_set(widget, r_base_style);
-      break;
-    case bwWidget::Type::SCROLL_VIEW:
-      widget_base_style_scrollview_set(widget, r_base_style);
-      break;
-    default:
-      break;
+  /* Anti-pattern/code-smell: This kind of widget_cast<>() usage to eventually find the correct
+   * type is rather inefficient (compared to an enum type checked in a switch).
+   * This isn't performance critical code, so it's fine-ish, even if ugly. More importantly, this
+   * way of applying styles isn't meant as permanent solution anyway. */
+  if (widget_cast<bwCheckbox>(widget)) {
+    widget_base_style_checkbox_set(widget, r_base_style);
+  }
+  else if (widget_cast<bwNumberSlider>(widget)) {
+    widget_base_style_number_slider_set(widget, r_base_style);
+  }
+  else if (widget_cast<bwPushButton>(widget)) {
+    widget_base_style_push_button_set(widget, r_base_style);
+  }
+  else if (widget_cast<bwRadioButton>(widget)) {
+    widget_base_style_radio_button_set(widget, r_base_style);
+  }
+  else if (widget_cast<bwScrollBar>(widget)) {
+    widget_base_style_scroll_bar_set(widget, r_base_style);
+  }
+  else if (widget_cast<bwTextBox>(widget)) {
+    widget_base_style_text_box_set(widget, r_base_style);
+  }
+  else if (widget_cast<bwPanel>(widget)) {
+    widget_base_style_panel_set(widget, r_base_style);
+  }
+  else if (widget_cast<bwScrollView>(widget)) {
+    widget_base_style_scrollview_set(widget, r_base_style);
   }
 }
 
@@ -168,16 +173,16 @@ void bwStyleFlat::setWidgetStyle(bwWidget& widget)
 
   polish(widget);
 
-  if (auto* button = widget_cast<bwAbstractButton*>(&widget)) {
+  if (auto* button = widget_cast<bwAbstractButton>(widget)) {
     button->base_style.roundbox_corners = button->rounded_corners;
     base_style = button->base_style;
   }
-  else if (auto* text_box = widget_cast<bwTextBox*>(&widget)) {
+  else if (auto* text_box = widget_cast<bwTextBox>(widget)) {
     text_box->base_style.roundbox_corners =
         RoundboxCorner::ALL;  // XXX Incorrect, should set this in layout.
     base_style = text_box->base_style;
   }
-  else if (auto* container = widget_cast<bwContainerWidget*>(&widget)) {
+  else if (auto* container = widget_cast<bwContainerWidget>(widget)) {
     container->base_style.roundbox_corners = RoundboxCorner::ALL;
     base_style = container->base_style;
   }

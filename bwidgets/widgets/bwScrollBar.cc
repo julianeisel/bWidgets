@@ -7,7 +7,7 @@
 namespace bWidgets {
 
 bwScrollBar::bwScrollBar(unsigned int width_hint, unsigned int height_hint)
-    : bwAbstractButton("", Type::SCROLL_BAR, "bwScrollBar", width_hint, height_hint)
+    : bwAbstractButton("", "bwScrollBar", width_hint, height_hint)
 {
 }
 

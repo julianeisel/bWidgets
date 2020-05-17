@@ -17,7 +17,7 @@ namespace bWidgets {
 bwScrollView::bwScrollView(bwScreenGraph::ContainerNode& node,
                            unsigned int _width,
                            unsigned int _height)
-    : bwContainerWidget(node, bwWidget::Type::SCROLL_VIEW, "bwScrollView", _width, _height)
+    : bwContainerWidget(node, "bwScrollView", _width, _height)
 {
   auto scrollbar = bwPtr_new<bwScrollBar>(17, _height);
   scrollbar_node = bwPtr_new<bwScreenGraph::WidgetNode>();

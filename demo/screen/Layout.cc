@@ -117,7 +117,7 @@ static void alignNode(bwScreenGraph::Node::ChildIterator node_iter,
   bwAbstractButton* abstract_button;
 
   if (!widget || !widget->canAlign() ||
-      !(abstract_button = widget_cast<bwAbstractButton*>(widget))) {
+      !(abstract_button = widget_cast<bwAbstractButton>(widget))) {
     return;
   }
   abstract_button->rounded_corners = 0;
@@ -246,7 +246,7 @@ void LayoutItem::resolve(bwScreenGraph::Node& node,
       }
     }
 
-    if (widget && widget->type == bwWidget::Type::PANEL) {
+    if (widget && widget_cast<bwPanel>(widget)) {
       bwPanel& panel = static_cast<bwPanel&>(*widget);
 
       assert(layout);
@@ -393,7 +393,7 @@ void ScrollViewLayout::resolve(bwScreenGraph::Node& node,
                                const float scale_fac)
 {
   bwWidget* widget = node.Widget();
-  bwScrollView* view_widget = widget_cast<bwScrollView*>(widget);
+  bwScrollView* view_widget = widget_cast<bwScrollView>(widget);
 
   if (!widget || !view_widget) {
     assert(false);

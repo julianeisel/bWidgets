@@ -8,7 +8,7 @@
 namespace bWidgets {
 
 bwLabel::bwLabel(std::string text, unsigned int width_hint, unsigned int height_hint)
-    : bwWidget(bwWidget::Type::LABEL, "bwLabel", width_hint, height_hint), text(std::move(text))
+    : bwWidget("bwLabel", width_hint, height_hint), text(std::move(text))
 {
   initialize();
 }
