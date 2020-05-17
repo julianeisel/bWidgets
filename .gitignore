@@ -5,3 +5,5 @@ CMakeLists.txt.user
 .vs/
 .vscode/
 CMakeSettings.json
+
+docs/doxygen_html_output/

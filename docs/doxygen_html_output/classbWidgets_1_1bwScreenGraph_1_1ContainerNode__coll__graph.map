@@ -1,5 +1,0 @@
-<map id="bWidgets::bwScreenGraph::ContainerNode" name="bWidgets::bwScreenGraph::ContainerNode">
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwScreenGraph_1_1LayoutNode.html" title="Node for aligning children to a specific layout. " alt="" coords="5,95,184,136"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwScreenGraph_1_1Node.html" title="The base data&#45;structure for a screen&#45;graph node. " alt="" coords="107,5,285,47"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwScreenGraph_1_1WidgetNode.html" title="Node representing a single widget with no children. " alt="" coords="208,95,387,136"/>
-</map>

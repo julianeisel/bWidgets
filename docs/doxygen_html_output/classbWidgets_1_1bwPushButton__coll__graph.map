@@ -1,8 +1,0 @@
-<map id="bWidgets::bwPushButton" name="bWidgets::bwPushButton">
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="303,243,493,269"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="209,153,352,180"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
-<area shape="rect" id="node5" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="191,13,381,39"/>
-<area shape="rect" id="node6" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners. " alt="" coords="377,153,579,180"/>
-<area shape="rect" id="node7" href="$classbWidgets_1_1bwColor.html" title="bWidgets::bwColor" alt="" coords="411,13,545,39"/>
-</map>

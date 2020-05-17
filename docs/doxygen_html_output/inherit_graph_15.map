@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classbWidgets_1_1bwScreenGraph_1_1Node.html" title="The base data&#45;structure for a screen&#45;graph node. " alt="" coords="5,39,184,80"/>
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwScreenGraph_1_1LayoutNode.html" title="Node for aligning children to a specific layout. " alt="" coords="232,5,411,47"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwScreenGraph_1_1WidgetNode.html" title="Node representing a single widget with no children. " alt="" coords="232,71,411,112"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwScreenGraph_1_1ContainerNode.html" title="Node representing a widget with children. " alt="" coords="459,39,637,80"/>
-</map>
