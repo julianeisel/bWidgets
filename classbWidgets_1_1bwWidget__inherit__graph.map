@@ -1,11 +1,14 @@
 <map id="bWidgets::bwWidget" name="bWidgets::bwWidget">
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="196,81,385,108"/>
-<area shape="rect" id="node7" href="$classbWidgets_1_1bwLabel.html" title="bWidgets::bwLabel" alt="" coords="224,132,357,159"/>
-<area shape="rect" id="node8" href="$classbWidgets_1_1bwPanel.html" title="bWidgets::bwPanel" alt="" coords="223,183,358,209"/>
-<area shape="rect" id="node9" href="$classbWidgets_1_1bwTextBox.html" title="bWidgets::bwTextBox" alt="" coords="215,233,366,260"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwCheckbox.html" title="bWidgets::bwCheckbox" alt="" coords="443,5,605,32"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwPushButton.html" title="bWidgets::bwPushButton" alt="" coords="439,56,609,83"/>
-<area shape="rect" id="node5" href="$classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed. " alt="" coords="437,107,611,133"/>
-<area shape="rect" id="node6" href="$classbWidgets_1_1bwScrollBar.html" title="bWidgets::bwScrollBar" alt="" coords="447,157,601,184"/>
-<area shape="rect" id="node10" href="$classbWidgets_1_1bwNumberSlider.html" title="bWidgets::bwNumberSlider" alt="" coords="433,233,615,260"/>
+<area shape="rect" id="node1" title="Abstract base class that all widgets derive from." alt="" coords="5,233,148,260"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets." alt="" coords="201,107,390,133"/>
+<area shape="rect" id="node7" href="$classbWidgets_1_1bwContainerWidget.html" title=" " alt="" coords="196,208,395,235"/>
+<area shape="rect" id="node10" href="$classbWidgets_1_1bwLabel.html" title=" " alt="" coords="229,259,362,285"/>
+<area shape="rect" id="node11" href="$classbWidgets_1_1bwTextBox.html" title=" " alt="" coords="220,309,371,336"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwCheckbox.html" title=" " alt="" coords="453,5,614,32"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwPushButton.html" title=" " alt="" coords="448,56,619,83"/>
+<area shape="rect" id="node5" href="$classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed." alt="" coords="446,107,621,133"/>
+<area shape="rect" id="node6" href="$classbWidgets_1_1bwScrollBar.html" title=" " alt="" coords="456,157,611,184"/>
+<area shape="rect" id="node8" href="$classbWidgets_1_1bwPanel.html" title=" " alt="" coords="466,208,601,235"/>
+<area shape="rect" id="node9" href="$classbWidgets_1_1bwScrollView.html" title=" " alt="" coords="451,259,615,285"/>
+<area shape="rect" id="node12" href="$classbWidgets_1_1bwNumberSlider.html" title=" " alt="" coords="443,309,624,336"/>
 </map>

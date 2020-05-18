@@ -1,0 +1,10 @@
+<map id="bwidgets/screen_graph/ScreenGraph.h" name="bwidgets/screen_graph/ScreenGraph.h">
+<area shape="rect" id="node1" title=" " alt="" coords="328,5,484,47"/>
+<area shape="rect" id="node2" href="$bwEventDispatcher_8cc.html" title=" " alt="" coords="5,102,215,129"/>
+<area shape="rect" id="node3" href="$Builder_8h.html" title=" " alt="" coords="239,95,395,136"/>
+<area shape="rect" id="node6" href="$Drawer_8cc.html" title=" " alt="" coords="419,95,575,136"/>
+<area shape="rect" id="node7" href="$Iterators_8h.html" title=" " alt="" coords="599,95,755,136"/>
+<area shape="rect" id="node4" href="$Builder_8cc.html" title=" " alt="" coords="132,184,288,225"/>
+<area shape="rect" id="node5" href="$bwScrollView_8cc.html" title=" " alt="" coords="312,184,489,225"/>
+<area shape="rect" id="node8" href="$Iterators_8cc.html" title=" " alt="" coords="599,184,755,225"/>
+</map>

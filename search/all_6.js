@@ -1,5 +1,23 @@
 var searchData=
 [
-  ['hidden_75',['hidden',['../classbWidgets_1_1bwWidget.html#ac0e79a199d830d4df1c54861dc9b2673',1,'bWidgets::bwWidget']]],
-  ['hovered_76',['hovered',['../structbWidgets_1_1bwContext.html#a7dc5c603cf1a6032b5a675de3133d5ae',1,'bWidgets::bwContext']]]
+  ['getactivecolor_259',['getActiveColor',['../classbWidgets_1_1bwPainter.html#a3d6ed663b1889bc074df8411077b9a1e',1,'bWidgets::bwPainter']]],
+  ['getbuiltinstyletypes_260',['getBuiltinStyleTypes',['../classbWidgets_1_1bwStyleManager.html#a3597910a5dad79caac632d365da3d092',1,'bWidgets::bwStyleManager']]],
+  ['getcolor_261',['getColor',['../classbWidgets_1_1bwColor.html#acef3d7f054ac0faaef0ec402002caf61',1,'bWidgets::bwColor']]],
+  ['getcontentbounds_262',['getContentBounds',['../classbWidgets_1_1bwScrollView.html#a1611c26ab8cfeef5e4a7cdda04715418',1,'bWidgets::bwScrollView']]],
+  ['getcontentmask_263',['getContentMask',['../classbWidgets_1_1bwPainter.html#ad2247309c8662e4a207eb91eaf7e7c78',1,'bWidgets::bwPainter']]],
+  ['getdirection_264',['getDirection',['../classbWidgets_1_1bwMouseWheelEvent.html#a3ba6bce59305022c9fcf60061da7d0b8',1,'bWidgets::bwMouseWheelEvent']]],
+  ['getheaderheighthint_265',['getHeaderHeightHint',['../classbWidgets_1_1bwPanel.html#aceb44161906a39016184c2b8d2a94c19',1,'bWidgets::bwPanel']]],
+  ['geticon_266',['getIcon',['../classbWidgets_1_1bwAbstractButton.html#a17275eb350b3bb6753bdb97d25282316',1,'bWidgets::bwAbstractButton::getIcon()'],['../classbWidgets_1_1bwPushButton.html#a0fab352f19746f0056514e7895c20b77',1,'bWidgets::bwPushButton::getIcon()']]],
+  ['getidentifier_267',['getIdentifier',['../classbWidgets_1_1bwStyleProperty.html#a15b320201b2b7538fd40d338c3bbc372',1,'bWidgets::bwStyleProperty::getIdentifier()'],['../classbWidgets_1_1bwWidget.html#aba9ee8caa675c19797990277276ae755',1,'bWidgets::bwWidget::getIdentifier()']]],
+  ['getinnerrect_268',['getInnerRect',['../namespacebWidgets.html#a1bf10e6009f528919e8f957fb50a2be8',1,'bWidgets']]],
+  ['getlabel_269',['getLabel',['../classbWidgets_1_1bwAbstractButton.html#a43cb91a47f67290efc97bbd7634849bf',1,'bWidgets::bwAbstractButton::getLabel()'],['../classbWidgets_1_1bwLabel.html#a830d9d9d1f9ac2156c72d2899e2c7119',1,'bWidgets::bwLabel::getLabel()'],['../classbWidgets_1_1bwPanel.html#add38e5097a4bd22f99f3f1012467752f',1,'bWidgets::bwPanel::getLabel()'],['../classbWidgets_1_1bwTextBox.html#a87b867357d1c640499077e92400d11ca',1,'bWidgets::bwTextBox::getLabel()'],['../classbWidgets_1_1bwWidget.html#ae5be535c885f6a2f4e26cdd3263908a7',1,'bWidgets::bwWidget::getLabel()']]],
+  ['getmaskrectangle_270',['getMaskRectangle',['../classbWidgets_1_1bwContainerWidget.html#ad5ba84ef9e91dd32ff1680258b6a3397',1,'bWidgets::bwContainerWidget']]],
+  ['getrectangle_271',['getRectangle',['../classbWidgets_1_1bwLayoutInterface.html#a1fa8745ebf8c184cbcfa87739a5d80b2',1,'bWidgets::bwLayoutInterface']]],
+  ['getroundboxminsize_272',['getRoundboxMinsize',['../namespacebWidgets.html#aadb745dd72ee5a08f49b831b2845fcc2',1,'bWidgets']]],
+  ['getscrolloffsety_273',['getScrollOffsetY',['../classbWidgets_1_1bwScrollView.html#ae463615d077e9dfab34a7e977f59e091',1,'bWidgets::bwScrollView']]],
+  ['getstylemanager_274',['getStyleManager',['../classbWidgets_1_1bwStyleManager.html#abc06374b852f74295b2c3c44c539dda6',1,'bWidgets::bwStyleManager']]],
+  ['gettype_275',['getType',['../classbWidgets_1_1bwStyleProperty.html#ae262c41e2773811698f9bbcf3a880124',1,'bWidgets::bwStyleProperty']]],
+  ['getvalue_276',['getValue',['../classbWidgets_1_1bwStylePropertyInternal.html#a7df57ffdd6640be7922ba9a3c6bd9df4',1,'bWidgets::bwStylePropertyInternal::getValue()'],['../classbWidgets_1_1bwNumberSlider.html#a382b818275e6ed2ac8e5a30de4fc47b5',1,'bWidgets::bwNumberSlider::getValue()']]],
+  ['getvertexcolor_277',['getVertexColor',['../classbWidgets_1_1bwPainter.html#ab77bf5ecf51524d3567e40e126967505',1,'bWidgets::bwPainter']]],
+  ['getvertices_278',['getVertices',['../classbWidgets_1_1bwPolygon.html#ad8f00fee0af76acfc1b6f8931f8d840a',1,'bWidgets::bwPolygon']]]
 ];

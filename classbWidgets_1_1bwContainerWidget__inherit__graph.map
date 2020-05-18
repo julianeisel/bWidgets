@@ -1,0 +1,6 @@
+<map id="bWidgets::bwContainerWidget" name="bWidgets::bwContainerWidget">
+<area shape="rect" id="node1" title=" " alt="" coords="60,80,259,107"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwPanel.html" title=" " alt="" coords="5,155,140,181"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwScrollView.html" title=" " alt="" coords="164,155,328,181"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="88,5,231,32"/>
+</map>

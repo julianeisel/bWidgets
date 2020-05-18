@@ -1,7 +1,8 @@
 <map id="bWidgets::bwAbstractButton" name="bWidgets::bwAbstractButton">
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwCheckbox.html" title="bWidgets::bwCheckbox" alt="" coords="440,5,601,32"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwPushButton.html" title="bWidgets::bwPushButton" alt="" coords="435,56,606,83"/>
-<area shape="rect" id="node5" href="$classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed. " alt="" coords="433,107,608,133"/>
-<area shape="rect" id="node6" href="$classbWidgets_1_1bwScrollBar.html" title="bWidgets::bwScrollBar" alt="" coords="443,157,598,184"/>
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="5,81,148,108"/>
+<area shape="rect" id="node1" title="Base class for button like widgets." alt="" coords="196,81,385,108"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwCheckbox.html" title=" " alt="" coords="440,5,601,32"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwPushButton.html" title=" " alt="" coords="435,56,606,83"/>
+<area shape="rect" id="node5" href="$classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed." alt="" coords="433,107,608,133"/>
+<area shape="rect" id="node6" href="$classbWidgets_1_1bwScrollBar.html" title=" " alt="" coords="443,157,598,184"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="5,81,148,108"/>
 </map>

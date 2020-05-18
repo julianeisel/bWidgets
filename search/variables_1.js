@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['context_181',['context',['../classbWidgets_1_1bwScreenGraph_1_1ScreenGraph.html#ac46532a32e3590bf6196a8bd6c7d381a',1,'bWidgets::bwScreenGraph::ScreenGraph']]]
+  ['background_5fcolor_896',['background_color',['../classbWidgets_1_1bwWidgetBaseStyle.html#acf8131b1781d19cf4a3e647116da30ab',1,'bWidgets::bwWidgetBaseStyle']]],
+  ['base_5fstyle_897',['base_style',['../classbWidgets_1_1bwAbstractButton.html#a4a1b3d86a747b4554de61d0263420941',1,'bWidgets::bwAbstractButton::base_style()'],['../classbWidgets_1_1bwContainerWidget.html#a7f3670a0a7affe820a4051c5cd4787f1',1,'bWidgets::bwContainerWidget::base_style()'],['../classbWidgets_1_1bwTextBox.html#adc661cea1c645b8b49efa6b5dc63a64c',1,'bWidgets::bwTextBox::base_style()']]],
+  ['begin_898',['begin',['../classbWidgets_1_1bwGradient.html#a789d15b2703ee4cee7fabe1140fd86cf',1,'bWidgets::bwGradient']]],
+  ['border_5fcolor_899',['border_color',['../classbWidgets_1_1bwWidgetBaseStyle.html#a029c3fa3d57f1749a29b16b33f5b479d',1,'bWidgets::bwWidgetBaseStyle']]],
+  ['button_900',['button',['../classbWidgets_1_1bwMouseButtonEvent.html#a50acce49e32b8adee3b4419d3c68e55d',1,'bWidgets::bwMouseButtonEvent::button()'],['../classbWidgets_1_1bwAbstractButtonHandler.html#a7f3dc2a53163ad873d778d585da0a539',1,'bWidgets::bwAbstractButtonHandler::button()']]]
 ];

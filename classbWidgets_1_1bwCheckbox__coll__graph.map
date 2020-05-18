@@ -1,8 +1,11 @@
 <map id="bWidgets::bwCheckbox" name="bWidgets::bwCheckbox">
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="303,243,493,269"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="209,153,352,180"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
-<area shape="rect" id="node5" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="191,13,381,39"/>
-<area shape="rect" id="node6" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners. " alt="" coords="377,153,579,180"/>
-<area shape="rect" id="node7" href="$classbWidgets_1_1bwColor.html" title="bWidgets::bwColor" alt="" coords="411,13,545,39"/>
+<area shape="rect" id="node1" title=" " alt="" coords="148,409,309,436"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets." alt="" coords="134,333,323,360"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="157,244,300,271"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwRectangle.html" title=" " alt="" coords="348,96,509,137"/>
+<area shape="rect" id="node5" title="STL class." alt="" coords="29,103,109,130"/>
+<area shape="rect" id="node6" title="STL class." alt="" coords="5,5,132,47"/>
+<area shape="rect" id="node7" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances)." alt="" coords="133,103,324,130"/>
+<area shape="rect" id="node8" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners." alt="" coords="411,244,614,271"/>
+<area shape="rect" id="node9" href="$classbWidgets_1_1bwColor.html" title=" " alt="" coords="534,103,667,130"/>
 </map>

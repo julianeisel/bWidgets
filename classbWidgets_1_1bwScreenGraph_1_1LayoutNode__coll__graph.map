@@ -1,3 +1,4 @@
 <map id="bWidgets::bwScreenGraph::LayoutNode" name="bWidgets::bwScreenGraph::LayoutNode">
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwScreenGraph_1_1Node.html" title="The base data&#45;structure for a screen&#45;graph node. " alt="" coords="5,5,184,47"/>
+<area shape="rect" id="node1" title="Node for aligning children to a specific layout." alt="" coords="5,95,184,136"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwScreenGraph_1_1Node.html" title="The base data&#45;structure for a screen&#45;graph node." alt="" coords="5,5,184,47"/>
 </map>

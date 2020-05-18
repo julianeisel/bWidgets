@@ -85,38 +85,49 @@ $(function() {
 <div class="title">bwStyleManager.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<a href="bwStyleManager_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;bwStyle.h&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;bwUtil.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="bwStyle_8h.html">bwStyle.h</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="bwUtil_8h.html">bwUtil.h</a>&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>bWidgets {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebWidgets.html">bWidgets</a> {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyleManager.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classbWidgets_1_1bwStyleManager.html">bwStyleManager</a> {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keyword">static</span> <a class="code" href="classbWidgets_1_1bwStyleManager.html">bwStyleManager</a>&amp; getStyleManager();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keyword">static</span> bwPtr&lt;bwStyle&gt; createStyleFromTypeID(bwStyle::TypeID type_id);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keyword">static</span> <a class="code" href="classbWidgets_1_1bwStyleManager.html">bwStyleManager</a>&amp; <a class="code" href="classbWidgets_1_1bwStyleManager.html#abc06374b852f74295b2c3c44c539dda6">getStyleManager</a>();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keyword">static</span> <a class="code" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr&lt;bwStyle&gt;</a> <a class="code" href="classbWidgets_1_1bwStyleManager.html#a60ec553e237cef9acd1eaaedaec9bd02">createStyleFromTypeID</a>(<a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">bwStyle::TypeID</a> type_id);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keywordtype">void</span> registerDefaultStyleTypes();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classbWidgets_1_1bwStyleManager.html#a29e73cd1b5e8203d1dca2792e5810616">registerDefaultStyleTypes</a>();</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">using</span> StyleTypeArray = std::array&lt;<a class="code" href="structbWidgets_1_1bwStyle_1_1StyleType.html">bwStyle::StyleType</a>, int(bwStyle::TypeID::BUILTIN_TOT)&gt;;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">const</span> StyleTypeArray&amp; getBuiltinStyleTypes() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyleManager.html#ad244eba0fb59f6febd39841c7e199b62">   20</a></span>&#160;  <span class="keyword">using</span> <a class="code" href="classbWidgets_1_1bwStyleManager.html#ad244eba0fb59f6febd39841c7e199b62">StyleTypeArray</a> = std::array&lt;<a class="code" href="structbWidgets_1_1bwStyle_1_1StyleType.html">bwStyle::StyleType</a>, int(<a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071dac514155c8cef0bb7e535083bf96c09e2">bwStyle::TypeID::BUILTIN_TOT</a>)&gt;;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">const</span> <a class="code" href="classbWidgets_1_1bwStyleManager.html#ad244eba0fb59f6febd39841c7e199b62">StyleTypeArray</a>&amp; <a class="code" href="classbWidgets_1_1bwStyleManager.html#a3597910a5dad79caac632d365da3d092">getBuiltinStyleTypes</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <a class="code" href="classbWidgets_1_1bwStyleManager.html">bwStyleManager</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="classbWidgets_1_1bwStyleManager.html">bwStyleManager</a>(<a class="code" href="classbWidgets_1_1bwStyleManager.html">bwStyleManager</a> <span class="keyword">const</span>&amp;) = <span class="keyword">delete</span>;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordtype">void</span> operator=(<a class="code" href="classbWidgets_1_1bwStyleManager.html">bwStyleManager</a> <span class="keyword">const</span>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  StyleTypeArray builtin_style_types;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <a class="code" href="classbWidgets_1_1bwStyleManager.html#ad244eba0fb59f6febd39841c7e199b62">StyleTypeArray</a> builtin_style_types;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="comment">//    std::vector&lt;StyleType&gt; custom_types;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}  <span class="comment">// namespace bWidgets</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071dac514155c8cef0bb7e535083bf96c09e2"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071dac514155c8cef0bb7e535083bf96c09e2">bWidgets::bwStyle::TypeID::BUILTIN_TOT</a></div><div class="ttdeci">@ BUILTIN_TOT</div></div>
 <div class="ttc" id="aclassbWidgets_1_1bwStyleManager_html"><div class="ttname"><a href="classbWidgets_1_1bwStyleManager.html">bWidgets::bwStyleManager</a></div><div class="ttdoc">Singleton class for managing styles through type ID's.</div><div class="ttdef"><b>Definition:</b> bwStyleManager.h:13</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyleManager_html_a3597910a5dad79caac632d365da3d092"><div class="ttname"><a href="classbWidgets_1_1bwStyleManager.html#a3597910a5dad79caac632d365da3d092">bWidgets::bwStyleManager::getBuiltinStyleTypes</a></div><div class="ttdeci">const StyleTypeArray &amp; getBuiltinStyleTypes() const</div><div class="ttdef"><b>Definition:</b> bwStyleManager.cc:55</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyleManager_html_a60ec553e237cef9acd1eaaedaec9bd02"><div class="ttname"><a href="classbWidgets_1_1bwStyleManager.html#a60ec553e237cef9acd1eaaedaec9bd02">bWidgets::bwStyleManager::createStyleFromTypeID</a></div><div class="ttdeci">static bwPtr&lt; bwStyle &gt; createStyleFromTypeID(bwStyle::TypeID type_id)</div><div class="ttdef"><b>Definition:</b> bwStyleManager.cc:18</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyleManager_html_ad244eba0fb59f6febd39841c7e199b62"><div class="ttname"><a href="classbWidgets_1_1bwStyleManager.html#ad244eba0fb59f6febd39841c7e199b62">bWidgets::bwStyleManager::StyleTypeArray</a></div><div class="ttdeci">std::array&lt; bwStyle::StyleType, int(bwStyle::TypeID::BUILTIN_TOT)&gt; StyleTypeArray</div><div class="ttdef"><b>Definition:</b> bwStyleManager.h:20</div></div>
+<div class="ttc" id="abwUtil_8h_html"><div class="ttname"><a href="bwUtil_8h.html">bwUtil.h</a></div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyleManager_html_abc06374b852f74295b2c3c44c539dda6"><div class="ttname"><a href="classbWidgets_1_1bwStyleManager.html#abc06374b852f74295b2c3c44c539dda6">bWidgets::bwStyleManager::getStyleManager</a></div><div class="ttdeci">static bwStyleManager &amp; getStyleManager()</div><div class="ttdef"><b>Definition:</b> bwStyleManager.cc:12</div></div>
 <div class="ttc" id="astructbWidgets_1_1bwStyle_1_1StyleType_html"><div class="ttname"><a href="structbWidgets_1_1bwStyle_1_1StyleType.html">bWidgets::bwStyle::StyleType</a></div><div class="ttdef"><b>Definition:</b> bwStyle.h:31</div></div>
+<div class="ttc" id="anamespacebWidgets_html_ae2c4dc0737153c6a217f409379ab66c4"><div class="ttname"><a href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bWidgets::bwPtr</a></div><div class="ttdeci">std::unique_ptr&lt; _PointerType &gt; bwPtr</div><div class="ttdoc">Alias for std::unique_ptr().</div><div class="ttdef"><b>Definition:</b> bwPtr.h:44</div></div>
+<div class="ttc" id="abwStyle_8h_html"><div class="ttname"><a href="bwStyle_8h.html">bwStyle.h</a></div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyleManager_html_a29e73cd1b5e8203d1dca2792e5810616"><div class="ttname"><a href="classbWidgets_1_1bwStyleManager.html#a29e73cd1b5e8203d1dca2792e5810616">bWidgets::bwStyleManager::registerDefaultStyleTypes</a></div><div class="ttdeci">void registerDefaultStyleTypes()</div><div class="ttdef"><b>Definition:</b> bwStyleManager.cc:37</div></div>
+<div class="ttc" id="anamespacebWidgets_html"><div class="ttname"><a href="namespacebWidgets.html">bWidgets</a></div><div class="ttdef"><b>Definition:</b> bwContext.h:5</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071d"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">bWidgets::bwStyle::TypeID</a></div><div class="ttdeci">TypeID</div><div class="ttdef"><b>Definition:</b> bwStyle.h:10</div></div>
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

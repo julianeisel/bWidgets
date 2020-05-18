@@ -1,4 +1,5 @@
 <map id="bWidgets::bwCheckbox" name="bWidgets::bwCheckbox">
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="5,80,195,107"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from. " alt="" coords="29,5,171,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="19,155,181,181"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets." alt="" coords="5,80,195,107"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="29,5,171,32"/>
 </map>

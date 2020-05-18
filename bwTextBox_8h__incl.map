@@ -1,0 +1,26 @@
+<map id="bwidgets/widgets/bwTextBox.h" name="bwidgets/widgets/bwTextBox.h">
+<area shape="rect" id="node1" title=" " alt="" coords="595,5,798,32"/>
+<area shape="rect" id="node2" href="$bwWidget_8h.html" title=" " alt="" coords="579,80,670,107"/>
+<area shape="rect" id="node23" href="$bwWidgetBaseStyle_8h.html" title=" " alt="" coords="816,80,967,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="591,155,659,181"/>
+<area shape="rect" id="node4" href="$bwDistance_8h.html" title=" " alt="" coords="683,155,785,181"/>
+<area shape="rect" id="node7" href="$bwFunctorInterface_8h.html" title=" " alt="" coords="287,155,432,181"/>
+<area shape="rect" id="node8" href="$bwRectangle_8h.html" title=" " alt="" coords="457,155,566,181"/>
+<area shape="rect" id="node9" href="$bwStyleProperties_8h.html" title=" " alt="" coords="810,155,949,181"/>
+<area shape="rect" id="node19" href="$EventHandler_8h.html" title=" " alt="" coords="69,155,263,181"/>
+<area shape="rect" id="node5" href="$bwPoint_8h.html" title=" " alt="" coords="689,229,769,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="699,304,758,331"/>
+<area shape="rect" id="node10" title=" " alt="" coords="939,229,993,256"/>
+<area shape="rect" id="node11" href="$bwUtil_8h.html" title=" " alt="" coords="844,229,915,256"/>
+<area shape="rect" id="node12" href="$bwOptional_8h.html" title=" " alt="" coords="873,304,971,331"/>
+<area shape="rect" id="node17" href="$bwPtr_8h.html" title=" " alt="" coords="782,304,849,331"/>
+<area shape="rect" id="node13" title=" " alt="" coords="827,386,892,413"/>
+<area shape="rect" id="node14" title=" " alt="" coords="724,386,803,413"/>
+<area shape="rect" id="node15" title=" " alt="" coords="994,468,1077,495"/>
+<area shape="rect" id="node16" href="$bwOptional__internal_8h.html" title=" " alt="" coords="917,379,1050,420"/>
+<area shape="rect" id="node18" title=" " alt="" coords="630,386,699,413"/>
+<area shape="rect" id="node20" title=" " alt="" coords="141,229,191,256"/>
+<area shape="rect" id="node21" title=" " alt="" coords="216,229,255,256"/>
+<area shape="rect" id="node22" title=" " alt="" coords="5,229,116,256"/>
+<area shape="rect" id="node24" href="$bwColor_8h.html" title=" " alt="" coords="973,155,1053,181"/>
+</map>

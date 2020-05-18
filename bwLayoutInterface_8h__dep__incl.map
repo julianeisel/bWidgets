@@ -1,0 +1,12 @@
+<map id="bwidgets/bwLayoutInterface.h" name="bwidgets/bwLayoutInterface.h">
+<area shape="rect" id="node1" title=" " alt="" coords="392,5,588,32"/>
+<area shape="rect" id="node2" href="$Node_8h.html" title=" " alt="" coords="412,80,568,121"/>
+<area shape="rect" id="node3" href="$bwEventDispatcher_8cc.html" title=" " alt="" coords="5,177,215,203"/>
+<area shape="rect" id="node4" href="$Builder_8h.html" title=" " alt="" coords="239,169,395,211"/>
+<area shape="rect" id="node6" href="$bwScrollView_8cc.html" title=" " alt="" coords="344,259,521,300"/>
+<area shape="rect" id="node7" href="$Drawer_8cc.html" title=" " alt="" coords="471,169,627,211"/>
+<area shape="rect" id="node8" href="$EventHandler_8cc.html" title=" " alt="" coords="651,169,807,211"/>
+<area shape="rect" id="node9" href="$Iterators_8h.html" title=" " alt="" coords="831,169,987,211"/>
+<area shape="rect" id="node5" href="$Builder_8cc.html" title=" " alt="" coords="164,259,320,300"/>
+<area shape="rect" id="node10" href="$Iterators_8cc.html" title=" " alt="" coords="831,259,987,300"/>
+</map>

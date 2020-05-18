@@ -85,18 +85,18 @@ $(function() {
 <div class="title">bwPtr.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<a href="bwPtr_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>std {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structstd_1_1always__false.html">   13</a></span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span>... T&gt; <span class="keyword">struct </span><a class="code" href="structstd_1_1always__false.html">always_false</a> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> value = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structstd_1_1always__false.html#a1fb33c813233eb2ffdc4e1d12ef8294a">   14</a></span>&#160;  <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> <a class="code" href="structstd_1_1always__false.html#a1fb33c813233eb2ffdc4e1d12ef8294a">value</a> = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;};</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> _PointerType, <span class="keyword">typename</span>... _Args&gt;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">inline</span> constexpr std::unique_ptr&lt;_PointerType&gt; make_unique(_Args&amp;&amp;...)</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="bwPtr_8h.html#a7a786f4c081743da2f7f09500b393ae4">   22</a></span>&#160;<span class="keyword">inline</span> constexpr std::unique_ptr&lt;_PointerType&gt; <a class="code" href="bwPtr_8h.html#a7a786f4c081743da2f7f09500b393ae4">make_unique</a>(_Args&amp;&amp;...)</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  static_assert(<a class="code" href="structstd_1_1always__false.html">always_false&lt;_Args...&gt;::value</a>,</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <span class="stringliteral">&quot;Error: `std::make_unique()` is not available in C++11 and shouldn&#39;t be &quot;</span></div>
@@ -106,24 +106,29 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}  <span class="comment">// namespace std</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>bWidgets {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebWidgets.html">bWidgets</a> {</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Po<span class="keywordtype">int</span>erType&gt; <span class="keyword">using</span> bwPtr = std::unique_ptr&lt;_PointerType&gt;;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">   44</a></span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Po<span class="keywordtype">int</span>erType&gt; <span class="keyword">using</span> <a class="code" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr</a> = std::unique_ptr&lt;_PointerType&gt;;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> _PointerType, <span class="keyword">typename</span>... _Args&gt;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">inline</span> bwPtr&lt;_PointerType&gt; bwPtr_new(_Args&amp;&amp;... args)</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="namespacebWidgets.html#ac7162c52f90a6f790e1631154c5439c0">   69</a></span>&#160;<span class="keyword">inline</span> <a class="code" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr&lt;_PointerType&gt;</a> <a class="code" href="namespacebWidgets.html#ac7162c52f90a6f790e1631154c5439c0">bwPtr_new</a>(_Args&amp;&amp;... args)</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">return</span> bwPtr&lt;_PointerType&gt;(<span class="keyword">new</span> _PointerType(std::forward&lt;_Args&gt;(args)...));</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr&lt;_PointerType&gt;</a>(<span class="keyword">new</span> _PointerType(std::forward&lt;_Args&gt;(args)...));</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Po<span class="keywordtype">int</span>erType&gt; <span class="keyword">inline</span> bwPtr&lt;_PointerType&gt; bwPtr_new()</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="namespacebWidgets.html#aec07e0d8555a242396884b370ef90853">   79</a></span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Po<span class="keywordtype">int</span>erType&gt; <span class="keyword">inline</span> <a class="code" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr&lt;_PointerType&gt;</a> <a class="code" href="namespacebWidgets.html#ac7162c52f90a6f790e1631154c5439c0">bwPtr_new</a>()</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;{</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">return</span> bwPtr&lt;_PointerType&gt;(<span class="keyword">new</span> _PointerType());</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr&lt;_PointerType&gt;</a>(<span class="keyword">new</span> _PointerType());</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}  <span class="comment">// namespace bWidgets</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructstd_1_1always__false_html"><div class="ttname"><a href="structstd_1_1always__false.html">std::always_false</a></div><div class="ttdef"><b>Definition:</b> bwPtr.h:13</div></div>
+<div class="ttc" id="anamespacebWidgets_html_ac7162c52f90a6f790e1631154c5439c0"><div class="ttname"><a href="namespacebWidgets.html#ac7162c52f90a6f790e1631154c5439c0">bWidgets::bwPtr_new</a></div><div class="ttdeci">bwPtr&lt; _PointerType &gt; bwPtr_new(_Args &amp;&amp;... args)</div><div class="ttdoc">Own implementation of std::make_unique() for C++11.</div><div class="ttdef"><b>Definition:</b> bwPtr.h:69</div></div>
+<div class="ttc" id="anamespacebWidgets_html_ae2c4dc0737153c6a217f409379ab66c4"><div class="ttname"><a href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bWidgets::bwPtr</a></div><div class="ttdeci">std::unique_ptr&lt; _PointerType &gt; bwPtr</div><div class="ttdoc">Alias for std::unique_ptr().</div><div class="ttdef"><b>Definition:</b> bwPtr.h:44</div></div>
+<div class="ttc" id="anamespacebWidgets_html"><div class="ttname"><a href="namespacebWidgets.html">bWidgets</a></div><div class="ttdef"><b>Definition:</b> bwContext.h:5</div></div>
+<div class="ttc" id="abwPtr_8h_html_a7a786f4c081743da2f7f09500b393ae4"><div class="ttname"><a href="bwPtr_8h.html#a7a786f4c081743da2f7f09500b393ae4">std::make_unique</a></div><div class="ttdeci">constexpr std::unique_ptr&lt; _PointerType &gt; make_unique(_Args &amp;&amp;...)</div><div class="ttdef"><b>Definition:</b> bwPtr.h:22</div></div>
+<div class="ttc" id="astructstd_1_1always__false_html_a1fb33c813233eb2ffdc4e1d12ef8294a"><div class="ttname"><a href="structstd_1_1always__false.html#a1fb33c813233eb2ffdc4e1d12ef8294a">std::always_false::value</a></div><div class="ttdeci">static constexpr bool value</div><div class="ttdef"><b>Definition:</b> bwPtr.h:14</div></div>
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

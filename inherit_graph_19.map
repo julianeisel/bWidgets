@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classbWidgets_1_1bwStyleManager.html" title="Singleton class for managing styles through type ID&#39;s. " alt="" coords="5,5,188,32"/>
+<area shape="rect" id="node1" href="$classbWidgets_1_1bwScreenGraph_1_1EventHandler.html" title="API for registering and calling event&#45;listeners." alt="" coords="5,133,184,174"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButtonHandler.html" title=" " alt="" coords="242,49,431,90"/>
+<area shape="rect" id="node6" href="$classbWidgets_1_1bwPanelHandler.html" title=" " alt="" coords="247,115,427,141"/>
+<area shape="rect" id="node7" href="$classbWidgets_1_1bwScrollViewHandler.html" title=" " alt="" coords="232,165,441,192"/>
+<area shape="rect" id="node8" href="$classbWidgets_1_1bwTextBoxHandler.html" title=" " alt="" coords="239,216,434,243"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwCheckboxHandler.html" title=" " alt="" coords="495,5,702,32"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwRadioButtonHandler.html" title=" " alt="" coords="489,56,708,83"/>
+<area shape="rect" id="node5" href="$classbWidgets_1_1bwScrollBarHandler.html" title=" " alt="" coords="499,107,699,133"/>
+<area shape="rect" id="node9" href="$classbWidgets_1_1bwNumberSliderHandler.html" title=" " alt="" coords="508,209,689,250"/>
 </map>

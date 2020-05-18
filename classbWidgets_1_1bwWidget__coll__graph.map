@@ -1,4 +1,7 @@
 <map id="bWidgets::bwWidget" name="bWidgets::bwWidget">
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="191,13,381,39"/>
+<area shape="rect" id="node1" title="Abstract base class that all widgets derive from." alt="" coords="160,200,303,227"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwRectangle.html" title=" " alt="" coords="5,96,167,137"/>
+<area shape="rect" id="node3" title="STL class." alt="" coords="191,103,271,130"/>
+<area shape="rect" id="node4" title="STL class." alt="" coords="168,5,295,47"/>
+<area shape="rect" id="node5" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances)." alt="" coords="296,103,487,130"/>
 </map>

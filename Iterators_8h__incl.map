@@ -1,0 +1,34 @@
+<map id="bwidgets/screen_graph/Iterators.h" name="bwidgets/screen_graph/Iterators.h">
+<area shape="rect" id="node1" title=" " alt="" coords="485,5,641,47"/>
+<area shape="rect" id="node2" title=" " alt="" coords="428,95,491,121"/>
+<area shape="rect" id="node3" href="$Node_8h.html" title=" " alt="" coords="566,95,630,121"/>
+<area shape="rect" id="node6" href="$bwWidget_8h.html" title=" " alt="" coords="491,244,582,271"/>
+<area shape="rect" id="node29" href="$ScreenGraph_8h.html" title=" " alt="" coords="995,95,1105,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="115,393,153,420"/>
+<area shape="rect" id="node5" href="$bwContainerWidget_8h.html" title=" " alt="" coords="617,169,763,196"/>
+<area shape="rect" id="node21" href="$bwPtr_8h.html" title=" " alt="" coords="973,468,1039,495"/>
+<area shape="rect" id="node28" href="$bwLayoutInterface_8h.html" title=" " alt="" coords="183,169,323,196"/>
+<area shape="rect" id="node26" href="$bwWidgetBaseStyle_8h.html" title=" " alt="" coords="669,244,820,271"/>
+<area shape="rect" id="node7" title=" " alt="" coords="155,319,223,345"/>
+<area shape="rect" id="node8" href="$bwDistance_8h.html" title=" " alt="" coords="1131,319,1233,345"/>
+<area shape="rect" id="node11" href="$bwFunctorInterface_8h.html" title=" " alt="" coords="464,319,609,345"/>
+<area shape="rect" id="node12" href="$bwRectangle_8h.html" title=" " alt="" coords="21,319,130,345"/>
+<area shape="rect" id="node13" href="$bwStyleProperties_8h.html" title=" " alt="" coords="634,319,773,345"/>
+<area shape="rect" id="node23" href="$EventHandler_8h.html" title=" " alt="" coords="247,319,440,345"/>
+<area shape="rect" id="node9" href="$bwPoint_8h.html" title=" " alt="" coords="1186,393,1266,420"/>
+<area shape="rect" id="node10" title=" " alt="" coords="1123,468,1182,495"/>
+<area shape="rect" id="node14" title=" " alt="" coords="676,393,731,420"/>
+<area shape="rect" id="node15" href="$bwUtil_8h.html" title=" " alt="" coords="764,393,835,420"/>
+<area shape="rect" id="node16" href="$bwOptional_8h.html" title=" " alt="" coords="750,468,849,495"/>
+<area shape="rect" id="node17" title=" " alt="" coords="643,550,708,577"/>
+<area shape="rect" id="node18" title=" " alt="" coords="427,550,505,577"/>
+<area shape="rect" id="node19" title=" " alt="" coords="810,632,893,659"/>
+<area shape="rect" id="node20" href="$bwOptional__internal_8h.html" title=" " alt="" coords="733,543,866,584"/>
+<area shape="rect" id="node22" title=" " alt="" coords="971,550,1041,577"/>
+<area shape="rect" id="node24" title=" " alt="" coords="470,393,521,420"/>
+<area shape="rect" id="node25" title=" " alt="" coords="335,393,445,420"/>
+<area shape="rect" id="node27" href="$bwColor_8h.html" title=" " alt="" coords="797,319,877,345"/>
+<area shape="rect" id="node30" href="$bwContext_8h.html" title=" " alt="" coords="951,244,1047,271"/>
+<area shape="rect" id="node31" href="$bwEventDispatcher_8h.html" title=" " alt="" coords="1131,169,1278,196"/>
+<area shape="rect" id="node32" href="$bwEvent_8h.html" title=" " alt="" coords="1173,244,1257,271"/>
+</map>

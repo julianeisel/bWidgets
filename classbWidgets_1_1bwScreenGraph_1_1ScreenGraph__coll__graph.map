@@ -1,0 +1,6 @@
+<map id="bWidgets::bwScreenGraph::ScreenGraph" name="bWidgets::bwScreenGraph::ScreenGraph">
+<area shape="rect" id="node1" title=" " alt="" coords="98,213,277,255"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwEventDispatcher.html" title="Mangages sending events to screen&#45;graph nodes based on current state." alt="" coords="5,124,204,151"/>
+<area shape="rect" id="node3" href="$structbWidgets_1_1bwContext.html" title="Important state information for the screen&#45;graph." alt="" coords="228,124,376,151"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwScreenGraph_1_1Node.html" title="The base data&#45;structure for a screen&#45;graph node." alt="" coords="213,5,391,47"/>
+</map>

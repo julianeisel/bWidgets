@@ -85,50 +85,66 @@ $(function() {
 <div class="title">bwStyle.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<a href="bwStyle_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>bWidgets {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebWidgets.html">bWidgets</a> {</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyle.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="classbWidgets_1_1bwStyle.html">bwStyle</a> {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  <span class="keyword">enum class</span> TypeID {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    CLASSIC,</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    CLASSIC_CSS,</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    FLAT_GREY,</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    FLAT_DARK,</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    FLAT_LIGHT,</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">   10</a></span>&#160;  <span class="keyword">enum class</span> <a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">TypeID</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da21994d6177b29e1128b2d7f0f8342057">CLASSIC</a>,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071daecf37b2236878dfe244eacc095f5acb5">CLASSIC_CSS</a>,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da9e3839f100de27c0d3aa535ef79a9403">FLAT_GREY</a>,</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da6d11ebb5ee245371714b84f84618cfd9">FLAT_DARK</a>,</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da60ae6bd1be004f399d482a35324e633c">FLAT_LIGHT</a>,</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    BUILTIN_TOT,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071dac514155c8cef0bb7e535083bf96c09e2">BUILTIN_TOT</a>,</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="comment">//      STYLE_CUSTOM, // For the future</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  } type_id;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyle.html#a76b56f9977d08793e96d67aa7b69473a">   20</a></span>&#160;  } <a class="code" href="classbWidgets_1_1bwStyle.html#a76b56f9977d08793e96d67aa7b69473a">type_id</a>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">virtual</span> ~<a class="code" href="classbWidgets_1_1bwStyle.html">bwStyle</a>()</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyle.html#ab0636706e1a74cfc4c8a8d1a99f4526d">   22</a></span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classbWidgets_1_1bwStyle.html#ab0636706e1a74cfc4c8a8d1a99f4526d">~bwStyle</a>()</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  {</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  }</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> setWidgetStyle(<span class="keyword">class</span> <a class="code" href="classbWidgets_1_1bwWidget.html">bwWidget</a>&amp; widget) = 0;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> polish(<span class="keyword">class</span> <a class="code" href="classbWidgets_1_1bwWidget.html">bwWidget</a>&amp; widget) = 0;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyle.html#a445fb621dab030d81b299c4cd4f38069">   26</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classbWidgets_1_1bwStyle.html#a445fb621dab030d81b299c4cd4f38069">setWidgetStyle</a>(<span class="keyword">class</span> <a class="code" href="classbWidgets_1_1bwWidget.html">bwWidget</a>&amp; widget) = 0;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyle.html#a6c3be845740d68b31bc24004fc83c890">   27</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classbWidgets_1_1bwStyle.html#a6c3be845740d68b31bc24004fc83c890">polish</a>(<span class="keyword">class</span> <a class="code" href="classbWidgets_1_1bwWidget.html">bwWidget</a>&amp; widget) = 0;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordtype">float</span> dpi_fac{1.0f};</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classbWidgets_1_1bwStyle.html#a98c0d12f3f428322dbe6405621680f42">   29</a></span>&#160;  <span class="keywordtype">float</span> <a class="code" href="classbWidgets_1_1bwStyle.html#a98c0d12f3f428322dbe6405621680f42">dpi_fac</a>{1.0f};</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="structbWidgets_1_1bwStyle_1_1StyleType.html">   31</a></span>&#160;  <span class="keyword">struct </span><a class="code" href="structbWidgets_1_1bwStyle_1_1StyleType.html">StyleType</a> {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    TypeID type_id;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    std::string name;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="structbWidgets_1_1bwStyle_1_1StyleType.html#a85463b9821f45d644ddcdb90857e33b7">   32</a></span>&#160;    <a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">TypeID</a> <a class="code" href="structbWidgets_1_1bwStyle_1_1StyleType.html#a85463b9821f45d644ddcdb90857e33b7">type_id</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="structbWidgets_1_1bwStyle_1_1StyleType.html#a9ed7bef598ba0e9ed333996fe4c38c8e">   33</a></span>&#160;    std::string <a class="code" href="structbWidgets_1_1bwStyle_1_1StyleType.html#a9ed7bef598ba0e9ed333996fe4c38c8e">name</a>;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  };</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="classbWidgets_1_1bwStyle.html">bwStyle</a>(TypeID type_id);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="classbWidgets_1_1bwStyle.html#a3a32c1bc50c26c565b3d7c9d87b3c716">bwStyle</a>(<a class="code" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">TypeID</a> <a class="code" href="classbWidgets_1_1bwStyle.html#a76b56f9977d08793e96d67aa7b69473a">type_id</a>);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}  <span class="comment">// namespace bWidgets</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassbWidgets_1_1bwStyle_html"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html">bWidgets::bwStyle</a></div><div class="ttdef"><b>Definition:</b> bwStyle.h:8</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071daecf37b2236878dfe244eacc095f5acb5"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071daecf37b2236878dfe244eacc095f5acb5">bWidgets::bwStyle::TypeID::CLASSIC_CSS</a></div><div class="ttdeci">@ CLASSIC_CSS</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071da21994d6177b29e1128b2d7f0f8342057"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da21994d6177b29e1128b2d7f0f8342057">bWidgets::bwStyle::TypeID::CLASSIC</a></div><div class="ttdeci">@ CLASSIC</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_a98c0d12f3f428322dbe6405621680f42"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#a98c0d12f3f428322dbe6405621680f42">bWidgets::bwStyle::dpi_fac</a></div><div class="ttdeci">float dpi_fac</div><div class="ttdef"><b>Definition:</b> bwStyle.h:29</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_a76b56f9977d08793e96d67aa7b69473a"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#a76b56f9977d08793e96d67aa7b69473a">bWidgets::bwStyle::type_id</a></div><div class="ttdeci">enum bWidgets::bwStyle::TypeID type_id</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_a445fb621dab030d81b299c4cd4f38069"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#a445fb621dab030d81b299c4cd4f38069">bWidgets::bwStyle::setWidgetStyle</a></div><div class="ttdeci">virtual void setWidgetStyle(class bwWidget &amp;widget)=0</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071dac514155c8cef0bb7e535083bf96c09e2"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071dac514155c8cef0bb7e535083bf96c09e2">bWidgets::bwStyle::TypeID::BUILTIN_TOT</a></div><div class="ttdeci">@ BUILTIN_TOT</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ab0636706e1a74cfc4c8a8d1a99f4526d"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ab0636706e1a74cfc4c8a8d1a99f4526d">bWidgets::bwStyle::~bwStyle</a></div><div class="ttdeci">virtual ~bwStyle()</div><div class="ttdef"><b>Definition:</b> bwStyle.h:22</div></div>
 <div class="ttc" id="astructbWidgets_1_1bwStyle_1_1StyleType_html"><div class="ttname"><a href="structbWidgets_1_1bwStyle_1_1StyleType.html">bWidgets::bwStyle::StyleType</a></div><div class="ttdef"><b>Definition:</b> bwStyle.h:31</div></div>
+<div class="ttc" id="astructbWidgets_1_1bwStyle_1_1StyleType_html_a85463b9821f45d644ddcdb90857e33b7"><div class="ttname"><a href="structbWidgets_1_1bwStyle_1_1StyleType.html#a85463b9821f45d644ddcdb90857e33b7">bWidgets::bwStyle::StyleType::type_id</a></div><div class="ttdeci">TypeID type_id</div><div class="ttdef"><b>Definition:</b> bwStyle.h:32</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071da6d11ebb5ee245371714b84f84618cfd9"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da6d11ebb5ee245371714b84f84618cfd9">bWidgets::bwStyle::TypeID::FLAT_DARK</a></div><div class="ttdeci">@ FLAT_DARK</div></div>
+<div class="ttc" id="anamespacebWidgets_html"><div class="ttname"><a href="namespacebWidgets.html">bWidgets</a></div><div class="ttdef"><b>Definition:</b> bwContext.h:5</div></div>
 <div class="ttc" id="aclassbWidgets_1_1bwWidget_html"><div class="ttname"><a href="classbWidgets_1_1bwWidget.html">bWidgets::bwWidget</a></div><div class="ttdoc">Abstract base class that all widgets derive from.</div><div class="ttdef"><b>Definition:</b> bwWidget.h:20</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_a6c3be845740d68b31bc24004fc83c890"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#a6c3be845740d68b31bc24004fc83c890">bWidgets::bwStyle::polish</a></div><div class="ttdeci">virtual void polish(class bwWidget &amp;widget)=0</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_a3a32c1bc50c26c565b3d7c9d87b3c716"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#a3a32c1bc50c26c565b3d7c9d87b3c716">bWidgets::bwStyle::bwStyle</a></div><div class="ttdeci">bwStyle(TypeID type_id)</div><div class="ttdef"><b>Definition:</b> bwStyle.cc:7</div></div>
+<div class="ttc" id="astructbWidgets_1_1bwStyle_1_1StyleType_html_a9ed7bef598ba0e9ed333996fe4c38c8e"><div class="ttname"><a href="structbWidgets_1_1bwStyle_1_1StyleType.html#a9ed7bef598ba0e9ed333996fe4c38c8e">bWidgets::bwStyle::StyleType::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition:</b> bwStyle.h:33</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071da9e3839f100de27c0d3aa535ef79a9403"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da9e3839f100de27c0d3aa535ef79a9403">bWidgets::bwStyle::TypeID::FLAT_GREY</a></div><div class="ttdeci">@ FLAT_GREY</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071d"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">bWidgets::bwStyle::TypeID</a></div><div class="ttdeci">TypeID</div><div class="ttdef"><b>Definition:</b> bwStyle.h:10</div></div>
+<div class="ttc" id="aclassbWidgets_1_1bwStyle_html_ae171f8ff8df35399f4d56db83774071da60ae6bd1be004f399d482a35324e633c"><div class="ttname"><a href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da60ae6bd1be004f399d482a35324e633c">bWidgets::bwStyle::TypeID::FLAT_LIGHT</a></div><div class="ttdeci">@ FLAT_LIGHT</div></div>
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

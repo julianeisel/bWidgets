@@ -1,0 +1,6 @@
+<map id="bWidgets::bwEvent" name="bWidgets::bwEvent">
+<area shape="rect" id="node1" title=" " alt="" coords="157,5,293,32"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwMouseButtonEvent.html" title=" " alt="" coords="118,80,331,107"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwMouseButtonDragEvent.html" title=" " alt="" coords="5,155,212,196"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwMouseWheelEvent.html" title=" " alt="" coords="236,162,448,189"/>
+</map>

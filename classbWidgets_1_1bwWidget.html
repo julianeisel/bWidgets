@@ -77,7 +77,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>bWidgets</b></li><li class="navelem"><a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacebWidgets.html">bWidgets</a></li><li class="navelem"><a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -104,15 +104,18 @@ $(function() {
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classbWidgets_1_1bwWidget__inherit__graph.png" border="0" usemap="#bWidgets_1_1bwWidget_inherit__map" alt="Inheritance graph"/></div>
 <map name="bWidgets_1_1bwWidget_inherit__map" id="bWidgets_1_1bwWidget_inherit__map">
-<area shape="rect" href="classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets. " alt="" coords="196,81,385,108"/>
-<area shape="rect" href="classbWidgets_1_1bwLabel.html" title="bWidgets::bwLabel" alt="" coords="224,132,357,159"/>
-<area shape="rect" href="classbWidgets_1_1bwPanel.html" title="bWidgets::bwPanel" alt="" coords="223,183,358,209"/>
-<area shape="rect" href="classbWidgets_1_1bwTextBox.html" title="bWidgets::bwTextBox" alt="" coords="215,233,366,260"/>
-<area shape="rect" href="classbWidgets_1_1bwCheckbox.html" title="bWidgets::bwCheckbox" alt="" coords="443,5,605,32"/>
-<area shape="rect" href="classbWidgets_1_1bwPushButton.html" title="bWidgets::bwPushButton" alt="" coords="439,56,609,83"/>
-<area shape="rect" href="classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed. " alt="" coords="437,107,611,133"/>
-<area shape="rect" href="classbWidgets_1_1bwScrollBar.html" title="bWidgets::bwScrollBar" alt="" coords="447,157,601,184"/>
-<area shape="rect" href="classbWidgets_1_1bwNumberSlider.html" title="bWidgets::bwNumberSlider" alt="" coords="433,233,615,260"/>
+<area shape="rect" title="Abstract base class that all widgets derive from." alt="" coords="5,233,148,260"/>
+<area shape="rect" href="classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets." alt="" coords="201,107,390,133"/>
+<area shape="rect" href="classbWidgets_1_1bwContainerWidget.html" title=" " alt="" coords="196,208,395,235"/>
+<area shape="rect" href="classbWidgets_1_1bwLabel.html" title=" " alt="" coords="229,259,362,285"/>
+<area shape="rect" href="classbWidgets_1_1bwTextBox.html" title=" " alt="" coords="220,309,371,336"/>
+<area shape="rect" href="classbWidgets_1_1bwCheckbox.html" title=" " alt="" coords="453,5,614,32"/>
+<area shape="rect" href="classbWidgets_1_1bwPushButton.html" title=" " alt="" coords="448,56,619,83"/>
+<area shape="rect" href="classbWidgets_1_1bwRadioButton.html" title="A radio&#45;button like widget retaining a pressed state once pressed." alt="" coords="446,107,621,133"/>
+<area shape="rect" href="classbWidgets_1_1bwScrollBar.html" title=" " alt="" coords="456,157,611,184"/>
+<area shape="rect" href="classbWidgets_1_1bwPanel.html" title=" " alt="" coords="466,208,601,235"/>
+<area shape="rect" href="classbWidgets_1_1bwScrollView.html" title=" " alt="" coords="451,259,615,285"/>
+<area shape="rect" href="classbWidgets_1_1bwNumberSlider.html" title=" " alt="" coords="443,309,624,336"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -122,100 +125,383 @@ $(function() {
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classbWidgets_1_1bwWidget__coll__graph.png" border="0" usemap="#bWidgets_1_1bwWidget_coll__map" alt="Collaboration graph"/></div>
 <map name="bWidgets_1_1bwWidget_coll__map" id="bWidgets_1_1bwWidget_coll__map">
-<area shape="rect" href="classbWidgets_1_1bwRectangle.html" title="bWidgets::bwRectangle\l\&lt; int \&gt;" alt="" coords="5,5,167,47"/>
-<area shape="rect" href="classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances). " alt="" coords="191,13,381,39"/>
+<area shape="rect" title="Abstract base class that all widgets derive from." alt="" coords="160,200,303,227"/>
+<area shape="rect" href="classbWidgets_1_1bwRectangle.html" title=" " alt="" coords="5,96,167,137"/>
+<area shape="rect" title="STL class." alt="" coords="191,103,271,130"/>
+<area shape="rect" title="STL class." alt="" coords="168,5,295,47"/>
+<area shape="rect" href="classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances)." alt="" coords="296,103,487,130"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a8e5ec49ccac5ab6545eb22bb27f73f25"><td class="memItemLeft" align="right" valign="top"><a id="a8e5ec49ccac5ab6545eb22bb27f73f25"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Type</b> { <br />
-&#160;&#160;<b>CHECKBOX</b>, 
-<b>LABEL</b>, 
-<b>NUMBER_SLIDER</b>, 
-<b>PUSH_BUTTON</b>, 
-<br />
-&#160;&#160;<b>RADIO_BUTTON</b>, 
-<b>SCROLL_BAR</b>, 
-<b>SCROLL_VIEW</b>, 
-<b>BOX</b>, 
-<br />
-&#160;&#160;<b>PANEL</b>, 
-<b>TOT</b>
-<br />
- }</td></tr>
-<tr class="separator:a8e5ec49ccac5ab6545eb22bb27f73f25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ddf087ab9a35eee474681da365adc3b"><td class="memItemLeft" align="right" valign="top"><a id="a0ddf087ab9a35eee474681da365adc3b"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>State</b> { <b>NORMAL</b> = 0, 
-<b>HIGHLIGHTED</b>, 
-<b>SUNKEN</b>, 
-<b>STATE_TOT</b>
+<tr class="memitem:a0ddf087ab9a35eee474681da365adc3b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a0ddf087ab9a35eee474681da365adc3b">State</a> { <a class="el" href="classbWidgets_1_1bwWidget.html#a0ddf087ab9a35eee474681da365adc3ba1e23852820b9154316c7c06e2b7ba051">State::NORMAL</a> = 0, 
+<a class="el" href="classbWidgets_1_1bwWidget.html#a0ddf087ab9a35eee474681da365adc3ba1f6517402830b4b0db683ae125d3b5e2">State::HIGHLIGHTED</a>, 
+<a class="el" href="classbWidgets_1_1bwWidget.html#a0ddf087ab9a35eee474681da365adc3ba42062bd9af6f065e1f29aee0790968e6">State::SUNKEN</a>, 
+<a class="el" href="classbWidgets_1_1bwWidget.html#a0ddf087ab9a35eee474681da365adc3bad9611930a92ae24912cf2b258f62ed1f">State::STATE_TOT</a>
  }</td></tr>
 <tr class="separator:a0ddf087ab9a35eee474681da365adc3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adc87b084058dde1655889463e550776e"><td class="memItemLeft" align="right" valign="top"><a id="adc87b084058dde1655889463e550776e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>bwWidget</b> (const Type type, const std::string &amp;identifier, const unsigned int <a class="el" href="classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc">width_hint</a>=0, const unsigned int height_hint=0)</td></tr>
-<tr class="separator:adc87b084058dde1655889463e550776e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a273c23af89df1c9a34148f0885b0b43f"><td class="memItemLeft" align="right" valign="top"><a id="a273c23af89df1c9a34148f0885b0b43f"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isCoordinateInside</b> (const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;point) const</td></tr>
+<tr class="memitem:a2fe560cabb6349ad65a97b75c7e7032c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a2fe560cabb6349ad65a97b75c7e7032c">bwWidget</a> (const std::string &amp;<a class="el" href="classbWidgets_1_1bwWidget.html#a8351a818e8c887ffd8a350e492d01984">identifier</a>, const unsigned int <a class="el" href="classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc">width_hint</a>=0, const unsigned int <a class="el" href="classbWidgets_1_1bwWidget.html#a9e2a6797a0f7cead9b02e599ebb2f7d3">height_hint</a>=0)</td></tr>
+<tr class="separator:a2fe560cabb6349ad65a97b75c7e7032c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94aadb4452c7f6cd66a75f2e76416b1b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a94aadb4452c7f6cd66a75f2e76416b1b">~bwWidget</a> ()=default</td></tr>
+<tr class="separator:a94aadb4452c7f6cd66a75f2e76416b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273c23af89df1c9a34148f0885b0b43f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a273c23af89df1c9a34148f0885b0b43f">isCoordinateInside</a> (const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;point) const</td></tr>
 <tr class="separator:a273c23af89df1c9a34148f0885b0b43f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca1ca15a15c803e6b08d96621d4730f1"><td class="memItemLeft" align="right" valign="top"><a id="aca1ca15a15c803e6b08d96621d4730f1"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>draw</b> (class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;style)=0</td></tr>
+<tr class="memitem:aca1ca15a15c803e6b08d96621d4730f1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#aca1ca15a15c803e6b08d96621d4730f1">draw</a> (class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;style)=0</td></tr>
 <tr class="separator:aca1ca15a15c803e6b08d96621d4730f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba9ee8caa675c19797990277276ae755"><td class="memItemLeft" align="right" valign="top"><a id="aba9ee8caa675c19797990277276ae755"></a>
-const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getIdentifier</b> () const</td></tr>
+<tr class="memitem:aba9ee8caa675c19797990277276ae755"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#aba9ee8caa675c19797990277276ae755">getIdentifier</a> () const</td></tr>
 <tr class="separator:aba9ee8caa675c19797990277276ae755"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5be535c885f6a2f4e26cdd3263908a7"><td class="memItemLeft" align="right" valign="top"><a id="ae5be535c885f6a2f4e26cdd3263908a7"></a>
-virtual const std::string *&#160;</td><td class="memItemRight" valign="bottom"><b>getLabel</b> () const</td></tr>
+<tr class="memitem:ae5be535c885f6a2f4e26cdd3263908a7"><td class="memItemLeft" align="right" valign="top">virtual const std::string *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#ae5be535c885f6a2f4e26cdd3263908a7">getLabel</a> () const</td></tr>
 <tr class="separator:ae5be535c885f6a2f4e26cdd3263908a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f3a7879a8ccea97f8fe3d2a3a8b76f4"><td class="memItemLeft" align="right" valign="top"><a id="a0f3a7879a8ccea97f8fe3d2a3a8b76f4"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>canAlign</b> () const</td></tr>
+<tr class="memitem:a0f3a7879a8ccea97f8fe3d2a3a8b76f4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a0f3a7879a8ccea97f8fe3d2a3a8b76f4">canAlign</a> () const</td></tr>
 <tr class="separator:a0f3a7879a8ccea97f8fe3d2a3a8b76f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cd464291c048c10daaf8143ab423560"><td class="memItemLeft" align="right" valign="top"><a id="a7cd464291c048c10daaf8143ab423560"></a>
-virtual bwPtr&lt; <a class="el" href="classbWidgets_1_1bwScreenGraph_1_1EventHandler.html">bwScreenGraph::EventHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>createHandler</b> ()=0</td></tr>
+<tr class="memitem:a7cd464291c048c10daaf8143ab423560"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr</a>&lt; <a class="el" href="classbWidgets_1_1bwScreenGraph_1_1EventHandler.html">bwScreenGraph::EventHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a7cd464291c048c10daaf8143ab423560">createHandler</a> ()=0</td></tr>
 <tr class="separator:a7cd464291c048c10daaf8143ab423560"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aebc4ec357ce8079786455d4a49680270"><td class="memItemLeft" align="right" valign="top"><a id="aebc4ec357ce8079786455d4a49680270"></a>
-enum bWidgets::bwWidget::Type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
-<tr class="separator:aebc4ec357ce8079786455d4a49680270"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a942e76d678303050cbef2a2f0aa58eea"><td class="memItemLeft" align="right" valign="top"><a id="a942e76d678303050cbef2a2f0aa58eea"></a>
-enum bWidgets::bwWidget::State&#160;</td><td class="memItemRight" valign="bottom"><b>state</b></td></tr>
+<tr class="memitem:a942e76d678303050cbef2a2f0aa58eea"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="classbWidgets_1_1bwWidget.html#a0ddf087ab9a35eee474681da365adc3b">bWidgets::bwWidget::State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a942e76d678303050cbef2a2f0aa58eea">state</a></td></tr>
 <tr class="separator:a942e76d678303050cbef2a2f0aa58eea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cbd79c1d1ecbe99494923f79e77c17c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c">rectangle</a></td></tr>
+<tr class="memitem:a2cbd79c1d1ecbe99494923f79e77c17c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacebWidgets.html#aea3ade8d61112c315f3215668ba262b4">bwRectanglePixel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c">rectangle</a></td></tr>
 <tr class="separator:a2cbd79c1d1ecbe99494923f79e77c17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adadaaa85d58323b1f3dd8691d63bf6dc"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#adadaaa85d58323b1f3dd8691d63bf6dc">width_hint</a></td></tr>
 <tr class="separator:adadaaa85d58323b1f3dd8691d63bf6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e2a6797a0f7cead9b02e599ebb2f7d3"><td class="memItemLeft" align="right" valign="top"><a id="a9e2a6797a0f7cead9b02e599ebb2f7d3"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>height_hint</b></td></tr>
+<tr class="memitem:a9e2a6797a0f7cead9b02e599ebb2f7d3"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a9e2a6797a0f7cead9b02e599ebb2f7d3">height_hint</a></td></tr>
 <tr class="separator:a9e2a6797a0f7cead9b02e599ebb2f7d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0e79a199d830d4df1c54861dc9b2673"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#ac0e79a199d830d4df1c54861dc9b2673">hidden</a> {false}</td></tr>
 <tr class="separator:ac0e79a199d830d4df1c54861dc9b2673"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a798c942b466f2d161200d2e0464f73df"><td class="memItemLeft" align="right" valign="top"><a id="a798c942b466f2d161200d2e0464f73df"></a>
-<a class="el" href="classbWidgets_1_1bwStyleProperties.html">bwStyleProperties</a>&#160;</td><td class="memItemRight" valign="bottom"><b>style_properties</b></td></tr>
+<tr class="memitem:a798c942b466f2d161200d2e0464f73df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbWidgets_1_1bwStyleProperties.html">bwStyleProperties</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a798c942b466f2d161200d2e0464f73df">style_properties</a></td></tr>
 <tr class="separator:a798c942b466f2d161200d2e0464f73df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a52d62e992262fd7177a4095978240a78"><td class="memItemLeft" align="right" valign="top"><a id="a52d62e992262fd7177a4095978240a78"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a52d62e992262fd7177a4095978240a78">initialize</a> ()</td></tr>
-<tr class="memdesc:a52d62e992262fd7177a4095978240a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Additional initialization that can't be done in bwWidget constructor. <br /></td></tr>
+<tr class="memitem:a52d62e992262fd7177a4095978240a78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a52d62e992262fd7177a4095978240a78">initialize</a> ()</td></tr>
+<tr class="memdesc:a52d62e992262fd7177a4095978240a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Additional initialization that can't be done in bwWidget constructor.  <a href="classbWidgets_1_1bwWidget.html#a52d62e992262fd7177a4095978240a78">More...</a><br /></td></tr>
 <tr class="separator:a52d62e992262fd7177a4095978240a78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4da1e53226ccb6226439923105bceba6"><td class="memItemLeft" align="right" valign="top"><a id="a4da1e53226ccb6226439923105bceba6"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>registerProperties</b> ()</td></tr>
+<tr class="memitem:a4da1e53226ccb6226439923105bceba6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a4da1e53226ccb6226439923105bceba6">registerProperties</a> ()</td></tr>
 <tr class="separator:a4da1e53226ccb6226439923105bceba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a8351a818e8c887ffd8a350e492d01984"><td class="memItemLeft" align="right" valign="top"><a id="a8351a818e8c887ffd8a350e492d01984"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>identifier</b></td></tr>
+<tr class="memitem:a8351a818e8c887ffd8a350e492d01984"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwWidget.html#a8351a818e8c887ffd8a350e492d01984">identifier</a></td></tr>
 <tr class="separator:a8351a818e8c887ffd8a350e492d01984"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class that all widgets derive from. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a0ddf087ab9a35eee474681da365adc3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ddf087ab9a35eee474681da365adc3b">&#9670;&nbsp;</a></span>State</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classbWidgets_1_1bwWidget.html#a0ddf087ab9a35eee474681da365adc3b">bWidgets::bwWidget::State</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0ddf087ab9a35eee474681da365adc3ba1e23852820b9154316c7c06e2b7ba051"></a>NORMAL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0ddf087ab9a35eee474681da365adc3ba1f6517402830b4b0db683ae125d3b5e2"></a>HIGHLIGHTED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0ddf087ab9a35eee474681da365adc3ba42062bd9af6f065e1f29aee0790968e6"></a>SUNKEN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0ddf087ab9a35eee474681da365adc3bad9611930a92ae24912cf2b258f62ed1f"></a>STATE_TOT&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a2fe560cabb6349ad65a97b75c7e7032c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fe560cabb6349ad65a97b75c7e7032c">&#9670;&nbsp;</a></span>bwWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bWidgets::bwWidget::bwWidget </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>identifier</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramname"><em>width_hint</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramname"><em>height_hint</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a94aadb4452c7f6cd66a75f2e76416b1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94aadb4452c7f6cd66a75f2e76416b1b">&#9670;&nbsp;</a></span>~bwWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bWidgets::bwWidget::~bwWidget </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0f3a7879a8ccea97f8fe3d2a3a8b76f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f3a7879a8ccea97f8fe3d2a3a8b76f4">&#9670;&nbsp;</a></span>canAlign()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool bWidgets::bwWidget::canAlign </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classbWidgets_1_1bwRadioButton.html#a683e4dad0e2264d0f594c912a6305ee8">bWidgets::bwRadioButton</a>, <a class="el" href="classbWidgets_1_1bwTextBox.html#af7292fbea41c98b58ba276eab703ba02">bWidgets::bwTextBox</a>, and <a class="el" href="classbWidgets_1_1bwPushButton.html#a85992685505e2fa60811ab2ee9367ba4">bWidgets::bwPushButton</a>.</p>
+
+</div>
+</div>
+<a id="a7cd464291c048c10daaf8143ab423560"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cd464291c048c10daaf8143ab423560">&#9670;&nbsp;</a></span>createHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespacebWidgets.html#ae2c4dc0737153c6a217f409379ab66c4">bwPtr</a>&lt;<a class="el" href="classbWidgets_1_1bwScreenGraph_1_1EventHandler.html">bwScreenGraph::EventHandler</a>&gt; bWidgets::bwWidget::createHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classbWidgets_1_1bwRadioButton.html#af9d3143fe73824e04d35178d09d6c4e3">bWidgets::bwRadioButton</a>, <a class="el" href="classbWidgets_1_1bwAbstractButton.html#ab499d035625d17e24a26c77e82a4e8d0">bWidgets::bwAbstractButton</a>, <a class="el" href="classbWidgets_1_1bwScrollView.html#aa2c9c5a246a1674b1515d0a44cbb2742">bWidgets::bwScrollView</a>, <a class="el" href="classbWidgets_1_1bwPanel.html#a0dcb6c0ebdeb6b8047f138359f1a61c8">bWidgets::bwPanel</a>, <a class="el" href="classbWidgets_1_1bwTextBox.html#aeecee7fd18ea70ab30b4b78794ddaf9b">bWidgets::bwTextBox</a>, <a class="el" href="classbWidgets_1_1bwLabel.html#a32df46559b70b94e265e219303c023da">bWidgets::bwLabel</a>, <a class="el" href="classbWidgets_1_1bwNumberSlider.html#aa93ba8fdf0901791ac43cf6f627cc853">bWidgets::bwNumberSlider</a>, <a class="el" href="classbWidgets_1_1bwCheckbox.html#ab5e2db2639056c0da8bdf24b8b08e6e8">bWidgets::bwCheckbox</a>, and <a class="el" href="classbWidgets_1_1bwScrollBar.html#a5ee9752fab451313e3b3414f26dc0ff7">bWidgets::bwScrollBar</a>.</p>
+
+</div>
+</div>
+<a id="aca1ca15a15c803e6b08d96621d4730f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca1ca15a15c803e6b08d96621d4730f1">&#9670;&nbsp;</a></span>draw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void bWidgets::bwWidget::draw </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a> &amp;&#160;</td>
+          <td class="paramname"><em>style</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classbWidgets_1_1bwAbstractButton.html#a677e7f8fbdd18380ef913fc1ef5cda25">bWidgets::bwAbstractButton</a>, <a class="el" href="classbWidgets_1_1bwPanel.html#af3db2817a46b9a12e649709aec5c3e6e">bWidgets::bwPanel</a>, <a class="el" href="classbWidgets_1_1bwLabel.html#a97534a8e521596c173aa7d74388e7952">bWidgets::bwLabel</a>, <a class="el" href="classbWidgets_1_1bwTextBox.html#aaad03b6e206da929f2eb7f954828b90b">bWidgets::bwTextBox</a>, <a class="el" href="classbWidgets_1_1bwNumberSlider.html#ad80d7d5c636f9dbbe80bdbb8326ac7a8">bWidgets::bwNumberSlider</a>, <a class="el" href="classbWidgets_1_1bwCheckbox.html#af3417bdd8887ebe7565025d3df137708">bWidgets::bwCheckbox</a>, <a class="el" href="classbWidgets_1_1bwScrollView.html#adb1c27c98412f108e394d29b75b31d7b">bWidgets::bwScrollView</a>, and <a class="el" href="classbWidgets_1_1bwScrollBar.html#ab6180c6f373189a0072b539e7968b496">bWidgets::bwScrollBar</a>.</p>
+
+</div>
+</div>
+<a id="aba9ee8caa675c19797990277276ae755"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba9ee8caa675c19797990277276ae755">&#9670;&nbsp;</a></span>getIdentifier()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; bWidgets::bwWidget::getIdentifier </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae5be535c885f6a2f4e26cdd3263908a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5be535c885f6a2f4e26cdd3263908a7">&#9670;&nbsp;</a></span>getLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string * bWidgets::bwWidget::getLabel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classbWidgets_1_1bwAbstractButton.html#a43cb91a47f67290efc97bbd7634849bf">bWidgets::bwAbstractButton</a>, <a class="el" href="classbWidgets_1_1bwPanel.html#add38e5097a4bd22f99f3f1012467752f">bWidgets::bwPanel</a>, <a class="el" href="classbWidgets_1_1bwTextBox.html#a87b867357d1c640499077e92400d11ca">bWidgets::bwTextBox</a>, and <a class="el" href="classbWidgets_1_1bwLabel.html#a830d9d9d1f9ac2156c72d2899e2c7119">bWidgets::bwLabel</a>.</p>
+
+</div>
+</div>
+<a id="a52d62e992262fd7177a4095978240a78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52d62e992262fd7177a4095978240a78">&#9670;&nbsp;</a></span>initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bWidgets::bwWidget::initialize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Additional initialization that can't be done in bwWidget constructor. </p>
+
+</div>
+</div>
+<a id="a273c23af89df1c9a34148f0885b0b43f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a273c23af89df1c9a34148f0885b0b43f">&#9670;&nbsp;</a></span>isCoordinateInside()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool bWidgets::bwWidget::isCoordinateInside </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classbWidgets_1_1bwPoint.html">bwPoint</a> &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4da1e53226ccb6226439923105bceba6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4da1e53226ccb6226439923105bceba6">&#9670;&nbsp;</a></span>registerProperties()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bWidgets::bwWidget::registerProperties </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classbWidgets_1_1bwAbstractButton.html#a3f9decf15766ac0fac56a2b051162dbd">bWidgets::bwAbstractButton</a>, <a class="el" href="classbWidgets_1_1bwContainerWidget.html#ac71ef5495e9e1009dc398f8a66d006dd">bWidgets::bwContainerWidget</a>, <a class="el" href="classbWidgets_1_1bwPanel.html#ab00849aa5999dfe240033f931000fa15">bWidgets::bwPanel</a>, <a class="el" href="classbWidgets_1_1bwLabel.html#a841be6f511044353a393cf29913844f7">bWidgets::bwLabel</a>, and <a class="el" href="classbWidgets_1_1bwTextBox.html#ac95cee9ea2950541853371dd73556ddd">bWidgets::bwTextBox</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a9e2a6797a0f7cead9b02e599ebb2f7d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e2a6797a0f7cead9b02e599ebb2f7d3">&#9670;&nbsp;</a></span>height_hint</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int bWidgets::bwWidget::height_hint</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ac0e79a199d830d4df1c54861dc9b2673"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac0e79a199d830d4df1c54861dc9b2673">&#9670;&nbsp;</a></span>hidden</h2>
 
@@ -231,6 +517,28 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>identifier</b>
 
 </div>
 </div>
+<a id="a8351a818e8c887ffd8a350e492d01984"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8351a818e8c887ffd8a350e492d01984">&#9670;&nbsp;</a></span>identifier</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string bWidgets::bwWidget::identifier</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2cbd79c1d1ecbe99494923f79e77c17c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2cbd79c1d1ecbe99494923f79e77c17c">&#9670;&nbsp;</a></span>rectangle</h2>
 
@@ -238,11 +546,39 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>identifier</b>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classbWidgets_1_1bwRectangle.html">bwRectanglePixel</a> bWidgets::bwWidget::rectangle</td>
+          <td class="memname"><a class="el" href="namespacebWidgets.html#aea3ade8d61112c315f3215668ba262b4">bwRectanglePixel</a> bWidgets::bwWidget::rectangle</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Final rectangle defining the widget bounding-box. </p><dl class="section note"><dt>Note</dt><dd>This really is assumed to be the final bounding-box, bwStyle.dpi_fac will not get applied to it. </dd></dl>
+
+</div>
+</div>
+<a id="a942e76d678303050cbef2a2f0aa58eea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a942e76d678303050cbef2a2f0aa58eea">&#9670;&nbsp;</a></span>state</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classbWidgets_1_1bwWidget.html#a0ddf087ab9a35eee474681da365adc3b">bWidgets::bwWidget::State</a> bWidgets::bwWidget::state</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a798c942b466f2d161200d2e0464f73df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a798c942b466f2d161200d2e0464f73df">&#9670;&nbsp;</a></span>style_properties</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classbWidgets_1_1bwStyleProperties.html">bwStyleProperties</a> bWidgets::bwWidget::style_properties</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -263,7 +599,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>identifier</b>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>bwidgets/widgets/<a class="el" href="bwWidget_8h_source.html">bwWidget.h</a></li>
-<li>bwidgets/widgets/bwWidget.cc</li>
+<li>bwidgets/widgets/<a class="el" href="bwWidget_8cc.html">bwWidget.cc</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.13-->

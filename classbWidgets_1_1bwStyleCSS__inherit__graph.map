@@ -1,5 +1,6 @@
 <map id="bWidgets::bwStyleCSS" name="bWidgets::bwStyleCSS">
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwStyleFlatDark.html" title="bWidgets::bwStyleFlatDark" alt="" coords="5,155,188,181"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwStyleFlatLight.html" title="bWidgets::bwStyleFlatLight" alt="" coords="212,155,395,181"/>
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwStyle.html" title="bWidgets::bwStyle" alt="" coords="133,5,265,32"/>
+<area shape="rect" id="node1" title="Style&#45;class for CSS driven Styles." alt="" coords="119,80,279,107"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwStyleFlatDark.html" title=" " alt="" coords="5,155,188,181"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwStyleFlatLight.html" title=" " alt="" coords="212,155,395,181"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwStyle.html" title=" " alt="" coords="133,5,265,32"/>
 </map>

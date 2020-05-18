@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['widget_5fcast',['widget_cast',['../namespacebWidgets.html#ac5fd4b7aa38e8c2dee19e9824d070c7c',1,'bWidgets']]]
+  ['height_770',['height',['../classbWidgets_1_1bwRectangle.html#a24ef0b0cf243b2a531a14986c4946b1c',1,'bWidgets::bwRectangle']]]
 ];

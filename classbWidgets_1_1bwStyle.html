@@ -77,7 +77,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>bWidgets</b></li><li class="navelem"><a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacebWidgets.html">bWidgets</a></li><li class="navelem"><a class="el" href="classbWidgets_1_1bwStyle.html">bwStyle</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -92,6 +92,8 @@ $(function() {
 <div class="title">bWidgets::bwStyle Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="bwStyle_8h_source.html">bwStyle.h</a>&gt;</code></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for bWidgets::bwStyle:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -99,11 +101,12 @@ $(function() {
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classbWidgets_1_1bwStyle__inherit__graph.png" border="0" usemap="#bWidgets_1_1bwStyle_inherit__map" alt="Inheritance graph"/></div>
 <map name="bWidgets_1_1bwStyle_inherit__map" id="bWidgets_1_1bwStyle_inherit__map">
-<area shape="rect" href="classbWidgets_1_1bwStyleClassic.html" title="bWidgets::bwStyleClassic" alt="" coords="5,80,181,107"/>
-<area shape="rect" href="classbWidgets_1_1bwStyleCSS.html" title="Style&#45;class for CSS driven Styles. " alt="" coords="205,80,365,107"/>
-<area shape="rect" href="classbWidgets_1_1bwStyleFlat.html" title="bWidgets::bwStyleFlat" alt="" coords="389,80,544,107"/>
-<area shape="rect" href="classbWidgets_1_1bwStyleFlatDark.html" title="bWidgets::bwStyleFlatDark" alt="" coords="90,155,273,181"/>
-<area shape="rect" href="classbWidgets_1_1bwStyleFlatLight.html" title="bWidgets::bwStyleFlatLight" alt="" coords="297,155,479,181"/>
+<area shape="rect" title=" " alt="" coords="219,5,351,32"/>
+<area shape="rect" href="classbWidgets_1_1bwStyleClassic.html" title=" " alt="" coords="5,80,181,107"/>
+<area shape="rect" href="classbWidgets_1_1bwStyleCSS.html" title="Style&#45;class for CSS driven Styles." alt="" coords="205,80,365,107"/>
+<area shape="rect" href="classbWidgets_1_1bwStyleFlat.html" title=" " alt="" coords="389,80,544,107"/>
+<area shape="rect" href="classbWidgets_1_1bwStyleFlatDark.html" title=" " alt="" coords="90,155,273,181"/>
+<area shape="rect" href="classbWidgets_1_1bwStyleFlatLight.html" title=" " alt="" coords="297,155,479,181"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -114,45 +117,211 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ae171f8ff8df35399f4d56db83774071d"><td class="memItemLeft" align="right" valign="top"><a id="ae171f8ff8df35399f4d56db83774071d"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>TypeID</b> { <br />
-&#160;&#160;<b>CLASSIC</b>, 
-<b>CLASSIC_CSS</b>, 
-<b>FLAT_GREY</b>, 
-<b>FLAT_DARK</b>, 
+<tr class="memitem:ae171f8ff8df35399f4d56db83774071d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">TypeID</a> { <br />
+&#160;&#160;<a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da21994d6177b29e1128b2d7f0f8342057">TypeID::CLASSIC</a>, 
+<a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071daecf37b2236878dfe244eacc095f5acb5">TypeID::CLASSIC_CSS</a>, 
+<a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da9e3839f100de27c0d3aa535ef79a9403">TypeID::FLAT_GREY</a>, 
+<a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da6d11ebb5ee245371714b84f84618cfd9">TypeID::FLAT_DARK</a>, 
 <br />
-&#160;&#160;<b>FLAT_LIGHT</b>, 
-<b>BUILTIN_TOT</b>
+&#160;&#160;<a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da60ae6bd1be004f399d482a35324e633c">TypeID::FLAT_LIGHT</a>, 
+<a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071dac514155c8cef0bb7e535083bf96c09e2">TypeID::BUILTIN_TOT</a>
 <br />
  }</td></tr>
 <tr class="separator:ae171f8ff8df35399f4d56db83774071d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a445fb621dab030d81b299c4cd4f38069"><td class="memItemLeft" align="right" valign="top"><a id="a445fb621dab030d81b299c4cd4f38069"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setWidgetStyle</b> (class <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> &amp;widget)=0</td></tr>
+<tr class="memitem:ab0636706e1a74cfc4c8a8d1a99f4526d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwStyle.html#ab0636706e1a74cfc4c8a8d1a99f4526d">~bwStyle</a> ()</td></tr>
+<tr class="separator:ab0636706e1a74cfc4c8a8d1a99f4526d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a445fb621dab030d81b299c4cd4f38069"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwStyle.html#a445fb621dab030d81b299c4cd4f38069">setWidgetStyle</a> (class <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> &amp;widget)=0</td></tr>
 <tr class="separator:a445fb621dab030d81b299c4cd4f38069"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c3be845740d68b31bc24004fc83c890"><td class="memItemLeft" align="right" valign="top"><a id="a6c3be845740d68b31bc24004fc83c890"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>polish</b> (class <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> &amp;widget)=0</td></tr>
+<tr class="memitem:a6c3be845740d68b31bc24004fc83c890"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwStyle.html#a6c3be845740d68b31bc24004fc83c890">polish</a> (class <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> &amp;widget)=0</td></tr>
 <tr class="separator:a6c3be845740d68b31bc24004fc83c890"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a76b56f9977d08793e96d67aa7b69473a"><td class="memItemLeft" align="right" valign="top"><a id="a76b56f9977d08793e96d67aa7b69473a"></a>
-enum bWidgets::bwStyle::TypeID&#160;</td><td class="memItemRight" valign="bottom"><b>type_id</b></td></tr>
+<tr class="memitem:a76b56f9977d08793e96d67aa7b69473a"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">bWidgets::bwStyle::TypeID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwStyle.html#a76b56f9977d08793e96d67aa7b69473a">type_id</a></td></tr>
 <tr class="separator:a76b56f9977d08793e96d67aa7b69473a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98c0d12f3f428322dbe6405621680f42"><td class="memItemLeft" align="right" valign="top"><a id="a98c0d12f3f428322dbe6405621680f42"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>dpi_fac</b> {1.0f}</td></tr>
+<tr class="memitem:a98c0d12f3f428322dbe6405621680f42"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwStyle.html#a98c0d12f3f428322dbe6405621680f42">dpi_fac</a> {1.0f}</td></tr>
 <tr class="separator:a98c0d12f3f428322dbe6405621680f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a3a32c1bc50c26c565b3d7c9d87b3c716"><td class="memItemLeft" align="right" valign="top"><a id="a3a32c1bc50c26c565b3d7c9d87b3c716"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>bwStyle</b> (TypeID type_id)</td></tr>
+<tr class="memitem:a3a32c1bc50c26c565b3d7c9d87b3c716"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbWidgets_1_1bwStyle.html#a3a32c1bc50c26c565b3d7c9d87b3c716">bwStyle</a> (<a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">TypeID</a> <a class="el" href="classbWidgets_1_1bwStyle.html#a76b56f9977d08793e96d67aa7b69473a">type_id</a>)</td></tr>
 <tr class="separator:a3a32c1bc50c26c565b3d7c9d87b3c716"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="ae171f8ff8df35399f4d56db83774071d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae171f8ff8df35399f4d56db83774071d">&#9670;&nbsp;</a></span>TypeID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">bWidgets::bwStyle::TypeID</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae171f8ff8df35399f4d56db83774071da21994d6177b29e1128b2d7f0f8342057"></a>CLASSIC&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae171f8ff8df35399f4d56db83774071daecf37b2236878dfe244eacc095f5acb5"></a>CLASSIC_CSS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae171f8ff8df35399f4d56db83774071da9e3839f100de27c0d3aa535ef79a9403"></a>FLAT_GREY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae171f8ff8df35399f4d56db83774071da6d11ebb5ee245371714b84f84618cfd9"></a>FLAT_DARK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae171f8ff8df35399f4d56db83774071da60ae6bd1be004f399d482a35324e633c"></a>FLAT_LIGHT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae171f8ff8df35399f4d56db83774071dac514155c8cef0bb7e535083bf96c09e2"></a>BUILTIN_TOT&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab0636706e1a74cfc4c8a8d1a99f4526d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0636706e1a74cfc4c8a8d1a99f4526d">&#9670;&nbsp;</a></span>~bwStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bWidgets::bwStyle::~bwStyle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a32c1bc50c26c565b3d7c9d87b3c716"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a32c1bc50c26c565b3d7c9d87b3c716">&#9670;&nbsp;</a></span>bwStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bWidgets::bwStyle::bwStyle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">TypeID</a>&#160;</td>
+          <td class="paramname"><em>type_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6c3be845740d68b31bc24004fc83c890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c3be845740d68b31bc24004fc83c890">&#9670;&nbsp;</a></span>polish()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void bWidgets::bwStyle::polish </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> &amp;&#160;</td>
+          <td class="paramname"><em>widget</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classbWidgets_1_1bwStyleCSS.html#a6229f730dd5c41b0d8fd93ba4078b68e">bWidgets::bwStyleCSS</a>, <a class="el" href="classbWidgets_1_1bwStyleClassic.html#ac1196900abfbfbb96dee482d2145e14b">bWidgets::bwStyleClassic</a>, and <a class="el" href="classbWidgets_1_1bwStyleFlat.html#ad6ac9767cc892a4bdcd759fa8ecd30b9">bWidgets::bwStyleFlat</a>.</p>
+
+</div>
+</div>
+<a id="a445fb621dab030d81b299c4cd4f38069"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a445fb621dab030d81b299c4cd4f38069">&#9670;&nbsp;</a></span>setWidgetStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void bWidgets::bwStyle::setWidgetStyle </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classbWidgets_1_1bwWidget.html">bwWidget</a> &amp;&#160;</td>
+          <td class="paramname"><em>widget</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classbWidgets_1_1bwStyleClassic.html#aa944d8a8c3a4664330c32913470e5da5">bWidgets::bwStyleClassic</a>, <a class="el" href="classbWidgets_1_1bwStyleFlat.html#aab777d873b03f2ba50c2ce56efd58608">bWidgets::bwStyleFlat</a>, and <a class="el" href="classbWidgets_1_1bwStyleCSS.html#a1fddc09ce71886d8102ab9ec0aa24d15">bWidgets::bwStyleCSS</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a98c0d12f3f428322dbe6405621680f42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98c0d12f3f428322dbe6405621680f42">&#9670;&nbsp;</a></span>dpi_fac</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float bWidgets::bwStyle::dpi_fac {1.0f}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76b56f9977d08793e96d67aa7b69473a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76b56f9977d08793e96d67aa7b69473a">&#9670;&nbsp;</a></span>type_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071d">bWidgets::bwStyle::TypeID</a> bWidgets::bwStyle::type_id</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>bwidgets/<a class="el" href="bwStyle_8h_source.html">bwStyle.h</a></li>
-<li>bwidgets/bwStyle.cc</li>
+<li>bwidgets/<a class="el" href="bwStyle_8cc.html">bwStyle.cc</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.13-->
