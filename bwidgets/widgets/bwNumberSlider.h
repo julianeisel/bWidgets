@@ -8,7 +8,8 @@ class bwNumberSlider : public bwTextBox {
  public:
   friend class bwNumberSliderHandler;
 
-  bwNumberSlider(const unsigned int width_hint = 0, const unsigned int height_hint = 0);
+  bwNumberSlider(bwOptional<unsigned int> width_hint = nullopt,
+                 bwOptional<unsigned int> height_hint = nullopt);
 
   void draw(class bwStyle& style) override;
 

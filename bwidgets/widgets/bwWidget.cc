@@ -1,14 +1,16 @@
+#include "bwStyle.h"
+
 #include "bwWidget.h"
 
 namespace bWidgets {
 
 bwWidget::bwWidget(const std::string& identifier,
-                   const unsigned int width_hint,
-                   const unsigned int height_hint)
+                   bwOptional<unsigned int> width_hint,
+                   bwOptional<unsigned int> height_hint)
     : state(State::NORMAL),
       rectangle(0, 0, 0, 0),
-      width_hint(width_hint),
-      height_hint(height_hint),
+      width_hint(width_hint.value_or(bwStyle::s_default_widget_size_hint)),
+      height_hint(height_hint.value_or(bwStyle::s_default_widget_size_hint)),
       identifier(identifier)
 {
 }

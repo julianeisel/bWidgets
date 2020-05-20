@@ -28,8 +28,8 @@ class bwWidget {
   } state;
 
   bwWidget(const std::string& identifier,
-           const unsigned int width_hint = 0,
-           const unsigned int height_hint = 0);
+           bwOptional<unsigned int> width_hint,
+           bwOptional<unsigned int> height_hint);
   virtual ~bwWidget() = default;
 
   virtual bool isCoordinateInside(const bwPoint& point) const;

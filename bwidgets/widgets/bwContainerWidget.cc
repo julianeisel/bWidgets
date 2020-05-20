@@ -4,8 +4,8 @@ namespace bWidgets {
 
 bwContainerWidget::bwContainerWidget(const bwScreenGraph::ContainerNode& node,
                                      const std::string& identifier,
-                                     const unsigned int width_hint,
-                                     const unsigned int height_hint)
+                                     bwOptional<unsigned int> width_hint,
+                                     bwOptional<unsigned int> height_hint)
     : bwWidget(identifier, width_hint, height_hint), node(node)
 {
   initialize();

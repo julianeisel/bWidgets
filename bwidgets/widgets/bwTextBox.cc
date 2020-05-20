@@ -6,7 +6,7 @@
 
 namespace bWidgets {
 
-bwTextBox::bwTextBox(unsigned int width_hint, unsigned int height_hint)
+bwTextBox::bwTextBox(bwOptional<unsigned int> width_hint, bwOptional<unsigned int> height_hint)
     : bwWidget("bwTextBox", width_hint, height_hint), selection_rectangle(bwRectanglePixel())
 {
   initialize();

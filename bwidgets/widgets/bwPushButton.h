@@ -8,7 +8,9 @@ namespace bWidgets {
 
 class bwPushButton : public bwAbstractButton {
  public:
-  bwPushButton(const std::string& text, unsigned int width_hint = 0, unsigned int height_hint = 0);
+  bwPushButton(const std::string& text,
+               bwOptional<unsigned int> width_hint = nullopt,
+               bwOptional<unsigned int> height_hint = nullopt);
 
   const class bwIconInterface* getIcon() const override;
   bwPushButton& setIcon(const class bwIconInterface&);

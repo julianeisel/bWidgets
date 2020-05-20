@@ -9,7 +9,9 @@ namespace bWidgets {
 
 class bwLabel : public bwWidget {
  public:
-  bwLabel(std::string text, unsigned int width_hint = 0, unsigned int height_hint = 0);
+  bwLabel(std::string text,
+          bwOptional<unsigned int> width_hint = nullopt,
+          bwOptional<unsigned int> height_hint = nullopt);
 
   void draw(class bwStyle& style) override;
   void registerProperties() override;

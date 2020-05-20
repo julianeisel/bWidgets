@@ -6,7 +6,9 @@ namespace bWidgets {
 
 class bwCheckbox : public bwAbstractButton {
  public:
-  bwCheckbox(const std::string& text, unsigned int width_hint, unsigned int height_hint);
+  bwCheckbox(const std::string& text,
+             bwOptional<unsigned int> width_hint = nullopt,
+             bwOptional<unsigned int> height_hint = nullopt);
 
   void draw(class bwStyle& style) override;
 

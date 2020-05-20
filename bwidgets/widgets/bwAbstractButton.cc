@@ -8,8 +8,8 @@ namespace bWidgets {
 
 bwAbstractButton::bwAbstractButton(const std::string& text,
                                    const std::string& identifier,
-                                   const unsigned int width_hint,
-                                   const unsigned int height_hint)
+                                   bwOptional<unsigned int> width_hint,
+                                   bwOptional<unsigned int> height_hint)
     : bwWidget(identifier, width_hint, height_hint),
       rounded_corners(RoundboxCorner::ALL),
       text(std::move(text))

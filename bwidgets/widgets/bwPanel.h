@@ -10,7 +10,7 @@ class bwPanel : public bwContainerWidget {
  public:
   bwPanel(const bwScreenGraph::ContainerNode& node,
           std::string label,
-          unsigned int header_height_hint);
+          bwOptional<unsigned int> header_height_hint = nullopt);
 
   void draw(class bwStyle& style) override;
 

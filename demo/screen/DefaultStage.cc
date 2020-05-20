@@ -42,7 +42,6 @@ using namespace bWidgets;  // Less verbose
 
 namespace bWidgetsDemo {
 
-#define BUTTON_HEIGHT 20
 #define PANEL_HEADER_HEIGHT 24
 
 class DefaultStageRNAFunctor : public bwFunctorInterface {
@@ -152,56 +151,55 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 
   addStyleSelector(screen_graph.Root());
 
-  auto& slider = builder.addRNAWidget<bwNumberSlider>("interface_scale", 0, BUTTON_HEIGHT);
+  auto& slider = builder.addRNAWidget<bwNumberSlider>("interface_scale");
   slider.setText("Interface Scale: ");
   slider.setMinMax(0.5f, 2.0f);
   slider.setValue(1.0f);
 
-  builder.addWidget<bwLabel>("Font Rendering:", 0, BUTTON_HEIGHT);
+  builder.addWidget<bwLabel>("Font Rendering:");
 
   builder.addLayout<RowLayout>(true);
-  auto* checkbox = &builder.addRNAWidget<bwCheckbox>(
-      "font_use_tight_positioning", "Tight Positioning", 0, BUTTON_HEIGHT);
+  auto* checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning",
+                                                     "Tight Positioning");
   checkbox->state = bwWidget::State::SUNKEN;
-  checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_hinting", "Hinting", 0, BUTTON_HEIGHT);
+  checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_hinting", "Hinting");
 
   builder.setActiveLayout(screen_graph.Root());
   builder.addLayout<RowLayout>(false);
-  checkbox = &builder.addRNAWidget<bwCheckbox>(
-      "font_use_subpixels", "Subpixel Rendering", 0, BUTTON_HEIGHT);
-  checkbox = &builder.addRNAWidget<bwCheckbox>(
-      "font_use_subpixel_positioning", "Subpixel Positioning", 0, BUTTON_HEIGHT);
+  checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_subpixels", "Subpixel Rendering");
+  checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning",
+                                               "Subpixel Positioning");
   checkbox->hidden = true;
 
   builder.setActiveLayout(screen_graph.Root());
   panel = &builder.addContainer<bwPanel>(
       bwPtr_new<PanelLayout>(), "Some Testing Widgets", PANEL_HEADER_HEIGHT);
   builder.addLayout<ColumnLayout>(true);
-  builder.addWidget<bwPushButton>("Translate", 0, BUTTON_HEIGHT);
-  builder.addWidget<bwPushButton>("Rotate", 0, BUTTON_HEIGHT);
-  builder.addWidget<bwPushButton>("Scale", 0, BUTTON_HEIGHT);
+  builder.addWidget<bwPushButton>("Translate");
+  builder.addWidget<bwPushButton>("Rotate");
+  builder.addWidget<bwPushButton>("Scale");
 
   builder.setActiveLayout(*panel);
-  auto& push_but = builder.addWidget<bwPushButton>("Mirror", 0, BUTTON_HEIGHT);
+  auto& push_but = builder.addWidget<bwPushButton>("Mirror");
   push_but.setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
 
   builder.setActiveLayout(screen_graph.Root());
   panel = &builder.addContainer<bwPanel>(
       bwPtr_new<PanelLayout>(), "More Testing...", PANEL_HEADER_HEIGHT);
   builder.addLayout<RowLayout>(true);
-  builder.addWidget<bwCheckbox>("Make Awesome", 0, BUTTON_HEIGHT);
-  builder.addWidget<bwCheckbox>("Wireframes", 0, BUTTON_HEIGHT);
+  builder.addWidget<bwCheckbox>("Make Awesome");
+  builder.addWidget<bwCheckbox>("Wireframes");
 
   builder.setActiveLayout(*panel);
-  auto& text_box = builder.addWidget<bwTextBox>(0, BUTTON_HEIGHT);
+  auto& text_box = builder.addWidget<bwTextBox>();
   text_box.setText("Some Text...");
 
   builder.addLayout<RowLayout>(false);
-  auto* label = &builder.addWidget<bwLabel>("Pose Icon", 0, BUTTON_HEIGHT);
+  auto* label = &builder.addWidget<bwLabel>("Pose Icon");
   label->setIcon(icon_map->getIcon(ICON_POSE_HLT));
-  label = &builder.addWidget<bwLabel>("Normalized FCurve Icon", 0, BUTTON_HEIGHT);
+  label = &builder.addWidget<bwLabel>("Normalized FCurve Icon");
   label->setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
-  label = &builder.addWidget<bwLabel>("Chroma Scope Icon", 0, BUTTON_HEIGHT);
+  label = &builder.addWidget<bwLabel>("Chroma Scope Icon");
   label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
 }
 
@@ -218,7 +216,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 
   builder.addLayout<RowLayout>(true);
 
-  auto& label = builder.addWidget<bwLabel>("Style:", 0, BUTTON_HEIGHT);
+  auto& label = builder.addWidget<bwLabel>("Style:");
   label.setIcon(icon_map->getIcon(ICON_BLENDER));
 
   for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
@@ -227,7 +225,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
       continue;
     }
     auto& style_button = builder.addRNAWidget<bwRadioButton>(
-        int(type.type_id), "style_type", type.name, 0, BUTTON_HEIGHT);
+        int(type.type_id), "style_type", type.name);
 
     if (type.type_id == style->type_id) {
       style_button.state = bwAbstractButton::State::SUNKEN;
@@ -235,8 +233,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
   }
 
   builder.setActiveLayout(parent_node);
-  auto& checkbox = builder.addRNAWidget<bwCheckbox>(
-      "style_use_css_version", "Use CSS Version", 0, BUTTON_HEIGHT);
+  auto& checkbox = builder.addRNAWidget<bwCheckbox>("style_use_css_version", "Use CSS Version");
   checkbox.hidden = isUseCSSVersionToggleHidden(*style);
 }
 

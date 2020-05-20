@@ -19,12 +19,12 @@ class bwStyle {
     //		STYLE_CUSTOM, // For the future
   } type_id;
 
-  virtual ~bwStyle()
-  {
-  }
+  virtual ~bwStyle() = default;
 
   virtual void setWidgetStyle(class bwWidget& widget) = 0;
   virtual void polish(class bwWidget& widget) = 0;
+
+  static unsigned int s_default_widget_size_hint;
 
   float dpi_fac{1.0f};
 

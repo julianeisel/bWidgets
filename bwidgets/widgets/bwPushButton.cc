@@ -3,8 +3,8 @@
 namespace bWidgets {
 
 bwPushButton::bwPushButton(const std::string& text,
-                           unsigned int width_hint,
-                           unsigned int height_hint)
+                           bwOptional<unsigned int> width_hint,
+                           bwOptional<unsigned int> height_hint)
     : bwAbstractButton(text, "bwPushButton", width_hint, height_hint)
 {
 }
