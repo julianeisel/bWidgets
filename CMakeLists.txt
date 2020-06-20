@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.1)
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
 enable_language(CXX)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 macro(remove_cc_flag _flag)
 	foreach(flag ${ARGV})
