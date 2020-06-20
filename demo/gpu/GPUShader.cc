@@ -41,7 +41,7 @@ static ShaderIDFileNames shader_id_file_map[GPUShader::SHADER_ID_TOT] = {
     {"texture_vert.glsl", "texture_frag.glsl"},
 };
 
-using CacheType = std::array<bWidgets::bwPtr<GPUShader>, GPUShader::SHADER_ID_TOT>;
+using CacheType = std::array<std::unique_ptr<GPUShader>, GPUShader::SHADER_ID_TOT>;
 static CacheType CACHE;
 
 GPUShader::GPUShader(const std::string& vertexcode, const std::string& fragcode)
@@ -143,7 +143,7 @@ std::unique_ptr<GPUShader> GPUShader::createFromID(GPUShader::ID id)
   File vert_file(std::string(SHADERS_PATH_STR) + "/" + file_names[0]);
   File frag_file(std::string(SHADERS_PATH_STR) + "/" + file_names[1]);
 
-  return bWidgets::bwPtr<GPUShader>(
+  return std::unique_ptr<GPUShader>(
       new GPUShader{vert_file.readIntoString(), frag_file.readIntoString()});
 }
 

@@ -245,14 +245,14 @@ static bwStyleProperty& properties_add_property(bwStyleProperties::PropertyList&
                                                 const std::string& name,
                                                 _Type& reference)
 {
-  properties.push_back(bwPtr_new<bwStylePropertyInternal<_Type>>(name, reference));
+  properties.push_back(std::make_unique<bwStylePropertyInternal<_Type>>(name, reference));
   return *properties.back();
 }
 template<typename _Type>
 static bwStyleProperty& properties_add_property(bwStyleProperties::PropertyList& properties,
                                                 const std::string& name)
 {
-  properties.push_back(bwPtr_new<bwStylePropertyInternal<_Type>>(name));
+  properties.push_back(std::make_unique<bwStylePropertyInternal<_Type>>(name));
   return *properties.back();
 }
 
@@ -293,7 +293,7 @@ bwStyleProperty& bwStyleProperties::addProperty(const std::string& name,
                                                 const bwStyleProperty::Type prop_type)
 {
   //	properties_add_property<PropDataType<prop_type>::type>(properties, name);
-  //	properties.push_back(bwPtr_new<bwStylePropertyInternal<prop_type>(name));
+  //	properties.push_back(std::make_unique<bwStylePropertyInternal<prop_type>(name));
   switch (prop_type) {
     case bwStyleProperty::Type::BOOL:
       return properties_add_property<bool>(properties, name);

@@ -20,12 +20,12 @@ class bwAbstractButton : public bwWidget {
   const std::string* getLabel() const override;
   virtual const class bwIconInterface* getIcon() const;
 
-  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
+  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
 
   /**
    * Function object called when applying changes to widget.
    */
-  bwPtr<bwFunctorInterface> apply_functor{nullptr};
+  std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
 
   unsigned int rounded_corners;
 

@@ -9,18 +9,18 @@ Builder::Builder(LayoutNode& active_layout_node) : _active_layout_node(&active_l
 {
 }
 
-void Builder::setLayout(LayoutNode& node, bwPtr<bwLayoutInterface> layout)
+void Builder::setLayout(LayoutNode& node, std::unique_ptr<bwLayoutInterface> layout)
 {
   node.layout = std::move(layout);
 }
 
-void Builder::setWidget(WidgetNode& node, bwPtr<bwWidget> widget)
+void Builder::setWidget(WidgetNode& node, std::unique_ptr<bwWidget> widget)
 {
   node.widget = std::move(widget);
   node.handler = node.widget->createHandler();
 }
 
-bwWidget& Builder::addWidget(LayoutNode& node, bwPtr<bwWidget> widget)
+bwWidget& Builder::addWidget(LayoutNode& node, std::unique_ptr<bwWidget> widget)
 {
   WidgetNode& node_ref = addChildNode<WidgetNode>(node);
   setWidget(node_ref, std::move(widget));

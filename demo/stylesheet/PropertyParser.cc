@@ -32,17 +32,17 @@ using namespace bWidgets;
 
 namespace bWidgetsDemo {
 
-bwPtr<PropertyParser> PropertyParser::newFromPropertyType(bwStyleProperty::Type type)
+std::unique_ptr<PropertyParser> PropertyParser::newFromPropertyType(bwStyleProperty::Type type)
 {
   switch (type) {
     case bwStyleProperty::Type::BOOL:
-      return bwPtr_new<BooleanPropertyParser>();
+      return std::make_unique<BooleanPropertyParser>();
     case bwStyleProperty::Type::INTEGER:
-      return bwPtr_new<IntegerPropertyParser>();
+      return std::make_unique<IntegerPropertyParser>();
     case bwStyleProperty::Type::FLOAT:
-      return bwPtr_new<FloatPropertyParser>();
+      return std::make_unique<FloatPropertyParser>();
     case bwStyleProperty::Type::COLOR:
-      return bwPtr_new<ColorPropertyParser>();
+      return std::make_unique<ColorPropertyParser>();
     default:
       return (assert(0), nullptr);
   }

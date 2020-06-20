@@ -396,7 +396,7 @@ bool Font::useSubpixelPositioning() const
   return (render_mode == Font::SUBPIXEL_LCD_RGB_COVERAGE) && use_subpixel_pos;
 }
 
-static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph,
+static std::unique_ptr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph,
                                                  const bool use_subpixel_postioning)
 {
   const unsigned int num_channels = getNumChannelsFromFreeTypePixelMode(
@@ -427,13 +427,13 @@ static bWidgets::bwPtr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph,
     pixmap.fill(freetype_glyph->bitmap.buffer);
   }
 
-  return bWidgets::bwPtr_new<Pixmap>(std::move(pixmap));
+  return std::make_unique<Pixmap>(std::move(pixmap));
 }
 
 void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 {
   FT_UInt glyph_index;
-  bWidgets::bwPtr<FontGlyph> glyph;
+  std::unique_ptr<FontGlyph> glyph;
 
   for (FT_ULong charcode = FT_Get_First_Char(font.face, &glyph_index); glyph_index != 0;
        charcode = FT_Get_Next_Char(font.face, charcode, &glyph_index)) {
@@ -446,13 +446,13 @@ void Font::FontGlyphCache::loadGlyphsIntoCache(const Font& font)
 
     if (error != 0) {
       // This constructor marks glyph as invalid.
-      glyph = bWidgets::bwPtr_new<FontGlyph>();
+      glyph = std::make_unique<FontGlyph>();
     }
     else {
       FT_GlyphSlot ft_glyph = font.face->glyph;
       FixedNum<F16p16> advance(ft_glyph->linearHoriAdvance);
 
-      glyph = bWidgets::bwPtr_new<FontGlyph>(
+      glyph = std::make_unique<FontGlyph>(
           glyph_index,
           createGlyphPixmap(ft_glyph, font.useSubpixelPositioning()),
           ft_glyph->bitmap_left,
@@ -499,7 +499,7 @@ const FontGlyph& Font::FontGlyphCache::getCachedGlyph(const Font& font, const ch
 }
 
 FontGlyph::FontGlyph(const unsigned int index,
-                     bWidgets::bwPtr<Pixmap>&& pixmap,
+                     std::unique_ptr<Pixmap>&& pixmap,
                      const int offset_left,
                      const int offset_top,
                      FixedNum<F16p16> advance_width)

@@ -2,7 +2,6 @@
 
 #include "bwContext.h"
 #include "bwEventDispatcher.h"
-#include "bwPtr.h"
 
 namespace bWidgets {
 namespace bwScreenGraph {
@@ -17,7 +16,7 @@ class ScreenGraph {
   bwEventDispatcher event_dispatcher;
 
   template<typename _NodeType>
-  ScreenGraph(bwPtr<_NodeType> _root_node)
+  ScreenGraph(std::unique_ptr<_NodeType> _root_node)
       : event_dispatcher(*this), root_node(std::move(_root_node))
   {
   }
@@ -28,7 +27,7 @@ class ScreenGraph {
   }
 
  private:
-  bwPtr<LayoutNode> root_node;
+  std::unique_ptr<LayoutNode> root_node;
 };
 
 }  // namespace bwScreenGraph

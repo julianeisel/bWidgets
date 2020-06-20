@@ -30,9 +30,9 @@ bwRadioButtonHandler::bwRadioButtonHandler(bwRadioButton& button) : bwAbstractBu
 {
 }
 
-bwPtr<bwScreenGraph::EventHandler> bwRadioButton::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwRadioButton::createHandler()
 {
-  return bwPtr_new<bwRadioButtonHandler>(*this);
+  return std::make_unique<bwRadioButtonHandler>(*this);
 }
 
 void bwRadioButtonHandler::onMousePress(bwMouseButtonEvent& event)

@@ -49,7 +49,7 @@ class StyleSheet {
   void unload();
 
   std::string filepath;
-  bWidgets::bwPtr<class StyleSheetTree> tree;
+  std::unique_ptr<class StyleSheetTree> tree;
 };
 
 }  // namespace bWidgetsDemo

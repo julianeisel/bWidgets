@@ -13,7 +13,7 @@ namespace bWidgets {
 class bwStyleManager {
  public:
   static bwStyleManager& getStyleManager();
-  static bwPtr<bwStyle> createStyleFromTypeID(bwStyle::TypeID type_id);
+  static std::unique_ptr<bwStyle> createStyleFromTypeID(bwStyle::TypeID type_id);
 
   void registerDefaultStyleTypes();
 

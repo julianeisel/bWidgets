@@ -35,7 +35,7 @@ const std::string* bwLabel::getLabel() const
   return &text;
 }
 
-bwPtr<bwScreenGraph::EventHandler> bwLabel::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwLabel::createHandler()
 {
   return nullptr;
 }

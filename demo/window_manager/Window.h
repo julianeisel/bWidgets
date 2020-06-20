@@ -50,7 +50,7 @@ class Window {
   void handleResizeEvent(const int new_win_x, const int new_win_y);
   void handleContentScaleEvent(const float new_scale_x, const float new_scale_y);
 
-  bWidgets::bwPtr<class Stage> stage;
+  std::unique_ptr<class Stage> stage;
 
   GLFWwindow& getGlfwWindow() const;
 

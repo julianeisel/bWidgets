@@ -10,7 +10,7 @@ class bwScrollBar : public bwAbstractButton {
 
   void draw(bwStyle& style) override;
 
-  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
+  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
 
   float ratio = 0.0f;  // Ration between content and area height (max 1.0f).
   int scroll_offset = 0;

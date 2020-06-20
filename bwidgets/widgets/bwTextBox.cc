@@ -57,9 +57,9 @@ bool bwTextBox::canAlign() const
 
 // ------------------ Handling ------------------
 
-bwPtr<bwScreenGraph::EventHandler> bwTextBox::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwTextBox::createHandler()
 {
-  return bwPtr_new<bwTextBoxHandler>(*this);
+  return std::make_unique<bwTextBoxHandler>(*this);
 }
 
 bwTextBoxHandler::bwTextBoxHandler(bwTextBox& textbox) : textbox(textbox)

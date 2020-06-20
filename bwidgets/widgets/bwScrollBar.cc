@@ -86,9 +86,9 @@ bwScrollBarHandler::bwScrollBarHandler(bwScrollBar& scrollbar)
 {
 }
 
-bwPtr<bwScreenGraph::EventHandler> bwScrollBar::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwScrollBar::createHandler()
 {
-  return bwPtr_new<bwScrollBarHandler>(*this);
+  return std::make_unique<bwScrollBarHandler>(*this);
 }
 
 void bwScrollBarHandler::onMousePress(bwMouseButtonEvent& event)

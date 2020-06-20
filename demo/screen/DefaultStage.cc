@@ -119,7 +119,8 @@ template<typename _Obj> class RNAScreenGraphBuilder : public bwScreenGraph::Buil
     static_assert(!std::is_same<_WidgetType, bwRadioButton>::value,
                   "RNAScreenGraphBuilder: For bwRadioButton, addRNAWidget overload with enum "
                   "value should be called.");
-    widget.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(m_props, m_obj, propname, widget);
+    widget.apply_functor = std::make_unique<DefaultStageRNAFunctor>(
+        m_props, m_obj, propname, widget);
     return widget;
   }
 
@@ -127,7 +128,7 @@ template<typename _Obj> class RNAScreenGraphBuilder : public bwScreenGraph::Buil
   _WidgetType& addRNAWidget(int enum_value, const std::string& propname, _Args&&... __args)
   {
     _WidgetType& widget = Builder::addWidget<_WidgetType>(std::forward<_Args>(__args)...);
-    widget.apply_functor = bwPtr_new<DefaultStageRNAFunctor>(
+    widget.apply_functor = std::make_unique<DefaultStageRNAFunctor>(
         m_props, m_obj, propname, widget, enum_value);
     return widget;
   }
@@ -173,7 +174,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 
   builder.setActiveLayout(screen_graph.Root());
   panel = &builder.addContainer<bwPanel>(
-      bwPtr_new<PanelLayout>(), "Some Testing Widgets", PANEL_HEADER_HEIGHT);
+      std::make_unique<PanelLayout>(), "Some Testing Widgets", PANEL_HEADER_HEIGHT);
   builder.addLayout<ColumnLayout>(true);
   builder.addWidget<bwPushButton>("Translate");
   builder.addWidget<bwPushButton>("Rotate");
@@ -185,7 +186,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 
   builder.setActiveLayout(screen_graph.Root());
   panel = &builder.addContainer<bwPanel>(
-      bwPtr_new<PanelLayout>(), "More Testing...", PANEL_HEADER_HEIGHT);
+      std::make_unique<PanelLayout>(), "More Testing...", PANEL_HEADER_HEIGHT);
   builder.addLayout<RowLayout>(true);
   builder.addWidget<bwCheckbox>("Make Awesome");
   builder.addWidget<bwCheckbox>("Wireframes");

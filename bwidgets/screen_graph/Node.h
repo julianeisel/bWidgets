@@ -4,7 +4,6 @@
 
 #include "bwContainerWidget.h"
 #include "bwLayoutInterface.h"
-#include "bwPtr.h"
 #include "bwWidget.h"
 
 namespace bWidgets {
@@ -38,7 +37,7 @@ class Node {
   friend class Builder;
 
  public:
-  using ChildList = std::list<bwPtr<Node>>;
+  using ChildList = std::list<std::unique_ptr<Node>>;
   using ChildIterator = ChildList::iterator;
 
   Node() = default;
@@ -84,7 +83,7 @@ class Node {
 
  private:
   Node* parent{nullptr};
-  bwPtr<EventHandler> handler{nullptr};
+  std::unique_ptr<EventHandler> handler{nullptr};
 };
 
 /**
@@ -125,7 +124,7 @@ class LayoutNode : virtual public Node {
 
  private:
   ChildList children;
-  bwPtr<bwLayoutInterface> layout;
+  std::unique_ptr<bwLayoutInterface> layout;
 };
 
 /**
@@ -156,7 +155,7 @@ class WidgetNode : virtual public Node {
   }
 
  private:
-  bwPtr<bwWidget> widget;
+  std::unique_ptr<bwWidget> widget;
 };
 
 /**

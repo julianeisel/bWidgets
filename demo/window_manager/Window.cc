@@ -66,7 +66,7 @@ Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y
   float px_scale_x, px_scale_y;
   glfwGetWindowContentScale(glfw_window, &px_scale_x, &px_scale_y);
 
-  stage = bwPtr_new<DefaultStage>(getWidth(), getHeight());
+  stage = std::make_unique<DefaultStage>(getWidth(), getHeight());
   stage->setContentScale(px_scale_x, px_scale_y);
 }
 

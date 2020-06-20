@@ -20,7 +20,7 @@ class bwScrollView : public bwContainerWidget {
 
   void draw(bwStyle& style) override;
 
-  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
+  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
 
   int getScrollOffsetY() const;
   bwRectanglePixel getContentBounds(float interface_scale) const;
@@ -28,7 +28,7 @@ class bwScrollView : public bwContainerWidget {
  private:
   constexpr static int SCROLL_BAR_SIZE = 17;
 
-  bwPtr<bwScreenGraph::WidgetNode> scrollbar_node;
+  std::unique_ptr<bwScreenGraph::WidgetNode> scrollbar_node;
 
   int vert_scroll{0};
 

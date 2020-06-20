@@ -15,19 +15,21 @@ bwStyleManager& bwStyleManager::getStyleManager()
   return instance;
 }
 
-bwPtr<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::TypeID type)
+std::unique_ptr<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::TypeID type)
 {
+  using std::make_unique;
+
   switch (type) {
     case bwStyle::TypeID::CLASSIC:
-      return bwPtr_new<bwStyleClassic>();
+      return make_unique<bwStyleClassic>();
     case bwStyle::TypeID::CLASSIC_CSS:
-      return bwPtr_new<bwStyleCSS>();
+      return make_unique<bwStyleCSS>();
     case bwStyle::TypeID::FLAT_GREY:
-      return bwPtr_new<bwStyleFlat>();
+      return make_unique<bwStyleFlat>();
     case bwStyle::TypeID::FLAT_DARK:
-      return bwPtr_new<bwStyleFlatDark>();
+      return make_unique<bwStyleFlatDark>();
     case bwStyle::TypeID::FLAT_LIGHT:
-      return bwPtr_new<bwStyleFlatLight>();
+      return make_unique<bwStyleFlatLight>();
     default:
       assert(0);
       return nullptr;

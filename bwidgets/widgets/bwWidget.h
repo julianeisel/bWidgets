@@ -41,7 +41,7 @@ class bwWidget {
 
   virtual bool canAlign() const;
 
-  virtual bwPtr<bwScreenGraph::EventHandler> createHandler() = 0;
+  virtual std::unique_ptr<bwScreenGraph::EventHandler> createHandler() = 0;
 
   /**
    * Final rectangle defining the widget bounding-box.

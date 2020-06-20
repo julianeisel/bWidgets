@@ -62,10 +62,10 @@ class Stage {
   bWidgets::bwScreenGraph::ScreenGraph screen_graph;
 
   // Static members, global UI data for all stages
-  static bWidgets::bwPtr<bWidgets::bwStyle> style;
-  static bWidgets::bwPtr<class Font> font;
-  static bWidgets::bwPtr<class IconMap> icon_map;
-  static bWidgets::bwPtr<class StyleSheet> style_sheet;
+  static std::unique_ptr<bWidgets::bwStyle> style;
+  static std::unique_ptr<class Font> font;
+  static std::unique_ptr<class IconMap> icon_map;
+  static std::unique_ptr<class StyleSheet> style_sheet;
   static float interface_scale;
 
   unsigned int mask_width, mask_height;

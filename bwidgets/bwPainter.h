@@ -41,7 +41,7 @@ class bwPainter {
     LINE,
   } active_drawtype;
 
-  static bwPtr<class bwPaintEngine> paint_engine;
+  static std::unique_ptr<class bwPaintEngine> paint_engine;
 
   bwPainter();
 
@@ -84,7 +84,7 @@ class bwPainter {
  private:
   bwColor active_color;
   std::vector<bwColor> vert_colors;
-  bwPtr<bwGradient> active_gradient;
+  std::unique_ptr<bwGradient> active_gradient;
   bwRectanglePixel content_mask;
 
   void fillVertexColorsWithGradient(const bwPolygon& polygon,

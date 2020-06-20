@@ -19,8 +19,8 @@ bwScrollView::bwScrollView(bwScreenGraph::ContainerNode& node,
                            unsigned int _height)
     : bwContainerWidget(node, "bwScrollView", _width, _height)
 {
-  auto scrollbar = bwPtr_new<bwScrollBar>(17, _height);
-  scrollbar_node = bwPtr_new<bwScreenGraph::WidgetNode>();
+  auto scrollbar = std::make_unique<bwScrollBar>(17, _height);
+  scrollbar_node = std::make_unique<bwScreenGraph::WidgetNode>();
 
   bwScreenGraph::Builder::setWidget(*scrollbar_node, std::move(scrollbar));
 }
@@ -142,9 +142,9 @@ bwScrollViewHandler::bwScrollViewHandler(bwScrollView& panel) : scrollview(panel
 {
 }
 
-bwPtr<bwScreenGraph::EventHandler> bwScrollView::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwScrollView::createHandler()
 {
-  return bwPtr_new<bwScrollViewHandler>(*this);
+  return std::make_unique<bwScrollViewHandler>(*this);
 }
 
 template<typename... _Args> using HandlerFunc = void (bwScreenGraph::EventHandler::*)(_Args&&...);

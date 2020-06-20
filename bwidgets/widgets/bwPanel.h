@@ -19,7 +19,7 @@ class bwPanel : public bwContainerWidget {
   const std::string* getLabel() const override;
   bool childrenVisible() const override;
 
-  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
+  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
 
   unsigned int getHeaderHeightHint() const;
   unsigned int header_height;

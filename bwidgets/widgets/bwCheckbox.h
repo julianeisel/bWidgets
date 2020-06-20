@@ -12,7 +12,7 @@ class bwCheckbox : public bwAbstractButton {
 
   void draw(class bwStyle& style) override;
 
-  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
+  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
 
   bool isChecked() const;
 

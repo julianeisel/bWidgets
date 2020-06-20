@@ -1,7 +1,5 @@
 #pragma once
 
-#include "bwPtr.h"
-
 namespace bWidgets {
 
 class bwWidget;

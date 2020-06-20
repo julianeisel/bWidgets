@@ -77,7 +77,7 @@ static bwStyleProperty::Type stylesheet_property_type_get_from_katana(const Kata
 static void stylesheet_set_value_from_katana_value(bwStyleProperty& property,
                                                    const KatanaValue& value)
 {
-  bwPtr<PropertyParser> parser(PropertyParser::newFromPropertyType(property.getType()));
+  std::unique_ptr<PropertyParser> parser(PropertyParser::newFromPropertyType(property.getType()));
   parser->parseIntoProperty(property, value);
 }
 
@@ -145,7 +145,7 @@ void StyleSheet::load()
   KatanaOutput* katana_output = katana_parse(
       file_contents.c_str(), file_contents.length(), KatanaParserModeStylesheet);
 
-  tree = bwPtr_new<StyleSheetTree>();
+  tree = std::make_unique<StyleSheetTree>();
   stylesheet_tree_fill_from_katana(*tree, *katana_output);
   katana_destroy_output(katana_output);
 }

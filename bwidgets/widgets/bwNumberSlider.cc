@@ -154,9 +154,9 @@ bwNumberSliderHandler::bwNumberSliderHandler(bwNumberSlider& numberslider)
 {
 }
 
-bwPtr<bwScreenGraph::EventHandler> bwNumberSlider::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwNumberSlider::createHandler()
 {
-  return bwPtr_new<bwNumberSliderHandler>(*this);
+  return std::make_unique<bwNumberSliderHandler>(*this);
 }
 
 void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)

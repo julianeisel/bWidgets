@@ -39,7 +39,7 @@ class PropertyParser {
  public:
   virtual ~PropertyParser() = default;
 
-  static bWidgets::bwPtr<PropertyParser> newFromPropertyType(bWidgets::bwStyleProperty::Type);
+  static std::unique_ptr<PropertyParser> newFromPropertyType(bWidgets::bwStyleProperty::Type);
 
   virtual void parseIntoProperty(bWidgets::bwStyleProperty&, const KatanaValue&) const = 0;
 };

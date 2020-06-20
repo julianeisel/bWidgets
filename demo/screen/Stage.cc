@@ -49,17 +49,17 @@ using namespace bWidgets;  // Less verbose
 
 namespace bWidgetsDemo {
 
-bwPtr<bwStyle> Stage::style = nullptr;
-bwPtr<StyleSheet> Stage::style_sheet = nullptr;
-bwPtr<Font> Stage::font = nullptr;
-bwPtr<IconMap> Stage::icon_map = nullptr;
+std::unique_ptr<bwStyle> Stage::style = nullptr;
+std::unique_ptr<StyleSheet> Stage::style_sheet = nullptr;
+std::unique_ptr<Font> Stage::font = nullptr;
+std::unique_ptr<IconMap> Stage::icon_map = nullptr;
 float Stage::interface_scale = 1.0f;
 
 bwScreenGraph::ScreenGraph createScreenGraph(const unsigned int width, const unsigned int height)
 {
-  auto container = bwPtr_new<bwScreenGraph::ContainerNode>();
-  auto layout = bwPtr_new<ScrollViewLayout>();
-  auto scroll_view = bwPtr_new<bwScrollView>(*container, width, height);
+  auto container = std::make_unique<bwScreenGraph::ContainerNode>();
+  auto layout = std::make_unique<ScrollViewLayout>();
+  auto scroll_view = std::make_unique<bwScrollView>(*container, width, height);
 
   layout->padding = 7;
   layout->item_margin = 5;
@@ -76,7 +76,7 @@ Stage::Stage(const unsigned int width, const unsigned int height)
   initIcons();
 
   // After font-init!
-  bwPainter::paint_engine = bwPtr_new<GawainPaintEngine>(*font, *icon_map);
+  bwPainter::paint_engine = std::make_unique<GawainPaintEngine>(*font, *icon_map);
   bwStyleCSS::polish_cb = Stage::StyleSheetPolish;
 
   bwStyleManager& style_manager = bwStyleManager::getStyleManager();
@@ -97,7 +97,7 @@ void Stage::initFonts()
   Font::initFontReading();
 
   // Initialize default font
-  font = bwPtr<Font>(Font::loadFont("bfont.ttf", RESOURCES_PATH_STR));
+  font = std::unique_ptr<Font>(Font::loadFont("bfont.ttf", RESOURCES_PATH_STR));
   font->setSize(11.0f * interface_scale);
 }
 
@@ -111,7 +111,7 @@ void Stage::initIcons()
 
 void Stage::activateStyleID(bwStyle::TypeID type_id)
 {
-  style = bwPtr<bwStyle>(bwStyleManager::createStyleFromTypeID(type_id));
+  style = std::unique_ptr<bwStyle>(bwStyleManager::createStyleFromTypeID(type_id));
   style->dpi_fac = interface_scale;
 }
 
@@ -200,7 +200,7 @@ void Stage::setFontSubPixelPositioning(const bool value)
 void Stage::setStyleSheet(const std::string& filepath)
 {
   if (!style_sheet || (style_sheet->getFilepath() != filepath)) {
-    style_sheet = bwPtr_new<StyleSheet>(filepath);
+    style_sheet = std::make_unique<StyleSheet>(filepath);
   }
   else {
     /* TODO skip if file didn't change. */

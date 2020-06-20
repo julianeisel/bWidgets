@@ -74,9 +74,9 @@ class bwCheckboxHandler : public bwAbstractButtonHandler {
   void onMouseRelease(bwMouseButtonEvent&) override;
 };
 
-bwPtr<bwScreenGraph::EventHandler> bwCheckbox::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwCheckbox::createHandler()
 {
-  return bwPtr_new<bwCheckboxHandler>(*this);
+  return std::make_unique<bwCheckboxHandler>(*this);
 }
 
 bwCheckboxHandler::bwCheckboxHandler(bwCheckbox& checkbox) : bwAbstractButtonHandler(checkbox)

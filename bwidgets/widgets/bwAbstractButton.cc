@@ -48,9 +48,9 @@ const bwIconInterface* bwAbstractButton::getIcon() const
   return nullptr;
 }
 
-bwPtr<bwScreenGraph::EventHandler> bwAbstractButton::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwAbstractButton::createHandler()
 {
-  return bwPtr_new<bwAbstractButtonHandler>(*this);
+  return std::make_unique<bwAbstractButtonHandler>(*this);
 }
 
 // ------------------ Handling ------------------

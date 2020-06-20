@@ -95,7 +95,7 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
              const bool align,
              FlowDirection flow_direction = FLOW_DIRECTION_HORIZONTAL);
 
-  using LayoutItemList = std::list<bWidgets::bwPtr<LayoutItem>>;
+  using LayoutItemList = std::list<std::unique_ptr<LayoutItem>>;
   using IteratorItem = LayoutItemList::const_iterator;
 
   int width{0}, height{0};

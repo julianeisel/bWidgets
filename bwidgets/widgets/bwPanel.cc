@@ -164,9 +164,9 @@ bwPanelHandler::bwPanelHandler(bwPanel& panel) : panel(panel)
 {
 }
 
-bwPtr<bwScreenGraph::EventHandler> bwPanel::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwPanel::createHandler()
 {
-  return bwPtr_new<bwPanelHandler>(*this);
+  return std::make_unique<bwPanelHandler>(*this);
 }
 
 void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)

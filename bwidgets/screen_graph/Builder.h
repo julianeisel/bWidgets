@@ -21,9 +21,9 @@ class Builder {
   }
   ~Builder() = default;
 
-  static void setLayout(LayoutNode& node, bwPtr<bwLayoutInterface> layout);
-  static void setWidget(WidgetNode& node, bwPtr<bwWidget> widget);
-  static bwWidget& addWidget(LayoutNode& node, bwPtr<bwWidget> widget);
+  static void setLayout(LayoutNode& node, std::unique_ptr<bwLayoutInterface> layout);
+  static void setWidget(WidgetNode& node, std::unique_ptr<bwWidget> widget);
+  static bwWidget& addWidget(LayoutNode& node, std::unique_ptr<bwWidget> widget);
 
   void setActiveLayout(bwScreenGraph::LayoutNode&);
 
@@ -36,7 +36,7 @@ class Builder {
                   "Should implement bwLayoutInterface");
 
     LayoutNode& new_node = addChildNode<LayoutNode>(*_active_layout_node);
-    new_node.layout = bwPtr_new<_LayoutType>(std::forward<_Args>(__args)...);
+    new_node.layout = std::make_unique<_LayoutType>(std::forward<_Args>(__args)...);
     setActiveLayout(new_node);
     return new_node;
   }
@@ -46,7 +46,7 @@ class Builder {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
     WidgetNode& new_node = addChildNode<WidgetNode>(*_active_layout_node);
-    new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
+    new_node.widget = std::make_unique<_WidgetType>(std::forward<_Args>(__args)...);
     new_node.handler = new_node.widget->createHandler();
     return static_cast<_WidgetType&>(*new_node.widget);
   }
@@ -60,7 +60,7 @@ class Builder {
    * verbose and easier to understand.
    */
   template<typename _WidgetType, typename... _Args>
-  ContainerNode& addContainer(bwPtr<bwLayoutInterface> layout, _Args&&... __args)
+  ContainerNode& addContainer(std::unique_ptr<bwLayoutInterface> layout, _Args&&... __args)
   {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
     static_assert(std::is_base_of<bwContainerWidget, _WidgetType>::value,
@@ -68,7 +68,7 @@ class Builder {
 
     ContainerNode& new_node = addChildNode<ContainerNode>(*_active_layout_node);
     setLayout(new_node, std::move(layout));
-    new_node.widget = bwPtr_new<_WidgetType>(new_node, std::forward<_Args>(__args)...);
+    new_node.widget = std::make_unique<_WidgetType>(new_node, std::forward<_Args>(__args)...);
     new_node.handler = new_node.widget->createHandler();
     setActiveLayout(new_node);
     return new_node;
@@ -85,7 +85,7 @@ class Builder {
    * using bWidgets::bwScreenGraph;
    *
    * auto& widget = static_cast<bwLabel&>(Builder::addWidget<bwLabel>(
-   *                    screen_graph, bwPtr_new<bwLabel>("Foo", 0, 10)));
+   *                    screen_graph, std::make_unique<bwLabel>("Foo", 0, 10)));
    * widget.foo();
    * // ...
    * \endcode
@@ -105,7 +105,7 @@ class Builder {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
     WidgetNode& new_node = addChildNode<WidgetNode>(node);
-    new_node.widget = bwPtr_new<_WidgetType>(std::forward<_Args>(__args)...);
+    new_node.widget = std::make_unique<_WidgetType>(std::forward<_Args>(__args)...);
     new_node.handler = new_node.widget->createHandler();
     return static_cast<_WidgetType&>(*new_node.widget);
   }
@@ -116,7 +116,7 @@ class Builder {
     static_assert(std::is_base_of<Node, _NodeType>::value,
                   "Should derrive from bwScreenGraph::Node");
 
-    parent_node.children.push_back(bwPtr_new<_NodeType>());
+    parent_node.children.push_back(std::make_unique<_NodeType>());
     Node& ref = *parent_node.children.back();
     ref.parent = &parent_node;
 

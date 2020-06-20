@@ -109,8 +109,8 @@ template<typename _Obj> class RNAProperties {
                            Getter<ObjectT, _T> get,
                            Setter<ObjectT, _T> set)
   {
-    auto pair = m_properties.emplace(
-        name, bWidgets::bwPtr_new<RNAPropertyInternal<ObjectT, _T>>(get, set));
+    auto pair = m_properties.emplace(name,
+                                     std::make_unique<RNAPropertyInternal<ObjectT, _T>>(get, set));
     return *(*pair.first).second;
   }
 
@@ -142,7 +142,7 @@ template<typename _Obj> class RNAProperties {
     }
   }
 
-  std::map<std::string, bWidgets::bwPtr<RNAProperty>> m_properties;
+  std::map<std::string, std::unique_ptr<RNAProperty>> m_properties;
 };
 
 #if 0
@@ -152,7 +152,7 @@ RNAProperty& RNA_def_property(RNAProperties<_Obj>& properties,
                               _T& property_ref)
 {
   auto pair = properties.m_properties.emplace(
-      name, bWidgets::bwPtr_new<RNAPropertyInternal<_Obj, _T>>(property_ref));
+      name, std::make_unique<RNAPropertyInternal<_Obj, _T>>(property_ref));
   return *(*pair.first).second;
 }
 
@@ -163,7 +163,7 @@ RNAProperty& RNA_def_property(RNAProperties<_Obj>& properties,
                               Setter<_Obj, _T> set)
 {
   auto pair = properties.m_properties.emplace(
-      name, bWidgets::bwPtr_new<RNAPropertyInternal<_Obj, _T>>(get, set));
+      name, std::make_unique<RNAPropertyInternal<_Obj, _T>>(get, set));
   return *(*pair.first).second;
 }
 

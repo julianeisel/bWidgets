@@ -13,13 +13,13 @@ class bwNumberSlider : public bwTextBox {
 
   void draw(class bwStyle& style) override;
 
-  bwPtr<bwScreenGraph::EventHandler> createHandler() override;
+  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
 
   void setValue(float value);
   float getValue() const;
   void setMinMax(float min, float max);
 
-  bwPtr<bwFunctorInterface> apply_functor{nullptr};
+  std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
 
  private:
   std::string valueToString(unsigned int precision) const;

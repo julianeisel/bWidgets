@@ -75,7 +75,7 @@ class bwStyleProperty {
 class bwStyleProperties {
  public:
   // Store properties as pointer, they are actually created as bwStylePropertyInternal instances.
-  using PropertyList = std::vector<bwPtr<bwStyleProperty>>;
+  using PropertyList = std::vector<std::unique_ptr<bwStyleProperty>>;
 
   bwStyleProperty& addBool(const std::string& name, bool& reference);
   bwStyleProperty& addBool(const std::string& name);

@@ -11,4 +11,3 @@
 
 /* Include util headers. */
 #include "bwOptional.h"
-#include "bwPtr.h"
