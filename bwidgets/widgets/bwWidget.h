@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <typeinfo>
 
 #include "bwDistance.h"
@@ -28,8 +29,8 @@ class bwWidget {
   } state;
 
   bwWidget(const std::string& identifier,
-           bwOptional<unsigned int> width_hint,
-           bwOptional<unsigned int> height_hint);
+           std::optional<unsigned int> width_hint,
+           std::optional<unsigned int> height_hint);
   virtual ~bwWidget() = default;
 
   virtual bool isCoordinateInside(const bwPoint& point) const;

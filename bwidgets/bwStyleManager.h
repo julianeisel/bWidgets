@@ -3,7 +3,6 @@
 #include <array>
 
 #include "bwStyle.h"
-#include "bwUtil.h"
 
 namespace bWidgets {
 

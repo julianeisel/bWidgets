@@ -9,8 +9,8 @@ class bwTextBox : public bwWidget {
   friend class bwTextBoxHandler;
 
  public:
-  bwTextBox(bwOptional<unsigned int> width_hint = nullopt,
-            bwOptional<unsigned int> height_hint = nullopt);
+  bwTextBox(std::optional<unsigned int> width_hint = std::nullopt,
+            std::optional<unsigned int> height_hint = std::nullopt);
 
   void draw(class bwStyle& style) override;
   void registerProperties() override;

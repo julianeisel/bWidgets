@@ -1,9 +1,8 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <vector>
-
-#include "bwUtil.h"
 
 namespace bWidgets {
 
@@ -87,7 +86,8 @@ class bwStyleProperties {
   bwStyleProperty& addColor(const std::string& name);
   bwStyleProperty& addProperty(const std::string& name, const bwStyleProperty::Type prop_type);
 
-  bwOptional<std::reference_wrapper<const bwStyleProperty>> lookup(const std::string& name) const;
+  std::optional<std::reference_wrapper<const bwStyleProperty>> lookup(
+      const std::string& name) const;
 
   using iterator = PropertyList::iterator;
   iterator begin();

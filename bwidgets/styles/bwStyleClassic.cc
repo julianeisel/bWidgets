@@ -181,7 +181,7 @@ bwStyleClassic::bwStyleClassic() : bwStyle(TypeID::CLASSIC)
 
 void bwStyleClassic::setWidgetStyle(bwWidget& widget)
 {
-  bwOptional<std::reference_wrapper<bwWidgetBaseStyle>> base_style;
+  std::optional<std::reference_wrapper<bwWidgetBaseStyle>> base_style;
 
   polish(widget);
 

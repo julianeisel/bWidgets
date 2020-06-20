@@ -84,7 +84,7 @@ class DefaultStageRNAFunctor : public bwFunctorInterface {
     return m_prop_name;
   }
 
-  bwOptional<int> getEnumValue() const
+  std::optional<int> getEnumValue() const
   {
     return m_enum_value;
   }
@@ -94,7 +94,7 @@ class DefaultStageRNAFunctor : public bwFunctorInterface {
   DefaultStage& m_stage;
   std::string m_prop_name;
   const bwWidget& m_widget;
-  bwOptional<int> m_enum_value;
+  std::optional<int> m_enum_value;
 };
 
 template<typename _Obj> class RNAScreenGraphBuilder : public bwScreenGraph::Builder {

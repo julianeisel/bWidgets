@@ -97,7 +97,7 @@ void bwEventDispatcher::dispatchMouseButtonRelease(bwMouseButtonEvent& event)
     }
   }
 
-  drag_event = nullopt;
+  drag_event = std::nullopt;
   context.active = nullptr;
 }
 

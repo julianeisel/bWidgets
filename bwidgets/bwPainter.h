@@ -6,7 +6,6 @@
 
 #include "bwGradient.h"
 #include "bwIconInterface.h"
-#include "bwUtil.h"
 
 namespace bWidgets {
 

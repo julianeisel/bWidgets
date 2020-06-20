@@ -324,7 +324,7 @@ bwStyleProperty::Type bwStyleProperty::getType() const
 
 // --------------------------------------------------------------------
 
-bwOptional<std::reference_wrapper<const bwStyleProperty>> bwStyleProperties::lookup(
+std::optional<std::reference_wrapper<const bwStyleProperty>> bwStyleProperties::lookup(
     const std::string& name) const
 {
   for (const auto& property : properties) {
@@ -333,7 +333,7 @@ bwOptional<std::reference_wrapper<const bwStyleProperty>> bwStyleProperties::loo
     }
   }
 
-  return nullopt;
+  return std::nullopt;
 }
 
 bwStyleProperties::iterator bwStyleProperties::begin()

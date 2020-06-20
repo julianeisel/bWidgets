@@ -23,7 +23,6 @@
 
 #include <unordered_map>
 
-#include "bwOptional.h"
 #include "bwWidget.h"
 
 namespace bWidgetsDemo {
@@ -39,14 +38,13 @@ class StyleSheetTree {
 
   class StyleSheetNode& ensureNode(const std::string& class_name);
 
-  bWidgets::bwOptional<std::reference_wrapper<const bWidgets::bwStyleProperty>> resolveProperty(
+  std::optional<std::reference_wrapper<const bWidgets::bwStyleProperty>> resolveProperty(
       const std::string& class_name,
       const std::string& property_name,
       const bWidgets::bwWidget::State state);
 
  private:
-  bWidgets::bwOptional<std::reference_wrapper<class StyleSheetNode>> lookupNode(
-      const std::string& name);
+  std::optional<std::reference_wrapper<class StyleSheetNode>> lookupNode(const std::string& name);
 
   std::unordered_map<std::string, class StyleSheetNode*> nodes{0};
 };

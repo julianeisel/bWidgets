@@ -11,7 +11,7 @@ namespace bWidgets {
 
 bwPanel::bwPanel(const bwScreenGraph::ContainerNode& node,
                  std::string label,
-                 bwOptional<unsigned int> header_height_hint)
+                 std::optional<unsigned int> header_height_hint)
     : bwContainerWidget(node, "bwPanel", 0, header_height_hint),
       header_height(header_height_hint.value_or(height_hint)),
       label(std::move(label))

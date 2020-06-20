@@ -23,6 +23,7 @@
 
 #include <list>
 #include <memory>
+#include <optional>
 
 #include "bwUtil.h"
 
@@ -58,7 +59,7 @@ class WindowManager {
 
   class EventManager& event_manager;
   WindowList windows;
-  bWidgets::bwOptional<std::reference_wrapper<Window>> main_win;
+  std::optional<std::reference_wrapper<Window>> main_win;
 };
 
 }  // namespace bWidgetsDemo

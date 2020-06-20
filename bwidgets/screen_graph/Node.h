@@ -78,7 +78,7 @@ class Node {
   }
 
   virtual bwRectanglePixel Rectangle() const = 0;
-  virtual bwOptional<bwRectanglePixel> MaskRectangle() const = 0;
+  virtual std::optional<bwRectanglePixel> MaskRectangle() const = 0;
   virtual bool isVisible() const = 0;
 
  private:
@@ -112,9 +112,9 @@ class LayoutNode : virtual public Node {
     return layout->getRectangle();
   }
 
-  bwOptional<bwRectanglePixel> MaskRectangle() const override
+  std::optional<bwRectanglePixel> MaskRectangle() const override
   {
-    return nullopt;
+    return std::nullopt;
   }
 
   bool isVisible() const override
@@ -144,9 +144,9 @@ class WidgetNode : virtual public Node {
     return widget->rectangle;
   }
 
-  bwOptional<bwRectanglePixel> MaskRectangle() const override
+  std::optional<bwRectanglePixel> MaskRectangle() const override
   {
-    return nullopt;
+    return std::nullopt;
   }
 
   bool isVisible() const override
@@ -199,7 +199,7 @@ class ContainerNode : public LayoutNode, public WidgetNode {
     return LayoutNode::Rectangle();
   }
 
-  bwOptional<bwRectanglePixel> MaskRectangle() const override
+  std::optional<bwRectanglePixel> MaskRectangle() const override
   {
     return ContainerWidget().getMaskRectangle();
   }

@@ -1,7 +1,8 @@
 #pragma once
 
+#include <optional>
+
 #include "bwEvent.h"
-#include "bwOptional.h"
 #include "bwPoint.h"
 
 namespace bWidgets {
@@ -35,7 +36,7 @@ class bwEventDispatcher {
   /** Reference to the screen-graph's context (convenience). */
   bwContext& context;
 
-  bwOptional<bwMouseButtonDragEvent> drag_event;
+  std::optional<bwMouseButtonDragEvent> drag_event;
 
   bool isDragging();
   void changeContextHovered(bwScreenGraph::Node*, bwEvent&);

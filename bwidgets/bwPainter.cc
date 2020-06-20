@@ -8,6 +8,7 @@
 #include "bwPolygon.h"
 #include "bwRange.h"
 #include "bwStyle.h"
+#include "bwUtil.h"
 #include "bwWidgetBaseStyle.h"
 
 #include "bwPainter.h"

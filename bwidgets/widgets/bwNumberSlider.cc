@@ -13,8 +13,8 @@
 
 namespace bWidgets {
 
-bwNumberSlider::bwNumberSlider(bwOptional<unsigned int> width_hint,
-                               bwOptional<unsigned int> height_hint)
+bwNumberSlider::bwNumberSlider(std::optional<unsigned int> width_hint,
+                               std::optional<unsigned int> height_hint)
     : bwTextBox(width_hint, height_hint), precision(2)
 {
   identifier = "bwNumberSlider";

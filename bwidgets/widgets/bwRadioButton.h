@@ -21,8 +21,8 @@ namespace bWidgets {
 class bwRadioButton : public bwAbstractButton {
  public:
   bwRadioButton(const std::string& text,
-                bwOptional<unsigned int> width_hint = nullopt,
-                bwOptional<unsigned int> height_hint = nullopt);
+                std::optional<unsigned int> width_hint = std::nullopt,
+                std::optional<unsigned int> height_hint = std::nullopt);
 
   bool canAlign() const override;
 
