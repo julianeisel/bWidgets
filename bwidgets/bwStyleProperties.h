@@ -86,8 +86,7 @@ class bwStyleProperties {
   bwStyleProperty& addColor(const std::string& name);
   bwStyleProperty& addProperty(const std::string& name, const bwStyleProperty::Type prop_type);
 
-  std::optional<std::reference_wrapper<const bwStyleProperty>> lookup(
-      const std::string& name) const;
+  const bwStyleProperty* lookup(const std::string& name) const;
 
   using iterator = PropertyList::iterator;
   iterator begin();

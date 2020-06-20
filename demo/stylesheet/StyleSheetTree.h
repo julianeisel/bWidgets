@@ -38,13 +38,12 @@ class StyleSheetTree {
 
   class StyleSheetNode& ensureNode(const std::string& class_name);
 
-  std::optional<std::reference_wrapper<const bWidgets::bwStyleProperty>> resolveProperty(
-      const std::string& class_name,
-      const std::string& property_name,
-      const bWidgets::bwWidget::State state);
+  const bWidgets::bwStyleProperty* resolveProperty(const std::string& class_name,
+                                                   const std::string& property_name,
+                                                   const bWidgets::bwWidget::State state);
 
  private:
-  std::optional<std::reference_wrapper<class StyleSheetNode>> lookupNode(const std::string& name);
+  class StyleSheetNode* lookupNode(const std::string& name);
 
   std::unordered_map<std::string, class StyleSheetNode*> nodes{0};
 };

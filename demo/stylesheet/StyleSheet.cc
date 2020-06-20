@@ -165,8 +165,8 @@ void StyleSheet::resolveValue(const std::string& class_name,
                               const bwWidget::State state,
                               bwStyleProperty& property)
 {
-  std::optional<std::reference_wrapper<const bwStyleProperty>> property_from_tree =
-      tree->resolveProperty(class_name, property.getIdentifier(), state);
+  const bwStyleProperty* property_from_tree = tree->resolveProperty(
+      class_name, property.getIdentifier(), state);
 
   if (property_from_tree) {
     property.setValue(*property_from_tree);

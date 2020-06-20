@@ -84,7 +84,7 @@ Window& WindowManager::addWindow(std::string name)
 {
   windows.emplace_back(name);
   if (windows.size() == 1) {
-    main_win = windows.back();
+    main_win = &windows.back();
   }
 
   return windows.back();
@@ -97,7 +97,7 @@ void WindowManager::removeWindow(Window& win)
 
 const bool WindowManager::isMainWindow(const Window& win) const
 {
-  return win == *main_win;
+  return &win == main_win;
 }
 
 }  // namespace bWidgetsDemo

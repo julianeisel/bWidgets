@@ -59,7 +59,7 @@ class WindowManager {
 
   class EventManager& event_manager;
   WindowList windows;
-  std::optional<std::reference_wrapper<Window>> main_win;
+  Window* main_win;
 };
 
 }  // namespace bWidgetsDemo

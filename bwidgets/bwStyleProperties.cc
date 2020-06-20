@@ -324,16 +324,15 @@ bwStyleProperty::Type bwStyleProperty::getType() const
 
 // --------------------------------------------------------------------
 
-std::optional<std::reference_wrapper<const bwStyleProperty>> bwStyleProperties::lookup(
-    const std::string& name) const
+const bwStyleProperty* bwStyleProperties::lookup(const std::string& name) const
 {
   for (const auto& property : properties) {
     if (property->getIdentifier() == name) {
-      return *property;
+      return property.get();
     }
   }
 
-  return std::nullopt;
+  return nullptr;
 }
 
 bwStyleProperties::iterator bwStyleProperties::begin()
