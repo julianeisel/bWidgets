@@ -1,5 +1,6 @@
 #include "bwPaintEngine.h"
 #include "bwPainter.h"
+#include "bwStyle.h"
 
 #include "Node.h"
 #include "ScreenGraph.h"
@@ -53,6 +54,7 @@ void Drawer::drawNode(bwScreenGraph::Node& node)
     return;
   }
 
+  style.setWidgetStyle(*widget);
   widget->draw(style);
 }
 

@@ -6,6 +6,7 @@
 #include "bwStyle.h"
 
 #include "screen_graph/Builder.h"
+#include "screen_graph/Drawer.h"
 #include "screen_graph/Node.h"
 
 #include "bwScrollBar.h"
@@ -53,13 +54,11 @@ void bwScrollView::drawScrollBars(bwStyle& style)
   scrollbar.ratio = (rectangle.height() - 2) / float(node.ContentRectangle().height());
   scrollbar.scroll_offset = vert_scroll;
 
-  scrollbar.draw(style);
+  bwScreenGraph::Drawer::drawSubtree(*scrollbar_node, style);
 }
 
 void bwScrollView::draw(bwStyle& style)
 {
-  style.setWidgetStyle(*this);
-
   bwPainter painter;
 
   painter.active_drawtype = bwPainter::DrawType::FILLED;

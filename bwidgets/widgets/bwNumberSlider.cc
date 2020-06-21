@@ -23,9 +23,6 @@ bwNumberSlider::bwNumberSlider(std::optional<unsigned int> width_hint,
 void bwNumberSlider::draw(bwStyle& style)
 {
   bwPainter painter;
-
-  style.setWidgetStyle(*this);
-
   bwRectanglePixel inner_rect = rectangle;
   const float radius = base_style.corner_radius * style.dpi_fac;
 

@@ -19,8 +19,6 @@ bwAbstractButton::bwAbstractButton(const std::string& text,
 
 void bwAbstractButton::draw(bwStyle& style)
 {
-  style.setWidgetStyle(*this);
-
   const bwGradient gradient{
       base_style.backgroundColor(), base_style.shadeTop(), base_style.shadeBottom()};
   bwPainter painter;

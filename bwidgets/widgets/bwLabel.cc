@@ -18,7 +18,6 @@ bwLabel::bwLabel(std::string text,
 void bwLabel::draw(bwStyle& style)
 {
   bwPainter painter;
-  style.setWidgetStyle(*this);
 
   painter.setContentMask(rectangle);
   painter.setActiveColor(text_color);

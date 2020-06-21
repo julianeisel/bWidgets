@@ -18,8 +18,6 @@ bwCheckbox::bwCheckbox(const std::string& text,
 
 void bwCheckbox::draw(bwStyle& style)
 {
-  style.setWidgetStyle(*this);
-
   const bwRectanglePixel checkbox_rect = getCheckboxRectangle();
   const bwRectanglePixel text_rect = getTextRectangle(checkbox_rect);
   const bwGradient gradient{

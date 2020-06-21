@@ -23,8 +23,6 @@ static auto getInnerRect(bwScrollBar& scrollbar) -> bwRectanglePixel
 
 void bwScrollBar::draw(bwStyle& style)
 {
-  style.setWidgetStyle(*this);
-
   bwRectanglePixel rect_inner{getInnerRect(*this)};
 
   /* TODO maybe a wrapper could ensure old style is unchanged after drawing (by resetting it) */

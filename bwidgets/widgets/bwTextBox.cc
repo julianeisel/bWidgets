@@ -15,8 +15,6 @@ bwTextBox::bwTextBox(std::optional<unsigned int> width_hint,
 
 void bwTextBox::draw(bwStyle& style)
 {
-  style.setWidgetStyle(*this);
-
   bwRectanglePixel inner_rect = rectangle;
   const bwGradient gradient{
       base_style.backgroundColor(), base_style.shadeTop(), base_style.shadeBottom()};
