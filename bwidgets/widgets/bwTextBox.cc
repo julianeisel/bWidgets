@@ -6,7 +6,8 @@
 
 namespace bWidgets {
 
-bwTextBox::bwTextBox(std::optional<unsigned int> width_hint, std::optional<unsigned int> height_hint)
+bwTextBox::bwTextBox(std::optional<unsigned int> width_hint,
+                     std::optional<unsigned int> height_hint)
     : bwWidget("bwTextBox", width_hint, height_hint), selection_rectangle(bwRectanglePixel())
 {
   initialize();
@@ -45,7 +46,7 @@ void bwTextBox::setText(const std::string& value)
   text = value;
 }
 
-const std::string* bwTextBox::getLabel() const
+auto bwTextBox::getLabel() const -> const std::string*
 {
   return &text;
 }
@@ -93,11 +94,11 @@ void bwTextBoxHandler::onMouseLeave(bwEvent&)
 }
 void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     startTextEditing();
     event.swallow();
   }
-  else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
+  else if (event.button == bwMouseButtonEvent::Button::RIGHT) {
     if (textbox.state == bwWidget::State::SUNKEN) {
       endTextEditing();
       event.swallow();

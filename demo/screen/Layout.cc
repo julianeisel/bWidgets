@@ -56,13 +56,13 @@ LayoutItem::LayoutItem(LayoutItem::Type item_type, const bool align, FlowDirecti
 {
 }
 
-unsigned int LayoutItem::getHeight() const
+auto LayoutItem::getHeight() const -> unsigned int
 {
   return height;
 }
 
-static bwScreenGraph::Node* getNextUnhiddenNode(
-    const bwScreenGraph::Node::ChildList::const_iterator& current)
+static auto getNextUnhiddenNode(const bwScreenGraph::Node::ChildList::const_iterator& current)
+    -> bwScreenGraph::Node*
 {
   for (auto iter = ++bwScreenGraph::Node::ChildList::const_iterator(current);
        iter != (*current)->Parent()->Children()->end();
@@ -74,8 +74,8 @@ static bwScreenGraph::Node* getNextUnhiddenNode(
 
   return nullptr;
 }
-static bwScreenGraph::Node* getPreviousUnhiddenNode(
-    const bwScreenGraph::Node::ChildIterator& current)
+static auto getPreviousUnhiddenNode(const bwScreenGraph::Node::ChildIterator& current)
+    -> bwScreenGraph::Node*
 {
   for (auto iter = bwScreenGraph::Node::ChildList::reverse_iterator(current);
        iter != (*current)->Parent()->Children()->rend();
@@ -88,7 +88,7 @@ static bwScreenGraph::Node* getPreviousUnhiddenNode(
   return nullptr;
 }
 
-bool shouldWidgetAlignToPrevious(const bwScreenGraph::Node::ChildIterator& current)
+static auto shouldWidgetAlignToPrevious(const bwScreenGraph::Node::ChildIterator& current) -> bool
 {
   bwScreenGraph::Node* prev_item = getPreviousUnhiddenNode(current);
   bwWidget* prev_widget = prev_item ? prev_item->Widget() : nullptr;
@@ -99,7 +99,7 @@ bool shouldWidgetAlignToPrevious(const bwScreenGraph::Node::ChildIterator& curre
 
   return true;
 }
-bool shouldWidgetAlignToNext(const bwScreenGraph::Node::ChildIterator& current)
+static auto shouldWidgetAlignToNext(const bwScreenGraph::Node::ChildIterator& current) -> bool
 {
   bwScreenGraph::Node* next_item = getNextUnhiddenNode(current);
   bwWidget* next_widget = next_item ? next_item->Widget() : nullptr;
@@ -134,8 +134,8 @@ static void alignNode(bwScreenGraph::Node::ChildIterator node_iter,
   }
 }
 
-static bool needsMarginAfterNode(const bwScreenGraph::Node::ChildList::const_iterator node_iter,
-                                 const bool align)
+static auto needsMarginAfterNode(const bwScreenGraph::Node::ChildList::const_iterator node_iter,
+                                 const bool align) -> bool
 {
   const bwWidget* widget = (*node_iter)->Widget();
   const bwScreenGraph::Node* next_iter = getNextUnhiddenNode(node_iter);
@@ -312,7 +312,7 @@ void LayoutItem::resolve(bwScreenGraph::Node& node,
   assert((flow_direction != FLOW_DIRECTION_HORIZONTAL) || (xpos == layout_pos.x + width));
 }
 
-bwRectanglePixel LayoutItem::getRectangle()
+auto LayoutItem::getRectangle() -> bwRectanglePixel
 {
   const int xmin = int(location.x);
   const int ymin = int(location.y);
@@ -320,7 +320,8 @@ bwRectanglePixel LayoutItem::getRectangle()
   return bwRectanglePixel{xmin, xmin + width, ymin, ymin + height};
 }
 
-unsigned int LayoutItem::countRowColumns(const bwScreenGraph::Node::ChildList& children) const
+auto LayoutItem::countRowColumns(const bwScreenGraph::Node::ChildList& children) const
+    -> unsigned int
 {
   unsigned int count_child_cols = 0;
 
@@ -350,7 +351,8 @@ unsigned int LayoutItem::countRowColumns(const bwScreenGraph::Node::ChildList& c
 /**
  * Calculate how many margins need to be added in between child-items of this layout.
  */
-unsigned int LayoutItem::countNeededMargins(const bwScreenGraph::Node::ChildList& children) const
+auto LayoutItem::countNeededMargins(const bwScreenGraph::Node::ChildList& children) const
+    -> unsigned int
 {
   unsigned int tot_margins = 0;
 

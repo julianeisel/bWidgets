@@ -34,7 +34,7 @@ namespace bWidgetsDemo {
 
 class GPUShader {
  public:
-  typedef enum {
+  enum ID {
     ID_UNIFORM_COLOR,
     ID_SMOOTH_COLOR,
     ID_BITMAP_TEXTURE_UNIFORM_COLOR,
@@ -42,7 +42,7 @@ class GPUShader {
     ID_TEXTURE_RECT,
 
     SHADER_ID_TOT
-  } ID;
+  };
 
   ~GPUShader();
 
@@ -54,8 +54,8 @@ class GPUShader {
  private:
   GPUShader(const std::string& vertexcode, const std::string& fragcode);
 
-  static std::unique_ptr<GPUShader> createFromID(GPUShader::ID id);
-  static GPUShader& ensureCached(ID id);
+  static auto createFromID(GPUShader::ID id) -> std::unique_ptr<GPUShader>;
+  static auto ensureCached(ID id) -> GPUShader&;
 
   GLuint m_program;
 

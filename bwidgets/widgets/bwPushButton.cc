@@ -9,18 +9,18 @@ bwPushButton::bwPushButton(const std::string& text,
 {
 }
 
-const bwIconInterface* bwPushButton::getIcon() const
+auto bwPushButton::getIcon() const -> const bwIconInterface*
 {
   return icon;
 }
 
-bwPushButton& bwPushButton::setIcon(const bwIconInterface& icon_interface)
+auto bwPushButton::setIcon(const bwIconInterface& icon_interface) -> bwPushButton&
 {
   icon = &icon_interface;
   return *this;
 }
 
-bool bwPushButton::canAlign() const
+auto bwPushButton::canAlign() const -> bool
 {
   return true;
 }

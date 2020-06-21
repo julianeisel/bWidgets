@@ -32,13 +32,13 @@ PreOrderIterator::PreOrderIterator(PreOrderIterator&& other)
   other.root = nullptr;
 }
 
-bool PreOrderIterator::operator!=(const PreOrderIterator& other) const
+auto PreOrderIterator::operator!=(const PreOrderIterator& other) const -> bool
 {
   return (is_root != other.is_root) ||
          (is_root ? (node != other.node) : (node_iter != other.node_iter));
 }
 
-Node& PreOrderIterator::operator*()
+auto PreOrderIterator::operator*() -> Node&
 {
   return is_root ? *node : **node_iter;
 }
@@ -49,7 +49,7 @@ void PreOrderIterator::triggerIterationEnd()
   node = nullptr;
 }
 
-bool PreOrderIterator::hasExceededLastSibling()
+auto PreOrderIterator::hasExceededLastSibling() -> bool
 {
   assert(is_root == false);
   // Check if node_iter points at the parents children.end()
@@ -62,7 +62,7 @@ bool PreOrderIterator::hasExceededLastSibling()
   }
 }
 
-PreOrderIterator& PreOrderIterator::operator++()
+auto PreOrderIterator::operator++() -> PreOrderIterator&
 {
   Node::ChildList* childs = is_root ? node->Children() : (*node_iter)->Children();
 
@@ -108,19 +108,19 @@ PreOrderIterator& PreOrderIterator::operator++()
   return *this;
 }
 
-PreOrderIterator begin(Node& node)
+auto begin(Node& node) -> PreOrderIterator
 {
   return PreOrderIterator(node);
 }
-PreOrderIterator end(Node&)
+auto end(Node&) -> PreOrderIterator
 {
   return {};
 }
-PreOrderIterator begin(ScreenGraph& screen_graph)
+auto begin(ScreenGraph& screen_graph) -> PreOrderIterator
 {
   return begin(screen_graph.Root());
 }
-PreOrderIterator end(ScreenGraph& screen_graph)
+auto end(ScreenGraph& screen_graph) -> PreOrderIterator
 {
   return end(screen_graph.Root());
 }

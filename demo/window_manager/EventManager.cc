@@ -90,35 +90,35 @@ void EventManager::handleWindowContentScaleEvent(GLFWwindow* glfw_win,
   win->handleContentScaleEvent(new_scale_x, new_scale_y);
 }
 
-bwMouseButtonEvent::MouseButton EventManager::convertGlfwMouseButton(int glfw_button)
+bwMouseButtonEvent::Button EventManager::convertGlfwMouseButton(int glfw_button)
 {
   switch (glfw_button) {
     case GLFW_MOUSE_BUTTON_LEFT:
-      return bwMouseButtonEvent::BUTTON_LEFT;
+      return bwMouseButtonEvent::Button::LEFT;
     case GLFW_MOUSE_BUTTON_RIGHT:
-      return bwMouseButtonEvent::BUTTON_RIGHT;
+      return bwMouseButtonEvent::Button::RIGHT;
   }
 
-  return bwMouseButtonEvent::BUTTON_UNKNOWN;
+  return bwMouseButtonEvent::Button::UNKNOWN;
 }
 
-MouseEvent::MouseEventType EventManager::convertGlfwMouseButtonAction(int glfw_action)
+MouseEvent::Type EventManager::convertGlfwMouseButtonAction(int glfw_action)
 {
   switch (glfw_action) {
     case GLFW_PRESS:
-      return MouseEvent::MOUSE_EVENT_PRESS;
+      return MouseEvent::Type::PRESS;
     case GLFW_RELEASE:
-      return MouseEvent::MOUSE_EVENT_RELEASE;
+      return MouseEvent::Type::RELEASE;
   }
 
-  return MouseEvent::MOUSE_EVENT_UNKNOWN;
+  return MouseEvent::Type::UNKNOWN;
 }
 
 void EventManager::handleMouseMovementEvent(GLFWwindow* glfw_win, double /*x*/, double /*y*/)
 {
   const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
   const bwPoint& position = win->getCursorPosition();
-  MouseEvent event(MouseEvent::MOUSE_EVENT_MOVE, bwMouseButtonEvent::BUTTON_UNKNOWN, position);
+  MouseEvent event(MouseEvent::Type::MOVE, bwMouseButtonEvent::Button::UNKNOWN, position);
 
   win->stage->handleMouseMovementEvent(event);
 }
@@ -130,8 +130,8 @@ void EventManager::handleMouseButtonEvent(GLFWwindow* glfw_win,
 {
   const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
   const bwPoint& position = win->getCursorPosition();
-  const MouseEvent::MouseEventType action_type = convertGlfwMouseButtonAction(glfw_action);
-  const bwMouseButtonEvent::MouseButton mouse_button = convertGlfwMouseButton(glfw_button);
+  const MouseEvent::Type action_type = convertGlfwMouseButtonAction(glfw_action);
+  const bwMouseButtonEvent::Button mouse_button = convertGlfwMouseButton(glfw_button);
   MouseEvent event(action_type, mouse_button, position);
 
   win->stage->handleMouseButtonEvent(event);
@@ -144,11 +144,10 @@ void EventManager::handleMouseScrollEvent(GLFWwindow* glfw_win, double /*value_x
   }
 
   const Window* win = (Window*)glfwGetWindowUserPointer(glfw_win);
-  const MouseEvent::MouseEventType event_type = (value_y > 0) ?
-                                                    MouseEvent::MOUSE_EVENT_SCROLL_UP :
-                                                    MouseEvent::MOUSE_EVENT_SCROLL_DOWN;
+  const MouseEvent::Type event_type = (value_y > 0) ? MouseEvent::Type::SCROLL_UP :
+                                                      MouseEvent::Type::SCROLL_DOWN;
   const bwPoint& position = win->getCursorPosition();
-  MouseEvent event(event_type, bwMouseButtonEvent::BUTTON_WHEEL, position);
+  MouseEvent event(event_type, bwMouseButtonEvent::Button::WHEEL, position);
   bwMouseWheelEvent::Direction dir = (value_y > 0) ? bwMouseWheelEvent::Direction::UP :
                                                      bwMouseWheelEvent::Direction::DOWN;
 

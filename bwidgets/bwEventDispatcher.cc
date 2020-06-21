@@ -31,7 +31,7 @@ static void bubbleEvent(const bwEvent& event,
   }
 }
 
-static Node* findHoveredNode(const bwEvent& event, Node& node)
+static auto findHoveredNode(const bwEvent& event, Node& node) -> Node*
 {
   const bool is_hovered = node.isVisible() &&
                           node.Rectangle().isCoordinateInside(event.location.x, event.location.y);
@@ -108,7 +108,7 @@ void bwEventDispatcher::dispatchMouseWheelScroll(bwMouseWheelEvent& event)
   }
 }
 
-bool bwEventDispatcher::isDragging()
+auto bwEventDispatcher::isDragging() -> bool
 {
   return drag_event && (drag_event->drag_state == bwMouseButtonDragEvent::DRAGGING);
 }

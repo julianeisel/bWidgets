@@ -9,9 +9,6 @@ class bwStyleClassic : public bwStyle {
   bwStyleClassic();
 
   void setWidgetStyle(class bwWidget& widget) override;
-  void polish(bwWidget&) override
-  {
-  }
 };
 
 }  // namespace bWidgets

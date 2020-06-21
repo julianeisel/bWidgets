@@ -9,6 +9,11 @@
 
 namespace bWidgets {
 
+class bwPaintEngine;
+class bwPolygon;
+class bwStyle;
+class bwWidgetBaseStyle;
+
 enum RoundboxCorner {
   NONE = 0,
   BOTTOM_LEFT = (1 << 0),
@@ -38,27 +43,25 @@ class bwPainter {
     FILLED,
     OUTLINE,
     LINE,
-  } active_drawtype;
-
-  static std::unique_ptr<class bwPaintEngine> paint_engine;
+  };
 
   bwPainter();
 
-  void drawPolygon(const class bwPolygon& poly);
+  void drawPolygon(const bwPolygon& poly);
   void drawText(const std::string& text,
                 const bwRectanglePixel& rectangle,
                 const TextAlignment align) const;
   void drawIcon(const bwIconInterface&, const bwRectanglePixel&) const;
 
   void setActiveColor(const bwColor& color);
-  const bwColor& getActiveColor() const;
-  const bwColor& getVertexColor(const size_t vertex_index) const;
+  auto getActiveColor() const -> const bwColor&;
+  auto getVertexColor(const size_t vertex_index) const -> const bwColor&;
 
   void setContentMask(const bwRectanglePixel& value);
-  const bwRectanglePixel& getContentMask() const;
+  auto getContentMask() const -> const bwRectanglePixel&;
 
   void enableGradient(const bwGradient& gradient);
-  bool isGradientEnabled() const;
+  auto isGradientEnabled() const -> bool;
 
   void drawTextAndIcon(const std::string& text,
                        const bwIconInterface* icon,
@@ -69,8 +72,8 @@ class bwPainter {
   // Primitives
   void drawRoundbox(const bwRectanglePixel& rect, unsigned int corners, const float radius);
   void drawRectangle(const bwRectanglePixel& rect);
-  void drawRoundboxWidgetBase(const class bwWidgetBaseStyle& base_style,
-                              const class bwStyle& style,
+  void drawRoundboxWidgetBase(const bwWidgetBaseStyle& base_style,
+                              const bwStyle& style,
                               const bwRectanglePixel& rectangle,
                               const bwGradient& gradient,
                               const float radius);
@@ -78,16 +81,19 @@ class bwPainter {
   void drawTriangle(const bwRectanglePixel& rect, Direction direction);
   void drawLine(const bwPoint& from, const bwPoint& to);
 
+  static std::unique_ptr<bwPaintEngine> s_paint_engine;
+
   bool use_antialiasing{false};
+  DrawType active_drawtype;
 
  private:
+  void fillVertexColorsWithGradient(const bwPolygon& polygon,
+                                    const bwRectanglePixel& bounding_box);
+
   bwColor active_color;
   std::vector<bwColor> vert_colors;
   std::unique_ptr<bwGradient> active_gradient;
   bwRectanglePixel content_mask;
-
-  void fillVertexColorsWithGradient(const bwPolygon& polygon,
-                                    const bwRectanglePixel& bounding_box);
 };
 
 }  // namespace bWidgets

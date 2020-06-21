@@ -55,7 +55,8 @@ std::unique_ptr<Font> Stage::font = nullptr;
 std::unique_ptr<IconMap> Stage::icon_map = nullptr;
 float Stage::interface_scale = 1.0f;
 
-bwScreenGraph::ScreenGraph createScreenGraph(const unsigned int width, const unsigned int height)
+auto createScreenGraph(const unsigned int width, const unsigned int height)
+    -> bwScreenGraph::ScreenGraph
 {
   auto container = std::make_unique<bwScreenGraph::ContainerNode>();
   auto layout = std::make_unique<ScrollViewLayout>();
@@ -76,7 +77,7 @@ Stage::Stage(const unsigned int width, const unsigned int height)
   initIcons();
 
   // After font-init!
-  bwPainter::paint_engine = std::make_unique<GawainPaintEngine>(*font, *icon_map);
+  bwPainter::s_paint_engine = std::make_unique<GawainPaintEngine>(*font, *icon_map);
   bwStyleCSS::polish_cb = Stage::StyleSheetPolish;
 
   bwStyleManager& style_manager = bwStyleManager::getStyleManager();
@@ -139,7 +140,7 @@ void Stage::draw()
     style_sheet->resolveValue("Stage", bwWidget::State::NORMAL, property);
   }
 
-  bwPainter::paint_engine->setupViewport(stage_rect, clear_color);
+  bwPainter::s_paint_engine->setupViewport(stage_rect, clear_color);
 
   resolveScreenGraphNodeLayout(screen_graph.Root(), stage_rect, interface_scale);
   bwScreenGraph::Drawer::draw(screen_graph, *style);
@@ -156,7 +157,7 @@ void Stage::StyleSheetPolish(bwWidget& widget)
 
 void Stage::setContentScale(const float scale_x, const float scale_y)
 {
-  auto& gwn_engine = dynamic_cast<GawainPaintEngine&>(*bwPainter::paint_engine);
+  auto& gwn_engine = dynamic_cast<GawainPaintEngine&>(*bwPainter::s_paint_engine);
   gwn_engine.m_scale_x = scale_x;
   gwn_engine.m_scale_y = scale_y;
   setFontSize(11.0f);
@@ -173,7 +174,7 @@ void Stage::setInterfaceScale(const float value)
 
 void Stage::setFontSize(const float size)
 {
-  auto& gwn_engine = dynamic_cast<GawainPaintEngine&>(*bwPainter::paint_engine);
+  auto& gwn_engine = dynamic_cast<GawainPaintEngine&>(*bwPainter::s_paint_engine);
   font->setSize(size * interface_scale * gwn_engine.m_scale_x);
 }
 
@@ -210,8 +211,6 @@ void Stage::setStyleSheet(const std::string& filepath)
 
 void Stage::handleMouseMovementEvent(const MouseEvent& event)
 {
-  using namespace bwScreenGraph;
-
   const bwPoint& mouse_location = event.getMouseLocation();
 
   // TODO Multiple hovered items need to be possible (e.g. button + surrounding panel).
@@ -225,10 +224,10 @@ void Stage::handleMouseButtonEvent(const MouseEvent& event)
   bwEventDispatcher& dispatcher = screen_graph.event_dispatcher;
 
   switch (event.getType()) {
-    case MouseEvent::MOUSE_EVENT_PRESS:
+    case MouseEvent::Type::PRESS:
       dispatcher.dispatchMouseButtonPress(bw_event);
       break;
-    case MouseEvent::MOUSE_EVENT_RELEASE:
+    case MouseEvent::Type::RELEASE:
       dispatcher.dispatchMouseButtonRelease(bw_event);
       break;
     default:

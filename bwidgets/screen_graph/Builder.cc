@@ -9,6 +9,10 @@ Builder::Builder(LayoutNode& active_layout_node) : _active_layout_node(&active_l
 {
 }
 
+Builder::Builder(ScreenGraph& screen_graph) : Builder(screen_graph.Root())
+{
+}
+
 void Builder::setLayout(LayoutNode& node, std::unique_ptr<bwLayoutInterface> layout)
 {
   node.layout = std::move(layout);
@@ -20,7 +24,7 @@ void Builder::setWidget(WidgetNode& node, std::unique_ptr<bwWidget> widget)
   node.handler = node.widget->createHandler();
 }
 
-bwWidget& Builder::addWidget(LayoutNode& node, std::unique_ptr<bwWidget> widget)
+auto Builder::addWidget(LayoutNode& node, std::unique_ptr<bwWidget> widget) -> bwWidget&
 {
   WidgetNode& node_ref = addChildNode<WidgetNode>(node);
   setWidget(node_ref, std::move(widget));

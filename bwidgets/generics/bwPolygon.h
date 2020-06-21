@@ -19,11 +19,11 @@ class bwPolygon {
   void addVertex(const float x, const float y);
   void addVertex(const int x, const int y);
   void reserve(const unsigned int count);
-  const bwPointVec& getVertices() const;
+  auto getVertices() const -> const bwPointVec&;
 
-  bwPoint& operator[](const unsigned int index);
+  auto operator[](const unsigned int index) -> bwPoint&;
 
-  bool isDrawable() const;
+  auto isDrawable() const -> bool;
 
  protected:
   bwPointVec vertices{};

@@ -43,21 +43,21 @@ class Window {
     WINDOW_ACTION_CONTINUE,
     WINDOW_ACTION_CLOSE,
   };
-  WindowAction processEvents();
+  auto processEvents() -> WindowAction;
   void draw();
 
-  const bWidgets::bwPoint getCursorPosition() const;
+  auto getCursorPosition() const -> bWidgets::bwPoint;
   void handleResizeEvent(const int new_win_x, const int new_win_y);
   void handleContentScaleEvent(const float new_scale_x, const float new_scale_y);
 
   std::unique_ptr<class Stage> stage;
 
-  GLFWwindow& getGlfwWindow() const;
+  auto getGlfwWindow() const -> GLFWwindow&;
 
-  int getWidth() const;
-  int getHeight() const;
+  auto getWidth() const -> int;
+  auto getHeight() const -> int;
 
-  friend bool operator==(const Window& lhs, const Window& rhs)
+  friend auto operator==(const Window& lhs, const Window& rhs) -> bool
   {
     if (lhs.glfw_window == rhs.glfw_window) {
       assert(lhs.stage == rhs.stage);

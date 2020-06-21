@@ -5,6 +5,7 @@
 namespace bWidgets {
 
 enum class TextAlignment;
+class bwStyleProperties;
 
 /**
  * \class bwWidgetBaseStyle
@@ -14,25 +15,25 @@ class bwWidgetBaseStyle {
  public:
   bwWidgetBaseStyle();
 
-  void registerProperties(class bwStyleProperties& style_properties);
+  void registerProperties(bwStyleProperties& style_properties);
 
-  const bwColor& backgroundColor() const;
-  const bwColor& textColor() const;
-  const bwColor& borderColor() const;
-  const bwColor& decorationColor() const;
-  float shadeTop() const;
-  float shadeBottom() const;
+  auto backgroundColor() const -> const bwColor&;
+  auto textColor() const -> const bwColor&;
+  auto borderColor() const -> const bwColor&;
+  auto decorationColor() const -> const bwColor&;
+  auto shadeTop() const -> float;
+  auto shadeBottom() const -> float;
 
-  bool isBorderVisible() const;
+  auto isBorderVisible() const -> bool;
 
   bwColor background_color;
   bwColor text_color;
   bwColor border_color;
   bwColor decoration_color;
 
-  int shade_top{0},
-      shade_bottom{
-          0};  // TODO could make this a char - or support gradient for background_color even.
+  int shade_top{0};
+  int shade_bottom{
+      0};  // TODO could make this a char - or support gradient for background_color even.
   enum TextAlignment text_alignment;  // Default value set in constructor.
   unsigned int roundbox_corners;      // Default value set in constructor.
   float corner_radius{

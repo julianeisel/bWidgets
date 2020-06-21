@@ -38,23 +38,23 @@ void bwPanel::registerProperties()
   style_properties.addBool("draw-separator", draw_separator);
 }
 
-const std::string* bwPanel::getLabel() const
+auto bwPanel::getLabel() const -> const std::string*
 {
   return &label;
 }
 
-bool bwPanel::childrenVisible() const
+auto bwPanel::childrenVisible() const -> bool
 {
   return panel_state == State::OPEN;
 }
 
-bool bwPanel::isCoordinateInsideHeader(const bwPoint& point) const
+auto bwPanel::isCoordinateInsideHeader(const bwPoint& point) const -> bool
 {
   const bwRectanglePixel header_rect = getHeaderRectangle();
   return header_rect.isCoordinateInside(point.x, point.y);
 }
 
-unsigned int bwPanel::getHeaderHeightHint() const
+auto bwPanel::getHeaderHeightHint() const -> unsigned int
 {
   return height_hint;
 }
@@ -140,7 +140,7 @@ void bwPanel::drawHeader(bwStyle& style) const
                        (panel_state == State::OPEN) ? Direction::DOWN : Direction::RIGHT);
 }
 
-bwRectanglePixel bwPanel::getHeaderRectangle() const
+auto bwPanel::getHeaderRectangle() const -> bwRectanglePixel
 {
   bwRectanglePixel header_rect{rectangle};
   header_rect.ymin = header_rect.ymax - header_height;
@@ -164,14 +164,14 @@ bwPanelHandler::bwPanelHandler(bwPanel& panel) : panel(panel)
 {
 }
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwPanel::createHandler()
+auto bwPanel::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwPanelHandler>(*this);
 }
 
 void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)
 {
-  if ((event.button != bwMouseButtonEvent::BUTTON_LEFT) ||
+  if ((event.button != bwMouseButtonEvent::Button::LEFT) ||
       !panel.isCoordinateInsideHeader(event.location)) {
     // Skip
   }

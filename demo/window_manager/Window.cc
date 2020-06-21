@@ -96,7 +96,7 @@ void Window::draw()
   glfwSwapBuffers(glfw_window);
 }
 
-Window::WindowAction Window::processEvents()
+auto Window::processEvents() -> Window::WindowAction
 {
   if (glfwWindowShouldClose(glfw_window)) {
     return WINDOW_ACTION_CLOSE;
@@ -105,7 +105,7 @@ Window::WindowAction Window::processEvents()
   return WINDOW_ACTION_CONTINUE;
 }
 
-const bWidgets::bwPoint Window::getCursorPosition() const
+auto Window::getCursorPosition() const -> bWidgets::bwPoint
 {
   int win_size_y;
   double x, y;
@@ -128,17 +128,17 @@ void Window::handleContentScaleEvent(const float new_scale_x, const float new_sc
   stage->setContentScale(new_scale_x, new_scale_y);
 }
 
-GLFWwindow& Window::getGlfwWindow() const
+auto Window::getGlfwWindow() const -> GLFWwindow&
 {
   return *glfw_window;
 }
 
-int Window::getWidth() const
+auto Window::getWidth() const -> int
 {
   return width;
 }
 
-int Window::getHeight() const
+auto Window::getHeight() const -> int
 {
   return height;
 }

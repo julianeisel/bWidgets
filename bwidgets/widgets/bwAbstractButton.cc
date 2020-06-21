@@ -38,17 +38,17 @@ void bwAbstractButton::registerProperties()
   base_style.registerProperties(style_properties);
 }
 
-const std::string* bwAbstractButton::getLabel() const
+auto bwAbstractButton::getLabel() const -> const std::string*
 {
   return &text;
 }
 
-const bwIconInterface* bwAbstractButton::getIcon() const
+auto bwAbstractButton::getIcon() const -> const bwIconInterface*
 {
   return nullptr;
 }
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwAbstractButton::createHandler()
+auto bwAbstractButton::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwAbstractButtonHandler>(*this);
 }
@@ -75,7 +75,7 @@ void bwAbstractButtonHandler::onMouseLeave(bwEvent&)
 
 void bwAbstractButtonHandler::onMousePress(bwMouseButtonEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     button.state = bwWidget::State::SUNKEN;
     event.swallow();
   }
@@ -83,7 +83,7 @@ void bwAbstractButtonHandler::onMousePress(bwMouseButtonEvent& event)
 
 void bwAbstractButtonHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
-  if ((event.button == bwMouseButtonEvent::BUTTON_LEFT) &&
+  if ((event.button == bwMouseButtonEvent::Button::LEFT) &&
       (button.state == bwWidget::State::SUNKEN)) {
     button.state = bwWidget::State::NORMAL;
 

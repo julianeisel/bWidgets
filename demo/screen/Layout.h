@@ -55,9 +55,6 @@ void resolveScreenGraphNodeLayout(bWidgets::bwScreenGraph::LayoutNode& node,
  *       calculated widget-coordinates don't change.
  */
 class LayoutItem : public bWidgets::bwLayoutInterface {
-  friend int getNodeWidth(const bWidgets::bwScreenGraph::Node&);
-  friend int getNodeHeight(const bWidgets::bwScreenGraph::Node&);
-
  public:
   enum class Type {
     ROW,
@@ -80,9 +77,8 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
                        const unsigned int item_margin,
                        const float scale_fac);
 
-  bWidgets::bwRectanglePixel getRectangle() override;
-
-  unsigned int getHeight() const;
+  auto getRectangle() -> bWidgets::bwRectanglePixel override;
+  auto getHeight() const -> unsigned int;
 
   const Type type;
   const FlowDirection flow_direction;
@@ -90,16 +86,13 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
   const bool align;
 
  protected:
+  using LayoutItemList = std::list<std::unique_ptr<LayoutItem>>;
+  using IteratorItem = LayoutItemList::const_iterator;
+
   // Protected constructor to force calling through inherited class (pseudo abstract).
   LayoutItem(Type layout_type,
              const bool align,
              FlowDirection flow_direction = FLOW_DIRECTION_HORIZONTAL);
-
-  using LayoutItemList = std::list<std::unique_ptr<LayoutItem>>;
-  using IteratorItem = LayoutItemList::const_iterator;
-
-  int width{0}, height{0};
-  bWidgets::bwPoint location;
 
   static void resolvePanelContents(bWidgets::bwScreenGraph::Node& panel_node,
                                    const bWidgets::bwPoint& panel_pos,
@@ -107,9 +100,14 @@ class LayoutItem : public bWidgets::bwLayoutInterface {
                                    const unsigned int item_margin,
                                    const float scale_fac);
 
+  int width{0}, height{0};
+  bWidgets::bwPoint location;
+
  private:
-  unsigned int countRowColumns(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
-  unsigned int countNeededMargins(const bWidgets::bwScreenGraph::Node::ChildList& children) const;
+  auto countRowColumns(const bWidgets::bwScreenGraph::Node::ChildList& children) const
+      -> unsigned int;
+  auto countNeededMargins(const bWidgets::bwScreenGraph::Node::ChildList& children) const
+      -> unsigned int;
 };
 
 class ColumnLayout : public LayoutItem {

@@ -29,37 +29,37 @@ void bwWidgetBaseStyle::registerProperties(bwStyleProperties& style_properties)
   style_properties.addFloat("border-radius", corner_radius);
 }
 
-const bwColor& bwWidgetBaseStyle::backgroundColor() const
+auto bwWidgetBaseStyle::backgroundColor() const -> const bwColor&
 {
   return background_color;
 }
 
-const bwColor& bwWidgetBaseStyle::textColor() const
+auto bwWidgetBaseStyle::textColor() const -> const bwColor&
 {
   return text_color;
 }
 
-const bwColor& bwWidgetBaseStyle::borderColor() const
+auto bwWidgetBaseStyle::borderColor() const -> const bwColor&
 {
   return border_color;
 }
 
-const bwColor& bwWidgetBaseStyle::decorationColor() const
+auto bwWidgetBaseStyle::decorationColor() const -> const bwColor&
 {
   return decoration_color;
 }
 
-float bwWidgetBaseStyle::shadeTop() const
+auto bwWidgetBaseStyle::shadeTop() const -> float
 {
   return shade_top / 255.0f;
 }
 
-float bwWidgetBaseStyle::shadeBottom() const
+auto bwWidgetBaseStyle::shadeBottom() const -> float
 {
   return shade_bottom / 255.0f;
 }
 
-bool bwWidgetBaseStyle::isBorderVisible() const
+auto bwWidgetBaseStyle::isBorderVisible() const -> bool
 {
   return (background_color == border_color) == false;
 }

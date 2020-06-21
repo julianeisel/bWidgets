@@ -61,7 +61,7 @@ IconMapReader::~IconMapReader()
   read_data.reset();
 }
 
-static bool icons_check_if_file_is_png(File& file)
+static auto icons_check_if_file_is_png(File& file) -> bool
 {
   const int num_header_bytes = 8;
   char header[num_header_bytes];
@@ -98,7 +98,7 @@ static void libpng_read_from_istream(png_structp png_ptr, png_bytep data, png_si
   }
 }
 
-std::unique_ptr<IconMap> IconMapReader::readIconMapFromPNGFile(File& file)
+auto IconMapReader::readIconMapFromPNGFile(File& file) -> std::unique_ptr<IconMap>
 {
   if (!icons_check_if_file_is_png(file)) {
     std::cout << "Error: File is not a valid PNG (" << file << ")" << std::endl;
@@ -151,21 +151,21 @@ Icon::Icon(const unsigned int size,
 {
 }
 
-bool Icon::isValid() const
+auto Icon::isValid() const -> bool
 {
   return true;
 }
 
-Pixmap& Icon::getPixmap()
+auto Icon::getPixmap() -> Pixmap&
 {
   return _pixmap;
 }
-const Pixmap& Icon::getPixmap() const
+auto Icon::getPixmap() const -> const Pixmap&
 {
   return _pixmap;
 }
 
-Icon& IconMap::getIcon(unsigned int index)
+auto IconMap::getIcon(unsigned int index) -> Icon&
 {
   return *icons[index];
 }

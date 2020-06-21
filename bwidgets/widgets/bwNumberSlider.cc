@@ -103,7 +103,7 @@ void bwNumberSlider::setValue(float _value)
   value = std::roundf(unclamped_value * precision_fac) / precision_fac;
 }
 
-float bwNumberSlider::getValue() const
+auto bwNumberSlider::getValue() const -> float
 {
   return value;
 }
@@ -114,14 +114,14 @@ void bwNumberSlider::setMinMax(float _min, float _max)
   max = _max;
 }
 
-std::string bwNumberSlider::valueToString(unsigned int precision) const
+auto bwNumberSlider::valueToString(unsigned int precision) const -> std::string
 {
   std::stringstream string_stream;
   string_stream << std::fixed << std::setprecision(precision) << value;
   return string_stream.str();
 }
 
-float bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const
+auto bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const -> float
 {
   const float range = max - min;
   const float radius = base_style.corner_radius * style.dpi_fac;
@@ -154,20 +154,20 @@ bwNumberSliderHandler::bwNumberSliderHandler(bwNumberSlider& numberslider)
 {
 }
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwNumberSlider::createHandler()
+auto bwNumberSlider::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwNumberSliderHandler>(*this);
 }
 
 void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     initial_value = numberslider.value;
     numberslider.state = bwWidget::State::SUNKEN;
 
     event.swallow();
   }
-  else if (event.button == bwMouseButtonEvent::BUTTON_RIGHT) {
+  else if (event.button == bwMouseButtonEvent::Button::RIGHT) {
     if (numberslider.is_text_editing) {
       endTextEditing();
     }
@@ -191,7 +191,7 @@ void bwNumberSliderHandler::onMouseRelease(bwMouseButtonEvent& event)
 
 void bwNumberSliderHandler::onMouseClick(bwMouseButtonEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     startTextEditing();
   }
 
@@ -200,7 +200,7 @@ void bwNumberSliderHandler::onMouseClick(bwMouseButtonEvent& event)
 
 void bwNumberSliderHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     numberslider.setValue(initial_value +
                           (event.drag_distance.x / (float)numberslider.rectangle.width()));
     if (numberslider.apply_functor) {

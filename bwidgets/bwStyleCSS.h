@@ -4,6 +4,8 @@
 
 namespace bWidgets {
 
+class bwWidget;
+
 /**
  * \brief Style-class for CSS driven Styles.
  *
@@ -19,10 +21,10 @@ class bwStyleCSS : public bwStyle {
  public:
   bwStyleCSS();
 
-  void setWidgetStyle(class bwWidget& widget);
-  void polish(class bwWidget& widget);
+  void setWidgetStyle(bwWidget& widget);
+  void polish(bwWidget& widget);
 
-  static void (*polish_cb)(class bwWidget& widget);
+  static void (*polish_cb)(bwWidget& widget);
 };
 
 }  // namespace bWidgets

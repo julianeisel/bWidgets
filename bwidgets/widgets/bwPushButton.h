@@ -12,10 +12,10 @@ class bwPushButton : public bwAbstractButton {
                std::optional<unsigned int> width_hint = std::nullopt,
                std::optional<unsigned int> height_hint = std::nullopt);
 
-  const class bwIconInterface* getIcon() const override;
-  bwPushButton& setIcon(const class bwIconInterface&);
+  auto getIcon() const -> const bwIconInterface* override;
+  auto setIcon(const class bwIconInterface&) -> bwPushButton&;
 
-  bool canAlign() const override;
+  auto canAlign() const -> bool override;
 
  private:
   const class bwIconInterface* icon{nullptr};

@@ -81,8 +81,8 @@ static const float jit[WIDGET_AA_JITTER][2] = {{0.468813, -0.481430},
                                                {-0.272855, 0.269918},
                                                {0.095909, 0.388710}};
 
-static Gwn_PrimType stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype,
-                                                   bool use_antialiasing)
+static auto stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype,
+                                           bool use_antialiasing) -> Gwn_PrimType
 {
   switch (drawtype) {
     case bwPainter::DrawType::FILLED:
@@ -188,11 +188,11 @@ void GawainPaintEngine::drawPolygon(const bwPainter& painter, const bwPolygon& p
 // --------------------------------------------------------------------
 // Text Drawing
 
-static float stage_text_xpos_calc(Font& font,
-                                  const std::string& text,
-                                  const bwRectanglePixel& rectangle,
-                                  const TextAlignment alignment,
-                                  float scale_x)
+static auto stage_text_xpos_calc(Font& font,
+                                 const std::string& text,
+                                 const bwRectanglePixel& rectangle,
+                                 const TextAlignment alignment,
+                                 float scale_x) -> float
 {
   int value = 0;
 

@@ -34,30 +34,31 @@ class PreOrderIterator {
   PreOrderIterator(const PreOrderIterator&) = delete;
   PreOrderIterator(PreOrderIterator&&);
 
-  bool operator!=(const PreOrderIterator&) const;
-  Node& operator*();
-  PreOrderIterator& operator++();
+  auto operator!=(const PreOrderIterator&) const -> bool;
+  auto operator*() -> Node&;
+  auto operator++() -> PreOrderIterator&;
 
  private:
+  void triggerIterationEnd();
+  bool hasExceededLastSibling();
+
   union {
     Node* node;
     Node::ChildList::iterator node_iter;
   };
+
   Node* root = nullptr;
   bool is_root = true;
   // Ancestors up to (but excluding!) node that started iteration.
   std::list<Node::ChildList::iterator> ancestors;
-
-  void triggerIterationEnd();
-  bool hasExceededLastSibling();
 };
 
 /* PreOrderIterator is the default iterator (implicitly chosen when passing a
  * node as range-expression for range-based foor loops) */
-PreOrderIterator begin(Node&);
-PreOrderIterator end(Node&);
-PreOrderIterator begin(ScreenGraph& screen_graph);
-PreOrderIterator end(ScreenGraph& screen_graph);
+auto begin(Node&) -> PreOrderIterator;
+auto end(Node&) -> PreOrderIterator;
+auto begin(ScreenGraph& screen_graph) -> PreOrderIterator;
+auto end(ScreenGraph& screen_graph) -> PreOrderIterator;
 
 }  // namespace bwScreenGraph
 }  // namespace bWidgets

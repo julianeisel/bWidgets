@@ -12,15 +12,15 @@ class bwCheckbox : public bwAbstractButton {
 
   void draw(class bwStyle& style) override;
 
-  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
+  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
-  bool isChecked() const;
+  auto isChecked() const -> bool;
 
  private:
-  bool isInsideCheckbox(const bwPoint& point) const;
+  auto isInsideCheckbox(const bwPoint& point) const -> bool;
 
-  bwRectanglePixel getCheckboxRectangle() const;
-  bwRectanglePixel getTextRectangle(const bwRectanglePixel& checkbox_rectangle) const;
+  auto getCheckboxRectangle() const -> bwRectanglePixel;
+  auto getTextRectangle(const bwRectanglePixel& checkbox_rectangle) const -> bwRectanglePixel;
 };
 
 }  // namespace bWidgets

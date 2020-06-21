@@ -32,6 +32,7 @@
 namespace bWidgetsDemo {
 
 struct IconReadData;
+class File;
 
 class Icon : public bWidgets::bwIconInterface {
  public:
@@ -39,10 +40,10 @@ class Icon : public bWidgets::bwIconInterface {
        const unsigned int num_channels,
        const unsigned int bits_per_channel);
 
-  bool isValid() const override;
+  auto isValid() const -> bool override;
 
-  Pixmap& getPixmap();  // TODO should get rid of this.
-  const Pixmap& getPixmap() const;
+  auto getPixmap() -> Pixmap&;  // TODO should get rid of this.
+  auto getPixmap() const -> const Pixmap&;
 
  private:
   Pixmap _pixmap;
@@ -52,8 +53,9 @@ class IconMap {
   friend class IconMapReader;
 
  public:
-  Icon& getIcon(unsigned int index);
   ~IconMap() = default;
+
+  auto getIcon(unsigned int index) -> Icon&;
 
  private:
   IconMap() = default;
@@ -66,7 +68,7 @@ class IconMapReader {
   IconMapReader();
   ~IconMapReader();
 
-  std::unique_ptr<IconMap> readIconMapFromPNGFile(class File&);
+  auto readIconMapFromPNGFile(File&) -> std::unique_ptr<IconMap>;
 
  private:
   std::unique_ptr<IconReadData> read_data;

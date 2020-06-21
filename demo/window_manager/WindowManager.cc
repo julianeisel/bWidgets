@@ -95,7 +95,7 @@ void WindowManager::removeWindow(Window& win)
   windows.remove(win);
 }
 
-const bool WindowManager::isMainWindow(const Window& win) const
+bool WindowManager::isMainWindow(const Window& win) const
 {
   return &win == main_win;
 }

@@ -34,12 +34,12 @@ namespace bWidgetsDemo {
 class WindowManager {
  public:
   // Constructor is private (singleton!)
-  static WindowManager& getWindowManager();
+  static auto getWindowManager() -> WindowManager&;
   ~WindowManager();
 
   void mainLoop();
-  Window& addWindow(std::string name);
-  const bool isMainWindow(const Window& win) const;
+  auto addWindow(std::string name) -> Window&;
+  auto isMainWindow(const Window& win) const -> bool;
 
   void removeWindow(Window& win);
 
@@ -54,7 +54,7 @@ class WindowManager {
     WM_ACTION_CONTINUE,
     WM_ACTION_CLOSE,
   };
-  WindowManagerAction processEvents();
+  auto processEvents() -> WindowManagerAction;
   void drawWindows();
 
   class EventManager& event_manager;

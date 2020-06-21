@@ -66,7 +66,7 @@ void Font::initFontReading()
   }
 }
 
-Font* Font::loadFont(const std::string& name, const std::string& path)
+auto Font::loadFont(const std::string& name, const std::string& path) -> Font*
 {
   std::string file_path(path + "/" + name);
   auto* font = new Font();
@@ -82,7 +82,7 @@ Font* Font::loadFont(const std::string& name, const std::string& path)
   return font;
 }
 
-static unsigned int getNumChannelsFromFreeTypePixelMode(FT_Pixel_Mode pixel_mode)
+static auto getNumChannelsFromFreeTypePixelMode(FT_Pixel_Mode pixel_mode) -> unsigned int
 {
   switch (pixel_mode) {
     case FT_PIXEL_MODE_GRAY:
@@ -95,7 +95,7 @@ static unsigned int getNumChannelsFromFreeTypePixelMode(FT_Pixel_Mode pixel_mode
   }
 }
 
-static unsigned int getGLFormatFromNumChannels(unsigned int num_channels)
+static auto getGLFormatFromNumChannels(unsigned int num_channels) -> unsigned int
 {
   switch (num_channels) {
     case 1:
@@ -211,7 +211,7 @@ static void render_glyph_texture(const Pixmap& pixmap,
   immEnd();
 }
 
-float Font::calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) const
+auto Font::calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) const -> float
 {
   if (use_tight_positioning) {
     return previous_glyph ? (float)previous_glyph->advance_width.getFractionAsReal() : 0.0f;
@@ -304,12 +304,12 @@ void Font::setSize(const float _size)
   }
 }
 
-int Font::getSize() const
+auto Font::getSize() const -> int
 {
   return size;
 }
 
-const bWidgets::bwColor& Font::getActiveColor() const
+auto Font::getActiveColor() const -> const bWidgets::bwColor&
 {
   return active_color;
 }
@@ -324,7 +324,8 @@ void Font::setMask(const bWidgets::bwRectanglePixel& value)
   mask = value;
 }
 
-FixedNum<F16p16> Font::getKerningDistance(const FontGlyph& left, const FontGlyph& right) const
+auto Font::getKerningDistance(const FontGlyph& left, const FontGlyph& right) const
+    -> FixedNum<F16p16>
 {
   FT_Vector kerning_dist_xy;
   FT_Get_Kerning(face, left.index, right.index, FT_KERNING_DEFAULT, &kerning_dist_xy);
@@ -333,7 +334,7 @@ FixedNum<F16p16> Font::getKerningDistance(const FontGlyph& left, const FontGlyph
   return kerning_dist_fp;
 }
 
-unsigned int Font::calculateStringWidth(const std::string& text)
+auto Font::calculateStringWidth(const std::string& text) -> unsigned int
 {
   FixedNum<F16p16> width;
 
@@ -365,7 +366,7 @@ void Font::FontGlyphCache::invalidate()
 /**
  * \return The flags that should be used for the FT_Load_Glyph call.
  */
-FT_Int32 Font::getFreeTypeLoadFlags() const
+auto Font::getFreeTypeLoadFlags() const -> FT_Int32
 {
   FT_Int32 load_flags = FT_LOAD_DEFAULT;
 
@@ -379,7 +380,7 @@ FT_Int32 Font::getFreeTypeLoadFlags() const
   return load_flags;
 }
 
-FT_Render_Mode Font::getFreeTypeRenderFlags() const
+auto Font::getFreeTypeRenderFlags() const -> FT_Render_Mode
 {
   // Subpixel rendering
   switch (render_mode) {
@@ -391,13 +392,13 @@ FT_Render_Mode Font::getFreeTypeRenderFlags() const
   }
 }
 
-bool Font::useSubpixelPositioning() const
+auto Font::useSubpixelPositioning() const -> bool
 {
   return (render_mode == Font::SUBPIXEL_LCD_RGB_COVERAGE) && use_subpixel_pos;
 }
 
-static std::unique_ptr<Pixmap> createGlyphPixmap(FT_GlyphSlot freetype_glyph,
-                                                 const bool use_subpixel_postioning)
+static auto createGlyphPixmap(FT_GlyphSlot freetype_glyph, const bool use_subpixel_postioning)
+    -> std::unique_ptr<Pixmap>
 {
   const unsigned int num_channels = getNumChannelsFromFreeTypePixelMode(
       (FT_Pixel_Mode)freetype_glyph->bitmap.pixel_mode);
@@ -493,7 +494,8 @@ void Font::FontGlyphCache::ensureUpdated(const Font& font)
   is_dirty = false;
 }
 
-const FontGlyph& Font::FontGlyphCache::getCachedGlyph(const Font& font, const char character) const
+auto Font::FontGlyphCache::getCachedGlyph(const Font& font, const char character) const
+    -> const FontGlyph&
 {
   return *cached_glyphs[FT_Get_Char_Index(font.face, static_cast<unsigned char>(character))];
 }

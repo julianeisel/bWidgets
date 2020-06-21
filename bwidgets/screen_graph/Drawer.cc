@@ -64,14 +64,14 @@ void Drawer::pushMask(const Node& node)
     final_maskrect.clamp(maskrect_stack.top());
   }
   maskrect_stack.push(final_maskrect);
-  bwPainter::paint_engine->enableMask(maskrect_stack.top());
+  bwPainter::s_paint_engine->enableMask(maskrect_stack.top());
 }
 
 void Drawer::popMask()
 {
   maskrect_stack.pop();
   if (!maskrect_stack.empty()) {
-    bwPainter::paint_engine->enableMask(maskrect_stack.top());
+    bwPainter::s_paint_engine->enableMask(maskrect_stack.top());
   }
 }
 

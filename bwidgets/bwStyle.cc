@@ -10,4 +10,9 @@ bwStyle::bwStyle(TypeID type_id) : type_id(type_id)
 {
 }
 
+void bwStyle::polish(class bwWidget&)
+{
+  /* Nothing by default. */
+}
+
 }  // namespace bWidgets

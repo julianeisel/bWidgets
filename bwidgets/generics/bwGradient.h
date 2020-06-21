@@ -24,7 +24,8 @@ class bwGradient {
                       float shade_end,
                       Direction direction = Direction::TOP_BOTTOM);
 
-  bwColor calcPointColor(const class bwPoint& point, const bwRectanglePixel& bounding_box) const;
+  auto calcPointColor(const class bwPoint& point, const bwRectanglePixel& bounding_box) const
+      -> bwColor;
 
   bwColor begin, end;
   Direction direction{Direction::TOP_BOTTOM};

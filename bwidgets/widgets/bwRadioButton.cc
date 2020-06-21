@@ -10,7 +10,7 @@ bwRadioButton::bwRadioButton(const std::string& text,
 {
 }
 
-bool bwRadioButton::canAlign() const
+auto bwRadioButton::canAlign() const -> bool
 {
   return true;
 }
@@ -30,14 +30,14 @@ bwRadioButtonHandler::bwRadioButtonHandler(bwRadioButton& button) : bwAbstractBu
 {
 }
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwRadioButton::createHandler()
+auto bwRadioButton::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwRadioButtonHandler>(*this);
 }
 
 void bwRadioButtonHandler::onMousePress(bwMouseButtonEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     button.state = bwWidget::State::SUNKEN;
     apply();
     event.swallow();

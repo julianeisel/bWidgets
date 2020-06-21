@@ -43,43 +43,43 @@ class Node {
   Node() = default;
   virtual ~Node() = default;
 
-  virtual const ChildList* Children() const
+  virtual auto Children() const -> const ChildList*
   {
     return nullptr;
   }
-  virtual ChildList* Children()
+  virtual auto Children() -> ChildList*
   {
     return nullptr;
   }
 
-  virtual bool childrenVisible() const
+  virtual auto childrenVisible() const -> bool
   {
     return true;
   }
 
-  Node* Parent() const
+  virtual auto Layout() const -> bwLayoutInterface*
+  {
+    return nullptr;
+  }
+
+  virtual auto Widget() const -> bwWidget*
+  {
+    return nullptr;
+  }
+
+  auto Parent() const -> Node*
   {
     return parent;
   }
 
-  virtual bwLayoutInterface* Layout() const
-  {
-    return nullptr;
-  }
-
-  virtual bwWidget* Widget() const
-  {
-    return nullptr;
-  }
-
-  EventHandler* eventHandler() const
+  auto eventHandler() const -> EventHandler*
   {
     return handler.get();
   }
 
-  virtual bwRectanglePixel Rectangle() const = 0;
-  virtual std::optional<bwRectanglePixel> MaskRectangle() const = 0;
-  virtual bool isVisible() const = 0;
+  virtual auto Rectangle() const -> bwRectanglePixel = 0;
+  virtual auto MaskRectangle() const -> std::optional<bwRectanglePixel> = 0;
+  virtual auto isVisible() const -> bool = 0;
 
  private:
   Node* parent{nullptr};
@@ -93,31 +93,31 @@ class LayoutNode : virtual public Node {
   friend class Builder;
 
  public:
-  const ChildList* Children() const override
+  auto Children() const -> const ChildList* override
   {
     return &children;
   }
-  ChildList* Children() override
+  auto Children() -> ChildList* override
   {
     return &children;
   }
 
-  bwLayoutInterface* Layout() const override
+  auto Layout() const -> bwLayoutInterface* override
   {
     return layout.get();
   }
 
-  bwRectanglePixel Rectangle() const override
+  auto Rectangle() const -> bwRectanglePixel override
   {
     return layout->getRectangle();
   }
 
-  std::optional<bwRectanglePixel> MaskRectangle() const override
+  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override
   {
     return std::nullopt;
   }
 
-  bool isVisible() const override
+  auto isVisible() const -> bool override
   {
     return true;
   }
@@ -134,22 +134,22 @@ class WidgetNode : virtual public Node {
   friend class Builder;
 
  public:
-  bwWidget* Widget() const override
+  auto Widget() const -> bwWidget* override
   {
     return &*widget;
   }
 
-  bwRectanglePixel Rectangle() const override
+  auto Rectangle() const -> bwRectanglePixel override
   {
     return widget->rectangle;
   }
 
-  std::optional<bwRectanglePixel> MaskRectangle() const override
+  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override
   {
     return std::nullopt;
   }
 
-  bool isVisible() const override
+  auto isVisible() const -> bool override
   {
     return widget->hidden == false;
   }
@@ -166,50 +166,50 @@ class WidgetNode : virtual public Node {
  */
 class ContainerNode : public LayoutNode, public WidgetNode {
  public:
-  const ChildList* Children() const override
+  auto Children() const -> const ChildList* override
   {
     return LayoutNode::Children();
   }
-  ChildList* Children() override
+  auto Children() -> ChildList* override
   {
     return LayoutNode::Children();
   }
 
-  bwLayoutInterface* Layout() const override
+  auto Layout() const -> bwLayoutInterface* override
   {
     return LayoutNode::Layout();
   }
 
-  bwWidget* Widget() const override
+  auto Widget() const -> bwWidget* override
   {
     return WidgetNode::Widget();
   }
 
-  bwContainerWidget& ContainerWidget() const
+  auto ContainerWidget() const -> bwContainerWidget&
   {
     return static_cast<bwContainerWidget&>(*Widget());
   }
 
-  bwRectanglePixel Rectangle() const override
+  auto Rectangle() const -> bwRectanglePixel override
   {
     return WidgetNode::Rectangle();
   }
-  bwRectanglePixel ContentRectangle() const
+  auto ContentRectangle() const -> bwRectanglePixel
   {
     return LayoutNode::Rectangle();
   }
 
-  std::optional<bwRectanglePixel> MaskRectangle() const override
+  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override
   {
     return ContainerWidget().getMaskRectangle();
   }
 
-  bool isVisible() const override
+  auto isVisible() const -> bool override
   {
     return WidgetNode::isVisible();
   }
 
-  bool childrenVisible() const override
+  auto childrenVisible() const -> bool override
   {
     return ContainerWidget().childrenVisible();
   }

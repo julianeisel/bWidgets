@@ -30,17 +30,17 @@ void bwLabel::registerProperties()
   style_properties.addColor("color", text_color);
 }
 
-const std::string* bwLabel::getLabel() const
+auto bwLabel::getLabel() const -> const std::string*
 {
   return &text;
 }
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwLabel::createHandler()
+auto bwLabel::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return nullptr;
 }
 
-bwLabel& bwLabel::setIcon(const bwIconInterface& icon_interface)
+auto bwLabel::setIcon(const bwIconInterface& icon_interface) -> bwLabel&
 {
   icon = &icon_interface;
   return *this;

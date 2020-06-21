@@ -5,6 +5,8 @@
 
 namespace bWidgets {
 
+class bwWidget;
+
 class bwStyle {
  public:
   enum class TypeID {
@@ -17,21 +19,22 @@ class bwStyle {
     BUILTIN_TOT,
 
     //		STYLE_CUSTOM, // For the future
-  } type_id;
-
-  virtual ~bwStyle() = default;
-
-  virtual void setWidgetStyle(class bwWidget& widget) = 0;
-  virtual void polish(class bwWidget& widget) = 0;
-
-  static unsigned int s_default_widget_size_hint;
-
-  float dpi_fac{1.0f};
+  };
 
   struct StyleType {
     TypeID type_id;
     std::string name;
   };
+
+  virtual ~bwStyle() = default;
+
+  virtual void setWidgetStyle(bwWidget& widget) = 0;
+  virtual void polish(bwWidget&);
+
+  static unsigned int s_default_widget_size_hint;
+
+  TypeID type_id;
+  float dpi_fac{1.0f};
 
  protected:
   bwStyle(TypeID type_id);

@@ -14,6 +14,7 @@ namespace bWidgets {
 class bwEvent;
 class bwMouseButtonEvent;
 class bwMouseButtonDragEvent;
+class bwStyle;
 
 /**
  * \brief Abstract base class that all widgets derive from.
@@ -26,23 +27,22 @@ class bwWidget {
     SUNKEN,
 
     STATE_TOT
-  } state;
+  };
 
   bwWidget(const std::string& identifier,
            std::optional<unsigned int> width_hint,
            std::optional<unsigned int> height_hint);
   virtual ~bwWidget() = default;
 
-  virtual bool isCoordinateInside(const bwPoint& point) const;
+  auto getIdentifier() const -> const std::string&;
 
-  virtual void draw(class bwStyle& style) = 0;
+  virtual void draw(bwStyle& style) = 0;
+  virtual auto isCoordinateInside(const bwPoint& point) const -> bool;
+  virtual auto getLabel() const -> const std::string*;
+  virtual auto canAlign() const -> bool;
+  virtual auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
-  const std::string& getIdentifier() const;
-  virtual const std::string* getLabel() const;
-
-  virtual bool canAlign() const;
-
-  virtual std::unique_ptr<bwScreenGraph::EventHandler> createHandler() = 0;
+  State state;
 
   /**
    * Final rectangle defining the widget bounding-box.
@@ -72,10 +72,10 @@ class bwWidget {
   bwStyleProperties style_properties;
 
  protected:
-  std::string identifier;
-
   void initialize();
   virtual void registerProperties();
+
+  std::string identifier;
 };
 
 /**
@@ -108,7 +108,7 @@ class bwWidget {
  *         the "raw" type requested, without pointer).
  */
 template<class T, class _RawT = typename std::remove_pointer<T>::type>
-inline _RawT* widget_cast(bwWidget& widget)
+inline auto widget_cast(bwWidget& widget) -> _RawT*
 {
   static_assert(std::is_base_of<bwWidget, _RawT>::value, "Type is not a widget");
 
@@ -122,7 +122,7 @@ inline _RawT* widget_cast(bwWidget& widget)
  */
 template<class T,
          class _RawT = typename std::remove_pointer<typename std::remove_const<T>::type>::type>
-inline const _RawT* widget_cast(const bwWidget& widget)
+inline auto widget_cast(const bwWidget& widget) -> const _RawT*
 {
   static_assert(std::is_base_of<bwWidget, _RawT>::value, "Type is not a widget");
 
@@ -135,7 +135,7 @@ inline const _RawT* widget_cast(const bwWidget& widget)
  *         the "raw" type requested, without pointer).
  */
 template<class T, class _RawT = typename std::remove_pointer<T>::type>
-inline _RawT* widget_cast(bwWidget* widget)
+inline auto widget_cast(bwWidget* widget) -> _RawT*
 {
   static_assert(std::is_base_of<bwWidget, _RawT>::value, "Type is not a widget");
 
@@ -149,7 +149,7 @@ inline _RawT* widget_cast(bwWidget* widget)
  */
 template<class T,
          class _RawT = typename std::remove_pointer<typename std::remove_const<T>::type>::type>
-inline const _RawT* widget_cast(const bwWidget* widget)
+inline auto widget_cast(const bwWidget* widget) -> const _RawT*
 {
   static_assert(std::is_base_of<bwWidget, _RawT>::value, "Type is not a widget");
 

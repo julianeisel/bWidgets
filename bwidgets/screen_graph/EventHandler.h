@@ -30,15 +30,15 @@ using EventListener = std::function<void(Node&)>;
  */
 class EventHandler {
  public:
-  EventHandler() = default;
-  virtual ~EventHandler() = default;
-
   enum EventType {
     MOUSE_ENTER,
     MOUSE_LEAVE,
 
     TOT_EVENT_TYPES,
   };
+
+  EventHandler() = default;
+  virtual ~EventHandler() = default;
 
   void addEventListener(EventType event_type, EventListener listener);
 

@@ -11,7 +11,7 @@ bwScrollBar::bwScrollBar(unsigned int width_hint, unsigned int height_hint)
 {
 }
 
-static bwRectanglePixel getInnerRect(bwScrollBar& scrollbar)
+static auto getInnerRect(bwScrollBar& scrollbar) -> bwRectanglePixel
 {
   bwRectanglePixel rect_inner{scrollbar.rectangle};
 
@@ -86,7 +86,7 @@ bwScrollBarHandler::bwScrollBarHandler(bwScrollBar& scrollbar)
 {
 }
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwScrollBar::createHandler()
+auto bwScrollBar::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwScrollBarHandler>(*this);
 }
@@ -100,7 +100,7 @@ void bwScrollBarHandler::onMousePress(bwMouseButtonEvent& event)
 
 void bwScrollBarHandler::onMouseClick(bwMouseButtonEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     bwRectanglePixel rect_inner{getInnerRect(scrollbar)};
 
     if (event.location.y > rect_inner.ymax) {
@@ -116,7 +116,7 @@ void bwScrollBarHandler::onMouseClick(bwMouseButtonEvent& event)
 
 void bwScrollBarHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     setScrollOffset(mouse_press_scroll_offset - event.drag_distance.y);
     event.swallow();
   }

@@ -25,12 +25,12 @@ bwScrollView::bwScrollView(bwScreenGraph::ContainerNode& node,
   bwScreenGraph::Builder::setWidget(*scrollbar_node, std::move(scrollbar));
 }
 
-bwScrollBar& bwScrollView::getVerticalScrollBar() const
+auto bwScrollView::getVerticalScrollBar() const -> bwScrollBar&
 {
   return static_cast<bwScrollBar&>(*scrollbar_node->Widget());
 }
 
-bwRectanglePixel bwScrollView::getVerticalScrollbarRect(const bwStyle& style) const
+auto bwScrollView::getVerticalScrollbarRect(const bwStyle& style) const -> bwRectanglePixel
 {
   bwRectanglePixel scroll_rectangle{rectangle};
   /* TODO hardcoded padding */
@@ -84,12 +84,12 @@ void bwScrollView::validizeScrollValues()
       vert_scroll, 0, node.ContentRectangle().height() - node.Rectangle().height());
 }
 
-int bwScrollView::getScrollOffsetY() const
+auto bwScrollView::getScrollOffsetY() const -> int
 {
   return vert_scroll;
 }
 
-bwRectanglePixel bwScrollView::getContentBounds(float interface_scale) const
+auto bwScrollView::getContentBounds(float interface_scale) const -> bwRectanglePixel
 {
   bwRectanglePixel bounds{rectangle};
   if (isScrollable()) {
@@ -98,12 +98,12 @@ bwRectanglePixel bwScrollView::getContentBounds(float interface_scale) const
   return bounds;
 }
 
-bool bwScrollView::isScrollable() const
+auto bwScrollView::isScrollable() const -> bool
 {
   return (node.ContentRectangle().height() > node.Rectangle().height()) || (vert_scroll != 0);
 }
 
-int bwScrollView::getScrollbarWidth(float interface_scale)
+auto bwScrollView::getScrollbarWidth(float interface_scale) -> int
 {
   return std::round(SCROLL_BAR_SIZE * interface_scale);
 }
@@ -127,7 +127,7 @@ class bwScrollViewHandler : public bwScreenGraph::EventHandler {
   void onScrollbarMouseEnter(bwEvent& event) const;
   void onScrollbarMouseLeave(bwEvent& event) const;
 
-  bool isEventInsideScrollbar(const class bwEvent& event) const;
+  auto isEventInsideScrollbar(const class bwEvent& event) const -> bool;
 
   void setScrollValue(int value);
 
@@ -142,7 +142,7 @@ bwScrollViewHandler::bwScrollViewHandler(bwScrollView& panel) : scrollview(panel
 {
 }
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwScrollView::createHandler()
+auto bwScrollView::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwScrollViewHandler>(*this);
 }
@@ -159,11 +159,11 @@ static void forwardEventToNode(bwScreenGraph::Node& to_node,
 }
 
 template<typename... _Args>
-static bool forwardEventToScrollbarIfInside(const bwScrollViewHandler& scrollview_handler,
+static auto forwardEventToScrollbarIfInside(const bwScrollViewHandler& scrollview_handler,
                                             bwScreenGraph::Node& scrollbar_node,
                                             const class bwEvent& event,
                                             HandlerFunc<_Args&&...> handler_func,
-                                            _Args&&... __args)
+                                            _Args&&... __args) -> bool
 {
   if (scrollview_handler.isEventInsideScrollbar(event)) {
     forwardEventToNode<_Args&&...>(scrollbar_node, handler_func, std::forward<_Args>(__args)...);
@@ -195,7 +195,7 @@ void bwScrollViewHandler::onMouseWheel(bwMouseWheelEvent& event)
   event.swallow();
 }
 
-bool bwScrollViewHandler::isEventInsideScrollbar(const bwEvent& event) const
+auto bwScrollViewHandler::isEventInsideScrollbar(const bwEvent& event) const -> bool
 {
   return scrollview.isScrollable() && scrollview.scrollbar_node->Rectangle().isCoordinateInside(
                                           event.location.x, event.location.y);

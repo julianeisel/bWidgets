@@ -37,17 +37,17 @@ void bwPolygon::reserve(const unsigned int count)
   vertices.reserve(count);
 }
 
-const bwPointVec& bwPolygon::getVertices() const
+auto bwPolygon::getVertices() const -> const bwPointVec&
 {
   return vertices;
 }
 
-bwPoint& bwPolygon::operator[](const unsigned int index)
+auto bwPolygon::operator[](const unsigned int index) -> bwPoint&
 {
   return vertices[index];
 }
 
-bool bwPolygon::isDrawable() const
+auto bwPolygon::isDrawable() const -> bool
 {
   return (vert_count > 0);
 }

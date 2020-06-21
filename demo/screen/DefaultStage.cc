@@ -163,11 +163,11 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   auto* checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning",
                                                      "Tight Positioning");
   checkbox->state = bwWidget::State::SUNKEN;
-  checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_hinting", "Hinting");
+  builder.addRNAWidget<bwCheckbox>("font_use_hinting", "Hinting");
 
   builder.setActiveLayout(screen_graph.Root());
   builder.addLayout<RowLayout>(false);
-  checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_subpixels", "Subpixel Rendering");
+  builder.addRNAWidget<bwCheckbox>("font_use_subpixels", "Subpixel Rendering");
   checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning",
                                                "Subpixel Positioning");
   checkbox->hidden = true;
@@ -204,7 +204,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
 }
 
-bool isUseCSSVersionToggleHidden(const bwStyle& style)
+auto isUseCSSVersionToggleHidden(const bwStyle& style) -> bool
 {
   return (style.type_id != bwStyle::TypeID::CLASSIC) &&
          (style.type_id != bwStyle::TypeID::CLASSIC_CSS);
@@ -256,7 +256,7 @@ void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
   }
 }
 
-bool DefaultStage::updateStyleButton(bwWidget& widget_iter)
+auto DefaultStage::updateStyleButton(bwWidget& widget_iter) -> bool
 {
   bwStyle::TypeID active_type_id = DefaultStage::style->type_id;
 

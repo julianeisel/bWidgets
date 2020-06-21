@@ -35,6 +35,9 @@
 
 namespace bWidgetsDemo {
 
+class MouseEvent;
+class Window;
+
 class Stage {
   friend class UseFontSubPixelsToggleSetter;
 
@@ -44,11 +47,11 @@ class Stage {
 
   void draw();
 
-  void handleMouseMovementEvent(const class MouseEvent& event);
-  void handleMouseButtonEvent(const class MouseEvent& event);
-  void handleMouseScrollEvent(const class MouseEvent& event,
+  void handleMouseMovementEvent(const MouseEvent& event);
+  void handleMouseButtonEvent(const MouseEvent& event);
+  void handleMouseScrollEvent(const MouseEvent& event,
                               enum bWidgets::bwMouseWheelEvent::Direction dir);
-  void handleWindowResizeEvent(const class Window& win);
+  void handleWindowResizeEvent(const Window& win);
 
   void setContentScale(float scale_x, float scale_y);
   static void setInterfaceScale(const float value);
@@ -59,6 +62,8 @@ class Stage {
   static void setFontSubPixelPositioning(const bool value);
 
  protected:
+  virtual void activateStyleID(bWidgets::bwStyle::TypeID type_id);
+
   bWidgets::bwScreenGraph::ScreenGraph screen_graph;
 
   // Static members, global UI data for all stages
@@ -69,8 +74,6 @@ class Stage {
   static float interface_scale;
 
   unsigned int mask_width, mask_height;
-
-  virtual void activateStyleID(bWidgets::bwStyle::TypeID type_id);
 
  private:
   static void StyleSheetPolish(bWidgets::bwWidget& widget);

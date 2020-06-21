@@ -31,42 +31,40 @@ class Event {
   friend class EventManager;
 
  protected:
-  Event()
-  {
-  }
+  Event() = default;
 };
 
 class MouseEvent : Event {
  public:
-  enum MouseEventType {
-    MOUSE_EVENT_PRESS,
-    MOUSE_EVENT_RELEASE,
-    MOUSE_EVENT_MOVE,
-    MOUSE_EVENT_SCROLL_UP,
-    MOUSE_EVENT_SCROLL_DOWN,
+  enum class Type {
+    PRESS,
+    RELEASE,
+    MOVE,
+    SCROLL_UP,
+    SCROLL_DOWN,
 
-    MOUSE_EVENT_UNKNOWN
+    UNKNOWN
   };
 
-  MouseEvent(MouseEventType type,
-             bWidgets::bwMouseButtonEvent::MouseButton button,
-             const bWidgets::bwPoint& location);
+  using Button = bWidgets::bwMouseButtonEvent::Button;
 
-  bool isClick() const;
+  MouseEvent(Type type, Button button, const bWidgets::bwPoint& location);
 
-  bWidgets::bwMouseButtonEvent::MouseButton getButton() const;
-  MouseEventType getType() const;
+  auto isClick() const -> bool;
 
-  static const bWidgets::bwPoint& getMouseLocation();
+  auto getButton() const -> Button;
+  auto getType() const -> Type;
+
+  static auto getMouseLocation() -> const bWidgets::bwPoint&;
 
  private:
-  MouseEventType type;
-  bWidgets::bwMouseButtonEvent::MouseButton button;
+  Type type;
+  Button button;
 
   static bWidgets::bwPoint location;
   // Location during previous mouse button press.
   static bWidgets::bwPoint last_down_location;
-  static bWidgets::bwMouseButtonEvent::MouseButton last_down_button;
+  static Button last_down_button;
 };
 
 }  // namespace bWidgetsDemo

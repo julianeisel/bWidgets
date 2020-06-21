@@ -16,21 +16,20 @@ class Builder {
  public:
   Builder() = default;
   Builder(LayoutNode& active_layout_node);
-  Builder(ScreenGraph& screen_graph) : Builder(screen_graph.Root())
-  {
-  }
+  Builder(ScreenGraph& screen_graph);
   ~Builder() = default;
 
   static void setLayout(LayoutNode& node, std::unique_ptr<bwLayoutInterface> layout);
   static void setWidget(WidgetNode& node, std::unique_ptr<bwWidget> widget);
-  static bwWidget& addWidget(LayoutNode& node, std::unique_ptr<bwWidget> widget);
+  static auto addWidget(LayoutNode& node, std::unique_ptr<bwWidget> widget) -> bwWidget&;
 
   void setActiveLayout(bwScreenGraph::LayoutNode&);
 
   /**
    * \brief Add child node for a layout created in-place.
    */
-  template<typename _LayoutType, typename... _Args> LayoutNode& addLayout(_Args&&... __args)
+  template<typename _LayoutType, typename... _Args>
+  auto addLayout(_Args&&... __args) -> LayoutNode&
   {
     static_assert(std::is_base_of<bwLayoutInterface, _LayoutType>::value,
                   "Should implement bwLayoutInterface");
@@ -41,7 +40,8 @@ class Builder {
     return new_node;
   }
 
-  template<typename _WidgetType, typename... _Args> _WidgetType& addWidget(_Args&&... __args)
+  template<typename _WidgetType, typename... _Args>
+  auto addWidget(_Args&&... __args) -> _WidgetType&
   {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
@@ -60,7 +60,7 @@ class Builder {
    * verbose and easier to understand.
    */
   template<typename _WidgetType, typename... _Args>
-  ContainerNode& addContainer(std::unique_ptr<bwLayoutInterface> layout, _Args&&... __args)
+  auto addContainer(std::unique_ptr<bwLayoutInterface> layout, _Args&&... __args) -> ContainerNode&
   {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
     static_assert(std::is_base_of<bwContainerWidget, _WidgetType>::value,
@@ -100,7 +100,7 @@ class Builder {
    * \endcode
    */
   template<typename _WidgetType, typename... _Args>
-  static _WidgetType& emplaceWidget(LayoutNode& node, _Args&&... __args)
+  static auto emplaceWidget(LayoutNode& node, _Args&&... __args) -> _WidgetType&
   {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
@@ -111,7 +111,7 @@ class Builder {
   }
 
  private:
-  template<typename _NodeType> static _NodeType& addChildNode(LayoutNode& parent_node)
+  template<typename _NodeType> static auto addChildNode(LayoutNode& parent_node) -> _NodeType&
   {
     static_assert(std::is_base_of<Node, _NodeType>::value,
                   "Should derrive from bwScreenGraph::Node");
@@ -123,7 +123,6 @@ class Builder {
     return dynamic_cast<_NodeType&>(ref);
   }
 
- private:
   bwScreenGraph::LayoutNode* _active_layout_node{nullptr};
 };
 

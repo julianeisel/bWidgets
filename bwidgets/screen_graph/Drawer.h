@@ -19,6 +19,7 @@ class Drawer {
 
  private:
   Drawer(bwStyle& style);
+
   void drawSubtreeRecursive(Node& subtree_root);
   void drawNode(Node& node);
   void pushMask(const Node& node);

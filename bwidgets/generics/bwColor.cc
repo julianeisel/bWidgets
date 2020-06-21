@@ -32,12 +32,12 @@ bwColor::bwColor(unsigned int rgb, unsigned int alpha)
   setColor(rgb / 255.0f, alpha / 255.0f);
 }
 
-bwColor::bwColor()
+bwColor::bwColor(const bwColor& other)
 {
-  setColor(0.0f);
+  setColor(other.rgba);
 }
 
-bwColor& bwColor::shade(const float rgb_shade, float alpha_shade)
+auto bwColor::shade(const float rgb_shade, float alpha_shade) -> bwColor&
 {
   (*this)[Component::RED] += rgb_shade;
   clamp(Component::RED);
@@ -49,7 +49,7 @@ bwColor& bwColor::shade(const float rgb_shade, float alpha_shade)
 
   return *this;
 }
-bwColor& bwColor::shade(unsigned int rgb_shade, unsigned int alpha_shade)
+auto bwColor::shade(unsigned int rgb_shade, unsigned int alpha_shade) -> bwColor&
 {
   (*this)[Component::RED] += rgb_shade / 255.0f;
   clamp(Component::RED);
@@ -83,29 +83,29 @@ void bwColor::setColor(const float _rgba[4])
   rgba[3] = _rgba[3];
 }
 
-const float* bwColor::getColor() const
+auto bwColor::getColor() const -> const float*
 {
   return &rgba[0];
 }
 
-bwColor& bwColor::operator=(const float* rgb)
+auto bwColor::operator=(const float* rgb) -> bwColor&
 {
   setColor(rgb);
   return *this;
 }
-bwColor& bwColor::operator=(const bwColor& other_color)
+auto bwColor::operator=(const bwColor& other_color) -> bwColor&
 {
   setColor(other_color.rgba);
   return *this;
 }
 
-bool bwColor::operator==(const bwColor& compare_color) const
+auto bwColor::operator==(const bwColor& compare_color) const -> bool
 {
   return ((rgba[0] == compare_color[0]) && (rgba[1] == compare_color[1]) &&
           (rgba[2] == compare_color[2]) && (rgba[3] == compare_color[3]));
 }
 
-float& bwColor::operator[](const int index)
+auto bwColor::operator[](const int index) -> float&
 {
   assert((index >= 0) && (index < 4));
   return rgba[index];

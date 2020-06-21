@@ -15,22 +15,22 @@ bwWidget::bwWidget(const std::string& identifier,
 {
 }
 
-bool bwWidget::isCoordinateInside(const bwPoint& point) const
+auto bwWidget::isCoordinateInside(const bwPoint& point) const -> bool
 {
   return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-const std::string& bwWidget::getIdentifier() const
+auto bwWidget::getIdentifier() const -> const std::string&
 {
   return identifier;
 }
 
-const std::string* bwWidget::getLabel() const
+auto bwWidget::getLabel() const -> const std::string*
 {
   return nullptr;
 }
 
-bool bwWidget::canAlign() const
+auto bwWidget::canAlign() const -> bool
 {
   return false;
 }

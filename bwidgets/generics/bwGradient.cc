@@ -19,8 +19,8 @@ bwGradient::bwGradient(const bwColor& base_color,
   end.shade(shade_end);
 }
 
-bwColor bwGradient::calcPointColor(const bwPoint& point,
-                                   const bwRectanglePixel& bounding_box) const
+auto bwGradient::calcPointColor(const bwPoint& point, const bwRectanglePixel& bounding_box) const
+    -> bwColor
 {
   const float pos_fac = (direction == bwGradient::Direction::TOP_BOTTOM) ?
                             ((point.y - bounding_box.ymin) / (float)bounding_box.height()) :

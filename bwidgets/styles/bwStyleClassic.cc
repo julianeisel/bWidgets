@@ -199,7 +199,7 @@ void bwStyleClassic::setWidgetStyle(bwWidget& widget)
     base_style = &container->base_style;
   }
   else {
-    //		base_style->roundbox_corners = RoundboxCorner::ALL;
+    // base_style->roundbox_corners = RoundboxCorner::ALL;
   }
 
   widget_style_properties_set_to_default(widget);

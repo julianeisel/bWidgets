@@ -13,7 +13,7 @@ template<typename _Type> class bwStylePropertyInternal : public bwStyleProperty 
   bwStylePropertyInternal(const std::string& name);
 
   void setValue(const _Type& value);
-  const _Type getValue() const;
+  auto getValue() const -> const _Type;
 
   _Type default_value{};
 
@@ -26,8 +26,8 @@ template<typename _Type> class bwStylePropertyInternal : public bwStyleProperty 
 
 // --------------------------------------------------------------------
 
-static bool property_value_is_copyable(const bwStyleProperty& destination,
-                                       const bwStyleProperty& source)
+static auto property_value_is_copyable(const bwStyleProperty& destination,
+                                       const bwStyleProperty& source) -> bool
 {
   bwStyleProperty::Type dest_type = destination.getType();
   bwStyleProperty::Type src_type = source.getType();
@@ -55,7 +55,7 @@ template<typename _Type> void bwStylePropertyInternal<_Type>::setValue(const _Ty
 {
   reference = value;
 }
-template<typename _Type> const _Type bwStylePropertyInternal<_Type>::getValue() const
+template<typename _Type> auto bwStylePropertyInternal<_Type>::getValue() const -> const _Type
 {
   return reference;
 }
@@ -241,56 +241,56 @@ bwStylePropertyInternal<_Type>::bwStylePropertyInternal(const std::string& name)
 }
 
 template<typename _Type>
-static bwStyleProperty& properties_add_property(bwStyleProperties::PropertyList& properties,
-                                                const std::string& name,
-                                                _Type& reference)
+static auto properties_add_property(bwStyleProperties::PropertyList& properties,
+                                    const std::string& name,
+                                    _Type& reference) -> bwStyleProperty&
 {
   properties.push_back(std::make_unique<bwStylePropertyInternal<_Type>>(name, reference));
   return *properties.back();
 }
 template<typename _Type>
-static bwStyleProperty& properties_add_property(bwStyleProperties::PropertyList& properties,
-                                                const std::string& name)
+static auto properties_add_property(bwStyleProperties::PropertyList& properties,
+                                    const std::string& name) -> bwStyleProperty&
 {
   properties.push_back(std::make_unique<bwStylePropertyInternal<_Type>>(name));
   return *properties.back();
 }
 
-bwStyleProperty& bwStyleProperties::addBool(const std::string& name, bool& reference)
+auto bwStyleProperties::addBool(const std::string& name, bool& reference) -> bwStyleProperty&
 {
   return properties_add_property<bool>(properties, name, reference);
 }
-bwStyleProperty& bwStyleProperties::addBool(const std::string& name)
+auto bwStyleProperties::addBool(const std::string& name) -> bwStyleProperty&
 {
   return properties_add_property<bool>(properties, name);
 }
-bwStyleProperty& bwStyleProperties::addInteger(const std::string& name, int& reference)
+auto bwStyleProperties::addInteger(const std::string& name, int& reference) -> bwStyleProperty&
 {
   return properties_add_property<int>(properties, name, reference);
 }
-bwStyleProperty& bwStyleProperties::addInteger(const std::string& name)
+auto bwStyleProperties::addInteger(const std::string& name) -> bwStyleProperty&
 {
   return properties_add_property<int>(properties, name);
 }
-bwStyleProperty& bwStyleProperties::addFloat(const std::string& name, float& reference)
+auto bwStyleProperties::addFloat(const std::string& name, float& reference) -> bwStyleProperty&
 {
   return properties_add_property<float>(properties, name, reference);
 }
-bwStyleProperty& bwStyleProperties::addFloat(const std::string& name)
+auto bwStyleProperties::addFloat(const std::string& name) -> bwStyleProperty&
 {
   return properties_add_property<float>(properties, name);
 }
-bwStyleProperty& bwStyleProperties::addColor(const std::string& name, bwColor& reference)
+auto bwStyleProperties::addColor(const std::string& name, bwColor& reference) -> bwStyleProperty&
 {
   return properties_add_property<bwColor>(properties, name, reference);
 }
-bwStyleProperty& bwStyleProperties::addColor(const std::string& name)
+auto bwStyleProperties::addColor(const std::string& name) -> bwStyleProperty&
 {
   return properties_add_property<bwColor>(properties, name);
 }
 
-bwStyleProperty& bwStyleProperties::addProperty(const std::string& name,
-                                                const bwStyleProperty::Type prop_type)
+auto bwStyleProperties::addProperty(const std::string& name, const bwStyleProperty::Type prop_type)
+    -> bwStyleProperty&
 {
   //	properties_add_property<PropDataType<prop_type>::type>(properties, name);
   //	properties.push_back(std::make_unique<bwStylePropertyInternal<prop_type>(name));
@@ -313,18 +313,18 @@ bwStyleProperty& bwStyleProperties::addProperty(const std::string& name,
 
 // --------------------------------------------------------------------
 
-const std::string& bwStyleProperty::getIdentifier() const
+auto bwStyleProperty::getIdentifier() const -> const std::string&
 {
   return identifier;
 }
-bwStyleProperty::Type bwStyleProperty::getType() const
+auto bwStyleProperty::getType() const -> bwStyleProperty::Type
 {
   return type;
 }
 
 // --------------------------------------------------------------------
 
-const bwStyleProperty* bwStyleProperties::lookup(const std::string& name) const
+auto bwStyleProperties::lookup(const std::string& name) const -> const bwStyleProperty*
 {
   for (const auto& property : properties) {
     if (property->getIdentifier() == name) {
@@ -335,19 +335,19 @@ const bwStyleProperty* bwStyleProperties::lookup(const std::string& name) const
   return nullptr;
 }
 
-bwStyleProperties::iterator bwStyleProperties::begin()
+auto bwStyleProperties::begin() -> bwStyleProperties::iterator
 {
   return properties.begin();
 }
-bwStyleProperties::iterator bwStyleProperties::end()
+auto bwStyleProperties::end() -> bwStyleProperties::iterator
 {
   return properties.end();
 }
-bwStyleProperties::const_iterator bwStyleProperties::begin() const
+auto bwStyleProperties::begin() const -> bwStyleProperties::const_iterator
 {
   return properties.begin();
 }
-bwStyleProperties::const_iterator bwStyleProperties::end() const
+auto bwStyleProperties::end() const -> bwStyleProperties::const_iterator
 {
   return properties.end();
 }

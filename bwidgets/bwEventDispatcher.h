@@ -31,15 +31,15 @@ class bwEventDispatcher {
   void dispatchMouseWheelScroll(bwMouseWheelEvent&);
 
  private:
+  auto isDragging() -> bool;
+  void changeContextHovered(bwScreenGraph::Node*, bwEvent&);
+
   /** Reference back to the screen-graph owning this dispatcher */
   bwScreenGraph::ScreenGraph& screen_graph;
   /** Reference to the screen-graph's context (convenience). */
   bwContext& context;
 
   std::optional<bwMouseButtonDragEvent> drag_event;
-
-  bool isDragging();
-  void changeContextHovered(bwScreenGraph::Node*, bwEvent&);
 };
 
 }  // namespace bWidgets

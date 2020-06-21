@@ -15,7 +15,7 @@ bwStyleManager& bwStyleManager::getStyleManager()
   return instance;
 }
 
-std::unique_ptr<bwStyle> bwStyleManager::createStyleFromTypeID(bwStyle::TypeID type)
+auto bwStyleManager::createStyleFromTypeID(bwStyle::TypeID type) -> std::unique_ptr<bwStyle>
 {
   using std::make_unique;
 
@@ -54,7 +54,7 @@ void bwStyleManager::registerDefaultStyleTypes()
   builtin_style_types[int(bwStyle::TypeID::FLAT_LIGHT)].name = "Flat Light (CSS)";
 }
 
-const bwStyleManager::StyleTypeArray& bwStyleManager::getBuiltinStyleTypes() const
+auto bwStyleManager::getBuiltinStyleTypes() const -> const bwStyleManager::StyleTypeArray&
 {
   return builtin_style_types;
 }

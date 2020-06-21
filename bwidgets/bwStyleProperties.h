@@ -6,6 +6,8 @@
 
 namespace bWidgets {
 
+class bwColor;
+
 /**
  * \class bwStyleProperty
  * \brief Simple class for managing properties that can be manipulated through
@@ -43,17 +45,17 @@ class bwStyleProperty {
   void setValue(bool);
   void setValue(int);
   void setValue(float);
-  void setValue(const class bwColor&);
+  void setValue(const bwColor&);
   void setValue(const bwStyleProperty&);
   void setValueToDefault();
 
   void setDefaultValue(bool);
   void setDefaultValue(int);
   void setDefaultValue(float);
-  void setDefaultValue(const class bwColor&);
+  void setDefaultValue(const bwColor&);
 
-  const std::string& getIdentifier() const;
-  Type getType() const;
+  auto getIdentifier() const -> const std::string&;
+  auto getType() const -> Type;
 
  private:
   bwStyleProperty(std::string identifier, enum Type type);
@@ -75,25 +77,26 @@ class bwStyleProperties {
  public:
   // Store properties as pointer, they are actually created as bwStylePropertyInternal instances.
   using PropertyList = std::vector<std::unique_ptr<bwStyleProperty>>;
-
-  bwStyleProperty& addBool(const std::string& name, bool& reference);
-  bwStyleProperty& addBool(const std::string& name);
-  bwStyleProperty& addInteger(const std::string& name, int& reference);
-  bwStyleProperty& addInteger(const std::string& name);
-  bwStyleProperty& addFloat(const std::string& name, float& reference);
-  bwStyleProperty& addFloat(const std::string& name);
-  bwStyleProperty& addColor(const std::string& name, class bwColor& reference);
-  bwStyleProperty& addColor(const std::string& name);
-  bwStyleProperty& addProperty(const std::string& name, const bwStyleProperty::Type prop_type);
-
-  const bwStyleProperty* lookup(const std::string& name) const;
-
   using iterator = PropertyList::iterator;
-  iterator begin();
-  iterator end();
   using const_iterator = PropertyList::const_iterator;
-  const_iterator begin() const;
-  const_iterator end() const;
+
+  auto addBool(const std::string& name, bool& reference) -> bwStyleProperty&;
+  auto addBool(const std::string& name) -> bwStyleProperty&;
+  auto addInteger(const std::string& name, int& reference) -> bwStyleProperty&;
+  auto addInteger(const std::string& name) -> bwStyleProperty&;
+  auto addFloat(const std::string& name, float& reference) -> bwStyleProperty&;
+  auto addFloat(const std::string& name) -> bwStyleProperty&;
+  auto addColor(const std::string& name, class bwColor& reference) -> bwStyleProperty&;
+  auto addColor(const std::string& name) -> bwStyleProperty&;
+  auto addProperty(const std::string& name, const bwStyleProperty::Type prop_type)
+      -> bwStyleProperty&;
+
+  auto lookup(const std::string& name) const -> const bwStyleProperty*;
+
+  auto begin() -> iterator;
+  auto end() -> iterator;
+  auto begin() const -> const_iterator;
+  auto end() const -> const_iterator;
 
  private:
   PropertyList properties{};

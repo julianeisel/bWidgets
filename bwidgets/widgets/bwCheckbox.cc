@@ -40,12 +40,12 @@ void bwCheckbox::draw(bwStyle& style)
   painter.drawText(text, text_rect, base_style.text_alignment);
 }
 
-bool bwCheckbox::isChecked() const
+auto bwCheckbox::isChecked() const -> bool
 {
   return state == State::SUNKEN;
 }
 
-bwRectanglePixel bwCheckbox::getCheckboxRectangle() const
+auto bwCheckbox::getCheckboxRectangle() const -> bwRectanglePixel
 {
   bwRectanglePixel checkbox_rect{rectangle};
   const int delta = 1 + checkbox_rect.height() / 8;
@@ -56,7 +56,8 @@ bwRectanglePixel bwCheckbox::getCheckboxRectangle() const
   return checkbox_rect;
 }
 
-bwRectanglePixel bwCheckbox::getTextRectangle(const bwRectanglePixel& checkbox_rectangle) const
+auto bwCheckbox::getTextRectangle(const bwRectanglePixel& checkbox_rectangle) const
+    -> bwRectanglePixel
 {
   bwRectanglePixel text_rect{rectangle};
   text_rect.xmin = checkbox_rectangle.xmax - 1;  // XXX -1 is ugly. Specifically for demo app.
@@ -74,7 +75,7 @@ class bwCheckboxHandler : public bwAbstractButtonHandler {
   void onMouseRelease(bwMouseButtonEvent&) override;
 };
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwCheckbox::createHandler()
+auto bwCheckbox::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwCheckboxHandler>(*this);
 }
@@ -85,7 +86,7 @@ bwCheckboxHandler::bwCheckboxHandler(bwCheckbox& checkbox) : bwAbstractButtonHan
 
 void bwCheckboxHandler::onMousePress(bwMouseButtonEvent& event)
 {
-  if (event.button == bwMouseButtonEvent::BUTTON_LEFT) {
+  if (event.button == bwMouseButtonEvent::Button::LEFT) {
     button.state = (button.state == bwWidget::State::SUNKEN) ? bwWidget::State::HIGHLIGHTED :
                                                                bwWidget::State::SUNKEN;
     apply();

@@ -7,6 +7,8 @@
 
 namespace bWidgets {
 
+class bwIconInterface;
+
 class bwLabel : public bwWidget {
  public:
   bwLabel(std::string text,
@@ -15,10 +17,10 @@ class bwLabel : public bwWidget {
 
   void draw(class bwStyle& style) override;
   void registerProperties() override;
-  const std::string* getLabel() const override;
-  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
+  auto getLabel() const -> const std::string* override;
+  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
-  bwLabel& setIcon(const class bwIconInterface& icon_interface);
+  auto setIcon(const bwIconInterface& icon_interface) -> bwLabel&;
 
  private:
   const std::string text;

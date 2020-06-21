@@ -11,7 +11,7 @@ bwContainerWidget::bwContainerWidget(const bwScreenGraph::ContainerNode& node,
   initialize();
 }
 
-bwRectanglePixel bwContainerWidget::getMaskRectangle()
+auto bwContainerWidget::getMaskRectangle() -> bwRectanglePixel
 {
   bwRectanglePixel maskrect = rectangle;
 
@@ -24,7 +24,7 @@ bwRectanglePixel bwContainerWidget::getMaskRectangle()
   return maskrect;
 }
 
-bool bwContainerWidget::childrenVisible() const
+auto bwContainerWidget::childrenVisible() const -> bool
 {
   /* By default, all children are visible, can be overriden if the container widget supports hiding
    * children. */

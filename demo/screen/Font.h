@@ -56,10 +56,10 @@ class Font {
   ~Font();
 
   static void initFontReading();
-  static Font* loadFont(const std::string& name, const std::string& path);
+  static auto loadFont(const std::string& name, const std::string& path) -> Font*;
 
   void render(const std::string& text, const int pos_x, const int pos_y);
-  unsigned int calculateStringWidth(const std::string& text);
+  auto calculateStringWidth(const std::string& text) -> unsigned int;
 
   void setFontAntiAliasingMode(AntiAliasingMode);
   void setTightPositioning(bool value);
@@ -67,14 +67,28 @@ class Font {
   void setSubPixelPositioning(bool value);
 
   void setSize(const float size);
-  int getSize() const;
+  auto getSize() const -> int;
 
-  const bWidgets::bwColor& getActiveColor() const;
+  auto getActiveColor() const -> const bWidgets::bwColor&;
   void setActiveColor(const bWidgets::bwColor& value);
 
   void setMask(const bWidgets::bwRectanglePixel& value);
 
  private:
+  class FontGlyphCache {
+    // Everything public, this nested class is private to Font anyway.
+   public:
+    void invalidate();
+    void ensureUpdated(const Font&);
+    auto getCachedGlyph(const Font&, const char) const -> const FontGlyph&;
+
+    bool is_dirty{true};
+    std::vector<std::unique_ptr<FontGlyph>> cached_glyphs;
+
+   private:
+    void loadGlyphsIntoCache(const Font&);
+  };
+
   Font() = default;
 
   void renderGlyph(const FontGlyph& glyph,
@@ -84,14 +98,14 @@ class Font {
                    Pen& pen) const;
 
   void applyPositionBias(FixedNum<F16p16>& value) const;
-  float calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) const;
-  FixedNum<F16p16> getKerningDistance(const FontGlyph& left, const FontGlyph& right) const;
+  auto calcSubpixelOffset(const Pen& pen, const FontGlyph* previous_glyph) const -> float;
+  auto getKerningDistance(const FontGlyph& left, const FontGlyph& right) const -> FixedNum<F16p16>;
   /* Accesses private members, so make it a member function. Would be better
    * to keep freetype specific stuff out of the general Font class, but
    * ignoring for now since this is just the demo app anyway. */
-  FT_Int32 getFreeTypeLoadFlags() const;
-  FT_Render_Mode getFreeTypeRenderFlags() const;
-  bool useSubpixelPositioning() const;
+  auto getFreeTypeLoadFlags() const -> FT_Int32;
+  auto getFreeTypeRenderFlags() const -> FT_Render_Mode;
+  auto useSubpixelPositioning() const -> bool;
 
   // The freetype library handle.
   static FT_Library ft_library;
@@ -107,20 +121,6 @@ class Font {
   bool use_tight_positioning;
   bool use_hinting;
   bool use_subpixel_pos;
-
-  class FontGlyphCache {
-    // Everything public, this nested class is private to Font anyway.
-   public:
-    void invalidate();
-    void ensureUpdated(const Font&);
-    const FontGlyph& getCachedGlyph(const Font&, const char) const;
-
-    bool is_dirty{true};
-    std::vector<std::unique_ptr<FontGlyph>> cached_glyphs;
-
-   private:
-    void loadGlyphsIntoCache(const Font&);
-  };
 
   FontGlyphCache cache;
 };

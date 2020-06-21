@@ -11,8 +11,8 @@ class ContainerNode;
 
 class bwContainerWidget : public bwWidget {
  public:
-  virtual bwRectanglePixel getMaskRectangle();
-  virtual bool childrenVisible() const;
+  virtual auto getMaskRectangle() -> bwRectanglePixel;
+  virtual auto childrenVisible() const -> bool;
 
   void registerProperties() override;
 

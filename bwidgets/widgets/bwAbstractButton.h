@@ -9,6 +9,8 @@
 
 namespace bWidgets {
 
+class bwIconInterface;
+
 /**
  * \brief Base class for button like widgets.
  */
@@ -17,10 +19,10 @@ class bwAbstractButton : public bwWidget {
   void draw(class bwStyle& style) override;
   void registerProperties() override;
 
-  const std::string* getLabel() const override;
-  virtual const class bwIconInterface* getIcon() const;
+  auto getLabel() const -> const std::string* override;
+  virtual auto getIcon() const -> const bwIconInterface*;
 
-  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
+  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   /**
    * Function object called when applying changes to widget.

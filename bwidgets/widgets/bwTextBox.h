@@ -16,17 +16,16 @@ class bwTextBox : public bwWidget {
   void registerProperties() override;
 
   void setText(const std::string& value);
-  const std::string* getLabel() const override;
+  auto getLabel() const -> const std::string* override;
 
   bool canAlign() const override;
 
-  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
+  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   bwRectanglePixel selection_rectangle;
 
  protected:
   std::string text;
-
   bool is_text_editing = false;
 
  public:
@@ -44,11 +43,11 @@ class bwTextBoxHandler : public bwScreenGraph::EventHandler {
   void onMousePress(bwMouseButtonEvent&) override;
 
  protected:
-  bwTextBox& textbox;
-  bool is_dragging = false;
-
   void startTextEditing();
   void endTextEditing();
+
+  bwTextBox& textbox;
+  bool is_dragging = false;
 };
 
 }  // namespace bWidgets

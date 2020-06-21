@@ -11,19 +11,21 @@ namespace bWidgets {
  */
 class bwStyleManager {
  public:
-  static bwStyleManager& getStyleManager();
-  static std::unique_ptr<bwStyle> createStyleFromTypeID(bwStyle::TypeID type_id);
+  using StyleTypeArray = std::array<bwStyle::StyleType, int(bwStyle::TypeID::BUILTIN_TOT)>;
+
+  static auto getStyleManager() -> bwStyleManager&;
+  static auto createStyleFromTypeID(bwStyle::TypeID type_id) -> std::unique_ptr<bwStyle>;
 
   void registerDefaultStyleTypes();
 
-  using StyleTypeArray = std::array<bwStyle::StyleType, int(bwStyle::TypeID::BUILTIN_TOT)>;
-  const StyleTypeArray& getBuiltinStyleTypes() const;
+  auto getBuiltinStyleTypes() const -> const StyleTypeArray&;
 
  private:
   bwStyleManager() = default;
   bwStyleManager(bwStyleManager const&) = delete;
 
   void operator=(bwStyleManager const&) = delete;
+
   StyleTypeArray builtin_style_types;
   //	std::vector<StyleType> custom_types;
 };

@@ -34,22 +34,17 @@ namespace bWidgetsDemo {
 class EventManager {
  public:
   // Constructor is private (singleton!)
-  static EventManager& ensureEventManager();
-
-  void waitEvents();
-  bool processEvents(WindowManager::WindowList& windows);
-
+  static auto ensureEventManager() -> EventManager&;
   static void setupWindowHandlers(Window& window);
 
-  bool isClickEvent();
+  void waitEvents();
+  auto processEvents(WindowManager::WindowList& windows) -> bool;
+
+  auto isClickEvent() -> bool;
 
  private:
-  EventManager()
-  {
-  }
-  ~EventManager()
-  {
-  }
+  EventManager() = default;
+  ~EventManager() = default;
   EventManager(EventManager const&) = delete;
 
   void operator=(EventManager const&) = delete;
@@ -64,8 +59,8 @@ class EventManager {
                                      int glfw_action,
                                      int glfw_mods);
   static void handleMouseScrollEvent(GLFWwindow* glfw_win, double value_x, double value_y);
-  static bWidgets::bwMouseButtonEvent::MouseButton convertGlfwMouseButton(int glfw_button);
-  static MouseEvent::MouseEventType convertGlfwMouseButtonAction(int glfw_action);
+  static auto convertGlfwMouseButton(int glfw_button) -> bWidgets::bwMouseButtonEvent::Button;
+  static auto convertGlfwMouseButtonAction(int glfw_action) -> MouseEvent::Type;
 };
 
 }  // namespace bWidgetsDemo

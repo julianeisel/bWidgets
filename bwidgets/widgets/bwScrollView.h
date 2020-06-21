@@ -9,6 +9,7 @@ namespace bWidgets {
 namespace bwScreenGraph {
 class WidgetNode;
 }
+class bwScrollBar;
 
 class bwScrollView : public bwContainerWidget {
   friend class bwScrollViewHandler;
@@ -20,24 +21,25 @@ class bwScrollView : public bwContainerWidget {
 
   void draw(bwStyle& style) override;
 
-  std::unique_ptr<bwScreenGraph::EventHandler> createHandler() override;
+  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
-  int getScrollOffsetY() const;
-  bwRectanglePixel getContentBounds(float interface_scale) const;
+  auto getScrollOffsetY() const -> int;
+  auto getContentBounds(float interface_scale) const -> bwRectanglePixel;
 
  private:
+  auto getVerticalScrollBar() const -> bwScrollBar&;
+  auto getVerticalScrollbarRect(const bwStyle& style) const -> bwRectanglePixel;
+  void drawScrollBars(bwStyle& style);
+  auto isScrollable() const -> bool;
+  void validizeScrollValues();
+
+  static auto getScrollbarWidth(float interface_scale) -> int;
+
   constexpr static int SCROLL_BAR_SIZE = 17;
 
   std::unique_ptr<bwScreenGraph::WidgetNode> scrollbar_node;
 
   int vert_scroll{0};
-
-  class bwScrollBar& getVerticalScrollBar() const;
-  bwRectanglePixel getVerticalScrollbarRect(const bwStyle& style) const;
-  void drawScrollBars(bwStyle& style);
-  bool isScrollable() const;
-  void validizeScrollValues();
-  static int getScrollbarWidth(float interface_scale);
 };
 
 }  // namespace bWidgets

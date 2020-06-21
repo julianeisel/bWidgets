@@ -8,20 +8,22 @@ class bwColor {
   bwColor(float rgb, float alpha = 1.0f);
   bwColor(unsigned int red, unsigned int green, unsigned int blue, unsigned int alpha = 255);
   bwColor(unsigned int rgb, unsigned int alpha = 255);
-  bwColor();
+  bwColor() = default;
+  ~bwColor() = default;
+  bwColor(const bwColor&);
 
-  bwColor& shade(float rgb_shade, float alpha_shade = 0.0f);
-  bwColor& shade(unsigned int rgb_shade, unsigned int alpha_shade = 0.0f);
+  auto shade(float rgb_shade, float alpha_shade = 0.0f) -> bwColor&;
+  auto shade(unsigned int rgb_shade, unsigned int alpha_shade = 0.0f) -> bwColor&;
 
   void setColor(float red, float green, float blue, float alpha = 1.0f);
   void setColor(float rgb, float alpha = 1.0f);
   void setColor(const float rgba[4]);
-  const float* getColor() const;
-  bwColor& operator=(const float* rgb);
-  bwColor& operator=(const bwColor& other_color);
+  auto getColor() const -> const float*;
+  auto operator=(const float* rgb) -> bwColor&;
+  auto operator=(const bwColor& other_color) -> bwColor&;
 
-  bool operator==(const bwColor& compare_color) const;
-  float& operator[](const int index);
+  auto operator==(const bwColor& compare_color) const -> bool;
+  auto operator[](const int index) -> float&;
   // Implicit conversion to float*
   operator const float*() const;
 
@@ -33,14 +35,14 @@ class bwColor {
     ALPHA = 3,
   };
 
-  float& operator[](const Component component)
+  auto operator[](const Component component) -> float&
   {
     return rgba[static_cast<int>(component)];
   }
 
   void clamp(const Component component);
 
-  float rgba[4]{0};
+  float rgba[4]{0, 0, 0, 1};
 };
 
 }  // namespace bWidgets

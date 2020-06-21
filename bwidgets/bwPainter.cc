@@ -15,15 +15,15 @@
 
 namespace bWidgets {
 
-std::unique_ptr<bwPaintEngine> bwPainter::paint_engine = nullptr;
+std::unique_ptr<bwPaintEngine> bwPainter::s_paint_engine = nullptr;
 
 bwPainter::bwPainter() : active_drawtype(DrawType::FILLED), active_gradient(nullptr)
 {
 }
 
-static bool painter_check_paint_engine()
+static auto painter_check_paint_engine() -> bool
 {
-  if (bwPainter::paint_engine == nullptr) {
+  if (bwPainter::s_paint_engine == nullptr) {
     std::cout << PRETTY_FUNCTION << "-- Error: No paint-engine set!" << std::endl;
     return false;
   }
@@ -38,7 +38,7 @@ void bwPainter::drawPolygon(const bwPolygon& poly)
   }
 
   if (poly.isDrawable()) {
-    paint_engine->drawPolygon(*this, poly);
+    s_paint_engine->drawPolygon(*this, poly);
   }
   if (isGradientEnabled()) {
     vert_colors.clear();
@@ -54,7 +54,7 @@ void bwPainter::drawText(const std::string& text,
   }
 
   if (!text.empty()) {
-    paint_engine->drawText(*this, text, rectangle, alignment);
+    s_paint_engine->drawText(*this, text, rectangle, alignment);
   }
 }
 
@@ -65,7 +65,7 @@ void bwPainter::drawIcon(const bwIconInterface& icon_interface, const bwRectangl
   }
 
   if (!rect.isEmpty() && icon_interface.isValid()) {
-    paint_engine->drawIcon(*this, icon_interface, rect);
+    s_paint_engine->drawIcon(*this, icon_interface, rect);
   }
 }
 
@@ -75,12 +75,12 @@ void bwPainter::setActiveColor(const bwColor& color)
   active_gradient = nullptr;
 }
 
-const bwColor& bwPainter::getActiveColor() const
+auto bwPainter::getActiveColor() const -> const bwColor&
 {
   return active_color;
 }
 
-const bwColor& bwPainter::getVertexColor(const size_t vertex_index) const
+auto bwPainter::getVertexColor(const size_t vertex_index) const -> const bwColor&
 {
   return vert_colors[vertex_index];
 }
@@ -90,7 +90,7 @@ void bwPainter::setContentMask(const bwRectanglePixel& value)
   content_mask = value;
 }
 
-const bwRectanglePixel& bwPainter::getContentMask() const
+auto bwPainter::getContentMask() const -> const bwRectanglePixel&
 {
   return content_mask;
 }
@@ -371,7 +371,7 @@ void PolygonRoundboxCreator::addVerts(bwPolygon& polygon)
   endRoundbox(polygon);
 }
 
-static unsigned int getRoundboxMinsize(const bwRectanglePixel& rect, unsigned int corners)
+static auto getRoundboxMinsize(const bwRectanglePixel& rect, unsigned int corners) -> unsigned int
 {
   const int hnum = ((corners & (TOP_LEFT | TOP_RIGHT)) == (TOP_LEFT | TOP_RIGHT) ||
                     (corners & (BOTTOM_RIGHT | BOTTOM_LEFT)) == (BOTTOM_RIGHT | BOTTOM_LEFT)) ?
