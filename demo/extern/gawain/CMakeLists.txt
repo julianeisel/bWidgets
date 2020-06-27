@@ -24,6 +24,7 @@
 
 set(INC
 	../glew/include
+	${PTHREADS_INCLUDE_DIRS}
 	gawain
 )
 
@@ -60,6 +61,7 @@ set(SRC
 
 set(LIB
 	bwd_extern_glew
+	${PTHREADS_LIBRARIES}
 )
 
 add_definitions(-DWITH_GL_PROFILE_CORE -DWITH_OPENGL)

@@ -20,6 +20,7 @@
  */
 
 #include <cmath>
+#include <cassert>
 
 extern "C" {
 #include "gawain/gwn_immediate.h"

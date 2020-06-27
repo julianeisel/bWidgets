@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cassert>
 
 #include "bwEvent.h"
 #include "bwPainter.h"

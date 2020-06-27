@@ -1,4 +1,5 @@
 #include "Iterators.h"
+#include <cassert>
 
 namespace bWidgets {
 namespace bwScreenGraph {
