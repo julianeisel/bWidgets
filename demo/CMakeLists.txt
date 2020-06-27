@@ -50,13 +50,15 @@ set(GPU_INC
 	../extern/glm
 )
 
-if(WIN32)
+if (VCPKG_TOOLCHAIN)
+	message(STATUS "Using vcpkg for library dependencies")
+elseif (WIN32)
 	if(NOT DEFINED LIBDIR)
 		set(LIBDIR ${CMAKE_SOURCE_DIR}/../lib)
 	endif()
 
 	if(NOT EXISTS "${LIBDIR}/")
-		message(FATAL_ERROR "Windows requires pre-compiled libs at: '${LIBDIR}'")
+		message(FATAL_ERROR "Windows without vcpkg requires pre-compiled libs at: '${LIBDIR}'")
 	endif()
 endif()
 
@@ -69,14 +71,14 @@ if(LIBDIR)
 	set(PNG_PNG_INCLUDE_DIR ${LIBDIR}/png/include)
 	set(PNG_LIBRARY ${LIBDIR}/png/lib/libpng.lib)
 	set(PNG "${LIBDIR}/png")
-	set(PNG_INCLUDE_DIRS "${PNG}/include")
+	set(PNG_INCLUDE_DIR "${PNG}/include")
 	set(PNG_LIBPATH ${PNG}/lib)
 
 	set(FREETYPE ${LIBDIR}/freetype)
-	set(FREETYPE_INCLUDE_DIRS ${LIBDIR}/freetype/include/freetype2)
+	set(FREETYPE_INCLUDE_DIR ${LIBDIR}/freetype/include/freetype2)
 	set(FREETYPE_LIBRARY ${LIBDIR}/freetype/lib/freetype2ST.lib)
 
-	set(PTHREADS_INCLUDE_DIRS ${LIBDIR}/pthreads/include)
+	set(PTHREADS_INCLUDE_DIR ${LIBDIR}/pthreads/include)
 	set(PTHREADS_LIBRARIES ${LIBDIR}/pthreads/lib/pthreadVC3.lib)
 endif()
 if (UNIX)
@@ -86,6 +88,13 @@ endif()
 find_package(PNG)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(PThreads REQUIRED)
+
+set(FREETYPE_INCLUDE_DIRS
+	${FREETYPE_INCLUDE_DIR}
+	${FREETYPE_INCLUDE_DIR_freetype2}
+	${FREETYPE_INCLUDE_DIR_ft2build}
+)
 list(APPEND LIB ${OPENGL_LIBRARIES})
 
 add_definitions(-DGLEW_STATIC)

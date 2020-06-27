@@ -24,7 +24,7 @@
 
 set(INC
 	../glew/include
-	${PTHREADS_INCLUDE_DIRS}
+	${PTHREADS_INCLUDE_DIR}
 	gawain
 )
 
