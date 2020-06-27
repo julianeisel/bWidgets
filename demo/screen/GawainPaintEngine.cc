@@ -73,14 +73,14 @@ void GawainPaintEngine::enableMask(const bwRectanglePixel& rect)
 
 #define WIDGET_AA_JITTER 8
 
-static const float jit[WIDGET_AA_JITTER][2] = {{0.468813, -0.481430},
-                                               {-0.155755, -0.352820},
-                                               {0.219306, -0.238501},
-                                               {-0.393286, -0.110949},
-                                               {-0.024699, 0.013908},
-                                               {0.343805, 0.147431},
-                                               {-0.272855, 0.269918},
-                                               {0.095909, 0.388710}};
+static const float jit[WIDGET_AA_JITTER][2] = {{0.468813f, -0.481430f},
+                                               {-0.155755f, -0.352820f},
+                                               {0.219306f, -0.238501f},
+                                               {-0.393286f, -0.110949f},
+                                               {-0.024699f, 0.013908f},
+                                               {0.343805f, 0.147431f},
+                                               {-0.272855f, 0.269918f},
+                                               {0.095909f, 0.388710f}};
 
 static auto stage_polygon_drawtype_convert(const bwPainter::DrawType& drawtype,
                                            bool use_antialiasing) -> Gwn_PrimType
@@ -108,7 +108,7 @@ static void stage_polygon_draw_uniform_color(const bwPolygon& poly,
 
   immUniformColor4fv(color);
 
-  immBegin(type, vertices.size());
+  immBegin(type, unsigned int(vertices.size()));
   for (const bwPoint& vertex : vertices) {
     immVertex2f(attr_pos, vertex.x * scale_x, vertex.y * scale_y);
   }
@@ -124,7 +124,7 @@ static void stage_polygon_draw_shaded(const bwPainter& painter,
 {
   const bwPointVec& vertices = poly.getVertices();
 
-  immBegin(type, vertices.size());
+  immBegin(type, unsigned int(vertices.size()));
   for (int i = 0; i < vertices.size(); i++) {
     immAttrib4fv(attr_color, painter.getVertexColor(i));
     immVertex2f(attr_pos, vertices[i].x * scale_x, vertices[i].y * scale_y);

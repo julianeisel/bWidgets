@@ -62,6 +62,17 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	ADD_CHECK_CXX_COMPILER_FLAG(CXX_WARNINGS CXX_WARN_WRITE_STRINGS -Wwrite-strings)
 	ADD_CHECK_CXX_COMPILER_FLAG(CXX_WARNINGS CXX_WARN_UNDEF -Wundef)
 	ADD_CHECK_CXX_COMPILER_FLAG(CXX_WARNINGS CXX_WARN_FORMAT_SIGN -Wformat-signedness)
+elseif (MSVC)
+    set(_WARNINGS
+        # warning level:
+        "/W3"
+        # disable:
+        "/wd4244"  # conversion from 'type1' to 'type2', possible loss of data
+    )
+
+    string(REPLACE ";" " " _WARNINGS "${_WARNINGS}")
+    set(CXX_WARNINGS "${_WARNINGS}")
+    unset(_WARNINGS)
 endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CXX_WARNINGS}")

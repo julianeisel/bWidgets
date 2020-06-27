@@ -343,7 +343,7 @@ PolygonRoundboxCreator::PolygonRoundboxCreator(const bwRectanglePixel& rect,
 
 void PolygonRoundboxCreator::startRoundbox(const bwPolygon& polygon)
 {
-  start_vertex_count = polygon.getVertices().size();
+  start_vertex_count = int(polygon.getVertices().size());
 }
 
 void PolygonRoundboxCreator::endRoundbox(bwPolygon& polygon) const

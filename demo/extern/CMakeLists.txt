@@ -24,6 +24,13 @@ set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
 set(GLM_STATIC_LIBRARY_ENABLE ON CACHE BOOL "" FORCE)
 
+# Disable all warnings for 3rd party libs.
+if (MSVC)
+    add_compile_options(/W0)
+else()
+    add_compile_options(-w)
+endif()
+
 add_subdirectory(gawain)
 add_subdirectory(glew)
 add_subdirectory(glfw)

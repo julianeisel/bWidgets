@@ -94,7 +94,7 @@ static void libpng_copy_rows_into_pixmap(Pixmap& pixmap,
 static void libpng_read_from_istream(png_structp png_ptr, png_bytep data, png_size_t length)
 {
   File& file = *(File*)png_get_io_ptr(png_ptr);
-  if (!file.readBytes((char*)data, length, false)) {
+  if (!file.readBytes((char*)data, unsigned int(length), false)) {
     std::cout << "Error reading PNG" << std::endl;
   }
 }
