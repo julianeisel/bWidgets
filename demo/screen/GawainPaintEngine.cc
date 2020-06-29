@@ -19,8 +19,8 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include <cmath>
 #include <cassert>
+#include <cmath>
 
 extern "C" {
 #include "gawain/gwn_immediate.h"
@@ -108,7 +108,7 @@ static void stage_polygon_draw_uniform_color(const bwPolygon& poly,
 
   immUniformColor4fv(color);
 
-  immBegin(type, unsigned int(vertices.size()));
+  immBegin(type, (unsigned int)vertices.size());
   for (const bwPoint& vertex : vertices) {
     immVertex2f(attr_pos, vertex.x * scale_x, vertex.y * scale_y);
   }
@@ -124,7 +124,7 @@ static void stage_polygon_draw_shaded(const bwPainter& painter,
 {
   const bwPointVec& vertices = poly.getVertices();
 
-  immBegin(type, unsigned int(vertices.size()));
+  immBegin(type, (unsigned int)vertices.size());
   for (int i = 0; i < vertices.size(); i++) {
     immAttrib4fv(attr_color, painter.getVertexColor(i));
     immVertex2f(attr_pos, vertices[i].x * scale_x, vertices[i].y * scale_y);
