@@ -45,6 +45,7 @@ Window::Window(const std::string& name, unsigned int size_x, unsigned int size_y
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);  // For MacOS
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
 
   if (width == 0) {
     //		width = 0.8f * mode->width;
@@ -113,7 +114,18 @@ auto Window::getCursorPosition() const -> bWidgets::bwPoint
   glfwGetCursorPos(glfw_window, &x, &y);
   glfwGetWindowSize(glfw_window, nullptr, &win_size_y);
 
-  return bWidgets::bwPoint(float(x), float(win_size_y - y));
+  /* Invert vertically. */
+  bwPoint position{float(x), float(win_size_y - y)};
+
+#ifndef __APPLE__
+  /* We need unscaled coordinates, which only Apple gives by default. */
+  float px_scale_x, px_scale_y;
+  glfwGetWindowContentScale(glfw_window, &px_scale_x, &px_scale_y);
+  position.x /= px_scale_x;
+  position.y /= px_scale_y;
+#endif
+
+  return position;
 }
 
 void Window::handleResizeEvent(const int new_win_x, const int new_win_y)
