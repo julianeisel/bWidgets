@@ -52,6 +52,8 @@ set(GPU_INC
 
 if (VCPKG_TOOLCHAIN)
 	message(STATUS "Using vcpkg for library dependencies")
+
+	set(FREETYPE_INCLUDE_DIRS "${FREETYPE_INCLUDE_DIR_freetype2} ${FREETYPE_INCLUDE_DIR_ft2build}")
 elseif (WIN32)
 	if(NOT DEFINED LIBDIR)
 		set(LIBDIR ${CMAKE_SOURCE_DIR}/../lib)
@@ -75,12 +77,13 @@ if(LIBDIR)
 	set(PNG_LIBPATH ${PNG}/lib)
 
 	set(FREETYPE ${LIBDIR}/freetype)
-	set(FREETYPE_INCLUDE_DIR ${LIBDIR}/freetype/include/freetype2)
+	set(FREETYPE_INCLUDE_DIRS ${LIBDIR}/freetype/include/freetype2)
 	set(FREETYPE_LIBRARY ${LIBDIR}/freetype/lib/freetype2ST.lib)
 
 	set(PTHREADS_INCLUDE_DIR ${LIBDIR}/pthreads/include)
 	set(PTHREADS_LIBRARIES ${LIBDIR}/pthreads/lib/pthreadVC3.lib)
 endif()
+
 if (UNIX)
   set(OpenGL_GL_PREFERENCE GLVND)
 endif()
@@ -88,13 +91,10 @@ endif()
 find_package(PNG)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(PThreads REQUIRED)
+if (VCPKG_TOOLCHAIN AND WIN32)
+  find_package(PThreads REQUIRED)
+endif()
 
-set(FREETYPE_INCLUDE_DIRS
-	${FREETYPE_INCLUDE_DIR}
-	${FREETYPE_INCLUDE_DIR_freetype2}
-	${FREETYPE_INCLUDE_DIR_ft2build}
-)
 list(APPEND LIB ${OPENGL_LIBRARIES})
 
 add_definitions(-DGLEW_STATIC)
