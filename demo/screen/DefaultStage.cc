@@ -299,8 +299,9 @@ void DefaultStage::updateStyleButtons()
     if (!node.isVisible()) {
       continue;
     }
-    bwWidget* widget = node.Widget();
-    updateStyleButton(*widget);
+    if (bwWidget* widget = node.Widget()) {
+      updateStyleButton(*widget);
+    }
   }
 }
 
