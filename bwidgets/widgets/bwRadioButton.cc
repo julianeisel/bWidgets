@@ -38,7 +38,7 @@ auto bwRadioButton::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandl
 void bwRadioButtonHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    button.state = bwWidget::State::SUNKEN;
+    button.setState(bwWidget::State::SUNKEN);
     apply();
     event.swallow();
   }

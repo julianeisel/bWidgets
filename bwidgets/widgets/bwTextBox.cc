@@ -39,9 +39,10 @@ void bwTextBox::registerProperties()
   base_style.registerProperties(style_properties);
 }
 
-void bwTextBox::setText(const std::string& value)
+auto bwTextBox::setText(const std::string& value) -> bwTextBox&
 {
   text = value;
+  return *this;
 }
 
 auto bwTextBox::getLabel() const -> const std::string*
@@ -67,27 +68,27 @@ bwTextBoxHandler::bwTextBoxHandler(bwTextBox& textbox) : textbox(textbox)
 
 void bwTextBoxHandler::startTextEditing()
 {
-  textbox.state = bwWidget::State::SUNKEN;
+  textbox.setState(bwWidget::State::SUNKEN);
   textbox.is_text_editing = true;
 }
 
 void bwTextBoxHandler::endTextEditing()
 {
-  textbox.state = bwWidget::State::NORMAL;
+  textbox.setState(bwWidget::State::NORMAL);
   textbox.is_text_editing = false;
 }
 
 void bwTextBoxHandler::onMouseEnter(bwEvent&)
 {
-  if (textbox.state == bwWidget::State::NORMAL) {
-    textbox.state = bwWidget::State::HIGHLIGHTED;
+  if (textbox.getState() == bwWidget::State::NORMAL) {
+    textbox.setState(bwWidget::State::HIGHLIGHTED);
   }
 }
 
 void bwTextBoxHandler::onMouseLeave(bwEvent&)
 {
-  if (textbox.state == bwWidget::State::HIGHLIGHTED) {
-    textbox.state = bwWidget::State::NORMAL;
+  if (textbox.getState() == bwWidget::State::HIGHLIGHTED) {
+    textbox.setState(bwWidget::State::NORMAL);
   }
 }
 void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
@@ -97,7 +98,7 @@ void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
     event.swallow();
   }
   else if (event.button == bwMouseButtonEvent::Button::RIGHT) {
-    if (textbox.state == bwWidget::State::SUNKEN) {
+    if (textbox.getState() == bwWidget::State::SUNKEN) {
       endTextEditing();
       event.swallow();
     }

@@ -18,9 +18,9 @@ class bwNumberSlider : public bwTextBox {
 
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
-  void setValue(float value);
+  auto setValue(float value) -> bwNumberSlider&;
   auto getValue() const -> float;
-  void setMinMax(float min, float max);
+  auto setMinMax(float min, float max) -> bwNumberSlider&;
 
   std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
 

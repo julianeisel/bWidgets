@@ -15,7 +15,7 @@ class bwTextBox : public bwWidget {
   void draw(class bwStyle& style) override;
   void registerProperties() override;
 
-  void setText(const std::string& value);
+  auto setText(const std::string& value) -> bwTextBox&;
   auto getLabel() const -> const std::string* override;
 
   bool canAlign() const override;

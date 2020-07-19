@@ -69,7 +69,7 @@ class DefaultStageRNAFunctor : public bwFunctorInterface {
   void operator()() override
   {
     if (widget_cast<bwCheckbox>(m_widget)) {
-      m_props.set(m_prop_name, m_stage, m_widget.state == bwWidget::State::SUNKEN);
+      m_props.set(m_prop_name, m_stage, m_widget.getState() == bwWidget::State::SUNKEN);
     }
     else if (auto* slider = widget_cast<bwNumberSlider>(m_widget)) {
       m_props.set(m_prop_name, m_stage, slider->getValue());
@@ -152,25 +152,22 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 
   addStyleSelector(screen_graph.Root());
 
-  auto& slider = builder.addRNAWidget<bwNumberSlider>("interface_scale");
-  slider.setText("Interface Scale: ");
-  slider.setMinMax(0.5f, 2.0f);
-  slider.setValue(1.0f);
+  builder.addRNAWidget<bwNumberSlider>("interface_scale")
+      .setMinMax(0.5f, 2.0f)
+      .setValue(1.0f)
+      .setText("Interface Scale: ");
 
   builder.addWidget<bwLabel>("Font Rendering:");
 
   builder.addLayout<RowLayout>(true);
-  auto* checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning",
-                                                     "Tight Positioning");
-  checkbox->state = bwWidget::State::SUNKEN;
+  builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning", "Tight Positioning")
+      .setState(bwWidget::State::SUNKEN);
   builder.addRNAWidget<bwCheckbox>("font_use_hinting", "Hinting");
 
   builder.setActiveLayout(screen_graph.Root());
   builder.addLayout<RowLayout>(false);
   builder.addRNAWidget<bwCheckbox>("font_use_subpixels", "Subpixel Rendering");
-  checkbox = &builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning",
-                                               "Subpixel Positioning");
-  checkbox->hidden = true;
+  builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning", "Subpixel Positioning").hide();
 
   builder.setActiveLayout(screen_graph.Root());
   panel = &builder.addContainer<bwPanel>(
@@ -181,8 +178,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   builder.addWidget<bwPushButton>("Scale");
 
   builder.setActiveLayout(*panel);
-  auto& push_but = builder.addWidget<bwPushButton>("Mirror");
-  push_but.setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
+  builder.addWidget<bwPushButton>("Mirror").setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
 
   builder.setActiveLayout(screen_graph.Root());
   panel = &builder.addContainer<bwPanel>(
@@ -192,16 +188,14 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   builder.addWidget<bwCheckbox>("Wireframes");
 
   builder.setActiveLayout(*panel);
-  auto& text_box = builder.addWidget<bwTextBox>();
-  text_box.setText("Some Text...");
+  builder.addWidget<bwTextBox>().setText("Some Text...");
 
   builder.addLayout<RowLayout>(false);
-  auto* label = &builder.addWidget<bwLabel>("Pose Icon");
-  label->setIcon(icon_map->getIcon(ICON_POSE_HLT));
-  label = &builder.addWidget<bwLabel>("Normalized FCurve Icon");
-  label->setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
-  label = &builder.addWidget<bwLabel>("Chroma Scope Icon");
-  label->setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
+  builder.addWidget<bwLabel>("Pose Icon").setIcon(icon_map->getIcon(ICON_POSE_HLT));
+  builder.addWidget<bwLabel>("Normalized FCurve Icon")
+      .setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
+  builder.addWidget<bwLabel>("Chroma Scope Icon")
+      .setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
 }
 
 auto isUseCSSVersionToggleHidden(const bwStyle& style) -> bool
@@ -229,13 +223,13 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
         int(type.type_id), "style_type", type.name);
 
     if (type.type_id == style->type_id) {
-      style_button.state = bwAbstractButton::State::SUNKEN;
+      style_button.setState(bwAbstractButton::State::SUNKEN);
     }
   }
 
   builder.setActiveLayout(parent_node);
   auto& checkbox = builder.addRNAWidget<bwCheckbox>("style_use_css_version", "Use CSS Version");
-  checkbox.hidden = isUseCSSVersionToggleHidden(*style);
+  checkbox.hide(isUseCSSVersionToggleHidden(*style));
 }
 
 void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
@@ -267,10 +261,10 @@ auto DefaultStage::updateStyleButton(bwWidget& widget_iter) -> bool
       if (rna_functor && rna_functor->getPropName() == "style_type") {
         auto prop = rna_functor->getEnumValue();
         if (prop && bwStyle::TypeID(prop.value()) == active_type_id) {
-          radio_iter->state = bwWidget::State::SUNKEN;
+          radio_iter->setState(bwWidget::State::SUNKEN);
         }
         else {
-          radio_iter->state = bwWidget::State::NORMAL;
+          radio_iter->setState(bwWidget::State::NORMAL);
         }
       }
     }
@@ -282,7 +276,7 @@ auto DefaultStage::updateStyleButton(bwWidget& widget_iter) -> bool
       if (rna_functor && rna_functor->getPropName() == "style_use_css_version") {
         if (active_type_id == bwStyle::TypeID::CLASSIC ||
             active_type_id == bwStyle::TypeID::CLASSIC_CSS) {
-          useStyleCSSVersionSet(checkbox_iter->state == bwWidget::State::SUNKEN);
+          useStyleCSSVersionSet(checkbox_iter->getState() == bwWidget::State::SUNKEN);
         }
       }
     }
@@ -319,7 +313,7 @@ void DefaultStage::activateStyleID(bwStyle::TypeID type_id)
       const auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
           checkbox->apply_functor.get());
       if (rna_functor && (rna_functor->getPropName() == "style_use_css_version")) {
-        widget->hidden = isUseCSSVersionToggleHidden(*Stage::style);
+        widget->hide(isUseCSSVersionToggleHidden(*Stage::style));
       }
     }
   }
@@ -337,7 +331,7 @@ void DefaultStage::updateFontAAMode(bool value)
         const auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
             iter_checkbox->apply_functor.get());
         if (rna_functor && (rna_functor->getPropName() == "font_use_subpixel_positioning")) {
-          iter_checkbox->hidden = !value;
+          iter_checkbox->hide(!value);
         }
       }
     }

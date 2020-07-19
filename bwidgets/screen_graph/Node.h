@@ -151,7 +151,7 @@ class WidgetNode : virtual public Node {
 
   auto isVisible() const -> bool override
   {
-    return widget->hidden == false;
+    return widget->isHidden() == false;
   }
 
  private:

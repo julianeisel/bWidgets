@@ -35,14 +35,16 @@ class bwWidget {
   virtual ~bwWidget() = default;
 
   auto getIdentifier() const -> const std::string&;
+  auto getState() const -> State;
+  auto setState(State) -> bwWidget&;
+  auto hide(bool _hidden = true) -> bwWidget&;
+  auto isHidden() -> bool;
 
   virtual void draw(bwStyle& style) = 0;
   virtual auto isCoordinateInside(const bwPoint& point) const -> bool;
   virtual auto getLabel() const -> const std::string*;
   virtual auto canAlign() const -> bool;
   virtual auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
-
-  State state;
 
   /**
    * Final rectangle defining the widget bounding-box.
@@ -57,6 +59,16 @@ class bwWidget {
    * that matters is the final \a rectangle. Like the name suggests it's really just a hint.
    */
   unsigned int width_hint, height_hint;
+
+  bwStyleProperties style_properties;
+
+ protected:
+  void initialize();
+  virtual void registerProperties();
+
+  std::string identifier;
+
+ private:
   /**
    * Hint if widget was explicitly hidden. bWidgets itself doesn't do
    * anything with it (yet). The actual application can use it for its layout
@@ -69,13 +81,7 @@ class bwWidget {
    */
   bool hidden{false};
 
-  bwStyleProperties style_properties;
-
- protected:
-  void initialize();
-  virtual void registerProperties();
-
-  std::string identifier;
+  State state;
 };
 
 /**

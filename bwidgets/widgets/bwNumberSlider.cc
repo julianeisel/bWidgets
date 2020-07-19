@@ -92,12 +92,13 @@ void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) cons
       indicator_rect, roundbox_corners & ~(TOP_LEFT | BOTTOM_LEFT), right_side_radius);
 }
 
-void bwNumberSlider::setValue(float _value)
+auto bwNumberSlider::setValue(float _value) -> bwNumberSlider&
 {
   const int precision_fac = std::pow(10, precision);
   const float unclamped_value = std::max(min, std::min(max, _value));
 
   value = std::roundf(unclamped_value * precision_fac) / precision_fac;
+  return *this;
 }
 
 auto bwNumberSlider::getValue() const -> float
@@ -105,10 +106,11 @@ auto bwNumberSlider::getValue() const -> float
   return value;
 }
 
-void bwNumberSlider::setMinMax(float _min, float _max)
+auto bwNumberSlider::setMinMax(float _min, float _max) -> bwNumberSlider&
 {
   min = _min;
   max = _max;
+  return *this;
 }
 
 auto bwNumberSlider::valueToString(unsigned int precision) const -> std::string
@@ -160,7 +162,7 @@ void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
     initial_value = numberslider.value;
-    numberslider.state = bwWidget::State::SUNKEN;
+    numberslider.setState(bwWidget::State::SUNKEN);
 
     event.swallow();
   }
@@ -179,7 +181,7 @@ void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
 void bwNumberSliderHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
   if (is_dragging) {
-    numberslider.state = bwWidget::State::NORMAL;
+    numberslider.setState(bwWidget::State::NORMAL);
   }
   is_dragging = false;
 

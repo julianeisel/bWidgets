@@ -59,22 +59,22 @@ bwAbstractButtonHandler::bwAbstractButtonHandler(bwAbstractButton& button) : but
 
 void bwAbstractButtonHandler::onMouseEnter(bwEvent&)
 {
-  if (button.state == bwWidget::State::NORMAL) {
-    button.state = bwWidget::State::HIGHLIGHTED;
+  if (button.getState() == bwWidget::State::NORMAL) {
+    button.setState(bwWidget::State::HIGHLIGHTED);
   }
 }
 
 void bwAbstractButtonHandler::onMouseLeave(bwEvent&)
 {
-  if (button.state == bwWidget::State::HIGHLIGHTED) {
-    button.state = bwWidget::State::NORMAL;
+  if (button.getState() == bwWidget::State::HIGHLIGHTED) {
+    button.setState(bwWidget::State::NORMAL);
   }
 }
 
 void bwAbstractButtonHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    button.state = bwWidget::State::SUNKEN;
+    button.setState(bwWidget::State::SUNKEN);
     event.swallow();
   }
 }
@@ -82,8 +82,8 @@ void bwAbstractButtonHandler::onMousePress(bwMouseButtonEvent& event)
 void bwAbstractButtonHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
   if ((event.button == bwMouseButtonEvent::Button::LEFT) &&
-      (button.state == bwWidget::State::SUNKEN)) {
-    button.state = bwWidget::State::NORMAL;
+      (button.getState() == bwWidget::State::SUNKEN)) {
+    button.setState(bwWidget::State::NORMAL);
 
     event.swallow();
   }

@@ -25,6 +25,28 @@ auto bwWidget::getIdentifier() const -> const std::string&
   return identifier;
 }
 
+auto bwWidget::getState() const -> State
+{
+  return state;
+}
+
+auto bwWidget::setState(State value) -> bwWidget&
+{
+  state = value;
+  return *this;
+}
+
+auto bwWidget::hide(bool _hidden) -> bwWidget&
+{
+  hidden = _hidden;
+  return *this;
+}
+
+auto bwWidget::isHidden() -> bool
+{
+  return hidden;
+}
+
 auto bwWidget::getLabel() const -> const std::string*
 {
   return nullptr;
