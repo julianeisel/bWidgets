@@ -1,9 +1,11 @@
+# Ignore all dotfiles by default
+.*
+
 build
 CMakeLists.txt.user
 
 # Visual Studio
-.vs/
-.vscode/
 CMakeSettings.json
 
+# Generated docs
 docs/doxygen_html_output/
