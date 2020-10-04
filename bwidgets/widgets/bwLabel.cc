@@ -34,6 +34,12 @@ auto bwLabel::getLabel() const -> const std::string*
   return &text;
 }
 
+auto bwLabel::setLabel(const std::string& label) -> bwLabel&
+{
+  text = label;
+  return *this;
+}
+
 auto bwLabel::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return nullptr;

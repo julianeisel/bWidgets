@@ -20,6 +20,7 @@ class bwAbstractButton : public bwWidget {
   void registerProperties() override;
 
   auto getLabel() const -> const std::string* override;
+  auto setLabel(const std::string& label) -> bwAbstractButton&;
   virtual auto getIcon() const -> const bwIconInterface*;
 
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
@@ -39,7 +40,7 @@ class bwAbstractButton : public bwWidget {
                    std::optional<unsigned int> height_hint = std::nullopt);
   void apply();
 
-  const std::string text;
+  std::string text;
 
  public:
   bwWidgetBaseStyle

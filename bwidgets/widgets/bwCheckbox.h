@@ -6,7 +6,7 @@ namespace bWidgets {
 
 class bwCheckbox : public bwAbstractButton {
  public:
-  bwCheckbox(const std::string& text,
+  bwCheckbox(const std::string& text = "",
              std::optional<unsigned int> width_hint = std::nullopt,
              std::optional<unsigned int> height_hint = std::nullopt);
 

@@ -40,6 +40,11 @@ auto bwAbstractButton::getLabel() const -> const std::string*
 {
   return &text;
 }
+auto bwAbstractButton::setLabel(const std::string& label) -> bwAbstractButton&
+{
+  text = label;
+  return *this;
+}
 
 auto bwAbstractButton::getIcon() const -> const bwIconInterface*
 {
