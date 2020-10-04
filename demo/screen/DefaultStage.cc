@@ -144,9 +144,10 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
     : Stage(mask_width, mask_height)
 {
   using namespace bwScreenGraph;
+  /* Convenience */
+  using RNABuilder = RNAScreenGraphBuilder<DefaultStage>;
 
-  RNAScreenGraphBuilder<DefaultStage> builder(screen_graph, *this, properties);
-  ContainerNode* panel;
+  RNABuilder builder(screen_graph, *this, properties);
 
   registerProperties(properties);
 
@@ -159,43 +160,60 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 
   builder.addWidget<bwLabel>("Font Rendering:");
 
-  builder.addLayout<RowLayout>(true);
-  builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning", "Tight Positioning")
-      .setState(bwWidget::State::SUNKEN);
-  builder.addRNAWidget<bwCheckbox>("font_use_hinting", "Hinting");
+  builder.buildLayout<RowLayout, RNABuilder>([](RNABuilder& builder) {
+    builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning")
+        .setLabel("Tight Positioning")
+        .setState(bwWidget::State::SUNKEN);
+    builder.addRNAWidget<bwCheckbox>("font_use_hinting").setLabel("Hinting");
+  });
 
-  builder.setActiveLayout(screen_graph.Root());
-  builder.addLayout<RowLayout>(false);
-  builder.addRNAWidget<bwCheckbox>("font_use_subpixels", "Subpixel Rendering");
-  builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning", "Subpixel Positioning").hide();
+  builder.buildLayout<RowLayout, RNABuilder>([](RNABuilder& builder) {
+    builder.addRNAWidget<bwCheckbox>("font_use_subpixels").setLabel("Subpixel Rendering");
+    builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning")
+        .setLabel("Subpixel Positioning")
+        .hide();
+  });
 
-  builder.setActiveLayout(screen_graph.Root());
-  panel = &builder.addContainer<bwPanel>(
-      std::make_unique<PanelLayout>(), "Some Testing Widgets", PANEL_HEADER_HEIGHT);
-  builder.addLayout<ColumnLayout>(true);
-  builder.addWidget<bwPushButton>("Translate");
-  builder.addWidget<bwPushButton>("Rotate");
-  builder.addWidget<bwPushButton>("Scale");
+  builder.buildContainer<bwPanel, RNABuilder>(
+      [](RNABuilder& builder) {
+        builder.buildLayout<ColumnLayout>(
+            [](Builder& builder) {
+              builder.addWidget<bwPushButton>("Translate");
+              builder.addWidget<bwPushButton>("Rotate");
+              builder.addWidget<bwPushButton>("Scale");
+            },
+            true);
 
-  builder.setActiveLayout(*panel);
-  builder.addWidget<bwPushButton>("Mirror").setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
+        builder.addWidget<bwPushButton>("Mirror").setIcon(icon_map->getIcon(ICON_MOD_MIRROR));
+      },
+      std::make_unique<PanelLayout>(),
+      "Some Testing Widgets",
+      PANEL_HEADER_HEIGHT);
 
-  builder.setActiveLayout(screen_graph.Root());
-  panel = &builder.addContainer<bwPanel>(
-      std::make_unique<PanelLayout>(), "More Testing...", PANEL_HEADER_HEIGHT);
-  builder.addLayout<RowLayout>(true);
-  builder.addWidget<bwCheckbox>("Make Awesome");
-  builder.addWidget<bwCheckbox>("Wireframes");
+  builder.buildContainer<bwPanel>(
+      [](Builder& builder) {
+        builder.buildLayout<RowLayout>([](Builder& builder) {
+          builder.addWidget<bwCheckbox>("Make Awesome");
+          builder.addWidget<bwCheckbox>("Wireframes");
+        });
 
-  builder.setActiveLayout(*panel);
-  builder.addWidget<bwTextBox>().setText("Some Text...");
+        builder.addWidget<bwTextBox>().setText("Some Text...");
 
-  builder.addLayout<RowLayout>(false);
-  builder.addWidget<bwLabel>("Pose Icon").setIcon(icon_map->getIcon(ICON_POSE_HLT));
-  builder.addWidget<bwLabel>("Normalized FCurve Icon")
-      .setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
-  builder.addWidget<bwLabel>("Chroma Scope Icon")
-      .setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
+        builder.buildLayout<RowLayout>([](Builder& builder) {
+          builder.addWidget<bwLabel>()
+              .setLabel("Pose Icon")
+              .setIcon(icon_map->getIcon(ICON_POSE_HLT));
+          builder.addWidget<bwLabel>()
+              .setLabel("Normalized FCurve Icon")
+              .setIcon(icon_map->getIcon(ICON_NORMALIZE_FCURVES));
+          builder.addWidget<bwLabel>()
+              .setLabel("Chroma Scope Icon")
+              .setIcon(icon_map->getIcon(ICON_SEQ_CHROMA_SCOPE));
+        });
+      },
+      std::make_unique<PanelLayout>(),
+      "More Testing...",
+      PANEL_HEADER_HEIGHT);
 }
 
 auto isUseCSSVersionToggleHidden(const bwStyle& style) -> bool
@@ -206,30 +224,33 @@ auto isUseCSSVersionToggleHidden(const bwStyle& style) -> bool
 
 void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 {
-  RNAScreenGraphBuilder<DefaultStage> builder(parent_node, *this, properties);
+  /* Convenience */
   using namespace bwScreenGraph;
+  using RNABuilder = RNAScreenGraphBuilder<DefaultStage>;
+  RNABuilder builder(parent_node, *this, properties);
 
-  builder.addLayout<RowLayout>(true);
+  builder.buildLayout<RowLayout, RNABuilder>(
+      [](RNABuilder& builder) {
+        builder.addWidget<bwLabel>("Style:").setIcon(icon_map->getIcon(ICON_BLENDER));
 
-  auto& label = builder.addWidget<bwLabel>("Style:");
-  label.setIcon(icon_map->getIcon(ICON_BLENDER));
+        for (const bwStyle::StyleType& type :
+             bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
+          if (type.type_id == bwStyle::TypeID::CLASSIC_CSS) {
+            // A checkbox button is added for this variation later.
+            continue;
+          }
+          auto& style_button = builder.addRNAWidget<bwRadioButton>(
+              int(type.type_id), "style_type", type.name);
 
-  for (const bwStyle::StyleType& type : bwStyleManager::getStyleManager().getBuiltinStyleTypes()) {
-    if (type.type_id == bwStyle::TypeID::CLASSIC_CSS) {
-      // A checkbox button is added for this variation later.
-      continue;
-    }
-    auto& style_button = builder.addRNAWidget<bwRadioButton>(
-        int(type.type_id), "style_type", type.name);
+          if (type.type_id == style->type_id) {
+            style_button.setState(bwAbstractButton::State::SUNKEN);
+          }
+        }
+      },
+      true);
 
-    if (type.type_id == style->type_id) {
-      style_button.setState(bwAbstractButton::State::SUNKEN);
-    }
-  }
-
-  builder.setActiveLayout(parent_node);
-  auto& checkbox = builder.addRNAWidget<bwCheckbox>("style_use_css_version", "Use CSS Version");
-  checkbox.hide(isUseCSSVersionToggleHidden(*style));
+  builder.addRNAWidget<bwCheckbox>("style_use_css_version", "Use CSS Version")
+      .hide(isUseCSSVersionToggleHidden(*style));
 }
 
 void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)

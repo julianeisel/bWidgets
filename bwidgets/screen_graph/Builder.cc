@@ -5,7 +5,7 @@
 namespace bWidgets {
 namespace bwScreenGraph {
 
-Builder::Builder(LayoutNode& active_layout_node) : _active_layout_node(&active_layout_node)
+Builder::Builder(LayoutNode& active_layout_node) : _active_layout_node(active_layout_node)
 {
 }
 
@@ -31,9 +31,15 @@ auto Builder::addWidget(LayoutNode& node, std::unique_ptr<bwWidget> widget) -> b
   return *node_ref.widget;
 }
 
+/**
+ * \brief Activate a layout node.
+ *
+ * Adding further items will add them as children to this node, until a
+ * different layout node is activated.
+ */
 void Builder::setActiveLayout(LayoutNode& node)
 {
-  _active_layout_node = &node;
+  _active_layout_node = node;
 }
 
 }  // namespace bwScreenGraph
