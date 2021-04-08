@@ -1,7 +1,8 @@
 set(INC
 	.
 	generics
-	styles
+	styling
+	styling/styles
 	utils
 	widgets
 )
@@ -10,19 +11,19 @@ set(SRC
 	bwEvent.cc
 	bwEventDispatcher.cc
 	bwPainter.cc
-	bwStyle.cc
-	bwStyleCSS.cc
-	bwStyleManager.cc
-	bwStyleProperties.cc
-	bwWidgetBaseStyle.cc
 	screen_graph/Builder.cc
 	screen_graph/Drawer.cc
 	screen_graph/EventHandler.cc
 	screen_graph/Iterators.cc
-	styles/bwStyleClassic.cc
-	styles/bwStyleFlatGrey.cc
-	styles/bwStyleFlatDark.cc
-	styles/bwStyleFlatLight.cc
+	styling/bwStyle.cc
+	styling/bwStyleCSS.cc
+	styling/bwStyleManager.cc
+	styling/bwStyleProperties.cc
+	styling/bwWidgetBaseStyle.cc
+	styling/styles/bwStyleClassic.cc
+	styling/styles/bwStyleFlatGrey.cc
+	styling/styles/bwStyleFlatDark.cc
+	styling/styles/bwStyleFlatLight.cc
 
 	bwContext.h
 	bwEvent.h
@@ -31,21 +32,21 @@ set(SRC
 	bwLayoutInterface.h
 	bwPaintEngine.h
 	bwPainter.h
-	bwStyle.h
-	bwStyleCSS.h
-	bwStyleManager.h
-	bwStyleProperties.h
-	bwWidgetBaseStyle.h
 	screen_graph/Builder.h
 	screen_graph/Drawer.h
 	screen_graph/EventHandler.h
 	screen_graph/Iterators.h
 	screen_graph/Node.h
 	screen_graph/ScreenGraph.h
-	styles/bwStyleClassic.h
-	styles/bwStyleFlatGrey.h
-	styles/bwStyleFlatDark.h
-	styles/bwStyleFlatLight.h
+	styling/bwStyle.h
+	styling/bwStyleCSS.h
+	styling/bwStyleManager.h
+	styling/bwStyleProperties.h
+	styling/bwWidgetBaseStyle.h
+	styling/styles/bwStyleClassic.h
+	styling/styles/bwStyleFlatGrey.h
+	styling/styles/bwStyleFlatDark.h
+	styling/styles/bwStyleFlatLight.h
 )
 
 set(LIB
