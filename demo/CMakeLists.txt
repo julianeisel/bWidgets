@@ -37,6 +37,7 @@ set(SRC
 	Pixmap.h
 	File.h
 	RNAProperty.h
+	RNAScreenGraphBuilder.h
 	resources/blender_icon_defines.h
 )
 

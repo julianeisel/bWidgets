@@ -48,4 +48,57 @@ class DefaultStage : public Stage {
   const unsigned int padding = 10;
 };
 
+class DefaultStageRNAFunctor : public bwFunctorInterface {
+ public:
+  DefaultStageRNAFunctor(RNAProperties<DefaultStage>& props,
+                         DefaultStage& stage,
+                         const std::string& prop_name,
+                         const bwWidget& widget)
+      : m_props(props), m_stage(stage), m_prop_name(prop_name), m_widget(widget)
+  {
+    /* Sanity check. */
+    assert(props.find(prop_name));
+  }
+
+  DefaultStageRNAFunctor(RNAProperties<DefaultStage>& props,
+                         DefaultStage& stage,
+                         const std::string& prop_name,
+                         const bwWidget& widget,
+                         int enum_value)
+      : DefaultStageRNAFunctor(props, stage, prop_name, widget)
+  {
+    m_enum_value = enum_value;
+  }
+
+  void operator()() override
+  {
+    if (widget_cast<bwCheckbox>(m_widget)) {
+      m_props.set(m_prop_name, m_stage, m_widget.getState() == bwWidget::State::SUNKEN);
+    }
+    else if (auto* slider = widget_cast<bwNumberSlider>(m_widget)) {
+      m_props.set(m_prop_name, m_stage, slider->getValue());
+    }
+    else if (widget_cast<bwRadioButton>(m_widget)) {
+      m_props.set(m_prop_name, m_stage, m_enum_value.value());
+    }
+  }
+
+  const std::string& getPropName() const
+  {
+    return m_prop_name;
+  }
+
+  std::optional<int> getEnumValue() const
+  {
+    return m_enum_value;
+  }
+
+ private:
+  RNAProperties<DefaultStage>& m_props;
+  DefaultStage& m_stage;
+  std::string m_prop_name;
+  const bwWidget& m_widget;
+  std::optional<int> m_enum_value;
+};
+
 }  // namespace bWidgetsDemo
