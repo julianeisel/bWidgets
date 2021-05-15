@@ -16,10 +16,10 @@ class Node;
  * Rather than requiring lookups, bWidgets uses this context data-struture for
  * access to special state widgets.
  */
-struct bwContext {
+class bwContext {
+ public:
   /** The currently hovered node (if any). */
   bwScreenGraph::Node* hovered = nullptr;
-
   /** The currently active widget which gets any input (if any). */
   bwScreenGraph::Node* active = nullptr;
 };

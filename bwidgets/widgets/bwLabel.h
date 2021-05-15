@@ -8,6 +8,7 @@
 namespace bWidgets {
 
 class bwIconInterface;
+class bwStyle;
 
 class bwLabel : public bwWidget {
  public:
@@ -15,7 +16,9 @@ class bwLabel : public bwWidget {
           std::optional<unsigned int> width_hint = std::nullopt,
           std::optional<unsigned int> height_hint = std::nullopt);
 
-  void draw(class bwStyle& style) override;
+  void draw(bwStyle& style) override;
+  auto operator==(const bwWidget& widget) const -> bool override;
+
   void registerProperties() override;
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 

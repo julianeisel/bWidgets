@@ -26,6 +26,8 @@
 #include "IconMap.h"
 #include "Layout.h"
 
+#include "RNAScreenGraphBuilder.h"
+
 #include "bwCheckbox.h"
 #include "bwLabel.h"
 #include "bwNumberSlider.h"
@@ -37,6 +39,7 @@
 #include "screen_graph/Iterators.h"
 
 #include "DefaultStage.h"
+#include "DefaultStageRNAFunctor.h"
 
 using namespace bWidgets;  // Less verbose
 
@@ -47,13 +50,16 @@ namespace bWidgetsDemo {
 DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
     : Stage(mask_width, mask_height)
 {
+  registerProperties(properties);
+}
+
+void DefaultStage::constructUI()
+{
   using namespace bwScreenGraph;
   /* Convenience */
-  using RNABuilder = RNAScreenGraphBuilder<DefaultStage>;
+  using RNABuilder = RNAScreenGraphBuilder<DefaultStage, DefaultStageRNAFunctor>;
 
   RNABuilder builder(screen_graph, *this, properties);
-
-  registerProperties(properties);
 
   addStyleSelector(screen_graph.Root());
 
@@ -130,7 +136,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 {
   /* Convenience */
   using namespace bwScreenGraph;
-  using RNABuilder = RNAScreenGraphBuilder<DefaultStage>;
+  using RNABuilder = RNAScreenGraphBuilder<DefaultStage, DefaultStageRNAFunctor>;
   RNABuilder builder(parent_node, *this, properties);
 
   builder.buildLayout<RowLayout, RNABuilder>(

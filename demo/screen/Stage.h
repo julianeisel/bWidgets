@@ -46,6 +46,7 @@ class Stage {
   virtual ~Stage();
 
   void draw();
+  virtual void constructUI() = 0;
 
   void handleMouseMovementEvent(const MouseEvent& event);
   void handleMouseButtonEvent(const MouseEvent& event);
@@ -81,6 +82,7 @@ class Stage {
   void initFonts();
   void initIcons();
   void setStyleSheet(const std::string& filepath);
+  void updateStyling(bWidgets::bwColor& clear_color);
 };
 
 }  // namespace bWidgetsDemo

@@ -13,8 +13,9 @@ class bwTextBox : public bwWidget {
             std::optional<unsigned int> height_hint = std::nullopt);
 
   void draw(class bwStyle& style) override;
-  void registerProperties() override;
+  auto operator==(const bwWidget& other) const -> bool override;
 
+  void registerProperties() override;
   auto setText(const std::string& value) -> bwTextBox&;
   auto getLabel() const -> const std::string* override;
 

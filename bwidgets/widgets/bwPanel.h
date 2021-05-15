@@ -4,6 +4,8 @@
 
 namespace bWidgets {
 
+class bwStyle;
+
 class bwPanel : public bwContainerWidget {
   friend class bwPanelHandler;
 
@@ -16,8 +18,9 @@ class bwPanel : public bwContainerWidget {
   bwPanel(const bwScreenGraph::ContainerNode& node,
           std::string label,
           std::optional<unsigned int> header_height_hint = std::nullopt);
+  auto operator==(const bwWidget &other) const -> bool override;
 
-  void draw(class bwStyle& style) override;
+  void draw(bwStyle& style) override;
 
   void registerProperties() override;
 

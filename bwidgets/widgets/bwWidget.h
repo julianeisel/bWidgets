@@ -46,6 +46,8 @@ class bwWidget {
   virtual auto canAlign() const -> bool;
   virtual auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
+  virtual auto operator==(const bwWidget& other) const -> bool = 0;
+
   /**
    * Final rectangle defining the widget bounding-box.
    * \note This really is assumed to be the final bounding-box, bwStyle.dpi_fac will not get

@@ -15,6 +15,7 @@ class bwNumberSlider : public bwTextBox {
                  std::optional<unsigned int> height_hint = std::nullopt);
 
   void draw(bwStyle& style) override;
+  auto operator==(const bwWidget& other) const -> bool override;
 
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 

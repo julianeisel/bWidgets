@@ -30,8 +30,10 @@ namespace bWidgets {
  */
 class bwFunctorInterface {
  public:
-  virtual void operator()() = 0;
   virtual ~bwFunctorInterface() = default;
+
+  virtual void operator()() = 0;
+  virtual auto operator==(const bwFunctorInterface& other) const -> bool = 0;
 };
 
 }  // namespace bWidgets

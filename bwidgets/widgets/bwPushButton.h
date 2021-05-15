@@ -12,6 +12,8 @@ class bwPushButton : public bwAbstractButton {
                std::optional<unsigned int> width_hint = std::nullopt,
                std::optional<unsigned int> height_hint = std::nullopt);
 
+  auto operator==(const bwWidget& other) const -> bool override;
+
   auto getIcon() const -> const bwIconInterface* override;
   auto setIcon(const class bwIconInterface&) -> bwPushButton&;
 

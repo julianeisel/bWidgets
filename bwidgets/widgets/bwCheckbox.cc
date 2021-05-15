@@ -38,6 +38,16 @@ void bwCheckbox::draw(bwStyle& style)
   painter.drawText(text, text_rect, base_style.text_alignment);
 }
 
+auto bwCheckbox::operator==(const bwWidget& other) const -> bool
+{
+  const bwCheckbox* other_checkbox = widget_cast<bwCheckbox>(other);
+  if (!other_checkbox) {
+    return false;
+  }
+
+  return bwAbstractButton::operator==(other);
+}
+
 auto bwCheckbox::isChecked() const -> bool
 {
   return getState() == State::SUNKEN;

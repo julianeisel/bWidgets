@@ -1,6 +1,7 @@
 set(INC
 	.
 	generics
+	screen_graph
 	styling
 	styling/styles
 	utils
@@ -12,6 +13,7 @@ set(SRC
 	bwEventDispatcher.cc
 	bwPainter.cc
 	screen_graph/Builder.cc
+	screen_graph/Constructor.cc
 	screen_graph/Drawer.cc
 	screen_graph/EventHandler.cc
 	screen_graph/Iterators.cc
@@ -33,6 +35,7 @@ set(SRC
 	bwPaintEngine.h
 	bwPainter.h
 	screen_graph/Builder.h
+	screen_graph/Constructor.cc
 	screen_graph/Drawer.h
 	screen_graph/EventHandler.h
 	screen_graph/Iterators.h

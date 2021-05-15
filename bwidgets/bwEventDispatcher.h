@@ -7,7 +7,7 @@
 
 namespace bWidgets {
 
-struct bwContext;
+class bwContext;
 namespace bwScreenGraph {
 class ScreenGraph;
 class Node;

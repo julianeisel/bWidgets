@@ -34,6 +34,16 @@ void bwTextBox::draw(bwStyle& style)
   painter.drawText(text, rectangle, base_style.text_alignment);
 }
 
+auto bwTextBox::operator==(const bwWidget& other) const -> bool
+{
+  const bwTextBox* other_textbox = widget_cast<bwTextBox>(other);
+  if (!other_textbox) {
+    return false;
+  }
+
+  return (text == other_textbox->text) && (is_text_editing == other_textbox->is_text_editing);
+}
+
 void bwTextBox::registerProperties()
 {
   base_style.registerProperties(style_properties);

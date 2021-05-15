@@ -11,6 +11,7 @@ class bwCheckbox : public bwAbstractButton {
              std::optional<unsigned int> height_hint = std::nullopt);
 
   void draw(class bwStyle& style) override;
+  auto operator==(const bwWidget& other) const -> bool override;
 
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 

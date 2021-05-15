@@ -31,6 +31,7 @@
 #include "bwStyleCSS.h"
 #include "bwStyleManager.h"
 #include "screen_graph/Builder.h"
+#include "screen_graph/Constructor.h"
 #include "screen_graph/Drawer.h"
 #include "screen_graph/Iterators.h"
 
@@ -55,6 +56,7 @@ std::unique_ptr<Font> Stage::font = nullptr;
 std::unique_ptr<IconMap> Stage::icon_map = nullptr;
 float Stage::interface_scale = 1.0f;
 
+#if 0
 auto createScreenGraph(const unsigned int width, const unsigned int height)
     -> bwScreenGraph::ScreenGraph
 {
@@ -69,9 +71,10 @@ auto createScreenGraph(const unsigned int width, const unsigned int height)
 
   return bwScreenGraph::ScreenGraph(std::move(container));
 }
+#endif
 
 Stage::Stage(const unsigned int width, const unsigned int height)
-    : screen_graph(createScreenGraph(width, height)), mask_width(width), mask_height(height)
+    : screen_graph(), mask_width(width), mask_height(height)
 {
   initFonts();
   initIcons();
@@ -116,11 +119,9 @@ void Stage::activateStyleID(bwStyle::TypeID type_id)
   style->dpi_fac = interface_scale;
 }
 
-void Stage::draw()
+void Stage::updateStyling(bwColor& clear_color)
 {
-  bwRectanglePixel stage_rect{0, int(mask_width) - 1, 0, int(mask_height - 1)};
   bwStyleProperties properties;
-  bwColor clear_color{114u};
 
   if (style->type_id == bwStyle::TypeID::CLASSIC_CSS) {
     setStyleSheet(std::string(RESOURCES_PATH_STR) + "/" + "classic_style.css");
@@ -139,10 +140,34 @@ void Stage::draw()
   if (style_sheet) {
     style_sheet->resolveValue("Stage", bwWidget::State::NORMAL, property);
   }
+}
+
+void Stage::draw()
+{
+  bwColor clear_color{114u};
+  updateStyling(clear_color);
+
+  bwScreenGraph::Constructor::reconstruct(screen_graph, [this] {
+    using namespace bwScreenGraph;
+
+    auto container = std::make_unique<bwScreenGraph::ContainerNode>();
+    auto layout = std::make_unique<ScrollViewLayout>();
+    auto scroll_view = std::make_unique<bwScrollView>(*container, mask_width, mask_height);
+
+    layout->padding = 7;
+    layout->item_margin = 5;
+    bwScreenGraph::Builder::setLayout(*container, std::move(layout));
+    bwScreenGraph::Builder::setWidget(*container, std::move(scroll_view));
+
+    screen_graph.Root(std::move(container));
+
+    constructUI();
+  });
+
+  bwRectanglePixel stage_rect{0, int(mask_width) - 1, 0, int(mask_height - 1)};
+  resolveScreenGraphNodeLayout(screen_graph.Root(), stage_rect, interface_scale);
 
   bwPainter::s_paint_engine->setupViewport(stage_rect, clear_color);
-
-  resolveScreenGraphNodeLayout(screen_graph.Root(), stage_rect, interface_scale);
   bwScreenGraph::Drawer::draw(screen_graph, *style);
 }
 

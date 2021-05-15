@@ -1,5 +1,5 @@
-#include <cmath>
 #include <cassert>
+#include <cmath>
 
 #include "bwEvent.h"
 #include "bwPainter.h"
@@ -74,6 +74,17 @@ void bwScrollView::draw(bwStyle& style)
   if (isScrollable()) {
     drawScrollBars(style);
   }
+}
+
+auto bwScrollView::operator==(const bwWidget& other) const -> bool
+{
+  const bwScrollView* other_scroll_view = widget_cast<bwScrollView>(other);
+  if (!other_scroll_view) {
+    return false;
+  }
+
+  /* TODO check parent (or identifier?). */
+  return *scrollbar_node->Widget() == *other_scroll_view->scrollbar_node->Widget();
 }
 
 void bwScrollView::validizeScrollValues()

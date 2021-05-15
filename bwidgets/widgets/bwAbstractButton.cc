@@ -31,6 +31,17 @@ void bwAbstractButton::draw(bwStyle& style)
   painter.drawTextAndIcon(text, getIcon(), rectangle, base_style.text_alignment, style.dpi_fac);
 }
 
+auto bwAbstractButton::operator==(const bwWidget& other) const -> bool
+{
+  const bwAbstractButton* other_button = widget_cast<bwAbstractButton>(other);
+  if (other_button) {
+    return false;
+  }
+
+  /* The functors require an equality operator as well. */
+  return *apply_functor == *other_button->apply_functor;
+}
+
 void bwAbstractButton::registerProperties()
 {
   base_style.registerProperties(style_properties);
