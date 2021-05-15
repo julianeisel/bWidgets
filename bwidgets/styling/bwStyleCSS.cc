@@ -3,8 +3,7 @@
 
 #include "bwStyleCSS.h"
 
-#include "bwPanel.h"
-#include "bwTextBox.h"  // XXX Ugly
+#include "builtin_widgets.h"
 
 namespace bWidgets {
 

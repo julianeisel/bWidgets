@@ -4,7 +4,6 @@
 
 #include "Node.h"
 #include "ScreenGraph.h"
-#include "bwWidget.h"
 
 namespace bWidgets {
 namespace bwScreenGraph {

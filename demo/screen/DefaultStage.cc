@@ -28,12 +28,9 @@
 #include "Layout.h"
 #include "RNAScreenGraphBuilder.h"
 
-#include "bwCheckbox.h"
-#include "bwLabel.h"
-#include "bwNumberSlider.h"
-#include "bwPanel.h"
-#include "bwPushButton.h"
-#include "bwRadioButton.h"
+#include "RNAScreenGraphBuilder.h"
+
+#include "builtin_widgets.h"
 #include "bwStyleManager.h"
 #include "screen_graph/Builder.h"
 #include "screen_graph/Iterators.h"

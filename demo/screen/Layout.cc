@@ -22,10 +22,8 @@
 #include <cassert>
 #include <iostream>
 
-#include "bwAbstractButton.h"
+#include "builtin_widgets.h"
 #include "bwPainter.h"
-#include "bwPanel.h"
-#include "bwScrollView.h"
 
 #include "Layout.h"
 

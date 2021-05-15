@@ -1,15 +1,7 @@
 #include <cassert>
 
-#include "bwAbstractButton.h"
-#include "bwCheckbox.h"
-#include "bwNumberSlider.h"
+#include "builtin_widgets.h"
 #include "bwPainter.h"
-#include "bwPanel.h"
-#include "bwPushButton.h"
-#include "bwRadioButton.h"
-#include "bwScrollBar.h"
-#include "bwScrollView.h"
-#include "bwTextBox.h"
 
 #include "bwStyleClassic.h"
 

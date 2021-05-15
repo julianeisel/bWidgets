@@ -15,6 +15,7 @@ set(SRC
 	bwTextBox.cc
 	bwWidget.cc
 
+	builtin_widgets.h
 	bwAbstractButton.h
 	bwCheckbox.h
 	bwContainerWidget.h

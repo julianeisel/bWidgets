@@ -19,9 +19,7 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include "bwCheckbox.h"
-#include "bwNumberSlider.h"
-#include "bwRadioButton.h"
+#include "builtin_widgets.h"
 
 #include "DefaultStageRNAFunctor.h"
 
@@ -61,6 +59,7 @@ void DefaultStageRNAFunctor::operator()()
     m_props.set(m_prop_name, m_stage, m_enum_value.value());
   }
 }
+
 const std::string& DefaultStageRNAFunctor::getPropName() const
 {
   return m_prop_name;
