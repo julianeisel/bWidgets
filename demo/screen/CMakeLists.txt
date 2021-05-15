@@ -33,6 +33,7 @@ set(INC
 
 set(SRC
 	DefaultStage.cc
+	DefaultStageRNAFunctor.cc
 	Font.cc
 	GawainPaintEngine.cc
 	IconMap.cc
@@ -40,6 +41,7 @@ set(SRC
 	Stage.cc
 
 	DefaultStage.h
+	DefaultStageRNAFunctor.h
 	Font.h
 	GawainPaintEngine.h
 	IconMap.h

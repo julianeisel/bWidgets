@@ -23,8 +23,10 @@
 
 #include "blender_icon_defines.h"
 
+#include "DefaultStageRNAFunctor.h"
 #include "IconMap.h"
 #include "Layout.h"
+#include "RNAScreenGraphBuilder.h"
 
 #include "bwCheckbox.h"
 #include "bwLabel.h"
@@ -49,7 +51,7 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
 {
   using namespace bwScreenGraph;
   /* Convenience */
-  using RNABuilder = RNAScreenGraphBuilder<DefaultStage>;
+  using RNABuilder = RNAScreenGraphBuilder<DefaultStage, DefaultStageRNAFunctor>;
 
   RNABuilder builder(screen_graph, *this, properties);
 
@@ -130,7 +132,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
 {
   /* Convenience */
   using namespace bwScreenGraph;
-  using RNABuilder = RNAScreenGraphBuilder<DefaultStage>;
+  using RNABuilder = RNAScreenGraphBuilder<DefaultStage, DefaultStageRNAFunctor>;
   RNABuilder builder(parent_node, *this, properties);
 
   builder.buildLayout<RowLayout, RNABuilder>(

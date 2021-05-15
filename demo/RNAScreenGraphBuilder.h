@@ -21,17 +21,26 @@
 
 #pragma once
 
+#include "RNAProperty.h"
+
+#include "screen_graph/Builder.h"
+
+namespace bWidgets {
+class bwRadioButton;
+}
+
 namespace bWidgetsDemo {
 
-template<typename _Obj> class RNAScreenGraphBuilder : public bwScreenGraph::Builder {
+template<typename _Obj, typename _Func>
+class RNAScreenGraphBuilder : public bWidgets::bwScreenGraph::Builder {
  public:
-  RNAScreenGraphBuilder(bwScreenGraph::LayoutNode& node,
+  RNAScreenGraphBuilder(bWidgets::bwScreenGraph::LayoutNode& node,
                         _Obj& obj,
                         RNAProperties<_Obj>& properties)
-      : bwScreenGraph::Builder(node), m_obj(obj), m_props(properties)
+      : bWidgets::bwScreenGraph::Builder(node), m_obj(obj), m_props(properties)
   {
   }
-  RNAScreenGraphBuilder(bwScreenGraph::ScreenGraph& screen_graph,
+  RNAScreenGraphBuilder(bWidgets::bwScreenGraph::ScreenGraph& screen_graph,
                         _Obj& obj,
                         RNAProperties<_Obj>& properties)
       : RNAScreenGraphBuilder(screen_graph.Root(), obj, properties)
@@ -41,21 +50,21 @@ template<typename _Obj> class RNAScreenGraphBuilder : public bwScreenGraph::Buil
   template<typename _WidgetType, typename... _Args>
   _WidgetType& addRNAWidget(const std::string& propname, _Args&&... __args)
   {
-    _WidgetType& widget = Builder::addWidget<_WidgetType>(std::forward<_Args>(__args)...);
-    static_assert(!std::is_same<_WidgetType, bwRadioButton>::value,
+    _WidgetType& widget = bWidgets::bwScreenGraph::Builder::addWidget<_WidgetType>(
+        std::forward<_Args>(__args)...);
+    static_assert(!std::is_same<_WidgetType, bWidgets::bwRadioButton>::value,
                   "RNAScreenGraphBuilder: For bwRadioButton, addRNAWidget overload with enum "
                   "value should be called.");
-    widget.apply_functor = std::make_unique<DefaultStageRNAFunctor>(
-        m_props, m_obj, propname, widget);
+    widget.apply_functor = std::make_unique<_Func>(m_props, m_obj, propname, widget);
     return widget;
   }
 
   template<typename _WidgetType, typename... _Args>
   _WidgetType& addRNAWidget(int enum_value, const std::string& propname, _Args&&... __args)
   {
-    _WidgetType& widget = Builder::addWidget<_WidgetType>(std::forward<_Args>(__args)...);
-    widget.apply_functor = std::make_unique<DefaultStageRNAFunctor>(
-        m_props, m_obj, propname, widget, enum_value);
+    _WidgetType& widget = bWidgets::bwScreenGraph::Builder::addWidget<_WidgetType>(
+        std::forward<_Args>(__args)...);
+    widget.apply_functor = std::make_unique<_Func>(m_props, m_obj, propname, widget, enum_value);
     return widget;
   }
 
@@ -64,4 +73,4 @@ template<typename _Obj> class RNAScreenGraphBuilder : public bwScreenGraph::Buil
   RNAProperties<_Obj>& m_props;
 };
 
-}
+}  // namespace bWidgetsDemo
