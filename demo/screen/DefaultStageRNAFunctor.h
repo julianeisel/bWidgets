@@ -58,4 +58,5 @@ class DefaultStageRNAFunctor : public bWidgets::bwFunctorInterface {
   const bWidgets::bwWidget& m_widget;
   std::optional<int> m_enum_value;
 };
+
 }  // namespace bWidgetsDemo

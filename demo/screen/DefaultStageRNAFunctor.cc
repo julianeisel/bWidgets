@@ -19,9 +19,7 @@
  * ***** END GPL LICENSE BLOCK *****
  */
 
-#include "bwCheckbox.h"
-#include "bwNumberSlider.h"
-#include "bwRadioButton.h"
+#include "builtin_widgets.h"
 
 #include "DefaultStageRNAFunctor.h"
 

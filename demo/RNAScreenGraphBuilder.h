@@ -62,7 +62,8 @@ class RNAScreenGraphBuilder : public bWidgets::bwScreenGraph::Builder {
   template<typename _WidgetType, typename... _Args>
   _WidgetType& addRNAWidget(int enum_value, const std::string& propname, _Args&&... __args)
   {
-    _WidgetType& widget = Builder::addWidget<_WidgetType>(std::forward<_Args>(__args)...);
+    _WidgetType& widget = bWidgets::bwScreenGraph::Builder::addWidget<_WidgetType>(
+        std::forward<_Args>(__args)...);
     widget.apply_functor = std::make_unique<_Func>(m_props, m_obj, propname, widget, enum_value);
     return widget;
   }
