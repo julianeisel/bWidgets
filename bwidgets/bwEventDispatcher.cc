@@ -83,7 +83,7 @@ void bwEventDispatcher::dispatchMouseButtonPress(bwMouseButtonEvent& event)
   drag_event.emplace(event.button, event.location);
 
   if (!context.active) {
-    context.active = make_persistent_ref(screen_graph, node, "bwContext.active");
+    context.active = make_persistent_ptr(screen_graph, node, "bwContext.active");
   }
 }
 
@@ -144,10 +144,11 @@ void bwEventDispatcher::changeContextHovered(Node* new_hovered, bwEvent& event)
   }
 
   if (old_hovered != new_hovered) {
-    /* We could in principle allow registering a callback for the persistent reference, for when
-     * the reference is cleared. That way we could still call the onMouseLeave() handler, or some
-     * other handler. Currently not needed or useful though. */
-    context.hovered = make_persistent_ref(screen_graph, new_hovered, "bwContext.hovered");
+    /* We could in principle allow registering a callback for the persistent pointers, for when the
+     * pointer is destructed. That way we could still call the onMouseLeave() handler if the
+     * hovered widget cannot be found anymore after redraw/reconstruction. Currently not needed or
+     * useful though. */
+    context.hovered = make_persistent_ptr(screen_graph, new_hovered, "bwContext.hovered");
   }
 }
 

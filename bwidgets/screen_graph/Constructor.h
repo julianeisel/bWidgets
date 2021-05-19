@@ -14,12 +14,12 @@ class Constructor {
   static void reconstruct(ScreenGraph& screen_graph, ConstructionFunc construct_func);
 
  private:
-  static void updatePersistentRefsFromOld(ScreenGraph& screen_graph,
-                                          Node& new_subtree,
+  static void updatePersistentPointersFromOld(ScreenGraph& screen_graph,
+                                              Node& new_subtree,
+                                              const Node& old_subtree);
+  static void clearDanglingPersistentPointers(ScreenGraph& screen_graph, const Node& old_subtree);
+  static void checkSanePersistentPointers(bWidgets::bwScreenGraph::ScreenGraph& screen_graph,
                                           const Node& old_subtree);
-  static void clearDanglingPersistentRefs(ScreenGraph& screen_graph, const Node& old_subtree);
-  static void checkSanePersistentRefs(bWidgets::bwScreenGraph::ScreenGraph& screen_graph,
-                                      const Node& old_subtree);
 };
 
 }  // namespace bwScreenGraph

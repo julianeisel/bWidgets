@@ -1,6 +1,6 @@
 #pragma once
 
-#include "screen_graph/PersistentRef.h"
+#include "screen_graph/PersistentPtr.h"
 
 namespace bWidgets {
 
@@ -21,9 +21,9 @@ class Node;
 class bwContext {
  public:
   /** The currently hovered node (if any). */
-  bwScreenGraph::PersistentNodeRef hovered = nullptr;
+  bwScreenGraph::PersistentNodePtr hovered = nullptr;
   /** The currently active widget which gets any input (if any). */
-  bwScreenGraph::PersistentNodeRef active = nullptr;
+  bwScreenGraph::PersistentNodePtr active = nullptr;
 };
 
 }  // namespace bWidgets

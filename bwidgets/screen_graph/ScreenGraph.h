@@ -5,7 +5,7 @@
 #include "bwContext.h"
 #include "bwEventDispatcher.h"
 
-#include "PersistentRef.h"
+#include "PersistentPtr.h"
 
 namespace bWidgets {
 namespace bwScreenGraph {
@@ -39,11 +39,11 @@ class ScreenGraph {
     return root_node.get();
   }
 
-  friend inline PersistentNodeRef make_persistent_ref(ScreenGraph& screen_graph,
+  friend inline PersistentNodePtr make_persistent_ptr(ScreenGraph& screen_graph,
                                                       Node* node,
                                                       const char* debug_name)
   {
-    return screen_graph.persistent_node_registry_.make_persistent_ref(node, debug_name);
+    return screen_graph.persistent_node_registry_.make_persistent_ptr(node, debug_name);
   }
 
   /** The context describing the state of this screen-graph */

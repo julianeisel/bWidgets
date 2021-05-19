@@ -16,7 +16,7 @@ namespace bWidgets::bwScreenGraph {
 void Constructor::reconstruct(ScreenGraph& screen_graph, ConstructionFunc construct_func)
 {
   /* Take over ownership of the old screen graph tree. Keep it alive until the end of this
-   * function, so persistent node references can get updated/rebound. */
+   * function, so persistent node pointers can get updated/rebound. */
   std::unique_ptr<Node> old_root = std::move(screen_graph.root_node);
 
   screen_graph.Root(construct_func());
@@ -24,47 +24,48 @@ void Constructor::reconstruct(ScreenGraph& screen_graph, ConstructionFunc constr
     return;
   }
 
-  updatePersistentRefsFromOld(screen_graph, *screen_graph.Root(), *old_root);
+  updatePersistentPointersFromOld(screen_graph, *screen_graph.Root(), *old_root);
+}
 
-  /* Debug-only sanity check: Ensure the registry doesn't reference any old nodes anymore. They
+void Constructor::updatePersistentPointersFromOld(ScreenGraph& screen_graph,
+                                                  Node& new_subtree,
+                                                  const Node& old_subtree)
+{
+  for (Node& iter_node : new_subtree) {
+    /* There is a matching persistent pointer to `iter_node`. That means we found a reconstructed
+     * node that other code wants to keep a persistent pointer to. Update it. */
+    screen_graph.persistent_node_registry_.updateMatching(iter_node);
+  }
+  clearDanglingPersistentPointers(screen_graph, old_subtree);
+
+  screen_graph.persistent_node_registry_.cleanupUnused();
+
+  /* Debug-only sanity check: Ensure the registry doesn't point to any old nodes anymore. They
    * will be freed when leaving this current function. */
 #ifndef NDEBUG
-  checkSanePersistentRefs(screen_graph, *old_root);
+  checkSanePersistentPointers(screen_graph, old_subtree);
 #endif
 }
 
-void Constructor::updatePersistentRefsFromOld(ScreenGraph& screen_graph,
-                                              Node& new_subtree,
-                                              const Node& old_subtree)
-{
-  for (Node& iter_node : new_subtree) {
-    /* There is a matching reference to `iter_node`. That means we found a reconstructed node
-     * that other code wants to keep a persistent reference to. Update it. */
-    screen_graph.persistent_node_registry_.updateMatchingRefs(iter_node);
-  }
-  clearDanglingPersistentRefs(screen_graph, old_subtree);
-
-  screen_graph.persistent_node_registry_.cleanupUnusedRefs();
-}
-
 /**
- * There may be persistent references that could not be found in the new tree. Either because they
+ * There may be persistent pointers that could not be found in the new tree. Either because they
  * were removed or their equality check failed (the #bwWidget::operator==() override). Such
- * references must be cleared.
+ * pointers must be unset.
  */
-void Constructor::clearDanglingPersistentRefs(ScreenGraph& screen_graph, const Node& old_subtree)
+void Constructor::clearDanglingPersistentPointers(ScreenGraph& screen_graph,
+                                                  const Node& old_subtree)
 {
   for (const Node& old_node : const_cast<Node&>(old_subtree)) {
-    screen_graph.persistent_node_registry_.clearRefsToNode(old_node);
+    screen_graph.persistent_node_registry_.removePtrsToNode(old_node);
   }
 }
 
-void Constructor::checkSanePersistentRefs(ScreenGraph& screen_graph, const Node& old_subtree)
+void Constructor::checkSanePersistentPointers(ScreenGraph& screen_graph, const Node& old_subtree)
 {
   for (const Node& old_node : const_cast<Node&>(old_subtree)) {
-    if (screen_graph.persistent_node_registry_.hasExactRef(old_node)) {
-      std::cerr << "Fatal error: Persistent node registry references data to be destructed. "
-                   "This is a bug!"
+    if (screen_graph.persistent_node_registry_.hasPointerWithAddress(old_node)) {
+      std::cerr << "Fatal error: Persistent node registry points to data to be destructed. This "
+                   "is a bug!"
                 << std::endl;
       assert(0);
     }

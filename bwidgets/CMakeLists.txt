@@ -17,7 +17,7 @@ set(SRC
 	screen_graph/Drawer.cc
 	screen_graph/EventHandler.cc
 	screen_graph/Iterators.cc
-	screen_graph/PersistentRef.cc
+	screen_graph/PersistentPtr.cc
 	styling/bwStyle.cc
 	styling/bwStyleCSS.cc
 	styling/bwStyleManager.cc
@@ -42,7 +42,7 @@ set(SRC
 	screen_graph/Iterators.h
 	screen_graph/Node.h
 	screen_graph/ScreenGraph.h
-	screen_graph/PersistentRef.h
+	screen_graph/PersistentPtr.h
 	styling/bwStyle.h
 	styling/bwStyleCSS.h
 	styling/bwStyleManager.h
