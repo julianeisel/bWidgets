@@ -34,6 +34,14 @@ class bwWidget {
            std::optional<unsigned int> height_hint);
   virtual ~bwWidget() = default;
 
+  /* Disable these constructors/operators. Not really needed and would add complexity for
+   * sub-classes. */
+  bwWidget() = delete;
+  bwWidget(const bwWidget&) = delete;
+  bwWidget(bwWidget&&) = delete;
+  auto operator=(const bwWidget&) = delete;
+  auto operator=(bwWidget&&) = delete;
+
   auto getIdentifier() const -> const std::string&;
   auto getState() const -> State;
   auto setState(State) -> bwWidget&;
