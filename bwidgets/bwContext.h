@@ -1,5 +1,7 @@
 #pragma once
 
+#include "screen_graph/PersistentRef.h"
+
 namespace bWidgets {
 
 class bwWidget;
@@ -19,9 +21,9 @@ class Node;
 class bwContext {
  public:
   /** The currently hovered node (if any). */
-  bwScreenGraph::Node* hovered = nullptr;
+  bwScreenGraph::PersistentNodeRef hovered = nullptr;
   /** The currently active widget which gets any input (if any). */
-  bwScreenGraph::Node* active = nullptr;
+  bwScreenGraph::PersistentNodeRef active = nullptr;
 };
 
 }  // namespace bWidgets

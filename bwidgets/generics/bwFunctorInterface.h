@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace bWidgets {
 
 /**
@@ -35,5 +37,32 @@ class bwFunctorInterface {
   virtual void operator()() = 0;
   virtual auto operator==(const bwFunctorInterface& other) const -> bool = 0;
 };
+
+/**
+ * Utility to compare to #bwFunctorInterface pointers for equality, including value equality.
+ * Should always be done the same way.
+ * Considers the case where both functors are `nullptr` as not equal.
+ */
+inline auto compareFunctors(const bwFunctorInterface* a, const bwFunctorInterface* b) -> bool
+{
+  if (a && (a == b)) {
+    return true;
+  }
+  /* If they are not equal, and one is nullptr, there's no match. */
+  if (!a || !b) {
+    return false;
+  }
+  /* Lastly, do value comparison. */
+  return *a == *b;
+}
+
+/**
+ * Convenience wrapper using `std::unique_ptr` references.
+ */
+inline auto compareFunctors(const std::unique_ptr<bwFunctorInterface>& a,
+                            const std::unique_ptr<bwFunctorInterface>& b) -> bool
+{
+  return compareFunctors(a.get(), b.get());
+}
 
 }  // namespace bWidgets

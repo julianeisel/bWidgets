@@ -16,8 +16,11 @@ Drawer::Drawer(bwStyle& _style) : style(_style)
 
 void Drawer::draw(bwScreenGraph::ScreenGraph& screen_graph, bwStyle& style)
 {
+  if (!screen_graph.Root()) {
+    return;
+  }
   Drawer drawer{style};
-  drawer.drawSubtreeRecursive(screen_graph.Root());
+  drawer.drawSubtreeRecursive(*screen_graph.Root());
 }
 
 void Drawer::drawSubtree(Node& subtree_root, bwStyle& style)

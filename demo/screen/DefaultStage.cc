@@ -50,15 +50,15 @@ DefaultStage::DefaultStage(unsigned int mask_width, unsigned int mask_height)
   registerProperties(properties);
 }
 
-void DefaultStage::constructUI()
+void DefaultStage::constructUI(bwScreenGraph::LayoutNode& parent)
 {
   using namespace bwScreenGraph;
   /* Convenience */
   using RNABuilder = RNAScreenGraphBuilder<DefaultStage, DefaultStageRNAFunctor>;
 
-  RNABuilder builder(screen_graph, *this, properties);
+  RNABuilder builder(parent, *this, properties);
 
-  addStyleSelector(screen_graph.Root());
+  addStyleSelector(parent);
 
   builder.addRNAWidget<bwNumberSlider>("interface_scale")
       .setMinMax(0.5f, 2.0f)
@@ -249,7 +249,7 @@ void DefaultStage::activateStyleID(bwStyle::TypeID type_id)
 
 void DefaultStage::updateFontAAMode(bool value)
 {
-  for (bwScreenGraph::Node& node : screen_graph.Root()) {
+  for (bwScreenGraph::Node& node : screen_graph) {
     bwWidget* widget = node.Widget();
     if (!widget) {
       continue;

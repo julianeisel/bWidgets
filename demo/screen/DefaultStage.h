@@ -32,7 +32,7 @@ class DefaultStage : public Stage {
  public:
   DefaultStage(unsigned int mask_width, unsigned int mask_height);
 
-  void constructUI() override;
+  void constructUI(bWidgets::bwScreenGraph::LayoutNode& parent) override;
 
  private:
   void registerProperties(RNAProperties<DefaultStage>& properties);

@@ -46,7 +46,7 @@ class Stage {
   virtual ~Stage();
 
   void draw();
-  virtual void constructUI() = 0;
+  virtual void constructUI(bWidgets::bwScreenGraph::LayoutNode&) = 0;
 
   void handleMouseMovementEvent(const MouseEvent& event);
   void handleMouseButtonEvent(const MouseEvent& event);

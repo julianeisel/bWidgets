@@ -8,6 +8,11 @@
 namespace bWidgets {
 namespace bwScreenGraph {
 
+class AbstractNodeIterator {
+ protected:
+  virtual ~AbstractNodeIterator() = default;
+};
+
 /**
  * \brief Iterator for pre-order (depth-first) traversal.
  *
@@ -22,7 +27,7 @@ namespace bwScreenGraph {
  * memory to keep information about visited ancestors up to the root of
  * iteration. Even that only adds trivial overhead though.
  */
-class PreOrderIterator {
+class PreOrderIterator : public AbstractNodeIterator {
  public:
   PreOrderIterator();
   PreOrderIterator(Node& node);

@@ -68,7 +68,8 @@ auto DefaultStageRNAFunctor::operator==(const bWidgets::bwFunctorInterface& othe
     return false;
   }
 
-  return (&m_stage == &other_functor->m_stage) == (m_prop_name == other_functor->m_prop_name);
+  return (&m_stage == &other_functor->m_stage) && (m_prop_name == other_functor->m_prop_name) &&
+         (m_enum_value == other_functor->m_enum_value);
 }
 
 const std::string& DefaultStageRNAFunctor::getPropName() const

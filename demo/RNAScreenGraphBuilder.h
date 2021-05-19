@@ -43,8 +43,11 @@ class RNAScreenGraphBuilder : public bWidgets::bwScreenGraph::Builder {
   RNAScreenGraphBuilder(bWidgets::bwScreenGraph::ScreenGraph& screen_graph,
                         _Obj& obj,
                         RNAProperties<_Obj>& properties)
-      : RNAScreenGraphBuilder(screen_graph.Root(), obj, properties)
+      : RNAScreenGraphBuilder(*screen_graph.Root(), obj, properties)
   {
+    if (!screen_graph.Root()) {
+      throw std::exception();
+    }
   }
 
   template<typename _WidgetType, typename... _Args>

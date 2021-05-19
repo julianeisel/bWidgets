@@ -119,11 +119,17 @@ auto end(Node&) -> PreOrderIterator
 }
 auto begin(ScreenGraph& screen_graph) -> PreOrderIterator
 {
-  return begin(screen_graph.Root());
+  if (!screen_graph.Root()) {
+    return {};
+  }
+  return begin(*screen_graph.Root());
 }
 auto end(ScreenGraph& screen_graph) -> PreOrderIterator
 {
-  return end(screen_graph.Root());
+  if (!screen_graph.Root()) {
+    return {};
+  }
+  return end(*screen_graph.Root());
 }
 
 }  // namespace bwScreenGraph

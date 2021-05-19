@@ -84,7 +84,7 @@ auto bwScrollView::operator==(const bwWidget& other) const -> bool
   }
 
   /* TODO check parent (or identifier?). */
-  return *scrollbar_node->Widget() == *other_scroll_view->scrollbar_node->Widget();
+  return *scrollbar_node == *other_scroll_view->scrollbar_node;
 }
 
 void bwScrollView::validizeScrollValues()

@@ -1,7 +1,11 @@
 #pragma once
 
+#include <vector>
+
 #include "bwContext.h"
 #include "bwEventDispatcher.h"
+
+#include "PersistentRef.h"
 
 namespace bWidgets {
 namespace bwScreenGraph {
@@ -13,6 +17,8 @@ class ScreenGraph {
   friend class Constructor;
 
  public:
+  using RootNodeType = std::unique_ptr<LayoutNode>;
+
   ScreenGraph() : event_dispatcher(*this)
   {
   }
@@ -23,14 +29,21 @@ class ScreenGraph {
   {
   }
 
-  void Root(std::unique_ptr<LayoutNode> _root_node)
+  inline void Root(RootNodeType _root_node)
   {
     root_node = std::move(_root_node);
   }
 
-  auto Root() const -> LayoutNode&
+  inline auto Root() const -> LayoutNode*
   {
-    return *root_node;
+    return root_node.get();
+  }
+
+  friend inline PersistentNodeRef make_persistent_ref(ScreenGraph& screen_graph,
+                                                      Node* node,
+                                                      const char* debug_name)
+  {
+    return screen_graph.persistent_node_registry_.make_persistent_ref(node, debug_name);
   }
 
   /** The context describing the state of this screen-graph */
@@ -38,7 +51,9 @@ class ScreenGraph {
   bwEventDispatcher event_dispatcher;
 
  private:
-  std::unique_ptr<LayoutNode> root_node = nullptr;
+  RootNodeType root_node = nullptr;
+
+  PersistentNodeRegistry persistent_node_registry_;
 };
 
 }  // namespace bwScreenGraph

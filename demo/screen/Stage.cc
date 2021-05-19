@@ -56,23 +56,6 @@ std::unique_ptr<Font> Stage::font = nullptr;
 std::unique_ptr<IconMap> Stage::icon_map = nullptr;
 float Stage::interface_scale = 1.0f;
 
-#if 0
-auto createScreenGraph(const unsigned int width, const unsigned int height)
-    -> bwScreenGraph::ScreenGraph
-{
-  auto container = std::make_unique<bwScreenGraph::ContainerNode>();
-  auto layout = std::make_unique<ScrollViewLayout>();
-  auto scroll_view = std::make_unique<bwScrollView>(*container, width, height);
-
-  layout->padding = 7;
-  layout->item_margin = 5;
-  bwScreenGraph::Builder::setLayout(*container, std::move(layout));
-  bwScreenGraph::Builder::setWidget(*container, std::move(scroll_view));
-
-  return bwScreenGraph::ScreenGraph(std::move(container));
-}
-#endif
-
 Stage::Stage(const unsigned int width, const unsigned int height)
     : screen_graph(), mask_width(width), mask_height(height)
 {
@@ -85,7 +68,7 @@ Stage::Stage(const unsigned int width, const unsigned int height)
 
   bwStyleManager& style_manager = bwStyleManager::getStyleManager();
   style_manager.registerDefaultStyleTypes();
-  activateStyleID(bwStyle::TypeID::CLASSIC);
+  Stage::activateStyleID(bwStyle::TypeID::CLASSIC);
 
   setFontTightPositioning(true);
 }
@@ -142,30 +125,35 @@ void Stage::updateStyling(bwColor& clear_color)
   }
 }
 
+static auto constructFromRoot(Stage& stage, const int width, const int height)
+    -> bwScreenGraph::ScreenGraph::RootNodeType
+{
+  using namespace bwScreenGraph;
+
+  auto container = std::make_unique<bwScreenGraph::ContainerNode>();
+  auto layout = std::make_unique<ScrollViewLayout>();
+  auto scroll_view = std::make_unique<bwScrollView>(*container, width, height);
+
+  layout->padding = 7;
+  layout->item_margin = 5;
+  Builder::setLayout(*container, std::move(layout));
+  Builder::setWidget(*container, std::move(scroll_view));
+
+  stage.constructUI(*container);
+
+  return container;
+}
+
 void Stage::draw()
 {
   bwColor clear_color{114u};
   updateStyling(clear_color);
 
-  bwScreenGraph::Constructor::reconstruct(screen_graph, [this] {
-    using namespace bwScreenGraph;
-
-    auto container = std::make_unique<bwScreenGraph::ContainerNode>();
-    auto layout = std::make_unique<ScrollViewLayout>();
-    auto scroll_view = std::make_unique<bwScrollView>(*container, mask_width, mask_height);
-
-    layout->padding = 7;
-    layout->item_margin = 5;
-    bwScreenGraph::Builder::setLayout(*container, std::move(layout));
-    bwScreenGraph::Builder::setWidget(*container, std::move(scroll_view));
-
-    screen_graph.Root(std::move(container));
-
-    constructUI();
-  });
+  bwScreenGraph::Constructor::reconstruct(
+      screen_graph, [this] { return constructFromRoot(*this, mask_width, mask_height); });
 
   bwRectanglePixel stage_rect{0, int(mask_width) - 1, 0, int(mask_height - 1)};
-  resolveScreenGraphNodeLayout(screen_graph.Root(), stage_rect, interface_scale);
+  resolveScreenGraphNodeLayout(*screen_graph.Root(), stage_rect, interface_scale);
 
   bwPainter::s_paint_engine->setupViewport(stage_rect, clear_color);
   bwScreenGraph::Drawer::draw(screen_graph, *style);

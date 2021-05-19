@@ -2,17 +2,24 @@
 
 namespace bWidgets {
 namespace bwScreenGraph {
+class Node;
+class LayoutNode;
 
 class ScreenGraph;
 
 class Constructor {
  public:
-  using ConstructorFunc = std::function<void()>;
+  using ConstructionFunc = std::function<std::unique_ptr<LayoutNode>()>;
 
-  static void reconstruct(ScreenGraph& screen_graph, ConstructorFunc func);
+  static void reconstruct(ScreenGraph& screen_graph, ConstructionFunc construct_func);
 
- public:
-  static void updateFromOld(ScreenGraph& screen_graph, Node& old_subtree, Node& new_subtree);
+ private:
+  static void updatePersistentRefsFromOld(ScreenGraph& screen_graph,
+                                          Node& new_subtree,
+                                          const Node& old_subtree);
+  static void clearDanglingPersistentRefs(ScreenGraph& screen_graph, const Node& old_subtree);
+  static void checkSanePersistentRefs(bWidgets::bwScreenGraph::ScreenGraph& screen_graph,
+                                      const Node& old_subtree);
 };
 
 }  // namespace bwScreenGraph

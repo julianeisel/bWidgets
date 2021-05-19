@@ -9,8 +9,11 @@ Builder::Builder(LayoutNode& active_layout_node) : _active_layout_node(active_la
 {
 }
 
-Builder::Builder(ScreenGraph& screen_graph) : Builder(screen_graph.Root())
+Builder::Builder(ScreenGraph& screen_graph) : Builder(*screen_graph.Root())
 {
+  if (!screen_graph.Root()) {
+    throw std::exception();
+  }
 }
 
 void Builder::setLayout(LayoutNode& node, std::unique_ptr<bwLayoutInterface> layout)

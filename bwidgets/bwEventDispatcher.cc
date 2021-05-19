@@ -31,20 +31,24 @@ static void bubbleEvent(const bwEvent& event,
   }
 }
 
-static auto findHoveredNode(const bwEvent& event, Node& node) -> Node*
+static auto findHoveredNode(const bwEvent& event, Node* node) -> Node*
 {
-  const bool is_hovered = node.isVisible() &&
-                          node.Rectangle().isCoordinateInside(event.location.x, event.location.y);
+  if (!node) {
+    return nullptr;
+  }
 
-  if (is_hovered && node.Children() && node.childrenVisible()) {
-    for (auto& iter_child : *node.Children()) {
-      if (Node* found_child = findHoveredNode(event, *iter_child)) {
+  const bool is_hovered = node->isVisible() &&
+                          node->Rectangle().isCoordinateInside(event.location.x, event.location.y);
+
+  if (is_hovered && node->Children() && node->childrenVisible()) {
+    for (auto& iter_child : *node->Children()) {
+      if (Node* found_child = findHoveredNode(event, iter_child.get())) {
         return found_child;
       }
     }
   }
 
-  return is_hovered ? &node : nullptr;
+  return is_hovered ? node : nullptr;
 }
 
 void bwEventDispatcher::dispatchMouseMovement(bwEvent event)
@@ -53,7 +57,7 @@ void bwEventDispatcher::dispatchMouseMovement(bwEvent event)
     drag_event->addMouseMovement(event.location);
   }
 
-  if (Node* active = context.active) {
+  if (Node* active = context.active.get()) {
     if (isDragging()) {
       bubbleEvent<bwMouseButtonDragEvent&>(
           event, *active, &EventHandler::onMouseDrag, drag_event.value());
@@ -62,7 +66,7 @@ void bwEventDispatcher::dispatchMouseMovement(bwEvent event)
   else {
     Node* new_hovered = findHoveredNode(event, screen_graph.Root());
 
-    if (new_hovered && (new_hovered == context.hovered)) {
+    if (new_hovered && (new_hovered == context.hovered.get())) {
       bubbleEvent<bwEvent&>(event, *new_hovered, &EventHandler::onMouseMove, event);
     }
     changeContextHovered(new_hovered, event);
@@ -71,7 +75,7 @@ void bwEventDispatcher::dispatchMouseMovement(bwEvent event)
 
 void bwEventDispatcher::dispatchMouseButtonPress(bwMouseButtonEvent& event)
 {
-  Node* node = context.active ? context.active : findHoveredNode(event, screen_graph.Root());
+  Node* node = context.active ? context.active.get() : findHoveredNode(event, screen_graph.Root());
 
   if (node) {
     bubbleEvent<bwMouseButtonEvent&>(event, *node, &EventHandler::onMousePress, event);
@@ -79,7 +83,7 @@ void bwEventDispatcher::dispatchMouseButtonPress(bwMouseButtonEvent& event)
   drag_event.emplace(event.button, event.location);
 
   if (!context.active) {
-    context.active = node;
+    context.active = make_persistent_ref(screen_graph, node, "bwContext.active");
   }
 }
 
@@ -116,11 +120,17 @@ auto bwEventDispatcher::isDragging() -> bool
 /**
  * Make \a new_hovered the new hovered widget, executing the onMouseEnter() and
  * onMouseLeave() listeners as needed.
+ *
+ * \note If the hovered widget can't be be found after redraws (either because it was hidden or the
+ *       it couldn't be recognized via #bwWidget::operator==()), onMouseLeave() is __not__ called.
  */
 void bwEventDispatcher::changeContextHovered(Node* new_hovered, bwEvent& event)
 {
-  Node* old_hovered = context.hovered;
+  Node* old_hovered = context.hovered.get();
 
+  if (!new_hovered && !old_hovered) {
+    return;
+  }
   if (new_hovered && (old_hovered == new_hovered)) {
     return;
   }
@@ -133,7 +143,12 @@ void bwEventDispatcher::changeContextHovered(Node* new_hovered, bwEvent& event)
     bubbleEvent<bwEvent&>(event, *new_hovered, &EventHandler::onMouseEnter, event);
   }
 
-  context.hovered = new_hovered;
+  if (old_hovered != new_hovered) {
+    /* We could in principle allow registering a callback for the persistent reference, for when
+     * the reference is cleared. That way we could still call the onMouseLeave() handler, or some
+     * other handler. Currently not needed or useful though. */
+    context.hovered = make_persistent_ref(screen_graph, new_hovered, "bwContext.hovered");
+  }
 }
 
 }  // namespace bWidgets
