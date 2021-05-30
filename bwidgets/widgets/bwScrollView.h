@@ -20,7 +20,7 @@ class bwScrollView : public bwContainerWidget {
                unsigned int height = 0);
 
   void draw(bwStyle& style) override;
-  auto operator==(const bwWidget& other) const -> bool override;
+  auto matches(const bwWidget& other) const -> bool override;
 
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 

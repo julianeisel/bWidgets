@@ -80,7 +80,7 @@ class Node {
   virtual auto Rectangle() const -> bwRectanglePixel = 0;
   virtual auto MaskRectangle() const -> std::optional<bwRectanglePixel> = 0;
   virtual auto isVisible() const -> bool = 0;
-  virtual auto operator==(const Node&) -> bool const = 0;
+  virtual auto matches(const Node&) -> bool const = 0;
 
  private:
   Node* parent{nullptr};
@@ -123,7 +123,7 @@ class LayoutNode : virtual public Node {
     return true;
   }
 
-  auto operator==(const Node&) -> bool const override
+  auto matches(const Node&) -> bool const override
   {
     /* Layouts can not be uniquely identified. They do not store state that would have to be kept
      * over redraws, so they can be entirely reconstructed on each redraw. */
@@ -162,7 +162,7 @@ class WidgetNode : virtual public Node {
     return widget->isHidden() == false;
   }
 
-  auto operator==(const Node& other) -> bool const override
+  auto matches(const Node& other) -> bool const override
   {
     bwWidget* other_widget = other.Widget();
     if (!other_widget) {
@@ -171,9 +171,9 @@ class WidgetNode : virtual public Node {
 
     return (widget.get() == other_widget) ||
            /* Compares the actual widgets, not the pointers. I.e. calls the widget's custom
-            * operator==() overload. Crucial for identifying widgets over redraws and preserving
+            * matches( overload. Crucial for identifying widgets over redraws and preserving
             * state that way. */
-           (*widget == *other_widget);
+           (widget->matches(*other_widget));
   }
 
  private:
@@ -236,9 +236,9 @@ class ContainerNode : public LayoutNode, public WidgetNode {
     return ContainerWidget().childrenVisible();
   }
 
-  auto operator==(const Node& other) -> bool const override
+  auto matches(const Node& other) -> bool const override
   {
-    return WidgetNode::operator==(other);
+    return WidgetNode::matches(other);
   }
 };
 

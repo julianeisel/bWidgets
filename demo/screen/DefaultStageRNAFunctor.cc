@@ -60,7 +60,7 @@ void DefaultStageRNAFunctor::operator()()
   }
 }
 
-auto DefaultStageRNAFunctor::operator==(const bWidgets::bwFunctorInterface& other) const -> bool
+auto DefaultStageRNAFunctor::matches(const bWidgets::bwFunctorInterface& other) const -> bool
 {
   const DefaultStageRNAFunctor* other_functor = dynamic_cast<const DefaultStageRNAFunctor*>(
       &other);

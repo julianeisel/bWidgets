@@ -46,7 +46,12 @@ class bwWidget {
   virtual auto canAlign() const -> bool;
   virtual auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
-  virtual auto operator==(const bwWidget& other) const -> bool = 0;
+  /**
+   * Compare this widget to \a other, to see if they represent the same data. Crucial for
+   * identifying widgets, which again is crucial for keeping state over redraws (where the
+   * screen graph is reconstructed).
+   */
+  virtual auto matches(const bwWidget& other) const -> bool = 0;
 
   /**
    * Final rectangle defining the widget bounding-box.

@@ -18,7 +18,7 @@ class bwPanel : public bwContainerWidget {
   bwPanel(const bwScreenGraph::ContainerNode& node,
           std::string label,
           std::optional<unsigned int> header_height_hint = std::nullopt);
-  auto operator==(const bwWidget &other) const -> bool override;
+  auto matches(const bwWidget& other) const -> bool override;
 
   void draw(bwStyle& style) override;
 

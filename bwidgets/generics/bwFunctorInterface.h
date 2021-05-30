@@ -35,7 +35,7 @@ class bwFunctorInterface {
   virtual ~bwFunctorInterface() = default;
 
   virtual void operator()() = 0;
-  virtual auto operator==(const bwFunctorInterface& other) const -> bool = 0;
+  virtual auto matches(const bwFunctorInterface& other) const -> bool = 0;
 };
 
 /**
@@ -53,7 +53,7 @@ inline auto compareFunctors(const bwFunctorInterface* a, const bwFunctorInterfac
     return false;
   }
   /* Lastly, do value comparison. */
-  return *a == *b;
+  return a->matches(*b);
 }
 
 /**

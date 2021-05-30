@@ -61,14 +61,14 @@ void bwNumberSlider::draw(bwStyle& style)
                    is_text_editing ? TextAlignment::LEFT : TextAlignment::RIGHT);
 }
 
-auto bwNumberSlider::operator==(const bwWidget& other) const -> bool
+auto bwNumberSlider::matches(const bwWidget& other) const -> bool
 {
   const bwNumberSlider* other_slider = widget_cast<bwNumberSlider>(other);
   if (!other_slider) {
     return false;
   }
 
-  return bwTextBox::operator==(other) && (*apply_functor == *other_slider->apply_functor);
+  return bwTextBox::matches(other) && compareFunctors(apply_functor, other_slider->apply_functor);
 }
 
 void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) const

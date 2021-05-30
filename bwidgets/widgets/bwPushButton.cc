@@ -9,14 +9,14 @@ bwPushButton::bwPushButton(const std::string& text,
 {
 }
 
-auto bwPushButton::operator==(const bwWidget& other) const -> bool
+auto bwPushButton::matches(const bwWidget& other) const -> bool
 {
   const bwPushButton* other_button = widget_cast<bwPushButton>(other);
   if (!other_button) {
     return false;
   }
 
-  return bwAbstractButton::operator==(other);
+  return bwAbstractButton::matches(other);
 }
 
 auto bwPushButton::getIcon() const -> const bwIconInterface*

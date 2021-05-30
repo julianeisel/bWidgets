@@ -34,7 +34,7 @@
  * ### Notes
  *
  * Note that the correct behavior of the updating relies on widgets being identifiable. Mainly,
- * this means a good `bwWidget::operator==()` implementation. If this isn't given, the pointer
+ * this means a good `bwWidget::matches()` implementation. If this isn't given, the pointer
  * will be invalidated. Hence, they should be checked for validity before access:
  * ```cc
  * if (node_ptr) {

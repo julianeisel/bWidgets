@@ -13,7 +13,7 @@ class bwTextBox : public bwWidget {
             std::optional<unsigned int> height_hint = std::nullopt);
 
   void draw(class bwStyle& style) override;
-  auto operator==(const bwWidget& other) const -> bool override;
+  auto matches(const bwWidget& other) const -> bool override;
 
   void registerProperties() override;
   auto setText(const std::string& value) -> bwTextBox&;

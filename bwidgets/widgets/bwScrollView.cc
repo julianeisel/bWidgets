@@ -76,7 +76,7 @@ void bwScrollView::draw(bwStyle& style)
   }
 }
 
-auto bwScrollView::operator==(const bwWidget& other) const -> bool
+auto bwScrollView::matches(const bwWidget& other) const -> bool
 {
   const bwScrollView* other_scroll_view = widget_cast<bwScrollView>(other);
   if (!other_scroll_view) {
@@ -84,7 +84,7 @@ auto bwScrollView::operator==(const bwWidget& other) const -> bool
   }
 
   /* TODO check parent (or identifier?). */
-  return *scrollbar_node == *other_scroll_view->scrollbar_node;
+  return scrollbar_node->matches(*other_scroll_view->scrollbar_node);
 }
 
 void bwScrollView::validizeScrollValues()

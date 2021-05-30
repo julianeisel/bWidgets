@@ -46,7 +46,7 @@ class DefaultStageRNAFunctor : public bWidgets::bwFunctorInterface {
                          int enum_value);
 
   void operator()() override;
-  auto operator==(const bWidgets::bwFunctorInterface& other) const -> bool override;
+  auto matches(const bWidgets::bwFunctorInterface& other) const -> bool override;
 
   auto getPropName() const -> const std::string&;
   auto getEnumValue() const -> std::optional<int>;

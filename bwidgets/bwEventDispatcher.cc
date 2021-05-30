@@ -122,7 +122,7 @@ auto bwEventDispatcher::isDragging() -> bool
  * onMouseLeave() listeners as needed.
  *
  * \note If the hovered widget can't be be found after redraws (either because it was hidden or the
- *       it couldn't be recognized via #bwWidget::operator==()), onMouseLeave() is __not__ called.
+ *       it couldn't be recognized via #bwWidget::matches()), onMouseLeave() is __not__ called.
  */
 void bwEventDispatcher::changeContextHovered(Node* new_hovered, bwEvent& event)
 {

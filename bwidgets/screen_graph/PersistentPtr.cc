@@ -41,7 +41,7 @@ auto PersistentNodeRegistry::find_matching(const Node& needle) -> PersistentNode
       return &ptr;
     }
 
-    if (*ptr == needle) {
+    if (ptr->matches(needle)) {
       return &ptr;
     }
   }
