@@ -132,7 +132,7 @@ static auto constructFromRoot(Stage& stage, const int width, const int height)
 
   auto container = std::make_unique<bwScreenGraph::ContainerNode>();
   auto layout = std::make_unique<ScrollViewLayout>();
-  auto scroll_view = std::make_unique<bwScrollView>(*container, width, height);
+  auto scroll_view = std::make_unique<bwScrollView>(*container, "root_scroll_view", width, height);
 
   layout->padding = 7;
   layout->item_margin = 5;

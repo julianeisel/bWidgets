@@ -16,6 +16,7 @@ class bwScrollView : public bwContainerWidget {
 
  public:
   bwScrollView(bwScreenGraph::ContainerNode& node,
+               std::string_view identifier,
                unsigned int width = 0,
                unsigned int height = 0);
 
@@ -40,6 +41,10 @@ class bwScrollView : public bwContainerWidget {
 
   constexpr static int SCROLL_BAR_SIZE = 17;
 
+  /**
+   * Used to identify this particular scroll view. There is no data to use to identify it instead.
+   */
+  std::string identifier;
   std::unique_ptr<bwScreenGraph::WidgetNode> scrollbar_node;
 
   int vert_scroll{0};

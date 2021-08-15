@@ -17,9 +17,10 @@
 namespace bWidgets {
 
 bwScrollView::bwScrollView(bwScreenGraph::ContainerNode& node,
+                           std::string_view identifier,
                            unsigned int _width,
                            unsigned int _height)
-    : bwContainerWidget(node, _width, _height)
+    : bwContainerWidget(node, _width, _height), identifier(identifier)
 {
   auto scrollbar = std::make_unique<bwScrollBar>(17, _height);
   scrollbar_node = std::make_unique<bwScreenGraph::WidgetNode>();
@@ -88,8 +89,8 @@ auto bwScrollView::matches(const bwWidget& other) const -> bool
     return false;
   }
 
-  /* TODO check parent (or identifier?). */
-  return scrollbar_node->matches(*other_scroll_view->scrollbar_node);
+  return identifier == other_scroll_view->identifier &&
+         scrollbar_node->matches(*other_scroll_view->scrollbar_node);
 }
 
 void bwScrollView::validizeScrollValues()
