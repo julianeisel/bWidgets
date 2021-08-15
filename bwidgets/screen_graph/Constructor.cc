@@ -24,17 +24,25 @@ void Constructor::reconstruct(ScreenGraph& screen_graph, ConstructionFunc constr
     return;
   }
 
-  updatePersistentPointersFromOld(screen_graph, *screen_graph.Root(), *old_root);
+  PersistentNodeRegistry::UpdateFn update_fn = [](Node& old, Node& new_) {
+    const bwWidget* old_widget = old.Widget();
+    bwWidget* new_widget = new_.Widget();
+    if (old_widget && new_widget) {
+      new_widget->copyState(*old_widget);
+    }
+  };
+  updatePersistentPointersFromOld(screen_graph, *screen_graph.Root(), *old_root, update_fn);
 }
 
 void Constructor::updatePersistentPointersFromOld(ScreenGraph& screen_graph,
                                                   Node& new_subtree,
-                                                  const Node& old_subtree)
+                                                  const Node& old_subtree,
+                                                  PersistentNodeRegistry::UpdateFn update_fn)
 {
   for (Node& iter_node : new_subtree) {
     /* There is a matching persistent pointer to `iter_node`. That means we found a reconstructed
      * node that other code wants to keep a persistent pointer to. Update it. */
-    screen_graph.persistent_node_registry_.updateMatching(iter_node);
+    screen_graph.persistent_node_registry_.updateMatching(iter_node, update_fn);
   }
   clearDanglingPersistentPointers(screen_graph, old_subtree);
 

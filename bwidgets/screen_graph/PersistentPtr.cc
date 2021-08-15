@@ -72,9 +72,12 @@ auto PersistentNodeRegistry::find_matching_from_address_iter(const Node& node) -
   });
 }
 
-void PersistentNodeRegistry::updateMatching(Node& node)
+void PersistentNodeRegistry::updateMatching(Node& node, std::optional<UpdateFn> update_fn)
 {
   if (PersistentNodePtr* ptr = find_matching(node)) {
+    if (update_fn) {
+      (*update_fn)(**ptr, node);
+    }
     ptr->rebind_to_node(&node);
   }
 }

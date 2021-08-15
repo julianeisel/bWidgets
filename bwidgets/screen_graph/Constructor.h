@@ -14,9 +14,11 @@ class Constructor {
   static void reconstruct(ScreenGraph& screen_graph, ConstructionFunc construct_func);
 
  private:
-  static void updatePersistentPointersFromOld(ScreenGraph& screen_graph,
-                                              Node& new_subtree,
-                                              const Node& old_subtree);
+  static void updatePersistentPointersFromOld(
+      ScreenGraph& screen_graph,
+      Node& new_subtree,
+      const Node& old_subtree,
+      bWidgets::bwScreenGraph::PersistentNodeRegistry::UpdateFn update_fn);
   static void clearDanglingPersistentPointers(ScreenGraph& screen_graph, const Node& old_subtree);
   static void checkSanePersistentPointers(bWidgets::bwScreenGraph::ScreenGraph& screen_graph,
                                           const Node& old_subtree);

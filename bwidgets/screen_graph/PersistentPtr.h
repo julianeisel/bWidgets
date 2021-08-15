@@ -151,9 +151,11 @@ class PersistentNodeRegistry {
   using iterator = decltype(registry_)::iterator;
 
  public:
+  using UpdateFn = std::function<void(Node& old_, Node& new_)>;
+
   auto make_persistent_ptr(Node* node, const char* debug_name) -> PersistentNodePtr;
 
-  void updateMatching(Node& node);
+  void updateMatching(Node& node, std::optional<UpdateFn> update_fn = nullptr);
   void removePtrsToNode(const Node& node);
   void cleanupUnused();
   auto hasPointerWithAddress(const Node& node) -> bool;

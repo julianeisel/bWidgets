@@ -52,6 +52,7 @@ class bwWidget {
    * screen graph is reconstructed).
    */
   virtual auto matches(const bwWidget& other) const -> bool = 0;
+  virtual void copyState(const bwWidget& from);
 
   /**
    * Final rectangle defining the widget bounding-box.

@@ -57,6 +57,11 @@ auto bwWidget::canAlign() const -> bool
   return false;
 }
 
+void bwWidget::copyState(const bwWidget& from)
+{
+  setState(from.getState());
+}
+
 /**
  * \brief Additional initialization that can't be done in #bwWidget constructor.
  */
