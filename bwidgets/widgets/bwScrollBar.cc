@@ -7,8 +7,13 @@
 namespace bWidgets {
 
 bwScrollBar::bwScrollBar(unsigned int width_hint, unsigned int height_hint)
-    : bwAbstractButton("", "bwScrollBar", width_hint, height_hint)
+    : bwAbstractButton("", width_hint, height_hint)
 {
+}
+
+auto bwScrollBar::getTypeIdentifier() const -> std::string_view
+{
+  return "bwScrollBar";
 }
 
 static auto getInnerRect(bwScrollBar& scrollbar) -> bwRectanglePixel

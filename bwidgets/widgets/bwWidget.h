@@ -29,16 +29,24 @@ class bwWidget {
     STATE_TOT
   };
 
-  bwWidget(const std::string& identifier,
-           std::optional<unsigned int> width_hint,
-           std::optional<unsigned int> height_hint);
+  bwWidget(std::optional<unsigned int> width_hint, std::optional<unsigned int> height_hint);
   virtual ~bwWidget() = default;
+
+  /* Disable these constructors/operators. Not really needed and would add complexity for
+   * sub-classes. */
+  bwWidget() = delete;
+  bwWidget(const bwWidget&) = delete;
+  bwWidget(bwWidget&&) = delete;
+  auto operator=(const bwWidget&) = delete;
+  auto operator=(bwWidget&&) = delete;
 
   auto getIdentifier() const -> const std::string&;
   auto getState() const -> State;
   auto setState(State) -> bwWidget&;
   auto hide(bool _hidden = true) -> bwWidget&;
   auto isHidden() -> bool;
+
+  virtual auto getTypeIdentifier() const -> std::string_view = 0;
 
   virtual void draw(bwStyle& style) = 0;
   virtual auto isCoordinateInside(const bwPoint& point) const -> bool;

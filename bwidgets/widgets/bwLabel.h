@@ -16,6 +16,8 @@ class bwLabel : public bwWidget {
           std::optional<unsigned int> width_hint = std::nullopt,
           std::optional<unsigned int> height_hint = std::nullopt);
 
+  auto getTypeIdentifier() const -> std::string_view override;
+
   void draw(bwStyle& style) override;
   auto matches(const bwWidget& widget) const -> bool override;
 

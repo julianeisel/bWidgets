@@ -19,12 +19,17 @@ namespace bWidgets {
 bwScrollView::bwScrollView(bwScreenGraph::ContainerNode& node,
                            unsigned int _width,
                            unsigned int _height)
-    : bwContainerWidget(node, "bwScrollView", _width, _height)
+    : bwContainerWidget(node, _width, _height)
 {
   auto scrollbar = std::make_unique<bwScrollBar>(17, _height);
   scrollbar_node = std::make_unique<bwScreenGraph::WidgetNode>();
 
   bwScreenGraph::Builder::setWidget(*scrollbar_node, std::move(scrollbar));
+}
+
+auto bwScrollView::getTypeIdentifier() const -> std::string_view
+{
+  return "bwScrollView";
 }
 
 auto bwScrollView::getVerticalScrollBar() const -> bwScrollBar&

@@ -10,10 +10,14 @@ bwCheckbox::bwCheckbox(const std::string& text,
                        std::optional<unsigned int> width_hint,
                        std::optional<unsigned int> height_hint)
     : bwAbstractButton(text,
-                       "bwCheckbox",
                        width_hint.value_or(bwStyle::s_default_widget_size_hint),
                        height_hint.value_or(bwStyle::s_default_widget_size_hint))
 {
+}
+
+auto bwCheckbox::getTypeIdentifier() const -> std::string_view
+{
+  return "bwCheckbox";
 }
 
 void bwCheckbox::draw(bwStyle& style)

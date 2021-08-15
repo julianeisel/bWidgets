@@ -1,9 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace bWidgets {
 
@@ -55,11 +55,11 @@ class bwStyleProperty {
   void setDefaultValue(float);
   void setDefaultValue(const bwColor&);
 
-  auto getIdentifier() const -> const std::string&;
+  auto getIdentifier() const -> std::string_view;
   auto getType() const -> Type;
 
  private:
-  bwStyleProperty(std::string identifier, enum Type type);
+  bwStyleProperty(std::string_view identifier, enum Type type);
 
   const std::string identifier;
   enum Type type;
@@ -81,18 +81,18 @@ class bwStyleProperties {
   using iterator = PropertyList::iterator;
   using const_iterator = PropertyList::const_iterator;
 
-  auto addBool(const std::string& name, bool& reference) -> bwStyleProperty&;
-  auto addBool(const std::string& name) -> bwStyleProperty&;
-  auto addInteger(const std::string& name, int& reference) -> bwStyleProperty&;
-  auto addInteger(const std::string& name) -> bwStyleProperty&;
-  auto addFloat(const std::string& name, float& reference) -> bwStyleProperty&;
-  auto addFloat(const std::string& name) -> bwStyleProperty&;
-  auto addColor(const std::string& name, class bwColor& reference) -> bwStyleProperty&;
-  auto addColor(const std::string& name) -> bwStyleProperty&;
-  auto addProperty(const std::string& name, const bwStyleProperty::Type prop_type)
+  auto addBool(const std::string_view& name, bool& reference) -> bwStyleProperty&;
+  auto addBool(const std::string_view& name) -> bwStyleProperty&;
+  auto addInteger(const std::string_view& name, int& reference) -> bwStyleProperty&;
+  auto addInteger(const std::string_view& name) -> bwStyleProperty&;
+  auto addFloat(const std::string_view& name, float& reference) -> bwStyleProperty&;
+  auto addFloat(const std::string_view& name) -> bwStyleProperty&;
+  auto addColor(const std::string_view& name, class bwColor& reference) -> bwStyleProperty&;
+  auto addColor(const std::string_view& name) -> bwStyleProperty&;
+  auto addProperty(const std::string_view& name, const bwStyleProperty::Type prop_type)
       -> bwStyleProperty&;
 
-  auto lookup(const std::string& name) const -> const bwStyleProperty*;
+  auto lookup(const std::string_view& name) const -> const bwStyleProperty*;
 
   auto begin() -> iterator;
   auto end() -> iterator;

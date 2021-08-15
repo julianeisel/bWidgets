@@ -12,11 +12,16 @@ namespace bWidgets {
 bwPanel::bwPanel(const bwScreenGraph::ContainerNode& node,
                  std::string label,
                  std::optional<unsigned int> header_height_hint)
-    : bwContainerWidget(node, "bwPanel", 0, header_height_hint),
+    : bwContainerWidget(node, 0, header_height_hint),
       header_height(header_height_hint.value_or(height_hint)),
       label(std::move(label))
 {
   initialize();
+}
+
+auto bwPanel::getTypeIdentifier() const -> std::string_view
+{
+  return "bwPanel";
 }
 
 void bwPanel::draw(bwStyle& style)

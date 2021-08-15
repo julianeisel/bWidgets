@@ -20,7 +20,9 @@ class bwPanel : public bwContainerWidget {
           std::optional<unsigned int> header_height_hint = std::nullopt);
   auto matches(const bwWidget& other) const -> bool override;
 
-  void draw(bwStyle& style) override;
+  auto getTypeIdentifier() const -> std::string_view override;
+  
+  void draw(class bwStyle& style) override;
 
   void registerProperties() override;
 

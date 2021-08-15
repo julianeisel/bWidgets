@@ -27,8 +27,8 @@ namespace bWidgetsDemo {
 
 class StateProperties {
  public:
-  const bwStyleProperty* lookupProperty(const std::string& identifier) const;
-  bwStyleProperty& ensureProperty(const std::string& identifier, bwStyleProperty::Type type);
+  const bwStyleProperty* lookupProperty(const std::string_view& identifier) const;
+  bwStyleProperty& ensureProperty(const std::string_view& identifier, bwStyleProperty::Type type);
 
  private:
   bwStyleProperties properties;
@@ -39,9 +39,12 @@ class StyleSheetNode {
   class StateProperties state_properties[int(bwWidget::State::STATE_TOT)];
 };
 
-StyleSheetNode* StyleSheetTree::lookupNode(const std::string& name)
+StyleSheetNode* StyleSheetTree::lookupNode(const std::string_view& name) const
 {
-  const auto& node_iterator = nodes.find(name);
+  const auto& node_iterator = std::find_if(
+      nodes.begin(), nodes.end(), [&name](auto& key_value_pair) {
+        return key_value_pair.first == name;
+      });
   if (node_iterator == nodes.end()) {
     return nullptr;
   }
@@ -49,14 +52,14 @@ StyleSheetNode* StyleSheetTree::lookupNode(const std::string& name)
   return node_iterator->second;
 }
 
-StyleSheetNode& StyleSheetTree::ensureNode(const std::string& class_name)
+StyleSheetNode& StyleSheetTree::ensureNode(const std::string_view& class_name)
 {
   if (StyleSheetNode* node = lookupNode(class_name)) {
     return *node;
   }
 
   StyleSheetNode* new_node = new StyleSheetNode;
-  nodes.insert({class_name, new_node});
+  nodes.insert({std::string(class_name), new_node});
   return *new_node;
 }
 
@@ -71,9 +74,9 @@ StyleSheetTree::~StyleSheetTree()
   }
 }
 
-bwStyleProperty& StyleSheetTree::ensureNodeWithProperty(const std::string& class_name,
+bwStyleProperty& StyleSheetTree::ensureNodeWithProperty(const std::string_view& class_name,
                                                         const bwWidget::State pseudo_state,
-                                                        const std::string& identifier,
+                                                        const std::string_view& identifier,
                                                         const bwStyleProperty::Type type)
 {
   StyleSheetNode& node = ensureNode(class_name);
@@ -82,14 +85,14 @@ bwStyleProperty& StyleSheetTree::ensureNodeWithProperty(const std::string& class
   return state_properties.ensureProperty(identifier, type);
 }
 
-static const bwStyleProperty* state_properties_lookup_property(const std::string& property_name,
-                                                               StateProperties& state_properties)
+static const bwStyleProperty* state_properties_lookup_property(
+    const std::string_view& property_name, StateProperties& state_properties)
 {
   return state_properties.lookupProperty(property_name);
 }
 
-const bwStyleProperty* StyleSheetTree::resolveProperty(const std::string& class_name,
-                                                       const std::string& property_name,
+const bwStyleProperty* StyleSheetTree::resolveProperty(const std::string_view& class_name,
+                                                       const std::string_view& property_name,
                                                        const bwWidget::State state)
 {
   if (StyleSheetNode* node = lookupNode(class_name)) {
@@ -108,7 +111,7 @@ const bwStyleProperty* StyleSheetTree::resolveProperty(const std::string& class_
   return nullptr;
 }
 
-const bwStyleProperty* StateProperties::lookupProperty(const std::string& identifier) const
+const bwStyleProperty* StateProperties::lookupProperty(const std::string_view& identifier) const
 {
   return properties.lookup(identifier);
 }
@@ -116,7 +119,7 @@ const bwStyleProperty* StateProperties::lookupProperty(const std::string& identi
 /**
  * Performs a identifier based lookup of \a property and adds it if not found.
  */
-bwStyleProperty& StateProperties::ensureProperty(const std::string& identifier,
+bwStyleProperty& StateProperties::ensureProperty(const std::string_view& identifier,
                                                  bwStyleProperty::Type type)
 {
   for (auto& iter_property : properties) {

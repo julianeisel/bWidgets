@@ -24,6 +24,8 @@ class bwRadioButton : public bwAbstractButton {
                 std::optional<unsigned int> width_hint = std::nullopt,
                 std::optional<unsigned int> height_hint = std::nullopt);
 
+  auto getTypeIdentifier() const -> std::string_view override;
+
   auto canAlign() const -> bool override;
 
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;

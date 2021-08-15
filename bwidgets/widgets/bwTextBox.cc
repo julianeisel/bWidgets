@@ -8,9 +8,14 @@ namespace bWidgets {
 
 bwTextBox::bwTextBox(std::optional<unsigned int> width_hint,
                      std::optional<unsigned int> height_hint)
-    : bwWidget("bwTextBox", width_hint, height_hint), selection_rectangle(bwRectanglePixel())
+    : bwWidget(width_hint, height_hint), selection_rectangle(bwRectanglePixel())
 {
   initialize();
+}
+
+auto bwTextBox::getTypeIdentifier() const -> std::string_view
+{
+  return "bwTextBox";
 }
 
 void bwTextBox::draw(bwStyle& style)

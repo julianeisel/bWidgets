@@ -161,7 +161,7 @@ void StyleSheet::reload()
   load();
 }
 
-void StyleSheet::resolveValue(const std::string& class_name,
+void StyleSheet::resolveValue(const std::string_view& class_name,
                               const bwWidget::State state,
                               bwStyleProperty& property)
 {

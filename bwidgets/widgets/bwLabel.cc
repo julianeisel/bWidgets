@@ -10,9 +10,14 @@ namespace bWidgets {
 bwLabel::bwLabel(std::string text,
                  std::optional<unsigned int> width_hint,
                  std::optional<unsigned int> height_hint)
-    : bwWidget("bwLabel", width_hint, height_hint), text(std::move(text))
+    : bwWidget(width_hint, height_hint), text(std::move(text))
 {
   initialize();
+}
+
+auto bwLabel::getTypeIdentifier() const -> std::string_view
+{
+  return "bwLabel";
 }
 
 void bwLabel::draw(bwStyle& style)

@@ -5,8 +5,13 @@ namespace bWidgets {
 bwPushButton::bwPushButton(const std::string& text,
                            std::optional<unsigned int> width_hint,
                            std::optional<unsigned int> height_hint)
-    : bwAbstractButton(text, "bwPushButton", width_hint, height_hint)
+    : bwAbstractButton(text, width_hint, height_hint)
 {
+}
+
+auto bwPushButton::getTypeIdentifier() const -> std::string_view
+{
+  return "bwPushButton";
 }
 
 auto bwPushButton::matches(const bwWidget& other) const -> bool

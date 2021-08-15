@@ -8,6 +8,8 @@ class bwScrollBar : public bwAbstractButton {
  public:
   bwScrollBar(unsigned int width_hint = 0, unsigned int height_hint = 0);
 
+  auto getTypeIdentifier() const -> std::string_view override;
+
   void draw(bwStyle& style) override;
 
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;

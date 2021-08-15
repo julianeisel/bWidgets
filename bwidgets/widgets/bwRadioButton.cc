@@ -6,8 +6,13 @@ namespace bWidgets {
 bwRadioButton::bwRadioButton(const std::string& text,
                              std::optional<unsigned int> width_hint,
                              std::optional<unsigned int> height_hint)
-    : bwAbstractButton(text, "bwRadioButton", width_hint, height_hint)
+    : bwAbstractButton(text, width_hint, height_hint)
 {
+}
+
+auto bwRadioButton::getTypeIdentifier() const -> std::string_view
+{
+  return "bwRadioButton";
 }
 
 auto bwRadioButton::canAlign() const -> bool
