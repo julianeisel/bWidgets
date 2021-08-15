@@ -17,11 +17,6 @@ auto bwWidget::isCoordinateInside(const bwPoint& point) const -> bool
   return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-auto bwWidget::getIdentifier() const -> const std::string&
-{
-  return identifier;
-}
-
 auto bwWidget::getState() const -> State
 {
   return state;
