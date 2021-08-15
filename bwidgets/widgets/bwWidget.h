@@ -40,7 +40,6 @@ class bwWidget {
   auto operator=(const bwWidget&) = delete;
   auto operator=(bwWidget&&) = delete;
 
-  auto getIdentifier() const -> const std::string&;
   auto getState() const -> State;
   auto setState(State) -> bwWidget&;
   auto hide(bool _hidden = true) -> bwWidget&;
@@ -81,8 +80,6 @@ class bwWidget {
  protected:
   void initialize();
   virtual void registerProperties();
-
-  std::string identifier;
 
  private:
   /**
