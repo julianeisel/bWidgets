@@ -12,6 +12,8 @@ class bwTextBox : public bwWidget {
   bwTextBox(std::optional<unsigned int> width_hint = std::nullopt,
             std::optional<unsigned int> height_hint = std::nullopt);
 
+  auto getTypeIdentifier() const -> std::string_view override;
+
   void draw(class bwStyle& style) override;
   void registerProperties() override;
 

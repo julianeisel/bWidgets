@@ -4,14 +4,11 @@
 
 namespace bWidgets {
 
-bwWidget::bwWidget(const std::string& identifier,
-                   std::optional<unsigned int> width_hint,
-                   std::optional<unsigned int> height_hint)
+bwWidget::bwWidget(std::optional<unsigned int> width_hint, std::optional<unsigned int> height_hint)
     : state(State::NORMAL),
       rectangle(0, 0, 0, 0),
       width_hint(width_hint.value_or(bwStyle::s_default_widget_size_hint)),
-      height_hint(height_hint.value_or(bwStyle::s_default_widget_size_hint)),
-      identifier(identifier)
+      height_hint(height_hint.value_or(bwStyle::s_default_widget_size_hint))
 {
 }
 

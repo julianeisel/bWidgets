@@ -29,9 +29,7 @@ class bwWidget {
     STATE_TOT
   };
 
-  bwWidget(const std::string& identifier,
-           std::optional<unsigned int> width_hint,
-           std::optional<unsigned int> height_hint);
+  bwWidget(std::optional<unsigned int> width_hint, std::optional<unsigned int> height_hint);
   virtual ~bwWidget() = default;
 
   /* Disable these constructors/operators. Not really needed and would add complexity for
@@ -47,6 +45,8 @@ class bwWidget {
   auto setState(State) -> bwWidget&;
   auto hide(bool _hidden = true) -> bwWidget&;
   auto isHidden() -> bool;
+
+  virtual auto getTypeIdentifier() const -> std::string_view = 0;
 
   virtual void draw(bwStyle& style) = 0;
   virtual auto isCoordinateInside(const bwPoint& point) const -> bool;

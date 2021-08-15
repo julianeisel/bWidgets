@@ -17,7 +17,11 @@ bwNumberSlider::bwNumberSlider(std::optional<unsigned int> width_hint,
                                std::optional<unsigned int> height_hint)
     : bwTextBox(width_hint, height_hint), precision(2)
 {
-  identifier = "bwNumberSlider";
+}
+
+auto bwNumberSlider::getTypeIdentifier() const -> std::string_view
+{
+  return "bwNumberSlider";
 }
 
 void bwNumberSlider::draw(bwStyle& style)

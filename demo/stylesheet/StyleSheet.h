@@ -38,7 +38,7 @@ class StyleSheet {
 
   void reload();
 
-  void resolveValue(const std::string& class_name,
+  void resolveValue(const std::string_view& class_name,
                     bWidgets::bwWidget::State state,
                     bWidgets::bwStyleProperty& property);
 

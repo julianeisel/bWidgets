@@ -19,6 +19,8 @@ class bwScrollView : public bwContainerWidget {
                unsigned int width = 0,
                unsigned int height = 0);
 
+  auto getTypeIdentifier() const -> std::string_view override;
+
   void draw(bwStyle& style) override;
 
   auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;

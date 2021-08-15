@@ -18,7 +18,6 @@ class bwContainerWidget : public bwWidget {
 
  protected:
   bwContainerWidget(const bwScreenGraph::ContainerNode& node,
-                    const std::string& identifier,
                     std::optional<unsigned int> width_hint = std::nullopt,
                     std::optional<unsigned int> height_hint = std::nullopt);
 

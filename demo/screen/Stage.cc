@@ -151,7 +151,7 @@ void Stage::StyleSheetPolish(bwWidget& widget)
   StyleSheet& stylesheet = *Stage::style_sheet;
 
   for (auto& property : widget.style_properties) {
-    stylesheet.resolveValue(widget.getIdentifier(), widget.getState(), *property);
+    stylesheet.resolveValue(widget.getTypeIdentifier(), widget.getState(), *property);
   }
 }
 
