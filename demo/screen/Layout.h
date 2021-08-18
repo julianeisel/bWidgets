@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "bwLayoutInterface.h"
+#include "bwPoint.h"
 #include "bwRectangle.h"
 
 #include "screen_graph/Node.h"
@@ -34,7 +36,6 @@ class bwWidget;
 namespace bWidgetsDemo {
 
 void resolveScreenGraphNodeLayout(bWidgets::bwScreenGraph::LayoutNode& node,
-                                  const bWidgets::bwRectangle<float>& rect,
                                   const float scale_fac);
 
 /**

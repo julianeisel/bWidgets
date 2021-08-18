@@ -8,6 +8,7 @@
 #include "bwEvent.h"
 #include "bwPainter.h"
 #include "bwStyle.h"
+#include "screen_graph/Node.h"
 
 #include "bwNumberSlider.h"
 
@@ -147,7 +148,7 @@ auto bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const -> float
 
 class bwNumberSliderHandler : public bwTextBoxHandler {
  public:
-  bwNumberSliderHandler(bwNumberSlider& numberslider);
+  bwNumberSliderHandler(bwScreenGraph::Node& node);
   ~bwNumberSliderHandler() = default;
 
   void onMousePress(bwMouseButtonEvent&) override;
@@ -162,14 +163,15 @@ class bwNumberSliderHandler : public bwTextBoxHandler {
   float initial_value;
 };
 
-bwNumberSliderHandler::bwNumberSliderHandler(bwNumberSlider& numberslider)
-    : bwTextBoxHandler(numberslider), numberslider(numberslider)
+bwNumberSliderHandler::bwNumberSliderHandler(bwScreenGraph::Node& node)
+    : bwTextBoxHandler(node), numberslider(*widget_cast<bwNumberSlider>(node.Widget()))
 {
 }
 
-auto bwNumberSlider::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
+auto bwNumberSlider::createHandler(bwScreenGraph::Node& node)
+    -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
-  return std::make_unique<bwNumberSliderHandler>(*this);
+  return std::make_unique<bwNumberSliderHandler>(node);
 }
 
 void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)

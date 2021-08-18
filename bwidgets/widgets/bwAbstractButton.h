@@ -25,7 +25,8 @@ class bwAbstractButton : public bwWidget {
   auto setLabel(const std::string& label) -> bwAbstractButton&;
   virtual auto getIcon() const -> const bwIconInterface*;
 
-  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
+  auto createHandler(bwScreenGraph::Node& node)
+      -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   /**
    * Function object called when applying changes to widget.
@@ -50,7 +51,7 @@ class bwAbstractButton : public bwWidget {
 
 class bwAbstractButtonHandler : public bwScreenGraph::EventHandler {
  public:
-  bwAbstractButtonHandler(bwAbstractButton& button);
+  bwAbstractButtonHandler(bwScreenGraph::Node& node);
   virtual ~bwAbstractButtonHandler() = default;
 
   void onMouseEnter(bwEvent&) override;
@@ -58,9 +59,9 @@ class bwAbstractButtonHandler : public bwScreenGraph::EventHandler {
   void onMousePress(bwMouseButtonEvent&) override;
   void onMouseRelease(bwMouseButtonEvent&) override;
 
- protected:
-  bwAbstractButton& button;
+  auto Button() const -> bwAbstractButton&;
 
+ protected:
   void apply();
 };
 

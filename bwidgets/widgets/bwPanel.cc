@@ -6,6 +6,7 @@
 #include "bwPainter.h"
 #include "bwPanel.h"
 #include "bwStyle.h"
+#include "screen_graph/Node.h"
 
 namespace bWidgets {
 
@@ -166,7 +167,7 @@ auto bwPanel::getHeaderRectangle() const -> bwRectanglePixel
 
 class bwPanelHandler : public bwScreenGraph::EventHandler {
  public:
-  bwPanelHandler(bwPanel& panel);
+  bwPanelHandler(bwScreenGraph::Node& node);
   ~bwPanelHandler() = default;
 
   void onMousePress(bwMouseButtonEvent&) override;
@@ -175,13 +176,15 @@ class bwPanelHandler : public bwScreenGraph::EventHandler {
   bwPanel& panel;
 };
 
-bwPanelHandler::bwPanelHandler(bwPanel& panel) : panel(panel)
+bwPanelHandler::bwPanelHandler(bwScreenGraph::Node& node)
+    : bwScreenGraph::EventHandler(node), panel(*widget_cast<bwPanel>(node.Widget()))
 {
 }
 
-auto bwPanel::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
+auto bwPanel::createHandler(bwScreenGraph::Node& node)
+    -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
-  return std::make_unique<bwPanelHandler>(*this);
+  return std::make_unique<bwPanelHandler>(node);
 }
 
 void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)

@@ -17,6 +17,7 @@ set(SRC
 	screen_graph/Drawer.cc
 	screen_graph/EventHandler.cc
 	screen_graph/Iterators.cc
+	screen_graph/Node.cc
 	screen_graph/PersistentPtr.cc
 	styling/bwStyle.cc
 	styling/bwStyleCSS.cc

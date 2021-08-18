@@ -1,6 +1,7 @@
 #include "bwEvent.h"
 #include "bwPainter.h"
 #include "bwStyle.h"
+#include "screen_graph/Node.h"
 
 #include "bwCheckbox.h"
 
@@ -80,7 +81,7 @@ auto bwCheckbox::getTextRectangle(const bwRectanglePixel& checkbox_rectangle) co
 
 class bwCheckboxHandler : public bwAbstractButtonHandler {
  public:
-  bwCheckboxHandler(bwCheckbox& checkbox);
+  bwCheckboxHandler(bwScreenGraph::Node& node);
   ~bwCheckboxHandler() = default;
 
   void onMousePress(bwMouseButtonEvent&) override;
@@ -89,13 +90,14 @@ class bwCheckboxHandler : public bwAbstractButtonHandler {
   bwCheckbox& checkbox;
 };
 
-auto bwCheckbox::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
+auto bwCheckbox::createHandler(bwScreenGraph::Node& node)
+    -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
-  return std::make_unique<bwCheckboxHandler>(*this);
+  return std::make_unique<bwCheckboxHandler>(node);
 }
 
-bwCheckboxHandler::bwCheckboxHandler(bwCheckbox& checkbox)
-    : bwAbstractButtonHandler(checkbox), checkbox(checkbox)
+bwCheckboxHandler::bwCheckboxHandler(bwScreenGraph::Node& node)
+    : bwAbstractButtonHandler(node), checkbox(*widget_cast<bwCheckbox>(node.Widget()))
 {
 }
 

@@ -16,6 +16,11 @@ class bwMouseButtonEvent;
 class bwMouseButtonDragEvent;
 class bwStyle;
 
+namespace bwScreenGraph {
+class EventHandler;
+class Node;
+}  // namespace bwScreenGraph
+
 /**
  * \brief Abstract base class that all widgets derive from.
  */
@@ -51,7 +56,8 @@ class bwWidget {
   virtual auto isCoordinateInside(const bwPoint& point) const -> bool;
   virtual auto getLabel() const -> const std::string*;
   virtual auto canAlign() const -> bool;
-  virtual auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
+  virtual auto createHandler(bwScreenGraph::Node& node)
+      -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
   /**
    * Compare this widget to \a other, to see if they represent the same data. Crucial for
@@ -59,6 +65,13 @@ class bwWidget {
    * screen graph is reconstructed).
    */
   virtual auto matches(const bwWidget& other) const -> bool = 0;
+  /**
+   * Some widgets should always keep their state preserved over redraws, not just if there is an
+   * explicit persistent pointer (#bwScreenGraph::PersistentNodePtr) for them. This check can
+   * return true to force #bwScreenGraph::Constructor::reconstruct() to keep a widget persistent,
+   * i.e. keep its state over redraws for as long as the widget is in the screen-graph.
+   */
+  virtual auto alwaysPersistent() const -> bool;
   virtual void copyState(const bwWidget& from);
 
   /**

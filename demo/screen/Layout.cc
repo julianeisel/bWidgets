@@ -31,20 +31,12 @@ using namespace bWidgets;  // Less verbose
 
 namespace bWidgetsDemo {
 
-void resolveScreenGraphNodeLayout(bwScreenGraph::LayoutNode& node,
-                                  const bwRectangle<float>& rect,
-                                  const float scale_fac)
+void resolveScreenGraphNodeLayout(bwScreenGraph::LayoutNode& node, const float scale_fac)
 {
   if (LayoutItem* layout = static_cast<LayoutItem*>(node.Layout())) {
     if (ScrollViewLayout* root = dynamic_cast<ScrollViewLayout*>(layout)) {
       assert(node.Children());
-
-      if (bwWidget* widget = node.Widget()) {
-        widget->width_hint = rect.width();
-        widget->height_hint = rect.height();
-      }
-
-      root->resolve(node, {rect.xmin, rect.ymin}, root->item_margin, scale_fac);
+      root->resolve(node, {0, 0}, root->item_margin, scale_fac);
     }
   }
 }

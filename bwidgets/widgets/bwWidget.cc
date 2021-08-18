@@ -49,6 +49,11 @@ auto bwWidget::canAlign() const -> bool
   return false;
 }
 
+auto bwWidget::alwaysPersistent() const -> bool
+{
+  return false;
+}
+
 void bwWidget::copyState(const bwWidget& from)
 {
   setState(from.getState());

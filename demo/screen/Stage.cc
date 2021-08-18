@@ -34,6 +34,7 @@
 #include "screen_graph/Constructor.h"
 #include "screen_graph/Drawer.h"
 #include "screen_graph/Iterators.h"
+#include "screen_graph/ScreenGraph.h"
 
 #include "Event.h"
 #include "File.h"
@@ -130,18 +131,19 @@ static auto constructFromRoot(Stage& stage, const int width, const int height)
 {
   using namespace bwScreenGraph;
 
-  auto container = std::make_unique<bwScreenGraph::ContainerNode>();
+  auto container_node = std::make_unique<bwScreenGraph::ContainerNode>();
   auto layout = std::make_unique<ScrollViewLayout>();
-  auto scroll_view = std::make_unique<bwScrollView>(*container, "root_scroll_view", width, height);
+  auto scroll_view = std::make_unique<bwScrollView>(
+      *container_node, "root_scroll_view", width, height);
 
   layout->padding = 7;
   layout->item_margin = 5;
-  Builder::setLayout(*container, std::move(layout));
-  Builder::setWidget(*container, std::move(scroll_view));
+  Builder::setLayout(*container_node, std::move(layout));
+  Builder::setWidget(*container_node, std::move(scroll_view));
 
-  stage.constructUI(*container);
+  stage.constructUI(*container_node);
 
-  return container;
+  return container_node;
 }
 
 void Stage::draw()
@@ -150,12 +152,11 @@ void Stage::draw()
   updateStyling(clear_color);
 
   bwScreenGraph::Constructor::reconstruct(
-      screen_graph, [this] { return constructFromRoot(*this, mask_width, mask_height); });
+      screen_graph, [this] { return constructFromRoot(*this, mask_width - 1, mask_height - 1); });
 
-  bwRectanglePixel stage_rect{0, int(mask_width) - 1, 0, int(mask_height - 1)};
-  resolveScreenGraphNodeLayout(*screen_graph.Root(), stage_rect, interface_scale);
+  resolveScreenGraphNodeLayout(*screen_graph.Root(), interface_scale);
 
-  bwPainter::s_paint_engine->setupViewport(stage_rect, clear_color);
+  bwPainter::s_paint_engine->setupViewport(*screen_graph.Root()->MaskRectangle(), clear_color);
   bwScreenGraph::Drawer::draw(screen_graph, *style);
 }
 

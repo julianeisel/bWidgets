@@ -19,7 +19,8 @@ class bwNumberSlider : public bwTextBox {
   void draw(bwStyle& style) override;
   auto matches(const bwWidget& other) const -> bool override;
 
-  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
+  auto createHandler(bwScreenGraph::Node& node)
+      -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   auto setValue(float value) -> bwNumberSlider&;
   auto getValue() const -> float;

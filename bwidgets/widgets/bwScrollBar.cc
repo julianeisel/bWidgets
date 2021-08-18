@@ -1,6 +1,9 @@
+#include <iostream>
+
 #include "bwEvent.h"
 #include "bwPainter.h"
 #include "bwStyle.h"
+#include "screen_graph/Node.h"
 
 #include "bwScrollBar.h"
 
@@ -30,53 +33,60 @@ void bwScrollBar::draw(bwStyle& style)
 {
   bwRectanglePixel rect_inner{getInnerRect(*this)};
 
-  /* TODO maybe a wrapper could ensure old style is unchanged after drawing (by resetting it) */
-  const char old_shade_top = base_style.shade_top;
-  const char old_shade_bottom = base_style.shade_bottom;
-  const bwGradient gradient_outer{base_style.backgroundColor(),
-                                  base_style.shadeBottom(),
-                                  base_style.shadeTop(),
+  bwWidgetBaseStyle tmp_base_style = base_style;
+  const bwGradient gradient_outer{tmp_base_style.backgroundColor(),
+                                  tmp_base_style.shadeBottom(),
+                                  tmp_base_style.shadeTop(),
                                   bwGradient::Direction::LEFT_RIGHT};
   bwPainter painter;
 
   painter.drawRoundboxWidgetBase(
-      base_style, style, rectangle, gradient_outer, base_style.corner_radius);
+      tmp_base_style, style, rectangle, gradient_outer, tmp_base_style.corner_radius);
 
-  if (base_style.shadeTop() == base_style.shadeBottom()) {
+  if (tmp_base_style.shadeTop() == tmp_base_style.shadeBottom()) {
     // no shading, skip
   }
-  else if (base_style.shadeTop() > base_style.shadeBottom()) {
-    base_style.shade_top += 20;
+  else if (tmp_base_style.shadeTop() > tmp_base_style.shadeBottom()) {
+    tmp_base_style.shade_top += 20;
   }
   else {
-    base_style.shade_bottom += 20;
+    tmp_base_style.shade_bottom += 20;
   }
 
-  const bwGradient gradient_inner{base_style.decorationColor(),
-                                  base_style.shadeTop(),
-                                  base_style.shadeBottom(),
+  const bwGradient gradient_inner{tmp_base_style.decorationColor(),
+                                  tmp_base_style.shadeTop(),
+                                  tmp_base_style.shadeBottom(),
                                   bwGradient::Direction::LEFT_RIGHT};
   painter.drawRoundboxWidgetBase(
-      base_style, style, rect_inner, gradient_inner, base_style.corner_radius);
+      tmp_base_style, style, rect_inner, gradient_inner, tmp_base_style.corner_radius);
+}
 
-  base_style.shade_top = old_shade_top;
-  base_style.shade_bottom = old_shade_bottom;
+void bwScrollBar::copyState(const bwWidget& from)
+{
+  bwWidget::copyState(from);
+
+  const bwScrollBar* other_scroll_bar = widget_cast<bwScrollBar>(from);
+  if (!other_scroll_bar) {
+    return;
+  }
+
+  scroll_offset = other_scroll_bar->scroll_offset;
 }
 
 // ------------------ Handling ------------------
 
 class bwScrollBarHandler : public bwAbstractButtonHandler {
  public:
-  bwScrollBarHandler(bwScrollBar& scrollbar);
+  bwScrollBarHandler(bwScreenGraph::Node& node);
   ~bwScrollBarHandler() = default;
 
   void onMousePress(bwMouseButtonEvent&) override;
   void onMouseClick(bwMouseButtonEvent&) override;
   void onMouseDrag(bwMouseButtonDragEvent&) override;
 
- private:
-  bwScrollBar& scrollbar;
+  auto Scrollbar() const -> bwScrollBar&;
 
+ private:
   constexpr static float SCROLL_JUMP_FAC = 0.8f;
 
   int mouse_press_scroll_offset = 0;  // scroll_offset from last onMousePress() call
@@ -84,25 +94,32 @@ class bwScrollBarHandler : public bwAbstractButtonHandler {
   void setScrollOffset(int);
 };
 
-bwScrollBarHandler::bwScrollBarHandler(bwScrollBar& scrollbar)
-    : bwAbstractButtonHandler(scrollbar), scrollbar(scrollbar)
+bwScrollBarHandler::bwScrollBarHandler(bwScreenGraph::Node& node) : bwAbstractButtonHandler(node)
 {
 }
 
-auto bwScrollBar::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
+auto bwScrollBar::createHandler(bwScreenGraph::Node& node)
+    -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
-  return std::make_unique<bwScrollBarHandler>(*this);
+  return std::make_unique<bwScrollBarHandler>(node);
+}
+
+auto bwScrollBarHandler::Scrollbar() const -> bwScrollBar&
+{
+  assert(Widget<bwScrollBar>());
+  return *Widget<bwScrollBar>();
 }
 
 void bwScrollBarHandler::onMousePress(bwMouseButtonEvent& event)
 {
   bwAbstractButtonHandler::onMousePress(event);
-  mouse_press_scroll_offset = scrollbar.scroll_offset;
+  mouse_press_scroll_offset = Scrollbar().scroll_offset;
   event.swallow();
 }
 
 void bwScrollBarHandler::onMouseClick(bwMouseButtonEvent& event)
 {
+  bwScrollBar& scrollbar = Scrollbar();
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
     bwRectanglePixel rect_inner{getInnerRect(scrollbar)};
 
@@ -127,7 +144,7 @@ void bwScrollBarHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 
 void bwScrollBarHandler::setScrollOffset(int value)
 {
-  scrollbar.scroll_offset = value;
+  Scrollbar().scroll_offset = value;
   apply();
 }
 

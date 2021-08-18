@@ -24,8 +24,11 @@ class bwScrollView : public bwContainerWidget {
 
   void draw(bwStyle& style) override;
   auto matches(const bwWidget& other) const -> bool override;
+  auto alwaysPersistent() const -> bool override;
+  void copyState(const bwWidget& from) override;
 
-  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
+  auto createHandler(bwScreenGraph::Node& node)
+      -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   auto getScrollOffsetY() const -> int;
   auto getContentBounds(float interface_scale) const -> bwRectanglePixel;
@@ -47,6 +50,9 @@ class bwScrollView : public bwContainerWidget {
   std::string identifier;
   std::unique_ptr<bwScreenGraph::WidgetNode> scrollbar_node;
 
+  /** Last known content rectangle, updated before drawing. */
+  bwRectanglePixel content_rect;
+  /** Current vertical scroll value. */
   int vert_scroll{0};
 };
 

@@ -3,6 +3,7 @@
 
 #include "Node.h"
 #include "ScreenGraph.h"
+#include "bwWidget.h"
 #include "screen_graph/Iterators.h"
 
 #include "Constructor.h"
@@ -19,19 +20,31 @@ void Constructor::reconstruct(ScreenGraph& screen_graph, ConstructionFunc constr
    * function, so persistent node pointers can get updated/rebound. */
   std::unique_ptr<Node> old_root = std::move(screen_graph.root_node);
 
+  addAlwaysPersistentPointers(screen_graph, *old_root);
+
   screen_graph.Root(construct_func());
   if (!screen_graph.Root()) {
     return;
   }
 
-  PersistentNodeRegistry::UpdateFn update_fn = [](Node& old, Node& new_) {
-    const bwWidget* old_widget = old.Widget();
-    bwWidget* new_widget = new_.Widget();
-    if (old_widget && new_widget) {
-      new_widget->copyState(*old_widget);
-    }
-  };
+  PersistentNodeRegistry::UpdateFn update_fn = [](Node& old, Node& new_) { new_.moveState(old); };
   updatePersistentPointersFromOld(screen_graph, *screen_graph.Root(), *old_root, update_fn);
+}
+
+/**
+ * Some widget types are always persistent by design. This is simply established by adding them
+ */
+void Constructor::addAlwaysPersistentPointers(ScreenGraph& screen_graph, const Node& subtree)
+{
+  for (Node& iter_node : const_cast<Node&>(subtree)) {
+    if (bwWidget* widget = iter_node.Widget()) {
+      if (widget->alwaysPersistent()) {
+        const std::string* label = widget->getLabel();
+        make_persistent_ptr(
+            screen_graph, &iter_node, label ? label->c_str() : "Some always persistent pointer");
+      }
+    }
+  }
 }
 
 void Constructor::updatePersistentPointersFromOld(ScreenGraph& screen_graph,

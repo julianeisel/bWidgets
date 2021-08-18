@@ -7,6 +7,10 @@
 namespace bWidgets {
 namespace bwScreenGraph {
 
+EventHandler::EventHandler(bwScreenGraph::Node& node) : node(&node)
+{
+}
+
 void EventHandler::addEventListener(EventHandler::EventType event_type, EventListener listener)
 {
   assert(event_type < TOT_EVENT_TYPES);
@@ -43,6 +47,11 @@ void EventHandler::onMouseDrag(bwMouseButtonDragEvent&)
 
 void EventHandler::onMouseWheel(bwMouseWheelEvent&)
 {
+}
+
+bwScreenGraph::Node& EventHandler::Node() const
+{
+  return *node;
 }
 
 }  // namespace bwScreenGraph

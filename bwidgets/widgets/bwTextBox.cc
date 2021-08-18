@@ -1,6 +1,7 @@
 #include "bwEvent.h"
 #include "bwPainter.h"
 #include "bwStyle.h"
+#include "screen_graph/Node.h"
 
 #include "bwTextBox.h"
 
@@ -72,12 +73,13 @@ bool bwTextBox::canAlign() const
 
 // ------------------ Handling ------------------
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwTextBox::createHandler()
+std::unique_ptr<bwScreenGraph::EventHandler> bwTextBox::createHandler(bwScreenGraph::Node& node)
 {
-  return std::make_unique<bwTextBoxHandler>(*this);
+  return std::make_unique<bwTextBoxHandler>(node);
 }
 
-bwTextBoxHandler::bwTextBoxHandler(bwTextBox& textbox) : textbox(textbox)
+bwTextBoxHandler::bwTextBoxHandler(bwScreenGraph::Node& node)
+    : bwScreenGraph::EventHandler(node), textbox(*widget_cast<bwTextBox>(node.Widget()))
 {
 }
 

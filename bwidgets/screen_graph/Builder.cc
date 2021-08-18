@@ -1,5 +1,7 @@
 #include <cassert>
 
+#include "bwLayoutInterface.h"
+
 #include "Builder.h"
 
 namespace bWidgets {
@@ -24,7 +26,7 @@ void Builder::setLayout(LayoutNode& node, std::unique_ptr<bwLayoutInterface> lay
 void Builder::setWidget(WidgetNode& node, std::unique_ptr<bwWidget> widget)
 {
   node.widget = std::move(widget);
-  node.handler = node.widget->createHandler();
+  node.handler = node.widget->createHandler(node);
 }
 
 auto Builder::addWidget(LayoutNode& node, std::unique_ptr<bwWidget> widget) -> bwWidget&

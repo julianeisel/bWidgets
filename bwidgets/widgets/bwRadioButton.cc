@@ -24,26 +24,28 @@ auto bwRadioButton::canAlign() const -> bool
 
 class bwRadioButtonHandler : public bwAbstractButtonHandler {
  public:
-  bwRadioButtonHandler(bwRadioButton& button);
+  bwRadioButtonHandler(bwScreenGraph::Node& node);
   ~bwRadioButtonHandler() = default;
 
   void onMousePress(bwMouseButtonEvent&) override;
   void onMouseRelease(bwMouseButtonEvent&) override;
 };
 
-bwRadioButtonHandler::bwRadioButtonHandler(bwRadioButton& button) : bwAbstractButtonHandler(button)
+bwRadioButtonHandler::bwRadioButtonHandler(bwScreenGraph::Node& node)
+    : bwAbstractButtonHandler(node)
 {
 }
 
-auto bwRadioButton::createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler>
+auto bwRadioButton::createHandler(bwScreenGraph::Node& node)
+    -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
-  return std::make_unique<bwRadioButtonHandler>(*this);
+  return std::make_unique<bwRadioButtonHandler>(node);
 }
 
 void bwRadioButtonHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    button.setState(bwWidget::State::SUNKEN);
+    Button().setState(bwWidget::State::SUNKEN);
     apply();
     event.swallow();
   }

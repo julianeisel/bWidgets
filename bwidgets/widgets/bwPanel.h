@@ -21,7 +21,7 @@ class bwPanel : public bwContainerWidget {
   auto matches(const bwWidget& other) const -> bool override;
 
   auto getTypeIdentifier() const -> std::string_view override;
-  
+
   void draw(class bwStyle& style) override;
 
   void registerProperties() override;
@@ -29,7 +29,8 @@ class bwPanel : public bwContainerWidget {
   auto getLabel() const -> const std::string* override;
   auto childrenVisible() const -> bool override;
 
-  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
+  auto createHandler(bwScreenGraph::Node& node)
+      -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   unsigned int getHeaderHeightHint() const;
 

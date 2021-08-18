@@ -22,7 +22,8 @@ class bwLabel : public bwWidget {
   auto matches(const bwWidget& widget) const -> bool override;
 
   void registerProperties() override;
-  auto createHandler() -> std::unique_ptr<bwScreenGraph::EventHandler> override;
+  auto createHandler(bwScreenGraph::Node& node)
+      -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   auto getLabel() const -> const std::string* override;
   auto setLabel(const std::string&) -> bwLabel&;

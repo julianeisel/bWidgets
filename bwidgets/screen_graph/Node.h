@@ -1,12 +1,17 @@
 #pragma once
 
+#include <iostream>
 #include <list>
+#include <optional>
 
-#include "bwContainerWidget.h"
-#include "bwLayoutInterface.h"
-#include "bwWidget.h"
+#include "bwRectangle.h"
 
 namespace bWidgets {
+
+class bwContainerWidget;
+class bwLayoutInterface;
+class bwWidget;
+
 namespace bwScreenGraph {
 
 class EventHandler;
@@ -14,9 +19,8 @@ class EventHandler;
 /**
  * \brief The base data-structure for a screen-graph node
  *
- * Screen-graph nodes are the atomical components of a screen-graph, which is
- * key for the bWidgets design. If you're not familiar with our screen-graph
- * concept, you should really have a look at the
+ * Screen-graph nodes are the components of a screen-graph, which is key for the bWidgets design.
+ * If you're not familiar with our screen-graph concept, you should really have a look at the
  * [bWidgets design overview](md_docs_bWidgets_design_overview.html).
  *
  * There are three kinds of screen-graph elements/nodes:
@@ -41,46 +45,23 @@ class Node {
   using ChildIterator = ChildList::iterator;
 
   Node() = default;
-  virtual ~Node() = default;
+  virtual ~Node();
 
-  virtual auto Children() const -> const ChildList*
-  {
-    return nullptr;
-  }
-  virtual auto Children() -> ChildList*
-  {
-    return nullptr;
-  }
+  virtual auto Children() const -> const ChildList*;
+  virtual auto Children() -> ChildList*;
+  virtual auto childrenVisible() const -> bool;
+  virtual auto Layout() const -> bwLayoutInterface*;
+  virtual auto Widget() const -> bwWidget*;
 
-  virtual auto childrenVisible() const -> bool
-  {
-    return true;
-  }
+  auto Parent() const -> Node*;
+  auto eventHandler() const -> EventHandler*;
 
-  virtual auto Layout() const -> bwLayoutInterface*
-  {
-    return nullptr;
-  }
-
-  virtual auto Widget() const -> bwWidget*
-  {
-    return nullptr;
-  }
-
-  auto Parent() const -> Node*
-  {
-    return parent;
-  }
-
-  auto eventHandler() const -> EventHandler*
-  {
-    return handler.get();
-  }
+  virtual auto matches(const Node&) -> bool const = 0;
+  virtual void moveState(Node& from);
 
   virtual auto Rectangle() const -> bwRectanglePixel = 0;
   virtual auto MaskRectangle() const -> std::optional<bwRectanglePixel> = 0;
   virtual auto isVisible() const -> bool = 0;
-  virtual auto matches(const Node&) -> bool const = 0;
 
  private:
   Node* parent{nullptr};
@@ -94,41 +75,17 @@ class LayoutNode : virtual public Node {
   friend class Builder;
 
  public:
-  auto Children() const -> const ChildList* override
-  {
-    return &children;
-  }
-  auto Children() -> ChildList* override
-  {
-    return &children;
-  }
+  ~LayoutNode();
 
-  auto Layout() const -> bwLayoutInterface* override
-  {
-    return layout.get();
-  }
+  auto Children() const -> const ChildList* override;
+  auto Children() -> ChildList* override;
 
-  auto Rectangle() const -> bwRectanglePixel override
-  {
-    return layout->getRectangle();
-  }
+  auto Layout() const -> bwLayoutInterface* override;
+  auto Rectangle() const -> bwRectanglePixel override;
+  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override;
+  auto isVisible() const -> bool override;
 
-  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override
-  {
-    return std::nullopt;
-  }
-
-  auto isVisible() const -> bool override
-  {
-    return true;
-  }
-
-  auto matches(const Node&) -> bool const override
-  {
-    /* Layouts can not be uniquely identified. They do not store state that would have to be kept
-     * over redraws, so they can be entirely reconstructed on each redraw. */
-    return false;
-  }
+  auto matches(const Node&) -> bool const override;
 
  private:
   ChildList children;
@@ -142,39 +99,13 @@ class WidgetNode : virtual public Node {
   friend class Builder;
 
  public:
-  auto Widget() const -> bwWidget* override
-  {
-    return &*widget;
-  }
+  auto Widget() const -> bwWidget* override;
+  auto Rectangle() const -> bwRectanglePixel override;
+  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override;
+  auto isVisible() const -> bool override;
 
-  auto Rectangle() const -> bwRectanglePixel override
-  {
-    return widget->rectangle;
-  }
-
-  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override
-  {
-    return std::nullopt;
-  }
-
-  auto isVisible() const -> bool override
-  {
-    return widget->isHidden() == false;
-  }
-
-  auto matches(const Node& other) -> bool const override
-  {
-    bwWidget* other_widget = other.Widget();
-    if (!other_widget) {
-      return false;
-    }
-
-    return (widget.get() == other_widget) ||
-           /* Compares the actual widgets, not the pointers. I.e. calls the widget's custom
-            * matches( overload. Crucial for identifying widgets over redraws and preserving
-            * state that way. */
-           (widget->matches(*other_widget));
-  }
+  auto matches(const Node& other) -> bool const override;
+  void moveState(Node& from) override;
 
  private:
   std::unique_ptr<bwWidget> widget;
@@ -188,58 +119,21 @@ class WidgetNode : virtual public Node {
  */
 class ContainerNode : public LayoutNode, public WidgetNode {
  public:
-  auto Children() const -> const ChildList* override
-  {
-    return LayoutNode::Children();
-  }
-  auto Children() -> ChildList* override
-  {
-    return LayoutNode::Children();
-  }
+  auto Children() const -> const ChildList* override;
+  auto Children() -> ChildList* override;
+  auto Layout() const -> bwLayoutInterface* override;
+  auto Widget() const -> bwWidget* override;
+  auto ContainerWidget() const -> bwContainerWidget&;
 
-  auto Layout() const -> bwLayoutInterface* override
-  {
-    return LayoutNode::Layout();
-  }
+  auto Rectangle() const -> bwRectanglePixel override;
+  auto ContentRectangle() const -> bwRectanglePixel;
+  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override;
 
-  auto Widget() const -> bwWidget* override
-  {
-    return WidgetNode::Widget();
-  }
+  auto isVisible() const -> bool override;
+  auto childrenVisible() const -> bool override;
 
-  auto ContainerWidget() const -> bwContainerWidget&
-  {
-    return static_cast<bwContainerWidget&>(*Widget());
-  }
-
-  auto Rectangle() const -> bwRectanglePixel override
-  {
-    return WidgetNode::Rectangle();
-  }
-  auto ContentRectangle() const -> bwRectanglePixel
-  {
-    return LayoutNode::Rectangle();
-  }
-
-  auto MaskRectangle() const -> std::optional<bwRectanglePixel> override
-  {
-    return ContainerWidget().getMaskRectangle();
-  }
-
-  auto isVisible() const -> bool override
-  {
-    return WidgetNode::isVisible();
-  }
-
-  auto childrenVisible() const -> bool override
-  {
-    return ContainerWidget().childrenVisible();
-  }
-
-  auto matches(const Node& other) -> bool const override
-  {
-    return WidgetNode::matches(other);
-  }
+  auto matches(const Node& other) -> bool const override;
+  void moveState(Node& from) override;
 };
 
 }  // namespace bwScreenGraph
