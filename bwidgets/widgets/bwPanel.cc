@@ -48,6 +48,11 @@ auto bwPanel::matches(const bwWidget& other) const -> bool
   return label == other_panel->label;
 }
 
+auto bwPanel::alwaysPersistent() const -> bool
+{
+  return true;
+}
+
 void bwPanel::registerProperties()
 {
   bwContainerWidget::registerProperties();
@@ -163,6 +168,18 @@ auto bwPanel::getHeaderRectangle() const -> bwRectanglePixel
   return header_rect;
 }
 
+void bwPanel::copyState(const bwWidget& from)
+{
+  bwWidget::copyState(from);
+
+  const bwPanel* other_panel = widget_cast<bwPanel>(from);
+  if (!other_panel) {
+    return;
+  }
+
+  panel_state = other_panel->panel_state;
+}
+
 // ------------------ Handling ------------------
 
 class bwPanelHandler : public bwScreenGraph::EventHandler {
@@ -172,12 +189,10 @@ class bwPanelHandler : public bwScreenGraph::EventHandler {
 
   void onMousePress(bwMouseButtonEvent&) override;
 
- private:
-  bwPanel& panel;
+  auto Panel() const -> bwPanel&;
 };
 
-bwPanelHandler::bwPanelHandler(bwScreenGraph::Node& node)
-    : bwScreenGraph::EventHandler(node), panel(*widget_cast<bwPanel>(node.Widget()))
+bwPanelHandler::bwPanelHandler(bwScreenGraph::Node& node) : bwScreenGraph::EventHandler(node)
 {
 }
 
@@ -187,8 +202,15 @@ auto bwPanel::createHandler(bwScreenGraph::Node& node)
   return std::make_unique<bwPanelHandler>(node);
 }
 
+auto bwPanelHandler::Panel() const -> bwPanel&
+{
+  assert(Widget<bwPanel>());
+  return *Widget<bwPanel>();
+}
+
 void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)
 {
+  bwPanel& panel = Panel();
   if ((event.button != bwMouseButtonEvent::Button::LEFT) ||
       !panel.isCoordinateInsideHeader(event.location)) {
     // Skip

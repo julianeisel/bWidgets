@@ -18,11 +18,14 @@ class bwPanel : public bwContainerWidget {
   bwPanel(const bwScreenGraph::ContainerNode& node,
           std::string label,
           std::optional<unsigned int> header_height_hint = std::nullopt);
-  auto matches(const bwWidget& other) const -> bool override;
 
   auto getTypeIdentifier() const -> std::string_view override;
 
   void draw(class bwStyle& style) override;
+
+  auto matches(const bwWidget& other) const -> bool override;
+  auto alwaysPersistent() const -> bool override;
+  void copyState(const bwWidget& from) override;
 
   void registerProperties() override;
 
