@@ -61,6 +61,17 @@ void bwScrollBar::draw(bwStyle& style)
       tmp_base_style, style, rect_inner, gradient_inner, tmp_base_style.corner_radius);
 }
 
+auto bwScrollBar::matches(const bwWidget& other) const -> bool
+{
+  const bwScrollBar* other_scrollbar = widget_cast<bwScrollBar>(other);
+  if (!other_scrollbar) {
+    return false;
+  }
+
+  /* XXX There's no data to compare here. */
+  return true;
+}
+
 void bwScrollBar::copyState(const bwWidget& from)
 {
   bwWidget::copyState(from);

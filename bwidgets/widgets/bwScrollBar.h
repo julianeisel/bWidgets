@@ -11,6 +11,7 @@ class bwScrollBar : public bwAbstractButton {
   auto getTypeIdentifier() const -> std::string_view override;
 
   void draw(bwStyle& style) override;
+  auto matches(const bwWidget& other) const -> bool override;
   void copyState(const bwWidget& from) override;
 
   auto createHandler(bwScreenGraph::Node& node)
