@@ -70,19 +70,6 @@ class EventHandler {
    * The screen-graph node this event-handler belongs to.
    */
   bwScreenGraph::Node& Node() const;
-  /**
-   * The widget this event-handler belongs to (as composed by the node).
-   */
-  template<class WidgetT_ = bwWidget> WidgetT_* Widget() const
-  {
-    if constexpr (std::is_same<WidgetT_, bwWidget>::value) {
-      return node->Widget();
-    }
-    else {
-      /* Compiler doesn't want us to call widget_cast<>() here for some reason. */
-      return dynamic_cast<WidgetT_*>(node->Widget());
-    }
-  }
 
  private:
   /** Parent node of this handler. Non-owning, never null. */
@@ -90,6 +77,28 @@ class EventHandler {
 
   std::array<std::list<EventListener>, TOT_EVENT_TYPES> listeners;
   //	std::unordered_map<EventType, std::list<EventListener>> listener_map;
+};
+
+template<class WidgetType_> class WidgetEventHandler : public EventHandler {
+ protected:
+  using EventHandler::EventHandler;
+
+  /**
+   * The widget this event-handler belongs to (as composed by the node).
+   */
+  WidgetType_& Widget() const
+  {
+    if constexpr (std::is_same<WidgetType_, bwWidget>::value) {
+      return Node().Widget();
+    }
+    else {
+      static_assert(std::is_base_of_v<bwWidget, WidgetType_>, "Should derive from bwWidget");
+      assert(dynamic_cast<WidgetType_*>(Node().Widget()) != nullptr);
+
+      /* Compiler doesn't want us to call widget_cast<>() here for some reason. */
+      return *dynamic_cast<WidgetType_*>(Node().Widget());
+    }
+  }
 };
 
 }  // namespace bwScreenGraph

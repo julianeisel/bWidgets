@@ -182,35 +182,28 @@ void bwPanel::copyState(const bwWidget& from)
 
 // ------------------ Handling ------------------
 
-class bwPanelHandler : public bwScreenGraph::EventHandler {
+class bwPanelHandler : public bwScreenGraph::WidgetEventHandler<bwPanel> {
  public:
   bwPanelHandler(bwScreenGraph::Node& node);
   ~bwPanelHandler() = default;
 
   void onMousePress(bwMouseButtonEvent&) override;
-
-  auto Panel() const -> bwPanel&;
 };
 
-bwPanelHandler::bwPanelHandler(bwScreenGraph::Node& node) : bwScreenGraph::EventHandler(node)
+bwPanelHandler::bwPanelHandler(bwScreenGraph::Node& node)
+    : bwScreenGraph::WidgetEventHandler<bwPanel>(node)
 {
 }
 
-auto bwPanel::createHandler(bwScreenGraph::Node& node)
+auto bwPanel::createHandler(bwScreenGraph::Node& node) const
     -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwPanelHandler>(node);
 }
 
-auto bwPanelHandler::Panel() const -> bwPanel&
-{
-  assert(Widget<bwPanel>());
-  return *Widget<bwPanel>();
-}
-
 void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)
 {
-  bwPanel& panel = Panel();
+  bwPanel& panel = Widget();
   if ((event.button != bwMouseButtonEvent::Button::LEFT) ||
       !panel.isCoordinateInsideHeader(event.location)) {
     // Skip

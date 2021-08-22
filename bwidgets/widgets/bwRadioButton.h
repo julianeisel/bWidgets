@@ -28,7 +28,7 @@ class bwRadioButton : public bwAbstractButton {
 
   auto canAlign() const -> bool override;
 
-  auto createHandler(bwScreenGraph::Node& node)
+  auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 };
 

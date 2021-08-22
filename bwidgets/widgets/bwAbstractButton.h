@@ -25,7 +25,7 @@ class bwAbstractButton : public bwWidget {
   auto setLabel(const std::string& label) -> bwAbstractButton&;
   virtual auto getIcon() const -> const bwIconInterface*;
 
-  auto createHandler(bwScreenGraph::Node& node)
+  auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   /**
@@ -49,20 +49,57 @@ class bwAbstractButton : public bwWidget {
       base_style;  // XXX public for setWidgetStyle. Should only be temporarily needed.
 };
 
-class bwAbstractButtonHandler : public bwScreenGraph::EventHandler {
+// ------------------ Handling ------------------
+
+/**
+ * PImpl (Pointer to implementation) class to keep the handler implementation in the source file.
+ * Since the actual class is a template this would have to be in the header otherwise.
+ */
+class bwAbstractButtonHandlerPImpl {
  public:
-  bwAbstractButtonHandler(bwScreenGraph::Node& node);
+  void onMouseEnter(bwEvent& event, bwAbstractButton& button);
+  void onMouseLeave(bwEvent& event, bwAbstractButton& button);
+  void onMousePress(bwMouseButtonEvent& event, bwAbstractButton& button);
+  void onMouseRelease(bwMouseButtonEvent& event, bwAbstractButton& button);
+
+  void apply(bwAbstractButton& button);
+};
+
+template<class _WidgetType = bwAbstractButton>
+class bwAbstractButtonHandler : public bwScreenGraph::WidgetEventHandler<_WidgetType> {
+  std::unique_ptr<bwAbstractButtonHandlerPImpl> pimpl;
+
+ public:
+  bwAbstractButtonHandler(bwScreenGraph::Node& node)
+      : bwScreenGraph::WidgetEventHandler<_WidgetType>(node)
+  {
+  }
+
   virtual ~bwAbstractButtonHandler() = default;
 
-  void onMouseEnter(bwEvent&) override;
-  void onMouseLeave(bwEvent&) override;
-  void onMousePress(bwMouseButtonEvent&) override;
-  void onMouseRelease(bwMouseButtonEvent&) override;
+  void onMouseEnter(bwEvent& event) override
+  {
+    return pimpl->onMouseEnter(event, Widget());
+  }
+  void onMouseLeave(bwEvent& event) override
+  {
+    return pimpl->onMouseLeave(event, Widget());
+  }
+  void onMousePress(bwMouseButtonEvent& event) override
+  {
+    return pimpl->onMousePress(event, Widget());
+  }
+  void onMouseRelease(bwMouseButtonEvent& event) override
+  {
+    return pimpl->onMouseRelease(event, Widget());
+  }
 
-  auto Button() const -> bwAbstractButton&;
+  void apply()
+  {
+    return pimpl->apply(Widget());
+  }
 
- protected:
-  void apply();
+  using bwScreenGraph::WidgetEventHandler<_WidgetType>::Widget;
 };
 
 }  // namespace bWidgets

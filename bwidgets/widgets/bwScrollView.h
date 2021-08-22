@@ -27,7 +27,7 @@ class bwScrollView : public bwContainerWidget {
   auto alwaysPersistent() const -> bool override;
   void copyState(const bwWidget& from) override;
 
-  auto createHandler(bwScreenGraph::Node& node)
+  auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   auto getScrollOffsetY() const -> int;

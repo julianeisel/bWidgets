@@ -168,7 +168,7 @@ bwNumberSliderHandler::bwNumberSliderHandler(bwScreenGraph::Node& node)
 {
 }
 
-auto bwNumberSlider::createHandler(bwScreenGraph::Node& node)
+auto bwNumberSlider::createHandler(bwScreenGraph::Node& node) const
     -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwNumberSliderHandler>(node);

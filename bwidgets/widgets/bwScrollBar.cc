@@ -86,7 +86,7 @@ void bwScrollBar::copyState(const bwWidget& from)
 
 // ------------------ Handling ------------------
 
-class bwScrollBarHandler : public bwAbstractButtonHandler {
+class bwScrollBarHandler : public bwAbstractButtonHandler<bwScrollBar> {
  public:
   bwScrollBarHandler(bwScreenGraph::Node& node);
   ~bwScrollBarHandler() = default;
@@ -94,8 +94,6 @@ class bwScrollBarHandler : public bwAbstractButtonHandler {
   void onMousePress(bwMouseButtonEvent&) override;
   void onMouseClick(bwMouseButtonEvent&) override;
   void onMouseDrag(bwMouseButtonDragEvent&) override;
-
-  auto Scrollbar() const -> bwScrollBar&;
 
  private:
   constexpr static float SCROLL_JUMP_FAC = 0.8f;
@@ -109,28 +107,22 @@ bwScrollBarHandler::bwScrollBarHandler(bwScreenGraph::Node& node) : bwAbstractBu
 {
 }
 
-auto bwScrollBar::createHandler(bwScreenGraph::Node& node)
+auto bwScrollBar::createHandler(bwScreenGraph::Node& node) const
     -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwScrollBarHandler>(node);
 }
 
-auto bwScrollBarHandler::Scrollbar() const -> bwScrollBar&
-{
-  assert(Widget<bwScrollBar>());
-  return *Widget<bwScrollBar>();
-}
-
 void bwScrollBarHandler::onMousePress(bwMouseButtonEvent& event)
 {
   bwAbstractButtonHandler::onMousePress(event);
-  mouse_press_scroll_offset = Scrollbar().scroll_offset;
+  mouse_press_scroll_offset = Widget().scroll_offset;
   event.swallow();
 }
 
 void bwScrollBarHandler::onMouseClick(bwMouseButtonEvent& event)
 {
-  bwScrollBar& scrollbar = Scrollbar();
+  bwScrollBar& scrollbar = Widget();
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
     bwRectanglePixel rect_inner{getInnerRect(scrollbar)};
 
@@ -155,7 +147,7 @@ void bwScrollBarHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 
 void bwScrollBarHandler::setScrollOffset(int value)
 {
-  Scrollbar().scroll_offset = value;
+  Widget().scroll_offset = value;
   apply();
 }
 

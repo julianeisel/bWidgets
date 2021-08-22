@@ -66,61 +66,53 @@ auto bwAbstractButton::getIcon() const -> const bwIconInterface*
   return nullptr;
 }
 
-auto bwAbstractButton::createHandler(bwScreenGraph::Node& node)
+/**
+ * Default handler for buttons. Needs to be overriden to create custom handlers.
+ */
+auto bwAbstractButton::createHandler(bwScreenGraph::Node& node) const
     -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
-  return std::make_unique<bwAbstractButtonHandler>(node);
+  return std::make_unique<bwAbstractButtonHandler<bwAbstractButton>>(node);
 }
 
 // ------------------ Handling ------------------
 
-bwAbstractButtonHandler::bwAbstractButtonHandler(bwScreenGraph::Node& node)
-    : bwScreenGraph::EventHandler(node)
+void bwAbstractButtonHandlerPImpl::onMouseEnter(bwEvent& /*event*/, bwAbstractButton& button)
 {
+  if (button.getState() == bwWidget::State::NORMAL) {
+    button.setState(bwWidget::State::HIGHLIGHTED);
+  }
 }
-
-auto bwAbstractButtonHandler::Button() const -> bwAbstractButton&
+void bwAbstractButtonHandlerPImpl::onMouseLeave(bwEvent& /*event*/, bwAbstractButton& button)
 {
-  assert(Widget<bwAbstractButton>());
-  return *Widget<bwAbstractButton>();
-}
-
-void bwAbstractButtonHandler::onMouseEnter(bwEvent&)
-{
-  if (Button().getState() == bwWidget::State::NORMAL) {
-    Button().setState(bwWidget::State::HIGHLIGHTED);
+  if (button.getState() == bwWidget::State::HIGHLIGHTED) {
+    button.setState(bwWidget::State::NORMAL);
   }
 }
 
-void bwAbstractButtonHandler::onMouseLeave(bwEvent&)
-{
-  if (Button().getState() == bwWidget::State::HIGHLIGHTED) {
-    Button().setState(bwWidget::State::NORMAL);
-  }
-}
-
-void bwAbstractButtonHandler::onMousePress(bwMouseButtonEvent& event)
+void bwAbstractButtonHandlerPImpl::onMousePress(bwMouseButtonEvent& event,
+                                                bwAbstractButton& button)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    Button().setState(bwWidget::State::SUNKEN);
+    button.setState(bwWidget::State::SUNKEN);
     event.swallow();
   }
 }
-
-void bwAbstractButtonHandler::onMouseRelease(bwMouseButtonEvent& event)
+void bwAbstractButtonHandlerPImpl::onMouseRelease(bwMouseButtonEvent& event,
+                                                  bwAbstractButton& button)
 {
   if ((event.button == bwMouseButtonEvent::Button::LEFT) &&
-      (Button().getState() == bwWidget::State::SUNKEN)) {
-    Button().setState(bwWidget::State::NORMAL);
+      (button.getState() == bwWidget::State::SUNKEN)) {
+    button.setState(bwWidget::State::NORMAL);
 
     event.swallow();
   }
 }
 
-void bwAbstractButtonHandler::apply()
+void bwAbstractButtonHandlerPImpl::apply(bwAbstractButton& button)
 {
-  if (Button().apply_functor) {
-    (*Button().apply_functor)();
+  if (button.apply_functor) {
+    (*button.apply_functor)();
   }
 }
 

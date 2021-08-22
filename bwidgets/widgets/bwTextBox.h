@@ -23,7 +23,7 @@ class bwTextBox : public bwWidget {
 
   bool canAlign() const override;
 
-  auto createHandler(bwScreenGraph::Node& node)
+  auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   bwRectanglePixel selection_rectangle;

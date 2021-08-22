@@ -79,7 +79,7 @@ auto bwCheckbox::getTextRectangle(const bwRectanglePixel& checkbox_rectangle) co
 
 // ------------------ Handling ------------------
 
-class bwCheckboxHandler : public bwAbstractButtonHandler {
+class bwCheckboxHandler : public bwAbstractButtonHandler<bwCheckbox> {
  public:
   bwCheckboxHandler(bwScreenGraph::Node& node);
   ~bwCheckboxHandler() = default;
@@ -90,7 +90,7 @@ class bwCheckboxHandler : public bwAbstractButtonHandler {
   bwCheckbox& checkbox;
 };
 
-auto bwCheckbox::createHandler(bwScreenGraph::Node& node)
+auto bwCheckbox::createHandler(bwScreenGraph::Node& node) const
     -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwCheckboxHandler>(node);

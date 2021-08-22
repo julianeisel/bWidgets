@@ -14,7 +14,7 @@ class bwScrollBar : public bwAbstractButton {
   auto matches(const bwWidget& other) const -> bool override;
   void copyState(const bwWidget& from) override;
 
-  auto createHandler(bwScreenGraph::Node& node)
+  auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   float ratio = 0.0f;  // Ration between content and area height (max 1.0f).

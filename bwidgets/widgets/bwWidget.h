@@ -56,7 +56,7 @@ class bwWidget {
   virtual auto isCoordinateInside(const bwPoint& point) const -> bool;
   virtual auto getLabel() const -> const std::string*;
   virtual auto canAlign() const -> bool;
-  virtual auto createHandler(bwScreenGraph::Node& node)
+  virtual auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
   /**

@@ -32,7 +32,7 @@ class bwPanel : public bwContainerWidget {
   auto getLabel() const -> const std::string* override;
   auto childrenVisible() const -> bool override;
 
-  auto createHandler(bwScreenGraph::Node& node)
+  auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   unsigned int getHeaderHeightHint() const;
