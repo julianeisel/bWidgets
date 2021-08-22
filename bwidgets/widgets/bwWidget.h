@@ -115,7 +115,7 @@ class bwWidget {
  *       Sometimes it's still necessary to customize behavior through type checks from outside the
  *       widget type definition though. At least for now.
  *
- * \return The derrived widget class of type `T*` or `nullptr` if cast is not valid (whereby T is
+ * \return The derived widget class of type `T*` or `nullptr` if cast is not valid (whereby T is
  *         the "raw" type requested, without pointer).
  */
 template<class T, class _RawT = typename std::remove_pointer<T>::type>
@@ -128,7 +128,7 @@ inline auto widget_cast(bwWidget& widget) -> _RawT*
 
 /**
  * See \ref widget_cast(bwWidget& widget)
- * \return The derrived widget class of type `const T*` or `nullptr` if cast is not valid (whereby
+ * \return The derived widget class of type `const T*` or `nullptr` if cast is not valid (whereby
  *         T is the "raw" type requested, without const qualifier or pointer).
  */
 template<class T,
@@ -142,7 +142,7 @@ inline auto widget_cast(const bwWidget& widget) -> const _RawT*
 
 /**
  * See \ref widget_cast(bwWidget& widget)
- * \return The derrived widget class of type `T*` or `nullptr` if cast is not valid (whereby T is
+ * \return The derived widget class of type `T*` or `nullptr` if cast is not valid (whereby T is
  *         the "raw" type requested, without pointer).
  */
 template<class T, class _RawT = typename std::remove_pointer<T>::type>
@@ -155,7 +155,7 @@ inline auto widget_cast(bwWidget* widget) -> _RawT*
 
 /**
  * See \ref widget_cast(bwWidget& widget)
- * \return The derrived widget class of type `const T*` or `nullptr` if cast is not valid (whereby
+ * \return The derived widget class of type `const T*` or `nullptr` if cast is not valid (whereby
  *         T is the "raw" type requested, without const qualifier or pointer).
  */
 template<class T,
