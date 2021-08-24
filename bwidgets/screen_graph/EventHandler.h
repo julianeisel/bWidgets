@@ -86,7 +86,7 @@ template<class WidgetType_> class WidgetEventHandler : public EventHandler {
   /**
    * The widget this event-handler belongs to (as composed by the node).
    */
-  WidgetType_& Widget() const
+  virtual WidgetType_& Widget() const
   {
     if constexpr (std::is_same<WidgetType_, bwWidget>::value) {
       return Node().Widget();

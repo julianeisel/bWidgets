@@ -16,6 +16,7 @@ class bwTextBox : public bwWidget {
 
   void draw(class bwStyle& style) override;
   auto matches(const bwWidget& other) const -> bool override;
+  void copyState(const bwWidget& from) override;
 
   void registerProperties() override;
   auto setText(const std::string& value) -> bwTextBox&;
@@ -37,7 +38,7 @@ class bwTextBox : public bwWidget {
       base_style;  // XXX public for setWidgetStyle. Should only be temporarily needed.
 };
 
-class bwTextBoxHandler : public bwScreenGraph::EventHandler {
+class bwTextBoxHandler : public bwScreenGraph::WidgetEventHandler<bwTextBox> {
  public:
   bwTextBoxHandler(bwScreenGraph::Node& node);
   virtual ~bwTextBoxHandler() = default;
@@ -46,11 +47,9 @@ class bwTextBoxHandler : public bwScreenGraph::EventHandler {
   void onMouseLeave(bwEvent&) override;
   void onMousePress(bwMouseButtonEvent&) override;
 
- protected:
   void startTextEditing();
   void endTextEditing();
 
-  bwTextBox& textbox;
   bool is_dragging = false;
 };
 

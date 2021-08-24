@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits>
+
 #include "bwTextBox.h"
 
 namespace bWidgets {
@@ -18,6 +20,7 @@ class bwNumberSlider : public bwTextBox {
 
   void draw(bwStyle& style) override;
   auto matches(const bwWidget& other) const -> bool override;
+  void copyState(const bwWidget& from) override;
 
   auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
@@ -37,17 +40,22 @@ class bwNumberSlider : public bwTextBox {
    * Support multiple numeric types. bwNumberSlider could be made
    * a template class for this, but using union is just fine.
    */
-  union {
+  union ValueInfo {
+    ValueInfo()
+    {
+    }
+
     // float
     struct {
-      float value;
-      float min, max;
-      unsigned int precision;
+      float value = 0.0f;
+      float min = std::numeric_limits<float>::min();
+      float max = std::numeric_limits<float>::max();
+      uint precision = 2;
     };
     // struct { int value; ...}
     // struct { char value; ...}
     // ...
-  };
+  } value_info;
 };
 
 }  // namespace bWidgets

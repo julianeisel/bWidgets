@@ -86,8 +86,6 @@ class bwCheckboxHandler : public bwAbstractButtonHandler<bwCheckbox> {
 
   void onMousePress(bwMouseButtonEvent&) override;
   void onMouseRelease(bwMouseButtonEvent&) override;
-
-  bwCheckbox& checkbox;
 };
 
 auto bwCheckbox::createHandler(bwScreenGraph::Node& node) const
@@ -96,15 +94,14 @@ auto bwCheckbox::createHandler(bwScreenGraph::Node& node) const
   return std::make_unique<bwCheckboxHandler>(node);
 }
 
-bwCheckboxHandler::bwCheckboxHandler(bwScreenGraph::Node& node)
-    : bwAbstractButtonHandler(node), checkbox(*widget_cast<bwCheckbox>(node.Widget()))
+bwCheckboxHandler::bwCheckboxHandler(bwScreenGraph::Node& node) : bwAbstractButtonHandler(node)
 {
 }
 
 void bwCheckboxHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    checkbox.setState(checkbox.isChecked() ? bwWidget::State::HIGHLIGHTED :
+    Widget().setState(Widget().isChecked() ? bwWidget::State::HIGHLIGHTED :
                                              bwWidget::State::SUNKEN);
     apply();
     event.swallow();

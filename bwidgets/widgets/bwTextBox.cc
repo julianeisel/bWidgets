@@ -47,7 +47,20 @@ auto bwTextBox::matches(const bwWidget& other) const -> bool
     return false;
   }
 
-  return (text == other_textbox->text) && (is_text_editing == other_textbox->is_text_editing);
+  return (text == other_textbox->text);
+}
+
+void bwTextBox::copyState(const bwWidget& from)
+{
+  bwWidget::copyState(from);
+
+  const bwTextBox* other_textbox = widget_cast<bwTextBox>(from);
+  if (!other_textbox) {
+    return;
+  }
+
+  is_text_editing = other_textbox->is_text_editing;
+  selection_rectangle = other_textbox->selection_rectangle;
 }
 
 void bwTextBox::registerProperties()
@@ -80,33 +93,33 @@ std::unique_ptr<bwScreenGraph::EventHandler> bwTextBox::createHandler(
 }
 
 bwTextBoxHandler::bwTextBoxHandler(bwScreenGraph::Node& node)
-    : bwScreenGraph::EventHandler(node), textbox(*widget_cast<bwTextBox>(node.Widget()))
+    : bwScreenGraph::WidgetEventHandler<bwTextBox>(node)
 {
 }
 
 void bwTextBoxHandler::startTextEditing()
 {
-  textbox.setState(bwWidget::State::SUNKEN);
-  textbox.is_text_editing = true;
+  Widget().setState(bwWidget::State::SUNKEN);
+  Widget().is_text_editing = true;
 }
 
 void bwTextBoxHandler::endTextEditing()
 {
-  textbox.setState(bwWidget::State::NORMAL);
-  textbox.is_text_editing = false;
+  Widget().setState(bwWidget::State::NORMAL);
+  Widget().is_text_editing = false;
 }
 
 void bwTextBoxHandler::onMouseEnter(bwEvent&)
 {
-  if (textbox.getState() == bwWidget::State::NORMAL) {
-    textbox.setState(bwWidget::State::HIGHLIGHTED);
+  if (Widget().getState() == bwWidget::State::NORMAL) {
+    Widget().setState(bwWidget::State::HIGHLIGHTED);
   }
 }
 
 void bwTextBoxHandler::onMouseLeave(bwEvent&)
 {
-  if (textbox.getState() == bwWidget::State::HIGHLIGHTED) {
-    textbox.setState(bwWidget::State::NORMAL);
+  if (Widget().getState() == bwWidget::State::HIGHLIGHTED) {
+    Widget().setState(bwWidget::State::NORMAL);
   }
 }
 void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
@@ -116,7 +129,7 @@ void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
     event.swallow();
   }
   else if (event.button == bwMouseButtonEvent::Button::RIGHT) {
-    if (textbox.getState() == bwWidget::State::SUNKEN) {
+    if (Widget().getState() == bwWidget::State::SUNKEN) {
       endTextEditing();
       event.swallow();
     }

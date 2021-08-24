@@ -16,7 +16,7 @@ namespace bWidgets {
 
 bwNumberSlider::bwNumberSlider(std::optional<unsigned int> width_hint,
                                std::optional<unsigned int> height_hint)
-    : bwTextBox(width_hint, height_hint), precision(2)
+    : bwTextBox(width_hint, height_hint)
 {
 }
 
@@ -61,19 +61,9 @@ void bwNumberSlider::draw(bwStyle& style)
   if (!is_text_editing) {
     painter.drawText(text, rectangle, base_style.text_alignment);
   }
-  painter.drawText(valueToString(precision),
+  painter.drawText(valueToString(value_info.precision),
                    rectangle,
                    is_text_editing ? TextAlignment::LEFT : TextAlignment::RIGHT);
-}
-
-auto bwNumberSlider::matches(const bwWidget& other) const -> bool
-{
-  const bwNumberSlider* other_slider = widget_cast<bwNumberSlider>(other);
-  if (!other_slider) {
-    return false;
-  }
-
-  return bwTextBox::matches(other) && compareFunctors(apply_functor, other_slider->apply_functor);
 }
 
 void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) const
@@ -109,39 +99,61 @@ void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) cons
 
 auto bwNumberSlider::setValue(float _value) -> bwNumberSlider&
 {
-  const int precision_fac = std::pow(10, precision);
-  const float unclamped_value = std::max(min, std::min(max, _value));
+  const int precision_fac = std::pow(10, value_info.precision);
+  const float unclamped_value = std::max(value_info.min, std::min(value_info.max, _value));
 
-  value = std::roundf(unclamped_value * precision_fac) / precision_fac;
+  value_info.value = std::roundf(unclamped_value * precision_fac) / precision_fac;
   return *this;
 }
 
 auto bwNumberSlider::getValue() const -> float
 {
-  return value;
+  return value_info.value;
 }
 
 auto bwNumberSlider::setMinMax(float _min, float _max) -> bwNumberSlider&
 {
-  min = _min;
-  max = _max;
+  value_info.min = _min;
+  value_info.max = _max;
   return *this;
 }
 
 auto bwNumberSlider::valueToString(unsigned int precision) const -> std::string
 {
   std::stringstream string_stream;
-  string_stream << std::fixed << std::setprecision(precision) << value;
+  string_stream << std::fixed << std::setprecision(precision) << value_info.value;
   return string_stream.str();
 }
 
 auto bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const -> float
 {
-  const float range = max - min;
+  const float range = value_info.max - value_info.min;
   const float radius = base_style.corner_radius * style.dpi_fac;
 
-  assert(max > min);
-  return ((value - min) * (rectangle.width() - radius)) / range;
+  assert(value_info.max > value_info.min);
+  return ((value_info.value - value_info.min) * (rectangle.width() - radius)) / range;
+}
+
+auto bwNumberSlider::matches(const bwWidget& other) const -> bool
+{
+  const bwNumberSlider* other_slider = widget_cast<bwNumberSlider>(other);
+  if (!other_slider) {
+    return false;
+  }
+
+  return bwTextBox::matches(other) && compareFunctors(apply_functor, other_slider->apply_functor);
+}
+
+void bwNumberSlider::copyState(const bwWidget& from)
+{
+  bwWidget::copyState(from);
+
+  const bwNumberSlider* other_slider = widget_cast<bwNumberSlider>(from);
+  if (!other_slider) {
+    return;
+  }
+
+  value_info = other_slider->value_info;
 }
 
 // ------------------ Handling ------------------
@@ -151,20 +163,21 @@ class bwNumberSliderHandler : public bwTextBoxHandler {
   bwNumberSliderHandler(bwScreenGraph::Node& node);
   ~bwNumberSliderHandler() = default;
 
+  void onMouseEnter(bwEvent&) override;
+  void onMouseLeave(bwEvent&) override;
   void onMousePress(bwMouseButtonEvent&) override;
   void onMouseRelease(bwMouseButtonEvent&) override;
   void onMouseClick(bwMouseButtonEvent&) override;
   void onMouseDrag(bwMouseButtonDragEvent&) override;
 
- private:
-  bwNumberSlider& numberslider;
+  bwNumberSlider& Widget() const override;
 
+ private:
   // Initial value before starting to edit.
   float initial_value;
 };
 
-bwNumberSliderHandler::bwNumberSliderHandler(bwScreenGraph::Node& node)
-    : bwTextBoxHandler(node), numberslider(*widget_cast<bwNumberSlider>(node.Widget()))
+bwNumberSliderHandler::bwNumberSliderHandler(bwScreenGraph::Node& node) : bwTextBoxHandler(node)
 {
 }
 
@@ -174,10 +187,27 @@ auto bwNumberSlider::createHandler(bwScreenGraph::Node& node) const
   return std::make_unique<bwNumberSliderHandler>(node);
 }
 
+bwNumberSlider& bwNumberSliderHandler::Widget() const
+{
+  return *widget_cast<bwNumberSlider>(bwTextBoxHandler::Widget());
+}
+
+void bwNumberSliderHandler::onMouseEnter(bwEvent& event)
+{
+  bwTextBoxHandler::onMouseEnter(event);
+}
+
+void bwNumberSliderHandler::onMouseLeave(bwEvent& event)
+{
+  bwTextBoxHandler::onMouseLeave(event);
+}
+
 void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
 {
+  bwNumberSlider& numberslider = Widget();
+
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    initial_value = numberslider.value;
+    initial_value = numberslider.value_info.value;
     numberslider.setState(bwWidget::State::SUNKEN);
 
     event.swallow();
@@ -187,7 +217,7 @@ void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
       endTextEditing();
     }
     else if (is_dragging) {
-      numberslider.value = initial_value;
+      numberslider.value_info.value = initial_value;
     }
 
     event.swallow();
@@ -197,7 +227,7 @@ void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
 void bwNumberSliderHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
   if (is_dragging) {
-    numberslider.setState(bwWidget::State::NORMAL);
+    Widget().setState(bwWidget::State::NORMAL);
   }
   is_dragging = false;
 
@@ -215,6 +245,8 @@ void bwNumberSliderHandler::onMouseClick(bwMouseButtonEvent& event)
 
 void bwNumberSliderHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 {
+  bwNumberSlider& numberslider = *widget_cast<bwNumberSlider>(Widget());
+
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
     numberslider.setValue(initial_value +
                           (event.drag_distance.x / (float)numberslider.rectangle.width()));
