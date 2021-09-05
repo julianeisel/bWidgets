@@ -19,12 +19,15 @@ class bwStyle;
 namespace bwScreenGraph {
 class EventHandler;
 class Node;
+class WidgetNode;
 }  // namespace bwScreenGraph
 
 /**
  * \brief Abstract base class that all widgets derive from.
  */
 class bwWidget {
+  friend class bwScreenGraph::WidgetNode;
+
  public:
   enum class State {
     NORMAL = 0,
@@ -60,22 +63,12 @@ class bwWidget {
       -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
   /**
-   * Compare this widget to \a other, to see if they represent the same data. Crucial for
-   * identifying widgets, which again is crucial for keeping state over redraws (where the
-   * screen graph is reconstructed).
-   *
-   * Should only be called via #bwScreenGraph::Node::matches(), which ensures the widgets are of
-   * the same type. So the implementations can assume the correct type already.
-   */
-  virtual auto matches(const bwWidget& other) const -> bool = 0;
-  /**
    * Some widgets should always keep their state preserved over redraws, not just if there is an
    * explicit persistent pointer (#bwScreenGraph::PersistentNodePtr) for them. This check can
    * return true to force #bwScreenGraph::Constructor::reconstruct() to keep a widget persistent,
    * i.e. keep its state over redraws for as long as the widget is in the screen-graph.
    */
   virtual auto alwaysPersistent() const -> bool;
-  virtual void copyState(const bwWidget& from);
 
   /**
    * Final rectangle defining the widget bounding-box.
@@ -94,6 +87,21 @@ class bwWidget {
   bwStyleProperties style_properties;
 
  protected:
+  /**
+   * Compare this widget to \a other, to see if they represent the same data. Crucial for
+   * identifying widgets, which again is crucial for keeping state over redraws (where the
+   * screen graph is reconstructed).
+   *
+   * Can assume the widget type was already checked by the caller (by calling
+   * #WidgetNode::matchesType()).
+   */
+  virtual auto matches(const bwWidget& other) const -> bool = 0;
+  /*
+   * Can assume the widget type was already checked by the caller (by calling
+   * #WidgetNode::matchesType()).
+   */
+  virtual void copyState(const bwWidget& from);
+
   void initialize();
   virtual void registerProperties();
 
