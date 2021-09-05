@@ -39,9 +39,6 @@ void bwPanel::draw(bwStyle& style)
 auto bwPanel::matches(const bwWidget& other) const -> bool
 {
   const bwPanel* other_panel = widget_cast<bwPanel>(other);
-  if (!other_panel) {
-    return false;
-  }
 
   /* TODO should have an identifier, or check the parent node? Not sure how else we could identify
    * an instance of a panel-type. */

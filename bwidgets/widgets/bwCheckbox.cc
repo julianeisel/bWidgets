@@ -45,11 +45,6 @@ void bwCheckbox::draw(bwStyle& style)
 
 auto bwCheckbox::matches(const bwWidget& other) const -> bool
 {
-  const bwCheckbox* other_checkbox = widget_cast<bwCheckbox>(other);
-  if (!other_checkbox) {
-    return false;
-  }
-
   return bwAbstractButton::matches(other);
 }
 

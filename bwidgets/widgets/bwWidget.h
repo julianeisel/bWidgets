@@ -63,6 +63,9 @@ class bwWidget {
    * Compare this widget to \a other, to see if they represent the same data. Crucial for
    * identifying widgets, which again is crucial for keeping state over redraws (where the
    * screen graph is reconstructed).
+   *
+   * Should only be called via #bwScreenGraph::Node::matches(), which ensures the widgets are of
+   * the same type. So the implementations can assume the correct type already.
    */
   virtual auto matches(const bwWidget& other) const -> bool = 0;
   /**

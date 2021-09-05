@@ -34,9 +34,6 @@ void bwAbstractButton::draw(bwStyle& style)
 auto bwAbstractButton::matches(const bwWidget& other) const -> bool
 {
   const bwAbstractButton* other_button = widget_cast<bwAbstractButton>(other);
-  if (!other_button) {
-    return false;
-  }
 
   /* If there's no apply-functor with data to compare, use the label to identify the button. */
   if (!apply_functor && !other_button->apply_functor) {

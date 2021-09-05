@@ -137,10 +137,6 @@ auto bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const -> float
 auto bwNumberSlider::matches(const bwWidget& other) const -> bool
 {
   const bwNumberSlider* other_slider = widget_cast<bwNumberSlider>(other);
-  if (!other_slider) {
-    return false;
-  }
-
   return bwTextBox::matches(other) && compareFunctors(apply_functor, other_slider->apply_functor);
 }
 

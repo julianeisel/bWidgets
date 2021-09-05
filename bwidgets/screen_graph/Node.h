@@ -56,7 +56,20 @@ class Node {
   auto Parent() const -> Node*;
   auto eventHandler() const -> EventHandler*;
 
-  virtual auto matches(const Node&) -> bool const = 0;
+  /**
+   * Check if the type of this node matches another one. Widget and layout nodes also compare
+   * the type of their contained widget/layout.
+   */
+  virtual auto matchesType(const Node&) const -> bool;
+  /**
+   * Check if the node's data matches another one's. Widget and layout nodes also compare the data
+   * of their contained widget/layout.
+   */
+  virtual auto matches(const Node&) const -> bool = 0;
+  /**
+   * Move the state of one node to another, if the node types match. Otherwise doesn't do
+   * anything.
+   */
   virtual void moveState(Node& from);
 
   virtual auto Rectangle() const -> bwRectanglePixel = 0;
@@ -85,7 +98,8 @@ class LayoutNode : virtual public Node {
   auto MaskRectangle() const -> std::optional<bwRectanglePixel> override;
   auto isVisible() const -> bool override;
 
-  auto matches(const Node&) -> bool const override;
+  auto matchesType(const Node&) const -> bool override;
+  auto matches(const Node&) const -> bool override;
 
  private:
   ChildList children;
@@ -104,8 +118,9 @@ class WidgetNode : virtual public Node {
   auto MaskRectangle() const -> std::optional<bwRectanglePixel> override;
   auto isVisible() const -> bool override;
 
-  auto matches(const Node& other) -> bool const override;
-  void moveState(Node& from) override;
+  auto matchesType(const Node&) const -> bool override;
+  auto matches(const Node&) const -> bool override;
+  void moveState(Node&) override;
 
  private:
   std::unique_ptr<bwWidget> widget;
@@ -132,8 +147,9 @@ class ContainerNode : public LayoutNode, public WidgetNode {
   auto isVisible() const -> bool override;
   auto childrenVisible() const -> bool override;
 
-  auto matches(const Node& other) -> bool const override;
-  void moveState(Node& from) override;
+  auto matchesType(const Node&) const -> bool override;
+  auto matches(const Node&) const -> bool override;
+  void moveState(Node&) override;
 };
 
 }  // namespace bwScreenGraph

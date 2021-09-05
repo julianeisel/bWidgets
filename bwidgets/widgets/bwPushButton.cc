@@ -16,11 +16,6 @@ auto bwPushButton::getTypeIdentifier() const -> std::string_view
 
 auto bwPushButton::matches(const bwWidget& other) const -> bool
 {
-  const bwPushButton* other_button = widget_cast<bwPushButton>(other);
-  if (!other_button) {
-    return false;
-  }
-
   return bwAbstractButton::matches(other);
 }
 

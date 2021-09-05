@@ -88,9 +88,6 @@ void bwScrollView::draw(bwStyle& style)
 auto bwScrollView::matches(const bwWidget& other) const -> bool
 {
   const bwScrollView* other_scroll_view = widget_cast<bwScrollView>(other);
-  if (!other_scroll_view) {
-    return false;
-  }
 
   return identifier == other_scroll_view->identifier &&
          scrollbar_node->matches(*other_scroll_view->scrollbar_node);

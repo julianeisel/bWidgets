@@ -43,10 +43,6 @@ void bwTextBox::draw(bwStyle& style)
 auto bwTextBox::matches(const bwWidget& other) const -> bool
 {
   const bwTextBox* other_textbox = widget_cast<bwTextBox>(other);
-  if (!other_textbox) {
-    return false;
-  }
-
   return (text == other_textbox->text);
 }
 

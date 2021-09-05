@@ -1,3 +1,5 @@
+#include <typeinfo>
+
 #include "bwContainerWidget.h"
 #include "bwLayoutInterface.h"
 #include "bwWidget.h"
@@ -47,8 +49,16 @@ auto Node::eventHandler() const -> EventHandler*
   return handler.get();
 }
 
+auto Node::matchesType(const Node& other) const -> bool
+{
+  return typeid(*this) == typeid(other);
+}
+
 void Node::moveState(Node& from)
 {
+  if (!Node::matchesType(from)) {
+    return;
+  }
   std::swap(handler, from.handler);
   handler->node = this;
 }
@@ -90,7 +100,17 @@ auto LayoutNode::isVisible() const -> bool
   return true;
 }
 
-auto LayoutNode::matches(const Node&) -> bool const
+auto LayoutNode::matchesType(const Node& other) const -> bool
+{
+  if (!Node::matchesType(other)) {
+    return false;
+  }
+  bwLayoutInterface* this_layout = layout.get();
+  bwLayoutInterface* other_layout = other.Layout();
+  return typeid(this_layout) == typeid(other_layout);
+}
+
+auto LayoutNode::matches(const Node&) const -> bool
 {
   /* Layouts can not be uniquely identified. They do not store state that would have to be kept
    * over redraws, so they can be entirely reconstructed on each redraw. */
@@ -120,26 +140,48 @@ auto WidgetNode::isVisible() const -> bool
   return widget->isHidden() == false;
 }
 
-auto WidgetNode::matches(const Node& other) -> bool const
+auto WidgetNode::matchesType(const Node& other) const -> bool
 {
-  bwWidget* other_widget = other.Widget();
-  if (!other_widget) {
+  if (!Node::matchesType(other)) {
     return false;
   }
-
-  return (widget.get() == other_widget) ||
-         /* Compares the actual widgets, not the pointers. I.e. calls the widget's custom
-          * matches( overload. Crucial for identifying widgets over redraws and preserving
-          * state that way. */
-         (widget->matches(*other_widget));
+  bwWidget* this_widget = widget.get();
+  bwWidget* other_widget = other.Widget();
+  assert(widget != nullptr);
+  assert(other_widget != nullptr);
+  return typeid(*this_widget) == typeid(*other_widget);
 }
 
+auto WidgetNode::matches(const Node& other) const -> bool
+{
+  /* Compare node and widget types. */
+  if (!matchesType(other)) {
+    return false;
+  }
+  bwWidget* other_widget = other.Widget();
+
+  if (widget.get() == other_widget) {
+    /* Quick path: Same address, no need to check further. */
+    return true;
+  }
+
+  /* Compares the actual widgets, i.e. calls the widget's custom matches() overload.
+   * Crucial for identifying widgets over redraws and preserving state that way. */
+  return widget->matches(*other_widget);
+}
+
+/**
+ * Move a node's state and its widget's state to another node of the same type. Matching means that
+ * the other
+ */
 void WidgetNode::moveState(Node& from)
 {
-  Node::moveState(from);
-  if (bwWidget* other_widget = from.Widget()) {
-    widget->copyState(*other_widget);
+  if (!matchesType(from)) {
+    return;
   }
+
+  Node::moveState(from);
+  widget->copyState(*from.Widget());
 }
 
 /* -------------------------------------------------------------------- */
@@ -193,7 +235,12 @@ auto ContainerNode::childrenVisible() const -> bool
   return ContainerWidget().childrenVisible();
 }
 
-auto ContainerNode::matches(const Node& other) -> bool const
+auto ContainerNode::matchesType(const Node& other) const -> bool
+{
+  return LayoutNode::matchesType(other) && WidgetNode::matchesType(other);
+}
+
+auto ContainerNode::matches(const Node& other) const -> bool
 {
   return WidgetNode::matches(other);
 }
