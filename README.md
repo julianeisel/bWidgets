@@ -13,20 +13,20 @@ focused on core widget features: Widget types, layouts, styling, interaction.
 Mission & Goals
 ===============
 
-__Mission:__ Explore new design ideas & technology for a new era of Blender UI
-development; start with a blank canvas.
+__Mission:__ Explore new design ideas & technology for the next decade of
+Blender UI development; start with a blank canvas.
 
 The fundamental goals in relation to Blender are:
 * Solve long standing design issues & technical debt. Apply lessons learnt from
   the current design.
   * Keep good working designs! Enrich the UI design paradigms, don’t fight them.
-* Extend UI design vocabulary & functionality: Animations, drag & drop, greatly
-  improved theming, multi-line widgets, etc.
+* Extend UI design vocabulary & functionality: Animations, drag & drop, improved
+  theming, multi-line widgets, custom widgets, etc.
 * Better tooling for UI development: Clear specifications, comprehensive
   documentation, hugely increased testability, Blender UI builder app (later
   on).
 * Standalone widget toolkit, adaptable by other Blender projects for a unified
-  look & feel.
+  look & feel. Support exposing the entire toolkit to the Blender Python API.
 * Bring fun back to Blender UI coding!
 
 Further Documentation
