@@ -50,7 +50,7 @@ auto bwCheckbox::matches(const bwWidget& other) const -> bool
 
 auto bwCheckbox::isChecked() const -> bool
 {
-  return getState() == State::SUNKEN;
+  return getBaseState() == bwWidgetState::SUNKEN;
 }
 
 auto bwCheckbox::getCheckboxRectangle() const -> bwRectanglePixel
@@ -96,8 +96,8 @@ bwCheckboxHandler::bwCheckboxHandler(bwScreenGraph::Node& node) : bwAbstractButt
 void bwCheckboxHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    Widget().setState(Widget().isChecked() ? bwWidget::State::HIGHLIGHTED :
-                                             bwWidget::State::SUNKEN);
+    Widget().setBaseState(Widget().isChecked() ? bwWidgetState::HIGHLIGHTED :
+                                                 bwWidgetState::SUNKEN);
     apply();
     event.swallow();
   }

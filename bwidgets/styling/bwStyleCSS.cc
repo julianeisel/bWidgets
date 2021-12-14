@@ -19,6 +19,9 @@ void bwStyleCSS::setWidgetStyle(bwWidget& widget)
 
   if (auto* button = widget_cast<bwAbstractButton>(widget)) {
     button->base_style.roundbox_corners = button->rounded_corners;
+    if (auto* radio_but = widget_cast<bwRadioButton>(widget)) {
+      button->base_style.text_alignment = TextAlignment::CENTER;
+    }
   }
   else if (auto* container = widget_cast<bwContainerWidget>(widget)) {
     container->base_style.roundbox_corners = RoundboxCorner::ALL;

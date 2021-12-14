@@ -32,7 +32,7 @@ class StyleSheetTree {
   ~StyleSheetTree();
 
   bWidgets::bwStyleProperty& ensureNodeWithProperty(const std::string_view& class_name,
-                                                    const bWidgets::bwWidget::State state,
+                                                    const bWidgets::WidgetBaseState state,
                                                     const std::string_view& identifier,
                                                     const bWidgets::bwStyleProperty::Type type);
 
@@ -40,7 +40,7 @@ class StyleSheetTree {
 
   const bWidgets::bwStyleProperty* resolveProperty(const std::string_view& class_name,
                                                    const std::string_view& property_name,
-                                                   const bWidgets::bwWidget::State state);
+                                                   const bWidgets::WidgetBaseState state);
 
  private:
   class StyleSheetNode* lookupNode(const std::string_view& name) const;

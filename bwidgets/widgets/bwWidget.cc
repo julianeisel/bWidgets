@@ -5,9 +5,7 @@
 namespace bWidgets {
 
 bwWidget::bwWidget(std::optional<unsigned int> width_hint, std::optional<unsigned int> height_hint)
-    : state(State::NORMAL),
-      rectangle(0, 0, 0, 0),
-      width_hint(width_hint.value_or(bwStyle::s_default_widget_size_hint)),
+    : width_hint(width_hint.value_or(bwStyle::s_default_widget_size_hint)),
       height_hint(height_hint.value_or(bwStyle::s_default_widget_size_hint))
 {
 }
@@ -17,14 +15,19 @@ auto bwWidget::isCoordinateInside(const bwPoint& point) const -> bool
   return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-auto bwWidget::getState() const -> State
+void bwWidget::createState()
 {
-  return state;
+  state_ = std::make_unique<bwWidgetState>();
 }
 
-auto bwWidget::setState(State value) -> bwWidget&
+auto bwWidget::getBaseState() const -> WidgetBaseState
 {
-  state = value;
+  return state_->base;
+}
+
+auto bwWidget::setBaseState(WidgetBaseState value) -> bwWidget&
+{
+  state_->base = value;
   return *this;
 }
 
@@ -52,11 +55,6 @@ auto bwWidget::canAlign() const -> bool
 auto bwWidget::alwaysPersistent() const -> bool
 {
   return false;
-}
-
-void bwWidget::copyState(const bwWidget& from)
-{
-  setState(from.getState());
 }
 
 /**

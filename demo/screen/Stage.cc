@@ -122,7 +122,7 @@ void Stage::updateStyling(bwColor& clear_color)
 
   bwStyleProperty& property = properties.addColor("background-color", clear_color);
   if (style_sheet) {
-    style_sheet->resolveValue("Stage", bwWidget::State::NORMAL, property);
+    style_sheet->resolveValue("Stage", bwWidgetState::NORMAL, property);
   }
 }
 
@@ -133,8 +133,7 @@ static auto constructFromRoot(Stage& stage, const int width, const int height)
 
   auto container_node = std::make_unique<bwScreenGraph::ContainerNode>();
   auto layout = std::make_unique<ScrollViewLayout>();
-  auto scroll_view = std::make_unique<bwScrollView>(
-      *container_node, "root_scroll_view", width, height);
+  auto scroll_view = WidgetNew<bwScrollView>(*container_node, "root_scroll_view", width, height);
 
   layout->padding = 7;
   layout->item_margin = 5;
@@ -165,7 +164,7 @@ void Stage::StyleSheetPolish(bwWidget& widget)
   StyleSheet& stylesheet = *Stage::style_sheet;
 
   for (auto& property : widget.style_properties) {
-    stylesheet.resolveValue(widget.getTypeIdentifier(), widget.getState(), *property);
+    stylesheet.resolveValue(widget.getTypeIdentifier(), widget.getBaseState(), *property);
   }
 }
 

@@ -23,6 +23,8 @@
 
 #include "bwUtil.h"
 
+#include "bwWidgetState.h"
+
 #include "katana.h"
 
 namespace bWidgets {
@@ -39,7 +41,7 @@ class StyleSheet {
   void reload();
 
   void resolveValue(const std::string_view& class_name,
-                    bWidgets::bwWidget::State state,
+                    bWidgets::WidgetBaseState state,
                     bWidgets::bwStyleProperty& property);
 
   const std::string& getFilepath() const;

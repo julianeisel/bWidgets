@@ -106,8 +106,10 @@ template<typename T> class bwRectangle {
     }
   }
 
-  T xmin, xmax;
-  T ymin, ymax;
+  T xmin = 0;
+  T xmax = 0;
+  T ymin = 0;
+  T ymax = 0;
 };
 
 // useful aliases

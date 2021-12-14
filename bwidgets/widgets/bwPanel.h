@@ -25,20 +25,23 @@ class bwPanel : public bwContainerWidget {
 
   auto matches(const bwWidget& other) const -> bool override;
   auto alwaysPersistent() const -> bool override;
-  void copyState(const bwWidget& from) override;
 
   void registerProperties() override;
 
   auto getLabel() const -> const std::string* override;
   auto childrenVisible() const -> bool override;
 
+  void createState() override;
   auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
   unsigned int getHeaderHeightHint() const;
 
+  auto isOpen() const -> bool;
+  void setOpenState(State state);
+  auto getOpenState() const -> bwPanel::State;
+
   unsigned int header_height;
-  State panel_state{State::OPEN};
 
  private:
   void drawHeader(class bwStyle& style) const;

@@ -45,7 +45,7 @@ auto bwRadioButton::createHandler(bwScreenGraph::Node& node) const
 void bwRadioButtonHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    Widget().setState(bwWidget::State::SUNKEN);
+    Widget().setBaseState(bwWidgetState::SUNKEN);
     apply();
     event.swallow();
   }

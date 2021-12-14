@@ -81,19 +81,19 @@ static void stylesheet_set_value_from_katana_value(bwStyleProperty& property,
   parser->parseIntoProperty(property, value);
 }
 
-static bwWidget::State stylesheet_property_state_from_katana(const KatanaSelector& selector)
+static WidgetBaseState stylesheet_property_state_from_katana(const KatanaSelector& selector)
 {
   KatanaPseudoType pseudo_type = selector.tagHistory ? selector.tagHistory->pseudo :
                                                        KatanaPseudoEmpty;
 
   switch (pseudo_type) {
     case KatanaPseudoHover:
-      return bwWidget::State::HIGHLIGHTED;
+      return bwWidgetState::HIGHLIGHTED;
     case KatanaPseudoActive:
-      return bwWidget::State::SUNKEN;
+      return bwWidgetState::SUNKEN;
     case KatanaPseudoEmpty:
     default:
-      return bwWidget::State::NORMAL;
+      return bwWidgetState::NORMAL;
   }
 }
 
@@ -162,7 +162,7 @@ void StyleSheet::reload()
 }
 
 void StyleSheet::resolveValue(const std::string_view& class_name,
-                              const bwWidget::State state,
+                              const WidgetBaseState state,
                               bwStyleProperty& property)
 {
   const bwStyleProperty* property_from_tree = tree->resolveProperty(

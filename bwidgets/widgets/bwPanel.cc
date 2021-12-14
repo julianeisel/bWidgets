@@ -63,7 +63,7 @@ auto bwPanel::getLabel() const -> const std::string*
 
 auto bwPanel::childrenVisible() const -> bool
 {
-  return panel_state == State::OPEN;
+  return isOpen();
 }
 
 auto bwPanel::isCoordinateInsideHeader(const bwPoint& point) const -> bool
@@ -154,8 +154,7 @@ void bwPanel::drawHeader(bwStyle& style) const
   triangle_rect.scale(0.35f);
   painter.active_drawtype = bwPainter::DrawType::FILLED;
   painter.setActiveColor(base_style.textColor());
-  painter.drawTriangle(triangle_rect,
-                       (panel_state == State::OPEN) ? Direction::DOWN : Direction::RIGHT);
+  painter.drawTriangle(triangle_rect, (isOpen()) ? Direction::DOWN : Direction::RIGHT);
 }
 
 auto bwPanel::getHeaderRectangle() const -> bwRectanglePixel
@@ -165,16 +164,30 @@ auto bwPanel::getHeaderRectangle() const -> bwRectanglePixel
   return header_rect;
 }
 
-void bwPanel::copyState(const bwWidget& from)
+// ------------------ State ------------------
+
+struct bwPanelState : public bwWidgetState {
+  bwPanel::State panel_state{bwPanel::State::OPEN};
+};
+
+void bwPanel::createState()
 {
-  bwWidget::copyState(from);
+  state_ = std::make_unique<bwPanelState>();
+}
 
-  const bwPanel* other_panel = widget_cast<bwPanel>(from);
-  if (!other_panel) {
-    return;
-  }
+auto bwPanel::isOpen() const -> bool
+{
+  return getState<bwPanelState>().panel_state == bwPanel::State::OPEN;
+}
 
-  panel_state = other_panel->panel_state;
+void bwPanel::setOpenState(State state)
+{
+  getState<bwPanelState>().panel_state = state;
+}
+
+auto bwPanel::getOpenState() const -> bwPanel::State
+{
+  return getState<bwPanelState>().panel_state;
 }
 
 // ------------------ Handling ------------------
@@ -203,19 +216,16 @@ void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)
   bwPanel& panel = Widget();
   if ((event.button != bwMouseButtonEvent::Button::LEFT) ||
       !panel.isCoordinateInsideHeader(event.location)) {
-    // Skip
+    return;
   }
-  else if (panel.panel_state == bwPanel::State::CLOSED) {
-    panel.panel_state = bwPanel::State::OPEN;
-    event.swallow();
-  }
-  else if (panel.panel_state == bwPanel::State::OPEN) {
-    panel.panel_state = bwPanel::State::CLOSED;
-    event.swallow();
+
+  if (panel.isOpen()) {
+    panel.setOpenState(bwPanel::State::CLOSED);
   }
   else {
-    assert(0);
+    panel.setOpenState(bwPanel::State::OPEN);
   }
+  event.swallow();
 }
 
 }  // namespace bWidgets

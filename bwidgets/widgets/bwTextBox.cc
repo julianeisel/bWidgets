@@ -9,7 +9,7 @@ namespace bWidgets {
 
 bwTextBox::bwTextBox(std::optional<unsigned int> width_hint,
                      std::optional<unsigned int> height_hint)
-    : bwWidget(width_hint, height_hint), selection_rectangle(bwRectanglePixel())
+    : bwWidget(width_hint, height_hint)
 {
   initialize();
 }
@@ -30,11 +30,11 @@ void bwTextBox::draw(bwStyle& style)
       base_style, style, inner_rect, gradient, base_style.corner_radius);
 
   // Text editing
-  if (is_text_editing && !selection_rectangle.isEmpty()) {
+  if (isTextEditing() && !getSelectionRectangle().isEmpty()) {
     // Selection drawing
     painter.active_drawtype = bwPainter::DrawType::FILLED;
     painter.setActiveColor(base_style.decorationColor());
-    painter.drawRectangle(selection_rectangle);
+    painter.drawRectangle(getSelectionRectangle());
   }
   painter.setActiveColor(base_style.textColor());
   painter.drawText(text, rectangle, base_style.text_alignment);
@@ -44,19 +44,6 @@ auto bwTextBox::matches(const bwWidget& other) const -> bool
 {
   const bwTextBox* other_textbox = widget_cast<bwTextBox>(other);
   return (text == other_textbox->text);
-}
-
-void bwTextBox::copyState(const bwWidget& from)
-{
-  bwWidget::copyState(from);
-
-  const bwTextBox* other_textbox = widget_cast<bwTextBox>(from);
-  if (!other_textbox) {
-    return;
-  }
-
-  is_text_editing = other_textbox->is_text_editing;
-  selection_rectangle = other_textbox->selection_rectangle;
 }
 
 void bwTextBox::registerProperties()
@@ -80,6 +67,23 @@ bool bwTextBox::canAlign() const
   return true;
 }
 
+// ------------------ State ------------------
+
+void bwTextBox::createState()
+{
+  state_ = std::make_unique<bwTextBoxState>();
+}
+
+auto bwTextBox::isTextEditing() const -> bool
+{
+  return getState<bwTextBoxState>().is_text_editing;
+}
+
+auto bwTextBox::getSelectionRectangle() const -> bwRectanglePixel&
+{
+  return getState<bwTextBoxState>().selection_rectangle;
+}
+
 // ------------------ Handling ------------------
 
 std::unique_ptr<bwScreenGraph::EventHandler> bwTextBox::createHandler(
@@ -95,27 +99,27 @@ bwTextBoxHandler::bwTextBoxHandler(bwScreenGraph::Node& node)
 
 void bwTextBoxHandler::startTextEditing()
 {
-  Widget().setState(bwWidget::State::SUNKEN);
-  Widget().is_text_editing = true;
+  Widget().setBaseState(bwWidgetState::SUNKEN);
+  Widget().getState<bwTextBoxState>().is_text_editing = true;
 }
 
 void bwTextBoxHandler::endTextEditing()
 {
-  Widget().setState(bwWidget::State::NORMAL);
-  Widget().is_text_editing = false;
+  Widget().setBaseState(bwWidgetState::NORMAL);
+  Widget().getState<bwTextBoxState>().is_text_editing = false;
 }
 
 void bwTextBoxHandler::onMouseEnter(bwEvent&)
 {
-  if (Widget().getState() == bwWidget::State::NORMAL) {
-    Widget().setState(bwWidget::State::HIGHLIGHTED);
+  if (Widget().getBaseState() == bwWidgetState::NORMAL) {
+    Widget().setBaseState(bwWidgetState::HIGHLIGHTED);
   }
 }
 
 void bwTextBoxHandler::onMouseLeave(bwEvent&)
 {
-  if (Widget().getState() == bwWidget::State::HIGHLIGHTED) {
-    Widget().setState(bwWidget::State::NORMAL);
+  if (Widget().getBaseState() == bwWidgetState::HIGHLIGHTED) {
+    Widget().setBaseState(bwWidgetState::NORMAL);
   }
 }
 void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
@@ -125,7 +129,7 @@ void bwTextBoxHandler::onMousePress(bwMouseButtonEvent& event)
     event.swallow();
   }
   else if (event.button == bwMouseButtonEvent::Button::RIGHT) {
-    if (Widget().getState() == bwWidget::State::SUNKEN) {
+    if (Widget().getBaseState() == bwWidgetState::SUNKEN) {
       endTextEditing();
       event.swallow();
     }

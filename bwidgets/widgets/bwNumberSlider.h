@@ -8,10 +8,12 @@ namespace bWidgets {
 
 class bwPainter;
 class bwStyle;
+class bwNumberSliderState;
 
 class bwNumberSlider : public bwTextBox {
  public:
   friend class bwNumberSliderHandler;
+  friend class bwNumberSliderState;
 
   bwNumberSlider(std::optional<unsigned int> width_hint = std::nullopt,
                  std::optional<unsigned int> height_hint = std::nullopt);
@@ -20,8 +22,8 @@ class bwNumberSlider : public bwTextBox {
 
   void draw(bwStyle& style) override;
   auto matches(const bwWidget& other) const -> bool override;
-  void copyState(const bwWidget& from) override;
 
+  void createState() override;
   auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
@@ -32,6 +34,7 @@ class bwNumberSlider : public bwTextBox {
   std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
 
  private:
+  auto state() const -> bwNumberSliderState&;
   auto valueToString(unsigned int precision) const -> std::string;
   void drawValueIndicator(bwPainter& painter, bwStyle& style) const;
   auto calcValueIndicatorWidth(class bwStyle& style) const -> float;
@@ -47,7 +50,6 @@ class bwNumberSlider : public bwTextBox {
 
     // float
     struct {
-      float value = 0.0f;
       float min = std::numeric_limits<float>::min();
       float max = std::numeric_limits<float>::max();
       uint precision = 2;

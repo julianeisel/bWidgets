@@ -76,14 +76,14 @@ auto bwAbstractButton::createHandler(bwScreenGraph::Node& node) const
 
 void bwAbstractButtonHandlerPImpl::onMouseEnter(bwEvent& /*event*/, bwAbstractButton& button)
 {
-  if (button.getState() == bwWidget::State::NORMAL) {
-    button.setState(bwWidget::State::HIGHLIGHTED);
+  if (button.getBaseState() == bwWidgetState::NORMAL) {
+    button.setBaseState(bwWidgetState::HIGHLIGHTED);
   }
 }
 void bwAbstractButtonHandlerPImpl::onMouseLeave(bwEvent& /*event*/, bwAbstractButton& button)
 {
-  if (button.getState() == bwWidget::State::HIGHLIGHTED) {
-    button.setState(bwWidget::State::NORMAL);
+  if (button.getBaseState() == bwWidgetState::HIGHLIGHTED) {
+    button.setBaseState(bwWidgetState::NORMAL);
   }
 }
 
@@ -91,7 +91,7 @@ void bwAbstractButtonHandlerPImpl::onMousePress(bwMouseButtonEvent& event,
                                                 bwAbstractButton& button)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    button.setState(bwWidget::State::SUNKEN);
+    button.setBaseState(bwWidgetState::SUNKEN);
     event.swallow();
   }
 }
@@ -99,8 +99,8 @@ void bwAbstractButtonHandlerPImpl::onMouseRelease(bwMouseButtonEvent& event,
                                                   bwAbstractButton& button)
 {
   if ((event.button == bwMouseButtonEvent::Button::LEFT) &&
-      (button.getState() == bwWidget::State::SUNKEN)) {
-    button.setState(bwWidget::State::NORMAL);
+      (button.getBaseState() == bwWidgetState::SUNKEN)) {
+    button.setBaseState(bwWidgetState::NORMAL);
 
     event.swallow();
   }

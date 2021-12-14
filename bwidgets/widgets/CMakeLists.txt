@@ -28,6 +28,7 @@ set(SRC
 	bwScrollView.h
 	bwTextBox.h
 	bwWidget.h
+	bwWidgetState.h
 )
 
 set(LIB

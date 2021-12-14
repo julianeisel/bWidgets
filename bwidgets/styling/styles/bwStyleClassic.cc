@@ -17,11 +17,11 @@ static void widget_base_style_checkbox_set(bwWidget& widget, bwWidgetBaseStyle& 
   r_base_style.shade_bottom = -15;
   r_base_style.corner_radius = 4.0f;
 
-  switch (widget.getState()) {
-    case bwWidget::State::HIGHLIGHTED:
+  switch (widget.getBaseState()) {
+    case bwWidgetState::HIGHLIGHTED:
       r_base_style.background_color.shade(0.06f);
       break;
-    case bwWidget::State::SUNKEN:
+    case bwWidgetState::SUNKEN:
       r_base_style.text_color = 1.0f;
       std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
       break;
@@ -39,11 +39,11 @@ static void widget_base_style_number_slider_set(bwWidget& widget, bwWidgetBaseSt
   r_base_style.shade_bottom = 0;
   r_base_style.corner_radius = 10.0f;
 
-  switch (widget.getState()) {
-    case bwWidget::State::HIGHLIGHTED:
+  switch (widget.getBaseState()) {
+    case bwWidgetState::HIGHLIGHTED:
       r_base_style.background_color.shade(0.06f);
       break;
-    case bwWidget::State::SUNKEN:
+    case bwWidgetState::SUNKEN:
       r_base_style.text_color = 1.0f;
       r_base_style.background_color = 153u;
       break;
@@ -60,11 +60,11 @@ static void widget_base_style_push_button_set(bwWidget& widget, bwWidgetBaseStyl
   r_base_style.shade_bottom = -15;
   r_base_style.corner_radius = 5.0f;
 
-  switch (widget.getState()) {
-    case bwWidget::State::HIGHLIGHTED:
+  switch (widget.getBaseState()) {
+    case bwWidgetState::HIGHLIGHTED:
       r_base_style.background_color.shade(0.06f);
       break;
-    case bwWidget::State::SUNKEN:
+    case bwWidgetState::SUNKEN:
       r_base_style.background_color = 0.353f;
       r_base_style.text_color = 1.0f;
       std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
@@ -83,11 +83,11 @@ static void widget_base_style_radio_button_set(bwWidget& widget, bwWidgetBaseSty
   r_base_style.text_alignment = TextAlignment::CENTER;
   r_base_style.corner_radius = 4.0f;
 
-  switch (widget.getState()) {
-    case bwWidget::State::HIGHLIGHTED:
+  switch (widget.getBaseState()) {
+    case bwWidgetState::HIGHLIGHTED:
       r_base_style.background_color.shade(0.06f);
       break;
-    case bwWidget::State::SUNKEN:
+    case bwWidgetState::SUNKEN:
       r_base_style.background_color = bwColor(0.337255f, 0.501961f, 0.760784f);
       r_base_style.text_color = 0.0f;
       std::swap(r_base_style.shade_top, r_base_style.shade_bottom);
@@ -106,8 +106,8 @@ static void widget_base_style_scroll_bar_set(bwWidget& widget, bwWidgetBaseStyle
   r_base_style.shade_bottom = -5;
   r_base_style.corner_radius = 6.5f;
 
-  switch (widget.getState()) {
-    case bwWidget::State::SUNKEN:
+  switch (widget.getBaseState()) {
+    case bwWidgetState::SUNKEN:
       r_base_style.decoration_color.shade(5u);
       r_base_style.text_color = 1.0f;
       break;
@@ -125,10 +125,10 @@ static void widget_base_style_text_box_set(bwWidget& widget, bwWidgetBaseStyle& 
   r_base_style.shade_bottom = 25;
   r_base_style.corner_radius = 4.0f;
 
-  switch (widget.getState()) {
-    case bwWidget::State::HIGHLIGHTED:
+  switch (widget.getBaseState()) {
+    case bwWidgetState::HIGHLIGHTED:
       r_base_style.background_color.shade(0.06f);
-    case bwWidget::State::SUNKEN:
+    case bwWidgetState::SUNKEN:
       r_base_style.text_color = 1.0f;
       break;
     default:

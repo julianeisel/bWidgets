@@ -12,6 +12,7 @@ class WidgetNode;
 class bwScrollBar;
 
 class bwScrollView : public bwContainerWidget {
+  friend class bwScrollViewState;
   friend class bwScrollViewHandler;
 
  public:
@@ -25,8 +26,8 @@ class bwScrollView : public bwContainerWidget {
   void draw(bwStyle& style) override;
   auto matches(const bwWidget& other) const -> bool override;
   auto alwaysPersistent() const -> bool override;
-  void copyState(const bwWidget& from) override;
 
+  void createState() override;
   auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
@@ -39,6 +40,11 @@ class bwScrollView : public bwContainerWidget {
   void drawScrollBars(bwStyle& style);
   auto isScrollable() const -> bool;
   void validizeScrollValues();
+  /* State. */
+  auto getContentRect() const -> bwRectanglePixel;
+  void setContentRect(bwRectanglePixel rect);
+  auto getVerticalScroll() const -> int;
+  void setVerticalScroll(int vert_scroll);
 
   static auto getScrollbarWidth(float interface_scale) -> int;
 
@@ -49,11 +55,6 @@ class bwScrollView : public bwContainerWidget {
    */
   std::string identifier;
   std::unique_ptr<bwScreenGraph::WidgetNode> scrollbar_node;
-
-  /** Last known content rectangle, updated before drawing. */
-  bwRectanglePixel content_rect;
-  /** Current vertical scroll value. */
-  int vert_scroll{0};
 };
 
 }  // namespace bWidgets

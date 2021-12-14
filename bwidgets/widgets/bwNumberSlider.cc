@@ -43,7 +43,7 @@ void bwNumberSlider::draw(bwStyle& style)
   painter.active_drawtype = bwPainter::DrawType::FILLED;
 
   // Text editing
-  if (is_text_editing) {
+  if (isTextEditing()) {
     // Selection drawing
     painter.setActiveColor(base_style.decorationColor());
     painter.drawRectangle(selection_rectangle);
@@ -58,12 +58,12 @@ void bwNumberSlider::draw(bwStyle& style)
   painter.drawRoundbox(rectangle, base_style.roundbox_corners, radius);
 
   painter.setActiveColor(base_style.textColor());
-  if (!is_text_editing) {
+  if (!isTextEditing()) {
     painter.drawText(text, rectangle, base_style.text_alignment);
   }
   painter.drawText(valueToString(value_info.precision),
                    rectangle,
-                   is_text_editing ? TextAlignment::LEFT : TextAlignment::RIGHT);
+                   isTextEditing() ? TextAlignment::LEFT : TextAlignment::RIGHT);
 }
 
 void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) const
@@ -97,20 +97,6 @@ void bwNumberSlider::drawValueIndicator(bwPainter& painter, bwStyle& style) cons
       indicator_rect, roundbox_corners & ~(TOP_LEFT | BOTTOM_LEFT), right_side_radius);
 }
 
-auto bwNumberSlider::setValue(float _value) -> bwNumberSlider&
-{
-  const int precision_fac = std::pow(10, value_info.precision);
-  const float unclamped_value = std::max(value_info.min, std::min(value_info.max, _value));
-
-  value_info.value = std::roundf(unclamped_value * precision_fac) / precision_fac;
-  return *this;
-}
-
-auto bwNumberSlider::getValue() const -> float
-{
-  return value_info.value;
-}
-
 auto bwNumberSlider::setMinMax(float _min, float _max) -> bwNumberSlider&
 {
   value_info.min = _min;
@@ -121,7 +107,7 @@ auto bwNumberSlider::setMinMax(float _min, float _max) -> bwNumberSlider&
 auto bwNumberSlider::valueToString(unsigned int precision) const -> std::string
 {
   std::stringstream string_stream;
-  string_stream << std::fixed << std::setprecision(precision) << value_info.value;
+  string_stream << std::fixed << std::setprecision(precision) << getValue();
   return string_stream.str();
 }
 
@@ -131,7 +117,7 @@ auto bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const -> float
   const float radius = base_style.corner_radius * style.dpi_fac;
 
   assert(value_info.max > value_info.min);
-  return ((value_info.value - value_info.min) * (rectangle.width() - radius)) / range;
+  return ((getValue() - value_info.min) * (rectangle.width() - radius)) / range;
 }
 
 auto bwNumberSlider::matches(const bwWidget& other) const -> bool
@@ -140,16 +126,34 @@ auto bwNumberSlider::matches(const bwWidget& other) const -> bool
   return bwTextBox::matches(other) && compareFunctors(apply_functor, other_slider->apply_functor);
 }
 
-void bwNumberSlider::copyState(const bwWidget& from)
+// ------------------ State ------------------
+
+struct bwNumberSliderState : public bwTextBoxState {
+  float value = 0;
+};
+
+void bwNumberSlider::createState()
 {
-  bwWidget::copyState(from);
+  state_ = std::make_unique<bwNumberSliderState>();
+}
 
-  const bwNumberSlider* other_slider = widget_cast<bwNumberSlider>(from);
-  if (!other_slider) {
-    return;
-  }
+auto bwNumberSlider::state() const -> bwNumberSliderState&
+{
+  return getState<bwNumberSliderState>();
+}
 
-  value_info = other_slider->value_info;
+auto bwNumberSlider::setValue(float _value) -> bwNumberSlider&
+{
+  const int precision_fac = std::pow(10, value_info.precision);
+  const float unclamped_value = std::max(value_info.min, std::min(value_info.max, _value));
+
+  state().value = std::roundf(unclamped_value * precision_fac) / precision_fac;
+  return *this;
+}
+
+auto bwNumberSlider::getValue() const -> float
+{
+  return state().value;
 }
 
 // ------------------ Handling ------------------
@@ -203,17 +207,17 @@ void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
   bwNumberSlider& numberslider = Widget();
 
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    initial_value = numberslider.value_info.value;
-    numberslider.setState(bwWidget::State::SUNKEN);
+    initial_value = numberslider.getValue();
+    numberslider.setBaseState(bwWidgetState::SUNKEN);
 
     event.swallow();
   }
   else if (event.button == bwMouseButtonEvent::Button::RIGHT) {
-    if (numberslider.is_text_editing) {
+    if (numberslider.isTextEditing()) {
       endTextEditing();
     }
     else if (is_dragging) {
-      numberslider.value_info.value = initial_value;
+      numberslider.setValue(initial_value);
     }
 
     event.swallow();
@@ -223,7 +227,7 @@ void bwNumberSliderHandler::onMousePress(bwMouseButtonEvent& event)
 void bwNumberSliderHandler::onMouseRelease(bwMouseButtonEvent& event)
 {
   if (is_dragging) {
-    Widget().setState(bwWidget::State::NORMAL);
+    Widget().setBaseState(bwWidgetState::NORMAL);
   }
   is_dragging = false;
 

@@ -181,7 +181,7 @@ void WidgetNode::moveState(Node& from)
   }
 
   Node::moveState(from);
-  widget->copyState(*from.Widget());
+  std::swap(widget->state_, from.Widget()->state_);
 }
 
 /* -------------------------------------------------------------------- */

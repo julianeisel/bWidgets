@@ -50,7 +50,7 @@ DefaultStageRNAFunctor::DefaultStageRNAFunctor(RNAProperties<DefaultStage>& prop
 void DefaultStageRNAFunctor::operator()()
 {
   if (widget_cast<bwCheckbox>(m_widget)) {
-    m_props.set(m_prop_name, m_stage, m_widget.getState() == bwWidget::State::SUNKEN);
+    m_props.set(m_prop_name, m_stage, m_widget.getBaseState() == bwWidgetState::SUNKEN);
   }
   else if (auto* slider = widget_cast<bwNumberSlider>(m_widget)) {
     m_props.set(m_prop_name, m_stage, slider->getValue());

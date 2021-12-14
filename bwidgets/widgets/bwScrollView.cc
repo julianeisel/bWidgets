@@ -23,7 +23,7 @@ bwScrollView::bwScrollView(bwScreenGraph::ContainerNode& node,
                            unsigned int _height)
     : bwContainerWidget(node, _width, _height), identifier(identifier)
 {
-  auto scrollbar = std::make_unique<bwScrollBar>(17, _height);
+  auto scrollbar = WidgetNew<bwScrollBar>(17, _height);
   scrollbar_node = std::make_unique<bwScreenGraph::WidgetNode>();
 
   bwScreenGraph::Builder::setWidget(*scrollbar_node, std::move(scrollbar));
@@ -59,15 +59,15 @@ void bwScrollView::drawScrollBars(bwStyle& style)
   validizeScrollValues();
 
   scrollbar.rectangle = getVerticalScrollbarRect(style);
-  scrollbar.ratio = (rectangle.height() - 2) / float(content_rect.height());
-  scrollbar.scroll_offset = vert_scroll;
+  scrollbar.ratio_ = (rectangle.height() - 2) / float(getContentRect().height());
+  scrollbar.setScrollOffset(getVerticalScroll());
 
   bwScreenGraph::Drawer::drawSubtree(*scrollbar_node, style);
 }
 
 void bwScrollView::draw(bwStyle& style)
 {
-  content_rect = node.ContentRectangle();
+  setContentRect(node.ContentRectangle());
 
   bwPainter painter;
 
@@ -98,33 +98,18 @@ auto bwScrollView::alwaysPersistent() const -> bool
   return true;
 }
 
-void bwScrollView::copyState(const bwWidget& from)
-{
-  bwWidget::copyState(from);
-
-  const bwScrollView* other_scroll_view = widget_cast<bwScrollView>(from);
-  if (!other_scroll_view) {
-    return;
-  }
-
-  content_rect = other_scroll_view->content_rect;
-  vert_scroll = other_scroll_view->vert_scroll;
-
-  /* XXX hack to move the handler of the nested scrollbar. Instead the scrollbar should be in the
-   * screen-graph. */
-  scrollbar_node->moveState(*other_scroll_view->scrollbar_node);
-}
-
 void bwScrollView::validizeScrollValues()
 {
   assert(isScrollable());
 
-  bwRange<int>::clampValue(vert_scroll, 0, content_rect.height() - node.Rectangle().height());
+  int scroll_value = getVerticalScroll();
+  bwRange<int>::clampValue(scroll_value, 0, getContentRect().height() - node.Rectangle().height());
+  setVerticalScroll(scroll_value);
 }
 
 auto bwScrollView::getScrollOffsetY() const -> int
 {
-  return vert_scroll;
+  return getVerticalScroll();
 }
 
 auto bwScrollView::getContentBounds(float interface_scale) const -> bwRectanglePixel
@@ -138,12 +123,55 @@ auto bwScrollView::getContentBounds(float interface_scale) const -> bwRectangleP
 
 auto bwScrollView::isScrollable() const -> bool
 {
-  return (content_rect.height() > node.Rectangle().height()) || (vert_scroll != 0);
+  return (getContentRect().height() > node.Rectangle().height()) || (getVerticalScroll() != 0);
 }
 
 auto bwScrollView::getScrollbarWidth(float interface_scale) -> int
 {
   return std::round(SCROLL_BAR_SIZE * interface_scale);
+}
+
+// ------------------ State ------------------
+
+struct bwScrollViewState : public bwWidgetState {
+  bwScrollViewState(bwScrollView&);
+
+  /* Pointer back to the owning widget, not really state. */
+  bwScrollView& scroll_view_;
+
+  /** Last known content rectangle, updated before drawing. */
+  bwRectanglePixel content_rect;
+  /** Current vertical scroll value. */
+  int vert_scroll{0};
+};
+
+bwScrollViewState::bwScrollViewState(bwScrollView& scroll_view)
+    : bwWidgetState(), scroll_view_(scroll_view)
+{
+}
+
+void bwScrollView::createState()
+{
+  state_ = std::make_unique<bwScrollViewState>(*this);
+}
+
+auto bwScrollView::getContentRect() const -> bwRectanglePixel
+{
+  return getState<bwScrollViewState>().content_rect;
+}
+void bwScrollView::setContentRect(bwRectanglePixel rect)
+{
+  getState<bwScrollViewState>().content_rect = rect;
+}
+
+auto bwScrollView::getVerticalScroll() const -> int
+{
+  return getState<bwScrollViewState>().vert_scroll;
+}
+
+void bwScrollView::setVerticalScroll(int vert_scroll)
+{
+  getState<bwScrollViewState>().vert_scroll = vert_scroll;
 }
 
 // ------------------ Handling ------------------
@@ -229,7 +257,7 @@ void bwScrollViewHandler::onMouseWheel(bwMouseWheelEvent& event)
       break;
   }
 
-  setScrollValue(Widget().vert_scroll + (direction_fac * SCROLL_STEP_SIZE));
+  setScrollValue(Widget().getVerticalScroll() + (direction_fac * SCROLL_STEP_SIZE));
 
   event.swallow();
 }
@@ -285,7 +313,7 @@ void bwScrollViewHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 {
   if (forwardEventToScrollbarIfInside<bwMouseButtonDragEvent&>(
           *this, *Widget().scrollbar_node, event, &EventHandler::onMouseDrag, event)) {
-    setScrollValue(Widget().getVerticalScrollBar().scroll_offset);
+    setScrollValue(Widget().getVerticalScrollBar().getScrollOffset());
     event.swallow();
   }
 }
@@ -310,7 +338,7 @@ void bwScrollViewHandler::onMouseClick(bwMouseButtonEvent& event)
 {
   if (forwardEventToScrollbarIfInside<bwMouseButtonEvent&>(
           *this, *Widget().scrollbar_node, event, &EventHandler::onMouseClick, event)) {
-    setScrollValue(Widget().getVerticalScrollBar().scroll_offset);
+    setScrollValue(Widget().getVerticalScrollBar().getScrollOffset());
     event.swallow();
   }
 }
@@ -319,7 +347,7 @@ void bwScrollViewHandler::setScrollValue(int value)
 {
   assert(Widget().isScrollable());
 
-  Widget().vert_scroll = value;
+  Widget().setVerticalScroll(value);
   Widget().validizeScrollValues();
 }
 

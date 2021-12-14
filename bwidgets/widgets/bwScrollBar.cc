@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 #include "bwEvent.h"
 #include "bwPainter.h"
@@ -19,12 +20,12 @@ auto bwScrollBar::getTypeIdentifier() const -> std::string_view
   return "bwScrollBar";
 }
 
-static auto getInnerRect(bwScrollBar& scrollbar) -> bwRectanglePixel
+auto bwScrollBar::getInnerRect(bwScrollBar& scrollbar) -> bwRectanglePixel
 {
   bwRectanglePixel rect_inner{scrollbar.rectangle};
 
-  rect_inner.ymax -= (scrollbar.ratio * scrollbar.scroll_offset);
-  rect_inner.ymin = rect_inner.ymax - (scrollbar.ratio * scrollbar.rectangle.height());
+  rect_inner.ymax -= (scrollbar.ratio_ * scrollbar.getScrollOffset());
+  rect_inner.ymin = rect_inner.ymax - (scrollbar.ratio_ * scrollbar.rectangle.height());
 
   return rect_inner;
 }
@@ -67,16 +68,30 @@ auto bwScrollBar::matches(const bwWidget& /*other*/) const -> bool
   return true;
 }
 
-void bwScrollBar::copyState(const bwWidget& from)
+auto bwScrollBar::alwaysPersistent() const -> bool
 {
-  bwWidget::copyState(from);
+  return true;
+}
 
-  const bwScrollBar* other_scroll_bar = widget_cast<bwScrollBar>(from);
-  if (!other_scroll_bar) {
-    return;
-  }
+// ------------------ State ------------------
 
-  scroll_offset = other_scroll_bar->scroll_offset;
+struct bwScrollBarState : public bwWidgetState {
+  int scroll_offset = 0;
+};
+
+void bwScrollBar::createState()
+{
+  state_ = std::make_unique<bwScrollBarState>();
+}
+
+int bwScrollBar::getScrollOffset()
+{
+  return getState<bwScrollBarState>().scroll_offset;
+}
+
+void bwScrollBar::setScrollOffset(int scroll_offset)
+{
+  getState<bwScrollBarState>().scroll_offset = scroll_offset;
 }
 
 // ------------------ Handling ------------------
@@ -111,7 +126,7 @@ auto bwScrollBar::createHandler(bwScreenGraph::Node& node) const
 void bwScrollBarHandler::onMousePress(bwMouseButtonEvent& event)
 {
   bwAbstractButtonHandler::onMousePress(event);
-  mouse_press_scroll_offset = Widget().scroll_offset;
+  mouse_press_scroll_offset = Widget().getScrollOffset();
   event.swallow();
 }
 
@@ -119,13 +134,15 @@ void bwScrollBarHandler::onMouseClick(bwMouseButtonEvent& event)
 {
   bwScrollBar& scrollbar = Widget();
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    bwRectanglePixel rect_inner{getInnerRect(scrollbar)};
+    bwRectanglePixel rect_inner{scrollbar.getInnerRect(scrollbar)};
 
     if (event.location.y > rect_inner.ymax) {
-      setScrollOffset(scrollbar.scroll_offset - (scrollbar.rectangle.height() * SCROLL_JUMP_FAC));
+      setScrollOffset(scrollbar.getScrollOffset() -
+                      (scrollbar.rectangle.height() * SCROLL_JUMP_FAC));
     }
     else if (event.location.y < rect_inner.ymin) {
-      setScrollOffset(scrollbar.scroll_offset + (scrollbar.rectangle.height() * SCROLL_JUMP_FAC));
+      setScrollOffset(scrollbar.getScrollOffset() +
+                      (scrollbar.rectangle.height() * SCROLL_JUMP_FAC));
     }
   }
 
@@ -142,7 +159,7 @@ void bwScrollBarHandler::onMouseDrag(bwMouseButtonDragEvent& event)
 
 void bwScrollBarHandler::setScrollOffset(int value)
 {
-  Widget().scroll_offset = value;
+  Widget().setScrollOffset(value);
   apply();
 }
 

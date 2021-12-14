@@ -7,6 +7,7 @@
 #include "bwFunctorInterface.h"
 #include "bwRectangle.h"
 #include "bwStyleProperties.h"
+#include "bwWidgetState.h"
 #include "screen_graph/EventHandler.h"
 
 namespace bWidgets {
@@ -29,14 +30,6 @@ class bwWidget {
   friend class bwScreenGraph::WidgetNode;
 
  public:
-  enum class State {
-    NORMAL = 0,
-    HIGHLIGHTED,
-    SUNKEN,
-
-    STATE_TOT
-  };
-
   bwWidget(std::optional<unsigned int> width_hint, std::optional<unsigned int> height_hint);
   virtual ~bwWidget() = default;
 
@@ -48,8 +41,10 @@ class bwWidget {
   auto operator=(const bwWidget&) = delete;
   auto operator=(bwWidget&&) = delete;
 
-  auto getState() const -> State;
-  auto setState(State) -> bwWidget&;
+  template<class _WidgetStateType> /* Defined below. */
+  auto getState() const -> _WidgetStateType&;
+  auto getBaseState() const -> bwWidgetState::BaseState;
+  auto setBaseState(bwWidgetState::BaseState) -> bwWidget&;
   auto hide(bool _hidden = true) -> bwWidget&;
   auto isHidden() -> bool;
 
@@ -59,6 +54,8 @@ class bwWidget {
   virtual auto isCoordinateInside(const bwPoint& point) const -> bool;
   virtual auto getLabel() const -> const std::string*;
   virtual auto canAlign() const -> bool;
+
+  virtual void createState();
   virtual auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
@@ -96,14 +93,11 @@ class bwWidget {
    * #WidgetNode::matchesType()).
    */
   virtual auto matches(const bwWidget& other) const -> bool = 0;
-  /*
-   * Can assume the widget type was already checked by the caller (by calling
-   * #WidgetNode::matchesType()).
-   */
-  virtual void copyState(const bwWidget& from);
 
   void initialize();
   virtual void registerProperties();
+
+  std::unique_ptr<bwWidgetState> state_;
 
  private:
   /**
@@ -117,9 +111,29 @@ class bwWidget {
    *       specific option is enabled).
    */
   bool hidden{false};
-
-  State state;
 };
+
+template<class _WidgetType, class... _Args>
+std::unique_ptr<_WidgetType> WidgetNew(_Args&&... __args)
+{
+  auto widget = std::make_unique<_WidgetType>(std::forward<_Args>(__args)...);
+  widget->createState();
+  return widget;
+}
+
+template<class _WidgetStateType> auto bwWidget::getState() const -> _WidgetStateType&
+{
+  if constexpr (std::is_same<_WidgetStateType, bwWidgetState>::value) {
+    return *state_;
+  }
+  else {
+    static_assert(std::is_base_of_v<bwWidgetState, _WidgetStateType>,
+                  "Type should derive from bwWidgetState");
+
+    assert(dynamic_cast<_WidgetStateType*>(state_.get()) != nullptr);
+    return dynamic_cast<_WidgetStateType&>(*state_);
+  }
+}
 
 /**
  * Try to dynamically cast a widget from one widget type to another. Use-case is not just to

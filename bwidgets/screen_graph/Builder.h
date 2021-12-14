@@ -93,7 +93,7 @@ class Builder {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
     WidgetNode& new_node = addChildNode<WidgetNode>(_active_layout_node);
-    new_node.widget = std::make_unique<_WidgetType>(std::forward<_Args>(__args)...);
+    new_node.widget = WidgetNew<_WidgetType>(std::forward<_Args>(__args)...);
     new_node.handler = new_node.widget->createHandler(new_node);
     return static_cast<_WidgetType&>(*new_node.widget);
   }
@@ -109,7 +109,7 @@ class Builder {
 
     setLayout(new_node, std::move(layout));
 
-    new_node.widget = std::make_unique<_WidgetType>(new_node, std::forward<_Args>(__args)...);
+    new_node.widget = WidgetNew<_WidgetType>(new_node, std::forward<_Args>(__args)...);
     new_node.handler = new_node.widget->createHandler(new_node);
 
     setActiveLayout(new_node);
@@ -157,7 +157,7 @@ class Builder {
 
     ContainerNode& new_node = addChildNode<ContainerNode>(_active_layout_node);
     setLayout(new_node, std::move(layout));
-    new_node.widget = std::make_unique<_WidgetType>(new_node, std::forward<_Args>(__args)...);
+    new_node.widget = WidgetNew<_WidgetType>(new_node, std::forward<_Args>(__args)...);
     new_node.handler = new_node.widget->createHandler(new_node);
     buildChildren(build_func, new_node);
 
@@ -196,7 +196,7 @@ class Builder {
     static_assert(std::is_base_of<bwWidget, _WidgetType>::value, "Should derrive from bwWidget");
 
     WidgetNode& new_node = addChildNode<WidgetNode>(node);
-    new_node.widget = std::make_unique<_WidgetType>(std::forward<_Args>(__args)...);
+    new_node.widget = WidgetNew<_WidgetType>(std::forward<_Args>(__args)...);
     new_node.handler = new_node.widget->createHandler(new_node);
     return static_cast<_WidgetType&>(*new_node.widget);
   }

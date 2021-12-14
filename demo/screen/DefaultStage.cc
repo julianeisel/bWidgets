@@ -70,7 +70,7 @@ void DefaultStage::constructUI(bwScreenGraph::LayoutNode& parent)
   builder.buildLayout<RowLayout, RNABuilder>([](RNABuilder& builder) {
     builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning")
         .setLabel("Tight Positioning")
-        .setState(bwWidget::State::SUNKEN);
+        .setBaseState(bwWidgetState::SUNKEN);
     builder.addRNAWidget<bwCheckbox>("font_use_hinting").setLabel("Hinting");
   });
 
@@ -150,7 +150,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
               int(type.type_id), "style_type", type.name);
 
           if (type.type_id == style->type_id) {
-            style_button.setState(bwAbstractButton::State::SUNKEN);
+            style_button.setBaseState(bwWidgetState::SUNKEN);
           }
         }
       },
@@ -189,10 +189,10 @@ auto DefaultStage::updateStyleButton(bwWidget& widget_iter) -> bool
       if (rna_functor && rna_functor->getPropName() == "style_type") {
         auto prop = rna_functor->getEnumValue();
         if (prop && bwStyle::TypeID(prop.value()) == active_type_id) {
-          radio_iter->setState(bwWidget::State::SUNKEN);
+          radio_iter->setBaseState(bwWidgetState::SUNKEN);
         }
         else {
-          radio_iter->setState(bwWidget::State::NORMAL);
+          radio_iter->setBaseState(bwWidgetState::NORMAL);
         }
       }
     }
@@ -204,7 +204,7 @@ auto DefaultStage::updateStyleButton(bwWidget& widget_iter) -> bool
       if (rna_functor && rna_functor->getPropName() == "style_use_css_version") {
         if (active_type_id == bwStyle::TypeID::CLASSIC ||
             active_type_id == bwStyle::TypeID::CLASSIC_CSS) {
-          useStyleCSSVersionSet(checkbox_iter->getState() == bwWidget::State::SUNKEN);
+          useStyleCSSVersionSet(checkbox_iter->getBaseState() == bwWidgetState::SUNKEN);
         }
       }
     }
