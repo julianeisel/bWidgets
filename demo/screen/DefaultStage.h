@@ -37,13 +37,9 @@ class DefaultStage : public Stage {
  private:
   void registerProperties(RNAProperties<DefaultStage>& properties);
 
-  void activateStyleID(bWidgets::bwStyle::TypeID) override;
   void addStyleSelector(bWidgets::bwScreenGraph::LayoutNode& parent_node);
-  void updateFontAAMode(bool value);
 
   void useStyleCSSVersionSet(const bool use_css_version);
-  void updateStyleButtons();
-  auto updateStyleButton(bWidgets::bwWidget& widget_iter) -> bool;
 
   RNAProperties<DefaultStage> properties;
 

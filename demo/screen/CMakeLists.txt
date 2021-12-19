@@ -40,6 +40,7 @@ set(SRC
 	Layout.cc
 	Stage.cc
 
+	DummyFunctors.hh
 	DefaultStage.h
 	DefaultStageRNAFunctor.h
 	Font.h

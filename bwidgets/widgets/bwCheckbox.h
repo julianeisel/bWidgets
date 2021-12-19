@@ -18,6 +18,7 @@ class bwCheckbox : public bwAbstractButton {
   auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 
+  auto setChecked(bool checked = true) -> bwCheckbox&;
   auto isChecked() const -> bool;
 
  private:

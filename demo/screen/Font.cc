@@ -20,8 +20,8 @@
  */
 
 #include <algorithm>
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -272,12 +272,22 @@ void Font::setFontAntiAliasingMode(Font::AntiAliasingMode new_aa_mode)
   }
 }
 
+auto Font::getFontAntiAliasingMode() const -> AntiAliasingMode
+{
+  return render_mode;
+}
+
 void Font::setTightPositioning(bool value)
 {
   if (value != use_tight_positioning) {
     use_tight_positioning = value;
     cache.invalidate();
   }
+}
+
+auto Font::getTightPositioning() const -> bool
+{
+  return use_tight_positioning;
 }
 
 void Font::setHinting(bool value)
@@ -288,12 +298,22 @@ void Font::setHinting(bool value)
   }
 }
 
+auto Font::getHinting() const -> bool
+{
+  return use_hinting;
+}
+
 void Font::setSubPixelPositioning(bool value)
 {
   if (value != use_subpixel_pos) {
     use_subpixel_pos = value;
     cache.invalidate();
   }
+}
+
+auto Font::getSubPixelPositioning() const -> bool
+{
+  return use_subpixel_pos;
 }
 
 void Font::setSize(const float _size)

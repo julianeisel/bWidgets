@@ -99,6 +99,10 @@ void Stage::initIcons()
 
 void Stage::activateStyleID(bwStyle::TypeID type_id)
 {
+  if (style && style->type_id == type_id) {
+    return;
+  }
+
   style = std::unique_ptr<bwStyle>(bwStyleManager::createStyleFromTypeID(type_id));
   style->dpi_fac = interface_scale;
 }
@@ -196,9 +200,19 @@ void Stage::setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode)
   font->setFontAntiAliasingMode(aa_mode);
 }
 
+auto Stage::getFontAntiAliasingMode() -> Font::AntiAliasingMode
+{
+  return font->getFontAntiAliasingMode();
+}
+
 void Stage::setFontTightPositioning(const bool value)
 {
   font->setTightPositioning(value);
+}
+
+auto Stage::getFontTightPositioning() -> bool
+{
+  return font->getTightPositioning();
 }
 
 void Stage::setFontHinting(const bool value)
@@ -206,9 +220,19 @@ void Stage::setFontHinting(const bool value)
   font->setHinting(value);
 }
 
+auto Stage::getFontHinting() -> bool
+{
+  return font->getHinting();
+}
+
 void Stage::setFontSubPixelPositioning(const bool value)
 {
   font->setSubPixelPositioning(value);
+}
+
+auto Stage::getFontSubPixelPositioning() -> bool
+{
+  return font->getSubPixelPositioning();
 }
 
 void Stage::setStyleSheet(const std::string& filepath)

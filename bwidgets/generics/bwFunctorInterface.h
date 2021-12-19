@@ -52,6 +52,10 @@ inline auto compareFunctors(const bwFunctorInterface* a, const bwFunctorInterfac
   if (!a || !b) {
     return false;
   }
+  if (typeid(*a) != typeid(*b)) {
+    return false;
+  }
+
   /* Lastly, do value comparison. */
   return a->matches(*b);
 }

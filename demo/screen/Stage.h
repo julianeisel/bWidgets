@@ -55,16 +55,19 @@ class Stage {
   void handleWindowResizeEvent(const Window& win);
 
   void setContentScale(float scale_x, float scale_y);
+  static void activateStyleID(bWidgets::bwStyle::TypeID type_id);
   static void setInterfaceScale(const float value);
   static void setFontSize(const float size);
   static void setFontTightPositioning(const bool value);
+  static auto getFontTightPositioning() -> bool;
   static void setFontAntiAliasingMode(const Font::AntiAliasingMode aa_mode);
+  static auto getFontAntiAliasingMode() -> Font::AntiAliasingMode;
   static void setFontHinting(const bool value);
+  static auto getFontHinting() -> bool;
   static void setFontSubPixelPositioning(const bool value);
+  static auto getFontSubPixelPositioning() -> bool;
 
  protected:
-  virtual void activateStyleID(bWidgets::bwStyle::TypeID type_id);
-
   bWidgets::bwScreenGraph::ScreenGraph screen_graph;
 
   // Static members, global UI data for all stages

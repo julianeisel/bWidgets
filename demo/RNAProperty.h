@@ -32,11 +32,14 @@
 namespace bWidgetsDemo {
 
 class RNAProperty {
+ public:
+  virtual ~RNAProperty() = default;
+
  protected:
   RNAProperty() = default;
 };
 
-template<typename _Obj, typename _T> using Getter = std::function<_T(_Obj&)>;
+template<typename _Obj, typename _T> using Getter = std::function<_T(const _Obj&)>;
 template<typename _Obj, typename _T> using Setter = std::function<void(_Obj&, _T)>;
 
 template<typename _Obj, typename _T> class RNAPropertyInternal : public RNAProperty {
@@ -78,9 +81,9 @@ template<typename _Obj, typename _T> class RNAPropertyInternal : public RNAPrope
     }
   }
 
-  _T& get(_Obj& object)
+  _T get(const _Obj& object) const
   {
-    return m_use_ref ? m_value.m_ref : m_value.getter(object);
+    return m_use_ref ? m_value.m_ref.get() : m_value.m_callbacks.getter(object);
   }
 
   void set(_Obj& object, const _T& value)
@@ -127,12 +130,13 @@ template<typename _Obj> class RNAProperties {
     return nullptr;
   }
 
-  template<typename _T> _T* get(const std::string& name, const _Obj& object) const
+  template<typename _T> std::optional<_T> get(const std::string& name, const _Obj& object)
   {
-    if (const RNAProperty* prop = find(name)) {
-      auto& prop_internal = dynamic_cast<const RNAPropertyInternal<ObjectT, _T>>(prop);
+    if (RNAProperty* prop = find(name)) {
+      auto& prop_internal = dynamic_cast<RNAPropertyInternal<ObjectT, _T>&>(*prop);
       return prop_internal.get(object);
     }
+    return std::nullopt;
   }
   template<typename _T> void set(const std::string& name, _Obj& object, const _T& value)
   {

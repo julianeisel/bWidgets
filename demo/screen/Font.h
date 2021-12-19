@@ -62,9 +62,13 @@ class Font {
   auto calculateStringWidth(const std::string& text) -> unsigned int;
 
   void setFontAntiAliasingMode(AntiAliasingMode);
+  auto getFontAntiAliasingMode() const -> AntiAliasingMode;
   void setTightPositioning(bool value);
+  auto getTightPositioning() const -> bool;
   void setHinting(bool value);
+  auto getHinting() const -> bool;
   void setSubPixelPositioning(bool value);
+  auto getSubPixelPositioning() const -> bool;
 
   void setSize(const float size);
   auto getSize() const -> int;

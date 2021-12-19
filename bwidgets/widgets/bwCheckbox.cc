@@ -48,6 +48,12 @@ auto bwCheckbox::matches(const bwWidget& other) const -> bool
   return bwAbstractButton::matches(other);
 }
 
+auto bwCheckbox::setChecked(bool checked) -> bwCheckbox&
+{
+  setBaseState(checked ? bwWidgetState::SUNKEN : bwWidgetState::NORMAL);
+  return *this;
+}
+
 auto bwCheckbox::isChecked() const -> bool
 {
   return getBaseState() == bwWidgetState::SUNKEN;

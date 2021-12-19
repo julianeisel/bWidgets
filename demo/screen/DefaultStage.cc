@@ -24,10 +24,9 @@
 #include "blender_icon_defines.h"
 
 #include "DefaultStageRNAFunctor.h"
+#include "DummyFunctors.hh"
 #include "IconMap.h"
 #include "Layout.h"
-#include "RNAScreenGraphBuilder.h"
-
 #include "RNAScreenGraphBuilder.h"
 
 #include "builtin_widgets.h"
@@ -62,23 +61,30 @@ void DefaultStage::constructUI(bwScreenGraph::LayoutNode& parent)
 
   builder.addRNAWidget<bwNumberSlider>("interface_scale")
       .setMinMax(0.5f, 2.0f)
-      .setValue(1.0f)
-      .setText("Interface Scale: ");
+      .setValue(interface_scale)
+      .setText("Interface Scale:");
 
   builder.addWidget<bwLabel>("Font Rendering:");
 
-  builder.buildLayout<RowLayout, RNABuilder>([](RNABuilder& builder) {
+  builder.buildLayout<RowLayout, RNABuilder>([this](RNABuilder& builder) {
     builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning")
-        .setLabel("Tight Positioning")
-        .setBaseState(bwWidgetState::SUNKEN);
-    builder.addRNAWidget<bwCheckbox>("font_use_hinting").setLabel("Hinting");
+        .setChecked(*properties.get<bool>("font_use_tight_positioning", *this))
+        .setLabel("Tight Positioning");
+    builder.addRNAWidget<bwCheckbox>("font_use_hinting")
+        .setChecked(*properties.get<bool>("font_use_hinting", *this))
+        .setLabel("Hinting");
   });
 
-  builder.buildLayout<RowLayout, RNABuilder>([](RNABuilder& builder) {
-    builder.addRNAWidget<bwCheckbox>("font_use_subpixels").setLabel("Subpixel Rendering");
-    builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning")
-        .setLabel("Subpixel Positioning")
-        .hide();
+  builder.buildLayout<RowLayout, RNABuilder>([this](RNABuilder& builder) {
+    builder.addRNAWidget<bwCheckbox>("font_use_subpixels")
+        .setChecked(*properties.get<bool>("font_use_subpixels", *this))
+        .setLabel("Subpixel Rendering");
+
+    if (*properties.get<bool>("font_use_subpixels", *this)) {
+      builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning")
+          .setChecked(*properties.get<bool>("font_use_subpixel_positioning", *this))
+          .setLabel("Subpixel Positioning");
+    }
   });
 
   builder.buildContainer<bwPanel, RNABuilder>(
@@ -100,8 +106,17 @@ void DefaultStage::constructUI(bwScreenGraph::LayoutNode& parent)
   builder.buildContainer<bwPanel>(
       [](Builder& builder) {
         builder.buildLayout<RowLayout>([](Builder& builder) {
-          builder.addWidget<bwCheckbox>("Make Awesome");
-          builder.addWidget<bwCheckbox>("Wireframes");
+          bwCheckbox* checkbox;
+
+          static bool use_make_awesome = false;
+          checkbox = &builder.addWidget<bwCheckbox>("Make Awesome").setChecked(use_make_awesome);
+
+          checkbox->apply_functor = std::make_unique<DummyCheckboxFunctor>(use_make_awesome,
+                                                                           *checkbox);
+          static bool use_wireframes = false;
+          checkbox = &builder.addWidget<bwCheckbox>("Wireframes").setChecked(use_wireframes);
+          checkbox->apply_functor = std::make_unique<DummyCheckboxFunctor>(use_wireframes,
+                                                                           *checkbox);
         });
 
         builder.addWidget<bwTextBox>().setText("Some Text...");
@@ -146,18 +161,25 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
             // A checkbox button is added for this variation later.
             continue;
           }
+
           auto& style_button = builder.addRNAWidget<bwRadioButton>(
               int(type.type_id), "style_type", type.name);
 
           if (type.type_id == style->type_id) {
             style_button.setBaseState(bwWidgetState::SUNKEN);
           }
+          else if ((type.type_id == bwStyle::TypeID::CLASSIC) &&
+                   style->type_id == bwStyle::TypeID::CLASSIC_CSS) {
+            style_button.setBaseState(bwWidgetState::SUNKEN);
+          }
         }
       },
       true);
 
-  builder.addRNAWidget<bwCheckbox>("style_use_css_version", "Use CSS Version")
-      .hide(isUseCSSVersionToggleHidden(*style));
+  if (!isUseCSSVersionToggleHidden(*style)) {
+    auto& checkbox = builder.addRNAWidget<bwCheckbox>("style_use_css_version", "Use CSS Version");
+    checkbox.setChecked(*properties.get<bool>("style_use_css_version", *this));
+  }
 }
 
 void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
@@ -166,145 +188,46 @@ void DefaultStage::useStyleCSSVersionSet(const bool use_css_version)
 
   assert(active_type_id == bwStyle::TypeID::CLASSIC ||
          active_type_id == bwStyle::TypeID::CLASSIC_CSS);
-  if (use_css_version) {
-    if (active_type_id != bwStyle::TypeID::CLASSIC_CSS) {
-      activateStyleID(bwStyle::TypeID::CLASSIC_CSS);
-    }
-  }
-  else {
-    if (active_type_id != bwStyle::TypeID::CLASSIC) {
-      activateStyleID(bwStyle::TypeID::CLASSIC);
-    }
-  }
-}
-
-auto DefaultStage::updateStyleButton(bwWidget& widget_iter) -> bool
-{
-  bwStyle::TypeID active_type_id = DefaultStage::style->type_id;
-
-  if (auto* radio_iter = widget_cast<bwRadioButton>(widget_iter)) {
-    if (radio_iter->apply_functor) {
-      auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(radio_iter->apply_functor.get());
-
-      if (rna_functor && rna_functor->getPropName() == "style_type") {
-        auto prop = rna_functor->getEnumValue();
-        if (prop && bwStyle::TypeID(prop.value()) == active_type_id) {
-          radio_iter->setBaseState(bwWidgetState::SUNKEN);
-        }
-        else {
-          radio_iter->setBaseState(bwWidgetState::NORMAL);
-        }
-      }
-    }
-  }
-  else if (auto* checkbox_iter = widget_cast<bwCheckbox>(widget_iter)) {
-    if (checkbox_iter->apply_functor) {
-      auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
-          checkbox_iter->apply_functor.get());
-      if (rna_functor && rna_functor->getPropName() == "style_use_css_version") {
-        if (active_type_id == bwStyle::TypeID::CLASSIC ||
-            active_type_id == bwStyle::TypeID::CLASSIC_CSS) {
-          useStyleCSSVersionSet(checkbox_iter->getBaseState() == bwWidgetState::SUNKEN);
-        }
-      }
-    }
-  }
-
-  return true;
-}
-
-void DefaultStage::updateStyleButtons()
-{
-  // Deactivate style radio buttons that are not active. In future this should be handled within
-  // bWidgets somehow (groups of radio buttons and a value getter maybe?).
-  for (bwScreenGraph::Node& node : screen_graph) {
-    if (!node.isVisible()) {
-      continue;
-    }
-    if (bwWidget* widget = node.Widget()) {
-      updateStyleButton(*widget);
-    }
-  }
-}
-
-void DefaultStage::activateStyleID(bwStyle::TypeID type_id)
-{
-  Stage::activateStyleID(type_id);
-  for (auto& iter_node : screen_graph) {
-    bwWidget* widget = iter_node.Widget();
-    if (!widget) {
-      continue;
-    }
-
-    const auto* checkbox = widget_cast<bwCheckbox>(widget);
-    if (checkbox && checkbox->apply_functor) {
-      const auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
-          checkbox->apply_functor.get());
-      if (rna_functor && (rna_functor->getPropName() == "style_use_css_version")) {
-        widget->hide(isUseCSSVersionToggleHidden(*Stage::style));
-      }
-    }
-  }
-}
-
-void DefaultStage::updateFontAAMode(bool value)
-{
-  for (bwScreenGraph::Node& node : screen_graph) {
-    bwWidget* widget = node.Widget();
-    if (!widget) {
-      continue;
-    }
-    if (auto* iter_checkbox = widget_cast<bwCheckbox>(widget)) {
-      if (iter_checkbox->apply_functor) {
-        const auto* rna_functor = dynamic_cast<DefaultStageRNAFunctor*>(
-            iter_checkbox->apply_functor.get());
-        if (rna_functor && (rna_functor->getPropName() == "font_use_subpixel_positioning")) {
-          iter_checkbox->hide(!value);
-        }
-      }
-    }
-  }
+  activateStyleID(use_css_version ? bwStyle::TypeID::CLASSIC_CSS : bwStyle::TypeID::CLASSIC);
 }
 
 void DefaultStage::registerProperties(RNAProperties<DefaultStage>& properties)
 {
   properties.defProperty<bwStyle::TypeID>(
       "style_type",
-      [](DefaultStage& stage) { return stage.style->type_id; },
-      [](DefaultStage& stage, bwStyle::TypeID value) {
-        stage.activateStyleID(value);
-        stage.updateStyleButtons();
-      });
+      [](const DefaultStage& stage) { return stage.style->type_id; },
+      [](DefaultStage& stage, bwStyle::TypeID value) { stage.activateStyleID(value); });
   properties.defProperty<bool>(
       "style_use_css_version",
-      [](DefaultStage&) { return style->type_id == bwStyle::TypeID::CLASSIC_CSS; },
+      [](const DefaultStage&) { return style->type_id == bwStyle::TypeID::CLASSIC_CSS; },
       [](DefaultStage& stage, bool value) { stage.useStyleCSSVersionSet(value); });
 
   properties.defProperty<bool>(
       "font_use_tight_positioning",
-      [](DefaultStage&) { return true; }, /* TODO */
+      [](const DefaultStage&) { return Stage::getFontTightPositioning(); },
       [](DefaultStage&, bool value) { Stage::setFontTightPositioning(value); });
   properties.defProperty<bool>(
       "font_use_hinting",
-      [](DefaultStage&) { return true; }, /* TODO */
+      [](const DefaultStage&) { return Stage::getFontHinting(); },
       [](DefaultStage&, bool value) { Stage::setFontHinting(value); });
   properties.defProperty<bool>(
       "font_use_subpixels",
-      [](DefaultStage&) { return true; }, /* TODO */
-      [](DefaultStage& stage, bool value) {
+      [](const DefaultStage&) {
+        return Stage::getFontAntiAliasingMode() == Font::SUBPIXEL_LCD_RGB_COVERAGE;
+      },
+      [](DefaultStage&, bool value) {
         Stage::setFontAntiAliasingMode(value ? Font::SUBPIXEL_LCD_RGB_COVERAGE :
                                                Font::NORMAL_COVERAGE);
-        stage.updateFontAAMode(value);
       });
   properties.defProperty<bool>(
       "font_use_subpixel_positioning",
-      [](DefaultStage&) { return true; }, /* TODO */
-      [](DefaultStage& stage, bool value) { stage.setFontSubPixelPositioning(value); });
+      [](const DefaultStage&) { return Stage::getFontSubPixelPositioning(); },
+      [](DefaultStage&, bool value) { Stage::setFontSubPixelPositioning(value); });
 
   properties.defProperty<float>(
       "interface_scale",
-      [](DefaultStage& stage) { return stage.interface_scale; }, /* TODO */
-      [](DefaultStage& stage, float value) { stage.setInterfaceScale(value); });
+      [](const DefaultStage&) { return Stage::interface_scale; },
+      [](DefaultStage&, float value) { Stage::setInterfaceScale(value); });
 }
 
 }  // namespace bWidgetsDemo
