@@ -68,11 +68,6 @@ auto bwScrollBar::matches(const bwWidget& /*other*/) const -> bool
   return true;
 }
 
-auto bwScrollBar::alwaysPersistent() const -> bool
-{
-  return true;
-}
-
 // ------------------ State ------------------
 
 struct bwScrollBarState : public bwWidgetState {

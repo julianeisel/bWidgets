@@ -52,11 +52,6 @@ auto bwWidget::canAlign() const -> bool
   return false;
 }
 
-auto bwWidget::alwaysPersistent() const -> bool
-{
-  return false;
-}
-
 /**
  * \brief Additional initialization that can't be done in #bwWidget constructor.
  */

@@ -60,14 +60,6 @@ class bwWidget {
       -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
   /**
-   * Some widgets should always keep their state preserved over redraws, not just if there is an
-   * explicit persistent pointer (#bwScreenGraph::PersistentNodePtr) for them. This check can
-   * return true to force #bwScreenGraph::Constructor::reconstruct() to keep a widget persistent,
-   * i.e. keep its state over redraws for as long as the widget is in the screen-graph.
-   */
-  virtual auto alwaysPersistent() const -> bool;
-
-  /**
    * Final rectangle defining the widget bounding-box.
    * \note This really is assumed to be the final bounding-box, bwStyle.dpi_fac will not get
    * applied to it.

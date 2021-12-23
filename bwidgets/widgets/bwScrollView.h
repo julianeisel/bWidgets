@@ -25,7 +25,6 @@ class bwScrollView : public bwContainerWidget {
 
   void draw(bwStyle& style) override;
   auto matches(const bwWidget& other) const -> bool override;
-  auto alwaysPersistent() const -> bool override;
 
   void createState() override;
   auto createHandler(bwScreenGraph::Node& node) const

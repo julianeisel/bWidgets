@@ -45,11 +45,6 @@ auto bwPanel::matches(const bwWidget& other) const -> bool
   return label == other_panel->label;
 }
 
-auto bwPanel::alwaysPersistent() const -> bool
-{
-  return true;
-}
-
 void bwPanel::registerProperties()
 {
   bwContainerWidget::registerProperties();
@@ -166,7 +161,7 @@ auto bwPanel::getHeaderRectangle() const -> bwRectanglePixel
 
 // ------------------ State ------------------
 
-struct bwPanelState : public bwWidgetState {
+struct bwPanelState : public bwWidgetStateAlwaysPersistent {
   bwPanel::State panel_state{bwPanel::State::OPEN};
 };
 

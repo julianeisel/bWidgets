@@ -24,7 +24,6 @@ class bwPanel : public bwContainerWidget {
   void draw(class bwStyle& style) override;
 
   auto matches(const bwWidget& other) const -> bool override;
-  auto alwaysPersistent() const -> bool override;
 
   void registerProperties() override;
 

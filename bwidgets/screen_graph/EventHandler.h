@@ -29,9 +29,8 @@ using EventListener = std::function<void(Node&)>;
  * \brief Event handling base-class for screen-graph nodes.
  *
  * For persistent widgets (i.e. widgets for which there is a #PersistentNodePtr registered or which
- * return true for #bwWidget.alwaysPersistent()), the event handler is kept persistent as well.
- * Unlike the widget itself however, it's not kept persistent by copying/moving its state, but the
- * handler is actually kept alive. That's because the handler's data is considered part of the
+ * return true for #bwWidgetState.alwaysPersistent()), the event handler is kept persistent as
+ * well. It usually stores state data needed for the handling, so it is considered part of the
  * state. See #Node::moveState().
  *
  * TODO:

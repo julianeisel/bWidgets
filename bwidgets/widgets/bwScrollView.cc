@@ -93,11 +93,6 @@ auto bwScrollView::matches(const bwWidget& other) const -> bool
          scrollbar_node->matches(*other_scroll_view->scrollbar_node);
 }
 
-auto bwScrollView::alwaysPersistent() const -> bool
-{
-  return true;
-}
-
 void bwScrollView::validizeScrollValues()
 {
   assert(isScrollable());
@@ -133,7 +128,7 @@ auto bwScrollView::getScrollbarWidth(float interface_scale) -> int
 
 // ------------------ State ------------------
 
-struct bwScrollViewState : public bwWidgetState {
+struct bwScrollViewState : public bwWidgetStateAlwaysPersistent {
   bwScrollViewState(bwScrollView&);
 
   /* Pointer back to the owning widget, not really state. */
@@ -146,7 +141,7 @@ struct bwScrollViewState : public bwWidgetState {
 };
 
 bwScrollViewState::bwScrollViewState(bwScrollView& scroll_view)
-    : bwWidgetState(), scroll_view_(scroll_view)
+    : bwWidgetStateAlwaysPersistent(), scroll_view_(scroll_view)
 {
 }
 

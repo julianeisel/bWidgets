@@ -38,7 +38,7 @@ void Constructor::addAlwaysPersistentPointers(ScreenGraph& screen_graph, const N
 {
   for (Node& iter_node : const_cast<Node&>(subtree)) {
     if (bwWidget* widget = iter_node.Widget()) {
-      if (widget->alwaysPersistent()) {
+      if (widget->getState<bwWidgetState>().alwaysPersistent()) {
         const std::string* label = widget->getLabel();
         make_persistent_ptr(
             screen_graph, &iter_node, label ? label->c_str() : "Some always persistent pointer");
