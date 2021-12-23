@@ -38,6 +38,8 @@ class bwTextBox : public bwWidget {
  protected:
   std::string text;
 
+  auto state() const -> bwTextBoxState&;
+
  public:
   bwWidgetBaseStyle
       base_style;  // XXX public for setWidgetStyle. Should only be temporarily needed.

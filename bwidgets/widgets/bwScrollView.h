@@ -10,6 +10,7 @@ namespace bwScreenGraph {
 class WidgetNode;
 }
 class bwScrollBar;
+class bwScrollViewState;
 
 class bwScrollView : public bwContainerWidget {
   friend class bwScrollViewState;
@@ -34,6 +35,7 @@ class bwScrollView : public bwContainerWidget {
   auto getContentBounds(float interface_scale) const -> bwRectanglePixel;
 
  private:
+  auto state() const -> bwScrollViewState&;
   auto getVerticalScrollBar() const -> bwScrollBar&;
   auto getVerticalScrollbarRect(const bwStyle& style) const -> bwRectanglePixel;
   void drawScrollBars(bwStyle& style);

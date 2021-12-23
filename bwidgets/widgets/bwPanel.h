@@ -5,12 +5,13 @@
 namespace bWidgets {
 
 class bwStyle;
+class bwPanelState;
 
 class bwPanel : public bwContainerWidget {
   friend class bwPanelHandler;
 
  public:
-  enum class State {
+  enum class CollapseState {
     OPEN,
     CLOSED,
   };
@@ -37,12 +38,13 @@ class bwPanel : public bwContainerWidget {
   unsigned int getHeaderHeightHint() const;
 
   auto isOpen() const -> bool;
-  void setOpenState(State state);
-  auto getOpenState() const -> bwPanel::State;
+  void setOpenState(CollapseState state);
+  auto getOpenState() const -> bwPanel::CollapseState;
 
   unsigned int header_height;
 
  private:
+  auto state() const -> bwPanelState&;
   void drawHeader(class bwStyle& style) const;
   auto getHeaderRectangle() const -> bwRectanglePixel;
   auto isCoordinateInsideHeader(const bwPoint& point) const -> bool;

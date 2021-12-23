@@ -79,14 +79,19 @@ void bwScrollBar::createState()
   state_ = std::make_unique<bwScrollBarState>();
 }
 
+auto bwScrollBar::state() const -> bwScrollBarState&
+{
+  return getState<bwScrollBarState>();
+}
+
 int bwScrollBar::getScrollOffset()
 {
-  return getState<bwScrollBarState>().scroll_offset;
+  return state().scroll_offset;
 }
 
 void bwScrollBar::setScrollOffset(int scroll_offset)
 {
-  getState<bwScrollBarState>().scroll_offset = scroll_offset;
+  state().scroll_offset = scroll_offset;
 }
 
 // ------------------ Handling ------------------

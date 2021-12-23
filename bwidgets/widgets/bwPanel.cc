@@ -162,7 +162,7 @@ auto bwPanel::getHeaderRectangle() const -> bwRectanglePixel
 // ------------------ State ------------------
 
 struct bwPanelState : public bwWidgetStateAlwaysPersistent {
-  bwPanel::State panel_state{bwPanel::State::OPEN};
+  bwPanel::CollapseState collapse_state{bwPanel::CollapseState::OPEN};
 };
 
 void bwPanel::createState()
@@ -170,19 +170,24 @@ void bwPanel::createState()
   state_ = std::make_unique<bwPanelState>();
 }
 
+auto bwPanel::state() const -> bwPanelState&
+{
+  return getState<bwPanelState>();
+}
+
 auto bwPanel::isOpen() const -> bool
 {
-  return getState<bwPanelState>().panel_state == bwPanel::State::OPEN;
+  return state().collapse_state == bwPanel::CollapseState::OPEN;
 }
 
-void bwPanel::setOpenState(State state)
+void bwPanel::setOpenState(CollapseState open_state)
 {
-  getState<bwPanelState>().panel_state = state;
+  state().collapse_state = open_state;
 }
 
-auto bwPanel::getOpenState() const -> bwPanel::State
+auto bwPanel::getOpenState() const -> bwPanel::CollapseState
 {
-  return getState<bwPanelState>().panel_state;
+  return state().collapse_state;
 }
 
 // ------------------ Handling ------------------
@@ -215,10 +220,10 @@ void bwPanelHandler::onMousePress(bwMouseButtonEvent& event)
   }
 
   if (panel.isOpen()) {
-    panel.setOpenState(bwPanel::State::CLOSED);
+    panel.setOpenState(bwPanel::CollapseState::CLOSED);
   }
   else {
-    panel.setOpenState(bwPanel::State::OPEN);
+    panel.setOpenState(bwPanel::CollapseState::OPEN);
   }
   event.swallow();
 }

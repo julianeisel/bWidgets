@@ -74,14 +74,19 @@ void bwTextBox::createState()
   state_ = std::make_unique<bwTextBoxState>();
 }
 
+auto bwTextBox::state() const -> bwTextBoxState&
+{
+  return getState<bwTextBoxState>();
+}
+
 auto bwTextBox::isTextEditing() const -> bool
 {
-  return getState<bwTextBoxState>().is_text_editing;
+  return state().is_text_editing;
 }
 
 auto bwTextBox::getSelectionRectangle() const -> bwRectanglePixel&
 {
-  return getState<bwTextBoxState>().selection_rectangle;
+  return state().selection_rectangle;
 }
 
 // ------------------ Handling ------------------

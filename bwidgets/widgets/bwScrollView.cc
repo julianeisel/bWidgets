@@ -131,17 +131,13 @@ auto bwScrollView::getScrollbarWidth(float interface_scale) -> int
 struct bwScrollViewState : public bwWidgetStateAlwaysPersistent {
   bwScrollViewState(bwScrollView&);
 
-  /* Pointer back to the owning widget, not really state. */
-  bwScrollView& scroll_view_;
-
   /** Last known content rectangle, updated before drawing. */
   bwRectanglePixel content_rect;
   /** Current vertical scroll value. */
   int vert_scroll{0};
 };
 
-bwScrollViewState::bwScrollViewState(bwScrollView& scroll_view)
-    : bwWidgetStateAlwaysPersistent(), scroll_view_(scroll_view)
+bwScrollViewState::bwScrollViewState(bwScrollView& scroll_view) : bwWidgetStateAlwaysPersistent()
 {
 }
 
@@ -150,23 +146,28 @@ void bwScrollView::createState()
   state_ = std::make_unique<bwScrollViewState>(*this);
 }
 
+auto bwScrollView::state() const -> bwScrollViewState&
+{
+  return getState<bwScrollViewState>();
+}
+
 auto bwScrollView::getContentRect() const -> bwRectanglePixel
 {
-  return getState<bwScrollViewState>().content_rect;
+  return state().content_rect;
 }
 void bwScrollView::setContentRect(bwRectanglePixel rect)
 {
-  getState<bwScrollViewState>().content_rect = rect;
+  state().content_rect = rect;
 }
 
 auto bwScrollView::getVerticalScroll() const -> int
 {
-  return getState<bwScrollViewState>().vert_scroll;
+  return state().vert_scroll;
 }
 
 void bwScrollView::setVerticalScroll(int vert_scroll)
 {
-  getState<bwScrollViewState>().vert_scroll = vert_scroll;
+  state().vert_scroll = vert_scroll;
 }
 
 // ------------------ Handling ------------------

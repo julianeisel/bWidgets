@@ -4,6 +4,8 @@
 
 namespace bWidgets {
 
+class bwScrollBarState;
+
 class bwScrollBar : public bwAbstractButton {
   friend class bwScrollView;
 
@@ -26,6 +28,8 @@ class bwScrollBar : public bwAbstractButton {
 
  private:
   float ratio_ = 0.0f;  // Ration between content and area height (max 1.0f).
+
+  auto state() const -> bwScrollBarState&;
 };
 
 }  // namespace bWidgets
