@@ -69,9 +69,9 @@ bool bwTextBox::canAlign() const
 
 // ------------------ State ------------------
 
-void bwTextBox::createState()
+auto bwTextBox::createState() const -> std::unique_ptr<bwWidgetState>
 {
-  state_ = std::make_unique<bwTextBoxState>();
+  return std::make_unique<bwTextBoxState>();
 }
 
 auto bwTextBox::state() const -> bwTextBoxState&
@@ -91,8 +91,8 @@ auto bwTextBox::getSelectionRectangle() const -> bwRectanglePixel&
 
 // ------------------ Handling ------------------
 
-std::unique_ptr<bwScreenGraph::EventHandler> bwTextBox::createHandler(
-    bwScreenGraph::Node& node) const
+auto bwTextBox::createHandler(bwScreenGraph::Node& node) const
+    -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return std::make_unique<bwTextBoxHandler>(node);
 }

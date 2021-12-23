@@ -15,19 +15,19 @@ auto bwWidget::isCoordinateInside(const bwPoint& point) const -> bool
   return rectangle.isCoordinateInside(point.x, point.y);
 }
 
-void bwWidget::createState()
+auto bwWidget::createState() const -> std::unique_ptr<bwWidgetState>
 {
-  state_ = std::make_unique<bwWidgetState>();
+  return std::make_unique<bwWidgetState>();
 }
 
 auto bwWidget::getBaseState() const -> WidgetBaseState
 {
-  return state_->base;
+  return getState<bwWidgetState>().base;
 }
 
 auto bwWidget::setBaseState(WidgetBaseState value) -> bwWidget&
 {
-  state_->base = value;
+  getState<bwWidgetState>().base = value;
   return *this;
 }
 

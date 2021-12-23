@@ -132,9 +132,9 @@ struct bwNumberSliderState : public bwTextBoxState {
   float value = 0;
 };
 
-void bwNumberSlider::createState()
+auto bwNumberSlider::createState() const -> std::unique_ptr<bwWidgetState>
 {
-  state_ = std::make_unique<bwNumberSliderState>();
+  return std::make_unique<bwNumberSliderState>();
 }
 
 auto bwNumberSlider::state() const -> bwNumberSliderState&

@@ -129,21 +129,15 @@ auto bwScrollView::getScrollbarWidth(float interface_scale) -> int
 // ------------------ State ------------------
 
 struct bwScrollViewState : public bwWidgetStateAlwaysPersistent {
-  bwScrollViewState(bwScrollView&);
-
   /** Last known content rectangle, updated before drawing. */
   bwRectanglePixel content_rect;
   /** Current vertical scroll value. */
   int vert_scroll{0};
 };
 
-bwScrollViewState::bwScrollViewState(bwScrollView& scroll_view) : bwWidgetStateAlwaysPersistent()
+auto bwScrollView::createState() const -> std::unique_ptr<bwWidgetState>
 {
-}
-
-void bwScrollView::createState()
-{
-  state_ = std::make_unique<bwScrollViewState>(*this);
+  return std::make_unique<bwScrollViewState>();
 }
 
 auto bwScrollView::state() const -> bwScrollViewState&

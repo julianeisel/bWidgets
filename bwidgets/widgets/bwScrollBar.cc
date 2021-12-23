@@ -74,9 +74,9 @@ struct bwScrollBarState : public bwWidgetState {
   int scroll_offset = 0;
 };
 
-void bwScrollBar::createState()
+auto bwScrollBar::createState() const -> std::unique_ptr<bwWidgetState>
 {
-  state_ = std::make_unique<bwScrollBarState>();
+  return std::make_unique<bwScrollBarState>();
 }
 
 auto bwScrollBar::state() const -> bwScrollBarState&

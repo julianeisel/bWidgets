@@ -31,7 +31,7 @@ class bwPanel : public bwContainerWidget {
   auto getLabel() const -> const std::string* override;
   auto childrenVisible() const -> bool override;
 
-  void createState() override;
+  auto createState() const -> std::unique_ptr<bwWidgetState> override;
   auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 

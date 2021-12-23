@@ -17,7 +17,7 @@ class bwScrollBar : public bwAbstractButton {
   void draw(bwStyle& style) override;
   auto matches(const bwWidget& other) const -> bool override;
 
-  void createState() override;
+  auto createState() const -> std::unique_ptr<bwWidgetState> override;
   auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> override;
 

@@ -55,7 +55,7 @@ class bwWidget {
   virtual auto getLabel() const -> const std::string*;
   virtual auto canAlign() const -> bool;
 
-  virtual void createState();
+  virtual auto createState() const -> std::unique_ptr<bwWidgetState>;
   virtual auto createHandler(bwScreenGraph::Node& node) const
       -> std::unique_ptr<bwScreenGraph::EventHandler> = 0;
 
@@ -89,8 +89,6 @@ class bwWidget {
   void initialize();
   virtual void registerProperties();
 
-  std::unique_ptr<bwWidgetState> state_;
-
  private:
   /**
    * Hint if widget was explicitly hidden. bWidgets itself doesn't do
@@ -103,18 +101,34 @@ class bwWidget {
    *       specific option is enabled).
    */
   bool hidden{false};
+  /**
+   * \warning Never access directly, this is lazy-created! Use #bwWidget::getState() instead.
+   */
+  std::unique_ptr<bwWidgetState> state_;
 };
 
+/**
+ * Allocate and initialize a new widget of given type. All arguments passed to this will be
+ * forwarded to the widget's constructor.
+ *
+ * \note Not really needed currently, it just wraps a `std::make_unique()` call. Leaving it in case
+ *       we need to do further initialization in future.
+ */
 template<class _WidgetType, class... _Args>
 std::unique_ptr<_WidgetType> WidgetNew(_Args&&... __args)
 {
-  auto widget = std::make_unique<_WidgetType>(std::forward<_Args>(__args)...);
-  widget->createState();
-  return widget;
+  return std::make_unique<_WidgetType>(std::forward<_Args>(__args)...);
 }
 
 template<class _WidgetStateType> auto bwWidget::getState() const -> _WidgetStateType&
 {
+  /* Lazy-create state, so we don't have to enforce this on construction. */
+  if (!state_) {
+    /* Casting away const is fine here, since it doesn't modify the object in an observable way.
+     * Just lazy-creates the state. */
+    const_cast<bwWidget*>(this)->state_ = this->createState();
+  }
+
   if constexpr (std::is_same<_WidgetStateType, bwWidgetState>::value) {
     return *state_;
   }

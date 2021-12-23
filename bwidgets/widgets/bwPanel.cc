@@ -165,9 +165,9 @@ struct bwPanelState : public bwWidgetStateAlwaysPersistent {
   bwPanel::CollapseState collapse_state{bwPanel::CollapseState::OPEN};
 };
 
-void bwPanel::createState()
+auto bwPanel::createState() const -> std::unique_ptr<bwWidgetState>
 {
-  state_ = std::make_unique<bwPanelState>();
+  return std::make_unique<bwPanelState>();
 }
 
 auto bwPanel::state() const -> bwPanelState&
