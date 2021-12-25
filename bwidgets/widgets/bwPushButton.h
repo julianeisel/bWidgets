@@ -14,8 +14,6 @@ class bwPushButton : public bwAbstractButton {
 
   auto getTypeIdentifier() const -> std::string_view override;
 
-  auto matches(const bwWidget& other) const -> bool override;
-
   auto getIcon() const -> const bwIconInterface* override;
   auto setIcon(const class bwIconInterface&) -> bwPushButton&;
 

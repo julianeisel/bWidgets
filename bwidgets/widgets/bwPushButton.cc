@@ -14,11 +14,6 @@ auto bwPushButton::getTypeIdentifier() const -> std::string_view
   return "bwPushButton";
 }
 
-auto bwPushButton::matches(const bwWidget& other) const -> bool
-{
-  return bwAbstractButton::matches(other);
-}
-
 auto bwPushButton::getIcon() const -> const bwIconInterface*
 {
   return icon;
