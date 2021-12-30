@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['paint_5fengine_931',['paint_engine',['../classbWidgets_1_1bwPainter.html#a3a88c4f9aa617ada122b4ba6dbe0d014',1,'bWidgets::bwPainter']]],
-  ['polish_5fcb_932',['polish_cb',['../classbWidgets_1_1bwStyleCSS.html#aa12d94bddf17a6893ecf77ef73d317ad',1,'bWidgets::bwStyleCSS']]],
-  ['precision_933',['precision',['../classbWidgets_1_1bwNumberSlider.html#a93d8f63aff0c4100d7ed13778d384813',1,'bWidgets::bwNumberSlider']]]
+  ['ratio_0',['ratio',['../classbWidgets_1_1bwScrollBar.html#ab48eb8be7701b4c78e7ef9870415d1b8',1,'bWidgets::bwScrollBar']]],
+  ['rectangle_1',['rectangle',['../classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c',1,'bWidgets::bwWidget']]],
+  ['roundbox_5fcorners_2',['roundbox_corners',['../classbWidgets_1_1bwWidgetBaseStyle.html#a324d6039d1ddac035a9f6289a0070933',1,'bWidgets::bwWidgetBaseStyle']]],
+  ['rounded_5fcorners_3',['rounded_corners',['../classbWidgets_1_1bwAbstractButton.html#ad1d9923d831ced66d36c46b147741909',1,'bWidgets::bwAbstractButton']]]
 ];

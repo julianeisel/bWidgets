@@ -1,6 +1,8 @@
 <map id="bwidgets/widgets/bwNumberSlider.h" name="bwidgets/widgets/bwNumberSlider.h">
-<area shape="rect" id="node1" title=" " alt="" coords="254,5,445,47"/>
-<area shape="rect" id="node2" href="$bwStyleClassic_8cc.html" title=" " alt="" coords="5,102,232,129"/>
-<area shape="rect" id="node3" href="$bwStyleFlatGrey_8cc.html" title=" " alt="" coords="256,95,443,136"/>
-<area shape="rect" id="node4" href="$bwNumberSlider_8cc.html" title=" " alt="" coords="467,95,658,136"/>
+<area shape="rect" id="node1" title=" " alt="" coords="279,5,469,47"/>
+<area shape="rect" id="node2" href="$builtin__widgets_8h.html" title=" " alt="" coords="193,95,355,136"/>
+<area shape="rect" id="node6" href="$bwNumberSlider_8cc.html" title=" " alt="" coords="379,95,569,136"/>
+<area shape="rect" id="node3" href="$bwStyleCSS_8cc.html" title=" " alt="" coords="5,184,172,225"/>
+<area shape="rect" id="node4" href="$bwStyleClassic_8cc.html" title=" " alt="" coords="197,184,351,225"/>
+<area shape="rect" id="node5" href="$bwStyleFlatGrey_8cc.html" title=" " alt="" coords="375,184,530,225"/>
 </map>

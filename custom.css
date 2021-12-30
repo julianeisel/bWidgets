@@ -1,0 +1,15 @@
+/* custom.css */
+html {
+    --side-nav-arrow-opacity: 0.5;
+    --side-nav-arrow-hover-opacity: 0.9;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.light-mode) {
+        /* define dark-mode variable overrides here if you DON'T use doxygen-awesome-darkmode-toggle.js */
+    }
+}
+
+html.dark-mode {
+    /* define dark-mode variable overrides here if you DO use doxygen-awesome-darkmode-toggle.js */
+}

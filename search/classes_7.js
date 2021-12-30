@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['node_548',['Node',['../classbWidgets_1_1bwScreenGraph_1_1Node.html',1,'bWidgets::bwScreenGraph']]],
-  ['nullopt_5ft_549',['nullopt_t',['../structbWidgets_1_1nullopt__t.html',1,'bWidgets']]]
+  ['screengraph_0',['ScreenGraph',['../classbWidgets_1_1bwScreenGraph_1_1ScreenGraph.html',1,'bWidgets::bwScreenGraph']]],
+  ['styletype_1',['StyleType',['../structbWidgets_1_1bwStyle_1_1StyleType.html',1,'bWidgets::bwStyle']]]
 ];

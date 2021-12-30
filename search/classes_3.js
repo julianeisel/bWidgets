@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['drawer_544',['Drawer',['../classbWidgets_1_1bwScreenGraph_1_1Drawer.html',1,'bWidgets::bwScreenGraph']]]
+  ['eventhandler_0',['EventHandler',['../classbWidgets_1_1bwScreenGraph_1_1EventHandler.html',1,'bWidgets::bwScreenGraph']]]
 ];

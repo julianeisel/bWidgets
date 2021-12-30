@@ -1,3 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classbWidgets_1_1bwScreenGraph_1_1PreOrderIterator.html" title="Iterator for pre&#45;order (depth&#45;first) traversal." alt="" coords="5,5,184,47"/>
+<area shape="rect" id="node1" href="$classbWidgets_1_1bwStyle.html" title=" " alt="" coords="5,81,137,108"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwStyleCSS.html" title="Style&#45;class for CSS driven Styles." alt="" coords="193,31,353,57"/>
+<area shape="rect" id="node5" href="$classbWidgets_1_1bwStyleClassic.html" title=" " alt="" coords="185,81,361,108"/>
+<area shape="rect" id="node6" href="$classbWidgets_1_1bwStyleFlat.html" title=" " alt="" coords="196,132,351,159"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwStyleFlatDark.html" title=" " alt="" coords="409,5,592,32"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwStyleFlatLight.html" title=" " alt="" coords="409,56,592,83"/>
 </map>

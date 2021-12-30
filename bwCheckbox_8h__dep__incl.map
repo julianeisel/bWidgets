@@ -1,6 +1,8 @@
 <map id="bwidgets/widgets/bwCheckbox.h" name="bwidgets/widgets/bwCheckbox.h">
-<area shape="rect" id="node1" title=" " alt="" coords="242,5,457,32"/>
-<area shape="rect" id="node2" href="$bwStyleClassic_8cc.html" title=" " alt="" coords="5,87,232,114"/>
-<area shape="rect" id="node3" href="$bwStyleFlatGrey_8cc.html" title=" " alt="" coords="256,80,443,121"/>
-<area shape="rect" id="node4" href="$bwCheckbox_8cc.html" title=" " alt="" coords="467,87,688,114"/>
+<area shape="rect" id="node1" title=" " alt="" coords="275,5,489,32"/>
+<area shape="rect" id="node2" href="$builtin__widgets_8h.html" title=" " alt="" coords="193,80,355,121"/>
+<area shape="rect" id="node6" href="$bwCheckbox_8cc.html" title=" " alt="" coords="379,87,601,114"/>
+<area shape="rect" id="node3" href="$bwStyleCSS_8cc.html" title=" " alt="" coords="5,169,172,211"/>
+<area shape="rect" id="node4" href="$bwStyleClassic_8cc.html" title=" " alt="" coords="197,169,351,211"/>
+<area shape="rect" id="node5" href="$bwStyleFlatGrey_8cc.html" title=" " alt="" coords="375,169,530,211"/>
 </map>

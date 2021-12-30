@@ -1,5 +1,5 @@
 <map id="bWidgets::bwScreenGraph::PreOrderIterator" name="bWidgets::bwScreenGraph::PreOrderIterator">
 <area shape="rect" id="node1" title="Iterator for pre&#45;order (depth&#45;first) traversal." alt="" coords="99,109,277,151"/>
 <area shape="rect" id="node2" href="$classbWidgets_1_1bwScreenGraph_1_1Node.html" title="The base data&#45;structure for a screen&#45;graph node." alt="" coords="5,5,184,47"/>
-<area shape="rect" id="node3" title="STL iterator class." alt="" coords="209,13,354,39"/>
+<area shape="rect" id="node3" title=" " alt="" coords="209,13,354,39"/>
 </map>

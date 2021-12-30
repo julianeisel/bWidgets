@@ -1,8 +1,8 @@
-<map id="bwidgets/styles/bwStyleFlatDark.cc" name="bwidgets/styles/bwStyleFlatDark.cc">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,192,47"/>
-<area shape="rect" id="node2" href="$bwStyleFlatDark_8h.html" title=" " alt="" coords="33,95,164,121"/>
-<area shape="rect" id="node3" href="$bwStyleCSS_8h.html" title=" " alt="" coords="45,169,153,196"/>
-<area shape="rect" id="node4" href="$bwStyle_8h.html" title=" " alt="" coords="59,244,139,271"/>
-<area shape="rect" id="node5" title=" " alt="" coords="35,319,85,345"/>
-<area shape="rect" id="node6" title=" " alt="" coords="110,319,165,345"/>
+<map id="bwidgets/styling/styles/bwStyleFlatDark.cc" name="bwidgets/styling/styles/bwStyleFlatDark.cc">
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,160,47"/>
+<area shape="rect" id="node2" href="$bwStyleFlatDark_8h.html" title=" " alt="" coords="17,95,148,121"/>
+<area shape="rect" id="node3" href="$bwStyleCSS_8h.html" title=" " alt="" coords="29,169,137,196"/>
+<area shape="rect" id="node4" href="$bwStyle_8h.html" title=" " alt="" coords="43,244,123,271"/>
+<area shape="rect" id="node5" title=" " alt="" coords="19,319,69,345"/>
+<area shape="rect" id="node6" title=" " alt="" coords="94,319,149,345"/>
 </map>

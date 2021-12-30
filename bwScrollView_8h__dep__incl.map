@@ -1,6 +1,8 @@
 <map id="bwidgets/widgets/bwScrollView.h" name="bwidgets/widgets/bwScrollView.h">
-<area shape="rect" id="node1" title=" " alt="" coords="261,5,438,47"/>
-<area shape="rect" id="node2" href="$bwStyleClassic_8cc.html" title=" " alt="" coords="5,102,232,129"/>
-<area shape="rect" id="node3" href="$bwStyleFlatGrey_8cc.html" title=" " alt="" coords="256,95,443,136"/>
-<area shape="rect" id="node4" href="$bwScrollView_8cc.html" title=" " alt="" coords="467,95,645,136"/>
+<area shape="rect" id="node1" title=" " alt="" coords="281,5,459,47"/>
+<area shape="rect" id="node2" href="$builtin__widgets_8h.html" title=" " alt="" coords="193,95,355,136"/>
+<area shape="rect" id="node6" href="$bwScrollView_8cc.html" title=" " alt="" coords="379,95,556,136"/>
+<area shape="rect" id="node3" href="$bwStyleCSS_8cc.html" title=" " alt="" coords="5,184,172,225"/>
+<area shape="rect" id="node4" href="$bwStyleClassic_8cc.html" title=" " alt="" coords="197,184,351,225"/>
+<area shape="rect" id="node5" href="$bwStyleFlatGrey_8cc.html" title=" " alt="" coords="375,184,530,225"/>
 </map>

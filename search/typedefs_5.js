@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['propertylist_971',['PropertyList',['../classbWidgets_1_1bwStyleProperties.html#adf6572ab4573706d4c5567b8464e9d19',1,'bWidgets::bwStyleProperties']]]
+  ['propertylist_0',['PropertyList',['../classbWidgets_1_1bwStyleProperties.html#a0d240a5583600a605208029e9575e32a',1,'bWidgets::bwStyleProperties']]]
 ];

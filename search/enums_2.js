@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mousebutton_978',['MouseButton',['../classbWidgets_1_1bwMouseButtonEvent.html#ab43aba74b6f28697c647681b08367891',1,'bWidgets::bwMouseButtonEvent']]]
+  ['eventtype_0',['EventType',['../classbWidgets_1_1bwScreenGraph_1_1EventHandler.html#ab528debb67a504351d7984b88978e6c3',1,'bWidgets::bwScreenGraph::EventHandler']]]
 ];

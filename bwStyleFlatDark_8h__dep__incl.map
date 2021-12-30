@@ -1,5 +1,5 @@
-<map id="bwidgets/styles/bwStyleFlatDark.h" name="bwidgets/styles/bwStyleFlatDark.h">
-<area shape="rect" id="node1" title=" " alt="" coords="115,5,301,47"/>
-<area shape="rect" id="node2" href="$bwStyleManager_8cc.html" title=" " alt="" coords="5,102,197,129"/>
-<area shape="rect" id="node3" href="$bwStyleFlatDark_8cc.html" title=" " alt="" coords="221,95,408,136"/>
+<map id="bwidgets/styling/styles/bwStyleFlatDark.h" name="bwidgets/styling/styles/bwStyleFlatDark.h">
+<area shape="rect" id="node1" title=" " alt="" coords="103,5,258,47"/>
+<area shape="rect" id="node2" href="$bwStyleManager_8cc.html" title=" " alt="" coords="5,95,172,136"/>
+<area shape="rect" id="node3" href="$bwStyleFlatDark_8cc.html" title=" " alt="" coords="197,95,351,136"/>
 </map>

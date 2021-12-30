@@ -1,14 +1,7 @@
-<map id="bwidgets/bwStyleManager.h" name="bwidgets/bwStyleManager.h">
-<area shape="rect" id="node1" title=" " alt="" coords="17,5,203,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="7,155,58,181"/>
-<area shape="rect" id="node3" href="$bwStyle_8h.html" title=" " alt="" coords="70,80,150,107"/>
-<area shape="rect" id="node5" href="$bwUtil_8h.html" title=" " alt="" coords="176,80,247,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="83,155,137,181"/>
-<area shape="rect" id="node6" href="$bwOptional_8h.html" title=" " alt="" coords="162,155,261,181"/>
-<area shape="rect" id="node11" href="$bwPtr_8h.html" title=" " alt="" coords="346,155,413,181"/>
-<area shape="rect" id="node7" title=" " alt="" coords="5,237,71,263"/>
-<area shape="rect" id="node8" title=" " alt="" coords="95,237,173,263"/>
-<area shape="rect" id="node9" title=" " alt="" coords="222,319,305,345"/>
-<area shape="rect" id="node10" href="$bwOptional__internal_8h.html" title=" " alt="" coords="249,229,382,271"/>
-<area shape="rect" id="node12" title=" " alt="" coords="406,237,475,263"/>
+<map id="bwidgets/styling/bwStyleManager.h" name="bwidgets/styling/bwStyleManager.h">
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,172,47"/>
+<area shape="rect" id="node2" title=" " alt="" coords="38,169,89,196"/>
+<area shape="rect" id="node3" title=" " alt="" coords="54,95,123,121"/>
+<area shape="rect" id="node4" href="$bwStyle_8h.html" title=" " alt="" coords="147,95,227,121"/>
+<area shape="rect" id="node5" title=" " alt="" coords="160,169,215,196"/>
 </map>

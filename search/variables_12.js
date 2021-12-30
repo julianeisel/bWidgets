@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['x_955',['x',['../classbWidgets_1_1bwPoint.html#af8eec18a06f5acf1ecbefcca26f1172d',1,'bWidgets::bwPoint']]],
-  ['xmax_956',['xmax',['../classbWidgets_1_1bwRectangle.html#a995f8771be13fad52c4222cd03014a10',1,'bWidgets::bwRectangle']]],
-  ['xmin_957',['xmin',['../classbWidgets_1_1bwRectangle.html#ad79eabe271fba93629d62a02916bc4ca',1,'bWidgets::bwRectangle']]]
+  ['y_0',['y',['../classbWidgets_1_1bwPoint.html#abc3ac8418fec58172fc458069e7f0d99',1,'bWidgets::bwPoint']]],
+  ['ymax_1',['ymax',['../classbWidgets_1_1bwRectangle.html#a123a9487108f0ec7a85112babd1bf73c',1,'bWidgets::bwRectangle']]],
+  ['ymin_2',['ymin',['../classbWidgets_1_1bwRectangle.html#a56dbb5d128617a4dfdfcfe15e2d302bf',1,'bWidgets::bwRectangle']]]
 ];

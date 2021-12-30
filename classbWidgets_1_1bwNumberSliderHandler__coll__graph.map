@@ -1,13 +1,13 @@
 <map id="bWidgets::bwNumberSliderHandler" name="bWidgets::bwNumberSliderHandler">
-<area shape="rect" id="node1" title=" " alt="" coords="1364,91,1545,132"/>
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwTextBoxHandler.html" title=" " alt="" coords="1120,98,1315,125"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwScreenGraph_1_1EventHandler.html" title="API for registering and calling event&#45;listeners." alt="" coords="845,61,1024,103"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwTextBox.html" title=" " alt="" coords="859,127,1010,154"/>
-<area shape="rect" id="node5" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="557,93,699,119"/>
-<area shape="rect" id="node6" href="$classbWidgets_1_1bwRectangle.html" title=" " alt="" coords="196,5,357,47"/>
-<area shape="rect" id="node7" title="STL class." alt="" coords="237,153,317,179"/>
-<area shape="rect" id="node8" title="STL class." alt="" coords="5,145,132,187"/>
-<area shape="rect" id="node9" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances)." alt="" coords="181,82,372,109"/>
-<area shape="rect" id="node10" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners." alt="" coords="527,241,729,267"/>
-<area shape="rect" id="node11" href="$classbWidgets_1_1bwColor.html" title=" " alt="" coords="210,250,343,277"/>
+<area shape="rect" id="node1" title=" " alt="" coords="1188,71,1369,112"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwTextBoxHandler.html" title=" " alt="" coords="944,78,1139,105"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwScreenGraph_1_1EventHandler.html" title="API for registering and calling event&#45;listeners." alt="" coords="669,41,848,83"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwTextBox.html" title=" " alt="" coords="683,107,834,134"/>
+<area shape="rect" id="node5" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="381,83,523,110"/>
+<area shape="rect" id="node6" href="$classbWidgets_1_1bwRectangle.html" title=" " alt="" coords="20,5,181,47"/>
+<area shape="rect" id="node7" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances)." alt="" coords="5,82,196,109"/>
+<area shape="rect" id="node8" title=" " alt="" coords="412,138,492,165"/>
+<area shape="rect" id="node9" title=" " alt="" coords="37,133,164,175"/>
+<area shape="rect" id="node10" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners." alt="" coords="351,202,553,229"/>
+<area shape="rect" id="node11" href="$classbWidgets_1_1bwColor.html" title=" " alt="" coords="34,218,167,245"/>
 </map>

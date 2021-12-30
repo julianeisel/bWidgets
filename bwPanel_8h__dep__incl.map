@@ -1,7 +1,8 @@
 <map id="bwidgets/widgets/bwPanel.h" name="bwidgets/widgets/bwPanel.h">
-<area shape="rect" id="node1" title=" " alt="" coords="334,5,522,32"/>
-<area shape="rect" id="node2" href="$bwStyleCSS_8cc.html" title=" " alt="" coords="5,87,176,114"/>
-<area shape="rect" id="node3" href="$bwStyleClassic_8cc.html" title=" " alt="" coords="200,87,427,114"/>
-<area shape="rect" id="node4" href="$bwStyleFlatGrey_8cc.html" title=" " alt="" coords="451,80,637,121"/>
-<area shape="rect" id="node5" href="$bwPanel_8cc.html" title=" " alt="" coords="661,87,856,114"/>
+<area shape="rect" id="node1" title=" " alt="" coords="281,5,469,32"/>
+<area shape="rect" id="node2" href="$builtin__widgets_8h.html" title=" " alt="" coords="193,80,355,121"/>
+<area shape="rect" id="node6" href="$bwPanel_8cc.html" title=" " alt="" coords="379,87,574,114"/>
+<area shape="rect" id="node3" href="$bwStyleCSS_8cc.html" title=" " alt="" coords="5,169,172,211"/>
+<area shape="rect" id="node4" href="$bwStyleClassic_8cc.html" title=" " alt="" coords="197,169,351,211"/>
+<area shape="rect" id="node5" href="$bwStyleFlatGrey_8cc.html" title=" " alt="" coords="375,169,530,211"/>
 </map>
