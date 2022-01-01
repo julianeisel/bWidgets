@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['build_20bwidgets_0',['Build bWidgets',['../md_docs_build_instructions.html',1,'']]],
-  ['bwidgets_1',['bWidgets',['../index.html',1,'']]],
-  ['bwidgets_20source_20code_20documentation_2',['bWidgets Source Code Documentation',['../md_docs_bWidgets_about.html',1,'']]]
+  ['blender_20ui_20code_20issues_0',['Blender UI Code Issues',['../md_docs_current_ui_code_vs_bwidgets.html',1,'']]],
+  ['building_20bwidgets_1',['Building bWidgets',['../md_docs_build_instructions.html',1,'']]],
+  ['bwidgets_2',['bWidgets',['../index.html',1,'']]],
+  ['bwidgets_20design_3',['bWidgets Design',['../md_docs_bWidgets_about.html',1,'']]]
 ];

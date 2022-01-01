@@ -25,20 +25,21 @@
 var NAVTREE =
 [
   [ "bWidgets", "index.html", [
-    [ "Motivation", "index.html#motivation", null ],
-    [ "Role of bWidgets", "index.html#role_of_bwidgets", null ],
-    [ "Current Features", "index.html#current_features", null ],
-    [ "Build bWidgets", "md_docs_build_instructions.html", null ],
-    [ "bWidgets Source Code Documentation", "md_docs_bWidgets_about.html", "md_docs_bWidgets_about" ],
-    [ "Why bWidgets and Not an Existing Widget/GUI Toolkit?", "md_docs_bwidgets_vs_existing_toolkits.html", null ],
-    [ "Current Blender widget code vs. bWidgets", "md_docs_current_ui_code_vs_bwidgets.html", [
+    [ "Building bWidgets", "md_docs_build_instructions.html", [
+      [ "Step 1: Install Dependencies", "md_docs_build_instructions.html#dependencies", null ],
+      [ "Step 2: Clone Sources", "md_docs_build_instructions.html#clone", null ],
+      [ "Step 3: Configure CMake", "md_docs_build_instructions.html#configure", null ],
+      [ "Step 4: Build", "md_docs_build_instructions.html#compile", null ]
+    ] ],
+    [ "bWidgets Design", "md_docs_bWidgets_about.html", "md_docs_bWidgets_about" ],
+    [ "Why Not an Existing Widget Toolkit?", "md_docs_bwidgets_vs_existing_toolkits.html", null ],
+    [ "Blender UI Code Issues", "md_docs_current_ui_code_vs_bwidgets.html", [
       [ "General Design", "md_docs_current_ui_code_vs_bwidgets.html#general_design", null ],
       [ "Limitations", "md_docs_current_ui_code_vs_bwidgets.html#limitations", null ],
       [ "Widget Handling (User Input Code)", "md_docs_current_ui_code_vs_bwidgets.html#widget_handling", null ],
       [ "Theme System", "md_docs_current_ui_code_vs_bwidgets.html#theme_system", null ]
     ] ],
-    [ "Future Plans", "md_docs_future_plans.html", null ],
-    [ "Documenting bWidgets", "md_docs_README.html", null ],
+    [ "Managing the Documentation", "md_docs_README.html", null ],
     [ "Namespace Members", "namespacemembers.html", [
       [ "All", "namespacemembers.html", null ],
       [ "Functions", "namespacemembers_func.html", null ],

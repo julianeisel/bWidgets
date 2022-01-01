@@ -1,11 +1,13 @@
 <map id="bWidgets::bwCheckbox" name="bWidgets::bwCheckbox">
-<area shape="rect" id="node1" title=" " alt="" coords="908,130,1069,157"/>
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets." alt="" coords="669,130,859,157"/>
-<area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="381,71,523,98"/>
-<area shape="rect" id="node4" href="$classbWidgets_1_1bwRectangle.html" title=" " alt="" coords="20,5,181,47"/>
-<area shape="rect" id="node5" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances)." alt="" coords="5,71,196,98"/>
-<area shape="rect" id="node6" title=" " alt="" coords="412,130,492,157"/>
-<area shape="rect" id="node7" title=" " alt="" coords="37,123,164,164"/>
-<area shape="rect" id="node8" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners." alt="" coords="351,194,553,221"/>
-<area shape="rect" id="node9" href="$classbWidgets_1_1bwColor.html" title=" " alt="" coords="34,209,167,235"/>
+<area shape="rect" id="node1" title=" " alt="" coords="929,159,1091,186"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwAbstractButton.html" title="Base class for button like widgets." alt="" coords="691,159,880,186"/>
+<area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="387,67,530,94"/>
+<area shape="rect" id="node4" href="$classbWidgets_1_1bwRectangle.html" title=" " alt="" coords="23,5,185,47"/>
+<area shape="rect" id="node5" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances)." alt="" coords="9,71,199,98"/>
+<area shape="rect" id="node6" title=" " alt="" coords="371,119,546,160"/>
+<area shape="rect" id="node7" href="$classbWidgets_1_1bwFunctorInterface.html" title="Abstract function object class." alt="" coords="5,126,203,153"/>
+<area shape="rect" id="node8" title=" " alt="" coords="419,185,499,211"/>
+<area shape="rect" id="node9" title=" " alt="" coords="41,177,167,219"/>
+<area shape="rect" id="node10" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners." alt="" coords="357,249,560,275"/>
+<area shape="rect" id="node11" href="$classbWidgets_1_1bwColor.html" title=" " alt="" coords="37,263,171,290"/>
 </map>

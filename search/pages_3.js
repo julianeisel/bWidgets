@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['future_20plans_0',['Future Plans',['../md_docs_future_plans.html',1,'']]]
+  ['managing_20the_20documentation_0',['Managing the Documentation',['../md_docs_README.html',1,'']]]
 ];

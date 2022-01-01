@@ -7,7 +7,5 @@ var searchData=
   ['flat_5flight_4',['FLAT_LIGHT',['../classbWidgets_1_1bwStyle.html#ae171f8ff8df35399f4d56db83774071da60ae6bd1be004f399d482a35324e633c',1,'bWidgets::bwStyle']]],
   ['float_5',['FLOAT',['../classbWidgets_1_1bwStyleProperty.html#a842a128e6f36b1a38bfa5cab4a715a07ae738c26bf4ce1037fa81b039a915cbf6',1,'bWidgets::bwStyleProperty']]],
   ['forwardeventtonode_6',['forwardEventToNode',['../namespacebWidgets.html#a4455cf0c44c2d98c0904484434d12fb4',1,'bWidgets']]],
-  ['forwardeventtoscrollbarifinside_7',['forwardEventToScrollbarIfInside',['../namespacebWidgets.html#ad6cc22c6ea7531f00062eb16df70e548',1,'bWidgets']]],
-  ['future_20plans_8',['Future Plans',['../md_docs_future_plans.html',1,'']]],
-  ['future_5fplans_2emd_9',['future_plans.md',['../future__plans_8md.html',1,'']]]
+  ['forwardeventtoscrollbarifinside_7',['forwardEventToScrollbarIfInside',['../namespacebWidgets.html#ad6cc22c6ea7531f00062eb16df70e548',1,'bWidgets']]]
 ];

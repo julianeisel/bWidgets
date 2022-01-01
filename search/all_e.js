@@ -1,7 +1,7 @@
 var searchData=
 [
   ['ratio_0',['ratio',['../classbWidgets_1_1bwScrollBar.html#ab48eb8be7701b4c78e7ef9870415d1b8',1,'bWidgets::bwScrollBar']]],
-  ['readme_2emd_1',['README.md',['../README_8md.html',1,'']]],
+  ['readme_2emd_1',['README.md',['../docs_2README_8md.html',1,'(Global Namespace)'],['../README_8md.html',1,'(Global Namespace)']]],
   ['rectangle_2',['Rectangle',['../classbWidgets_1_1bwScreenGraph_1_1Node.html#af717ec17b2963a1bc7b7b99624f3ac29',1,'bWidgets::bwScreenGraph::Node::Rectangle()'],['../classbWidgets_1_1bwScreenGraph_1_1LayoutNode.html#a67f3b9d5eb98ee3ca2021f2ea3fdd60a',1,'bWidgets::bwScreenGraph::LayoutNode::Rectangle()'],['../classbWidgets_1_1bwScreenGraph_1_1WidgetNode.html#a54d37a07602043f6458079adfb7f21a6',1,'bWidgets::bwScreenGraph::WidgetNode::Rectangle()'],['../classbWidgets_1_1bwScreenGraph_1_1ContainerNode.html#aa295e31525e19a136182eea65354ea04',1,'bWidgets::bwScreenGraph::ContainerNode::Rectangle()']]],
   ['rectangle_3',['rectangle',['../classbWidgets_1_1bwWidget.html#a2cbd79c1d1ecbe99494923f79e77c17c',1,'bWidgets::bwWidget']]],
   ['registerdefaultstyletypes_4',['registerDefaultStyleTypes',['../classbWidgets_1_1bwStyleManager.html#a29e73cd1b5e8203d1dca2792e5810616',1,'bWidgets::bwStyleManager']]],

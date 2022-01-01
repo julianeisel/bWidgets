@@ -1,11 +1,13 @@
 <map id="bWidgets::bwNumberSlider" name="bWidgets::bwNumberSlider">
-<area shape="rect" id="node1" title=" " alt="" coords="869,107,1051,134"/>
-<area shape="rect" id="node2" href="$classbWidgets_1_1bwTextBox.html" title=" " alt="" coords="669,107,820,134"/>
+<area shape="rect" id="node1" title=" " alt="" coords="975,189,1156,215"/>
+<area shape="rect" id="node2" href="$classbWidgets_1_1bwTextBox.html" title=" " alt="" coords="681,138,832,165"/>
 <area shape="rect" id="node3" href="$classbWidgets_1_1bwWidget.html" title="Abstract base class that all widgets derive from." alt="" coords="381,83,523,110"/>
 <area shape="rect" id="node4" href="$classbWidgets_1_1bwRectangle.html" title=" " alt="" coords="20,5,181,47"/>
 <area shape="rect" id="node5" href="$classbWidgets_1_1bwStyleProperties.html" title="Manage a list of properties (bwStyleProperty instances)." alt="" coords="5,82,196,109"/>
 <area shape="rect" id="node6" title=" " alt="" coords="412,138,492,165"/>
 <area shape="rect" id="node7" title=" " alt="" coords="37,133,164,175"/>
-<area shape="rect" id="node8" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners." alt="" coords="351,202,553,229"/>
+<area shape="rect" id="node8" href="$classbWidgets_1_1bwWidgetBaseStyle.html" title="Properties for typical widgets with roundbox corners." alt="" coords="351,189,553,215"/>
 <area shape="rect" id="node9" href="$classbWidgets_1_1bwColor.html" title=" " alt="" coords="34,218,167,245"/>
+<area shape="rect" id="node10" title=" " alt="" coords="669,211,844,252"/>
+<area shape="rect" id="node11" href="$classbWidgets_1_1bwFunctorInterface.html" title="Abstract function object class." alt="" coords="353,239,551,266"/>
 </map>
