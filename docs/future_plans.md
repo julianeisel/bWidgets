@@ -1,3 +1,5 @@
+<!-- Note: This page isn't in use currently. -->
+
 # Future Plans
 
 \brief Overview on long-term plans for bWidgets.

@@ -1,5 +1,5 @@
-Current Blender widget code vs. bWidgets
-========================================
+Blender UI Code Issues
+======================
 
 \brief Which problems does the current Blender widget code have and how does
 bWidgets try to solve them?
@@ -163,8 +163,7 @@ file size by far isn't the only problem (that alone would be easy to solve):
 * Different levels of code are mixed everywhere.
 * Mixed handling of entire areas, widgets, popups, text-editing, tooltips, etc.
 * Contains lots of functions that don't belong there (e.g. context-menu
-  population, see [`ui_but_menu`]
-  (https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_handlers.c;00d2dfa93ae8a84b163930246709c50b8ee1e148$6763-7077)).
+  population, see [`ui_but_menu()`](https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_handlers.c;00d2dfa93ae8a84b163930246709c50b8ee1e148$6763-7077)).
 * Thousands of exceptions for countless special cases.
 * Data management is mixed with low-level event handling everywhere.
 * State changes are hard to follow and predict.
@@ -183,9 +182,9 @@ issues. It still deserves special mention though:
 * ...
 
 If you want to get a taste of it, have a look at
-[`ui_handle_menus_recursive`](https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_handlers.c;a3409d3f53f1decb3cbe5c04fd804062dcf2cf49$9877-9974),
+[`ui_handle_menus_recursive()`](https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_handlers.c;a3409d3f53f1decb3cbe5c04fd804062dcf2cf49$9877-9974),
 or the gorgeous
-[`ui_handle_menu_event`](https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_handlers.c;a3409d3f53f1decb3cbe5c04fd804062dcf2cf49$9057-9492).
+[`ui_handle_menu_event()`](https://developer.blender.org/diffusion/B/browse/master/source/blender/editors/interface/interface_handlers.c;a3409d3f53f1decb3cbe5c04fd804062dcf2cf49$9057-9492).
 
 For bWidgets we plan to have something like a popup-manager to take over
 high-level popup handling. Using the hierarchical widget storage described
@@ -219,8 +218,7 @@ Imagine a theming-system, which lets you choose from a flat, depth-based design
 even an OS-native design in Blender. And that fully customizable and with
 support for sharing.
 <br/>
-[GTK+ is a great example of such flexibility]
-(https://www.gnome-look.org/browse/cat/135/)
+[GTK+ is a great example of such flexibility](https://www.gnome-look.org/browse/cat/135/)
 <br/>
 Eventually, styles should be able to completely override the drawing (and
 handling) of widgets. For example a theme/style could make Blender's
@@ -237,7 +235,7 @@ Depending on where widgets are drawn, they may need to use different theme
 colors. Blender's push-buttons (to execute an operator) are drawn completely
 different when placed in a menu - and different again when placed in a pie-menu.
 Similarly, text colors may need adjustments when used in front of special
-backgrounds (see [T48241] (https://developer.blender.org/T48241)). Currently,
+backgrounds (see [T48241](https://developer.blender.org/T48241)). Currently,
 Blender solves this with hardcoded checks for these special cases. These become
 hard to keep track of and maintain. Fixing problems with the hard-coded checks
 is no rocket-science, but we can actually get rid of them entirely.
@@ -273,5 +271,4 @@ use. Although we may have to write our own code to interpret the parsing result
 according to the standards. We can start with a small supported subset of the
 standards and add more features as needed.
 <br/>
-Work on CSS support is ongoing in the [css_styles]
-(https://github.com/julianeisel/bWidgets/tree/css_styles) branch.
+Work on CSS support is ongoing in the [css_styles](https://github.com/julianeisel/bWidgets/tree/css_styles) branch.
