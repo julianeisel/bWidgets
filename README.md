@@ -4,13 +4,13 @@ bWidgets
 _bWidgets is a cross-platform widget toolkit with a narrow scope, designed
 specifically for [Blender](https://www.blender.org/)._
 
-__NOTE:__ This is not an official Blender project!
+__Note:__ This is not an official Blender project!
 
 Unlike other toolkits, bWidgets does _not_ contain window management, event
 management, graphics libraries, font management and the like. It is solely
 focused on core widget features: Widget types, layouts, styling, interaction.
 
-Do not attempt to use bWidgets at this point. A lot of the core designs
+Do <u>not</u> attempt to use bWidgets at this point. A lot of the core designs
 are still in progress.
 
 <br/>
@@ -28,14 +28,15 @@ __Mission:__ Explore new design ideas & technology for the next decade of
 Blender UI development; start with a blank canvas.
 
 The fundamental goals in relation to Blender are:
-* Solve long standing design issues & technical debt. Apply lessons learnt from the
-  current design.
+* Address long standing design issues & technical debt. Apply lessons learnt
+  from the current design.
   * Keep good working designs!
   * Enrich the UI design paradigms, don’t fight them.
 * Extend UI design vocabulary & functionality: Animations, drag & drop, much
   improved theming, multi-line widgets, custom widgets, etc.
 * Professional grounds for UI development: Clear specifications, comprehensive
-  documentation, hugely increased testability, Blender UI builder app (later on).
+  documentation, hugely increased testability, Blender UI builder app, debugging
+  tools, ...
 * A reusable widget toolkit for the Blender design, adoptable by other Blender
   services for a unified look & feel (standalone).
 * Support exposing the entire toolkit to the Blender Python API.

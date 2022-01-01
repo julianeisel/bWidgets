@@ -1,4 +1,4 @@
-# Why bWidgets and Not an Existing Widget/GUI Toolkit?
+# Why Not an Existing Widget Toolkit?
 
 \brief Details on why Blender should use bWidgets rather than an existing
 widget/GUI toolkit.
