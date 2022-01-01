@@ -13,6 +13,14 @@ focused on core widget features: Widget types, layouts, styling, interaction.
 Do not attempt to use bWidgets at this point. A lot of the core designs
 are still in progress.
 
+<br/>
+<div align="center">
+<img width="318" alt="bwidgets_classic_style" src="https://user-images.githubusercontent.com/7873998/147843328-a97c0841-9a71-41bb-8b8b-41c6af5c55ee.png"> <img width="318" alt="bwidgets_flat_light_style" src="https://user-images.githubusercontent.com/7873998/147843329-fb01ebc0-62b9-4f3a-a1cb-cf61f7d0c84a.png"> <img width="318" alt="bwidgets_flat_dark_style" src="https://user-images.githubusercontent.com/7873998/147843330-a249ab1f-a2b3-4653-b69d-92ae9dbc2b99.png">
+
+<br/>
+<i>Demo application in different Styles</i>
+</div>
+
 Mission & Goals
 ===============
 
