@@ -36,7 +36,7 @@ void bwPanel::draw(bwStyle& style)
   drawHeader(style);
 }
 
-auto bwPanel::matches(const bwWidget& other) const -> bool
+auto bwPanel::matches(const bwWidget& other) const -> std::optional<bool>
 {
   const bwPanel* other_panel = widget_cast<bwPanel>(other);
 

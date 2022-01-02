@@ -21,13 +21,17 @@
 
 #pragma once
 
+#include <memory>
+
 #include "RNAProperty.h"
 
+#include "RNABinding.h"
 #include "screen_graph/Builder.h"
 
 namespace bWidgets {
 class bwRadioButton;
-}
+class bwCheckbox;
+}  // namespace bWidgets
 
 namespace bWidgetsDemo {
 
@@ -53,13 +57,25 @@ class RNAScreenGraphBuilder : public bWidgets::bwScreenGraph::Builder {
   template<typename _WidgetType, typename... _Args>
   _WidgetType& addRNAWidget(const std::string& propname, _Args&&... __args)
   {
-    _WidgetType& widget = bWidgets::bwScreenGraph::Builder::addWidget<_WidgetType>(
-        std::forward<_Args>(__args)...);
     static_assert(!std::is_same<_WidgetType, bWidgets::bwRadioButton>::value,
                   "RNAScreenGraphBuilder: For bwRadioButton, addRNAWidget overload with enum "
                   "value should be called.");
-    widget.apply_functor = std::make_unique<_Func>(m_props, m_obj, propname, widget);
-    return widget;
+
+    if constexpr (bWidgets::has_binding<_WidgetType>::value) {
+      auto binding =
+          bWidgets::FunctionalBindingNew<RNABinding<_Obj, typename _WidgetType::DataBindingType>>(
+              m_obj, m_props, propname);
+
+      _WidgetType& widget = bWidgets::bwScreenGraph::Builder::addWidget<_WidgetType>(
+          std::move(binding), std::forward<_Args>(__args)...);
+      return widget;
+    }
+    else {
+      _WidgetType& widget = bWidgets::bwScreenGraph::Builder::addWidget<_WidgetType>(
+          std::forward<_Args>(__args)...);
+      widget.apply_functor = std::make_unique<_Func>(m_props, m_obj, propname, widget);
+      return widget;
+    }
   }
 
   template<typename _WidgetType, typename... _Args>

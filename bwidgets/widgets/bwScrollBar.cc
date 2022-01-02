@@ -62,8 +62,9 @@ void bwScrollBar::draw(bwStyle& style)
       tmp_base_style, style, rect_inner, gradient_inner, tmp_base_style.corner_radius);
 }
 
-auto bwScrollBar::matches(const bwWidget& /*other*/) const -> bool
+auto bwScrollBar::matches(const bwWidget& /*other*/) const -> std::optional<bool>
 {
+  /* TODO use binding for scroll offset. */
   /* XXX There's no data to compare here. */
   return true;
 }

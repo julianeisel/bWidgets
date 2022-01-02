@@ -8,16 +8,19 @@
 #include "bwEvent.h"
 #include "bwPainter.h"
 #include "bwStyle.h"
+#include "data_binding/TypeErasedBinding.h"
 #include "screen_graph/Node.h"
 
 #include "bwNumberSlider.h"
 
 namespace bWidgets {
 
-bwNumberSlider::bwNumberSlider(std::optional<unsigned int> width_hint,
+bwNumberSlider::bwNumberSlider(Binding<float> binding,
+                               std::optional<unsigned int> width_hint,
                                std::optional<unsigned int> height_hint)
-    : bwTextBox(width_hint, height_hint)
+    : bwTextBox(width_hint, height_hint), binding_(std::move(binding))
 {
+  setValue(binding_.get());
 }
 
 auto bwNumberSlider::getTypeIdentifier() const -> std::string_view
@@ -120,10 +123,9 @@ auto bwNumberSlider::calcValueIndicatorWidth(bwStyle& style) const -> float
   return ((getValue() - value_info.min) * (rectangle.width() - radius)) / range;
 }
 
-auto bwNumberSlider::matches(const bwWidget& other) const -> bool
+auto bwNumberSlider::getBinding() const -> std::optional<TypeErasedBinding>
 {
-  const bwNumberSlider* other_slider = widget_cast<bwNumberSlider>(other);
-  return bwTextBox::matches(other) && compareFunctors(apply_functor, other_slider->apply_functor);
+  return binding_;
 }
 
 // ------------------ State ------------------
@@ -147,13 +149,13 @@ auto bwNumberSlider::setValue(float _value) -> bwNumberSlider&
   const int precision_fac = std::pow(10, value_info.precision);
   const float unclamped_value = std::max(value_info.min, std::min(value_info.max, _value));
 
-  state().value = std::roundf(unclamped_value * precision_fac) / precision_fac;
+  binding_.set(std::roundf(unclamped_value * precision_fac) / precision_fac);
   return *this;
 }
 
 auto bwNumberSlider::getValue() const -> float
 {
-  return state().value;
+  return binding_.get();
 }
 
 // ------------------ Handling ------------------
@@ -250,9 +252,6 @@ void bwNumberSliderHandler::onMouseDrag(bwMouseButtonDragEvent& event)
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
     numberslider.setValue(initial_value +
                           (event.drag_distance.x / (float)numberslider.rectangle.width()));
-    if (numberslider.apply_functor) {
-      (*numberslider.apply_functor)();
-    }
 
     is_dragging = true;
 

@@ -25,7 +25,7 @@ class bwScrollView : public bwContainerWidget {
   auto getTypeIdentifier() const -> std::string_view override;
 
   void draw(bwStyle& style) override;
-  auto matches(const bwWidget& other) const -> bool override;
+  auto matches(const bwWidget& other) const -> std::optional<bool> override;
 
   auto createState() const -> std::unique_ptr<bwWidgetState> override;
   auto createHandler(bwScreenGraph::Node& node) const

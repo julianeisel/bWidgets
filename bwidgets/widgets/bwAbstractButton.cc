@@ -31,7 +31,7 @@ void bwAbstractButton::draw(bwStyle& style)
   painter.drawTextAndIcon(text, getIcon(), rectangle, base_style.text_alignment, style.dpi_fac);
 }
 
-auto bwAbstractButton::matches(const bwWidget& other) const -> bool
+auto bwAbstractButton::matches(const bwWidget& other) const -> std::optional<bool>
 {
   const bwAbstractButton* other_button = widget_cast<bwAbstractButton>(other);
 

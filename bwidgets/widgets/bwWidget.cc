@@ -1,6 +1,7 @@
 #include "bwStyle.h"
 
 #include "bwWidget.h"
+#include "data_binding/TypeErasedBinding.h"
 
 namespace bWidgets {
 
@@ -50,6 +51,26 @@ auto bwWidget::getLabel() const -> const std::string*
 auto bwWidget::canAlign() const -> bool
 {
   return false;
+}
+
+auto bwWidget::matches(const bwWidget& other) const -> std::optional<bool>
+{
+  return false;
+}
+
+auto bwWidget::matchesBindings(const bwWidget& other) const -> std::optional<bool>
+{
+  std::optional<TypeErasedBinding> a = getBinding();
+  std::optional<TypeErasedBinding> b = other.getBinding();
+  if (a) {
+    return a == b;
+  }
+  return std::nullopt;
+}
+
+auto bwWidget::getBinding() const -> std::optional<TypeErasedBinding>
+{
+  return std::nullopt;
 }
 
 /**

@@ -42,6 +42,7 @@ set(SRC
 
 	DummyFunctors.hh
 	DefaultStage.h
+	RNABinding.h
 	DefaultStageRNAFunctor.h
 	Font.h
 	GawainPaintEngine.h

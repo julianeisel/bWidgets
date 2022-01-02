@@ -165,9 +165,21 @@ auto WidgetNode::matches(const Node& other) const -> bool
     return true;
   }
 
-  /* Compares the actual widgets, i.e. calls the widget's custom matches() overload.
-   * Crucial for identifying widgets over redraws and preserving state that way. */
-  return widget->matches(*other_widget);
+  /* If the widget has bindings, compare them. */
+  std::optional<bool> bindings_match = widget->matchesBindings(*other_widget);
+  if (bindings_match && (bindings_match.value() == false)) {
+    return false;
+  }
+
+  /* Lastly, if the widget has a custom `matches()` overload that returns a value, check that
+   * value. */
+  std::optional<bool> widget_match = widget->matches(*other_widget);
+  if (widget_match && (widget_match.value() == false)) {
+    return false;
+  }
+
+  /* If there's nothing to perform matching, the node doesn't match. */
+  return bindings_match || widget_match;
 }
 
 /**

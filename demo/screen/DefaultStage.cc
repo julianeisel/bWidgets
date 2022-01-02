@@ -27,6 +27,7 @@
 #include "DummyFunctors.hh"
 #include "IconMap.h"
 #include "Layout.h"
+#include "RNABinding.h"
 #include "RNAScreenGraphBuilder.h"
 
 #include "builtin_widgets.h"
@@ -61,28 +62,20 @@ void DefaultStage::constructUI(bwScreenGraph::LayoutNode& parent)
 
   builder.addRNAWidget<bwNumberSlider>("interface_scale")
       .setMinMax(0.5f, 2.0f)
-      .setValue(interface_scale)
       .setText("Interface Scale:");
 
   builder.addWidget<bwLabel>("Font Rendering:");
 
   builder.buildLayout<RowLayout, RNABuilder>([this](RNABuilder& builder) {
-    builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning")
-        .setChecked(*properties.get<bool>("font_use_tight_positioning", *this))
-        .setLabel("Tight Positioning");
-    builder.addRNAWidget<bwCheckbox>("font_use_hinting")
-        .setChecked(*properties.get<bool>("font_use_hinting", *this))
-        .setLabel("Hinting");
+    builder.addRNAWidget<bwCheckbox>("font_use_tight_positioning").setLabel("Tight Positioning");
+    builder.addRNAWidget<bwCheckbox>("font_use_hinting").setLabel("Hinting");
   });
 
   builder.buildLayout<RowLayout, RNABuilder>([this](RNABuilder& builder) {
-    builder.addRNAWidget<bwCheckbox>("font_use_subpixels")
-        .setChecked(*properties.get<bool>("font_use_subpixels", *this))
-        .setLabel("Subpixel Rendering");
+    builder.addRNAWidget<bwCheckbox>("font_use_subpixels").setLabel("Subpixel Rendering");
 
     if (*properties.get<bool>("font_use_subpixels", *this)) {
       builder.addRNAWidget<bwCheckbox>("font_use_subpixel_positioning")
-          .setChecked(*properties.get<bool>("font_use_subpixel_positioning", *this))
           .setLabel("Subpixel Positioning");
     }
   });
@@ -106,17 +99,10 @@ void DefaultStage::constructUI(bwScreenGraph::LayoutNode& parent)
   builder.buildContainer<bwPanel>(
       [](Builder& builder) {
         builder.buildLayout<RowLayout>([](Builder& builder) {
-          bwCheckbox* checkbox;
-
           static bool use_make_awesome = false;
-          checkbox = &builder.addWidget<bwCheckbox>("Make Awesome").setChecked(use_make_awesome);
-
-          checkbox->apply_functor = std::make_unique<DummyCheckboxFunctor>(use_make_awesome,
-                                                                           *checkbox);
+          builder.addWidget<bwCheckbox>(Binding(use_make_awesome), "Make Awesome");
           static bool use_wireframes = false;
-          checkbox = &builder.addWidget<bwCheckbox>("Wireframes").setChecked(use_wireframes);
-          checkbox->apply_functor = std::make_unique<DummyCheckboxFunctor>(use_wireframes,
-                                                                           *checkbox);
+          builder.addWidget<bwCheckbox>(Binding(use_wireframes), "Wireframes");
         });
 
         builder.addWidget<bwTextBox>().setText("Some Text...");
@@ -177,8 +163,7 @@ void DefaultStage::addStyleSelector(bwScreenGraph::LayoutNode& parent_node)
       true);
 
   if (!isUseCSSVersionToggleHidden(*style)) {
-    auto& checkbox = builder.addRNAWidget<bwCheckbox>("style_use_css_version", "Use CSS Version");
-    checkbox.setChecked(*properties.get<bool>("style_use_css_version", *this));
+    builder.addRNAWidget<bwCheckbox>("style_use_css_version", "Use CSS Version");
   }
 }
 

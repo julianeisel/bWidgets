@@ -17,7 +17,7 @@ class bwIconInterface;
 class bwAbstractButton : public bwWidget {
  public:
   void draw(class bwStyle& style) override;
-  auto matches(const bwWidget& other) const -> bool override;
+  auto matches(const bwWidget& other) const -> std::optional<bool> override;
 
   void registerProperties() override;
 

@@ -8,6 +8,7 @@
 #include "bwRectangle.h"
 #include "bwStyleProperties.h"
 #include "bwWidgetState.h"
+#include "data_binding/Binding.h"
 #include "screen_graph/EventHandler.h"
 
 namespace bWidgets {
@@ -16,6 +17,7 @@ class bwEvent;
 class bwMouseButtonEvent;
 class bwMouseButtonDragEvent;
 class bwStyle;
+class TypeErasedBinding;
 
 namespace bwScreenGraph {
 class EventHandler;
@@ -84,7 +86,10 @@ class bwWidget {
    * Can assume the widget type was already checked by the caller (by calling
    * #WidgetNode::matchesType()).
    */
-  virtual auto matches(const bwWidget& other) const -> bool = 0;
+  virtual auto matches(const bwWidget& other) const -> std::optional<bool>;
+  auto matchesBindings(const bwWidget& other) const -> std::optional<bool>;
+
+  virtual auto getBinding() const -> std::optional<TypeErasedBinding>;
 
   void initialize();
   virtual void registerProperties();

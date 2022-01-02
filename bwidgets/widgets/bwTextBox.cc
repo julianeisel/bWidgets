@@ -40,7 +40,7 @@ void bwTextBox::draw(bwStyle& style)
   painter.drawText(text, rectangle, base_style.text_alignment);
 }
 
-auto bwTextBox::matches(const bwWidget& other) const -> bool
+auto bwTextBox::matches(const bwWidget& other) const -> std::optional<bool>
 {
   const bwTextBox* other_textbox = widget_cast<bwTextBox>(other);
   return (text == other_textbox->text);

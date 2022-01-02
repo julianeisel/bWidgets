@@ -130,7 +130,7 @@ template<typename _Obj> class RNAProperties {
     return nullptr;
   }
 
-  template<typename _T> std::optional<_T> get(const std::string& name, const _Obj& object)
+  template<typename _T> std::optional<_T> get(const std::string& name, const _Obj& object) const
   {
     if (RNAProperty* prop = find(name)) {
       auto& prop_internal = dynamic_cast<RNAPropertyInternal<ObjectT, _T>&>(*prop);

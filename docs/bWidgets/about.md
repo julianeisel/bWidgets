@@ -7,3 +7,4 @@ design:
 * \subpage md_docs_bWidgets_design_overview
 * \subpage md_docs_bWidgets_design_principles
 * \subpage md_docs_bWidgets_coding_style
+* \subpage md_docs_bWidgets_data_bindings

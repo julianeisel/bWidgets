@@ -19,7 +19,6 @@ class bwLabel : public bwWidget {
   auto getTypeIdentifier() const -> std::string_view override;
 
   void draw(bwStyle& style) override;
-  auto matches(const bwWidget& widget) const -> bool override;
 
   void registerProperties() override;
   auto createHandler(bwScreenGraph::Node& node) const

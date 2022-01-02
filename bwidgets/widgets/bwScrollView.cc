@@ -85,7 +85,7 @@ void bwScrollView::draw(bwStyle& style)
   }
 }
 
-auto bwScrollView::matches(const bwWidget& other) const -> bool
+auto bwScrollView::matches(const bwWidget& other) const -> std::optional<bool>
 {
   const bwScrollView* other_scroll_view = widget_cast<bwScrollView>(other);
 

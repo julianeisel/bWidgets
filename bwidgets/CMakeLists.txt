@@ -36,6 +36,8 @@ set(SRC
 	bwLayoutInterface.h
 	bwPaintEngine.h
 	bwPainter.h
+	data_binding/Binding.h
+	data_binding/TypeErasedBinding.h
 	screen_graph/Builder.h
 	screen_graph/Constructor.cc
 	screen_graph/Drawer.h

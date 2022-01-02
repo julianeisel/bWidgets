@@ -11,17 +11,22 @@ class bwStyle;
 class bwNumberSliderState;
 
 class bwNumberSlider : public bwTextBox {
+  Binding<float> binding_;
+
  public:
   friend class bwNumberSliderHandler;
   friend class bwNumberSliderState;
 
-  bwNumberSlider(std::optional<unsigned int> width_hint = std::nullopt,
+  using DataBindingType = float;
+
+  bwNumberSlider(Binding<float> binding,
+                 std::optional<unsigned int> width_hint = std::nullopt,
                  std::optional<unsigned int> height_hint = std::nullopt);
 
   auto getTypeIdentifier() const -> std::string_view override;
 
   void draw(bwStyle& style) override;
-  auto matches(const bwWidget& other) const -> bool override;
+  auto getBinding() const -> std::optional<TypeErasedBinding> override;
 
   auto createState() const -> std::unique_ptr<bwWidgetState> override;
   auto createHandler(bwScreenGraph::Node& node) const
@@ -30,8 +35,6 @@ class bwNumberSlider : public bwTextBox {
   auto setValue(float value) -> bwNumberSlider&;
   auto getValue() const -> float;
   auto setMinMax(float min, float max) -> bwNumberSlider&;
-
-  std::unique_ptr<bwFunctorInterface> apply_functor{nullptr};
 
  private:
   auto state() const -> bwNumberSliderState&;

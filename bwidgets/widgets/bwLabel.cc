@@ -29,12 +29,6 @@ void bwLabel::draw(bwStyle& style)
   painter.drawTextAndIcon(text, icon, rectangle, TextAlignment::LEFT, style.dpi_fac);
 }
 
-auto bwLabel::matches(const bwWidget&) const -> bool
-{
-  /* Labels don't have real state that needs to be kept over updates, so don't match labels. */
-  return false;
-}
-
 void bwLabel::registerProperties()
 {
   style_properties.addColor("color", text_color);

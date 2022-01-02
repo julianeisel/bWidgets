@@ -1,19 +1,23 @@
 #include "bwEvent.h"
 #include "bwPainter.h"
 #include "bwStyle.h"
+#include "data_binding/TypeErasedBinding.h"
 #include "screen_graph/Node.h"
 
 #include "bwCheckbox.h"
 
 namespace bWidgets {
 
-bwCheckbox::bwCheckbox(const std::string& text,
+bwCheckbox::bwCheckbox(Binding<bool> binding,
+                       const std::string& text,
                        std::optional<unsigned int> width_hint,
                        std::optional<unsigned int> height_hint)
     : bwAbstractButton(text,
                        width_hint.value_or(bwStyle::s_default_widget_size_hint),
-                       height_hint.value_or(bwStyle::s_default_widget_size_hint))
+                       height_hint.value_or(bwStyle::s_default_widget_size_hint)),
+      value_binding_(std::move(binding))
 {
+  setChecked(value_binding_.get());
 }
 
 auto bwCheckbox::getTypeIdentifier() const -> std::string_view
@@ -43,20 +47,16 @@ void bwCheckbox::draw(bwStyle& style)
   painter.drawText(text, text_rect, base_style.text_alignment);
 }
 
-auto bwCheckbox::matches(const bwWidget& other) const -> bool
-{
-  return bwAbstractButton::matches(other);
-}
-
 auto bwCheckbox::setChecked(bool checked) -> bwCheckbox&
 {
   setBaseState(checked ? bwWidgetState::SUNKEN : bwWidgetState::NORMAL);
+  value_binding_.set(checked);
   return *this;
 }
 
 auto bwCheckbox::isChecked() const -> bool
 {
-  return getBaseState() == bwWidgetState::SUNKEN;
+  return value_binding_.get();
 }
 
 auto bwCheckbox::getCheckboxRectangle() const -> bwRectanglePixel
@@ -76,6 +76,17 @@ auto bwCheckbox::getTextRectangle(const bwRectanglePixel& checkbox_rectangle) co
   bwRectanglePixel text_rect{rectangle};
   text_rect.xmin = checkbox_rectangle.xmax - 1;  // XXX -1 is ugly. Specifically for demo app.
   return text_rect;
+}
+
+auto bwCheckbox::matches(const bwWidget&) const -> std::optional<bool>
+{
+  /* TODO get rid of apply functor. */
+  return std::nullopt;
+}
+
+auto bwCheckbox::getBinding() const -> std::optional<TypeErasedBinding>
+{
+  return value_binding_;
 }
 
 // ------------------ Handling ------------------
@@ -102,8 +113,12 @@ bwCheckboxHandler::bwCheckboxHandler(bwScreenGraph::Node& node) : bwAbstractButt
 void bwCheckboxHandler::onMousePress(bwMouseButtonEvent& event)
 {
   if (event.button == bwMouseButtonEvent::Button::LEFT) {
-    Widget().setBaseState(Widget().isChecked() ? bwWidgetState::HIGHLIGHTED :
-                                                 bwWidgetState::SUNKEN);
+    bwCheckbox& checkbox = Widget();
+
+    checkbox.setChecked(!checkbox.isChecked());
+    if (!checkbox.isChecked()) {
+      checkbox.setBaseState(bwWidgetState::HIGHLIGHTED);
+    }
     apply();
     event.swallow();
   }
