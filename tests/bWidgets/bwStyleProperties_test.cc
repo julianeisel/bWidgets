@@ -137,7 +137,7 @@ TEST(bwStyleProperties, iterate)
 
   for (const auto& property : properties) {
     const bwStyleProperty::Type property_type = property->getType();
-    const std::string& identifier = property->getIdentifier();
+    const std::string_view identifier = property->getIdentifier();
 
     switch (property_type) {
       case bwStyleProperty::Type::BOOL:

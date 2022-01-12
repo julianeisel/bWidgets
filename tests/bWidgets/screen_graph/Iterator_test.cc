@@ -1,6 +1,8 @@
 
 #include "gtest/gtest.h"
 
+#include "bwLayoutInterface.h"
+
 #define private public  // XXX Oh the evilness!
 #include "screen_graph/Iterators.h"
 #undef private
@@ -41,7 +43,7 @@ class IteratorTest : public ::testing::Test {
 
   IteratorTest()
   {
-    screen_graph.layout = bwPtr_new<DummyNodeLayout>(labels[0]);
+    screen_graph.layout = std::make_unique<DummyNodeLayout>(labels[0]);
   }
 
  public:
@@ -136,7 +138,7 @@ TEST_F(IteratorTest, multiple_descendants)
    *   2       5
    *  /
    * 3
-   * Starts iterating at screen_graph node so: screen_graph, 1, 2, 3, 4.
+   * Starts iterating at screen_graph node so: screen_graph, 1, 2, 3, 4, 5.
    */
   bwScreenGraph::LayoutNode& node1 = addChildNode(screen_graph, labels[1]);
   bwScreenGraph::LayoutNode& node2 = addChildNode(node1, labels[2]);
