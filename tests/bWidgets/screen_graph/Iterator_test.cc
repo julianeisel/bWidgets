@@ -1,6 +1,8 @@
 
 #include "gtest/gtest.h"
 
+#include "bwLayoutInterface.h"
+
 #define private public  // XXX Oh the evilness!
 #include "screen_graph/Iterators.h"
 #undef private
@@ -41,7 +43,7 @@ class IteratorTest : public ::testing::Test {
 
   IteratorTest()
   {
-    screen_graph.layout = bwPtr_new<DummyNodeLayout>(labels[0]);
+    screen_graph.layout = std::make_unique<DummyNodeLayout>(labels[0]);
   }
 
  public:

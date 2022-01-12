@@ -12,6 +12,7 @@ set(INC
 	..
 	../../bwidgets
 	../../bwidgets/generics
+	../../bwidgets/styling
 	../../bwidgets/utils
 	../../bwidgets/widgets
 	../gtest/include
