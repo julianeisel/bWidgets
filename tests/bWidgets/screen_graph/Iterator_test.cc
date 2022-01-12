@@ -136,7 +136,7 @@ TEST_F(IteratorTest, multiple_descendants)
    *   2       5
    *  /
    * 3
-   * Starts iterating at screen_graph node so: screen_graph, 1, 2, 3, 4.
+   * Starts iterating at screen_graph node so: screen_graph, 1, 2, 3, 4, 5.
    */
   bwScreenGraph::LayoutNode& node1 = addChildNode(screen_graph, labels[1]);
   bwScreenGraph::LayoutNode& node2 = addChildNode(node1, labels[2]);
