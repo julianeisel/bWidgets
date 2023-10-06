@@ -1,11 +1,11 @@
-# Documenting bWidgets
+# Managing the Documentation
 
 \brief Instructions for the bWidgets doxygen documentation.
 
-In the `docs/` directory, the doxygen code documentation is managed. It is
+The doxygen code documentation is managed in the `docs/` directory. It is
 regularly uploaded to https://julianeisel.github.io/bWidgets/.
 
-To generate HTML documentation from current source, execute the following
+To generate HTML documentation from the current source, execute the following
 command from the bWidgets __source directory__:
 
 ```bash

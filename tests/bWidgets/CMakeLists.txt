@@ -12,6 +12,7 @@ set(INC
 	..
 	../../bwidgets
 	../../bwidgets/generics
+	../../bwidgets/styling
 	../../bwidgets/utils
 	../../bwidgets/widgets
 	../gtest/include
@@ -21,14 +22,6 @@ set(SRC
 	bwPolygon_test.cc
 	bwStyleProperties_test.cc
 	screen_graph/Iterator_test.cc
-	utils/bwOptional/constructors.cc
-	utils/bwOptional/comparison_operators.cc
-	utils/bwOptional/destructor.cc
-	utils/bwOptional/functions.cc
-	utils/bwOptional/hash.cc
-	utils/bwOptional/make_optional.cc
-	utils/bwOptional/operators.cc
-	utils/bwOptional/swap.cc
 )
 
 set(LIB

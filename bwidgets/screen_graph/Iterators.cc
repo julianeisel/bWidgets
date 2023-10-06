@@ -82,18 +82,15 @@ auto PreOrderIterator::operator++() -> PreOrderIterator&
       /* Go up the hierarchy until we find a parent with siblings that
        * can be visited. Once hasExceededLastSibling returns false, we
        * have a valid item that can be returned. */
-      for (auto parent_iter = ancestors.rbegin(); hasExceededLastSibling(); ++parent_iter) {
-        if (ancestors.empty() || parent_iter == ancestors.rend()) {
+      for (auto parent_iter = ancestors.rbegin(); hasExceededLastSibling(); ancestors.pop_back()) {
+        if (ancestors.empty() || parent_iter == ancestors.crend()) {
           triggerIterationEnd();
           break;
         }
 
         // next candidate for the iterator is the parents next sibling.
-        node_iter = ++(*parent_iter);
-        ancestors.pop_back();
-        if (ancestors.empty()) {
-          break;
-        }
+        node_iter = *parent_iter;
+        ++node_iter;
       }
     }
   }

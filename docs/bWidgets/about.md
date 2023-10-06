@@ -1,4 +1,4 @@
-# bWidgets Source Code Documentation
+# bWidgets Design
 
 \brief High level documentation on the bWidgets source code.
 

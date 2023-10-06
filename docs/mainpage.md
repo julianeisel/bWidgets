@@ -1,3 +1,5 @@
+<!-- Note: This page isn't in use currently. -->
+
 bWidgets {#mainpage}
 ========
 
