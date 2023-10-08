@@ -39,10 +39,11 @@ set(SRC
 )
 
 set(LIB
-	bwd_gpu
 	bwd_extern_glew
+	glfw
 )
 
-add_library(bwd_window_manager ${SRC})
+add_library(bwd_window_manager)
+target_sources(bwd_window_manager PRIVATE ${SRC})
 include_directories(${INC})
 target_link_libraries(bwd_window_manager ${LIB})
