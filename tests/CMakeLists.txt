@@ -16,6 +16,7 @@ set(SRC
 )
 
 add_library(testing ${SRC})
+target_sources(testing PRIVATE ${SRC})
 include_directories(${INC})
 
 add_subdirectory(bWidgets)

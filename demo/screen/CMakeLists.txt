@@ -53,13 +53,14 @@ set(LIB
 	${FREETYPE_LIBRARY}
 	${ZLIB_LIBRARY}
 	${PNG_LIBRARY}
+	glfw
 	bWidgets
 
-	bwd_gpu
 	bwd_stylesheet
 )
 add_definitions(-DGLEW_STATIC)
 
-add_library(bwd_screen ${SRC})
+add_library(bwd_screen)
+target_sources(bwd_screen PRIVATE ${SRC})
 include_directories(${INC})
 target_link_libraries(bwd_screen ${LIB})

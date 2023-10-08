@@ -54,7 +54,8 @@ set(LIB
 	bw_widgets
 )
 
-add_library(bWidgets ${SRC})
+add_library(bWidgets)
+target_sources(bWidgets PRIVATE ${SRC})
 include_directories(${INC})
 target_link_libraries(bWidgets ${LIB})
 

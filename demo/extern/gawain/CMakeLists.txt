@@ -66,6 +66,7 @@ set(LIB
 
 add_definitions(-DWITH_GL_PROFILE_CORE -DWITH_OPENGL)
 
-add_library(bwd_extern_gawain ${SRC})
+add_library(bwd_extern_gawain)
+target_sources(bwd_extern_gawain PRIVATE ${SRC})
 include_directories(${INC})
 target_link_libraries(bwd_extern_gawain ${LIB})

@@ -26,7 +26,8 @@ if(False)
 		FixedNum.h
 	)
 
-	add_library(bwd_utils ${SRC})
+	add_library(bwd_utils)
+	target_sources(bwd_utils PRIVATE ${SRC})
 	include_directories(${INC})
 	set_target_properties(bwd_utils PROPERTIES LINKER_LANGUAGE CXX)
 endif()
