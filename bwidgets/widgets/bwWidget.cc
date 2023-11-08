@@ -12,11 +12,6 @@ bwWidget::bwWidget(std::optional<unsigned int> width_hint, std::optional<unsigne
 {
 }
 
-auto bwWidget::isCoordinateInside(const bwPoint& point) const -> bool
-{
-  return rectangle.isCoordinateInside(point.x, point.y);
-}
-
 auto bwWidget::getState() const -> State
 {
   return state;
