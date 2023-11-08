@@ -48,7 +48,7 @@ auto bwWidget::canAlign() const -> bool
   return false;
 }
 
-auto bwWidget::matches(const bwWidget& other) const -> std::optional<bool>
+auto bwWidget::matches(const bwWidget& /*other*/) const -> std::optional<bool>
 {
   return false;
 }
