@@ -1,12 +1,12 @@
 bWidgets
 ========
 
-_bWidgets is a cross-platform widget toolkit with a narrow scope, designed
+_bWidgets is a cross-platform widget framework with a narrow scope, designed
 specifically for [Blender](https://www.blender.org/)._
 
 __Note:__ This is not an official Blender project!
 
-Unlike other toolkits, bWidgets does _not_ contain window management, event
+Unlike common UI toolkits, bWidgets does _not_ contain window management, event
 management, graphics libraries, font management and the like. It is solely
 focused on core widget features: Widget types, layouts, styling, interaction.
 
