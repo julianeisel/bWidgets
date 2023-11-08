@@ -23,6 +23,7 @@
 
 #include <array>
 #include <iostream>
+#include <memory>
 
 #include "Pixmap.h"
 

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <optional>
+
 #include "bwFunctorInterface.h"
 
 #include "RNAProperty.h"
