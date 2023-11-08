@@ -28,7 +28,6 @@ set(INC
 	../resources
 	../stylesheet
 	../utils
-	../../bwidgets/styles
 )
 
 set(SRC
