@@ -51,7 +51,7 @@ auto bwLabel::setLabel(const std::string& label) -> bwLabel&
   return *this;
 }
 
-auto bwLabel::createHandler(bwScreenGraph::Node& node) const
+auto bwLabel::createHandler(bwScreenGraph::Node& /*node*/) const
     -> std::unique_ptr<bwScreenGraph::EventHandler>
 {
   return nullptr;
