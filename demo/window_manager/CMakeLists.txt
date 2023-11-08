@@ -39,8 +39,7 @@ set(SRC
 )
 
 set(LIB
-	bwd_extern_glew
-	glfw
+        bwd_gpu
 )
 
 add_library(bwd_window_manager)
