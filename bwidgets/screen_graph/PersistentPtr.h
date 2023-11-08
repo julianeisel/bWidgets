@@ -73,7 +73,7 @@ class PersistentNodePtr {
    * Allow construction from `nullptr`. Kinda redundant since that's what the default constructor
    * does too, but an explicit `PersistentNodePtr ptr = nullptr` makes the default state clear.
    */
-  constexpr PersistentNodePtr(nullptr_t) : PersistentNodePtr()
+  constexpr PersistentNodePtr(std::nullptr_t) : PersistentNodePtr()
   {
   }
   /* It's critical that copy and move construction/assignment call the matching

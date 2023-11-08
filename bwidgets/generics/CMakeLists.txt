@@ -14,4 +14,5 @@ set(SRC
 	bwRectangle.h
 )
 
-add_library(bw_generics ${SRC})
+add_library(bw_generics)
+target_sources(bw_generics PRIVATE ${SRC})

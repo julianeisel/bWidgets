@@ -53,7 +53,6 @@ class bwWidget {
   virtual auto getTypeIdentifier() const -> std::string_view = 0;
 
   virtual void draw(bwStyle& style) = 0;
-  virtual auto isCoordinateInside(const bwPoint& point) const -> bool;
   virtual auto getLabel() const -> const std::string*;
   virtual auto canAlign() const -> bool;
 

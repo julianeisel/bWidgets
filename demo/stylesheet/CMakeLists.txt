@@ -38,6 +38,7 @@ set(LIB
 	extern_katana
 )
 
-add_library(bwd_stylesheet ${SRC})
+add_library(bwd_stylesheet)
+target_sources(bwd_stylesheet PRIVATE ${SRC})
 include_directories(${INC})
 target_link_libraries(bwd_stylesheet ${LIB})

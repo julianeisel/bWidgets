@@ -36,6 +36,7 @@ set(LIB
   ${OPENGL_LIBRARIES}
 )
 
-add_library(bwd_extern_glew ${SRC})
+add_library(bwd_extern_glew)
+target_sources(bwd_extern_glew PRIVATE ${SRC})
 include_directories(bwd_extern_glew ${INC})
 target_link_libraries(bwd_extern_glew ${LIB})

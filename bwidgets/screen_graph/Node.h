@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <list>
+#include <memory>
 #include <optional>
 
 #include "bwRectangle.h"

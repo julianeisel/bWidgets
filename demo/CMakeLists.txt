@@ -101,9 +101,10 @@ list(APPEND LIB ${OPENGL_LIBRARIES})
 
 add_definitions(-DGLEW_STATIC)
 
-add_executable(bWidgetsDemo ${SRC})
+add_executable(bWidgetsDemo)
+target_sources(bWidgetsDemo PRIVATE ${SRC})
 include_directories(${INC})
-target_link_libraries(bWidgetsDemo LINK_PUBLIC ${LIB})
+target_link_libraries(bWidgetsDemo LINK_PRIVATE ${LIB})
 
 # --- Resource files ---
 

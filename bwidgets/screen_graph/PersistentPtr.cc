@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "screen_graph/Node.h"
 
 #include "PersistentPtr.h"

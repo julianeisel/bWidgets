@@ -48,7 +48,8 @@ set(LIB
 	glfw
 )
 
-add_library(bwd_gpu ${SRC})
+add_library(bwd_gpu)
+target_sources(bwd_gpu PRIVATE ${SRC})
 include_directories(${INC})
 target_link_libraries(bwd_gpu ${LIB})
 
