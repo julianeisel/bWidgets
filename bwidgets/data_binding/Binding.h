@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <memory>
 #include <type_traits>
 #include <variant>
@@ -127,9 +128,9 @@ template<typename T> auto Binding<T>::get() const -> DataType
   else if (auto* fn_binding = get_fn_binding()) {
     return fn_binding->get();
   }
-  else {
-    assert(0);
-  }
+
+  assert(0);
+  return {};
 }
 
 template<typename T> auto Binding<T>::get_fn_binding() const -> FunctionalBinding<T>*
