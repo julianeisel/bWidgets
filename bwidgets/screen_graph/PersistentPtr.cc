@@ -16,7 +16,7 @@ auto PersistentNodeRegistry::make_persistent_ptr(Node* node, const char* debug_n
 
   if (PersistentNodePtr* ptr = find_matching_from_address(*node)) {
     /* Copy from existing pointer (increases user count) */
-    return PersistentNodePtr{*ptr};
+    return PersistentNodePtr{*ptr, debug_name};
   }
   assert(!hasPointerWithAddress(*node));
   /* If this happened, the widget is either ambiguous (we can't uniquely identify it) or is still

@@ -3,6 +3,7 @@
 #include <functional>
 #include <list>
 #include <memory>
+#include <optional>
 
 /**
  * \file
@@ -134,6 +135,14 @@ class PersistentNodePtr {
 #endif
   {
     (void)debug_name;
+  }
+  PersistentNodePtr(const PersistentNodePtr& other, const char* debug_name)
+      : node_ptr_(other.node_ptr_)
+#ifndef NDEBUG
+        ,
+        name_(debug_name)
+#endif
+  {
   }
 
   /**
